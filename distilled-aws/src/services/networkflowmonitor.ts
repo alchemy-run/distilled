@@ -1302,9 +1302,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Returns all the tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1329,9 +1328,8 @@ export const listTagsForResource: (
 /**
  * Adds a tag to a resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1356,9 +1354,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1383,9 +1380,8 @@ export const untagResource: (
 /**
  * Create a monitor for specific network flows between local and remote resources, so that you can monitor network performance for one or several of your workloads. For each monitor, Network Flow Monitor publishes detailed end-to-end performance metrics and a network health indicator (NHI) that informs you whether there were Amazon Web Services network issues for one or more of the network flows tracked by a monitor, during a time period that you choose.
  */
-export const createMonitor: (
-  input: CreateMonitorInput,
-) => effect.Effect<
+export const createMonitor: API.OperationMethod<
+  CreateMonitorInput,
   CreateMonitorOutput,
   | AccessDeniedException
   | ConflictException
@@ -1410,9 +1406,8 @@ export const createMonitor: (
 /**
  * Gets information about a monitor in Network Flow Monitor based on a monitor name. The information returned includes the Amazon Resource Name (ARN), create time, modified time, resources included in the monitor, and status information.
  */
-export const getMonitor: (
-  input: GetMonitorInput,
-) => effect.Effect<
+export const getMonitor: API.OperationMethod<
+  GetMonitorInput,
   GetMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1435,9 +1430,8 @@ export const getMonitor: (
 /**
  * Update a monitor to add or remove local or remote resources.
  */
-export const updateMonitor: (
-  input: UpdateMonitorInput,
-) => effect.Effect<
+export const updateMonitor: API.OperationMethod<
+  UpdateMonitorInput,
   UpdateMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1460,9 +1454,8 @@ export const updateMonitor: (
 /**
  * Deletes a monitor in Network Flow Monitor.
  */
-export const deleteMonitor: (
-  input: DeleteMonitorInput,
-) => effect.Effect<
+export const deleteMonitor: API.OperationMethod<
+  DeleteMonitorInput,
   DeleteMonitorOutput,
   | AccessDeniedException
   | ConflictException
@@ -1487,18 +1480,16 @@ export const deleteMonitor: (
 /**
  * List all monitors in an account. Optionally, you can list only monitors that have a specific status, by using the `STATUS` parameter.
  */
-export const listMonitors: {
-  (
-    input: ListMonitorsInput,
-  ): effect.Effect<
-    ListMonitorsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMonitors: API.OperationMethod<
+  ListMonitorsInput,
+  ListMonitorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMonitorsInput,
   ) => stream.Stream<
@@ -1544,20 +1535,18 @@ export const listMonitors: {
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const getQueryResultsMonitorTopContributors: {
-  (
-    input: GetQueryResultsMonitorTopContributorsInput,
-  ): effect.Effect<
-    GetQueryResultsMonitorTopContributorsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getQueryResultsMonitorTopContributors: API.OperationMethod<
+  GetQueryResultsMonitorTopContributorsInput,
+  GetQueryResultsMonitorTopContributorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetQueryResultsMonitorTopContributorsInput,
   ) => stream.Stream<
@@ -1609,9 +1598,8 @@ export const getQueryResultsMonitorTopContributors: {
  *
  * When you run a query, use this call to check the status of the query to make sure that the query has `SUCCEEDED` before you review the results.
  */
-export const getQueryStatusMonitorTopContributors: (
-  input: GetQueryStatusMonitorTopContributorsInput,
-) => effect.Effect<
+export const getQueryStatusMonitorTopContributors: API.OperationMethod<
+  GetQueryStatusMonitorTopContributorsInput,
   GetQueryStatusMonitorTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1638,9 +1626,8 @@ export const getQueryStatusMonitorTopContributors: (
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
  */
-export const startQueryMonitorTopContributors: (
-  input: StartQueryMonitorTopContributorsInput,
-) => effect.Effect<
+export const startQueryMonitorTopContributors: API.OperationMethod<
+  StartQueryMonitorTopContributorsInput,
   StartQueryMonitorTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1665,9 +1652,8 @@ export const startQueryMonitorTopContributors: (
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const stopQueryMonitorTopContributors: (
-  input: StopQueryMonitorTopContributorsInput,
-) => effect.Effect<
+export const stopQueryMonitorTopContributors: API.OperationMethod<
+  StopQueryMonitorTopContributorsInput,
   StopQueryMonitorTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1700,9 +1686,8 @@ export const stopQueryMonitorTopContributors: (
  *
  * - *Target identifiers*, made up of a targetID (currently always an account ID) and a targetType (currently always an account).
  */
-export const createScope: (
-  input: CreateScopeInput,
-) => effect.Effect<
+export const createScope: API.OperationMethod<
+  CreateScopeInput,
   CreateScopeOutput,
   | AccessDeniedException
   | ConflictException
@@ -1727,9 +1712,8 @@ export const createScope: (
 /**
  * Gets information about a scope, including the name, status, tags, and target details. The scope in Network Flow Monitor is an account.
  */
-export const getScope: (
-  input: GetScopeInput,
-) => effect.Effect<
+export const getScope: API.OperationMethod<
+  GetScopeInput,
   GetScopeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1754,9 +1738,8 @@ export const getScope: (
 /**
  * Update a scope to add or remove resources that you want to be available for Network Flow Monitor to generate metrics for, when you have active agents on those resources sending metrics reports to the Network Flow Monitor backend.
  */
-export const updateScope: (
-  input: UpdateScopeInput,
-) => effect.Effect<
+export const updateScope: API.OperationMethod<
+  UpdateScopeInput,
   UpdateScopeOutput,
   | AccessDeniedException
   | ConflictException
@@ -1783,9 +1766,8 @@ export const updateScope: (
 /**
  * Deletes a scope that has been defined.
  */
-export const deleteScope: (
-  input: DeleteScopeInput,
-) => effect.Effect<
+export const deleteScope: API.OperationMethod<
+  DeleteScopeInput,
   DeleteScopeOutput,
   | AccessDeniedException
   | ConflictException
@@ -1812,19 +1794,17 @@ export const deleteScope: (
 /**
  * List all the scopes for an account.
  */
-export const listScopes: {
-  (
-    input: ListScopesInput,
-  ): effect.Effect<
-    ListScopesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScopes: API.OperationMethod<
+  ListScopesInput,
+  ListScopesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScopesInput,
   ) => stream.Stream<
@@ -1875,20 +1855,18 @@ export const listScopes: {
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const getQueryResultsWorkloadInsightsTopContributors: {
-  (
-    input: GetQueryResultsWorkloadInsightsTopContributorsInput,
-  ): effect.Effect<
-    GetQueryResultsWorkloadInsightsTopContributorsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getQueryResultsWorkloadInsightsTopContributors: API.OperationMethod<
+  GetQueryResultsWorkloadInsightsTopContributorsInput,
+  GetQueryResultsWorkloadInsightsTopContributorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetQueryResultsWorkloadInsightsTopContributorsInput,
   ) => stream.Stream<
@@ -1944,20 +1922,18 @@ export const getQueryResultsWorkloadInsightsTopContributors: {
  *
  * The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
  */
-export const getQueryResultsWorkloadInsightsTopContributorsData: {
-  (
-    input: GetQueryResultsWorkloadInsightsTopContributorsDataInput,
-  ): effect.Effect<
-    GetQueryResultsWorkloadInsightsTopContributorsDataOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getQueryResultsWorkloadInsightsTopContributorsData: API.OperationMethod<
+  GetQueryResultsWorkloadInsightsTopContributorsDataInput,
+  GetQueryResultsWorkloadInsightsTopContributorsDataOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetQueryResultsWorkloadInsightsTopContributorsDataInput,
   ) => stream.Stream<
@@ -2009,9 +1985,8 @@ export const getQueryResultsWorkloadInsightsTopContributorsData: {
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const getQueryStatusWorkloadInsightsTopContributors: (
-  input: GetQueryStatusWorkloadInsightsTopContributorsInput,
-) => effect.Effect<
+export const getQueryStatusWorkloadInsightsTopContributors: API.OperationMethod<
+  GetQueryStatusWorkloadInsightsTopContributorsInput,
   GetQueryStatusWorkloadInsightsTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2040,9 +2015,8 @@ export const getQueryStatusWorkloadInsightsTopContributors: (
  *
  * The top contributor network flows overall are for a specific metric type, for example, the number of retransmissions.
  */
-export const getQueryStatusWorkloadInsightsTopContributorsData: (
-  input: GetQueryStatusWorkloadInsightsTopContributorsDataInput,
-) => effect.Effect<
+export const getQueryStatusWorkloadInsightsTopContributorsData: API.OperationMethod<
+  GetQueryStatusWorkloadInsightsTopContributorsDataInput,
   GetQueryStatusWorkloadInsightsTopContributorsDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2069,9 +2043,8 @@ export const getQueryStatusWorkloadInsightsTopContributorsData: (
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable APIs for the top contributors that you want to be returned.
  */
-export const startQueryWorkloadInsightsTopContributors: (
-  input: StartQueryWorkloadInsightsTopContributorsInput,
-) => effect.Effect<
+export const startQueryWorkloadInsightsTopContributors: API.OperationMethod<
+  StartQueryWorkloadInsightsTopContributorsInput,
   StartQueryWorkloadInsightsTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2098,9 +2071,8 @@ export const startQueryWorkloadInsightsTopContributors: (
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const startQueryWorkloadInsightsTopContributorsData: (
-  input: StartQueryWorkloadInsightsTopContributorsDataInput,
-) => effect.Effect<
+export const startQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
+  StartQueryWorkloadInsightsTopContributorsDataInput,
   StartQueryWorkloadInsightsTopContributorsDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2125,9 +2097,8 @@ export const startQueryWorkloadInsightsTopContributorsData: (
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const stopQueryWorkloadInsightsTopContributors: (
-  input: StopQueryWorkloadInsightsTopContributorsInput,
-) => effect.Effect<
+export const stopQueryWorkloadInsightsTopContributors: API.OperationMethod<
+  StopQueryWorkloadInsightsTopContributorsInput,
   StopQueryWorkloadInsightsTopContributorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2152,9 +2123,8 @@ export const stopQueryWorkloadInsightsTopContributors: (
  *
  * Top contributors in Network Flow Monitor are network flows with the highest values for a specific metric type. Top contributors can be across all workload insights, for a given scope, or for a specific monitor. Use the applicable call for the top contributors that you want to be returned.
  */
-export const stopQueryWorkloadInsightsTopContributorsData: (
-  input: StopQueryWorkloadInsightsTopContributorsDataInput,
-) => effect.Effect<
+export const stopQueryWorkloadInsightsTopContributorsData: API.OperationMethod<
+  StopQueryWorkloadInsightsTopContributorsDataInput,
   StopQueryWorkloadInsightsTopContributorsDataOutput,
   | AccessDeniedException
   | InternalServerException

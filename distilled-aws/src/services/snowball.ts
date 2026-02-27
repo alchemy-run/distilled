@@ -1469,9 +1469,8 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
  * `AwaitingQuorum` status. You'll have at least an hour after creating a cluster
  * job to cancel it.
  */
-export const cancelCluster: (
-  input: CancelClusterRequest,
-) => effect.Effect<
+export const cancelCluster: API.OperationMethod<
+  CancelClusterRequest,
   CancelClusterResult,
   | InvalidJobStateException
   | InvalidResourceException
@@ -1493,9 +1492,8 @@ export const cancelCluster: (
  * `DescribeJob` action returns a job's `JobState` as part of the
  * response element data returned.
  */
-export const cancelJob: (
-  input: CancelJobRequest,
-) => effect.Effect<
+export const cancelJob: API.OperationMethod<
+  CancelJobRequest,
   CancelJobResult,
   | InvalidJobStateException
   | InvalidResourceException
@@ -1517,9 +1515,8 @@ export const cancelJob: (
  * within the serviceable area of your region. If the address is invalid or unsupported, then an
  * exception is thrown. If providing an address as a JSON file through the `cli-input-json` option, include the full file path. For example, `--cli-input-json file://create-address.json`.
  */
-export const createAddress: (
-  input: CreateAddressRequest,
-) => effect.Effect<
+export const createAddress: API.OperationMethod<
+  CreateAddressRequest,
   CreateAddressResult,
   InvalidAddressException | UnsupportedAddressException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1532,9 +1529,8 @@ export const createAddress: (
  * Creates an empty cluster. Each cluster supports five nodes. You use the CreateJob action separately to create the jobs for each of these nodes. The
  * cluster does not ship until these five node jobs have been created.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResult,
   | Ec2RequestFailedException
   | InvalidInputCombinationException
@@ -1634,9 +1630,8 @@ export const createCluster: (
  *
  * - Description: Snowball Edge Storage Optimized 210TB
  */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
   CreateJobResult,
   | ClusterLimitExceededException
   | Ec2RequestFailedException
@@ -1660,9 +1655,8 @@ export const createJob: (
  * Creates a job with the long-term usage option for a device. The long-term usage is a
  * 1-year or 3-year long-term pricing type for the device. You are billed upfront, and Amazon Web Services provides discounts for long-term pricing.
  */
-export const createLongTermPricing: (
-  input: CreateLongTermPricingRequest,
-) => effect.Effect<
+export const createLongTermPricing: API.OperationMethod<
+  CreateLongTermPricingRequest,
   CreateLongTermPricingResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1674,9 +1668,8 @@ export const createLongTermPricing: (
 /**
  * Creates a shipping label that will be used to return the Snow device to Amazon Web Services.
  */
-export const createReturnShippingLabel: (
-  input: CreateReturnShippingLabelRequest,
-) => effect.Effect<
+export const createReturnShippingLabel: API.OperationMethod<
+  CreateReturnShippingLabelRequest,
   CreateReturnShippingLabelResult,
   | ConflictException
   | InvalidInputCombinationException
@@ -1700,9 +1693,8 @@ export const createReturnShippingLabel: (
  * Takes an `AddressId` and returns specific details about that address in the
  * form of an `Address` object.
  */
-export const describeAddress: (
-  input: DescribeAddressRequest,
-) => effect.Effect<
+export const describeAddress: API.OperationMethod<
+  DescribeAddressRequest,
   DescribeAddressResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1716,14 +1708,12 @@ export const describeAddress: (
  * the US regions will return addresses from the list of all addresses associated with this
  * account in all US regions.
  */
-export const describeAddresses: {
-  (
-    input: DescribeAddressesRequest,
-  ): effect.Effect<
-    DescribeAddressesResult,
-    InvalidNextTokenException | InvalidResourceException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAddresses: API.OperationMethod<
+  DescribeAddressesRequest,
+  DescribeAddressesResult,
+  InvalidNextTokenException | InvalidResourceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAddressesRequest,
   ) => stream.Stream<
@@ -1753,9 +1743,8 @@ export const describeAddresses: {
  * Returns information about a specific cluster including shipping information, cluster
  * status, and other important metadata.
  */
-export const describeCluster: (
-  input: DescribeClusterRequest,
-) => effect.Effect<
+export const describeCluster: API.OperationMethod<
+  DescribeClusterRequest,
   DescribeClusterResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1768,9 +1757,8 @@ export const describeCluster: (
  * Returns information about a specific job including shipping information, job status,
  * and other important metadata.
  */
-export const describeJob: (
-  input: DescribeJobRequest,
-) => effect.Effect<
+export const describeJob: API.OperationMethod<
+  DescribeJobRequest,
   DescribeJobResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1782,9 +1770,8 @@ export const describeJob: (
 /**
  * Information on the shipping label of a Snow device that is being returned to Amazon Web Services.
  */
-export const describeReturnShippingLabel: (
-  input: DescribeReturnShippingLabelRequest,
-) => effect.Effect<
+export const describeReturnShippingLabel: API.OperationMethod<
+  DescribeReturnShippingLabelRequest,
   DescribeReturnShippingLabelResult,
   | ConflictException
   | InvalidJobStateException
@@ -1821,9 +1808,8 @@ export const describeReturnShippingLabel: (
  * The credentials of a given job, including its manifest file and unlock code, expire 360
  * days after the job is created.
  */
-export const getJobManifest: (
-  input: GetJobManifestRequest,
-) => effect.Effect<
+export const getJobManifest: API.OperationMethod<
+  GetJobManifestRequest,
   GetJobManifestResult,
   InvalidJobStateException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1849,9 +1835,8 @@ export const getJobManifest: (
  * separately helps prevent unauthorized parties from gaining access to the Snow device
  * associated with that job.
  */
-export const getJobUnlockCode: (
-  input: GetJobUnlockCodeRequest,
-) => effect.Effect<
+export const getJobUnlockCode: API.OperationMethod<
+  GetJobUnlockCodeRequest,
   GetJobUnlockCodeResult,
   InvalidJobStateException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1867,9 +1852,8 @@ export const getJobUnlockCode: (
  * The default service limit for the number of Snow devices that you can have at one time
  * is 1. If you want to increase your service limit, contact Amazon Web Services Support.
  */
-export const getSnowballUsage: (
-  input: GetSnowballUsageRequest,
-) => effect.Effect<
+export const getSnowballUsage: API.OperationMethod<
+  GetSnowballUsageRequest,
   GetSnowballUsageResult,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1882,9 +1866,8 @@ export const getSnowballUsage: (
  * Returns an Amazon S3 presigned URL for an update file associated with a specified
  * `JobId`.
  */
-export const getSoftwareUpdates: (
-  input: GetSoftwareUpdatesRequest,
-) => effect.Effect<
+export const getSoftwareUpdates: API.OperationMethod<
+  GetSoftwareUpdatesRequest,
   GetSoftwareUpdatesResult,
   InvalidJobStateException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1898,14 +1881,12 @@ export const getSoftwareUpdates: (
  * `JobListEntry` object is for a job in the specified cluster and contains a job's
  * state, a job's ID, and other information.
  */
-export const listClusterJobs: {
-  (
-    input: ListClusterJobsRequest,
-  ): effect.Effect<
-    ListClusterJobsResult,
-    InvalidNextTokenException | InvalidResourceException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusterJobs: API.OperationMethod<
+  ListClusterJobsRequest,
+  ListClusterJobsResult,
+  InvalidNextTokenException | InvalidResourceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClusterJobsRequest,
   ) => stream.Stream<
@@ -1936,14 +1917,12 @@ export const listClusterJobs: {
  * `ClusterListEntry` object contains a cluster's state, a cluster's ID, and other
  * important status information.
  */
-export const listClusters: {
-  (
-    input: ListClustersRequest,
-  ): effect.Effect<
-    ListClustersResult,
-    InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResult,
+  InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
@@ -1975,14 +1954,12 @@ export const listClusters: {
  * device. Currently, supported AMIs are based on the Amazon Linux-2, Ubuntu 20.04 LTS - Focal, or Ubuntu 22.04 LTS - Jammy images, available on the
  * Amazon Web Services Marketplace. Ubuntu 16.04 LTS - Xenial (HVM) images are no longer supported in the Market, but still supported for use on devices through Amazon EC2 VM Import/Export and running locally in AMIs.
  */
-export const listCompatibleImages: {
-  (
-    input: ListCompatibleImagesRequest,
-  ): effect.Effect<
-    ListCompatibleImagesResult,
-    Ec2RequestFailedException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCompatibleImages: API.OperationMethod<
+  ListCompatibleImagesRequest,
+  ListCompatibleImagesResult,
+  Ec2RequestFailedException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCompatibleImagesRequest,
   ) => stream.Stream<
@@ -2015,14 +1992,12 @@ export const listCompatibleImages: {
  * in one of the US regions will return jobs from the list of all jobs associated with this
  * account in all US regions.
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResult,
-    InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResult,
+  InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -2051,14 +2026,12 @@ export const listJobs: {
 /**
  * Lists all long-term pricing types.
  */
-export const listLongTermPricing: {
-  (
-    input: ListLongTermPricingRequest,
-  ): effect.Effect<
-    ListLongTermPricingResult,
-    InvalidNextTokenException | InvalidResourceException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLongTermPricing: API.OperationMethod<
+  ListLongTermPricingRequest,
+  ListLongTermPricingResult,
+  InvalidNextTokenException | InvalidResourceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLongTermPricingRequest,
   ) => stream.Stream<
@@ -2087,14 +2060,12 @@ export const listLongTermPricing: {
 /**
  * A list of locations from which the customer can choose to pickup a device.
  */
-export const listPickupLocations: {
-  (
-    input: ListPickupLocationsRequest,
-  ): effect.Effect<
-    ListPickupLocationsResult,
-    InvalidResourceException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPickupLocations: API.OperationMethod<
+  ListPickupLocationsRequest,
+  ListPickupLocationsResult,
+  InvalidResourceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPickupLocationsRequest,
   ) => stream.Stream<
@@ -2123,9 +2094,8 @@ export const listPickupLocations: {
  * Lists all supported versions for Snow on-device services. Returns an
  * array of `ServiceVersion` object containing the supported versions for a particular service.
  */
-export const listServiceVersions: (
-  input: ListServiceVersionsRequest,
-) => effect.Effect<
+export const listServiceVersions: API.OperationMethod<
+  ListServiceVersionsRequest,
   ListServiceVersionsResult,
   InvalidNextTokenException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2140,9 +2110,8 @@ export const listServiceVersions: (
  * changes to a different job state, usually 60 minutes after the cluster being created, this
  * action is no longer available.
  */
-export const updateCluster: (
-  input: UpdateClusterRequest,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
   UpdateClusterResult,
   | Ec2RequestFailedException
   | InvalidInputCombinationException
@@ -2167,9 +2136,8 @@ export const updateCluster: (
  * the information associated with a job. Once the job changes to a different job state, usually
  * within 60 minutes of the job being created, this action is no longer available.
  */
-export const updateJob: (
-  input: UpdateJobRequest,
-) => effect.Effect<
+export const updateJob: API.OperationMethod<
+  UpdateJobRequest,
   UpdateJobResult,
   | ClusterLimitExceededException
   | Ec2RequestFailedException
@@ -2194,9 +2162,8 @@ export const updateJob: (
 /**
  * Updates the state when a shipment state changes to a different state.
  */
-export const updateJobShipmentState: (
-  input: UpdateJobShipmentStateRequest,
-) => effect.Effect<
+export const updateJobShipmentState: API.OperationMethod<
+  UpdateJobShipmentStateRequest,
   UpdateJobShipmentStateResult,
   InvalidJobStateException | InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2208,9 +2175,8 @@ export const updateJobShipmentState: (
 /**
  * Updates the long-term pricing type.
  */
-export const updateLongTermPricing: (
-  input: UpdateLongTermPricingRequest,
-) => effect.Effect<
+export const updateLongTermPricing: API.OperationMethod<
+  UpdateLongTermPricingRequest,
   UpdateLongTermPricingResult,
   InvalidResourceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

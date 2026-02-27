@@ -1121,9 +1121,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const addAttachmentsToSet: (
-  input: AddAttachmentsToSetRequest,
-) => effect.Effect<
+export const addAttachmentsToSet: API.OperationMethod<
+  AddAttachmentsToSetRequest,
   AddAttachmentsToSetResponse,
   | AttachmentLimitExceeded
   | AttachmentSetExpired
@@ -1158,9 +1157,8 @@ export const addAttachmentsToSet: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const addCommunicationToCase: (
-  input: AddCommunicationToCaseRequest,
-) => effect.Effect<
+export const addCommunicationToCase: API.OperationMethod<
+  AddCommunicationToCaseRequest,
   AddCommunicationToCaseResponse,
   | AttachmentSetExpired
   | AttachmentSetIdNotFound
@@ -1206,9 +1204,8 @@ export const addCommunicationToCase: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const createCase: (
-  input: CreateCaseRequest,
-) => effect.Effect<
+export const createCase: API.OperationMethod<
+  CreateCaseRequest,
   CreateCaseResponse,
   | AttachmentSetExpired
   | AttachmentSetIdNotFound
@@ -1241,9 +1238,8 @@ export const createCase: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeAttachment: (
-  input: DescribeAttachmentRequest,
-) => effect.Effect<
+export const describeAttachment: API.OperationMethod<
+  DescribeAttachmentRequest,
   DescribeAttachmentResponse,
   | AttachmentIdNotFound
   | DescribeAttachmentLimitExceeded
@@ -1284,14 +1280,12 @@ export const describeAttachment: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeCases: {
-  (
-    input: DescribeCasesRequest,
-  ): effect.Effect<
-    DescribeCasesResponse,
-    CaseIdNotFound | InternalServerError | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCases: API.OperationMethod<
+  DescribeCasesRequest,
+  DescribeCasesResponse,
+  CaseIdNotFound | InternalServerError | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCasesRequest,
   ) => stream.Stream<
@@ -1339,14 +1333,12 @@ export const describeCases: {
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeCommunications: {
-  (
-    input: DescribeCommunicationsRequest,
-  ): effect.Effect<
-    DescribeCommunicationsResponse,
-    CaseIdNotFound | InternalServerError | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCommunications: API.OperationMethod<
+  DescribeCommunicationsRequest,
+  DescribeCommunicationsResponse,
+  CaseIdNotFound | InternalServerError | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCommunicationsRequest,
   ) => stream.Stream<
@@ -1386,9 +1378,8 @@ export const describeCommunications: {
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeCreateCaseOptions: (
-  input: DescribeCreateCaseOptionsRequest,
-) => effect.Effect<
+export const describeCreateCaseOptions: API.OperationMethod<
+  DescribeCreateCaseOptionsRequest,
   DescribeCreateCaseOptionsResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1417,9 +1408,8 @@ export const describeCreateCaseOptions: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeServices: (
-  input: DescribeServicesRequest,
-) => effect.Effect<
+export const describeServices: API.OperationMethod<
+  DescribeServicesRequest,
   DescribeServicesResponse,
   InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1441,9 +1431,8 @@ export const describeServices: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeSeverityLevels: (
-  input: DescribeSeverityLevelsRequest,
-) => effect.Effect<
+export const describeSeverityLevels: API.OperationMethod<
+  DescribeSeverityLevelsRequest,
   DescribeSeverityLevelsResponse,
   InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1465,9 +1454,8 @@ export const describeSeverityLevels: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const describeSupportedLanguages: (
-  input: DescribeSupportedLanguagesRequest,
-) => effect.Effect<
+export const describeSupportedLanguages: API.OperationMethod<
+  DescribeSupportedLanguagesRequest,
   DescribeSupportedLanguagesResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1498,9 +1486,8 @@ export const describeSupportedLanguages: (
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const describeTrustedAdvisorCheckRefreshStatuses: (
-  input: DescribeTrustedAdvisorCheckRefreshStatusesRequest,
-) => effect.Effect<
+export const describeTrustedAdvisorCheckRefreshStatuses: API.OperationMethod<
+  DescribeTrustedAdvisorCheckRefreshStatusesRequest,
   DescribeTrustedAdvisorCheckRefreshStatusesResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1548,9 +1535,8 @@ export const describeTrustedAdvisorCheckRefreshStatuses: (
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const describeTrustedAdvisorCheckResult: (
-  input: DescribeTrustedAdvisorCheckResultRequest,
-) => effect.Effect<
+export const describeTrustedAdvisorCheckResult: API.OperationMethod<
+  DescribeTrustedAdvisorCheckResultRequest,
   DescribeTrustedAdvisorCheckResultResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1582,9 +1568,8 @@ export const describeTrustedAdvisorCheckResult: (
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const describeTrustedAdvisorChecks: (
-  input: DescribeTrustedAdvisorChecksRequest,
-) => effect.Effect<
+export const describeTrustedAdvisorChecks: API.OperationMethod<
+  DescribeTrustedAdvisorChecksRequest,
   DescribeTrustedAdvisorChecksResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1613,9 +1598,8 @@ export const describeTrustedAdvisorChecks: (
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const describeTrustedAdvisorCheckSummaries: (
-  input: DescribeTrustedAdvisorCheckSummariesRequest,
-) => effect.Effect<
+export const describeTrustedAdvisorCheckSummaries: API.OperationMethod<
+  DescribeTrustedAdvisorCheckSummariesRequest,
   DescribeTrustedAdvisorCheckSummariesResponse,
   InternalServerError | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1649,9 +1633,8 @@ export const describeTrustedAdvisorCheckSummaries: (
  * endpoints don't support the Trusted Advisor operations. For more information, see About the Amazon Web Services Support
  * API in the *Amazon Web Services Support User Guide*.
  */
-export const refreshTrustedAdvisorCheck: (
-  input: RefreshTrustedAdvisorCheckRequest,
-) => effect.Effect<
+export const refreshTrustedAdvisorCheck: API.OperationMethod<
+  RefreshTrustedAdvisorCheckRequest,
   RefreshTrustedAdvisorCheckResponse,
   InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1672,9 +1655,8 @@ export const refreshTrustedAdvisorCheck: (
  * `SubscriptionRequiredException` error message appears. For
  * information about changing your support plan, see Amazon Web Services Support.
  */
-export const resolveCase: (
-  input: ResolveCaseRequest,
-) => effect.Effect<
+export const resolveCase: API.OperationMethod<
+  ResolveCaseRequest,
   ResolveCaseResponse,
   CaseIdNotFound | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

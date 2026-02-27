@@ -851,9 +851,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const cancelParticipantAuthentication: (
-  input: CancelParticipantAuthenticationRequest,
-) => effect.Effect<
+export const cancelParticipantAuthentication: API.OperationMethod<
+  CancelParticipantAuthenticationRequest,
   CancelParticipantAuthenticationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -884,9 +883,8 @@ export const cancelParticipantAuthentication: (
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const completeAttachmentUpload: (
-  input: CompleteAttachmentUploadRequest,
-) => effect.Effect<
+export const completeAttachmentUpload: API.OperationMethod<
+  CompleteAttachmentUploadRequest,
   CompleteAttachmentUploadResponse,
   | AccessDeniedException
   | ConflictException
@@ -974,9 +972,8 @@ export const completeAttachmentUpload: (
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const createParticipantConnection: (
-  input: CreateParticipantConnectionRequest,
-) => effect.Effect<
+export const createParticipantConnection: API.OperationMethod<
+  CreateParticipantConnectionRequest,
   CreateParticipantConnectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -999,9 +996,8 @@ export const createParticipantConnection: (
  *
  * For security recommendations, see Amazon Connect Chat security best practices.
  */
-export const describeView: (
-  input: DescribeViewRequest,
-) => effect.Effect<
+export const describeView: API.OperationMethod<
+  DescribeViewRequest,
   DescribeViewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1032,9 +1028,8 @@ export const describeView: (
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const disconnectParticipant: (
-  input: DisconnectParticipantRequest,
-) => effect.Effect<
+export const disconnectParticipant: API.OperationMethod<
+  DisconnectParticipantRequest,
   DisconnectParticipantResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1069,9 +1064,8 @@ export const disconnectParticipant: (
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const getAttachment: (
-  input: GetAttachmentRequest,
-) => effect.Effect<
+export const getAttachment: API.OperationMethod<
+  GetAttachmentRequest,
   GetAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1107,9 +1101,8 @@ export const getAttachment: (
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const getAuthenticationUrl: (
-  input: GetAuthenticationUrlRequest,
-) => effect.Effect<
+export const getAuthenticationUrl: API.OperationMethod<
+  GetAuthenticationUrlRequest,
   GetAuthenticationUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1156,18 +1149,16 @@ export const getAuthenticationUrl: (
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const getTranscript: {
-  (
-    input: GetTranscriptRequest,
-  ): effect.Effect<
-    GetTranscriptResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getTranscript: API.OperationMethod<
+  GetTranscriptRequest,
+  GetTranscriptResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTranscriptRequest,
   ) => stream.Stream<
@@ -1223,9 +1214,8 @@ export const getTranscript: {
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const sendEvent: (
-  input: SendEventRequest,
-) => effect.Effect<
+export const sendEvent: API.OperationMethod<
+  SendEventRequest,
   SendEventResponse,
   | AccessDeniedException
   | ConflictException
@@ -1256,9 +1246,8 @@ export const sendEvent: (
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const sendMessage: (
-  input: SendMessageRequest,
-) => effect.Effect<
+export const sendMessage: API.OperationMethod<
+  SendMessageRequest,
   SendMessageResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1288,9 +1277,8 @@ export const sendMessage: (
  * The Amazon Connect Participant Service APIs do not use Signature Version 4
  * authentication.
  */
-export const startAttachmentUpload: (
-  input: StartAttachmentUploadRequest,
-) => effect.Effect<
+export const startAttachmentUpload: API.OperationMethod<
+  StartAttachmentUploadRequest,
   StartAttachmentUploadResponse,
   | AccessDeniedException
   | InternalServerException

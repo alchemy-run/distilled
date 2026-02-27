@@ -4429,9 +4429,8 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
 /**
  * Returns the IoT managed integrations custom endpoint.
  */
-export const getCustomEndpoint: (
-  input: GetCustomEndpointRequest,
-) => effect.Effect<
+export const getCustomEndpoint: API.OperationMethod<
+  GetCustomEndpointRequest,
   GetCustomEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4458,9 +4457,8 @@ export const getCustomEndpoint: (
 /**
  * Lists the tags for a specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -4481,9 +4479,8 @@ export const listTagsForResource: (
 /**
  * Customers can request IoT managed integrations to manage the server trust for them or bring their own external server trusts for the custom domain. Returns an IoT managed integrations endpoint.
  */
-export const registerCustomEndpoint: (
-  input: RegisterCustomEndpointRequest,
-) => effect.Effect<
+export const registerCustomEndpoint: API.OperationMethod<
+  RegisterCustomEndpointRequest,
   RegisterCustomEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -4510,9 +4507,8 @@ export const registerCustomEndpoint: (
 /**
  * Relays third-party device events for a connector such as a new device or a device state change event.
  */
-export const sendConnectorEvent: (
-  input: SendConnectorEventRequest,
-) => effect.Effect<
+export const sendConnectorEvent: API.OperationMethod<
+  SendConnectorEventRequest,
   SendConnectorEventResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4537,9 +4533,8 @@ export const sendConnectorEvent: (
 /**
  * Adds tags to a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConflictException
   | InvalidRequestException
@@ -4562,9 +4557,8 @@ export const tagResource: (
 /**
  * Removes tags from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConflictException
   | InvalidRequestException
@@ -4587,9 +4581,8 @@ export const untagResource: (
 /**
  * Creates a new account association via the destination id.
  */
-export const createAccountAssociation: (
-  input: CreateAccountAssociationRequest,
-) => effect.Effect<
+export const createAccountAssociation: API.OperationMethod<
+  CreateAccountAssociationRequest,
   CreateAccountAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4618,9 +4611,8 @@ export const createAccountAssociation: (
 /**
  * Get an account association for an Amazon Web Services account linked to a customer-managed destination.
  */
-export const getAccountAssociation: (
-  input: GetAccountAssociationRequest,
-) => effect.Effect<
+export const getAccountAssociation: API.OperationMethod<
+  GetAccountAssociationRequest,
   GetAccountAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4645,9 +4637,8 @@ export const getAccountAssociation: (
 /**
  * Updates the properties of an existing account association.
  */
-export const updateAccountAssociation: (
-  input: UpdateAccountAssociationRequest,
-) => effect.Effect<
+export const updateAccountAssociation: API.OperationMethod<
+  UpdateAccountAssociationRequest,
   UpdateAccountAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4676,9 +4667,8 @@ export const updateAccountAssociation: (
  *
  * You must first call the `DeregisterAccountAssociation` to remove the connection between the managed thing and the third-party account before calling the `DeleteAccountAssociation` API.
  */
-export const deleteAccountAssociation: (
-  input: DeleteAccountAssociationRequest,
-) => effect.Effect<
+export const deleteAccountAssociation: API.OperationMethod<
+  DeleteAccountAssociationRequest,
   DeleteAccountAssociationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4703,19 +4693,17 @@ export const deleteAccountAssociation: (
 /**
  * Lists all account associations, with optional filtering by connector destination ID.
  */
-export const listAccountAssociations: {
-  (
-    input: ListAccountAssociationsRequest,
-  ): effect.Effect<
-    ListAccountAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountAssociations: API.OperationMethod<
+  ListAccountAssociationsRequest,
+  ListAccountAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountAssociationsRequest,
   ) => stream.Stream<
@@ -4760,9 +4748,8 @@ export const listAccountAssociations: {
 /**
  * Initiates a refresh of an existing account association to update its authorization and connection status.
  */
-export const startAccountAssociationRefresh: (
-  input: StartAccountAssociationRefreshRequest,
-) => effect.Effect<
+export const startAccountAssociationRefresh: API.OperationMethod<
+  StartAccountAssociationRefreshRequest,
   StartAccountAssociationRefreshResponse,
   | AccessDeniedException
   | ConflictException
@@ -4789,9 +4776,8 @@ export const startAccountAssociationRefresh: (
 /**
  * Creates a C2C (cloud-to-cloud) connector.
  */
-export const createCloudConnector: (
-  input: CreateCloudConnectorRequest,
-) => effect.Effect<
+export const createCloudConnector: API.OperationMethod<
+  CreateCloudConnectorRequest,
   CreateCloudConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -4814,9 +4800,8 @@ export const createCloudConnector: (
 /**
  * Get configuration details for a cloud connector.
  */
-export const getCloudConnector: (
-  input: GetCloudConnectorRequest,
-) => effect.Effect<
+export const getCloudConnector: API.OperationMethod<
+  GetCloudConnectorRequest,
   GetCloudConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4839,9 +4824,8 @@ export const getCloudConnector: (
 /**
  * Update an existing cloud connector.
  */
-export const updateCloudConnector: (
-  input: UpdateCloudConnectorRequest,
-) => effect.Effect<
+export const updateCloudConnector: API.OperationMethod<
+  UpdateCloudConnectorRequest,
   UpdateCloudConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4866,9 +4850,8 @@ export const updateCloudConnector: (
 /**
  * Delete a cloud connector.
  */
-export const deleteCloudConnector: (
-  input: DeleteCloudConnectorRequest,
-) => effect.Effect<
+export const deleteCloudConnector: API.OperationMethod<
+  DeleteCloudConnectorRequest,
   DeleteCloudConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4893,18 +4876,16 @@ export const deleteCloudConnector: (
 /**
  * Returns a list of connectors filtered by its Lambda Amazon Resource Name (ARN) and `type`.
  */
-export const listCloudConnectors: {
-  (
-    input: ListCloudConnectorsRequest,
-  ): effect.Effect<
-    ListCloudConnectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCloudConnectors: API.OperationMethod<
+  ListCloudConnectorsRequest,
+  ListCloudConnectorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCloudConnectorsRequest,
   ) => stream.Stream<
@@ -4946,9 +4927,8 @@ export const listCloudConnectors: {
 /**
  * Create a connector destination for connecting a cloud-to-cloud (C2C) connector to the customer's Amazon Web Services account.
  */
-export const createConnectorDestination: (
-  input: CreateConnectorDestinationRequest,
-) => effect.Effect<
+export const createConnectorDestination: API.OperationMethod<
+  CreateConnectorDestinationRequest,
   CreateConnectorDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4975,9 +4955,8 @@ export const createConnectorDestination: (
 /**
  * Get connector destination details linked to a cloud-to-cloud (C2C) connector.
  */
-export const getConnectorDestination: (
-  input: GetConnectorDestinationRequest,
-) => effect.Effect<
+export const getConnectorDestination: API.OperationMethod<
+  GetConnectorDestinationRequest,
   GetConnectorDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5000,9 +4979,8 @@ export const getConnectorDestination: (
 /**
  * Updates the properties of an existing connector destination.
  */
-export const updateConnectorDestination: (
-  input: UpdateConnectorDestinationRequest,
-) => effect.Effect<
+export const updateConnectorDestination: API.OperationMethod<
+  UpdateConnectorDestinationRequest,
   UpdateConnectorDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5027,9 +5005,8 @@ export const updateConnectorDestination: (
  *
  * Deletion can't be done if the account association has used this connector destination.
  */
-export const deleteConnectorDestination: (
-  input: DeleteConnectorDestinationRequest,
-) => effect.Effect<
+export const deleteConnectorDestination: API.OperationMethod<
+  DeleteConnectorDestinationRequest,
   DeleteConnectorDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5052,18 +5029,16 @@ export const deleteConnectorDestination: (
 /**
  * Lists all connector destinations, with optional filtering by cloud connector ID.
  */
-export const listConnectorDestinations: {
-  (
-    input: ListConnectorDestinationsRequest,
-  ): effect.Effect<
-    ListConnectorDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectorDestinations: API.OperationMethod<
+  ListConnectorDestinationsRequest,
+  ListConnectorDestinationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectorDestinationsRequest,
   ) => stream.Stream<
@@ -5107,9 +5082,8 @@ export const listConnectorDestinations: {
  *
  * This operation will not trigger the creation of all the manufacturing resources.
  */
-export const createCredentialLocker: (
-  input: CreateCredentialLockerRequest,
-) => effect.Effect<
+export const createCredentialLocker: API.OperationMethod<
+  CreateCredentialLockerRequest,
   CreateCredentialLockerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5136,9 +5110,8 @@ export const createCredentialLocker: (
 /**
  * Get information on an existing credential locker
  */
-export const getCredentialLocker: (
-  input: GetCredentialLockerRequest,
-) => effect.Effect<
+export const getCredentialLocker: API.OperationMethod<
+  GetCredentialLockerRequest,
   GetCredentialLockerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5165,9 +5138,8 @@ export const getCredentialLocker: (
  *
  * This operation can't be undone and any existing device won't be able to use IoT managed integrations.
  */
-export const deleteCredentialLocker: (
-  input: DeleteCredentialLockerRequest,
-) => effect.Effect<
+export const deleteCredentialLocker: API.OperationMethod<
+  DeleteCredentialLockerRequest,
   DeleteCredentialLockerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5192,19 +5164,17 @@ export const deleteCredentialLocker: (
 /**
  * List information on an existing credential locker.
  */
-export const listCredentialLockers: {
-  (
-    input: ListCredentialLockersRequest,
-  ): effect.Effect<
-    ListCredentialLockersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCredentialLockers: API.OperationMethod<
+  ListCredentialLockersRequest,
+  ListCredentialLockersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCredentialLockersRequest,
   ) => stream.Stream<
@@ -5249,9 +5219,8 @@ export const listCredentialLockers: {
 /**
  * Create a notification destination such as Kinesis Data Streams that receive events and notifications from Managed integrations. Managed integrations uses the destination to determine where to deliver notifications.
  */
-export const createDestination: (
-  input: CreateDestinationRequest,
-) => effect.Effect<
+export const createDestination: API.OperationMethod<
+  CreateDestinationRequest,
   CreateDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5274,9 +5243,8 @@ export const createDestination: (
 /**
  * Deletes a notification destination specified by name.
  */
-export const deleteDestination: (
-  input: DeleteDestinationRequest,
-) => effect.Effect<
+export const deleteDestination: API.OperationMethod<
+  DeleteDestinationRequest,
   DeleteDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5299,9 +5267,8 @@ export const deleteDestination: (
 /**
  * Gets a destination by name.
  */
-export const getDestination: (
-  input: GetDestinationRequest,
-) => effect.Effect<
+export const getDestination: API.OperationMethod<
+  GetDestinationRequest,
   GetDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5324,18 +5291,16 @@ export const getDestination: (
 /**
  * List all notification destinations.
  */
-export const listDestinations: {
-  (
-    input: ListDestinationsRequest,
-  ): effect.Effect<
-    ListDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDestinations: API.OperationMethod<
+  ListDestinationsRequest,
+  ListDestinationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDestinationsRequest,
   ) => stream.Stream<
@@ -5377,9 +5342,8 @@ export const listDestinations: {
 /**
  * Update a destination specified by name.
  */
-export const updateDestination: (
-  input: UpdateDestinationRequest,
-) => effect.Effect<
+export const updateDestination: API.OperationMethod<
+  UpdateDestinationRequest,
   UpdateDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5402,9 +5366,8 @@ export const updateDestination: (
 /**
  * This API is used to start device discovery for hub-connected and third-party-connected devices. The authentication material (install code) is delivered as a message to the controller instructing it to start the discovery.
  */
-export const startDeviceDiscovery: (
-  input: StartDeviceDiscoveryRequest,
-) => effect.Effect<
+export const startDeviceDiscovery: API.OperationMethod<
+  StartDeviceDiscoveryRequest,
   StartDeviceDiscoveryResponse,
   | AccessDeniedException
   | ConflictException
@@ -5433,9 +5396,8 @@ export const startDeviceDiscovery: (
 /**
  * Get the current state of a device discovery.
  */
-export const getDeviceDiscovery: (
-  input: GetDeviceDiscoveryRequest,
-) => effect.Effect<
+export const getDeviceDiscovery: API.OperationMethod<
+  GetDeviceDiscoveryRequest,
   GetDeviceDiscoveryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5462,20 +5424,18 @@ export const getDeviceDiscovery: (
 /**
  * Lists all device discovery tasks, with optional filtering by type and status.
  */
-export const listDeviceDiscoveries: {
-  (
-    input: ListDeviceDiscoveriesRequest,
-  ): effect.Effect<
-    ListDeviceDiscoveriesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeviceDiscoveries: API.OperationMethod<
+  ListDeviceDiscoveriesRequest,
+  ListDeviceDiscoveriesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeviceDiscoveriesRequest,
   ) => stream.Stream<
@@ -5523,21 +5483,19 @@ export const listDeviceDiscoveries: {
 /**
  * Lists all devices discovered during a specific device discovery task.
  */
-export const listDiscoveredDevices: {
-  (
-    input: ListDiscoveredDevicesRequest,
-  ): effect.Effect<
-    ListDiscoveredDevicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDiscoveredDevices: API.OperationMethod<
+  ListDiscoveredDevicesRequest,
+  ListDiscoveredDevicesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDiscoveredDevicesRequest,
   ) => stream.Stream<
@@ -5588,9 +5546,8 @@ export const listDiscoveredDevices: {
 /**
  * Set the event log configuration for the account, resource type, or specific resource.
  */
-export const createEventLogConfiguration: (
-  input: CreateEventLogConfigurationRequest,
-) => effect.Effect<
+export const createEventLogConfiguration: API.OperationMethod<
+  CreateEventLogConfigurationRequest,
   CreateEventLogConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5615,9 +5572,8 @@ export const createEventLogConfiguration: (
 /**
  * Delete an event log configuration.
  */
-export const deleteEventLogConfiguration: (
-  input: DeleteEventLogConfigurationRequest,
-) => effect.Effect<
+export const deleteEventLogConfiguration: API.OperationMethod<
+  DeleteEventLogConfigurationRequest,
   DeleteEventLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5640,9 +5596,8 @@ export const deleteEventLogConfiguration: (
 /**
  * Get an event log configuration.
  */
-export const getEventLogConfiguration: (
-  input: GetEventLogConfigurationRequest,
-) => effect.Effect<
+export const getEventLogConfiguration: API.OperationMethod<
+  GetEventLogConfigurationRequest,
   GetEventLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5665,18 +5620,16 @@ export const getEventLogConfiguration: (
 /**
  * List all event log configurations for an account.
  */
-export const listEventLogConfigurations: {
-  (
-    input: ListEventLogConfigurationsRequest,
-  ): effect.Effect<
-    ListEventLogConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventLogConfigurations: API.OperationMethod<
+  ListEventLogConfigurationsRequest,
+  ListEventLogConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventLogConfigurationsRequest,
   ) => stream.Stream<
@@ -5718,9 +5671,8 @@ export const listEventLogConfigurations: {
 /**
  * Update an event log configuration by log configuration ID.
  */
-export const updateEventLogConfiguration: (
-  input: UpdateEventLogConfigurationRequest,
-) => effect.Effect<
+export const updateEventLogConfiguration: API.OperationMethod<
+  UpdateEventLogConfigurationRequest,
   UpdateEventLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5743,9 +5695,8 @@ export const updateEventLogConfiguration: (
 /**
  * Get a hub configuration.
  */
-export const getHubConfiguration: (
-  input: GetHubConfigurationRequest,
-) => effect.Effect<
+export const getHubConfiguration: API.OperationMethod<
+  GetHubConfigurationRequest,
   GetHubConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5770,9 +5721,8 @@ export const getHubConfiguration: (
 /**
  * Update a hub configuration.
  */
-export const putHubConfiguration: (
-  input: PutHubConfigurationRequest,
-) => effect.Effect<
+export const putHubConfiguration: API.OperationMethod<
+  PutHubConfigurationRequest,
   PutHubConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5797,9 +5747,8 @@ export const putHubConfiguration: (
 /**
  * Retrieves information about the default encryption configuration for the Amazon Web Services account in the default or specified region. For more information, see Key management in the *AWS IoT SiteWise User Guide*.
  */
-export const getDefaultEncryptionConfiguration: (
-  input: GetDefaultEncryptionConfigurationRequest,
-) => effect.Effect<
+export const getDefaultEncryptionConfiguration: API.OperationMethod<
+  GetDefaultEncryptionConfigurationRequest,
   GetDefaultEncryptionConfigurationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -5826,9 +5775,8 @@ export const getDefaultEncryptionConfiguration: (
 /**
  * Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the AWS IoT SiteWise User Guide.
  */
-export const putDefaultEncryptionConfiguration: (
-  input: PutDefaultEncryptionConfigurationRequest,
-) => effect.Effect<
+export const putDefaultEncryptionConfiguration: API.OperationMethod<
+  PutDefaultEncryptionConfigurationRequest,
   PutDefaultEncryptionConfigurationResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -5855,9 +5803,8 @@ export const putDefaultEncryptionConfiguration: (
 /**
  * Deregister an account association from a managed thing.
  */
-export const deregisterAccountAssociation: (
-  input: DeregisterAccountAssociationRequest,
-) => effect.Effect<
+export const deregisterAccountAssociation: API.OperationMethod<
+  DeregisterAccountAssociationRequest,
   DeregisterAccountAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5882,18 +5829,16 @@ export const deregisterAccountAssociation: (
 /**
  * Lists all account associations for a specific managed thing.
  */
-export const listManagedThingAccountAssociations: {
-  (
-    input: ListManagedThingAccountAssociationsRequest,
-  ): effect.Effect<
-    ListManagedThingAccountAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedThingAccountAssociations: API.OperationMethod<
+  ListManagedThingAccountAssociationsRequest,
+  ListManagedThingAccountAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedThingAccountAssociationsRequest,
   ) => stream.Stream<
@@ -5935,9 +5880,8 @@ export const listManagedThingAccountAssociations: {
 /**
  * Registers an account association with a managed thing, establishing a connection between a device and a third-party account.
  */
-export const registerAccountAssociation: (
-  input: RegisterAccountAssociationRequest,
-) => effect.Effect<
+export const registerAccountAssociation: API.OperationMethod<
+  RegisterAccountAssociationRequest,
   RegisterAccountAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5962,9 +5906,8 @@ export const registerAccountAssociation: (
 /**
  * Send the command to the device represented by the managed thing.
  */
-export const sendManagedThingCommand: (
-  input: SendManagedThingCommandRequest,
-) => effect.Effect<
+export const sendManagedThingCommand: API.OperationMethod<
+  SendManagedThingCommandRequest,
   SendManagedThingCommandResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5991,9 +5934,8 @@ export const sendManagedThingCommand: (
 /**
  * Creates a managed thing. A managed thing contains the device identifier, protocol supported, and capabilities of the device in a data model format defined by Managed integrations.
  */
-export const createManagedThing: (
-  input: CreateManagedThingRequest,
-) => effect.Effect<
+export const createManagedThing: API.OperationMethod<
+  CreateManagedThingRequest,
   CreateManagedThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6022,9 +5964,8 @@ export const createManagedThing: (
 /**
  * Get details of a managed thing including its attributes and capabilities.
  */
-export const getManagedThing: (
-  input: GetManagedThingRequest,
-) => effect.Effect<
+export const getManagedThing: API.OperationMethod<
+  GetManagedThingRequest,
   GetManagedThingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6051,9 +5992,8 @@ export const getManagedThing: (
 /**
  * Update the attributes and capabilities associated with a managed thing.
  */
-export const updateManagedThing: (
-  input: UpdateManagedThingRequest,
-) => effect.Effect<
+export const updateManagedThing: API.OperationMethod<
+  UpdateManagedThingRequest,
   UpdateManagedThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6082,9 +6022,8 @@ export const updateManagedThing: (
 /**
  * Delete a managed thing. For direct-connected and hub-connected devices connecting with Managed integrations via a controller, all of the devices connected to it will have their status changed to `PENDING`. It is not possible to remove a cloud-to-cloud device.
  */
-export const deleteManagedThing: (
-  input: DeleteManagedThingRequest,
-) => effect.Effect<
+export const deleteManagedThing: API.OperationMethod<
+  DeleteManagedThingRequest,
   DeleteManagedThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6113,20 +6052,18 @@ export const deleteManagedThing: (
 /**
  * Listing all managed things with provision for filters.
  */
-export const listManagedThings: {
-  (
-    input: ListManagedThingsRequest,
-  ): effect.Effect<
-    ListManagedThingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedThings: API.OperationMethod<
+  ListManagedThingsRequest,
+  ListManagedThingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedThingsRequest,
   ) => stream.Stream<
@@ -6174,9 +6111,8 @@ export const listManagedThings: {
 /**
  * Get the capabilities for a managed thing using the device ID.
  */
-export const getManagedThingCapabilities: (
-  input: GetManagedThingCapabilitiesRequest,
-) => effect.Effect<
+export const getManagedThingCapabilities: API.OperationMethod<
+  GetManagedThingCapabilitiesRequest,
   GetManagedThingCapabilitiesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6203,9 +6139,8 @@ export const getManagedThingCapabilities: (
 /**
  * Retrieves the certificate PEM for a managed IoT thing.
  */
-export const getManagedThingCertificate: (
-  input: GetManagedThingCertificateRequest,
-) => effect.Effect<
+export const getManagedThingCertificate: API.OperationMethod<
+  GetManagedThingCertificateRequest,
   GetManagedThingCertificateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6232,9 +6167,8 @@ export const getManagedThingCertificate: (
 /**
  * Get the connectivity status of a managed thing.
  */
-export const getManagedThingConnectivityData: (
-  input: GetManagedThingConnectivityDataRequest,
-) => effect.Effect<
+export const getManagedThingConnectivityData: API.OperationMethod<
+  GetManagedThingConnectivityDataRequest,
   GetManagedThingConnectivityDataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6263,9 +6197,8 @@ export const getManagedThingConnectivityData: (
  *
  * The `managedThing` `metadata` parameter is used for associating attributes with a `managedThing` that can be used for grouping over-the-air (OTA) tasks. Name value pairs in `metadata` can be used in the `OtaTargetQueryString` parameter for the `CreateOtaTask` API operation.
  */
-export const getManagedThingMetaData: (
-  input: GetManagedThingMetaDataRequest,
-) => effect.Effect<
+export const getManagedThingMetaData: API.OperationMethod<
+  GetManagedThingMetaDataRequest,
   GetManagedThingMetaDataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6292,21 +6225,19 @@ export const getManagedThingMetaData: (
 /**
  * List schemas associated with a managed thing.
  */
-export const listManagedThingSchemas: {
-  (
-    input: ListManagedThingSchemasRequest,
-  ): effect.Effect<
-    ListManagedThingSchemasResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedThingSchemas: API.OperationMethod<
+  ListManagedThingSchemasRequest,
+  ListManagedThingSchemasResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedThingSchemasRequest,
   ) => stream.Stream<
@@ -6357,9 +6288,8 @@ export const listManagedThingSchemas: {
 /**
  * Returns the managed thing state for the given device Id.
  */
-export const getManagedThingState: (
-  input: GetManagedThingStateRequest,
-) => effect.Effect<
+export const getManagedThingState: API.OperationMethod<
+  GetManagedThingStateRequest,
   GetManagedThingStateResponse,
   | AccessDeniedException
   | InternalFailureException
@@ -6386,9 +6316,8 @@ export const getManagedThingState: (
 /**
  * Creates a notification configuration. A configuration is a connection between an event type and a destination that you have already created.
  */
-export const createNotificationConfiguration: (
-  input: CreateNotificationConfigurationRequest,
-) => effect.Effect<
+export const createNotificationConfiguration: API.OperationMethod<
+  CreateNotificationConfigurationRequest,
   CreateNotificationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6411,9 +6340,8 @@ export const createNotificationConfiguration: (
 /**
  * Deletes a notification configuration.
  */
-export const deleteNotificationConfiguration: (
-  input: DeleteNotificationConfigurationRequest,
-) => effect.Effect<
+export const deleteNotificationConfiguration: API.OperationMethod<
+  DeleteNotificationConfigurationRequest,
   DeleteNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6436,9 +6364,8 @@ export const deleteNotificationConfiguration: (
 /**
  * Get a notification configuration for a specified event type.
  */
-export const getNotificationConfiguration: (
-  input: GetNotificationConfigurationRequest,
-) => effect.Effect<
+export const getNotificationConfiguration: API.OperationMethod<
+  GetNotificationConfigurationRequest,
   GetNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6461,18 +6388,16 @@ export const getNotificationConfiguration: (
 /**
  * List all notification configurations.
  */
-export const listNotificationConfigurations: {
-  (
-    input: ListNotificationConfigurationsRequest,
-  ): effect.Effect<
-    ListNotificationConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNotificationConfigurations: API.OperationMethod<
+  ListNotificationConfigurationsRequest,
+  ListNotificationConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotificationConfigurationsRequest,
   ) => stream.Stream<
@@ -6514,9 +6439,8 @@ export const listNotificationConfigurations: {
 /**
  * Update a notification configuration.
  */
-export const updateNotificationConfiguration: (
-  input: UpdateNotificationConfigurationRequest,
-) => effect.Effect<
+export const updateNotificationConfiguration: API.OperationMethod<
+  UpdateNotificationConfigurationRequest,
   UpdateNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6539,9 +6463,8 @@ export const updateNotificationConfiguration: (
 /**
  * Create a configuraiton for the over-the-air (OTA) task.
  */
-export const createOtaTaskConfiguration: (
-  input: CreateOtaTaskConfigurationRequest,
-) => effect.Effect<
+export const createOtaTaskConfiguration: API.OperationMethod<
+  CreateOtaTaskConfigurationRequest,
   CreateOtaTaskConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6564,9 +6487,8 @@ export const createOtaTaskConfiguration: (
 /**
  * Delete the over-the-air (OTA) task configuration.
  */
-export const deleteOtaTaskConfiguration: (
-  input: DeleteOtaTaskConfigurationRequest,
-) => effect.Effect<
+export const deleteOtaTaskConfiguration: API.OperationMethod<
+  DeleteOtaTaskConfigurationRequest,
   DeleteOtaTaskConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6589,9 +6511,8 @@ export const deleteOtaTaskConfiguration: (
 /**
  * Get a configuraiton for the over-the-air (OTA) task.
  */
-export const getOtaTaskConfiguration: (
-  input: GetOtaTaskConfigurationRequest,
-) => effect.Effect<
+export const getOtaTaskConfiguration: API.OperationMethod<
+  GetOtaTaskConfigurationRequest,
   GetOtaTaskConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6614,18 +6535,16 @@ export const getOtaTaskConfiguration: (
 /**
  * List all of the over-the-air (OTA) task configurations.
  */
-export const listOtaTaskConfigurations: {
-  (
-    input: ListOtaTaskConfigurationsRequest,
-  ): effect.Effect<
-    ListOtaTaskConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOtaTaskConfigurations: API.OperationMethod<
+  ListOtaTaskConfigurationsRequest,
+  ListOtaTaskConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOtaTaskConfigurationsRequest,
   ) => stream.Stream<
@@ -6667,9 +6586,8 @@ export const listOtaTaskConfigurations: {
 /**
  * Create an over-the-air (OTA) task to target a device.
  */
-export const createOtaTask: (
-  input: CreateOtaTaskRequest,
-) => effect.Effect<
+export const createOtaTask: API.OperationMethod<
+  CreateOtaTaskRequest,
   CreateOtaTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -6696,9 +6614,8 @@ export const createOtaTask: (
 /**
  * Get details of the over-the-air (OTA) task by its task id.
  */
-export const getOtaTask: (
-  input: GetOtaTaskRequest,
-) => effect.Effect<
+export const getOtaTask: API.OperationMethod<
+  GetOtaTaskRequest,
   GetOtaTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6721,9 +6638,8 @@ export const getOtaTask: (
 /**
  * Update an over-the-air (OTA) task.
  */
-export const updateOtaTask: (
-  input: UpdateOtaTaskRequest,
-) => effect.Effect<
+export const updateOtaTask: API.OperationMethod<
+  UpdateOtaTaskRequest,
   UpdateOtaTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6746,9 +6662,8 @@ export const updateOtaTask: (
 /**
  * Delete the over-the-air (OTA) task.
  */
-export const deleteOtaTask: (
-  input: DeleteOtaTaskRequest,
-) => effect.Effect<
+export const deleteOtaTask: API.OperationMethod<
+  DeleteOtaTaskRequest,
   DeleteOtaTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6773,19 +6688,17 @@ export const deleteOtaTask: (
 /**
  * List all of the over-the-air (OTA) tasks.
  */
-export const listOtaTasks: {
-  (
-    input: ListOtaTasksRequest,
-  ): effect.Effect<
-    ListOtaTasksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOtaTasks: API.OperationMethod<
+  ListOtaTasksRequest,
+  ListOtaTasksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOtaTasksRequest,
   ) => stream.Stream<
@@ -6830,19 +6743,17 @@ export const listOtaTasks: {
 /**
  * List all of the over-the-air (OTA) task executions.
  */
-export const listOtaTaskExecutions: {
-  (
-    input: ListOtaTaskExecutionsRequest,
-  ): effect.Effect<
-    ListOtaTaskExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOtaTaskExecutions: API.OperationMethod<
+  ListOtaTaskExecutionsRequest,
+  ListOtaTaskExecutionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOtaTaskExecutionsRequest,
   ) => stream.Stream<
@@ -6887,9 +6798,8 @@ export const listOtaTaskExecutions: {
 /**
  * Create a provisioning profile for a device to execute the provisioning flows using a provisioning template. The provisioning template is a document that defines the set of resources and policies applied to a device during the provisioning process.
  */
-export const createProvisioningProfile: (
-  input: CreateProvisioningProfileRequest,
-) => effect.Effect<
+export const createProvisioningProfile: API.OperationMethod<
+  CreateProvisioningProfileRequest,
   CreateProvisioningProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -6918,9 +6828,8 @@ export const createProvisioningProfile: (
 /**
  * Get a provisioning profile by template name.
  */
-export const getProvisioningProfile: (
-  input: GetProvisioningProfileRequest,
-) => effect.Effect<
+export const getProvisioningProfile: API.OperationMethod<
+  GetProvisioningProfileRequest,
   GetProvisioningProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6947,9 +6856,8 @@ export const getProvisioningProfile: (
 /**
  * Delete a provisioning profile.
  */
-export const deleteProvisioningProfile: (
-  input: DeleteProvisioningProfileRequest,
-) => effect.Effect<
+export const deleteProvisioningProfile: API.OperationMethod<
+  DeleteProvisioningProfileRequest,
   DeleteProvisioningProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6976,20 +6884,18 @@ export const deleteProvisioningProfile: (
 /**
  * List the provisioning profiles within the Amazon Web Services account.
  */
-export const listProvisioningProfiles: {
-  (
-    input: ListProvisioningProfilesRequest,
-  ): effect.Effect<
-    ListProvisioningProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProvisioningProfiles: API.OperationMethod<
+  ListProvisioningProfilesRequest,
+  ListProvisioningProfilesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProvisioningProfilesRequest,
   ) => stream.Stream<
@@ -7037,9 +6943,8 @@ export const listProvisioningProfiles: {
 /**
  * Get the runtime log configuration for a specific managed thing.
  */
-export const getRuntimeLogConfiguration: (
-  input: GetRuntimeLogConfigurationRequest,
-) => effect.Effect<
+export const getRuntimeLogConfiguration: API.OperationMethod<
+  GetRuntimeLogConfigurationRequest,
   GetRuntimeLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7062,9 +6967,8 @@ export const getRuntimeLogConfiguration: (
 /**
  * Set the runtime log configuration for a specific managed thing.
  */
-export const putRuntimeLogConfiguration: (
-  input: PutRuntimeLogConfigurationRequest,
-) => effect.Effect<
+export const putRuntimeLogConfiguration: API.OperationMethod<
+  PutRuntimeLogConfigurationRequest,
   PutRuntimeLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7087,9 +6991,8 @@ export const putRuntimeLogConfiguration: (
 /**
  * Reset a runtime log configuration for a specific managed thing.
  */
-export const resetRuntimeLogConfiguration: (
-  input: ResetRuntimeLogConfigurationRequest,
-) => effect.Effect<
+export const resetRuntimeLogConfiguration: API.OperationMethod<
+  ResetRuntimeLogConfigurationRequest,
   ResetRuntimeLogConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7112,9 +7015,8 @@ export const resetRuntimeLogConfiguration: (
 /**
  * Gets a schema version with the provided information.
  */
-export const getSchemaVersion: (
-  input: GetSchemaVersionRequest,
-) => effect.Effect<
+export const getSchemaVersion: API.OperationMethod<
+  GetSchemaVersionRequest,
   GetSchemaVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7141,20 +7043,18 @@ export const getSchemaVersion: (
 /**
  * Lists schema versions with the provided information.
  */
-export const listSchemaVersions: {
-  (
-    input: ListSchemaVersionsRequest,
-  ): effect.Effect<
-    ListSchemaVersionsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemaVersions: API.OperationMethod<
+  ListSchemaVersionsRequest,
+  ListSchemaVersionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemaVersionsRequest,
   ) => stream.Stream<

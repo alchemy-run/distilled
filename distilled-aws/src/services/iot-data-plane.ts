@@ -489,9 +489,8 @@ export class RequestEntityTooLargeException extends S.TaggedErrorClass<RequestEn
 /**
  * Disconnects a connected MQTT client from Amazon Web Services IoT Core. When you disconnect a client, Amazon Web Services IoT Core closes the client's network connection and optionally cleans the session state.
  */
-export const deleteConnection: (
-  input: DeleteConnectionRequest,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
   DeleteConnectionResponse,
   | ForbiddenException
   | InternalFailureException
@@ -518,9 +517,8 @@ export const deleteConnection: (
  *
  * For more information, see DeleteThingShadow in the IoT Developer Guide.
  */
-export const deleteThingShadow: (
-  input: DeleteThingShadowRequest,
-) => effect.Effect<
+export const deleteThingShadow: API.OperationMethod<
+  DeleteThingShadowRequest,
   DeleteThingShadowResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -558,9 +556,8 @@ export const deleteThingShadow: (
  * For more information about messaging costs, see Amazon Web Services IoT Core
  * pricing - Messaging.
  */
-export const getRetainedMessage: (
-  input: GetRetainedMessageRequest,
-) => effect.Effect<
+export const getRetainedMessage: API.OperationMethod<
+  GetRetainedMessageRequest,
   GetRetainedMessageResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -592,9 +589,8 @@ export const getRetainedMessage: (
  * For more information, see GetThingShadow in the
  * IoT Developer Guide.
  */
-export const getThingShadow: (
-  input: GetThingShadowRequest,
-) => effect.Effect<
+export const getThingShadow: API.OperationMethod<
+  GetThingShadowRequest,
   GetThingShadowResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -625,9 +621,8 @@ export const getThingShadow: (
  *
  * Requires permission to access the ListNamedShadowsForThing action.
  */
-export const listNamedShadowsForThing: (
-  input: ListNamedShadowsForThingRequest,
-) => effect.Effect<
+export const listNamedShadowsForThing: API.OperationMethod<
+  ListNamedShadowsForThingRequest,
   ListNamedShadowsForThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -667,20 +662,18 @@ export const listNamedShadowsForThing: (
  * For more information about messaging costs, see Amazon Web Services IoT Core
  * pricing - Messaging.
  */
-export const listRetainedMessages: {
-  (
-    input: ListRetainedMessagesRequest,
-  ): effect.Effect<
-    ListRetainedMessagesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | MethodNotAllowedException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRetainedMessages: API.OperationMethod<
+  ListRetainedMessagesRequest,
+  ListRetainedMessagesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | MethodNotAllowedException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRetainedMessagesRequest,
   ) => stream.Stream<
@@ -737,9 +730,8 @@ export const listRetainedMessages: {
  * For more information about messaging costs, see Amazon Web Services IoT Core
  * pricing - Messaging.
  */
-export const publish: (
-  input: PublishRequest,
-) => effect.Effect<
+export const publish: API.OperationMethod<
+  PublishRequest,
   PublishResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -767,9 +759,8 @@ export const publish: (
  * For more information, see UpdateThingShadow in the
  * IoT Developer Guide.
  */
-export const updateThingShadow: (
-  input: UpdateThingShadowRequest,
-) => effect.Effect<
+export const updateThingShadow: API.OperationMethod<
+  UpdateThingShadowRequest,
   UpdateThingShadowResponse,
   | ConflictException
   | InternalFailureException

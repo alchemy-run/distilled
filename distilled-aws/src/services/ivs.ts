@@ -1784,9 +1784,8 @@ export class StreamUnavailable extends S.TaggedErrorClass<StreamUnavailable>()(
 /**
  * Performs GetChannel on multiple ARNs simultaneously.
  */
-export const batchGetChannel: (
-  input: BatchGetChannelRequest,
-) => effect.Effect<
+export const batchGetChannel: API.OperationMethod<
+  BatchGetChannelRequest,
   BatchGetChannelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1798,9 +1797,8 @@ export const batchGetChannel: (
 /**
  * Performs GetStreamKey on multiple ARNs simultaneously.
  */
-export const batchGetStreamKey: (
-  input: BatchGetStreamKeyRequest,
-) => effect.Effect<
+export const batchGetStreamKey: API.OperationMethod<
+  BatchGetStreamKeyRequest,
   BatchGetStreamKeyResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1813,9 +1811,8 @@ export const batchGetStreamKey: (
  * Performs StartViewerSessionRevocation on multiple channel ARN and viewer
  * ID pairs simultaneously.
  */
-export const batchStartViewerSessionRevocation: (
-  input: BatchStartViewerSessionRevocationRequest,
-) => effect.Effect<
+export const batchStartViewerSessionRevocation: API.OperationMethod<
+  BatchStartViewerSessionRevocationRequest,
   BatchStartViewerSessionRevocationResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1836,9 +1833,8 @@ export const batchStartViewerSessionRevocation: (
 /**
  * Creates a new channel and an associated stream key to start streaming.
  */
-export const createChannel: (
-  input: CreateChannelRequest,
-) => effect.Effect<
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
   CreateChannelResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1862,9 +1858,8 @@ export const createChannel: (
  * Creates a new playback restriction policy, for constraining playback by countries and/or
  * origins.
  */
-export const createPlaybackRestrictionPolicy: (
-  input: CreatePlaybackRestrictionPolicyRequest,
-) => effect.Effect<
+export const createPlaybackRestrictionPolicy: API.OperationMethod<
+  CreatePlaybackRestrictionPolicyRequest,
   CreatePlaybackRestrictionPolicyResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1898,9 +1893,8 @@ export const createPlaybackRestrictionPolicy: (
  * region as your S3 bucket, delete that recording configuration and create a new one with an S3
  * bucket from the correct region.
  */
-export const createRecordingConfiguration: (
-  input: CreateRecordingConfigurationRequest,
-) => effect.Effect<
+export const createRecordingConfiguration: API.OperationMethod<
+  CreateRecordingConfigurationRequest,
   CreateRecordingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1929,9 +1923,8 @@ export const createRecordingConfiguration: (
  * CreateStreamKey on the same channel, it will fail because a stream key already exists and
  * there is a limit of 1 stream key per channel. To reset the stream key on a channel, use DeleteStreamKey and then CreateStreamKey.
  */
-export const createStreamKey: (
-  input: CreateStreamKeyRequest,
-) => effect.Effect<
+export const createStreamKey: API.OperationMethod<
+  CreateStreamKeyRequest,
   CreateStreamKeyResponse,
   | AccessDeniedException
   | PendingVerification
@@ -1959,9 +1952,8 @@ export const createStreamKey: (
  * EventBridge "Stream End" event (to verify that the stream's state is no longer Live), then
  * call DeleteChannel. (See Using EventBridge with Amazon IVS.)
  */
-export const deleteChannel: (
-  input: DeleteChannelRequest,
-) => effect.Effect<
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelRequest,
   DeleteChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -1986,9 +1978,8 @@ export const deleteChannel: (
  * generated using the key pair’s `privateKey`. For more information, see Setting Up Private
  * Channels in the *Amazon IVS User Guide*.
  */
-export const deletePlaybackKeyPair: (
-  input: DeletePlaybackKeyPairRequest,
-) => effect.Effect<
+export const deletePlaybackKeyPair: API.OperationMethod<
+  DeletePlaybackKeyPairRequest,
   DeletePlaybackKeyPairResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2009,9 +2000,8 @@ export const deletePlaybackKeyPair: (
 /**
  * Deletes the specified playback restriction policy.
  */
-export const deletePlaybackRestrictionPolicy: (
-  input: DeletePlaybackRestrictionPolicyRequest,
-) => effect.Effect<
+export const deletePlaybackRestrictionPolicy: API.OperationMethod<
+  DeletePlaybackRestrictionPolicyRequest,
   DeletePlaybackRestrictionPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -2040,9 +2030,8 @@ export const deletePlaybackRestrictionPolicy: (
  * `recordingConfigurationArn` field to an empty string, then use
  * DeleteRecordingConfiguration.
  */
-export const deleteRecordingConfiguration: (
-  input: DeleteRecordingConfigurationRequest,
-) => effect.Effect<
+export const deleteRecordingConfiguration: API.OperationMethod<
+  DeleteRecordingConfigurationRequest,
   DeleteRecordingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2066,9 +2055,8 @@ export const deleteRecordingConfiguration: (
  * Deletes the stream key for the specified ARN, so it can no longer be used to
  * stream.
  */
-export const deleteStreamKey: (
-  input: DeleteStreamKeyRequest,
-) => effect.Effect<
+export const deleteStreamKey: API.OperationMethod<
+  DeleteStreamKeyRequest,
   DeleteStreamKeyResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2089,9 +2077,8 @@ export const deleteStreamKey: (
 /**
  * Gets the channel configuration for the specified channel ARN. See also BatchGetChannel.
  */
-export const getChannel: (
-  input: GetChannelRequest,
-) => effect.Effect<
+export const getChannel: API.OperationMethod<
+  GetChannelRequest,
   GetChannelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2114,9 +2101,8 @@ export const getChannel: (
  * information, see Setting Up Private Channels in the Amazon IVS User
  * Guide.
  */
-export const getPlaybackKeyPair: (
-  input: GetPlaybackKeyPairRequest,
-) => effect.Effect<
+export const getPlaybackKeyPair: API.OperationMethod<
+  GetPlaybackKeyPairRequest,
   GetPlaybackKeyPairResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2135,9 +2121,8 @@ export const getPlaybackKeyPair: (
 /**
  * Gets the specified playback restriction policy.
  */
-export const getPlaybackRestrictionPolicy: (
-  input: GetPlaybackRestrictionPolicyRequest,
-) => effect.Effect<
+export const getPlaybackRestrictionPolicy: API.OperationMethod<
+  GetPlaybackRestrictionPolicyRequest,
   GetPlaybackRestrictionPolicyResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2158,9 +2143,8 @@ export const getPlaybackRestrictionPolicy: (
 /**
  * Gets the recording configuration for the specified ARN.
  */
-export const getRecordingConfiguration: (
-  input: GetRecordingConfigurationRequest,
-) => effect.Effect<
+export const getRecordingConfiguration: API.OperationMethod<
+  GetRecordingConfigurationRequest,
   GetRecordingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2181,9 +2165,8 @@ export const getRecordingConfiguration: (
 /**
  * Gets information about the active (live) stream on a specified channel.
  */
-export const getStream: (
-  input: GetStreamRequest,
-) => effect.Effect<
+export const getStream: API.OperationMethod<
+  GetStreamRequest,
   GetStreamResponse,
   | AccessDeniedException
   | ChannelNotBroadcasting
@@ -2204,9 +2187,8 @@ export const getStream: (
 /**
  * Gets stream-key information for a specified ARN.
  */
-export const getStreamKey: (
-  input: GetStreamKeyRequest,
-) => effect.Effect<
+export const getStreamKey: API.OperationMethod<
+  GetStreamKeyRequest,
   GetStreamKeyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2225,9 +2207,8 @@ export const getStreamKey: (
 /**
  * Gets metadata on a specified stream.
  */
-export const getStreamSession: (
-  input: GetStreamSessionRequest,
-) => effect.Effect<
+export const getStreamSession: API.OperationMethod<
+  GetStreamSessionRequest,
   GetStreamSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2250,9 +2231,8 @@ export const getStreamSession: (
  * Setting Up
  * Private Channels in the *Amazon IVS User Guide*.
  */
-export const importPlaybackKeyPair: (
-  input: ImportPlaybackKeyPairRequest,
-) => effect.Effect<
+export const importPlaybackKeyPair: API.OperationMethod<
+  ImportPlaybackKeyPairRequest,
   ImportPlaybackKeyPairResponse,
   | AccessDeniedException
   | ConflictException
@@ -2278,17 +2258,15 @@ export const importPlaybackKeyPair: (
  * or recording-configuration ARN. Filters are mutually exclusive and cannot be used together. If
  * you try to use both filters, you will get an error (409 ConflictException).
  */
-export const listChannels: {
-  (
-    input: ListChannelsRequest,
-  ): effect.Effect<
-    ListChannelsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
@@ -2323,14 +2301,12 @@ export const listChannels: {
  * Gets summary information about playback key pairs. For more information, see Setting Up Private
  * Channels in the *Amazon IVS User Guide*.
  */
-export const listPlaybackKeyPairs: {
-  (
-    input: ListPlaybackKeyPairsRequest,
-  ): effect.Effect<
-    ListPlaybackKeyPairsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPlaybackKeyPairs: API.OperationMethod<
+  ListPlaybackKeyPairsRequest,
+  ListPlaybackKeyPairsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlaybackKeyPairsRequest,
   ) => stream.Stream<
@@ -2358,18 +2334,16 @@ export const listPlaybackKeyPairs: {
 /**
  * Gets summary information about playback restriction policies.
  */
-export const listPlaybackRestrictionPolicies: {
-  (
-    input: ListPlaybackRestrictionPoliciesRequest,
-  ): effect.Effect<
-    ListPlaybackRestrictionPoliciesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | PendingVerification
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPlaybackRestrictionPolicies: API.OperationMethod<
+  ListPlaybackRestrictionPoliciesRequest,
+  ListPlaybackRestrictionPoliciesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | PendingVerification
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlaybackRestrictionPoliciesRequest,
   ) => stream.Stream<
@@ -2411,17 +2385,15 @@ export const listPlaybackRestrictionPolicies: {
  * Gets summary information about all recording configurations in your account, in the
  * Amazon Web Services region where the API request is processed.
  */
-export const listRecordingConfigurations: {
-  (
-    input: ListRecordingConfigurationsRequest,
-  ): effect.Effect<
-    ListRecordingConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecordingConfigurations: API.OperationMethod<
+  ListRecordingConfigurationsRequest,
+  ListRecordingConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecordingConfigurationsRequest,
   ) => stream.Stream<
@@ -2455,17 +2427,15 @@ export const listRecordingConfigurations: {
 /**
  * Gets summary information about stream keys for the specified channel.
  */
-export const listStreamKeys: {
-  (
-    input: ListStreamKeysRequest,
-  ): effect.Effect<
-    ListStreamKeysResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreamKeys: API.OperationMethod<
+  ListStreamKeysRequest,
+  ListStreamKeysResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamKeysRequest,
   ) => stream.Stream<
@@ -2504,14 +2474,12 @@ export const listStreamKeys: {
  * Gets summary information about live streams in your account, in the Amazon Web Services
  * region where the API request is processed.
  */
-export const listStreams: {
-  (
-    input: ListStreamsRequest,
-  ): effect.Effect<
-    ListStreamsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreams: API.OperationMethod<
+  ListStreamsRequest,
+  ListStreamsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamsRequest,
   ) => stream.Stream<
@@ -2540,17 +2508,15 @@ export const listStreams: {
  * Gets a summary of current and previous streams for a specified channel in your account, in
  * the AWS region where the API request is processed.
  */
-export const listStreamSessions: {
-  (
-    input: ListStreamSessionsRequest,
-  ): effect.Effect<
-    ListStreamSessionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStreamSessions: API.OperationMethod<
+  ListStreamSessionsRequest,
+  ListStreamSessionsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStreamSessionsRequest,
   ) => stream.Stream<
@@ -2588,9 +2554,8 @@ export const listStreamSessions: {
 /**
  * Gets information about Amazon Web Services tags for the specified ARN.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2613,9 +2578,8 @@ export const listTagsForResource: (
  * requests per second per account are allowed. Also see Embedding Metadata within a Video Stream in
  * the *Amazon IVS User Guide*.
  */
-export const putMetadata: (
-  input: PutMetadataRequest,
-) => effect.Effect<
+export const putMetadata: API.OperationMethod<
+  PutMetadataRequest,
   PutMetadataResponse,
   | AccessDeniedException
   | ChannelNotBroadcasting
@@ -2642,9 +2606,8 @@ export const putMetadata: (
  * Setting Up
  * Private Channels.
  */
-export const startViewerSessionRevocation: (
-  input: StartViewerSessionRevocationRequest,
-) => effect.Effect<
+export const startViewerSessionRevocation: API.OperationMethod<
+  StartViewerSessionRevocationRequest,
   StartViewerSessionRevocationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2675,9 +2638,8 @@ export const startViewerSessionRevocation: (
  * session, so to stop the stream permanently, you may want to first revoke the
  * `streamKey` attached to the channel.
  */
-export const stopStream: (
-  input: StopStreamRequest,
-) => effect.Effect<
+export const stopStream: API.OperationMethod<
+  StopStreamRequest,
   StopStreamResponse,
   | AccessDeniedException
   | ChannelNotBroadcasting
@@ -2700,9 +2662,8 @@ export const stopStream: (
 /**
  * Adds or updates tags for the Amazon Web Services resource with the specified ARN.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2721,9 +2682,8 @@ export const tagResource: (
 /**
  * Removes tags from the resource with the specified ARN.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2744,9 +2704,8 @@ export const untagResource: (
  * ongoing stream, update the channel, and restart the stream for the changes to take
  * effect.
  */
-export const updateChannel: (
-  input: UpdateChannelRequest,
-) => effect.Effect<
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
   UpdateChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2769,9 +2728,8 @@ export const updateChannel: (
 /**
  * Updates a specified playback restriction policy.
  */
-export const updatePlaybackRestrictionPolicy: (
-  input: UpdatePlaybackRestrictionPolicyRequest,
-) => effect.Effect<
+export const updatePlaybackRestrictionPolicy: API.OperationMethod<
+  UpdatePlaybackRestrictionPolicyRequest,
   UpdatePlaybackRestrictionPolicyResponse,
   | AccessDeniedException
   | ConflictException

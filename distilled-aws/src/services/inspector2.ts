@@ -6267,9 +6267,8 @@ export class BadRequestException extends S.TaggedErrorClass<BadRequestException>
  * completed. You can check if the association completed by using ListMembers for multiple
  * accounts or GetMembers for a single account.
  */
-export const associateMember: (
-  input: AssociateMemberRequest,
-) => effect.Effect<
+export const associateMember: API.OperationMethod<
+  AssociateMemberRequest,
   AssociateMemberResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6293,9 +6292,8 @@ export const associateMember: (
  * Associates multiple code repositories with an Amazon Inspector code security scan
  * configuration.
  */
-export const batchAssociateCodeSecurityScanConfiguration: (
-  input: BatchAssociateCodeSecurityScanConfigurationRequest,
-) => effect.Effect<
+export const batchAssociateCodeSecurityScanConfiguration: API.OperationMethod<
+  BatchAssociateCodeSecurityScanConfigurationRequest,
   BatchAssociateCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6321,9 +6319,8 @@ export const batchAssociateCodeSecurityScanConfiguration: (
  * Disassociates multiple code repositories from an Amazon Inspector code security scan
  * configuration.
  */
-export const batchDisassociateCodeSecurityScanConfiguration: (
-  input: BatchDisassociateCodeSecurityScanConfigurationRequest,
-) => effect.Effect<
+export const batchDisassociateCodeSecurityScanConfiguration: API.OperationMethod<
+  BatchDisassociateCodeSecurityScanConfigurationRequest,
   BatchDisassociateCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6348,9 +6345,8 @@ export const batchDisassociateCodeSecurityScanConfiguration: (
 /**
  * Retrieves the Amazon Inspector status of multiple Amazon Web Services accounts within your environment.
  */
-export const batchGetAccountStatus: (
-  input: BatchGetAccountStatusRequest,
-) => effect.Effect<
+export const batchGetAccountStatus: API.OperationMethod<
+  BatchGetAccountStatusRequest,
   BatchGetAccountStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6374,9 +6370,8 @@ export const batchGetAccountStatus: (
  * Retrieves code snippets from findings that Amazon Inspector detected code vulnerabilities
  * in.
  */
-export const batchGetCodeSnippet: (
-  input: BatchGetCodeSnippetRequest,
-) => effect.Effect<
+export const batchGetCodeSnippet: API.OperationMethod<
+  BatchGetCodeSnippetRequest,
   BatchGetCodeSnippetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6397,9 +6392,8 @@ export const batchGetCodeSnippet: (
 /**
  * Gets vulnerability details for findings.
  */
-export const batchGetFindingDetails: (
-  input: BatchGetFindingDetailsRequest,
-) => effect.Effect<
+export const batchGetFindingDetails: API.OperationMethod<
+  BatchGetFindingDetailsRequest,
   BatchGetFindingDetailsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6420,9 +6414,8 @@ export const batchGetFindingDetails: (
 /**
  * Gets free trial status for multiple Amazon Web Services accounts.
  */
-export const batchGetFreeTrialInfo: (
-  input: BatchGetFreeTrialInfoRequest,
-) => effect.Effect<
+export const batchGetFreeTrialInfo: API.OperationMethod<
+  BatchGetFreeTrialInfoRequest,
   BatchGetFreeTrialInfoResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6445,9 +6438,8 @@ export const batchGetFreeTrialInfo: (
  * your organization. You must be the delegated administrator of an organization in Amazon Inspector to
  * use this API.
  */
-export const batchGetMemberEc2DeepInspectionStatus: (
-  input: BatchGetMemberEc2DeepInspectionStatusRequest,
-) => effect.Effect<
+export const batchGetMemberEc2DeepInspectionStatus: API.OperationMethod<
+  BatchGetMemberEc2DeepInspectionStatusRequest,
   BatchGetMemberEc2DeepInspectionStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6470,9 +6462,8 @@ export const batchGetMemberEc2DeepInspectionStatus: (
  * organization. You must be the delegated administrator of an organization in Amazon Inspector to use
  * this API.
  */
-export const batchUpdateMemberEc2DeepInspectionStatus: (
-  input: BatchUpdateMemberEc2DeepInspectionStatusRequest,
-) => effect.Effect<
+export const batchUpdateMemberEc2DeepInspectionStatus: API.OperationMethod<
+  BatchUpdateMemberEc2DeepInspectionStatusRequest,
   BatchUpdateMemberEc2DeepInspectionStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6493,9 +6484,8 @@ export const batchUpdateMemberEc2DeepInspectionStatus: (
 /**
  * Cancels the given findings report.
  */
-export const cancelFindingsReport: (
-  input: CancelFindingsReportRequest,
-) => effect.Effect<
+export const cancelFindingsReport: API.OperationMethod<
+  CancelFindingsReportRequest,
   CancelFindingsReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6518,9 +6508,8 @@ export const cancelFindingsReport: (
 /**
  * Cancels a software bill of materials (SBOM) report.
  */
-export const cancelSbomExport: (
-  input: CancelSbomExportRequest,
-) => effect.Effect<
+export const cancelSbomExport: API.OperationMethod<
+  CancelSbomExportRequest,
   CancelSbomExportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6543,9 +6532,8 @@ export const cancelSbomExport: (
 /**
  * Creates a CIS scan configuration.
  */
-export const createCisScanConfiguration: (
-  input: CreateCisScanConfigurationRequest,
-) => effect.Effect<
+export const createCisScanConfiguration: API.OperationMethod<
+  CreateCisScanConfigurationRequest,
   CreateCisScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6571,9 +6559,8 @@ export const createCisScanConfiguration: (
  * `UpdateCodeSecurityIntegration` operation to provide the `details`
  * to complete the integration setup
  */
-export const createCodeSecurityIntegration: (
-  input: CreateCodeSecurityIntegrationRequest,
-) => effect.Effect<
+export const createCodeSecurityIntegration: API.OperationMethod<
+  CreateCodeSecurityIntegrationRequest,
   CreateCodeSecurityIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6598,9 +6585,8 @@ export const createCodeSecurityIntegration: (
 /**
  * Creates a scan configuration for code security scanning.
  */
-export const createCodeSecurityScanConfiguration: (
-  input: CreateCodeSecurityScanConfigurationRequest,
-) => effect.Effect<
+export const createCodeSecurityScanConfiguration: API.OperationMethod<
+  CreateCodeSecurityScanConfigurationRequest,
   CreateCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6626,9 +6612,8 @@ export const createCodeSecurityScanConfiguration: (
  * Creates a filter resource using specified filter criteria. When the filter action is set
  * to `SUPPRESS` this action creates a suppression rule.
  */
-export const createFilter: (
-  input: CreateFilterRequest,
-) => effect.Effect<
+export const createFilter: API.OperationMethod<
+  CreateFilterRequest,
   CreateFilterResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6655,9 +6640,8 @@ export const createFilter: (
  * the report. To see `SUPRESSED` or `CLOSED` findings you must specify
  * a value for the `findingStatus` filter criteria.
  */
-export const createFindingsReport: (
-  input: CreateFindingsReportRequest,
-) => effect.Effect<
+export const createFindingsReport: API.OperationMethod<
+  CreateFindingsReportRequest,
   CreateFindingsReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6680,9 +6664,8 @@ export const createFindingsReport: (
 /**
  * Creates a software bill of materials (SBOM) report.
  */
-export const createSbomExport: (
-  input: CreateSbomExportRequest,
-) => effect.Effect<
+export const createSbomExport: API.OperationMethod<
+  CreateSbomExportRequest,
   CreateSbomExportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6705,9 +6688,8 @@ export const createSbomExport: (
 /**
  * Deletes a CIS scan configuration.
  */
-export const deleteCisScanConfiguration: (
-  input: DeleteCisScanConfigurationRequest,
-) => effect.Effect<
+export const deleteCisScanConfiguration: API.OperationMethod<
+  DeleteCisScanConfigurationRequest,
   DeleteCisScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6730,9 +6712,8 @@ export const deleteCisScanConfiguration: (
 /**
  * Deletes a code security integration.
  */
-export const deleteCodeSecurityIntegration: (
-  input: DeleteCodeSecurityIntegrationRequest,
-) => effect.Effect<
+export const deleteCodeSecurityIntegration: API.OperationMethod<
+  DeleteCodeSecurityIntegrationRequest,
   DeleteCodeSecurityIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6755,9 +6736,8 @@ export const deleteCodeSecurityIntegration: (
 /**
  * Deletes a code security scan configuration.
  */
-export const deleteCodeSecurityScanConfiguration: (
-  input: DeleteCodeSecurityScanConfigurationRequest,
-) => effect.Effect<
+export const deleteCodeSecurityScanConfiguration: API.OperationMethod<
+  DeleteCodeSecurityScanConfigurationRequest,
   DeleteCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6780,9 +6760,8 @@ export const deleteCodeSecurityScanConfiguration: (
 /**
  * Deletes a filter resource.
  */
-export const deleteFilter: (
-  input: DeleteFilterRequest,
-) => effect.Effect<
+export const deleteFilter: API.OperationMethod<
+  DeleteFilterRequest,
   DeleteFilterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6805,9 +6784,8 @@ export const deleteFilter: (
 /**
  * Describe Amazon Inspector configuration settings for an Amazon Web Services organization.
  */
-export const describeOrganizationConfiguration: (
-  input: DescribeOrganizationConfigurationRequest,
-) => effect.Effect<
+export const describeOrganizationConfiguration: API.OperationMethod<
+  DescribeOrganizationConfigurationRequest,
   DescribeOrganizationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6829,9 +6807,8 @@ export const describeOrganizationConfiguration: (
  * Disables Amazon Inspector scans for one or more Amazon Web Services accounts. Disabling all scan types in an
  * account disables the Amazon Inspector service.
  */
-export const disable: (
-  input: DisableRequest,
-) => effect.Effect<
+export const disable: API.OperationMethod<
+  DisableRequest,
   DisableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6854,9 +6831,8 @@ export const disable: (
 /**
  * Disables the Amazon Inspector delegated administrator for your organization.
  */
-export const disableDelegatedAdminAccount: (
-  input: DisableDelegatedAdminAccountRequest,
-) => effect.Effect<
+export const disableDelegatedAdminAccount: API.OperationMethod<
+  DisableDelegatedAdminAccountRequest,
   DisableDelegatedAdminAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -6881,9 +6857,8 @@ export const disableDelegatedAdminAccount: (
 /**
  * Disassociates a member account from an Amazon Inspector delegated administrator.
  */
-export const disassociateMember: (
-  input: DisassociateMemberRequest,
-) => effect.Effect<
+export const disassociateMember: API.OperationMethod<
+  DisassociateMemberRequest,
   DisassociateMemberResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6904,9 +6879,8 @@ export const disassociateMember: (
 /**
  * Enables Amazon Inspector scans for one or more Amazon Web Services accounts.
  */
-export const enable: (
-  input: EnableRequest,
-) => effect.Effect<
+export const enable: API.OperationMethod<
+  EnableRequest,
   EnableResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6929,9 +6903,8 @@ export const enable: (
 /**
  * Enables the Amazon Inspector delegated administrator for your Organizations organization.
  */
-export const enableDelegatedAdminAccount: (
-  input: EnableDelegatedAdminAccountRequest,
-) => effect.Effect<
+export const enableDelegatedAdminAccount: API.OperationMethod<
+  EnableDelegatedAdminAccountRequest,
   EnableDelegatedAdminAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -6956,9 +6929,8 @@ export const enableDelegatedAdminAccount: (
 /**
  * Retrieves a CIS scan report.
  */
-export const getCisScanReport: (
-  input: GetCisScanReportRequest,
-) => effect.Effect<
+export const getCisScanReport: API.OperationMethod<
+  GetCisScanReportRequest,
   GetCisScanReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6981,18 +6953,16 @@ export const getCisScanReport: (
 /**
  * Retrieves CIS scan result details.
  */
-export const getCisScanResultDetails: {
-  (
-    input: GetCisScanResultDetailsRequest,
-  ): effect.Effect<
-    GetCisScanResultDetailsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCisScanResultDetails: API.OperationMethod<
+  GetCisScanResultDetailsRequest,
+  GetCisScanResultDetailsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCisScanResultDetailsRequest,
   ) => stream.Stream<
@@ -7034,18 +7004,16 @@ export const getCisScanResultDetails: {
 /**
  * Returns a list of clusters and metadata associated with an image.
  */
-export const getClustersForImage: {
-  (
-    input: GetClustersForImageRequest,
-  ): effect.Effect<
-    GetClustersForImageResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getClustersForImage: API.OperationMethod<
+  GetClustersForImageRequest,
+  GetClustersForImageResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetClustersForImageRequest,
   ) => stream.Stream<
@@ -7087,9 +7055,8 @@ export const getClustersForImage: {
 /**
  * Retrieves information about a code security integration.
  */
-export const getCodeSecurityIntegration: (
-  input: GetCodeSecurityIntegrationRequest,
-) => effect.Effect<
+export const getCodeSecurityIntegration: API.OperationMethod<
+  GetCodeSecurityIntegrationRequest,
   GetCodeSecurityIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7112,9 +7079,8 @@ export const getCodeSecurityIntegration: (
 /**
  * Retrieves information about a specific code security scan.
  */
-export const getCodeSecurityScan: (
-  input: GetCodeSecurityScanRequest,
-) => effect.Effect<
+export const getCodeSecurityScan: API.OperationMethod<
+  GetCodeSecurityScanRequest,
   GetCodeSecurityScanResponse,
   | AccessDeniedException
   | ConflictException
@@ -7139,9 +7105,8 @@ export const getCodeSecurityScan: (
 /**
  * Retrieves information about a code security scan configuration.
  */
-export const getCodeSecurityScanConfiguration: (
-  input: GetCodeSecurityScanConfigurationRequest,
-) => effect.Effect<
+export const getCodeSecurityScanConfiguration: API.OperationMethod<
+  GetCodeSecurityScanConfigurationRequest,
   GetCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7164,9 +7129,8 @@ export const getCodeSecurityScanConfiguration: (
 /**
  * Retrieves setting configurations for Inspector scans.
  */
-export const getConfiguration: (
-  input: GetConfigurationRequest,
-) => effect.Effect<
+export const getConfiguration: API.OperationMethod<
+  GetConfigurationRequest,
   GetConfigurationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -7186,9 +7150,8 @@ export const getConfiguration: (
  * Retrieves information about the Amazon Inspector delegated administrator for your
  * organization.
  */
-export const getDelegatedAdminAccount: (
-  input: GetDelegatedAdminAccountRequest,
-) => effect.Effect<
+export const getDelegatedAdminAccount: API.OperationMethod<
+  GetDelegatedAdminAccountRequest,
   GetDelegatedAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7212,9 +7175,8 @@ export const getDelegatedAdminAccount: (
  * Retrieves the activation status of Amazon Inspector deep inspection and custom paths associated
  * with your account.
  */
-export const getEc2DeepInspectionConfiguration: (
-  input: GetEc2DeepInspectionConfigurationRequest,
-) => effect.Effect<
+export const getEc2DeepInspectionConfiguration: API.OperationMethod<
+  GetEc2DeepInspectionConfigurationRequest,
   GetEc2DeepInspectionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7235,9 +7197,8 @@ export const getEc2DeepInspectionConfiguration: (
 /**
  * Gets an encryption key.
  */
-export const getEncryptionKey: (
-  input: GetEncryptionKeyRequest,
-) => effect.Effect<
+export const getEncryptionKey: API.OperationMethod<
+  GetEncryptionKeyRequest,
   GetEncryptionKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7260,9 +7221,8 @@ export const getEncryptionKey: (
 /**
  * Gets the status of a findings report.
  */
-export const getFindingsReportStatus: (
-  input: GetFindingsReportStatusRequest,
-) => effect.Effect<
+export const getFindingsReportStatus: API.OperationMethod<
+  GetFindingsReportStatusRequest,
   GetFindingsReportStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7285,9 +7245,8 @@ export const getFindingsReportStatus: (
 /**
  * Gets member information for your organization.
  */
-export const getMember: (
-  input: GetMemberRequest,
-) => effect.Effect<
+export const getMember: API.OperationMethod<
+  GetMemberRequest,
   GetMemberResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7310,9 +7269,8 @@ export const getMember: (
 /**
  * Gets details of a software bill of materials (SBOM) report.
  */
-export const getSbomExport: (
-  input: GetSbomExportRequest,
-) => effect.Effect<
+export const getSbomExport: API.OperationMethod<
+  GetSbomExportRequest,
   GetSbomExportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7336,18 +7294,16 @@ export const getSbomExport: (
  * Lists the permissions an account has to configure Amazon Inspector.
  * If the account is a member account or standalone account with resources managed by an Organizations policy, the operation returns fewer permissions.
  */
-export const listAccountPermissions: {
-  (
-    input: ListAccountPermissionsRequest,
-  ): effect.Effect<
-    ListAccountPermissionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountPermissions: API.OperationMethod<
+  ListAccountPermissionsRequest,
+  ListAccountPermissionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountPermissionsRequest,
   ) => stream.Stream<
@@ -7389,18 +7345,16 @@ export const listAccountPermissions: {
 /**
  * Lists CIS scan configurations.
  */
-export const listCisScanConfigurations: {
-  (
-    input: ListCisScanConfigurationsRequest,
-  ): effect.Effect<
-    ListCisScanConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCisScanConfigurations: API.OperationMethod<
+  ListCisScanConfigurationsRequest,
+  ListCisScanConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCisScanConfigurationsRequest,
   ) => stream.Stream<
@@ -7442,18 +7396,16 @@ export const listCisScanConfigurations: {
 /**
  * Lists scan results aggregated by checks.
  */
-export const listCisScanResultsAggregatedByChecks: {
-  (
-    input: ListCisScanResultsAggregatedByChecksRequest,
-  ): effect.Effect<
-    ListCisScanResultsAggregatedByChecksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCisScanResultsAggregatedByChecks: API.OperationMethod<
+  ListCisScanResultsAggregatedByChecksRequest,
+  ListCisScanResultsAggregatedByChecksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCisScanResultsAggregatedByChecksRequest,
   ) => stream.Stream<
@@ -7495,18 +7447,16 @@ export const listCisScanResultsAggregatedByChecks: {
 /**
  * Lists scan results aggregated by a target resource.
  */
-export const listCisScanResultsAggregatedByTargetResource: {
-  (
-    input: ListCisScanResultsAggregatedByTargetResourceRequest,
-  ): effect.Effect<
-    ListCisScanResultsAggregatedByTargetResourceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCisScanResultsAggregatedByTargetResource: API.OperationMethod<
+  ListCisScanResultsAggregatedByTargetResourceRequest,
+  ListCisScanResultsAggregatedByTargetResourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCisScanResultsAggregatedByTargetResourceRequest,
   ) => stream.Stream<
@@ -7548,18 +7498,16 @@ export const listCisScanResultsAggregatedByTargetResource: {
 /**
  * Returns a CIS scan list.
  */
-export const listCisScans: {
-  (
-    input: ListCisScansRequest,
-  ): effect.Effect<
-    ListCisScansResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCisScans: API.OperationMethod<
+  ListCisScansRequest,
+  ListCisScansResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCisScansRequest,
   ) => stream.Stream<
@@ -7601,9 +7549,8 @@ export const listCisScans: {
 /**
  * Lists all code security integrations in your account.
  */
-export const listCodeSecurityIntegrations: (
-  input: ListCodeSecurityIntegrationsRequest,
-) => effect.Effect<
+export const listCodeSecurityIntegrations: API.OperationMethod<
+  ListCodeSecurityIntegrationsRequest,
   ListCodeSecurityIntegrationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7625,9 +7572,8 @@ export const listCodeSecurityIntegrations: (
  * Lists the associations between code repositories and Amazon Inspector code security scan
  * configurations.
  */
-export const listCodeSecurityScanConfigurationAssociations: (
-  input: ListCodeSecurityScanConfigurationAssociationsRequest,
-) => effect.Effect<
+export const listCodeSecurityScanConfigurationAssociations: API.OperationMethod<
+  ListCodeSecurityScanConfigurationAssociationsRequest,
   ListCodeSecurityScanConfigurationAssociationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7650,9 +7596,8 @@ export const listCodeSecurityScanConfigurationAssociations: (
 /**
  * Lists all code security scan configurations in your account.
  */
-export const listCodeSecurityScanConfigurations: (
-  input: ListCodeSecurityScanConfigurationsRequest,
-) => effect.Effect<
+export const listCodeSecurityScanConfigurations: API.OperationMethod<
+  ListCodeSecurityScanConfigurationsRequest,
   ListCodeSecurityScanConfigurationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7675,17 +7620,15 @@ export const listCodeSecurityScanConfigurations: (
 /**
  * Lists coverage details for your environment.
  */
-export const listCoverage: {
-  (
-    input: ListCoverageRequest,
-  ): effect.Effect<
-    ListCoverageResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCoverage: API.OperationMethod<
+  ListCoverageRequest,
+  ListCoverageResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCoverageRequest,
   ) => stream.Stream<
@@ -7720,17 +7663,15 @@ export const listCoverage: {
 /**
  * Lists Amazon Inspector coverage statistics for your environment.
  */
-export const listCoverageStatistics: {
-  (
-    input: ListCoverageStatisticsRequest,
-  ): effect.Effect<
-    ListCoverageStatisticsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCoverageStatistics: API.OperationMethod<
+  ListCoverageStatisticsRequest,
+  ListCoverageStatisticsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCoverageStatisticsRequest,
   ) => stream.Stream<
@@ -7764,18 +7705,16 @@ export const listCoverageStatistics: {
 /**
  * Lists information about the Amazon Inspector delegated administrator of your organization.
  */
-export const listDelegatedAdminAccounts: {
-  (
-    input: ListDelegatedAdminAccountsRequest,
-  ): effect.Effect<
-    ListDelegatedAdminAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDelegatedAdminAccounts: API.OperationMethod<
+  ListDelegatedAdminAccountsRequest,
+  ListDelegatedAdminAccountsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDelegatedAdminAccountsRequest,
   ) => stream.Stream<
@@ -7817,18 +7756,16 @@ export const listDelegatedAdminAccounts: {
 /**
  * Lists the filters associated with your account.
  */
-export const listFilters: {
-  (
-    input: ListFiltersRequest,
-  ): effect.Effect<
-    ListFiltersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFilters: API.OperationMethod<
+  ListFiltersRequest,
+  ListFiltersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFiltersRequest,
   ) => stream.Stream<
@@ -7870,17 +7807,15 @@ export const listFilters: {
 /**
  * Lists aggregated finding data for your environment based on specific criteria.
  */
-export const listFindingAggregations: {
-  (
-    input: ListFindingAggregationsRequest,
-  ): effect.Effect<
-    ListFindingAggregationsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindingAggregations: API.OperationMethod<
+  ListFindingAggregationsRequest,
+  ListFindingAggregationsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingAggregationsRequest,
   ) => stream.Stream<
@@ -7915,17 +7850,15 @@ export const listFindingAggregations: {
 /**
  * Lists findings for your environment.
  */
-export const listFindings: {
-  (
-    input: ListFindingsRequest,
-  ): effect.Effect<
-    ListFindingsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindings: API.OperationMethod<
+  ListFindingsRequest,
+  ListFindingsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingsRequest,
   ) => stream.Stream<
@@ -7961,18 +7894,16 @@ export const listFindings: {
  * List members associated with the Amazon Inspector delegated administrator for your
  * organization.
  */
-export const listMembers: {
-  (
-    input: ListMembersRequest,
-  ): effect.Effect<
-    ListMembersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMembers: API.OperationMethod<
+  ListMembersRequest,
+  ListMembersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembersRequest,
   ) => stream.Stream<
@@ -8014,9 +7945,8 @@ export const listMembers: {
 /**
  * Lists all tags attached to a given resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -8037,18 +7967,16 @@ export const listTagsForResource: (
 /**
  * Lists the Amazon Inspector usage totals over the last 30 days.
  */
-export const listUsageTotals: {
-  (
-    input: ListUsageTotalsRequest,
-  ): effect.Effect<
-    ListUsageTotalsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsageTotals: API.OperationMethod<
+  ListUsageTotalsRequest,
+  ListUsageTotalsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsageTotalsRequest,
   ) => stream.Stream<
@@ -8091,9 +8019,8 @@ export const listUsageTotals: {
  * Resets an encryption key. After the key is reset your resources will be encrypted by an
  * Amazon Web Services owned key.
  */
-export const resetEncryptionKey: (
-  input: ResetEncryptionKeyRequest,
-) => effect.Effect<
+export const resetEncryptionKey: API.OperationMethod<
+  ResetEncryptionKeyRequest,
   ResetEncryptionKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8116,18 +8043,16 @@ export const resetEncryptionKey: (
 /**
  * Lists Amazon Inspector coverage details for a specific vulnerability.
  */
-export const searchVulnerabilities: {
-  (
-    input: SearchVulnerabilitiesRequest,
-  ): effect.Effect<
-    SearchVulnerabilitiesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchVulnerabilities: API.OperationMethod<
+  SearchVulnerabilitiesRequest,
+  SearchVulnerabilitiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchVulnerabilitiesRequest,
   ) => stream.Stream<
@@ -8170,9 +8095,8 @@ export const searchVulnerabilities: {
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
-export const sendCisSessionHealth: (
-  input: SendCisSessionHealthRequest,
-) => effect.Effect<
+export const sendCisSessionHealth: API.OperationMethod<
+  SendCisSessionHealthRequest,
   SendCisSessionHealthResponse,
   | AccessDeniedException
   | ConflictException
@@ -8197,9 +8121,8 @@ export const sendCisSessionHealth: (
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
-export const sendCisSessionTelemetry: (
-  input: SendCisSessionTelemetryRequest,
-) => effect.Effect<
+export const sendCisSessionTelemetry: API.OperationMethod<
+  SendCisSessionTelemetryRequest,
   SendCisSessionTelemetryResponse,
   | AccessDeniedException
   | ConflictException
@@ -8224,9 +8147,8 @@ export const sendCisSessionTelemetry: (
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
  * this API to start a CIS scan session for the scan ID supplied by the service.
  */
-export const startCisSession: (
-  input: StartCisSessionRequest,
-) => effect.Effect<
+export const startCisSession: API.OperationMethod<
+  StartCisSessionRequest,
   StartCisSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8249,9 +8171,8 @@ export const startCisSession: (
 /**
  * Initiates a code security scan on a specified repository.
  */
-export const startCodeSecurityScan: (
-  input: StartCodeSecurityScanRequest,
-) => effect.Effect<
+export const startCodeSecurityScan: API.OperationMethod<
+  StartCodeSecurityScanRequest,
   StartCodeSecurityScanResponse,
   | AccessDeniedException
   | ConflictException
@@ -8278,9 +8199,8 @@ export const startCodeSecurityScan: (
  * communicate with the Amazon Inspector service. The Amazon Inspector SSM plugin calls
  * this API to stop a CIS scan session for the scan ID supplied by the service.
  */
-export const stopCisSession: (
-  input: StopCisSessionRequest,
-) => effect.Effect<
+export const stopCisSession: API.OperationMethod<
+  StopCisSessionRequest,
   StopCisSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8303,9 +8223,8 @@ export const stopCisSession: (
 /**
  * Adds tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -8328,9 +8247,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -8351,9 +8269,8 @@ export const untagResource: (
 /**
  * Updates a CIS scan configuration.
  */
-export const updateCisScanConfiguration: (
-  input: UpdateCisScanConfigurationRequest,
-) => effect.Effect<
+export const updateCisScanConfiguration: API.OperationMethod<
+  UpdateCisScanConfigurationRequest,
   UpdateCisScanConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8381,9 +8298,8 @@ export const updateCisScanConfiguration: (
  * `UpdateCodeSecurityIntegration` operation to provide the `details`
  * to complete the integration setup
  */
-export const updateCodeSecurityIntegration: (
-  input: UpdateCodeSecurityIntegrationRequest,
-) => effect.Effect<
+export const updateCodeSecurityIntegration: API.OperationMethod<
+  UpdateCodeSecurityIntegrationRequest,
   UpdateCodeSecurityIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -8408,9 +8324,8 @@ export const updateCodeSecurityIntegration: (
 /**
  * Updates an existing code security scan configuration.
  */
-export const updateCodeSecurityScanConfiguration: (
-  input: UpdateCodeSecurityScanConfigurationRequest,
-) => effect.Effect<
+export const updateCodeSecurityScanConfiguration: API.OperationMethod<
+  UpdateCodeSecurityScanConfigurationRequest,
   UpdateCodeSecurityScanConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -8437,9 +8352,8 @@ export const updateCodeSecurityScanConfiguration: (
  * delegated administrator this updates the setting for all accounts you manage. Member
  * accounts in an organization cannot update this setting.
  */
-export const updateConfiguration: (
-  input: UpdateConfigurationRequest,
-) => effect.Effect<
+export const updateConfiguration: API.OperationMethod<
+  UpdateConfigurationRequest,
   UpdateConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8460,9 +8374,8 @@ export const updateConfiguration: (
 /**
  * Activates, deactivates Amazon Inspector deep inspection, or updates custom paths for your account.
  */
-export const updateEc2DeepInspectionConfiguration: (
-  input: UpdateEc2DeepInspectionConfigurationRequest,
-) => effect.Effect<
+export const updateEc2DeepInspectionConfiguration: API.OperationMethod<
+  UpdateEc2DeepInspectionConfigurationRequest,
   UpdateEc2DeepInspectionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8484,9 +8397,8 @@ export const updateEc2DeepInspectionConfiguration: (
  * Updates an encryption key. A `ResourceNotFoundException` means that an
  * Amazon Web Services owned key is being used for encryption.
  */
-export const updateEncryptionKey: (
-  input: UpdateEncryptionKeyRequest,
-) => effect.Effect<
+export const updateEncryptionKey: API.OperationMethod<
+  UpdateEncryptionKeyRequest,
   UpdateEncryptionKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8509,9 +8421,8 @@ export const updateEncryptionKey: (
 /**
  * Specifies the action that is to be applied to the findings that match the filter.
  */
-export const updateFilter: (
-  input: UpdateFilterRequest,
-) => effect.Effect<
+export const updateFilter: API.OperationMethod<
+  UpdateFilterRequest,
   UpdateFilterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8534,9 +8445,8 @@ export const updateFilter: (
 /**
  * Updates the configurations for your Amazon Inspector organization.
  */
-export const updateOrganizationConfiguration: (
-  input: UpdateOrganizationConfigurationRequest,
-) => effect.Effect<
+export const updateOrganizationConfiguration: API.OperationMethod<
+  UpdateOrganizationConfigurationRequest,
   UpdateOrganizationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8558,9 +8468,8 @@ export const updateOrganizationConfiguration: (
  * Updates the Amazon Inspector deep inspection custom paths for your organization. You must be an
  * Amazon Inspector delegated administrator to use this API.
  */
-export const updateOrgEc2DeepInspectionConfiguration: (
-  input: UpdateOrgEc2DeepInspectionConfigurationRequest,
-) => effect.Effect<
+export const updateOrgEc2DeepInspectionConfiguration: API.OperationMethod<
+  UpdateOrgEc2DeepInspectionConfigurationRequest,
   UpdateOrgEc2DeepInspectionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException

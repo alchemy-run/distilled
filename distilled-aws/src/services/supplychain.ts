@@ -1796,9 +1796,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Enables you to programmatically view an Amazon Web Services Supply Chain Data Integration Event. Developers can view the eventType, eventGroupId, eventTimestamp, datasetTarget, datasetLoadExecution.
  */
-export const getDataIntegrationEvent: (
-  input: GetDataIntegrationEventRequest,
-) => effect.Effect<
+export const getDataIntegrationEvent: API.OperationMethod<
+  GetDataIntegrationEventRequest,
   GetDataIntegrationEventResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1821,9 +1820,8 @@ export const getDataIntegrationEvent: (
 /**
  * Get the flow execution.
  */
-export const getDataIntegrationFlowExecution: (
-  input: GetDataIntegrationFlowExecutionRequest,
-) => effect.Effect<
+export const getDataIntegrationFlowExecution: API.OperationMethod<
+  GetDataIntegrationFlowExecutionRequest,
   GetDataIntegrationFlowExecutionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1846,18 +1844,16 @@ export const getDataIntegrationFlowExecution: (
 /**
  * Enables you to programmatically list all data integration events for the provided Amazon Web Services Supply Chain instance.
  */
-export const listDataIntegrationEvents: {
-  (
-    input: ListDataIntegrationEventsRequest,
-  ): effect.Effect<
-    ListDataIntegrationEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataIntegrationEvents: API.OperationMethod<
+  ListDataIntegrationEventsRequest,
+  ListDataIntegrationEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataIntegrationEventsRequest,
   ) => stream.Stream<
@@ -1899,19 +1895,17 @@ export const listDataIntegrationEvents: {
 /**
  * List flow executions.
  */
-export const listDataIntegrationFlowExecutions: {
-  (
-    input: ListDataIntegrationFlowExecutionsRequest,
-  ): effect.Effect<
-    ListDataIntegrationFlowExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataIntegrationFlowExecutions: API.OperationMethod<
+  ListDataIntegrationFlowExecutionsRequest,
+  ListDataIntegrationFlowExecutionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataIntegrationFlowExecutionsRequest,
   ) => stream.Stream<
@@ -1956,9 +1950,8 @@ export const listDataIntegrationFlowExecutions: {
 /**
  * List all the tags for an Amazon Web ServicesSupply Chain resource. You can list all the tags added to a resource. By listing the tags, developers can view the tag level information on a resource and perform actions such as, deleting a resource associated with a particular tag.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1981,9 +1974,8 @@ export const listTagsForResource: (
 /**
  * Send the data payload for the event with real-time data for analysis or monitoring. The real-time data events are stored in an Amazon Web Services service before being processed and stored in data lake.
  */
-export const sendDataIntegrationEvent: (
-  input: SendDataIntegrationEventRequest,
-) => effect.Effect<
+export const sendDataIntegrationEvent: API.OperationMethod<
+  SendDataIntegrationEventRequest,
   SendDataIntegrationEventResponse,
   | AccessDeniedException
   | ConflictException
@@ -2010,9 +2002,8 @@ export const sendDataIntegrationEvent: (
 /**
  * You can create tags during or after creating a resource such as instance, data flow, or dataset in AWS Supply chain. During the data ingestion process, you can add tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets. You can use these tags to identify a group of resources or a single resource used by the developer.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2035,9 +2026,8 @@ export const tagResource: (
 /**
  * You can delete tags for an Amazon Web Services Supply chain resource such as instance, data flow, or dataset in AWS Supply Chain. During the data ingestion process, you can delete tags such as dev, test, or prod to data flows created during the data ingestion process in the AWS Supply Chain datasets.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2062,9 +2052,8 @@ export const untagResource: (
  *
  * The CSV file must be located in an Amazon S3 location accessible to AWS Supply Chain. It is recommended to use the same Amazon S3 bucket created during your AWS Supply Chain instance creation.
  */
-export const createBillOfMaterialsImportJob: (
-  input: CreateBillOfMaterialsImportJobRequest,
-) => effect.Effect<
+export const createBillOfMaterialsImportJob: API.OperationMethod<
+  CreateBillOfMaterialsImportJobRequest,
   CreateBillOfMaterialsImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2089,9 +2078,8 @@ export const createBillOfMaterialsImportJob: (
 /**
  * Get status and details of a BillOfMaterialsImportJob.
  */
-export const getBillOfMaterialsImportJob: (
-  input: GetBillOfMaterialsImportJobRequest,
-) => effect.Effect<
+export const getBillOfMaterialsImportJob: API.OperationMethod<
+  GetBillOfMaterialsImportJobRequest,
   GetBillOfMaterialsImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2114,9 +2102,8 @@ export const getBillOfMaterialsImportJob: (
 /**
  * Enables you to programmatically create a data pipeline to ingest data from source systems such as Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
  */
-export const createDataIntegrationFlow: (
-  input: CreateDataIntegrationFlowRequest,
-) => effect.Effect<
+export const createDataIntegrationFlow: API.OperationMethod<
+  CreateDataIntegrationFlowRequest,
   CreateDataIntegrationFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -2141,9 +2128,8 @@ export const createDataIntegrationFlow: (
 /**
  * Enables you to programmatically view a specific data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
  */
-export const getDataIntegrationFlow: (
-  input: GetDataIntegrationFlowRequest,
-) => effect.Effect<
+export const getDataIntegrationFlow: API.OperationMethod<
+  GetDataIntegrationFlowRequest,
   GetDataIntegrationFlowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2166,9 +2152,8 @@ export const getDataIntegrationFlow: (
 /**
  * Enables you to programmatically update an existing data pipeline to ingest data from the source systems such as, Amazon S3 buckets, to a predefined Amazon Web Services Supply Chain dataset (product, inbound_order) or a temporary dataset along with the data transformation query provided with the API.
  */
-export const updateDataIntegrationFlow: (
-  input: UpdateDataIntegrationFlowRequest,
-) => effect.Effect<
+export const updateDataIntegrationFlow: API.OperationMethod<
+  UpdateDataIntegrationFlowRequest,
   UpdateDataIntegrationFlowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2191,9 +2176,8 @@ export const updateDataIntegrationFlow: (
 /**
  * Enable you to programmatically delete an existing data pipeline for the provided Amazon Web Services Supply Chain instance and DataIntegrationFlow name.
  */
-export const deleteDataIntegrationFlow: (
-  input: DeleteDataIntegrationFlowRequest,
-) => effect.Effect<
+export const deleteDataIntegrationFlow: API.OperationMethod<
+  DeleteDataIntegrationFlowRequest,
   DeleteDataIntegrationFlowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2214,18 +2198,16 @@ export const deleteDataIntegrationFlow: (
 /**
  * Enables you to programmatically list all data pipelines for the provided Amazon Web Services Supply Chain instance.
  */
-export const listDataIntegrationFlows: {
-  (
-    input: ListDataIntegrationFlowsRequest,
-  ): effect.Effect<
-    ListDataIntegrationFlowsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataIntegrationFlows: API.OperationMethod<
+  ListDataIntegrationFlowsRequest,
+  ListDataIntegrationFlowsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataIntegrationFlowsRequest,
   ) => stream.Stream<
@@ -2267,9 +2249,8 @@ export const listDataIntegrationFlows: {
 /**
  * Enables you to programmatically create an Amazon Web Services Supply Chain data lake dataset. Developers can create the datasets using their pre-defined or custom schema for a given instance ID, namespace, and dataset name.
  */
-export const createDataLakeDataset: (
-  input: CreateDataLakeDatasetRequest,
-) => effect.Effect<
+export const createDataLakeDataset: API.OperationMethod<
+  CreateDataLakeDatasetRequest,
   CreateDataLakeDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2296,9 +2277,8 @@ export const createDataLakeDataset: (
 /**
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake dataset. Developers can view the data lake dataset information such as namespace, schema, and so on for a given instance ID, namespace, and dataset name.
  */
-export const getDataLakeDataset: (
-  input: GetDataLakeDatasetRequest,
-) => effect.Effect<
+export const getDataLakeDataset: API.OperationMethod<
+  GetDataLakeDatasetRequest,
   GetDataLakeDatasetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2321,9 +2301,8 @@ export const getDataLakeDataset: (
 /**
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake dataset. Developers can update the description of a data lake dataset for a given instance ID, namespace, and dataset name.
  */
-export const updateDataLakeDataset: (
-  input: UpdateDataLakeDatasetRequest,
-) => effect.Effect<
+export const updateDataLakeDataset: API.OperationMethod<
+  UpdateDataLakeDatasetRequest,
   UpdateDataLakeDatasetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2346,9 +2325,8 @@ export const updateDataLakeDataset: (
 /**
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake dataset. Developers can delete the existing datasets for a given instance ID, namespace, and instance name.
  */
-export const deleteDataLakeDataset: (
-  input: DeleteDataLakeDatasetRequest,
-) => effect.Effect<
+export const deleteDataLakeDataset: API.OperationMethod<
+  DeleteDataLakeDatasetRequest,
   DeleteDataLakeDatasetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2371,19 +2349,17 @@ export const deleteDataLakeDataset: (
 /**
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake datasets. Developers can view the datasets and the corresponding information such as namespace, schema, and so on for a given instance ID and namespace.
  */
-export const listDataLakeDatasets: {
-  (
-    input: ListDataLakeDatasetsRequest,
-  ): effect.Effect<
-    ListDataLakeDatasetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataLakeDatasets: API.OperationMethod<
+  ListDataLakeDatasetsRequest,
+  ListDataLakeDatasetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataLakeDatasetsRequest,
   ) => stream.Stream<
@@ -2428,9 +2404,8 @@ export const listDataLakeDatasets: {
 /**
  * Enables you to programmatically create an Amazon Web Services Supply Chain data lake namespace. Developers can create the namespaces for a given instance ID.
  */
-export const createDataLakeNamespace: (
-  input: CreateDataLakeNamespaceRequest,
-) => effect.Effect<
+export const createDataLakeNamespace: API.OperationMethod<
+  CreateDataLakeNamespaceRequest,
   CreateDataLakeNamespaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2455,9 +2430,8 @@ export const createDataLakeNamespace: (
 /**
  * Enables you to programmatically view an Amazon Web Services Supply Chain data lake namespace. Developers can view the data lake namespace information such as description for a given instance ID and namespace name.
  */
-export const getDataLakeNamespace: (
-  input: GetDataLakeNamespaceRequest,
-) => effect.Effect<
+export const getDataLakeNamespace: API.OperationMethod<
+  GetDataLakeNamespaceRequest,
   GetDataLakeNamespaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2480,9 +2454,8 @@ export const getDataLakeNamespace: (
 /**
  * Enables you to programmatically update an Amazon Web Services Supply Chain data lake namespace. Developers can update the description of a data lake namespace for a given instance ID and namespace name.
  */
-export const updateDataLakeNamespace: (
-  input: UpdateDataLakeNamespaceRequest,
-) => effect.Effect<
+export const updateDataLakeNamespace: API.OperationMethod<
+  UpdateDataLakeNamespaceRequest,
   UpdateDataLakeNamespaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2505,9 +2478,8 @@ export const updateDataLakeNamespace: (
 /**
  * Enables you to programmatically delete an Amazon Web Services Supply Chain data lake namespace and its underling datasets. Developers can delete the existing namespaces for a given instance ID and namespace name.
  */
-export const deleteDataLakeNamespace: (
-  input: DeleteDataLakeNamespaceRequest,
-) => effect.Effect<
+export const deleteDataLakeNamespace: API.OperationMethod<
+  DeleteDataLakeNamespaceRequest,
   DeleteDataLakeNamespaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2530,18 +2502,16 @@ export const deleteDataLakeNamespace: (
 /**
  * Enables you to programmatically view the list of Amazon Web Services Supply Chain data lake namespaces. Developers can view the namespaces and the corresponding information such as description for a given instance ID. Note that this API only return custom namespaces, instance pre-defined namespaces are not included.
  */
-export const listDataLakeNamespaces: {
-  (
-    input: ListDataLakeNamespacesRequest,
-  ): effect.Effect<
-    ListDataLakeNamespacesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataLakeNamespaces: API.OperationMethod<
+  ListDataLakeNamespacesRequest,
+  ListDataLakeNamespacesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataLakeNamespacesRequest,
   ) => stream.Stream<
@@ -2585,9 +2555,8 @@ export const listDataLakeNamespaces: {
  *
  * This is an asynchronous operation. Upon receiving a CreateInstance request, Amazon Web Services Supply Chain immediately returns the instance resource, instance ID, and the initializing state while simultaneously creating all required Amazon Web Services resources for an instance creation. You can use GetInstance to check the status of the instance. If the instance results in an unhealthy state, you need to check the error message, delete the current instance, and recreate a new one based on the mitigation from the error message.
  */
-export const createInstance: (
-  input: CreateInstanceRequest,
-) => effect.Effect<
+export const createInstance: API.OperationMethod<
+  CreateInstanceRequest,
   CreateInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2612,9 +2581,8 @@ export const createInstance: (
 /**
  * Enables you to programmatically retrieve the information related to an Amazon Web Services Supply Chain instance ID.
  */
-export const getInstance: (
-  input: GetInstanceRequest,
-) => effect.Effect<
+export const getInstance: API.OperationMethod<
+  GetInstanceRequest,
   GetInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2637,9 +2605,8 @@ export const getInstance: (
 /**
  * Enables you to programmatically update an Amazon Web Services Supply Chain instance description by providing all the relevant information such as account ID, instance ID and so on without using the AWS console.
  */
-export const updateInstance: (
-  input: UpdateInstanceRequest,
-) => effect.Effect<
+export const updateInstance: API.OperationMethod<
+  UpdateInstanceRequest,
   UpdateInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2664,9 +2631,8 @@ export const updateInstance: (
  *
  * This is an asynchronous operation. Upon receiving a DeleteInstance request, Amazon Web Services Supply Chain immediately returns a response with the instance resource, delete state while cleaning up all Amazon Web Services resources created during the instance creation process. You can use the GetInstance action to check the instance status.
  */
-export const deleteInstance: (
-  input: DeleteInstanceRequest,
-) => effect.Effect<
+export const deleteInstance: API.OperationMethod<
+  DeleteInstanceRequest,
   DeleteInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2689,18 +2655,16 @@ export const deleteInstance: (
 /**
  * List all Amazon Web Services Supply Chain instances for a specific account. Enables you to programmatically list all Amazon Web Services Supply Chain instances based on their account ID, instance name, and state of the instance (active or delete).
  */
-export const listInstances: {
-  (
-    input: ListInstancesRequest,
-  ): effect.Effect<
-    ListInstancesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInstances: API.OperationMethod<
+  ListInstancesRequest,
+  ListInstancesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstancesRequest,
   ) => stream.Stream<

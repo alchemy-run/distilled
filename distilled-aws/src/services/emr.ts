@@ -4529,9 +4529,8 @@ export class InternalServerError extends S.TaggedErrorClass<InternalServerError>
  * The instance fleet configuration is available only in Amazon EMR releases
  * 4.8.0 and later, excluding 5.0.x.
  */
-export const addInstanceFleet: (
-  input: AddInstanceFleetInput,
-) => effect.Effect<
+export const addInstanceFleet: API.OperationMethod<
+  AddInstanceFleetInput,
   AddInstanceFleetOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4543,9 +4542,8 @@ export const addInstanceFleet: (
 /**
  * Adds one or more instance groups to a running cluster.
  */
-export const addInstanceGroups: (
-  input: AddInstanceGroupsInput,
-) => effect.Effect<
+export const addInstanceGroups: API.OperationMethod<
+  AddInstanceGroupsInput,
   AddInstanceGroupsOutput,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4578,9 +4576,8 @@ export const addInstanceGroups: (
  * The string values passed into `HadoopJarStep` object cannot exceed a total
  * of 10240 characters.
  */
-export const addJobFlowSteps: (
-  input: AddJobFlowStepsInput,
-) => effect.Effect<
+export const addJobFlowSteps: API.OperationMethod<
+  AddJobFlowStepsInput,
   AddJobFlowStepsOutput,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4596,9 +4593,8 @@ export const addJobFlowSteps: (
  * see Tag
  * Clusters.
  */
-export const addTags: (
-  input: AddTagsInput,
-) => effect.Effect<
+export const addTags: API.OperationMethod<
+  AddTagsInput,
   AddTagsOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4614,9 +4610,8 @@ export const addTags: (
  * Amazon EMR releases 5.28.0 and later, you can cancel steps that are in a
  * `PENDING` or `RUNNING` state. In earlier versions of Amazon EMR, you can only cancel steps that are in a `PENDING` state.
  */
-export const cancelSteps: (
-  input: CancelStepsInput,
-) => effect.Effect<
+export const cancelSteps: API.OperationMethod<
+  CancelStepsInput,
   CancelStepsOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4628,9 +4623,8 @@ export const cancelSteps: (
 /**
  * Creates a persistent application user interface.
  */
-export const createPersistentAppUI: (
-  input: CreatePersistentAppUIInput,
-) => effect.Effect<
+export const createPersistentAppUI: API.OperationMethod<
+  CreatePersistentAppUIInput,
   CreatePersistentAppUIOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4643,9 +4637,8 @@ export const createPersistentAppUI: (
  * Creates a security configuration, which is stored in the service and can be specified
  * when a cluster is created.
  */
-export const createSecurityConfiguration: (
-  input: CreateSecurityConfigurationInput,
-) => effect.Effect<
+export const createSecurityConfiguration: API.OperationMethod<
+  CreateSecurityConfigurationInput,
   CreateSecurityConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4657,9 +4650,8 @@ export const createSecurityConfiguration: (
 /**
  * Creates a new Amazon EMR Studio.
  */
-export const createStudio: (
-  input: CreateStudioInput,
-) => effect.Effect<
+export const createStudio: API.OperationMethod<
+  CreateStudioInput,
   CreateStudioOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4675,9 +4667,8 @@ export const createStudio: (
  * you use IAM Identity Center authentication. For instructions on how to assign users to a
  * Studio when you use IAM authentication, see Assign a user or group to your EMR Studio.
  */
-export const createStudioSessionMapping: (
-  input: CreateStudioSessionMappingInput,
-) => effect.Effect<
+export const createStudioSessionMapping: API.OperationMethod<
+  CreateStudioSessionMappingInput,
   CreateStudioSessionMappingResponse,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4689,9 +4680,8 @@ export const createStudioSessionMapping: (
 /**
  * Deletes a security configuration.
  */
-export const deleteSecurityConfiguration: (
-  input: DeleteSecurityConfigurationInput,
-) => effect.Effect<
+export const deleteSecurityConfiguration: API.OperationMethod<
+  DeleteSecurityConfigurationInput,
   DeleteSecurityConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4703,9 +4693,8 @@ export const deleteSecurityConfiguration: (
 /**
  * Removes an Amazon EMR Studio from the Studio metadata store.
  */
-export const deleteStudio: (
-  input: DeleteStudioInput,
-) => effect.Effect<
+export const deleteStudio: API.OperationMethod<
+  DeleteStudioInput,
   DeleteStudioResponse,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4717,9 +4706,8 @@ export const deleteStudio: (
 /**
  * Removes a user or group from an Amazon EMR Studio.
  */
-export const deleteStudioSessionMapping: (
-  input: DeleteStudioSessionMappingInput,
-) => effect.Effect<
+export const deleteStudioSessionMapping: API.OperationMethod<
+  DeleteStudioSessionMappingInput,
   DeleteStudioSessionMappingResponse,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4732,9 +4720,8 @@ export const deleteStudioSessionMapping: (
  * Provides cluster-level details including status, hardware and software configuration,
  * VPC settings, and so on.
  */
-export const describeCluster: (
-  input: DescribeClusterInput,
-) => effect.Effect<
+export const describeCluster: API.OperationMethod<
+  DescribeClusterInput,
   DescribeClusterOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4765,9 +4752,8 @@ export const describeCluster: (
  *
  * Amazon EMR can return a maximum of 512 job flow descriptions.
  */
-export const describeJobFlows: (
-  input: DescribeJobFlowsInput,
-) => effect.Effect<
+export const describeJobFlows: API.OperationMethod<
+  DescribeJobFlowsInput,
   DescribeJobFlowsOutput,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4779,9 +4765,8 @@ export const describeJobFlows: (
 /**
  * Provides details of a notebook execution.
  */
-export const describeNotebookExecution: (
-  input: DescribeNotebookExecutionInput,
-) => effect.Effect<
+export const describeNotebookExecution: API.OperationMethod<
+  DescribeNotebookExecutionInput,
   DescribeNotebookExecutionOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4793,9 +4778,8 @@ export const describeNotebookExecution: (
 /**
  * Describes a persistent application user interface.
  */
-export const describePersistentAppUI: (
-  input: DescribePersistentAppUIInput,
-) => effect.Effect<
+export const describePersistentAppUI: API.OperationMethod<
+  DescribePersistentAppUIInput,
   DescribePersistentAppUIOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4809,9 +4793,8 @@ export const describePersistentAppUI: (
  * Region where the API request is run, and the available applications for a specific Amazon EMR release label. Can also list Amazon EMR releases that support a
  * specified version of Spark.
  */
-export const describeReleaseLabel: (
-  input: DescribeReleaseLabelInput,
-) => effect.Effect<
+export const describeReleaseLabel: API.OperationMethod<
+  DescribeReleaseLabelInput,
   DescribeReleaseLabelOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4824,9 +4807,8 @@ export const describeReleaseLabel: (
  * Provides the details of a security configuration by returning the configuration
  * JSON.
  */
-export const describeSecurityConfiguration: (
-  input: DescribeSecurityConfigurationInput,
-) => effect.Effect<
+export const describeSecurityConfiguration: API.OperationMethod<
+  DescribeSecurityConfigurationInput,
   DescribeSecurityConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4838,9 +4820,8 @@ export const describeSecurityConfiguration: (
 /**
  * Provides more detail about the cluster step.
  */
-export const describeStep: (
-  input: DescribeStepInput,
-) => effect.Effect<
+export const describeStep: API.OperationMethod<
+  DescribeStepInput,
   DescribeStepOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4853,9 +4834,8 @@ export const describeStep: (
  * Returns details for the specified Amazon EMR Studio including ID, Name, VPC,
  * Studio access URL, and so on.
  */
-export const describeStudio: (
-  input: DescribeStudioInput,
-) => effect.Effect<
+export const describeStudio: API.OperationMethod<
+  DescribeStudioInput,
   DescribeStudioOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4867,9 +4847,8 @@ export const describeStudio: (
 /**
  * Returns the auto-termination policy for an Amazon EMR cluster.
  */
-export const getAutoTerminationPolicy: (
-  input: GetAutoTerminationPolicyInput,
-) => effect.Effect<
+export const getAutoTerminationPolicy: API.OperationMethod<
+  GetAutoTerminationPolicyInput,
   GetAutoTerminationPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4883,9 +4862,8 @@ export const getAutoTerminationPolicy: (
  * Public Access for Amazon EMR in the Amazon EMR
  * Management Guide.
  */
-export const getBlockPublicAccessConfiguration: (
-  input: GetBlockPublicAccessConfigurationInput,
-) => effect.Effect<
+export const getBlockPublicAccessConfiguration: API.OperationMethod<
+  GetBlockPublicAccessConfigurationInput,
   GetBlockPublicAccessConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4900,9 +4878,8 @@ export const getBlockPublicAccessConfiguration: (
  * activated. You can use these credentials to connect to cluster endpoints that support
  * username and password authentication.
  */
-export const getClusterSessionCredentials: (
-  input: GetClusterSessionCredentialsInput,
-) => effect.Effect<
+export const getClusterSessionCredentials: API.OperationMethod<
+  GetClusterSessionCredentialsInput,
   GetClusterSessionCredentialsOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4914,9 +4891,8 @@ export const getClusterSessionCredentials: (
 /**
  * Fetches the attached managed scaling policy for an Amazon EMR cluster.
  */
-export const getManagedScalingPolicy: (
-  input: GetManagedScalingPolicyInput,
-) => effect.Effect<
+export const getManagedScalingPolicy: API.OperationMethod<
+  GetManagedScalingPolicyInput,
   GetManagedScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4928,9 +4904,8 @@ export const getManagedScalingPolicy: (
 /**
  * The presigned URL properties for the cluster's application user interface.
  */
-export const getOnClusterAppUIPresignedURL: (
-  input: GetOnClusterAppUIPresignedURLInput,
-) => effect.Effect<
+export const getOnClusterAppUIPresignedURL: API.OperationMethod<
+  GetOnClusterAppUIPresignedURLInput,
   GetOnClusterAppUIPresignedURLOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4942,9 +4917,8 @@ export const getOnClusterAppUIPresignedURL: (
 /**
  * The presigned URL properties for the cluster's application user interface.
  */
-export const getPersistentAppUIPresignedURL: (
-  input: GetPersistentAppUIPresignedURLInput,
-) => effect.Effect<
+export const getPersistentAppUIPresignedURL: API.OperationMethod<
+  GetPersistentAppUIPresignedURLInput,
   GetPersistentAppUIPresignedURLOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4957,9 +4931,8 @@ export const getPersistentAppUIPresignedURL: (
  * Fetches mapping details for the specified Amazon EMR Studio and identity (user
  * or group).
  */
-export const getStudioSessionMapping: (
-  input: GetStudioSessionMappingInput,
-) => effect.Effect<
+export const getStudioSessionMapping: API.OperationMethod<
+  GetStudioSessionMappingInput,
   GetStudioSessionMappingOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -4971,14 +4944,12 @@ export const getStudioSessionMapping: (
 /**
  * Provides information about the bootstrap actions associated with a cluster.
  */
-export const listBootstrapActions: {
-  (
-    input: ListBootstrapActionsInput,
-  ): effect.Effect<
-    ListBootstrapActionsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listBootstrapActions: API.OperationMethod<
+  ListBootstrapActionsInput,
+  ListBootstrapActionsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBootstrapActionsInput,
   ) => stream.Stream<
@@ -5010,14 +4981,12 @@ export const listBootstrapActions: {
  * unsorted order per call, but returns a marker to track the paging of the cluster list
  * across multiple ListClusters calls.
  */
-export const listClusters: {
-  (
-    input: ListClustersInput,
-  ): effect.Effect<
-    ListClustersOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersInput,
+  ListClustersOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersInput,
   ) => stream.Stream<
@@ -5048,14 +5017,12 @@ export const listClusters: {
  * The instance fleet configuration is available only in Amazon EMR releases
  * 4.8.0 and later, excluding 5.0.x versions.
  */
-export const listInstanceFleets: {
-  (
-    input: ListInstanceFleetsInput,
-  ): effect.Effect<
-    ListInstanceFleetsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listInstanceFleets: API.OperationMethod<
+  ListInstanceFleetsInput,
+  ListInstanceFleetsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstanceFleetsInput,
   ) => stream.Stream<
@@ -5083,14 +5050,12 @@ export const listInstanceFleets: {
 /**
  * Provides all available details about the instance groups in a cluster.
  */
-export const listInstanceGroups: {
-  (
-    input: ListInstanceGroupsInput,
-  ): effect.Effect<
-    ListInstanceGroupsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listInstanceGroups: API.OperationMethod<
+  ListInstanceGroupsInput,
+  ListInstanceGroupsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstanceGroupsInput,
   ) => stream.Stream<
@@ -5121,14 +5086,12 @@ export const listInstanceGroups: {
  * instances in any of the following states are considered active: AWAITING_FULFILLMENT,
  * PROVISIONING, BOOTSTRAPPING, RUNNING.
  */
-export const listInstances: {
-  (
-    input: ListInstancesInput,
-  ): effect.Effect<
-    ListInstancesOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listInstances: API.OperationMethod<
+  ListInstancesInput,
+  ListInstancesOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstancesInput,
   ) => stream.Stream<
@@ -5159,14 +5122,12 @@ export const listInstances: {
  * executions and a marker to track the paging of a longer notebook execution list across
  * multiple `ListNotebookExecutions` calls.
  */
-export const listNotebookExecutions: {
-  (
-    input: ListNotebookExecutionsInput,
-  ): effect.Effect<
-    ListNotebookExecutionsOutput,
-    InternalServerError | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listNotebookExecutions: API.OperationMethod<
+  ListNotebookExecutionsInput,
+  ListNotebookExecutionsOutput,
+  InternalServerError | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotebookExecutionsInput,
   ) => stream.Stream<
@@ -5195,14 +5156,12 @@ export const listNotebookExecutions: {
  * Retrieves release labels of Amazon EMR services in the Region where the API is
  * called.
  */
-export const listReleaseLabels: {
-  (
-    input: ListReleaseLabelsInput,
-  ): effect.Effect<
-    ListReleaseLabelsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listReleaseLabels: API.OperationMethod<
+  ListReleaseLabelsInput,
+  ListReleaseLabelsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReleaseLabelsInput,
   ) => stream.Stream<
@@ -5233,14 +5192,12 @@ export const listReleaseLabels: {
  * returns a marker to track the paging of the cluster list across multiple
  * ListSecurityConfigurations calls.
  */
-export const listSecurityConfigurations: {
-  (
-    input: ListSecurityConfigurationsInput,
-  ): effect.Effect<
-    ListSecurityConfigurationsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listSecurityConfigurations: API.OperationMethod<
+  ListSecurityConfigurationsInput,
+  ListSecurityConfigurationsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityConfigurationsInput,
   ) => stream.Stream<
@@ -5273,14 +5230,12 @@ export const listSecurityConfigurations: {
  * using the CLI, specify a `Marker`, which is a pagination token
  * that indicates the next set of steps to retrieve.
  */
-export const listSteps: {
-  (
-    input: ListStepsInput,
-  ): effect.Effect<
-    ListStepsOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listSteps: API.OperationMethod<
+  ListStepsInput,
+  ListStepsOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStepsInput,
   ) => stream.Stream<
@@ -5309,14 +5264,12 @@ export const listSteps: {
  * Returns a list of all Amazon EMR Studios associated with the Amazon Web Services account. The list includes details such as ID, Studio Access URL, and
  * creation time for each Studio.
  */
-export const listStudios: {
-  (
-    input: ListStudiosInput,
-  ): effect.Effect<
-    ListStudiosOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listStudios: API.OperationMethod<
+  ListStudiosInput,
+  ListStudiosOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStudiosInput,
   ) => stream.Stream<
@@ -5345,14 +5298,12 @@ export const listStudios: {
  * Returns a list of all user or group session mappings for the Amazon EMR Studio
  * specified by `StudioId`.
  */
-export const listStudioSessionMappings: {
-  (
-    input: ListStudioSessionMappingsInput,
-  ): effect.Effect<
-    ListStudioSessionMappingsOutput,
-    InternalServerError | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listStudioSessionMappings: API.OperationMethod<
+  ListStudioSessionMappingsInput,
+  ListStudioSessionMappingsOutput,
+  InternalServerError | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStudioSessionMappingsInput,
   ) => stream.Stream<
@@ -5381,14 +5332,12 @@ export const listStudioSessionMappings: {
  * A list of the instance types that Amazon EMR supports. You can filter the
  * list by Amazon Web Services Region and Amazon EMR release.
  */
-export const listSupportedInstanceTypes: {
-  (
-    input: ListSupportedInstanceTypesInput,
-  ): effect.Effect<
-    ListSupportedInstanceTypesOutput,
-    InternalServerException | InvalidRequestException | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listSupportedInstanceTypes: API.OperationMethod<
+  ListSupportedInstanceTypesInput,
+  ListSupportedInstanceTypesOutput,
+  InternalServerException | InvalidRequestException | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSupportedInstanceTypesInput,
   ) => stream.Stream<
@@ -5413,9 +5362,8 @@ export const listSupportedInstanceTypes: {
  * Modifies the number of steps that can be executed concurrently for the cluster specified
  * using ClusterID.
  */
-export const modifyCluster: (
-  input: ModifyClusterInput,
-) => effect.Effect<
+export const modifyCluster: API.OperationMethod<
+  ModifyClusterInput,
   ModifyClusterOutput,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5432,9 +5380,8 @@ export const modifyCluster: (
  * The instance fleet configuration is available only in Amazon EMR releases
  * 4.8.0 and later, excluding 5.0.x versions.
  */
-export const modifyInstanceFleet: (
-  input: ModifyInstanceFleetInput,
-) => effect.Effect<
+export const modifyInstanceFleet: API.OperationMethod<
+  ModifyInstanceFleetInput,
   ModifyInstanceFleetResponse,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5448,9 +5395,8 @@ export const modifyInstanceFleet: (
  * instance group. The input parameters include the new target instance count for the group
  * and the instance group ID. The call will either succeed or fail atomically.
  */
-export const modifyInstanceGroups: (
-  input: ModifyInstanceGroupsInput,
-) => effect.Effect<
+export const modifyInstanceGroups: API.OperationMethod<
+  ModifyInstanceGroupsInput,
   ModifyInstanceGroupsResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5465,9 +5411,8 @@ export const modifyInstanceGroups: (
  * an instance group dynamically adds and terminates Amazon EC2 instances in response
  * to the value of a CloudWatch metric.
  */
-export const putAutoScalingPolicy: (
-  input: PutAutoScalingPolicyInput,
-) => effect.Effect<
+export const putAutoScalingPolicy: API.OperationMethod<
+  PutAutoScalingPolicyInput,
   PutAutoScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5486,9 +5431,8 @@ export const putAutoScalingPolicy: (
  * automatically terminates. For alternative cluster termination options, see Control
  * cluster termination.
  */
-export const putAutoTerminationPolicy: (
-  input: PutAutoTerminationPolicyInput,
-) => effect.Effect<
+export const putAutoTerminationPolicy: API.OperationMethod<
+  PutAutoTerminationPolicyInput,
   PutAutoTerminationPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5503,9 +5447,8 @@ export const putAutoTerminationPolicy: (
  * Public Access for Amazon EMR in the Amazon EMR
  * Management Guide.
  */
-export const putBlockPublicAccessConfiguration: (
-  input: PutBlockPublicAccessConfigurationInput,
-) => effect.Effect<
+export const putBlockPublicAccessConfiguration: API.OperationMethod<
+  PutBlockPublicAccessConfigurationInput,
   PutBlockPublicAccessConfigurationOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5520,9 +5463,8 @@ export const putBlockPublicAccessConfiguration: (
  * instances that can be added or terminated from a cluster. The policy only applies to the
  * core and task nodes. The master node cannot be scaled after initial configuration.
  */
-export const putManagedScalingPolicy: (
-  input: PutManagedScalingPolicyInput,
-) => effect.Effect<
+export const putManagedScalingPolicy: API.OperationMethod<
+  PutManagedScalingPolicyInput,
   PutManagedScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5534,9 +5476,8 @@ export const putManagedScalingPolicy: (
 /**
  * Removes an automatic scaling policy from a specified instance group within an Amazon EMR cluster.
  */
-export const removeAutoScalingPolicy: (
-  input: RemoveAutoScalingPolicyInput,
-) => effect.Effect<
+export const removeAutoScalingPolicy: API.OperationMethod<
+  RemoveAutoScalingPolicyInput,
   RemoveAutoScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5548,9 +5489,8 @@ export const removeAutoScalingPolicy: (
 /**
  * Removes an auto-termination policy from an Amazon EMR cluster.
  */
-export const removeAutoTerminationPolicy: (
-  input: RemoveAutoTerminationPolicyInput,
-) => effect.Effect<
+export const removeAutoTerminationPolicy: API.OperationMethod<
+  RemoveAutoTerminationPolicyInput,
   RemoveAutoTerminationPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5562,9 +5502,8 @@ export const removeAutoTerminationPolicy: (
 /**
  * Removes a managed scaling policy from a specified Amazon EMR cluster.
  */
-export const removeManagedScalingPolicy: (
-  input: RemoveManagedScalingPolicyInput,
-) => effect.Effect<
+export const removeManagedScalingPolicy: API.OperationMethod<
+  RemoveManagedScalingPolicyInput,
   RemoveManagedScalingPolicyOutput,
   CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5581,9 +5520,8 @@ export const removeManagedScalingPolicy: (
  *
  * The following example removes the stack tag with value Prod from a cluster:
  */
-export const removeTags: (
-  input: RemoveTagsInput,
-) => effect.Effect<
+export const removeTags: API.OperationMethod<
+  RemoveTagsInput,
   RemoveTagsOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5619,9 +5557,8 @@ export const removeTags: (
  * 4.8.0 and later, excluding 5.0.x versions. The RunJobFlow request can contain
  * InstanceFleets parameters or InstanceGroups parameters, but not both.
  */
-export const runJobFlow: (
-  input: RunJobFlowInput,
-) => effect.Effect<
+export const runJobFlow: API.OperationMethod<
+  RunJobFlowInput,
   RunJobFlowOutput,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5637,9 +5574,8 @@ export const runJobFlow: (
  *
  * For more information, see Managing Cluster Termination in the *Amazon EMR Management Guide*.
  */
-export const setKeepJobFlowAliveWhenNoSteps: (
-  input: SetKeepJobFlowAliveWhenNoStepsInput,
-) => effect.Effect<
+export const setKeepJobFlowAliveWhenNoSteps: API.OperationMethod<
+  SetKeepJobFlowAliveWhenNoStepsInput,
   SetKeepJobFlowAliveWhenNoStepsResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5669,9 +5605,8 @@ export const setKeepJobFlowAliveWhenNoSteps: (
  * For more information, see Managing Cluster
  * Termination in the *Amazon EMR Management Guide*.
  */
-export const setTerminationProtection: (
-  input: SetTerminationProtectionInput,
-) => effect.Effect<
+export const setTerminationProtection: API.OperationMethod<
+  SetTerminationProtectionInput,
   SetTerminationProtectionResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5696,9 +5631,8 @@ export const setTerminationProtection: (
  * For more information, see graceful
  * node replacement in the *Amazon EMR Management Guide*.
  */
-export const setUnhealthyNodeReplacement: (
-  input: SetUnhealthyNodeReplacementInput,
-) => effect.Effect<
+export const setUnhealthyNodeReplacement: API.OperationMethod<
+  SetUnhealthyNodeReplacementInput,
   SetUnhealthyNodeReplacementResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5723,9 +5657,8 @@ export const setUnhealthyNodeReplacement: (
  * For more information, see Understanding the Amazon EMR Cluster VisibleToAllUsers Setting in the
  * *Amazon EMR Management Guide*.
  */
-export const setVisibleToAllUsers: (
-  input: SetVisibleToAllUsersInput,
-) => effect.Effect<
+export const setVisibleToAllUsers: API.OperationMethod<
+  SetVisibleToAllUsersInput,
   SetVisibleToAllUsersResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5737,9 +5670,8 @@ export const setVisibleToAllUsers: (
 /**
  * Starts a notebook execution.
  */
-export const startNotebookExecution: (
-  input: StartNotebookExecutionInput,
-) => effect.Effect<
+export const startNotebookExecution: API.OperationMethod<
+  StartNotebookExecutionInput,
   StartNotebookExecutionOutput,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5751,9 +5683,8 @@ export const startNotebookExecution: (
 /**
  * Stops a notebook execution.
  */
-export const stopNotebookExecution: (
-  input: StopNotebookExecutionInput,
-) => effect.Effect<
+export const stopNotebookExecution: API.OperationMethod<
+  StopNotebookExecutionInput,
   StopNotebookExecutionResponse,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5772,9 +5703,8 @@ export const stopNotebookExecution: (
  * minutes for the cluster to completely terminate and release allocated resources, such as
  * Amazon EC2 instances.
  */
-export const terminateJobFlows: (
-  input: TerminateJobFlowsInput,
-) => effect.Effect<
+export const terminateJobFlows: API.OperationMethod<
+  TerminateJobFlowsInput,
   TerminateJobFlowsResponse,
   InternalServerError | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5787,9 +5717,8 @@ export const terminateJobFlows: (
  * Updates an Amazon EMR Studio configuration, including attributes such as name,
  * description, and subnets.
  */
-export const updateStudio: (
-  input: UpdateStudioInput,
-) => effect.Effect<
+export const updateStudio: API.OperationMethod<
+  UpdateStudioInput,
   UpdateStudioResponse,
   InternalServerException | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient
@@ -5801,9 +5730,8 @@ export const updateStudio: (
 /**
  * Updates the session policy attached to the user or group for the specified Amazon EMR Studio.
  */
-export const updateStudioSessionMapping: (
-  input: UpdateStudioSessionMappingInput,
-) => effect.Effect<
+export const updateStudioSessionMapping: API.OperationMethod<
+  UpdateStudioSessionMappingInput,
   UpdateStudioSessionMappingResponse,
   InternalServerError | InvalidRequestException | CommonErrors,
   Creds | Region | HttpClient.HttpClient

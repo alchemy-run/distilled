@@ -918,9 +918,8 @@ export class InvalidStateException extends S.TaggedErrorClass<InvalidStateExcept
  *
  * To remove one or more tags, use the RemoveTagsFromCertificate action. To view all of the tags that have been applied to the certificate, use the ListTagsForCertificate action.
  */
-export const addTagsToCertificate: (
-  input: AddTagsToCertificateRequest,
-) => effect.Effect<
+export const addTagsToCertificate: API.OperationMethod<
+  AddTagsToCertificateRequest,
   AddTagsToCertificateResponse,
   | InvalidArnException
   | InvalidParameterException
@@ -949,9 +948,8 @@ export const addTagsToCertificate: (
  *
  * You cannot delete an ACM certificate that is being used by another Amazon Web Services service. To delete a certificate that is in use, the certificate association must first be removed.
  */
-export const deleteCertificate: (
-  input: DeleteCertificateRequest,
-) => effect.Effect<
+export const deleteCertificate: API.OperationMethod<
+  DeleteCertificateRequest,
   DeleteCertificateResponse,
   | AccessDeniedException
   | ConflictException
@@ -978,9 +976,8 @@ export const deleteCertificate: (
  *
  * If you have just created a certificate using the `RequestCertificate` action, there is a delay of several seconds before you can retrieve information about it.
  */
-export const describeCertificate: (
-  input: DescribeCertificateRequest,
-) => effect.Effect<
+export const describeCertificate: API.OperationMethod<
+  DescribeCertificateRequest,
   DescribeCertificateResponse,
   InvalidArnException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -994,9 +991,8 @@ export const describeCertificate: (
  *
  * For information about exporting and formatting a certificate using the ACM console or CLI, see Export a private certificate and Export a public certificate.
  */
-export const exportCertificate: (
-  input: ExportCertificateRequest,
-) => effect.Effect<
+export const exportCertificate: API.OperationMethod<
+  ExportCertificateRequest,
   ExportCertificateResponse,
   | InvalidArnException
   | RequestInProgressException
@@ -1015,9 +1011,8 @@ export const exportCertificate: (
 /**
  * Returns the account configuration options associated with an Amazon Web Services account.
  */
-export const getAccountConfiguration: (
-  input: GetAccountConfigurationRequest,
-) => effect.Effect<
+export const getAccountConfiguration: API.OperationMethod<
+  GetAccountConfigurationRequest,
   GetAccountConfigurationResponse,
   AccessDeniedException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1029,9 +1024,8 @@ export const getAccountConfiguration: (
 /**
  * Retrieves a certificate and its certificate chain. The certificate may be either a public or private certificate issued using the ACM `RequestCertificate` action, or a certificate imported into ACM using the `ImportCertificate` action. The chain consists of the certificate of the issuing CA and the intermediate certificates of any other subordinate CAs. All of the certificates are base64 encoded. You can use OpenSSL to decode the certificates and inspect individual fields.
  */
-export const getCertificate: (
-  input: GetCertificateRequest,
-) => effect.Effect<
+export const getCertificate: API.OperationMethod<
+  GetCertificateRequest,
   GetCertificateResponse,
   | InvalidArnException
   | RequestInProgressException
@@ -1078,9 +1072,8 @@ export const getCertificate: (
  *
  * This operation returns the Amazon Resource Name (ARN) of the imported certificate.
  */
-export const importCertificate: (
-  input: ImportCertificateRequest,
-) => effect.Effect<
+export const importCertificate: API.OperationMethod<
+  ImportCertificateRequest,
   ImportCertificateResponse,
   | InvalidArnException
   | InvalidParameterException
@@ -1107,14 +1100,12 @@ export const importCertificate: (
 /**
  * Retrieves a list of certificate ARNs and domain names. You can request that only certificates that match a specific status be listed. You can also filter by specific attributes of the certificate. Default filtering returns only `RSA_2048` certificates. For more information, see Filters.
  */
-export const listCertificates: {
-  (
-    input: ListCertificatesRequest,
-  ): effect.Effect<
-    ListCertificatesResponse,
-    InvalidArgsException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCertificates: API.OperationMethod<
+  ListCertificatesRequest,
+  ListCertificatesResponse,
+  InvalidArgsException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCertificatesRequest,
   ) => stream.Stream<
@@ -1143,9 +1134,8 @@ export const listCertificates: {
 /**
  * Lists the tags that have been applied to the ACM certificate. Use the certificate's Amazon Resource Name (ARN) to specify the certificate. To add a tag to an ACM certificate, use the AddTagsToCertificate action. To delete a tag, use the RemoveTagsFromCertificate action.
  */
-export const listTagsForCertificate: (
-  input: ListTagsForCertificateRequest,
-) => effect.Effect<
+export const listTagsForCertificate: API.OperationMethod<
+  ListTagsForCertificateRequest,
   ListTagsForCertificateResponse,
   InvalidArnException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1159,9 +1149,8 @@ export const listTagsForCertificate: (
  *
  * The supported configuration option is `DaysBeforeExpiry`. This option specifies the number of days prior to certificate expiration when ACM starts generating `EventBridge` events. ACM sends one event per day per certificate until the certificate expires. By default, accounts receive events starting 45 days before certificate expiration.
  */
-export const putAccountConfiguration: (
-  input: PutAccountConfigurationRequest,
-) => effect.Effect<
+export const putAccountConfiguration: API.OperationMethod<
+  PutAccountConfigurationRequest,
   PutAccountConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1184,9 +1173,8 @@ export const putAccountConfiguration: (
  *
  * To add tags to a certificate, use the AddTagsToCertificate action. To view all of the tags that have been applied to a specific ACM certificate, use the ListTagsForCertificate action.
  */
-export const removeTagsFromCertificate: (
-  input: RemoveTagsFromCertificateRequest,
-) => effect.Effect<
+export const removeTagsFromCertificate: API.OperationMethod<
+  RemoveTagsFromCertificateRequest,
   RemoveTagsFromCertificateResponse,
   | InvalidArnException
   | InvalidParameterException
@@ -1211,9 +1199,8 @@ export const removeTagsFromCertificate: (
 /**
  * Renews an eligible ACM certificate. In order to renew your Amazon Web Services Private CA certificates with ACM, you must first grant the ACM service principal permission to do so. For more information, see Testing Managed Renewal in the ACM User Guide.
  */
-export const renewCertificate: (
-  input: RenewCertificateRequest,
-) => effect.Effect<
+export const renewCertificate: API.OperationMethod<
+  RenewCertificateRequest,
   RenewCertificateResponse,
   | InvalidArnException
   | RequestInProgressException
@@ -1238,9 +1225,8 @@ export const renewCertificate: (
  *
  * After successful completion of the `RequestCertificate` action, there is a delay of several seconds before you can retrieve information about the new certificate.
  */
-export const requestCertificate: (
-  input: RequestCertificateRequest,
-) => effect.Effect<
+export const requestCertificate: API.OperationMethod<
+  RequestCertificateRequest,
   RequestCertificateResponse,
   | InvalidArnException
   | InvalidDomainValidationOptionsException
@@ -1267,9 +1253,8 @@ export const requestCertificate: (
 /**
  * Resends the email that requests domain ownership validation. The domain owner or an authorized representative must approve the ACM certificate before it can be issued. The certificate can be approved by clicking a link in the mail to navigate to the Amazon certificate approval website and then clicking **I Approve**. However, the validation email can be blocked by spam filters. Therefore, if you do not receive the original mail, you can request that the mail be resent within 72 hours of requesting the ACM certificate. If more than 72 hours have elapsed since your original request or since your last attempt to resend validation mail, you must request a new certificate. For more information about setting up your contact email addresses, see Configure Email for your Domain.
  */
-export const resendValidationEmail: (
-  input: ResendValidationEmailRequest,
-) => effect.Effect<
+export const resendValidationEmail: API.OperationMethod<
+  ResendValidationEmailRequest,
   ResendValidationEmailResponse,
   | InvalidArnException
   | InvalidDomainValidationOptionsException
@@ -1290,9 +1275,8 @@ export const resendValidationEmail: (
 /**
  * Revokes a public ACM certificate. You can only revoke certificates that have been previously exported.
  */
-export const revokeCertificate: (
-  input: RevokeCertificateRequest,
-) => effect.Effect<
+export const revokeCertificate: API.OperationMethod<
+  RevokeCertificateRequest,
   RevokeCertificateResponse,
   | AccessDeniedException
   | ConflictException
@@ -1317,9 +1301,8 @@ export const revokeCertificate: (
 /**
  * Updates a certificate. You can use this function to specify whether to opt in to or out of recording your certificate in a certificate transparency log and exporting. For more information, see Opting Out of Certificate Transparency Logging and Certificate Manager Exportable Managed Certificates.
  */
-export const updateCertificateOptions: (
-  input: UpdateCertificateOptionsRequest,
-) => effect.Effect<
+export const updateCertificateOptions: API.OperationMethod<
+  UpdateCertificateOptionsRequest,
   UpdateCertificateOptionsResponse,
   | InvalidArnException
   | InvalidStateException

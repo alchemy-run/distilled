@@ -1718,9 +1718,8 @@ export class PredictorNotMountedException extends S.TaggedErrorClass<PredictorNo
  * and an optional value. If you add a tag using a key that is already associated with the ML object,
  * `AddTags` updates the tag's value.
  */
-export const addTags: (
-  input: AddTagsInput,
-) => effect.Effect<
+export const addTags: API.OperationMethod<
+  AddTagsInput,
   AddTagsOutput,
   | InternalServerException
   | InvalidInputException
@@ -1752,9 +1751,8 @@ export const addTags: (
  * You can poll for status updates by using the GetBatchPrediction operation and checking the `Status` parameter of the result. After the `COMPLETED` status appears,
  * the results are available in the location specified by the `OutputUri` parameter.
  */
-export const createBatchPrediction: (
-  input: CreateBatchPredictionInput,
-) => effect.Effect<
+export const createBatchPrediction: API.OperationMethod<
+  CreateBatchPredictionInput,
   CreateBatchPredictionOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1781,9 +1779,8 @@ export const createBatchPrediction: (
  *
  * If Amazon ML cannot accept the input source, it sets the `Status` parameter to `FAILED` and includes an error message in the `Message` attribute of the `GetDataSource` operation response.
  */
-export const createDataSourceFromRDS: (
-  input: CreateDataSourceFromRDSInput,
-) => effect.Effect<
+export const createDataSourceFromRDS: API.OperationMethod<
+  CreateDataSourceFromRDSInput,
   CreateDataSourceFromRDSOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1831,9 +1828,8 @@ export const createDataSourceFromRDS: (
  * `CreateDataSource` call. Change the settings that you want to change and
  * make sure that all required fields have the appropriate values.
  */
-export const createDataSourceFromRedshift: (
-  input: CreateDataSourceFromRedshiftInput,
-) => effect.Effect<
+export const createDataSourceFromRedshift: API.OperationMethod<
+  CreateDataSourceFromRedshiftInput,
   CreateDataSourceFromRedshiftOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1882,9 +1878,8 @@ export const createDataSourceFromRedshift: (
  * for example, will it be combined with another variable or will it be split apart into
  * word combinations? The recipe provides answers to these questions.
  */
-export const createDataSourceFromS3: (
-  input: CreateDataSourceFromS3Input,
-) => effect.Effect<
+export const createDataSourceFromS3: API.OperationMethod<
+  CreateDataSourceFromS3Input,
   CreateDataSourceFromS3Output,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1912,9 +1907,8 @@ export const createDataSourceFromS3: (
  *
  * You can use the `GetEvaluation` operation to check progress of the evaluation during the creation operation.
  */
-export const createEvaluation: (
-  input: CreateEvaluationInput,
-) => effect.Effect<
+export const createEvaluation: API.OperationMethod<
+  CreateEvaluationInput,
   CreateEvaluationOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1952,9 +1946,8 @@ export const createEvaluation: (
  * `CreateDataSourceFromRDS`, `CreateDataSourceFromS3`, or
  * `CreateDataSourceFromRedshift` operations.
  */
-export const createMLModel: (
-  input: CreateMLModelInput,
-) => effect.Effect<
+export const createMLModel: API.OperationMethod<
+  CreateMLModelInput,
   CreateMLModelOutput,
   | IdempotentParameterMismatchException
   | InternalServerException
@@ -1973,9 +1966,8 @@ export const createMLModel: (
 /**
  * Creates a real-time endpoint for the `MLModel`. The endpoint contains the URI of the `MLModel`; that is, the location to send real-time prediction requests for the specified `MLModel`.
  */
-export const createRealtimeEndpoint: (
-  input: CreateRealtimeEndpointInput,
-) => effect.Effect<
+export const createRealtimeEndpoint: API.OperationMethod<
+  CreateRealtimeEndpointInput,
   CreateRealtimeEndpointOutput,
   | InternalServerException
   | InvalidInputException
@@ -1999,9 +1991,8 @@ export const createRealtimeEndpoint: (
  *
  * **Caution:** The result of the `DeleteBatchPrediction` operation is irreversible.
  */
-export const deleteBatchPrediction: (
-  input: DeleteBatchPredictionInput,
-) => effect.Effect<
+export const deleteBatchPrediction: API.OperationMethod<
+  DeleteBatchPredictionInput,
   DeleteBatchPredictionOutput,
   | InternalServerException
   | InvalidInputException
@@ -2024,9 +2015,8 @@ export const deleteBatchPrediction: (
  *
  * **Caution:** The results of the `DeleteDataSource` operation are irreversible.
  */
-export const deleteDataSource: (
-  input: DeleteDataSourceInput,
-) => effect.Effect<
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceInput,
   DeleteDataSourceOutput,
   | InternalServerException
   | InvalidInputException
@@ -2050,9 +2040,8 @@ export const deleteDataSource: (
  *
  * **Caution:** The results of the `DeleteEvaluation` operation are irreversible.
  */
-export const deleteEvaluation: (
-  input: DeleteEvaluationInput,
-) => effect.Effect<
+export const deleteEvaluation: API.OperationMethod<
+  DeleteEvaluationInput,
   DeleteEvaluationOutput,
   | InternalServerException
   | InvalidInputException
@@ -2076,9 +2065,8 @@ export const deleteEvaluation: (
  *
  * **Caution:** The result of the `DeleteMLModel` operation is irreversible.
  */
-export const deleteMLModel: (
-  input: DeleteMLModelInput,
-) => effect.Effect<
+export const deleteMLModel: API.OperationMethod<
+  DeleteMLModelInput,
   DeleteMLModelOutput,
   | InternalServerException
   | InvalidInputException
@@ -2097,9 +2085,8 @@ export const deleteMLModel: (
 /**
  * Deletes a real time endpoint of an `MLModel`.
  */
-export const deleteRealtimeEndpoint: (
-  input: DeleteRealtimeEndpointInput,
-) => effect.Effect<
+export const deleteRealtimeEndpoint: API.OperationMethod<
+  DeleteRealtimeEndpointInput,
   DeleteRealtimeEndpointOutput,
   | InternalServerException
   | InvalidInputException
@@ -2120,9 +2107,8 @@ export const deleteRealtimeEndpoint: (
  *
  * If you specify a tag that doesn't exist, Amazon ML ignores it.
  */
-export const deleteTags: (
-  input: DeleteTagsInput,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsInput,
   DeleteTagsOutput,
   | InternalServerException
   | InvalidInputException
@@ -2143,14 +2129,12 @@ export const deleteTags: (
 /**
  * Returns a list of `BatchPrediction` operations that match the search criteria in the request.
  */
-export const describeBatchPredictions: {
-  (
-    input: DescribeBatchPredictionsInput,
-  ): effect.Effect<
-    DescribeBatchPredictionsOutput,
-    InternalServerException | InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeBatchPredictions: API.OperationMethod<
+  DescribeBatchPredictionsInput,
+  DescribeBatchPredictionsOutput,
+  InternalServerException | InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBatchPredictionsInput,
   ) => stream.Stream<
@@ -2179,14 +2163,12 @@ export const describeBatchPredictions: {
 /**
  * Returns a list of `DataSource` that match the search criteria in the request.
  */
-export const describeDataSources: {
-  (
-    input: DescribeDataSourcesInput,
-  ): effect.Effect<
-    DescribeDataSourcesOutput,
-    InternalServerException | InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDataSources: API.OperationMethod<
+  DescribeDataSourcesInput,
+  DescribeDataSourcesOutput,
+  InternalServerException | InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDataSourcesInput,
   ) => stream.Stream<
@@ -2215,14 +2197,12 @@ export const describeDataSources: {
 /**
  * Returns a list of `DescribeEvaluations` that match the search criteria in the request.
  */
-export const describeEvaluations: {
-  (
-    input: DescribeEvaluationsInput,
-  ): effect.Effect<
-    DescribeEvaluationsOutput,
-    InternalServerException | InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEvaluations: API.OperationMethod<
+  DescribeEvaluationsInput,
+  DescribeEvaluationsOutput,
+  InternalServerException | InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEvaluationsInput,
   ) => stream.Stream<
@@ -2251,14 +2231,12 @@ export const describeEvaluations: {
 /**
  * Returns a list of `MLModel` that match the search criteria in the request.
  */
-export const describeMLModels: {
-  (
-    input: DescribeMLModelsInput,
-  ): effect.Effect<
-    DescribeMLModelsOutput,
-    InternalServerException | InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMLModels: API.OperationMethod<
+  DescribeMLModelsInput,
+  DescribeMLModelsOutput,
+  InternalServerException | InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMLModelsInput,
   ) => stream.Stream<
@@ -2287,9 +2265,8 @@ export const describeMLModels: {
 /**
  * Describes one or more of the tags for your Amazon ML object.
  */
-export const describeTags: (
-  input: DescribeTagsInput,
-) => effect.Effect<
+export const describeTags: API.OperationMethod<
+  DescribeTagsInput,
   DescribeTagsOutput,
   | InternalServerException
   | InvalidInputException
@@ -2309,9 +2286,8 @@ export const describeTags: (
  * Returns a `BatchPrediction` that includes detailed metadata, status, and data file information for a
  * `Batch Prediction` request.
  */
-export const getBatchPrediction: (
-  input: GetBatchPredictionInput,
-) => effect.Effect<
+export const getBatchPrediction: API.OperationMethod<
+  GetBatchPredictionInput,
   GetBatchPredictionOutput,
   | InternalServerException
   | InvalidInputException
@@ -2333,9 +2309,8 @@ export const getBatchPrediction: (
  * `GetDataSource` provides results in normal or verbose format. The verbose format
  * adds the schema description and the list of files pointed to by the DataSource to the normal format.
  */
-export const getDataSource: (
-  input: GetDataSourceInput,
-) => effect.Effect<
+export const getDataSource: API.OperationMethod<
+  GetDataSourceInput,
   GetDataSourceOutput,
   | InternalServerException
   | InvalidInputException
@@ -2354,9 +2329,8 @@ export const getDataSource: (
 /**
  * Returns an `Evaluation` that includes metadata as well as the current status of the `Evaluation`.
  */
-export const getEvaluation: (
-  input: GetEvaluationInput,
-) => effect.Effect<
+export const getEvaluation: API.OperationMethod<
+  GetEvaluationInput,
   GetEvaluationOutput,
   | InternalServerException
   | InvalidInputException
@@ -2377,9 +2351,8 @@ export const getEvaluation: (
  *
  * `GetMLModel` provides results in normal or verbose format.
  */
-export const getMLModel: (
-  input: GetMLModelInput,
-) => effect.Effect<
+export const getMLModel: API.OperationMethod<
+  GetMLModelInput,
   GetMLModelOutput,
   | InternalServerException
   | InvalidInputException
@@ -2401,9 +2374,8 @@ export const getMLModel: (
  * **Note:** Not all response parameters will be populated. Whether a
  * response parameter is populated depends on the type of model requested.
  */
-export const predict: (
-  input: PredictInput,
-) => effect.Effect<
+export const predict: API.OperationMethod<
+  PredictInput,
   PredictOutput,
   | InternalServerException
   | InvalidInputException
@@ -2428,9 +2400,8 @@ export const predict: (
  *
  * You can use the `GetBatchPrediction` operation to view the contents of the updated data element.
  */
-export const updateBatchPrediction: (
-  input: UpdateBatchPredictionInput,
-) => effect.Effect<
+export const updateBatchPrediction: API.OperationMethod<
+  UpdateBatchPredictionInput,
   UpdateBatchPredictionOutput,
   | InternalServerException
   | InvalidInputException
@@ -2451,9 +2422,8 @@ export const updateBatchPrediction: (
  *
  * You can use the `GetDataSource` operation to view the contents of the updated data element.
  */
-export const updateDataSource: (
-  input: UpdateDataSourceInput,
-) => effect.Effect<
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceInput,
   UpdateDataSourceOutput,
   | InternalServerException
   | InvalidInputException
@@ -2474,9 +2444,8 @@ export const updateDataSource: (
  *
  * You can use the `GetEvaluation` operation to view the contents of the updated data element.
  */
-export const updateEvaluation: (
-  input: UpdateEvaluationInput,
-) => effect.Effect<
+export const updateEvaluation: API.OperationMethod<
+  UpdateEvaluationInput,
   UpdateEvaluationOutput,
   | InternalServerException
   | InvalidInputException
@@ -2497,9 +2466,8 @@ export const updateEvaluation: (
  *
  * You can use the `GetMLModel` operation to view the contents of the updated data element.
  */
-export const updateMLModel: (
-  input: UpdateMLModelInput,
-) => effect.Effect<
+export const updateMLModel: API.OperationMethod<
+  UpdateMLModelInput,
   UpdateMLModelOutput,
   | InternalServerException
   | InvalidInputException

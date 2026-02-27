@@ -4330,9 +4330,8 @@ export class InternalServerErrorException extends S.TaggedErrorClass<InternalSer
 /**
  * Associates a role with a group. Your Greengrass core will use the role to access AWS cloud services. The role's permissions should allow Greengrass core Lambda functions to perform actions against the cloud.
  */
-export const associateRoleToGroup: (
-  input: AssociateRoleToGroupRequest,
-) => effect.Effect<
+export const associateRoleToGroup: API.OperationMethod<
+  AssociateRoleToGroupRequest,
   AssociateRoleToGroupResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4344,9 +4343,8 @@ export const associateRoleToGroup: (
 /**
  * Associates a role with your account. AWS IoT Greengrass will use the role to access your Lambda functions and AWS IoT resources. This is necessary for deployments to succeed. The role must have at least minimum permissions in the policy ''AWSGreengrassResourceAccessRolePolicy''.
  */
-export const associateServiceRoleToAccount: (
-  input: AssociateServiceRoleToAccountRequest,
-) => effect.Effect<
+export const associateServiceRoleToAccount: API.OperationMethod<
+  AssociateServiceRoleToAccountRequest,
   AssociateServiceRoleToAccountResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4358,9 +4356,8 @@ export const associateServiceRoleToAccount: (
 /**
  * Creates a connector definition. You may provide the initial version of the connector definition now or use ''CreateConnectorDefinitionVersion'' at a later time.
  */
-export const createConnectorDefinition: (
-  input: CreateConnectorDefinitionRequest,
-) => effect.Effect<
+export const createConnectorDefinition: API.OperationMethod<
+  CreateConnectorDefinitionRequest,
   CreateConnectorDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4372,9 +4369,8 @@ export const createConnectorDefinition: (
 /**
  * Creates a version of a connector definition which has already been defined.
  */
-export const createConnectorDefinitionVersion: (
-  input: CreateConnectorDefinitionVersionRequest,
-) => effect.Effect<
+export const createConnectorDefinitionVersion: API.OperationMethod<
+  CreateConnectorDefinitionVersionRequest,
   CreateConnectorDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4386,9 +4382,8 @@ export const createConnectorDefinitionVersion: (
 /**
  * Creates a core definition. You may provide the initial version of the core definition now or use ''CreateCoreDefinitionVersion'' at a later time. Greengrass groups must each contain exactly one Greengrass core.
  */
-export const createCoreDefinition: (
-  input: CreateCoreDefinitionRequest,
-) => effect.Effect<
+export const createCoreDefinition: API.OperationMethod<
+  CreateCoreDefinitionRequest,
   CreateCoreDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4400,9 +4395,8 @@ export const createCoreDefinition: (
 /**
  * Creates a version of a core definition that has already been defined. Greengrass groups must each contain exactly one Greengrass core.
  */
-export const createCoreDefinitionVersion: (
-  input: CreateCoreDefinitionVersionRequest,
-) => effect.Effect<
+export const createCoreDefinitionVersion: API.OperationMethod<
+  CreateCoreDefinitionVersionRequest,
   CreateCoreDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4414,9 +4408,8 @@ export const createCoreDefinitionVersion: (
 /**
  * Creates a deployment. ''CreateDeployment'' requests are idempotent with respect to the ''X-Amzn-Client-Token'' token and the request parameters.
  */
-export const createDeployment: (
-  input: CreateDeploymentRequest,
-) => effect.Effect<
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentRequest,
   CreateDeploymentResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4428,9 +4421,8 @@ export const createDeployment: (
 /**
  * Creates a device definition. You may provide the initial version of the device definition now or use ''CreateDeviceDefinitionVersion'' at a later time.
  */
-export const createDeviceDefinition: (
-  input: CreateDeviceDefinitionRequest,
-) => effect.Effect<
+export const createDeviceDefinition: API.OperationMethod<
+  CreateDeviceDefinitionRequest,
   CreateDeviceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4442,9 +4434,8 @@ export const createDeviceDefinition: (
 /**
  * Creates a version of a device definition that has already been defined.
  */
-export const createDeviceDefinitionVersion: (
-  input: CreateDeviceDefinitionVersionRequest,
-) => effect.Effect<
+export const createDeviceDefinitionVersion: API.OperationMethod<
+  CreateDeviceDefinitionVersionRequest,
   CreateDeviceDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4456,9 +4447,8 @@ export const createDeviceDefinitionVersion: (
 /**
  * Creates a Lambda function definition which contains a list of Lambda functions and their configurations to be used in a group. You can create an initial version of the definition by providing a list of Lambda functions and their configurations now, or use ''CreateFunctionDefinitionVersion'' later.
  */
-export const createFunctionDefinition: (
-  input: CreateFunctionDefinitionRequest,
-) => effect.Effect<
+export const createFunctionDefinition: API.OperationMethod<
+  CreateFunctionDefinitionRequest,
   CreateFunctionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4470,9 +4460,8 @@ export const createFunctionDefinition: (
 /**
  * Creates a version of a Lambda function definition that has already been defined.
  */
-export const createFunctionDefinitionVersion: (
-  input: CreateFunctionDefinitionVersionRequest,
-) => effect.Effect<
+export const createFunctionDefinitionVersion: API.OperationMethod<
+  CreateFunctionDefinitionVersionRequest,
   CreateFunctionDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4484,9 +4473,8 @@ export const createFunctionDefinitionVersion: (
 /**
  * Creates a group. You may provide the initial version of the group or use ''CreateGroupVersion'' at a later time. Tip: You can use the ''gg_group_setup'' package (https://github.com/awslabs/aws-greengrass-group-setup) as a library or command-line application to create and deploy Greengrass groups.
  */
-export const createGroup: (
-  input: CreateGroupRequest,
-) => effect.Effect<
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
   CreateGroupResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4498,9 +4486,8 @@ export const createGroup: (
 /**
  * Creates a CA for the group. If a CA already exists, it will rotate the existing CA.
  */
-export const createGroupCertificateAuthority: (
-  input: CreateGroupCertificateAuthorityRequest,
-) => effect.Effect<
+export const createGroupCertificateAuthority: API.OperationMethod<
+  CreateGroupCertificateAuthorityRequest,
   CreateGroupCertificateAuthorityResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4512,9 +4499,8 @@ export const createGroupCertificateAuthority: (
 /**
  * Creates a version of a group which has already been defined.
  */
-export const createGroupVersion: (
-  input: CreateGroupVersionRequest,
-) => effect.Effect<
+export const createGroupVersion: API.OperationMethod<
+  CreateGroupVersionRequest,
   CreateGroupVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4526,9 +4512,8 @@ export const createGroupVersion: (
 /**
  * Creates a logger definition. You may provide the initial version of the logger definition now or use ''CreateLoggerDefinitionVersion'' at a later time.
  */
-export const createLoggerDefinition: (
-  input: CreateLoggerDefinitionRequest,
-) => effect.Effect<
+export const createLoggerDefinition: API.OperationMethod<
+  CreateLoggerDefinitionRequest,
   CreateLoggerDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4540,9 +4525,8 @@ export const createLoggerDefinition: (
 /**
  * Creates a version of a logger definition that has already been defined.
  */
-export const createLoggerDefinitionVersion: (
-  input: CreateLoggerDefinitionVersionRequest,
-) => effect.Effect<
+export const createLoggerDefinitionVersion: API.OperationMethod<
+  CreateLoggerDefinitionVersionRequest,
   CreateLoggerDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4554,9 +4538,8 @@ export const createLoggerDefinitionVersion: (
 /**
  * Creates a resource definition which contains a list of resources to be used in a group. You can create an initial version of the definition by providing a list of resources now, or use ''CreateResourceDefinitionVersion'' later.
  */
-export const createResourceDefinition: (
-  input: CreateResourceDefinitionRequest,
-) => effect.Effect<
+export const createResourceDefinition: API.OperationMethod<
+  CreateResourceDefinitionRequest,
   CreateResourceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4568,9 +4551,8 @@ export const createResourceDefinition: (
 /**
  * Creates a version of a resource definition that has already been defined.
  */
-export const createResourceDefinitionVersion: (
-  input: CreateResourceDefinitionVersionRequest,
-) => effect.Effect<
+export const createResourceDefinitionVersion: API.OperationMethod<
+  CreateResourceDefinitionVersionRequest,
   CreateResourceDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4582,9 +4564,8 @@ export const createResourceDefinitionVersion: (
 /**
  * Creates a software update for a core or group of cores (specified as an IoT thing group.) Use this to update the OTA Agent as well as the Greengrass core software. It makes use of the IoT Jobs feature which provides additional commands to manage a Greengrass core software update job.
  */
-export const createSoftwareUpdateJob: (
-  input: CreateSoftwareUpdateJobRequest,
-) => effect.Effect<
+export const createSoftwareUpdateJob: API.OperationMethod<
+  CreateSoftwareUpdateJobRequest,
   CreateSoftwareUpdateJobResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4596,9 +4577,8 @@ export const createSoftwareUpdateJob: (
 /**
  * Creates a subscription definition. You may provide the initial version of the subscription definition now or use ''CreateSubscriptionDefinitionVersion'' at a later time.
  */
-export const createSubscriptionDefinition: (
-  input: CreateSubscriptionDefinitionRequest,
-) => effect.Effect<
+export const createSubscriptionDefinition: API.OperationMethod<
+  CreateSubscriptionDefinitionRequest,
   CreateSubscriptionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4610,9 +4590,8 @@ export const createSubscriptionDefinition: (
 /**
  * Creates a version of a subscription definition which has already been defined.
  */
-export const createSubscriptionDefinitionVersion: (
-  input: CreateSubscriptionDefinitionVersionRequest,
-) => effect.Effect<
+export const createSubscriptionDefinitionVersion: API.OperationMethod<
+  CreateSubscriptionDefinitionVersionRequest,
   CreateSubscriptionDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4624,9 +4603,8 @@ export const createSubscriptionDefinitionVersion: (
 /**
  * Deletes a connector definition.
  */
-export const deleteConnectorDefinition: (
-  input: DeleteConnectorDefinitionRequest,
-) => effect.Effect<
+export const deleteConnectorDefinition: API.OperationMethod<
+  DeleteConnectorDefinitionRequest,
   DeleteConnectorDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4638,9 +4616,8 @@ export const deleteConnectorDefinition: (
 /**
  * Deletes a core definition.
  */
-export const deleteCoreDefinition: (
-  input: DeleteCoreDefinitionRequest,
-) => effect.Effect<
+export const deleteCoreDefinition: API.OperationMethod<
+  DeleteCoreDefinitionRequest,
   DeleteCoreDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4652,9 +4629,8 @@ export const deleteCoreDefinition: (
 /**
  * Deletes a device definition.
  */
-export const deleteDeviceDefinition: (
-  input: DeleteDeviceDefinitionRequest,
-) => effect.Effect<
+export const deleteDeviceDefinition: API.OperationMethod<
+  DeleteDeviceDefinitionRequest,
   DeleteDeviceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4666,9 +4642,8 @@ export const deleteDeviceDefinition: (
 /**
  * Deletes a Lambda function definition.
  */
-export const deleteFunctionDefinition: (
-  input: DeleteFunctionDefinitionRequest,
-) => effect.Effect<
+export const deleteFunctionDefinition: API.OperationMethod<
+  DeleteFunctionDefinitionRequest,
   DeleteFunctionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4680,9 +4655,8 @@ export const deleteFunctionDefinition: (
 /**
  * Deletes a group.
  */
-export const deleteGroup: (
-  input: DeleteGroupRequest,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
   DeleteGroupResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4694,9 +4668,8 @@ export const deleteGroup: (
 /**
  * Deletes a logger definition.
  */
-export const deleteLoggerDefinition: (
-  input: DeleteLoggerDefinitionRequest,
-) => effect.Effect<
+export const deleteLoggerDefinition: API.OperationMethod<
+  DeleteLoggerDefinitionRequest,
   DeleteLoggerDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4708,9 +4681,8 @@ export const deleteLoggerDefinition: (
 /**
  * Deletes a resource definition.
  */
-export const deleteResourceDefinition: (
-  input: DeleteResourceDefinitionRequest,
-) => effect.Effect<
+export const deleteResourceDefinition: API.OperationMethod<
+  DeleteResourceDefinitionRequest,
   DeleteResourceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4722,9 +4694,8 @@ export const deleteResourceDefinition: (
 /**
  * Deletes a subscription definition.
  */
-export const deleteSubscriptionDefinition: (
-  input: DeleteSubscriptionDefinitionRequest,
-) => effect.Effect<
+export const deleteSubscriptionDefinition: API.OperationMethod<
+  DeleteSubscriptionDefinitionRequest,
   DeleteSubscriptionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4736,9 +4707,8 @@ export const deleteSubscriptionDefinition: (
 /**
  * Disassociates the role from a group.
  */
-export const disassociateRoleFromGroup: (
-  input: DisassociateRoleFromGroupRequest,
-) => effect.Effect<
+export const disassociateRoleFromGroup: API.OperationMethod<
+  DisassociateRoleFromGroupRequest,
   DisassociateRoleFromGroupResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4750,9 +4720,8 @@ export const disassociateRoleFromGroup: (
 /**
  * Disassociates the service role from your account. Without a service role, deployments will not work.
  */
-export const disassociateServiceRoleFromAccount: (
-  input: DisassociateServiceRoleFromAccountRequest,
-) => effect.Effect<
+export const disassociateServiceRoleFromAccount: API.OperationMethod<
+  DisassociateServiceRoleFromAccountRequest,
   DisassociateServiceRoleFromAccountResponse,
   InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4764,9 +4733,8 @@ export const disassociateServiceRoleFromAccount: (
 /**
  * Retrieves the role associated with a particular group.
  */
-export const getAssociatedRole: (
-  input: GetAssociatedRoleRequest,
-) => effect.Effect<
+export const getAssociatedRole: API.OperationMethod<
+  GetAssociatedRoleRequest,
   GetAssociatedRoleResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4778,9 +4746,8 @@ export const getAssociatedRole: (
 /**
  * Returns the status of a bulk deployment.
  */
-export const getBulkDeploymentStatus: (
-  input: GetBulkDeploymentStatusRequest,
-) => effect.Effect<
+export const getBulkDeploymentStatus: API.OperationMethod<
+  GetBulkDeploymentStatusRequest,
   GetBulkDeploymentStatusResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4792,9 +4759,8 @@ export const getBulkDeploymentStatus: (
 /**
  * Retrieves the connectivity information for a core.
  */
-export const getConnectivityInfo: (
-  input: GetConnectivityInfoRequest,
-) => effect.Effect<
+export const getConnectivityInfo: API.OperationMethod<
+  GetConnectivityInfoRequest,
   GetConnectivityInfoResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4806,9 +4772,8 @@ export const getConnectivityInfo: (
 /**
  * Retrieves information about a connector definition.
  */
-export const getConnectorDefinition: (
-  input: GetConnectorDefinitionRequest,
-) => effect.Effect<
+export const getConnectorDefinition: API.OperationMethod<
+  GetConnectorDefinitionRequest,
   GetConnectorDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4820,9 +4785,8 @@ export const getConnectorDefinition: (
 /**
  * Retrieves information about a connector definition version, including the connectors that the version contains. Connectors are prebuilt modules that interact with local infrastructure, device protocols, AWS, and other cloud services.
  */
-export const getConnectorDefinitionVersion: (
-  input: GetConnectorDefinitionVersionRequest,
-) => effect.Effect<
+export const getConnectorDefinitionVersion: API.OperationMethod<
+  GetConnectorDefinitionVersionRequest,
   GetConnectorDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4834,9 +4798,8 @@ export const getConnectorDefinitionVersion: (
 /**
  * Retrieves information about a core definition version.
  */
-export const getCoreDefinition: (
-  input: GetCoreDefinitionRequest,
-) => effect.Effect<
+export const getCoreDefinition: API.OperationMethod<
+  GetCoreDefinitionRequest,
   GetCoreDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4848,9 +4811,8 @@ export const getCoreDefinition: (
 /**
  * Retrieves information about a core definition version.
  */
-export const getCoreDefinitionVersion: (
-  input: GetCoreDefinitionVersionRequest,
-) => effect.Effect<
+export const getCoreDefinitionVersion: API.OperationMethod<
+  GetCoreDefinitionVersionRequest,
   GetCoreDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4862,9 +4824,8 @@ export const getCoreDefinitionVersion: (
 /**
  * Returns the status of a deployment.
  */
-export const getDeploymentStatus: (
-  input: GetDeploymentStatusRequest,
-) => effect.Effect<
+export const getDeploymentStatus: API.OperationMethod<
+  GetDeploymentStatusRequest,
   GetDeploymentStatusResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4876,9 +4837,8 @@ export const getDeploymentStatus: (
 /**
  * Retrieves information about a device definition.
  */
-export const getDeviceDefinition: (
-  input: GetDeviceDefinitionRequest,
-) => effect.Effect<
+export const getDeviceDefinition: API.OperationMethod<
+  GetDeviceDefinitionRequest,
   GetDeviceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4890,9 +4850,8 @@ export const getDeviceDefinition: (
 /**
  * Retrieves information about a device definition version.
  */
-export const getDeviceDefinitionVersion: (
-  input: GetDeviceDefinitionVersionRequest,
-) => effect.Effect<
+export const getDeviceDefinitionVersion: API.OperationMethod<
+  GetDeviceDefinitionVersionRequest,
   GetDeviceDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4904,9 +4863,8 @@ export const getDeviceDefinitionVersion: (
 /**
  * Retrieves information about a Lambda function definition, including its creation time and latest version.
  */
-export const getFunctionDefinition: (
-  input: GetFunctionDefinitionRequest,
-) => effect.Effect<
+export const getFunctionDefinition: API.OperationMethod<
+  GetFunctionDefinitionRequest,
   GetFunctionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4918,9 +4876,8 @@ export const getFunctionDefinition: (
 /**
  * Retrieves information about a Lambda function definition version, including which Lambda functions are included in the version and their configurations.
  */
-export const getFunctionDefinitionVersion: (
-  input: GetFunctionDefinitionVersionRequest,
-) => effect.Effect<
+export const getFunctionDefinitionVersion: API.OperationMethod<
+  GetFunctionDefinitionVersionRequest,
   GetFunctionDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4932,9 +4889,8 @@ export const getFunctionDefinitionVersion: (
 /**
  * Retrieves information about a group.
  */
-export const getGroup: (
-  input: GetGroupRequest,
-) => effect.Effect<
+export const getGroup: API.OperationMethod<
+  GetGroupRequest,
   GetGroupResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4946,9 +4902,8 @@ export const getGroup: (
 /**
  * Retreives the CA associated with a group. Returns the public key of the CA.
  */
-export const getGroupCertificateAuthority: (
-  input: GetGroupCertificateAuthorityRequest,
-) => effect.Effect<
+export const getGroupCertificateAuthority: API.OperationMethod<
+  GetGroupCertificateAuthorityRequest,
   GetGroupCertificateAuthorityResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4960,9 +4915,8 @@ export const getGroupCertificateAuthority: (
 /**
  * Retrieves the current configuration for the CA used by the group.
  */
-export const getGroupCertificateConfiguration: (
-  input: GetGroupCertificateConfigurationRequest,
-) => effect.Effect<
+export const getGroupCertificateConfiguration: API.OperationMethod<
+  GetGroupCertificateConfigurationRequest,
   GetGroupCertificateConfigurationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4974,9 +4928,8 @@ export const getGroupCertificateConfiguration: (
 /**
  * Retrieves information about a group version.
  */
-export const getGroupVersion: (
-  input: GetGroupVersionRequest,
-) => effect.Effect<
+export const getGroupVersion: API.OperationMethod<
+  GetGroupVersionRequest,
   GetGroupVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4988,9 +4941,8 @@ export const getGroupVersion: (
 /**
  * Retrieves information about a logger definition.
  */
-export const getLoggerDefinition: (
-  input: GetLoggerDefinitionRequest,
-) => effect.Effect<
+export const getLoggerDefinition: API.OperationMethod<
+  GetLoggerDefinitionRequest,
   GetLoggerDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5002,9 +4954,8 @@ export const getLoggerDefinition: (
 /**
  * Retrieves information about a logger definition version.
  */
-export const getLoggerDefinitionVersion: (
-  input: GetLoggerDefinitionVersionRequest,
-) => effect.Effect<
+export const getLoggerDefinitionVersion: API.OperationMethod<
+  GetLoggerDefinitionVersionRequest,
   GetLoggerDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5016,9 +4967,8 @@ export const getLoggerDefinitionVersion: (
 /**
  * Retrieves information about a resource definition, including its creation time and latest version.
  */
-export const getResourceDefinition: (
-  input: GetResourceDefinitionRequest,
-) => effect.Effect<
+export const getResourceDefinition: API.OperationMethod<
+  GetResourceDefinitionRequest,
   GetResourceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5030,9 +4980,8 @@ export const getResourceDefinition: (
 /**
  * Retrieves information about a resource definition version, including which resources are included in the version.
  */
-export const getResourceDefinitionVersion: (
-  input: GetResourceDefinitionVersionRequest,
-) => effect.Effect<
+export const getResourceDefinitionVersion: API.OperationMethod<
+  GetResourceDefinitionVersionRequest,
   GetResourceDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5044,9 +4993,8 @@ export const getResourceDefinitionVersion: (
 /**
  * Retrieves the service role that is attached to your account.
  */
-export const getServiceRoleForAccount: (
-  input: GetServiceRoleForAccountRequest,
-) => effect.Effect<
+export const getServiceRoleForAccount: API.OperationMethod<
+  GetServiceRoleForAccountRequest,
   GetServiceRoleForAccountResponse,
   InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5058,9 +5006,8 @@ export const getServiceRoleForAccount: (
 /**
  * Retrieves information about a subscription definition.
  */
-export const getSubscriptionDefinition: (
-  input: GetSubscriptionDefinitionRequest,
-) => effect.Effect<
+export const getSubscriptionDefinition: API.OperationMethod<
+  GetSubscriptionDefinitionRequest,
   GetSubscriptionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5072,9 +5019,8 @@ export const getSubscriptionDefinition: (
 /**
  * Retrieves information about a subscription definition version.
  */
-export const getSubscriptionDefinitionVersion: (
-  input: GetSubscriptionDefinitionVersionRequest,
-) => effect.Effect<
+export const getSubscriptionDefinitionVersion: API.OperationMethod<
+  GetSubscriptionDefinitionVersionRequest,
   GetSubscriptionDefinitionVersionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5086,9 +5032,8 @@ export const getSubscriptionDefinitionVersion: (
 /**
  * Get the runtime configuration of a thing.
  */
-export const getThingRuntimeConfiguration: (
-  input: GetThingRuntimeConfigurationRequest,
-) => effect.Effect<
+export const getThingRuntimeConfiguration: API.OperationMethod<
+  GetThingRuntimeConfigurationRequest,
   GetThingRuntimeConfigurationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5100,9 +5045,8 @@ export const getThingRuntimeConfiguration: (
 /**
  * Gets a paginated list of the deployments that have been started in a bulk deployment operation, and their current deployment status.
  */
-export const listBulkDeploymentDetailedReports: (
-  input: ListBulkDeploymentDetailedReportsRequest,
-) => effect.Effect<
+export const listBulkDeploymentDetailedReports: API.OperationMethod<
+  ListBulkDeploymentDetailedReportsRequest,
   ListBulkDeploymentDetailedReportsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5114,9 +5058,8 @@ export const listBulkDeploymentDetailedReports: (
 /**
  * Returns a list of bulk deployments.
  */
-export const listBulkDeployments: (
-  input: ListBulkDeploymentsRequest,
-) => effect.Effect<
+export const listBulkDeployments: API.OperationMethod<
+  ListBulkDeploymentsRequest,
   ListBulkDeploymentsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5128,9 +5071,8 @@ export const listBulkDeployments: (
 /**
  * Retrieves a list of connector definitions.
  */
-export const listConnectorDefinitions: (
-  input: ListConnectorDefinitionsRequest,
-) => effect.Effect<
+export const listConnectorDefinitions: API.OperationMethod<
+  ListConnectorDefinitionsRequest,
   ListConnectorDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5142,9 +5084,8 @@ export const listConnectorDefinitions: (
 /**
  * Lists the versions of a connector definition, which are containers for connectors. Connectors run on the Greengrass core and contain built-in integration with local infrastructure, device protocols, AWS, and other cloud services.
  */
-export const listConnectorDefinitionVersions: (
-  input: ListConnectorDefinitionVersionsRequest,
-) => effect.Effect<
+export const listConnectorDefinitionVersions: API.OperationMethod<
+  ListConnectorDefinitionVersionsRequest,
   ListConnectorDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5156,9 +5097,8 @@ export const listConnectorDefinitionVersions: (
 /**
  * Retrieves a list of core definitions.
  */
-export const listCoreDefinitions: (
-  input: ListCoreDefinitionsRequest,
-) => effect.Effect<
+export const listCoreDefinitions: API.OperationMethod<
+  ListCoreDefinitionsRequest,
   ListCoreDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5170,9 +5110,8 @@ export const listCoreDefinitions: (
 /**
  * Lists the versions of a core definition.
  */
-export const listCoreDefinitionVersions: (
-  input: ListCoreDefinitionVersionsRequest,
-) => effect.Effect<
+export const listCoreDefinitionVersions: API.OperationMethod<
+  ListCoreDefinitionVersionsRequest,
   ListCoreDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5184,9 +5123,8 @@ export const listCoreDefinitionVersions: (
 /**
  * Returns a history of deployments for the group.
  */
-export const listDeployments: (
-  input: ListDeploymentsRequest,
-) => effect.Effect<
+export const listDeployments: API.OperationMethod<
+  ListDeploymentsRequest,
   ListDeploymentsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5198,9 +5136,8 @@ export const listDeployments: (
 /**
  * Retrieves a list of device definitions.
  */
-export const listDeviceDefinitions: (
-  input: ListDeviceDefinitionsRequest,
-) => effect.Effect<
+export const listDeviceDefinitions: API.OperationMethod<
+  ListDeviceDefinitionsRequest,
   ListDeviceDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5212,9 +5149,8 @@ export const listDeviceDefinitions: (
 /**
  * Lists the versions of a device definition.
  */
-export const listDeviceDefinitionVersions: (
-  input: ListDeviceDefinitionVersionsRequest,
-) => effect.Effect<
+export const listDeviceDefinitionVersions: API.OperationMethod<
+  ListDeviceDefinitionVersionsRequest,
   ListDeviceDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5226,9 +5162,8 @@ export const listDeviceDefinitionVersions: (
 /**
  * Retrieves a list of Lambda function definitions.
  */
-export const listFunctionDefinitions: (
-  input: ListFunctionDefinitionsRequest,
-) => effect.Effect<
+export const listFunctionDefinitions: API.OperationMethod<
+  ListFunctionDefinitionsRequest,
   ListFunctionDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5240,9 +5175,8 @@ export const listFunctionDefinitions: (
 /**
  * Lists the versions of a Lambda function definition.
  */
-export const listFunctionDefinitionVersions: (
-  input: ListFunctionDefinitionVersionsRequest,
-) => effect.Effect<
+export const listFunctionDefinitionVersions: API.OperationMethod<
+  ListFunctionDefinitionVersionsRequest,
   ListFunctionDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5254,9 +5188,8 @@ export const listFunctionDefinitionVersions: (
 /**
  * Retrieves the current CAs for a group.
  */
-export const listGroupCertificateAuthorities: (
-  input: ListGroupCertificateAuthoritiesRequest,
-) => effect.Effect<
+export const listGroupCertificateAuthorities: API.OperationMethod<
+  ListGroupCertificateAuthoritiesRequest,
   ListGroupCertificateAuthoritiesResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5268,9 +5201,8 @@ export const listGroupCertificateAuthorities: (
 /**
  * Retrieves a list of groups.
  */
-export const listGroups: (
-  input: ListGroupsRequest,
-) => effect.Effect<
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
   ListGroupsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5282,9 +5214,8 @@ export const listGroups: (
 /**
  * Lists the versions of a group.
  */
-export const listGroupVersions: (
-  input: ListGroupVersionsRequest,
-) => effect.Effect<
+export const listGroupVersions: API.OperationMethod<
+  ListGroupVersionsRequest,
   ListGroupVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5296,9 +5227,8 @@ export const listGroupVersions: (
 /**
  * Retrieves a list of logger definitions.
  */
-export const listLoggerDefinitions: (
-  input: ListLoggerDefinitionsRequest,
-) => effect.Effect<
+export const listLoggerDefinitions: API.OperationMethod<
+  ListLoggerDefinitionsRequest,
   ListLoggerDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5310,9 +5240,8 @@ export const listLoggerDefinitions: (
 /**
  * Lists the versions of a logger definition.
  */
-export const listLoggerDefinitionVersions: (
-  input: ListLoggerDefinitionVersionsRequest,
-) => effect.Effect<
+export const listLoggerDefinitionVersions: API.OperationMethod<
+  ListLoggerDefinitionVersionsRequest,
   ListLoggerDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5324,9 +5253,8 @@ export const listLoggerDefinitionVersions: (
 /**
  * Retrieves a list of resource definitions.
  */
-export const listResourceDefinitions: (
-  input: ListResourceDefinitionsRequest,
-) => effect.Effect<
+export const listResourceDefinitions: API.OperationMethod<
+  ListResourceDefinitionsRequest,
   ListResourceDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5338,9 +5266,8 @@ export const listResourceDefinitions: (
 /**
  * Lists the versions of a resource definition.
  */
-export const listResourceDefinitionVersions: (
-  input: ListResourceDefinitionVersionsRequest,
-) => effect.Effect<
+export const listResourceDefinitionVersions: API.OperationMethod<
+  ListResourceDefinitionVersionsRequest,
   ListResourceDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5352,9 +5279,8 @@ export const listResourceDefinitionVersions: (
 /**
  * Retrieves a list of subscription definitions.
  */
-export const listSubscriptionDefinitions: (
-  input: ListSubscriptionDefinitionsRequest,
-) => effect.Effect<
+export const listSubscriptionDefinitions: API.OperationMethod<
+  ListSubscriptionDefinitionsRequest,
   ListSubscriptionDefinitionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5366,9 +5292,8 @@ export const listSubscriptionDefinitions: (
 /**
  * Lists the versions of a subscription definition.
  */
-export const listSubscriptionDefinitionVersions: (
-  input: ListSubscriptionDefinitionVersionsRequest,
-) => effect.Effect<
+export const listSubscriptionDefinitionVersions: API.OperationMethod<
+  ListSubscriptionDefinitionVersionsRequest,
   ListSubscriptionDefinitionVersionsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5380,9 +5305,8 @@ export const listSubscriptionDefinitionVersions: (
 /**
  * Retrieves a list of resource tags for a resource arn.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5394,9 +5318,8 @@ export const listTagsForResource: (
 /**
  * Resets a group's deployments.
  */
-export const resetDeployments: (
-  input: ResetDeploymentsRequest,
-) => effect.Effect<
+export const resetDeployments: API.OperationMethod<
+  ResetDeploymentsRequest,
   ResetDeploymentsResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5408,9 +5331,8 @@ export const resetDeployments: (
 /**
  * Deploys multiple groups in one operation. This action starts the bulk deployment of a specified set of group versions. Each group version deployment will be triggered with an adaptive rate that has a fixed upper limit. We recommend that you include an ''X-Amzn-Client-Token'' token in every ''StartBulkDeployment'' request. These requests are idempotent with respect to the token and the request parameters.
  */
-export const startBulkDeployment: (
-  input: StartBulkDeploymentRequest,
-) => effect.Effect<
+export const startBulkDeployment: API.OperationMethod<
+  StartBulkDeploymentRequest,
   StartBulkDeploymentResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5422,9 +5344,8 @@ export const startBulkDeployment: (
 /**
  * Stops the execution of a bulk deployment. This action returns a status of ''Stopping'' until the deployment is stopped. You cannot start a new bulk deployment while a previous deployment is in the ''Stopping'' state. This action doesn't rollback completed deployments or cancel pending deployments.
  */
-export const stopBulkDeployment: (
-  input: StopBulkDeploymentRequest,
-) => effect.Effect<
+export const stopBulkDeployment: API.OperationMethod<
+  StopBulkDeploymentRequest,
   StopBulkDeploymentResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5436,9 +5357,8 @@ export const stopBulkDeployment: (
 /**
  * Adds tags to a Greengrass resource. Valid resources are 'Group', 'ConnectorDefinition', 'CoreDefinition', 'DeviceDefinition', 'FunctionDefinition', 'LoggerDefinition', 'SubscriptionDefinition', 'ResourceDefinition', and 'BulkDeployment'.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5450,9 +5370,8 @@ export const tagResource: (
 /**
  * Remove resource tags from a Greengrass Resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5464,9 +5383,8 @@ export const untagResource: (
 /**
  * Updates the connectivity information for the core. Any devices that belong to the group which has this core will receive this information in order to find the location of the core and connect to it.
  */
-export const updateConnectivityInfo: (
-  input: UpdateConnectivityInfoRequest,
-) => effect.Effect<
+export const updateConnectivityInfo: API.OperationMethod<
+  UpdateConnectivityInfoRequest,
   UpdateConnectivityInfoResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5478,9 +5396,8 @@ export const updateConnectivityInfo: (
 /**
  * Updates a connector definition.
  */
-export const updateConnectorDefinition: (
-  input: UpdateConnectorDefinitionRequest,
-) => effect.Effect<
+export const updateConnectorDefinition: API.OperationMethod<
+  UpdateConnectorDefinitionRequest,
   UpdateConnectorDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5492,9 +5409,8 @@ export const updateConnectorDefinition: (
 /**
  * Updates a core definition.
  */
-export const updateCoreDefinition: (
-  input: UpdateCoreDefinitionRequest,
-) => effect.Effect<
+export const updateCoreDefinition: API.OperationMethod<
+  UpdateCoreDefinitionRequest,
   UpdateCoreDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5506,9 +5422,8 @@ export const updateCoreDefinition: (
 /**
  * Updates a device definition.
  */
-export const updateDeviceDefinition: (
-  input: UpdateDeviceDefinitionRequest,
-) => effect.Effect<
+export const updateDeviceDefinition: API.OperationMethod<
+  UpdateDeviceDefinitionRequest,
   UpdateDeviceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5520,9 +5435,8 @@ export const updateDeviceDefinition: (
 /**
  * Updates a Lambda function definition.
  */
-export const updateFunctionDefinition: (
-  input: UpdateFunctionDefinitionRequest,
-) => effect.Effect<
+export const updateFunctionDefinition: API.OperationMethod<
+  UpdateFunctionDefinitionRequest,
   UpdateFunctionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5534,9 +5448,8 @@ export const updateFunctionDefinition: (
 /**
  * Updates a group.
  */
-export const updateGroup: (
-  input: UpdateGroupRequest,
-) => effect.Effect<
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
   UpdateGroupResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5548,9 +5461,8 @@ export const updateGroup: (
 /**
  * Updates the Certificate expiry time for a group.
  */
-export const updateGroupCertificateConfiguration: (
-  input: UpdateGroupCertificateConfigurationRequest,
-) => effect.Effect<
+export const updateGroupCertificateConfiguration: API.OperationMethod<
+  UpdateGroupCertificateConfigurationRequest,
   UpdateGroupCertificateConfigurationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5562,9 +5474,8 @@ export const updateGroupCertificateConfiguration: (
 /**
  * Updates a logger definition.
  */
-export const updateLoggerDefinition: (
-  input: UpdateLoggerDefinitionRequest,
-) => effect.Effect<
+export const updateLoggerDefinition: API.OperationMethod<
+  UpdateLoggerDefinitionRequest,
   UpdateLoggerDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5576,9 +5487,8 @@ export const updateLoggerDefinition: (
 /**
  * Updates a resource definition.
  */
-export const updateResourceDefinition: (
-  input: UpdateResourceDefinitionRequest,
-) => effect.Effect<
+export const updateResourceDefinition: API.OperationMethod<
+  UpdateResourceDefinitionRequest,
   UpdateResourceDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5590,9 +5500,8 @@ export const updateResourceDefinition: (
 /**
  * Updates a subscription definition.
  */
-export const updateSubscriptionDefinition: (
-  input: UpdateSubscriptionDefinitionRequest,
-) => effect.Effect<
+export const updateSubscriptionDefinition: API.OperationMethod<
+  UpdateSubscriptionDefinitionRequest,
   UpdateSubscriptionDefinitionResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5604,9 +5513,8 @@ export const updateSubscriptionDefinition: (
 /**
  * Updates the runtime configuration of a thing.
  */
-export const updateThingRuntimeConfiguration: (
-  input: UpdateThingRuntimeConfigurationRequest,
-) => effect.Effect<
+export const updateThingRuntimeConfiguration: API.OperationMethod<
+  UpdateThingRuntimeConfigurationRequest,
   UpdateThingRuntimeConfigurationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

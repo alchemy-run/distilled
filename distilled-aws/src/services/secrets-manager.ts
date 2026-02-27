@@ -1184,20 +1184,18 @@ export class PublicPolicyException extends S.TaggedErrorClass<PublicPolicyExcept
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const batchGetSecretValue: {
-  (
-    input: BatchGetSecretValueRequest,
-  ): effect.Effect<
-    BatchGetSecretValueResponse,
-    | DecryptionFailure
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const batchGetSecretValue: API.OperationMethod<
+  BatchGetSecretValueRequest,
+  BatchGetSecretValueResponse,
+  | DecryptionFailure
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: BatchGetSecretValueRequest,
   ) => stream.Stream<
@@ -1263,9 +1261,8 @@ export const batchGetSecretValue: {
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const cancelRotateSecret: (
-  input: CancelRotateSecretRequest,
-) => effect.Effect<
+export const cancelRotateSecret: API.OperationMethod<
+  CancelRotateSecretRequest,
   CancelRotateSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1340,9 +1337,8 @@ export const cancelRotateSecret: (
  *
  * When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to Mitigate the risks of using command-line tools to store Secrets Manager secrets.
  */
-export const createSecret: (
-  input: CreateSecretRequest,
-) => effect.Effect<
+export const createSecret: API.OperationMethod<
+  CreateSecretRequest,
   CreateSecretResponse,
   | DecryptionFailure
   | EncryptionFailure
@@ -1384,9 +1380,8 @@ export const createSecret: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1444,9 +1439,8 @@ export const deleteResourcePolicy: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const deleteSecret: (
-  input: DeleteSecretRequest,
-) => effect.Effect<
+export const deleteSecret: API.OperationMethod<
+  DeleteSecretRequest,
   DeleteSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1476,9 +1470,8 @@ export const deleteSecret: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const describeSecret: (
-  input: DescribeSecretRequest,
-) => effect.Effect<
+export const describeSecret: API.OperationMethod<
+  DescribeSecretRequest,
   DescribeSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1510,9 +1503,8 @@ export const describeSecret: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const getRandomPassword: (
-  input: GetRandomPasswordRequest,
-) => effect.Effect<
+export const getRandomPassword: API.OperationMethod<
+  GetRandomPasswordRequest,
   GetRandomPasswordResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1540,9 +1532,8 @@ export const getRandomPassword: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1584,9 +1575,8 @@ export const getResourcePolicy: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const getSecretValue: (
-  input: GetSecretValueRequest,
-) => effect.Effect<
+export const getSecretValue: API.OperationMethod<
+  GetSecretValueRequest,
   GetSecretValueResponse,
   | DecryptionFailure
   | InternalServiceError
@@ -1631,18 +1621,16 @@ export const getSecretValue: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const listSecrets: {
-  (
-    input: ListSecretsRequest,
-  ): effect.Effect<
-    ListSecretsResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecrets: API.OperationMethod<
+  ListSecretsRequest,
+  ListSecretsResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecretsRequest,
   ) => stream.Stream<
@@ -1695,18 +1683,16 @@ export const listSecrets: {
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const listSecretVersionIds: {
-  (
-    input: ListSecretVersionIdsRequest,
-  ): effect.Effect<
-    ListSecretVersionIdsResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecretVersionIds: API.OperationMethod<
+  ListSecretVersionIdsRequest,
+  ListSecretVersionIdsResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecretVersionIdsRequest,
   ) => stream.Stream<
@@ -1758,9 +1744,8 @@ export const listSecretVersionIds: {
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1822,9 +1807,8 @@ export const putResourcePolicy: (
  *
  * When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to Mitigate the risks of using command-line tools to store Secrets Manager secrets.
  */
-export const putSecretValue: (
-  input: PutSecretValueRequest,
-) => effect.Effect<
+export const putSecretValue: API.OperationMethod<
+  PutSecretValueRequest,
   PutSecretValueResponse,
   | DecryptionFailure
   | EncryptionFailure
@@ -1863,9 +1847,8 @@ export const putSecretValue: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const removeRegionsFromReplication: (
-  input: RemoveRegionsFromReplicationRequest,
-) => effect.Effect<
+export const removeRegionsFromReplication: API.OperationMethod<
+  RemoveRegionsFromReplicationRequest,
   RemoveRegionsFromReplicationResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1899,9 +1882,8 @@ export const removeRegionsFromReplication: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const replicateSecretToRegions: (
-  input: ReplicateSecretToRegionsRequest,
-) => effect.Effect<
+export const replicateSecretToRegions: API.OperationMethod<
+  ReplicateSecretToRegionsRequest,
   ReplicateSecretToRegionsResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1931,9 +1913,8 @@ export const replicateSecretToRegions: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const restoreSecret: (
-  input: RestoreSecretRequest,
-) => effect.Effect<
+export const restoreSecret: API.OperationMethod<
+  RestoreSecretRequest,
   RestoreSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -1979,9 +1960,8 @@ export const restoreSecret: (
  * need `lambda:InvokeFunction` permissions on the rotation function. For more
  * information, see Permissions for rotation.
  */
-export const rotateSecret: (
-  input: RotateSecretRequest,
-) => effect.Effect<
+export const rotateSecret: API.OperationMethod<
+  RotateSecretRequest,
   RotateSecretResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -2014,9 +1994,8 @@ export const rotateSecret: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const stopReplicationToReplica: (
-  input: StopReplicationToReplicaRequest,
-) => effect.Effect<
+export const stopReplicationToReplica: API.OperationMethod<
+  StopReplicationToReplicaRequest,
   StopReplicationToReplicaResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -2055,9 +2034,8 @@ export const stopReplicationToReplica: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -2094,9 +2072,8 @@ export const tagResource: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -2161,9 +2138,8 @@ export const untagResource: (
  *
  * When you enter commands in a command shell, there is a risk of the command history being accessed or utilities having access to your command parameters. This is a concern if the command includes the value of a secret. Learn how to Mitigate the risks of using command-line tools to store Secrets Manager secrets.
  */
-export const updateSecret: (
-  input: UpdateSecretRequest,
-) => effect.Effect<
+export const updateSecret: API.OperationMethod<
+  UpdateSecretRequest,
   UpdateSecretResponse,
   | DecryptionFailure
   | EncryptionFailure
@@ -2223,9 +2199,8 @@ export const updateSecret: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const updateSecretVersionStage: (
-  input: UpdateSecretVersionStageRequest,
-) => effect.Effect<
+export const updateSecretVersionStage: API.OperationMethod<
+  UpdateSecretVersionStageRequest,
   UpdateSecretVersionStageResponse,
   | InternalServiceError
   | InvalidParameterException
@@ -2268,9 +2243,8 @@ export const updateSecretVersionStage: (
  * IAM policy actions for Secrets Manager and Authentication
  * and access control in Secrets Manager.
  */
-export const validateResourcePolicy: (
-  input: ValidateResourcePolicyRequest,
-) => effect.Effect<
+export const validateResourcePolicy: API.OperationMethod<
+  ValidateResourcePolicyRequest,
   ValidateResourcePolicyResponse,
   | InternalServiceError
   | InvalidParameterException

@@ -1698,9 +1698,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  * deployment or an CloudFormation stack creation or update that can be investigated as a
  * potential cause of the incident.
  */
-export const batchGetIncidentFindings: (
-  input: BatchGetIncidentFindingsInput,
-) => effect.Effect<
+export const batchGetIncidentFindings: API.OperationMethod<
+  BatchGetIncidentFindingsInput,
   BatchGetIncidentFindingsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1724,9 +1723,8 @@ export const batchGetIncidentFindings: (
  * A replication set replicates and encrypts your data to the provided Regions with the
  * provided KMS key.
  */
-export const createReplicationSet: (
-  input: CreateReplicationSetInput,
-) => effect.Effect<
+export const createReplicationSet: API.OperationMethod<
+  CreateReplicationSetInput,
   CreateReplicationSetOutput,
   | AccessDeniedException
   | ConflictException
@@ -1753,9 +1751,8 @@ export const createReplicationSet: (
  * engages contacts, starts chat channel collaboration, and initiates runbooks at the beginning
  * of an incident.
  */
-export const createResponsePlan: (
-  input: CreateResponsePlanInput,
-) => effect.Effect<
+export const createResponsePlan: API.OperationMethod<
+  CreateResponsePlanInput,
   CreateResponsePlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -1783,9 +1780,8 @@ export const createResponsePlan: (
  * You can create custom timeline events to mark important events that Incident Manager can detect
  * automatically.
  */
-export const createTimelineEvent: (
-  input: CreateTimelineEventInput,
-) => effect.Effect<
+export const createTimelineEvent: API.OperationMethod<
+  CreateTimelineEventInput,
   CreateTimelineEventOutput,
   | AccessDeniedException
   | ConflictException
@@ -1810,9 +1806,8 @@ export const createTimelineEvent: (
 /**
  * Delete an incident record from Incident Manager.
  */
-export const deleteIncidentRecord: (
-  input: DeleteIncidentRecordInput,
-) => effect.Effect<
+export const deleteIncidentRecord: API.OperationMethod<
+  DeleteIncidentRecordInput,
   DeleteIncidentRecordOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1834,9 +1829,8 @@ export const deleteIncidentRecord: (
  * Deletes all Regions in your replication set. Deleting the replication set deletes all
  * Incident Manager data.
  */
-export const deleteReplicationSet: (
-  input: DeleteReplicationSetInput,
-) => effect.Effect<
+export const deleteReplicationSet: API.OperationMethod<
+  DeleteReplicationSetInput,
   DeleteReplicationSetOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1860,9 +1854,8 @@ export const deleteReplicationSet: (
  * Deletes the resource policy that Resource Access Manager uses to share your Incident Manager
  * resource.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyInput,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyInput,
   DeleteResourcePolicyOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1886,9 +1879,8 @@ export const deleteResourcePolicy: (
  * Deletes the specified response plan. Deleting a response plan stops all linked CloudWatch alarms and EventBridge events from creating an incident with this response
  * plan.
  */
-export const deleteResponsePlan: (
-  input: DeleteResponsePlanInput,
-) => effect.Effect<
+export const deleteResponsePlan: API.OperationMethod<
+  DeleteResponsePlanInput,
   DeleteResponsePlanOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1909,9 +1901,8 @@ export const deleteResponsePlan: (
 /**
  * Deletes a timeline event from an incident.
  */
-export const deleteTimelineEvent: (
-  input: DeleteTimelineEventInput,
-) => effect.Effect<
+export const deleteTimelineEvent: API.OperationMethod<
+  DeleteTimelineEventInput,
   DeleteTimelineEventOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1932,9 +1923,8 @@ export const deleteTimelineEvent: (
 /**
  * Returns the details for the specified incident record.
  */
-export const getIncidentRecord: (
-  input: GetIncidentRecordInput,
-) => effect.Effect<
+export const getIncidentRecord: API.OperationMethod<
+  GetIncidentRecordInput,
   GetIncidentRecordOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1957,9 +1947,8 @@ export const getIncidentRecord: (
 /**
  * Retrieve your Incident Manager replication set.
  */
-export const getReplicationSet: (
-  input: GetReplicationSetInput,
-) => effect.Effect<
+export const getReplicationSet: API.OperationMethod<
+  GetReplicationSetInput,
   GetReplicationSetOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1982,19 +1971,17 @@ export const getReplicationSet: (
 /**
  * Retrieves the resource policies attached to the specified response plan.
  */
-export const getResourcePolicies: {
-  (
-    input: GetResourcePoliciesInput,
-  ): effect.Effect<
-    GetResourcePoliciesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourcePolicies: API.OperationMethod<
+  GetResourcePoliciesInput,
+  GetResourcePoliciesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourcePoliciesInput,
   ) => stream.Stream<
@@ -2039,9 +2026,8 @@ export const getResourcePolicies: {
 /**
  * Retrieves the details of the specified response plan.
  */
-export const getResponsePlan: (
-  input: GetResponsePlanInput,
-) => effect.Effect<
+export const getResponsePlan: API.OperationMethod<
+  GetResponsePlanInput,
   GetResponsePlanOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2064,9 +2050,8 @@ export const getResponsePlan: (
 /**
  * Retrieves a timeline event based on its ID and incident record.
  */
-export const getTimelineEvent: (
-  input: GetTimelineEventInput,
-) => effect.Effect<
+export const getTimelineEvent: API.OperationMethod<
+  GetTimelineEventInput,
   GetTimelineEventOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2092,19 +2077,17 @@ export const getTimelineEvent: (
  * change made by an CloudFormation stack creation or update or an CodeDeploy
  * deployment that can be investigated as a potential cause of the incident.
  */
-export const listIncidentFindings: {
-  (
-    input: ListIncidentFindingsInput,
-  ): effect.Effect<
-    ListIncidentFindingsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIncidentFindings: API.OperationMethod<
+  ListIncidentFindingsInput,
+  ListIncidentFindingsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIncidentFindingsInput,
   ) => stream.Stream<
@@ -2150,18 +2133,16 @@ export const listIncidentFindings: {
  * Lists all incident records in your account. Use this command to retrieve the Amazon
  * Resource Name (ARN) of the incident record you want to update.
  */
-export const listIncidentRecords: {
-  (
-    input: ListIncidentRecordsInput,
-  ): effect.Effect<
-    ListIncidentRecordsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIncidentRecords: API.OperationMethod<
+  ListIncidentRecordsInput,
+  ListIncidentRecordsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIncidentRecordsInput,
   ) => stream.Stream<
@@ -2203,18 +2184,16 @@ export const listIncidentRecords: {
 /**
  * List all related items for an incident record.
  */
-export const listRelatedItems: {
-  (
-    input: ListRelatedItemsInput,
-  ): effect.Effect<
-    ListRelatedItemsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRelatedItems: API.OperationMethod<
+  ListRelatedItemsInput,
+  ListRelatedItemsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRelatedItemsInput,
   ) => stream.Stream<
@@ -2256,18 +2235,16 @@ export const listRelatedItems: {
 /**
  * Lists details about the replication set configured in your account.
  */
-export const listReplicationSets: {
-  (
-    input: ListReplicationSetsInput,
-  ): effect.Effect<
-    ListReplicationSetsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReplicationSets: API.OperationMethod<
+  ListReplicationSetsInput,
+  ListReplicationSetsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReplicationSetsInput,
   ) => stream.Stream<
@@ -2309,18 +2286,16 @@ export const listReplicationSets: {
 /**
  * Lists all response plans in your account.
  */
-export const listResponsePlans: {
-  (
-    input: ListResponsePlansInput,
-  ): effect.Effect<
-    ListResponsePlansOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResponsePlans: API.OperationMethod<
+  ListResponsePlansInput,
+  ListResponsePlansOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResponsePlansInput,
   ) => stream.Stream<
@@ -2362,9 +2337,8 @@ export const listResponsePlans: {
 /**
  * Lists the tags that are attached to the specified response plan or incident.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2387,18 +2361,16 @@ export const listTagsForResource: (
 /**
  * Lists timeline events for the specified incident record.
  */
-export const listTimelineEvents: {
-  (
-    input: ListTimelineEventsInput,
-  ): effect.Effect<
-    ListTimelineEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTimelineEvents: API.OperationMethod<
+  ListTimelineEventsInput,
+  ListTimelineEventsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTimelineEventsInput,
   ) => stream.Stream<
@@ -2442,9 +2414,8 @@ export const listTimelineEvents: {
  * share the response plan using Resource Access Manager (RAM). For more
  * information about cross-account sharing, see Cross-Region and cross-account incident management.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyInput,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyInput,
   PutResourcePolicyOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2468,9 +2439,8 @@ export const putResourcePolicy: (
  * Used to start an incident from CloudWatch alarms, EventBridge events, or
  * manually.
  */
-export const startIncident: (
-  input: StartIncidentInput,
-) => effect.Effect<
+export const startIncident: API.OperationMethod<
+  StartIncidentInput,
   StartIncidentOutput,
   | AccessDeniedException
   | ConflictException
@@ -2495,9 +2465,8 @@ export const startIncident: (
 /**
  * Adds a tag to a response plan.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2524,9 +2493,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2552,9 +2520,8 @@ export const untagResource: (
  * Update deletion protection to either allow or deny deletion of the final Region in a
  * replication set.
  */
-export const updateDeletionProtection: (
-  input: UpdateDeletionProtectionInput,
-) => effect.Effect<
+export const updateDeletionProtection: API.OperationMethod<
+  UpdateDeletionProtectionInput,
   UpdateDeletionProtectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2579,9 +2546,8 @@ export const updateDeletionProtection: (
  * record from the defined chat channel. For more information about using actions in chat
  * channels, see Interacting through chat.
  */
-export const updateIncidentRecord: (
-  input: UpdateIncidentRecordInput,
-) => effect.Effect<
+export const updateIncidentRecord: API.OperationMethod<
+  UpdateIncidentRecordInput,
   UpdateIncidentRecordOutput,
   | AccessDeniedException
   | ConflictException
@@ -2606,9 +2572,8 @@ export const updateIncidentRecord: (
 /**
  * Add or remove related items from the related items tab of an incident record.
  */
-export const updateRelatedItems: (
-  input: UpdateRelatedItemsInput,
-) => effect.Effect<
+export const updateRelatedItems: API.OperationMethod<
+  UpdateRelatedItemsInput,
   UpdateRelatedItemsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2633,9 +2598,8 @@ export const updateRelatedItems: (
 /**
  * Add or delete Regions from your replication set.
  */
-export const updateReplicationSet: (
-  input: UpdateReplicationSetInput,
-) => effect.Effect<
+export const updateReplicationSet: API.OperationMethod<
+  UpdateReplicationSetInput,
   UpdateReplicationSetOutput,
   | AccessDeniedException
   | ConflictException
@@ -2660,9 +2624,8 @@ export const updateReplicationSet: (
 /**
  * Updates the specified response plan.
  */
-export const updateResponsePlan: (
-  input: UpdateResponsePlanInput,
-) => effect.Effect<
+export const updateResponsePlan: API.OperationMethod<
+  UpdateResponsePlanInput,
   UpdateResponsePlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -2687,9 +2650,8 @@ export const updateResponsePlan: (
 /**
  * Updates a timeline event. You can update events of type `Custom Event`.
  */
-export const updateTimelineEvent: (
-  input: UpdateTimelineEventInput,
-) => effect.Effect<
+export const updateTimelineEvent: API.OperationMethod<
+  UpdateTimelineEventInput,
   UpdateTimelineEventOutput,
   | AccessDeniedException
   | ConflictException

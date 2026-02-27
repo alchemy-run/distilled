@@ -3480,9 +3480,8 @@ export class AccountSuspendedException extends S.TaggedErrorClass<AccountSuspend
 /**
  * Deletes one or more builds.
  */
-export const batchDeleteBuilds: (
-  input: BatchDeleteBuildsInput,
-) => effect.Effect<
+export const batchDeleteBuilds: API.OperationMethod<
+  BatchDeleteBuildsInput,
   BatchDeleteBuildsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3494,9 +3493,8 @@ export const batchDeleteBuilds: (
 /**
  * Retrieves information about one or more batch builds.
  */
-export const batchGetBuildBatches: (
-  input: BatchGetBuildBatchesInput,
-) => effect.Effect<
+export const batchGetBuildBatches: API.OperationMethod<
+  BatchGetBuildBatchesInput,
   BatchGetBuildBatchesOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3508,9 +3506,8 @@ export const batchGetBuildBatches: (
 /**
  * Gets information about one or more builds.
  */
-export const batchGetBuilds: (
-  input: BatchGetBuildsInput,
-) => effect.Effect<
+export const batchGetBuilds: API.OperationMethod<
+  BatchGetBuildsInput,
   BatchGetBuildsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3522,9 +3519,8 @@ export const batchGetBuilds: (
 /**
  * Gets information about the command executions.
  */
-export const batchGetCommandExecutions: (
-  input: BatchGetCommandExecutionsInput,
-) => effect.Effect<
+export const batchGetCommandExecutions: API.OperationMethod<
+  BatchGetCommandExecutionsInput,
   BatchGetCommandExecutionsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3536,9 +3532,8 @@ export const batchGetCommandExecutions: (
 /**
  * Gets information about one or more compute fleets.
  */
-export const batchGetFleets: (
-  input: BatchGetFleetsInput,
-) => effect.Effect<
+export const batchGetFleets: API.OperationMethod<
+  BatchGetFleetsInput,
   BatchGetFleetsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3550,9 +3545,8 @@ export const batchGetFleets: (
 /**
  * Gets information about one or more build projects.
  */
-export const batchGetProjects: (
-  input: BatchGetProjectsInput,
-) => effect.Effect<
+export const batchGetProjects: API.OperationMethod<
+  BatchGetProjectsInput,
   BatchGetProjectsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3564,9 +3558,8 @@ export const batchGetProjects: (
 /**
  * Returns an array of report groups.
  */
-export const batchGetReportGroups: (
-  input: BatchGetReportGroupsInput,
-) => effect.Effect<
+export const batchGetReportGroups: API.OperationMethod<
+  BatchGetReportGroupsInput,
   BatchGetReportGroupsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3578,9 +3571,8 @@ export const batchGetReportGroups: (
 /**
  * Returns an array of reports.
  */
-export const batchGetReports: (
-  input: BatchGetReportsInput,
-) => effect.Effect<
+export const batchGetReports: API.OperationMethod<
+  BatchGetReportsInput,
   BatchGetReportsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3592,9 +3584,8 @@ export const batchGetReports: (
 /**
  * Gets information about the sandbox status.
  */
-export const batchGetSandboxes: (
-  input: BatchGetSandboxesInput,
-) => effect.Effect<
+export const batchGetSandboxes: API.OperationMethod<
+  BatchGetSandboxesInput,
   BatchGetSandboxesOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3606,9 +3597,8 @@ export const batchGetSandboxes: (
 /**
  * Creates a compute fleet.
  */
-export const createFleet: (
-  input: CreateFleetInput,
-) => effect.Effect<
+export const createFleet: API.OperationMethod<
+  CreateFleetInput,
   CreateFleetOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -3627,9 +3617,8 @@ export const createFleet: (
 /**
  * Creates a build project.
  */
-export const createProject: (
-  input: CreateProjectInput,
-) => effect.Effect<
+export const createProject: API.OperationMethod<
+  CreateProjectInput,
   CreateProjectOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -3648,9 +3637,8 @@ export const createProject: (
 /**
  * Creates a report group. A report group contains a collection of reports.
  */
-export const createReportGroup: (
-  input: CreateReportGroupInput,
-) => effect.Effect<
+export const createReportGroup: API.OperationMethod<
+  CreateReportGroupInput,
   CreateReportGroupOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -3678,9 +3666,8 @@ export const createReportGroup: (
  * recommend that you disable webhooks in CodeBuild. In the CodeBuild console, clear the
  * Webhook box. For more information, see step 5 in Change a Build Project's Settings.
  */
-export const createWebhook: (
-  input: CreateWebhookInput,
-) => effect.Effect<
+export const createWebhook: API.OperationMethod<
+  CreateWebhookInput,
   CreateWebhookOutput,
   | InvalidInputException
   | OAuthProviderException
@@ -3701,9 +3688,8 @@ export const createWebhook: (
 /**
  * Deletes a batch build.
  */
-export const deleteBuildBatch: (
-  input: DeleteBuildBatchInput,
-) => effect.Effect<
+export const deleteBuildBatch: API.OperationMethod<
+  DeleteBuildBatchInput,
   DeleteBuildBatchOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3715,9 +3701,8 @@ export const deleteBuildBatch: (
 /**
  * Deletes a compute fleet. When you delete a compute fleet, its builds are not deleted.
  */
-export const deleteFleet: (
-  input: DeleteFleetInput,
-) => effect.Effect<
+export const deleteFleet: API.OperationMethod<
+  DeleteFleetInput,
   DeleteFleetOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3729,9 +3714,8 @@ export const deleteFleet: (
 /**
  * Deletes a build project. When you delete a project, its builds are not deleted.
  */
-export const deleteProject: (
-  input: DeleteProjectInput,
-) => effect.Effect<
+export const deleteProject: API.OperationMethod<
+  DeleteProjectInput,
   DeleteProjectOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3743,9 +3727,8 @@ export const deleteProject: (
 /**
  * Deletes a report.
  */
-export const deleteReport: (
-  input: DeleteReportInput,
-) => effect.Effect<
+export const deleteReport: API.OperationMethod<
+  DeleteReportInput,
   DeleteReportOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3757,9 +3740,8 @@ export const deleteReport: (
 /**
  * Deletes a report group. Before you delete a report group, you must delete its reports.
  */
-export const deleteReportGroup: (
-  input: DeleteReportGroupInput,
-) => effect.Effect<
+export const deleteReportGroup: API.OperationMethod<
+  DeleteReportGroupInput,
   DeleteReportGroupOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3771,9 +3753,8 @@ export const deleteReportGroup: (
 /**
  * Deletes a resource policy that is identified by its resource ARN.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyInput,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyInput,
   DeleteResourcePolicyOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3785,9 +3766,8 @@ export const deleteResourcePolicy: (
 /**
  * Deletes a set of GitHub, GitHub Enterprise, or Bitbucket source credentials.
  */
-export const deleteSourceCredentials: (
-  input: DeleteSourceCredentialsInput,
-) => effect.Effect<
+export const deleteSourceCredentials: API.OperationMethod<
+  DeleteSourceCredentialsInput,
   DeleteSourceCredentialsOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3801,9 +3781,8 @@ export const deleteSourceCredentials: (
  * Bitbucket repository, stops CodeBuild from rebuilding the source code every time a code
  * change is pushed to the repository.
  */
-export const deleteWebhook: (
-  input: DeleteWebhookInput,
-) => effect.Effect<
+export const deleteWebhook: API.OperationMethod<
+  DeleteWebhookInput,
   DeleteWebhookOutput,
   | InvalidInputException
   | OAuthProviderException
@@ -3822,14 +3801,12 @@ export const deleteWebhook: (
 /**
  * Retrieves one or more code coverage reports.
  */
-export const describeCodeCoverages: {
-  (
-    input: DescribeCodeCoveragesInput,
-  ): effect.Effect<
-    DescribeCodeCoveragesOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCodeCoverages: API.OperationMethod<
+  DescribeCodeCoveragesInput,
+  DescribeCodeCoveragesOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCodeCoveragesInput,
   ) => stream.Stream<
@@ -3858,14 +3835,12 @@ export const describeCodeCoverages: {
 /**
  * Returns a list of details about test cases for a report.
  */
-export const describeTestCases: {
-  (
-    input: DescribeTestCasesInput,
-  ): effect.Effect<
-    DescribeTestCasesOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTestCases: API.OperationMethod<
+  DescribeTestCasesInput,
+  DescribeTestCasesOutput,
+  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTestCasesInput,
   ) => stream.Stream<
@@ -3894,9 +3869,8 @@ export const describeTestCases: {
 /**
  * Analyzes and accumulates test report values for the specified test reports.
  */
-export const getReportGroupTrend: (
-  input: GetReportGroupTrendInput,
-) => effect.Effect<
+export const getReportGroupTrend: API.OperationMethod<
+  GetReportGroupTrendInput,
   GetReportGroupTrendOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3908,9 +3882,8 @@ export const getReportGroupTrend: (
 /**
  * Gets a resource policy that is identified by its resource ARN.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyInput,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyInput,
   GetResourcePolicyOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3923,9 +3896,8 @@ export const getResourcePolicy: (
  * Imports the source repository credentials for an CodeBuild project that has its
  * source code stored in a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
  */
-export const importSourceCredentials: (
-  input: ImportSourceCredentialsInput,
-) => effect.Effect<
+export const importSourceCredentials: API.OperationMethod<
+  ImportSourceCredentialsInput,
   ImportSourceCredentialsOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -3944,9 +3916,8 @@ export const importSourceCredentials: (
 /**
  * Resets the cache for a project.
  */
-export const invalidateProjectCache: (
-  input: InvalidateProjectCacheInput,
-) => effect.Effect<
+export const invalidateProjectCache: API.OperationMethod<
+  InvalidateProjectCacheInput,
   InvalidateProjectCacheOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3958,14 +3929,12 @@ export const invalidateProjectCache: (
 /**
  * Retrieves the identifiers of your build batches in the current region.
  */
-export const listBuildBatches: {
-  (
-    input: ListBuildBatchesInput,
-  ): effect.Effect<
-    ListBuildBatchesOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBuildBatches: API.OperationMethod<
+  ListBuildBatchesInput,
+  ListBuildBatchesOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBuildBatchesInput,
   ) => stream.Stream<
@@ -3994,14 +3963,12 @@ export const listBuildBatches: {
 /**
  * Retrieves the identifiers of the build batches for a specific project.
  */
-export const listBuildBatchesForProject: {
-  (
-    input: ListBuildBatchesForProjectInput,
-  ): effect.Effect<
-    ListBuildBatchesForProjectOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBuildBatchesForProject: API.OperationMethod<
+  ListBuildBatchesForProjectInput,
+  ListBuildBatchesForProjectOutput,
+  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBuildBatchesForProjectInput,
   ) => stream.Stream<
@@ -4030,14 +3997,12 @@ export const listBuildBatchesForProject: {
 /**
  * Gets a list of build IDs, with each build ID representing a single build.
  */
-export const listBuilds: {
-  (
-    input: ListBuildsInput,
-  ): effect.Effect<
-    ListBuildsOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBuilds: API.OperationMethod<
+  ListBuildsInput,
+  ListBuildsOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBuildsInput,
   ) => stream.Stream<
@@ -4066,14 +4031,12 @@ export const listBuilds: {
  * Gets a list of build identifiers for the specified build project, with each build
  * identifier representing a single build.
  */
-export const listBuildsForProject: {
-  (
-    input: ListBuildsForProjectInput,
-  ): effect.Effect<
-    ListBuildsForProjectOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBuildsForProject: API.OperationMethod<
+  ListBuildsForProjectInput,
+  ListBuildsForProjectOutput,
+  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBuildsForProjectInput,
   ) => stream.Stream<
@@ -4101,14 +4064,12 @@ export const listBuildsForProject: {
 /**
  * Gets a list of command executions for a sandbox.
  */
-export const listCommandExecutionsForSandbox: {
-  (
-    input: ListCommandExecutionsForSandboxInput,
-  ): effect.Effect<
-    ListCommandExecutionsForSandboxOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCommandExecutionsForSandbox: API.OperationMethod<
+  ListCommandExecutionsForSandboxInput,
+  ListCommandExecutionsForSandboxOutput,
+  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCommandExecutionsForSandboxInput,
   ) => stream.Stream<
@@ -4137,9 +4098,8 @@ export const listCommandExecutionsForSandbox: {
 /**
  * Gets information about Docker images that are managed by CodeBuild.
  */
-export const listCuratedEnvironmentImages: (
-  input: ListCuratedEnvironmentImagesInput,
-) => effect.Effect<
+export const listCuratedEnvironmentImages: API.OperationMethod<
+  ListCuratedEnvironmentImagesInput,
   ListCuratedEnvironmentImagesOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4151,14 +4111,12 @@ export const listCuratedEnvironmentImages: (
 /**
  * Gets a list of compute fleet names with each compute fleet name representing a single compute fleet.
  */
-export const listFleets: {
-  (
-    input: ListFleetsInput,
-  ): effect.Effect<
-    ListFleetsOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFleets: API.OperationMethod<
+  ListFleetsInput,
+  ListFleetsOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFleetsInput,
   ) => stream.Stream<
@@ -4187,14 +4145,12 @@ export const listFleets: {
  * Gets a list of build project names, with each build project name representing a single
  * build project.
  */
-export const listProjects: {
-  (
-    input: ListProjectsInput,
-  ): effect.Effect<
-    ListProjectsOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProjects: API.OperationMethod<
+  ListProjectsInput,
+  ListProjectsOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectsInput,
   ) => stream.Stream<
@@ -4222,14 +4178,12 @@ export const listProjects: {
 /**
  * Gets a list ARNs for the report groups in the current Amazon Web Services account.
  */
-export const listReportGroups: {
-  (
-    input: ListReportGroupsInput,
-  ): effect.Effect<
-    ListReportGroupsOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReportGroups: API.OperationMethod<
+  ListReportGroupsInput,
+  ListReportGroupsOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReportGroupsInput,
   ) => stream.Stream<
@@ -4258,14 +4212,12 @@ export const listReportGroups: {
 /**
  * Returns a list of ARNs for the reports in the current Amazon Web Services account.
  */
-export const listReports: {
-  (
-    input: ListReportsInput,
-  ): effect.Effect<
-    ListReportsOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReports: API.OperationMethod<
+  ListReportsInput,
+  ListReportsOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReportsInput,
   ) => stream.Stream<
@@ -4294,14 +4246,12 @@ export const listReports: {
 /**
  * Returns a list of ARNs for the reports that belong to a `ReportGroup`.
  */
-export const listReportsForReportGroup: {
-  (
-    input: ListReportsForReportGroupInput,
-  ): effect.Effect<
-    ListReportsForReportGroupOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReportsForReportGroup: API.OperationMethod<
+  ListReportsForReportGroupInput,
+  ListReportsForReportGroupOutput,
+  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReportsForReportGroupInput,
   ) => stream.Stream<
@@ -4330,14 +4280,12 @@ export const listReportsForReportGroup: {
 /**
  * Gets a list of sandboxes.
  */
-export const listSandboxes: {
-  (
-    input: ListSandboxesInput,
-  ): effect.Effect<
-    ListSandboxesOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSandboxes: API.OperationMethod<
+  ListSandboxesInput,
+  ListSandboxesOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSandboxesInput,
   ) => stream.Stream<
@@ -4366,14 +4314,12 @@ export const listSandboxes: {
 /**
  * Gets a list of sandboxes for a given project.
  */
-export const listSandboxesForProject: {
-  (
-    input: ListSandboxesForProjectInput,
-  ): effect.Effect<
-    ListSandboxesForProjectOutput,
-    InvalidInputException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSandboxesForProject: API.OperationMethod<
+  ListSandboxesForProjectInput,
+  ListSandboxesForProjectOutput,
+  InvalidInputException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSandboxesForProjectInput,
   ) => stream.Stream<
@@ -4402,14 +4348,12 @@ export const listSandboxesForProject: {
 /**
  * Gets a list of projects that are shared with other Amazon Web Services accounts or users.
  */
-export const listSharedProjects: {
-  (
-    input: ListSharedProjectsInput,
-  ): effect.Effect<
-    ListSharedProjectsOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSharedProjects: API.OperationMethod<
+  ListSharedProjectsInput,
+  ListSharedProjectsOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSharedProjectsInput,
   ) => stream.Stream<
@@ -4438,14 +4382,12 @@ export const listSharedProjects: {
 /**
  * Gets a list of report groups that are shared with other Amazon Web Services accounts or users.
  */
-export const listSharedReportGroups: {
-  (
-    input: ListSharedReportGroupsInput,
-  ): effect.Effect<
-    ListSharedReportGroupsOutput,
-    InvalidInputException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSharedReportGroups: API.OperationMethod<
+  ListSharedReportGroupsInput,
+  ListSharedReportGroupsOutput,
+  InvalidInputException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSharedReportGroupsInput,
   ) => stream.Stream<
@@ -4474,9 +4416,8 @@ export const listSharedReportGroups: {
 /**
  * Returns a list of `SourceCredentialsInfo` objects.
  */
-export const listSourceCredentials: (
-  input: ListSourceCredentialsInput,
-) => effect.Effect<
+export const listSourceCredentials: API.OperationMethod<
+  ListSourceCredentialsInput,
   ListSourceCredentialsOutput,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4489,9 +4430,8 @@ export const listSourceCredentials: (
  * Stores a resource policy for the ARN of a `Project` or
  * `ReportGroup` object.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyInput,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyInput,
   PutResourcePolicyOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4503,9 +4443,8 @@ export const putResourcePolicy: (
 /**
  * Restarts a build.
  */
-export const retryBuild: (
-  input: RetryBuildInput,
-) => effect.Effect<
+export const retryBuild: API.OperationMethod<
+  RetryBuildInput,
   RetryBuildOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -4524,9 +4463,8 @@ export const retryBuild: (
 /**
  * Restarts a failed batch build. Only batch builds that have failed can be retried.
  */
-export const retryBuildBatch: (
-  input: RetryBuildBatchInput,
-) => effect.Effect<
+export const retryBuildBatch: API.OperationMethod<
+  RetryBuildBatchInput,
   RetryBuildBatchOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4542,9 +4480,8 @@ export const retryBuildBatch: (
  * You can also start a build run by overriding some of the build settings in the project. The overrides only apply for that
  * specific start build request. The settings in the project are unaltered.
  */
-export const startBuild: (
-  input: StartBuildInput,
-) => effect.Effect<
+export const startBuild: API.OperationMethod<
+  StartBuildInput,
   StartBuildOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -4563,9 +4500,8 @@ export const startBuild: (
 /**
  * Starts a batch build for a project.
  */
-export const startBuildBatch: (
-  input: StartBuildBatchInput,
-) => effect.Effect<
+export const startBuildBatch: API.OperationMethod<
+  StartBuildBatchInput,
   StartBuildBatchOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4577,9 +4513,8 @@ export const startBuildBatch: (
 /**
  * Starts a command execution.
  */
-export const startCommandExecution: (
-  input: StartCommandExecutionInput,
-) => effect.Effect<
+export const startCommandExecution: API.OperationMethod<
+  StartCommandExecutionInput,
   StartCommandExecutionOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4591,9 +4526,8 @@ export const startCommandExecution: (
 /**
  * Starts a sandbox.
  */
-export const startSandbox: (
-  input: StartSandboxInput,
-) => effect.Effect<
+export const startSandbox: API.OperationMethod<
+  StartSandboxInput,
   StartSandboxOutput,
   | AccountSuspendedException
   | InvalidInputException
@@ -4612,9 +4546,8 @@ export const startSandbox: (
 /**
  * Starts a sandbox connection.
  */
-export const startSandboxConnection: (
-  input: StartSandboxConnectionInput,
-) => effect.Effect<
+export const startSandboxConnection: API.OperationMethod<
+  StartSandboxConnectionInput,
   StartSandboxConnectionOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4626,9 +4559,8 @@ export const startSandboxConnection: (
 /**
  * Attempts to stop running a build.
  */
-export const stopBuild: (
-  input: StopBuildInput,
-) => effect.Effect<
+export const stopBuild: API.OperationMethod<
+  StopBuildInput,
   StopBuildOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4640,9 +4572,8 @@ export const stopBuild: (
 /**
  * Stops a running batch build.
  */
-export const stopBuildBatch: (
-  input: StopBuildBatchInput,
-) => effect.Effect<
+export const stopBuildBatch: API.OperationMethod<
+  StopBuildBatchInput,
   StopBuildBatchOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4654,9 +4585,8 @@ export const stopBuildBatch: (
 /**
  * Stops a sandbox.
  */
-export const stopSandbox: (
-  input: StopSandboxInput,
-) => effect.Effect<
+export const stopSandbox: API.OperationMethod<
+  StopSandboxInput,
   StopSandboxOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4668,9 +4598,8 @@ export const stopSandbox: (
 /**
  * Updates a compute fleet.
  */
-export const updateFleet: (
-  input: UpdateFleetInput,
-) => effect.Effect<
+export const updateFleet: API.OperationMethod<
+  UpdateFleetInput,
   UpdateFleetOutput,
   | AccountLimitExceededException
   | InvalidInputException
@@ -4689,9 +4618,8 @@ export const updateFleet: (
 /**
  * Changes the settings of a build project.
  */
-export const updateProject: (
-  input: UpdateProjectInput,
-) => effect.Effect<
+export const updateProject: API.OperationMethod<
+  UpdateProjectInput,
   UpdateProjectOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4729,9 +4657,8 @@ export const updateProject: (
  * also recommend that you validate any artifacts with their checksums to make sure that the
  * correct artifacts are being downloaded.
  */
-export const updateProjectVisibility: (
-  input: UpdateProjectVisibilityInput,
-) => effect.Effect<
+export const updateProjectVisibility: API.OperationMethod<
+  UpdateProjectVisibilityInput,
   UpdateProjectVisibilityOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4743,9 +4670,8 @@ export const updateProjectVisibility: (
 /**
  * Updates a report group.
  */
-export const updateReportGroup: (
-  input: UpdateReportGroupInput,
-) => effect.Effect<
+export const updateReportGroup: API.OperationMethod<
+  UpdateReportGroupInput,
   UpdateReportGroupOutput,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4759,9 +4685,8 @@ export const updateReportGroup: (
  *
  * If you use Bitbucket for your repository, `rotateSecret` is ignored.
  */
-export const updateWebhook: (
-  input: UpdateWebhookInput,
-) => effect.Effect<
+export const updateWebhook: API.OperationMethod<
+  UpdateWebhookInput,
   UpdateWebhookOutput,
   | InvalidInputException
   | OAuthProviderException

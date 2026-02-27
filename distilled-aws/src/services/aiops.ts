@@ -547,9 +547,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Displays the tags associated with a CloudWatch investigations resource. Currently, investigation groups support tagging.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -580,9 +579,8 @@ export const listTagsForResource: (
  *
  * You can associate as many as 50 tags with a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -607,9 +605,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -650,9 +647,8 @@ export const untagResource: (
  *
  * For more information about configuring CloudWatch alarms, see Using Amazon CloudWatch alarms
  */
-export const createInvestigationGroup: (
-  input: CreateInvestigationGroupInput,
-) => effect.Effect<
+export const createInvestigationGroup: API.OperationMethod<
+  CreateInvestigationGroupInput,
   CreateInvestigationGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -679,9 +675,8 @@ export const createInvestigationGroup: (
 /**
  * Returns the configuration information for the specified investigation group.
  */
-export const getInvestigationGroup: (
-  input: GetInvestigationGroupRequest,
-) => effect.Effect<
+export const getInvestigationGroup: API.OperationMethod<
+  GetInvestigationGroupRequest,
   GetInvestigationGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -702,9 +697,8 @@ export const getInvestigationGroup: (
 /**
  * Updates the configuration of the specified investigation group.
  */
-export const updateInvestigationGroup: (
-  input: UpdateInvestigationGroupRequest,
-) => effect.Effect<
+export const updateInvestigationGroup: API.OperationMethod<
+  UpdateInvestigationGroupRequest,
   UpdateInvestigationGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -729,9 +723,8 @@ export const updateInvestigationGroup: (
 /**
  * Deletes the specified investigation group from your account. You can currently have one investigation group per Region in your account. After you delete an investigation group, you can later create a new investigation group in the same Region.
  */
-export const deleteInvestigationGroup: (
-  input: DeleteInvestigationGroupRequest,
-) => effect.Effect<
+export const deleteInvestigationGroup: API.OperationMethod<
+  DeleteInvestigationGroupRequest,
   DeleteInvestigationGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -752,17 +745,15 @@ export const deleteInvestigationGroup: (
 /**
  * Returns the ARN and name of each investigation group in the account.
  */
-export const listInvestigationGroups: {
-  (
-    input: ListInvestigationGroupsInput,
-  ): effect.Effect<
-    ListInvestigationGroupsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvestigationGroups: API.OperationMethod<
+  ListInvestigationGroupsInput,
+  ListInvestigationGroupsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvestigationGroupsInput,
   ) => stream.Stream<
@@ -801,9 +792,8 @@ export const listInvestigationGroups: {
  *
  * ` { "Version": "2008-10-17", "Statement": [ { "Effect": "Allow", "Principal": { "Service": "aiops.alarms.cloudwatch.amazonaws.com" }, "Action": [ "aiops:CreateInvestigation", "aiops:CreateInvestigationEvent" ], "Resource": "*", "Condition": { "StringEquals": { "aws:SourceAccount": "account-id" }, "ArnLike": { "aws:SourceArn": "arn:aws:cloudwatch:region:account-id:alarm:*" } } } ] } `
  */
-export const putInvestigationGroupPolicy: (
-  input: PutInvestigationGroupPolicyRequest,
-) => effect.Effect<
+export const putInvestigationGroupPolicy: API.OperationMethod<
+  PutInvestigationGroupPolicyRequest,
   PutInvestigationGroupPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -828,9 +818,8 @@ export const putInvestigationGroupPolicy: (
 /**
  * Returns the JSON of the IAM resource policy associated with the specified investigation group in a string. For example, `{\"Version\":\"2012-10-17\",\"Statement\":[{\"Effect\":\"Allow\",\"Principal\":{\"Service\":\"aiops.alarms.cloudwatch.amazonaws.com\"},\"Action\":[\"aiops:CreateInvestigation\",\"aiops:CreateInvestigationEvent\"],\"Resource\":\"*\",\"Condition\":{\"StringEquals\":{\"aws:SourceAccount\":\"111122223333\"},\"ArnLike\":{\"aws:SourceArn\":\"arn:aws:cloudwatch:us-east-1:111122223333:alarm:*\"}}}]}`.
  */
-export const getInvestigationGroupPolicy: (
-  input: GetInvestigationGroupPolicyRequest,
-) => effect.Effect<
+export const getInvestigationGroupPolicy: API.OperationMethod<
+  GetInvestigationGroupPolicyRequest,
   GetInvestigationGroupPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -853,9 +842,8 @@ export const getInvestigationGroupPolicy: (
 /**
  * Removes the IAM resource policy from being associated with the investigation group that you specify.
  */
-export const deleteInvestigationGroupPolicy: (
-  input: DeleteInvestigationGroupPolicyRequest,
-) => effect.Effect<
+export const deleteInvestigationGroupPolicy: API.OperationMethod<
+  DeleteInvestigationGroupPolicyRequest,
   DeleteInvestigationGroupPolicyOutput,
   | AccessDeniedException
   | InternalServerException

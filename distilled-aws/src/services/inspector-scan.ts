@@ -184,9 +184,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  *
  * The output of this action reports NVD and CVSS scores when NVD and CVSS scores are available. Because the output reports both scores, you might notice a discrepency between them. However, you can triage the severity of either score depending on the vendor of your choosing.
  */
-export const scanSbom: (
-  input: ScanSbomRequest,
-) => effect.Effect<
+export const scanSbom: API.OperationMethod<
+  ScanSbomRequest,
   ScanSbomResponse,
   | AccessDeniedException
   | InternalServerException

@@ -995,9 +995,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Creates an environment for your thin client devices.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentRequest,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentRequest,
   CreateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -1024,9 +1023,8 @@ export const createEnvironment: (
 /**
  * Deletes a thin client device.
  */
-export const deleteDevice: (
-  input: DeleteDeviceRequest,
-) => effect.Effect<
+export const deleteDevice: API.OperationMethod<
+  DeleteDeviceRequest,
   DeleteDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1051,9 +1049,8 @@ export const deleteDevice: (
 /**
  * Deletes an environment.
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentRequest,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -1078,9 +1075,8 @@ export const deleteEnvironment: (
 /**
  * Deregisters a thin client device.
  */
-export const deregisterDevice: (
-  input: DeregisterDeviceRequest,
-) => effect.Effect<
+export const deregisterDevice: API.OperationMethod<
+  DeregisterDeviceRequest,
   DeregisterDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1105,9 +1101,8 @@ export const deregisterDevice: (
 /**
  * Returns information for a thin client device.
  */
-export const getDevice: (
-  input: GetDeviceRequest,
-) => effect.Effect<
+export const getDevice: API.OperationMethod<
+  GetDeviceRequest,
   GetDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1130,9 +1125,8 @@ export const getDevice: (
 /**
  * Returns information for an environment.
  */
-export const getEnvironment: (
-  input: GetEnvironmentRequest,
-) => effect.Effect<
+export const getEnvironment: API.OperationMethod<
+  GetEnvironmentRequest,
   GetEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1155,9 +1149,8 @@ export const getEnvironment: (
 /**
  * Returns information for a software set.
  */
-export const getSoftwareSet: (
-  input: GetSoftwareSetRequest,
-) => effect.Effect<
+export const getSoftwareSet: API.OperationMethod<
+  GetSoftwareSetRequest,
   GetSoftwareSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1180,18 +1173,16 @@ export const getSoftwareSet: (
 /**
  * Returns a list of thin client devices.
  */
-export const listDevices: {
-  (
-    input: ListDevicesRequest,
-  ): effect.Effect<
-    ListDevicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevices: API.OperationMethod<
+  ListDevicesRequest,
+  ListDevicesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevicesRequest,
   ) => stream.Stream<
@@ -1233,18 +1224,16 @@ export const listDevices: {
 /**
  * Returns a list of environments.
  */
-export const listEnvironments: {
-  (
-    input: ListEnvironmentsRequest,
-  ): effect.Effect<
-    ListEnvironmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsRequest,
+  ListEnvironmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
@@ -1286,18 +1275,16 @@ export const listEnvironments: {
 /**
  * Returns a list of software sets.
  */
-export const listSoftwareSets: {
-  (
-    input: ListSoftwareSetsRequest,
-  ): effect.Effect<
-    ListSoftwareSetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSoftwareSets: API.OperationMethod<
+  ListSoftwareSetsRequest,
+  ListSoftwareSetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSoftwareSetsRequest,
   ) => stream.Stream<
@@ -1339,9 +1326,8 @@ export const listSoftwareSets: {
 /**
  * Returns a list of tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1364,9 +1350,8 @@ export const listTagsForResource: (
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1391,9 +1376,8 @@ export const tagResource: (
 /**
  * Removes a tag or tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1418,9 +1402,8 @@ export const untagResource: (
 /**
  * Updates a thin client device.
  */
-export const updateDevice: (
-  input: UpdateDeviceRequest,
-) => effect.Effect<
+export const updateDevice: API.OperationMethod<
+  UpdateDeviceRequest,
   UpdateDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1443,9 +1426,8 @@ export const updateDevice: (
 /**
  * Updates an environment.
  */
-export const updateEnvironment: (
-  input: UpdateEnvironmentRequest,
-) => effect.Effect<
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentRequest,
   UpdateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -1470,9 +1452,8 @@ export const updateEnvironment: (
 /**
  * Updates a software set.
  */
-export const updateSoftwareSet: (
-  input: UpdateSoftwareSetRequest,
-) => effect.Effect<
+export const updateSoftwareSet: API.OperationMethod<
+  UpdateSoftwareSetRequest,
   UpdateSoftwareSetResponse,
   | AccessDeniedException
   | InternalServerException

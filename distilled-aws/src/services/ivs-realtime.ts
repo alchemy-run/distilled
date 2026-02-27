@@ -2373,9 +2373,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Creates an EncoderConfiguration object.
  */
-export const createEncoderConfiguration: (
-  input: CreateEncoderConfigurationRequest,
-) => effect.Effect<
+export const createEncoderConfiguration: API.OperationMethod<
+  CreateEncoderConfigurationRequest,
   CreateEncoderConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2402,9 +2401,8 @@ export const createEncoderConfiguration: (
 /**
  * Creates a new IngestConfiguration resource, used to specify the ingest protocol for a stage.
  */
-export const createIngestConfiguration: (
-  input: CreateIngestConfigurationRequest,
-) => effect.Effect<
+export const createIngestConfiguration: API.OperationMethod<
+  CreateIngestConfigurationRequest,
   CreateIngestConfigurationResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2430,9 +2428,8 @@ export const createIngestConfiguration: (
  * Encryption keys are owned by Amazon IVS and never used directly by your
  * application.
  */
-export const createParticipantToken: (
-  input: CreateParticipantTokenRequest,
-) => effect.Effect<
+export const createParticipantToken: API.OperationMethod<
+  CreateParticipantTokenRequest,
   CreateParticipantTokenResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2455,9 +2452,8 @@ export const createParticipantToken: (
 /**
  * Creates a new stage (and optionally participant tokens).
  */
-export const createStage: (
-  input: CreateStageRequest,
-) => effect.Effect<
+export const createStage: API.OperationMethod<
+  CreateStageRequest,
   CreateStageResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2480,9 +2476,8 @@ export const createStage: (
  * When a StorageConfiguration is created, IVS will modify the S3 bucketPolicy of the provided bucket.
  * This will ensure that IVS has sufficient permissions to write content to the provided bucket.
  */
-export const createStorageConfiguration: (
-  input: CreateStorageConfigurationRequest,
-) => effect.Effect<
+export const createStorageConfiguration: API.OperationMethod<
+  CreateStorageConfigurationRequest,
   CreateStorageConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2510,9 +2505,8 @@ export const createStorageConfiguration: (
  * Deletes an EncoderConfiguration resource. Ensures that no Compositions are using this
  * template; otherwise, returns an error.
  */
-export const deleteEncoderConfiguration: (
-  input: DeleteEncoderConfigurationRequest,
-) => effect.Effect<
+export const deleteEncoderConfiguration: API.OperationMethod<
+  DeleteEncoderConfigurationRequest,
   DeleteEncoderConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2537,9 +2531,8 @@ export const deleteEncoderConfiguration: (
 /**
  * Deletes a specified IngestConfiguration, so it can no longer be used to broadcast. An IngestConfiguration cannot be deleted if the publisher is actively streaming to a stage, unless `force` is set to `true`.
  */
-export const deleteIngestConfiguration: (
-  input: DeleteIngestConfigurationRequest,
-) => effect.Effect<
+export const deleteIngestConfiguration: API.OperationMethod<
+  DeleteIngestConfigurationRequest,
   DeleteIngestConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2563,9 +2556,8 @@ export const deleteIngestConfiguration: (
  * Deletes the specified public key used to sign stage participant tokens.
  * This invalidates future participant tokens generated using the key pair’s private key.
  */
-export const deletePublicKey: (
-  input: DeletePublicKeyRequest,
-) => effect.Effect<
+export const deletePublicKey: API.OperationMethod<
+  DeletePublicKeyRequest,
   DeletePublicKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -2590,9 +2582,8 @@ export const deletePublicKey: (
  * removes the `stageArn` from the associated IngestConfiguration, if there are participants
  * using the IngestConfiguration to publish to the stage.
  */
-export const deleteStage: (
-  input: DeleteStageRequest,
-) => effect.Effect<
+export const deleteStage: API.OperationMethod<
+  DeleteStageRequest,
   DeleteStageResponse,
   | AccessDeniedException
   | ConflictException
@@ -2619,9 +2610,8 @@ export const deleteStage: (
  * To avoid this, for all Compositions that reference the storage configuration, first use StopComposition and wait for it to complete,
  * then use DeleteStorageConfiguration.
  */
-export const deleteStorageConfiguration: (
-  input: DeleteStorageConfigurationRequest,
-) => effect.Effect<
+export const deleteStorageConfiguration: API.OperationMethod<
+  DeleteStorageConfigurationRequest,
   DeleteStorageConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2648,9 +2638,8 @@ export const deleteStorageConfiguration: (
  * an IngestConfiguration, DisconnectParticipant also updates the `stageArn`
  * in the IngestConfiguration to be an empty string.
  */
-export const disconnectParticipant: (
-  input: DisconnectParticipantRequest,
-) => effect.Effect<
+export const disconnectParticipant: API.OperationMethod<
+  DisconnectParticipantRequest,
   DisconnectParticipantResponse,
   | AccessDeniedException
   | PendingVerification
@@ -2671,9 +2660,8 @@ export const disconnectParticipant: (
 /**
  * Get information about the specified Composition resource.
  */
-export const getComposition: (
-  input: GetCompositionRequest,
-) => effect.Effect<
+export const getComposition: API.OperationMethod<
+  GetCompositionRequest,
   GetCompositionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2698,9 +2686,8 @@ export const getComposition: (
 /**
  * Gets information about the specified EncoderConfiguration resource.
  */
-export const getEncoderConfiguration: (
-  input: GetEncoderConfigurationRequest,
-) => effect.Effect<
+export const getEncoderConfiguration: API.OperationMethod<
+  GetEncoderConfigurationRequest,
   GetEncoderConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2725,9 +2712,8 @@ export const getEncoderConfiguration: (
 /**
  * Gets information about the specified IngestConfiguration.
  */
-export const getIngestConfiguration: (
-  input: GetIngestConfigurationRequest,
-) => effect.Effect<
+export const getIngestConfiguration: API.OperationMethod<
+  GetIngestConfigurationRequest,
   GetIngestConfigurationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2746,9 +2732,8 @@ export const getIngestConfiguration: (
 /**
  * Gets information about the specified participant token.
  */
-export const getParticipant: (
-  input: GetParticipantRequest,
-) => effect.Effect<
+export const getParticipant: API.OperationMethod<
+  GetParticipantRequest,
   GetParticipantResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2767,9 +2752,8 @@ export const getParticipant: (
 /**
  * Gets information for the specified public key.
  */
-export const getPublicKey: (
-  input: GetPublicKeyRequest,
-) => effect.Effect<
+export const getPublicKey: API.OperationMethod<
+  GetPublicKeyRequest,
   GetPublicKeyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2788,9 +2772,8 @@ export const getPublicKey: (
 /**
  * Gets information for the specified stage.
  */
-export const getStage: (
-  input: GetStageRequest,
-) => effect.Effect<
+export const getStage: API.OperationMethod<
+  GetStageRequest,
   GetStageResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2809,9 +2792,8 @@ export const getStage: (
 /**
  * Gets information for the specified stage session.
  */
-export const getStageSession: (
-  input: GetStageSessionRequest,
-) => effect.Effect<
+export const getStageSession: API.OperationMethod<
+  GetStageSessionRequest,
   GetStageSessionResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -2830,9 +2812,8 @@ export const getStageSession: (
 /**
  * Gets the storage configuration for the specified ARN.
  */
-export const getStorageConfiguration: (
-  input: GetStorageConfigurationRequest,
-) => effect.Effect<
+export const getStorageConfiguration: API.OperationMethod<
+  GetStorageConfigurationRequest,
   GetStorageConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2857,9 +2838,8 @@ export const getStorageConfiguration: (
 /**
  * Import a public key to be used for signing stage participant tokens.
  */
-export const importPublicKey: (
-  input: ImportPublicKeyRequest,
-) => effect.Effect<
+export const importPublicKey: API.OperationMethod<
+  ImportPublicKeyRequest,
   ImportPublicKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -2883,19 +2863,17 @@ export const importPublicKey: (
  * Gets summary information about all Compositions in your account, in the AWS region
  * where the API request is processed.
  */
-export const listCompositions: {
-  (
-    input: ListCompositionsRequest,
-  ): effect.Effect<
-    ListCompositionsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCompositions: API.OperationMethod<
+  ListCompositionsRequest,
+  ListCompositionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCompositionsRequest,
   ) => stream.Stream<
@@ -2940,19 +2918,17 @@ export const listCompositions: {
  * Gets summary information about all EncoderConfigurations in your account, in the AWS
  * region where the API request is processed.
  */
-export const listEncoderConfigurations: {
-  (
-    input: ListEncoderConfigurationsRequest,
-  ): effect.Effect<
-    ListEncoderConfigurationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEncoderConfigurations: API.OperationMethod<
+  ListEncoderConfigurationsRequest,
+  ListEncoderConfigurationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEncoderConfigurationsRequest,
   ) => stream.Stream<
@@ -2996,14 +2972,12 @@ export const listEncoderConfigurations: {
 /**
  * Lists all IngestConfigurations in your account, in the AWS region where the API request is processed.
  */
-export const listIngestConfigurations: {
-  (
-    input: ListIngestConfigurationsRequest,
-  ): effect.Effect<
-    ListIngestConfigurationsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIngestConfigurations: API.OperationMethod<
+  ListIngestConfigurationsRequest,
+  ListIngestConfigurationsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIngestConfigurationsRequest,
   ) => stream.Stream<
@@ -3033,14 +3007,12 @@ export const listIngestConfigurations: {
  * Lists events for a specified participant that occurred during a specified stage
  * session.
  */
-export const listParticipantEvents: {
-  (
-    input: ListParticipantEventsRequest,
-  ): effect.Effect<
-    ListParticipantEventsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listParticipantEvents: API.OperationMethod<
+  ListParticipantEventsRequest,
+  ListParticipantEventsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListParticipantEventsRequest,
   ) => stream.Stream<
@@ -3068,14 +3040,12 @@ export const listParticipantEvents: {
 /**
  * Lists all the replicas for a participant from a source stage.
  */
-export const listParticipantReplicas: {
-  (
-    input: ListParticipantReplicasRequest,
-  ): effect.Effect<
-    ListParticipantReplicasResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listParticipantReplicas: API.OperationMethod<
+  ListParticipantReplicasRequest,
+  ListParticipantReplicasResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListParticipantReplicasRequest,
   ) => stream.Stream<
@@ -3104,14 +3074,12 @@ export const listParticipantReplicas: {
 /**
  * Lists all participants in a specified stage session.
  */
-export const listParticipants: {
-  (
-    input: ListParticipantsRequest,
-  ): effect.Effect<
-    ListParticipantsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listParticipants: API.OperationMethod<
+  ListParticipantsRequest,
+  ListParticipantsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListParticipantsRequest,
   ) => stream.Stream<
@@ -3139,14 +3107,12 @@ export const listParticipants: {
 /**
  * Gets summary information about all public keys in your account, in the AWS region where the API request is processed.
  */
-export const listPublicKeys: {
-  (
-    input: ListPublicKeysRequest,
-  ): effect.Effect<
-    ListPublicKeysResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPublicKeys: API.OperationMethod<
+  ListPublicKeysRequest,
+  ListPublicKeysResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPublicKeysRequest,
   ) => stream.Stream<
@@ -3176,17 +3142,15 @@ export const listPublicKeys: {
  * Gets summary information about all stages in your account, in the AWS region where the
  * API request is processed.
  */
-export const listStages: {
-  (
-    input: ListStagesRequest,
-  ): effect.Effect<
-    ListStagesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStages: API.OperationMethod<
+  ListStagesRequest,
+  ListStagesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStagesRequest,
   ) => stream.Stream<
@@ -3220,14 +3184,12 @@ export const listStages: {
 /**
  * Gets all sessions for a specified stage.
  */
-export const listStageSessions: {
-  (
-    input: ListStageSessionsRequest,
-  ): effect.Effect<
-    ListStageSessionsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStageSessions: API.OperationMethod<
+  ListStageSessionsRequest,
+  ListStageSessionsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStageSessionsRequest,
   ) => stream.Stream<
@@ -3256,19 +3218,17 @@ export const listStageSessions: {
  * Gets summary information about all storage configurations in your account,
  * in the AWS region where the API request is processed.
  */
-export const listStorageConfigurations: {
-  (
-    input: ListStorageConfigurationsRequest,
-  ): effect.Effect<
-    ListStorageConfigurationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStorageConfigurations: API.OperationMethod<
+  ListStorageConfigurationsRequest,
+  ListStorageConfigurationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStorageConfigurationsRequest,
   ) => stream.Stream<
@@ -3312,9 +3272,8 @@ export const listStorageConfigurations: {
 /**
  * Gets information about AWS tags for the specified ARN.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3350,9 +3309,8 @@ export const listTagsForResource: (
  * - When broadcasting is disconnected and all attempts to reconnect are
  * exhausted.
  */
-export const startComposition: (
-  input: StartCompositionRequest,
-) => effect.Effect<
+export const startComposition: API.OperationMethod<
+  StartCompositionRequest,
   StartCompositionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3379,9 +3337,8 @@ export const startComposition: (
 /**
  * Starts replicating a publishing participant from a source stage to a destination stage.
  */
-export const startParticipantReplication: (
-  input: StartParticipantReplicationRequest,
-) => effect.Effect<
+export const startParticipantReplication: API.OperationMethod<
+  StartParticipantReplicationRequest,
   StartParticipantReplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3409,9 +3366,8 @@ export const startParticipantReplication: (
  * Stops and deletes a Composition resource. Any broadcast from the Composition resource
  * is stopped.
  */
-export const stopComposition: (
-  input: StopCompositionRequest,
-) => effect.Effect<
+export const stopComposition: API.OperationMethod<
+  StopCompositionRequest,
   StopCompositionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3436,9 +3392,8 @@ export const stopComposition: (
 /**
  * Stops a replicated participant session.
  */
-export const stopParticipantReplication: (
-  input: StopParticipantReplicationRequest,
-) => effect.Effect<
+export const stopParticipantReplication: API.OperationMethod<
+  StopParticipantReplicationRequest,
   StopParticipantReplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3459,9 +3414,8 @@ export const stopParticipantReplication: (
 /**
  * Adds or updates tags for the AWS resource with the specified ARN.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3480,9 +3434,8 @@ export const tagResource: (
 /**
  * Removes tags from the resource with the specified ARN.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3501,9 +3454,8 @@ export const untagResource: (
 /**
  * Updates a specified IngestConfiguration. Only the stage ARN attached to the IngestConfiguration can be updated. An IngestConfiguration that is active cannot be updated.
  */
-export const updateIngestConfiguration: (
-  input: UpdateIngestConfigurationRequest,
-) => effect.Effect<
+export const updateIngestConfiguration: API.OperationMethod<
+  UpdateIngestConfigurationRequest,
   UpdateIngestConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3526,9 +3478,8 @@ export const updateIngestConfiguration: (
 /**
  * Updates a stage’s configuration.
  */
-export const updateStage: (
-  input: UpdateStageRequest,
-) => effect.Effect<
+export const updateStage: API.OperationMethod<
+  UpdateStageRequest,
   UpdateStageResponse,
   | AccessDeniedException
   | ConflictException

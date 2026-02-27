@@ -2883,9 +2883,8 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
  * and the role should have permissions that allow the service to deliver the data. For more
  * information, see Grant Firehose Access to an Amazon S3 Destination in the *Amazon Firehose Developer Guide*.
  */
-export const createDeliveryStream: (
-  input: CreateDeliveryStreamInput,
-) => effect.Effect<
+export const createDeliveryStream: API.OperationMethod<
+  CreateDeliveryStreamInput,
   CreateDeliveryStreamOutput,
   | InvalidArgumentException
   | InvalidKMSResourceException
@@ -2921,9 +2920,8 @@ export const createDeliveryStream: (
  * `DELETING` state for several minutes. Therefore, as a best practice, applications should not wait for streams in the `DELETING` state
  * to be removed.
  */
-export const deleteDeliveryStream: (
-  input: DeleteDeliveryStreamInput,
-) => effect.Effect<
+export const deleteDeliveryStream: API.OperationMethod<
+  DeleteDeliveryStreamInput,
   DeleteDeliveryStreamOutput,
   ResourceInUseException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2942,9 +2940,8 @@ export const deleteDeliveryStream: (
  * However, you can invoke the DeleteDeliveryStream operation to delete it.
  * If the status is `DELETING_FAILED`, you can force deletion by invoking DeleteDeliveryStream again but with DeleteDeliveryStreamInput$AllowForceDelete set to true.
  */
-export const describeDeliveryStream: (
-  input: DescribeDeliveryStreamInput,
-) => effect.Effect<
+export const describeDeliveryStream: API.OperationMethod<
+  DescribeDeliveryStreamInput,
   DescribeDeliveryStreamOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2964,9 +2961,8 @@ export const describeDeliveryStream: (
  * again and setting the `ExclusiveStartDeliveryStreamName` parameter to the name
  * of the last Firehose stream returned in the last call.
  */
-export const listDeliveryStreams: (
-  input: ListDeliveryStreamsInput,
-) => effect.Effect<
+export const listDeliveryStreams: API.OperationMethod<
+  ListDeliveryStreamsInput,
   ListDeliveryStreamsOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2979,9 +2975,8 @@ export const listDeliveryStreams: (
  * Lists the tags for the specified Firehose stream. This operation has a limit of five
  * transactions per second per account.
  */
-export const listTagsForDeliveryStream: (
-  input: ListTagsForDeliveryStreamInput,
-) => effect.Effect<
+export const listTagsForDeliveryStream: API.OperationMethod<
+  ListTagsForDeliveryStreamInput,
   ListTagsForDeliveryStreamOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -3048,9 +3043,8 @@ export const listTagsForDeliveryStream: (
  * Don't concatenate two or more base64 strings to form the data fields of your records.
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
-export const putRecord: (
-  input: PutRecordInput,
-) => effect.Effect<
+export const putRecord: API.OperationMethod<
+  PutRecordInput,
   PutRecordOutput,
   | InvalidArgumentException
   | InvalidKMSResourceException
@@ -3142,9 +3136,8 @@ export const putRecord: (
  * Don't concatenate two or more base64 strings to form the data fields of your records.
  * Instead, concatenate the raw data, then perform base64 encoding.
  */
-export const putRecordBatch: (
-  input: PutRecordBatchInput,
-) => effect.Effect<
+export const putRecordBatch: API.OperationMethod<
+  PutRecordBatchInput,
   PutRecordBatchOutput,
   | InvalidArgumentException
   | InvalidKMSResourceException
@@ -3212,9 +3205,8 @@ export const putRecordBatch: (
  * `StopDeliveryStreamEncryption` 12 times for the same Firehose stream in a
  * 24-hour period.
  */
-export const startDeliveryStreamEncryption: (
-  input: StartDeliveryStreamEncryptionInput,
-) => effect.Effect<
+export const startDeliveryStreamEncryption: API.OperationMethod<
+  StartDeliveryStreamEncryptionInput,
   StartDeliveryStreamEncryptionOutput,
   | InvalidArgumentException
   | InvalidKMSResourceException
@@ -3259,9 +3251,8 @@ export const startDeliveryStreamEncryption: (
  * `StopDeliveryStreamEncryption` 12 times for the same Firehose stream in a
  * 24-hour period.
  */
-export const stopDeliveryStreamEncryption: (
-  input: StopDeliveryStreamEncryptionInput,
-) => effect.Effect<
+export const stopDeliveryStreamEncryption: API.OperationMethod<
+  StopDeliveryStreamEncryptionInput,
   StopDeliveryStreamEncryptionOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -3293,9 +3284,8 @@ export const stopDeliveryStreamEncryption: (
  *
  * This operation has a limit of five transactions per second per account.
  */
-export const tagDeliveryStream: (
-  input: TagDeliveryStreamInput,
-) => effect.Effect<
+export const tagDeliveryStream: API.OperationMethod<
+  TagDeliveryStreamInput,
   TagDeliveryStreamOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -3321,9 +3311,8 @@ export const tagDeliveryStream: (
  *
  * This operation has a limit of five transactions per second per account.
  */
-export const untagDeliveryStream: (
-  input: UntagDeliveryStreamInput,
-) => effect.Effect<
+export const untagDeliveryStream: API.OperationMethod<
+  UntagDeliveryStreamInput,
   UntagDeliveryStreamOutput,
   | InvalidArgumentException
   | LimitExceededException
@@ -3371,9 +3360,8 @@ export const untagDeliveryStream: (
  * update is applied successfully, the version ID is updated, and can be retrieved using DescribeDeliveryStream. Use the new version ID to set
  * `CurrentDeliveryStreamVersionId` in the next call.
  */
-export const updateDestination: (
-  input: UpdateDestinationInput,
-) => effect.Effect<
+export const updateDestination: API.OperationMethod<
+  UpdateDestinationInput,
   UpdateDestinationOutput,
   | ConcurrentModificationException
   | InvalidArgumentException

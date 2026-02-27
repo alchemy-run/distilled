@@ -1138,9 +1138,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Attaches a volume to a WorkSpace Instance.
  */
-export const associateVolume: (
-  input: AssociateVolumeRequest,
-) => effect.Effect<
+export const associateVolume: API.OperationMethod<
+  AssociateVolumeRequest,
   AssociateVolumeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1165,9 +1164,8 @@ export const associateVolume: (
 /**
  * Creates a new volume for WorkSpace Instances.
  */
-export const createVolume: (
-  input: CreateVolumeRequest,
-) => effect.Effect<
+export const createVolume: API.OperationMethod<
+  CreateVolumeRequest,
   CreateVolumeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1192,9 +1190,8 @@ export const createVolume: (
 /**
  * Launches a new WorkSpace Instance with specified configuration parameters, enabling programmatic workspace deployment.
  */
-export const createWorkspaceInstance: (
-  input: CreateWorkspaceInstanceRequest,
-) => effect.Effect<
+export const createWorkspaceInstance: API.OperationMethod<
+  CreateWorkspaceInstanceRequest,
   CreateWorkspaceInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1219,9 +1216,8 @@ export const createWorkspaceInstance: (
 /**
  * Deletes a specified volume.
  */
-export const deleteVolume: (
-  input: DeleteVolumeRequest,
-) => effect.Effect<
+export const deleteVolume: API.OperationMethod<
+  DeleteVolumeRequest,
   DeleteVolumeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1248,9 +1244,8 @@ export const deleteVolume: (
  *
  * Usage of this API will result in deletion of the resource in question.
  */
-export const deleteWorkspaceInstance: (
-  input: DeleteWorkspaceInstanceRequest,
-) => effect.Effect<
+export const deleteWorkspaceInstance: API.OperationMethod<
+  DeleteWorkspaceInstanceRequest,
   DeleteWorkspaceInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1275,9 +1270,8 @@ export const deleteWorkspaceInstance: (
 /**
  * Detaches a volume from a WorkSpace Instance.
  */
-export const disassociateVolume: (
-  input: DisassociateVolumeRequest,
-) => effect.Effect<
+export const disassociateVolume: API.OperationMethod<
+  DisassociateVolumeRequest,
   DisassociateVolumeResponse,
   | AccessDeniedException
   | ConflictException
@@ -1302,9 +1296,8 @@ export const disassociateVolume: (
 /**
  * Retrieves detailed information about a specific WorkSpace Instance.
  */
-export const getWorkspaceInstance: (
-  input: GetWorkspaceInstanceRequest,
-) => effect.Effect<
+export const getWorkspaceInstance: API.OperationMethod<
+  GetWorkspaceInstanceRequest,
   GetWorkspaceInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1327,18 +1320,16 @@ export const getWorkspaceInstance: (
 /**
  * Retrieves a list of instance types supported by Amazon WorkSpaces Instances, enabling precise workspace infrastructure configuration.
  */
-export const listInstanceTypes: {
-  (
-    input: ListInstanceTypesRequest,
-  ): effect.Effect<
-    ListInstanceTypesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listInstanceTypes: API.OperationMethod<
+  ListInstanceTypesRequest,
+  ListInstanceTypesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstanceTypesRequest,
   ) => stream.Stream<
@@ -1380,18 +1371,16 @@ export const listInstanceTypes: {
 /**
  * Retrieves a list of AWS regions supported by Amazon WorkSpaces Instances, enabling region discovery for workspace deployments.
  */
-export const listRegions: {
-  (
-    input: ListRegionsRequest,
-  ): effect.Effect<
-    ListRegionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRegions: API.OperationMethod<
+  ListRegionsRequest,
+  ListRegionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRegionsRequest,
   ) => stream.Stream<
@@ -1433,9 +1422,8 @@ export const listRegions: {
 /**
  * Retrieves tags for a WorkSpace Instance.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1458,18 +1446,16 @@ export const listTagsForResource: (
 /**
  * Retrieves a collection of WorkSpaces Instances based on specified filters.
  */
-export const listWorkspaceInstances: {
-  (
-    input: ListWorkspaceInstancesRequest,
-  ): effect.Effect<
-    ListWorkspaceInstancesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listWorkspaceInstances: API.OperationMethod<
+  ListWorkspaceInstancesRequest,
+  ListWorkspaceInstancesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkspaceInstancesRequest,
   ) => stream.Stream<
@@ -1511,9 +1497,8 @@ export const listWorkspaceInstances: {
 /**
  * Adds tags to a WorkSpace Instance.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1536,9 +1521,8 @@ export const tagResource: (
 /**
  * Removes tags from a WorkSpace Instance.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException

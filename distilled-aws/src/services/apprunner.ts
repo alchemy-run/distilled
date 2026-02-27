@@ -2050,9 +2050,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * more certificate validation records. App Runner then performs DNS validation to verify that you own or control the domain name that you associated. App Runner tracks
  * domain validity in a certificate stored in AWS Certificate Manager (ACM).
  */
-export const associateCustomDomain: (
-  input: AssociateCustomDomainRequest,
-) => effect.Effect<
+export const associateCustomDomain: API.OperationMethod<
+  AssociateCustomDomainRequest,
   AssociateCustomDomainResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2082,9 +2081,8 @@ export const associateCustomDomain: (
  *
  * Configure a lower `MaxSize` to control your cost. The tradeoff is lower responsiveness during peak demand.
  */
-export const createAutoScalingConfiguration: (
-  input: CreateAutoScalingConfigurationRequest,
-) => effect.Effect<
+export const createAutoScalingConfiguration: API.OperationMethod<
+  CreateAutoScalingConfigurationRequest,
   CreateAutoScalingConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2108,9 +2106,8 @@ export const createAutoScalingConfiguration: (
  * a user interface approval process through the App Runner console before you can use the
  * connection.
  */
-export const createConnection: (
-  input: CreateConnectionRequest,
-) => effect.Effect<
+export const createConnection: API.OperationMethod<
+  CreateConnectionRequest,
   CreateConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2139,9 +2136,8 @@ export const createConnection: (
  * parameters that describe the configuration of these features (currently one parameter, `TraceConfiguration`). If you don't specify a feature
  * parameter, App Runner doesn't enable the feature.
  */
-export const createObservabilityConfiguration: (
-  input: CreateObservabilityConfigurationRequest,
-) => effect.Effect<
+export const createObservabilityConfiguration: API.OperationMethod<
+  CreateObservabilityConfigurationRequest,
   CreateObservabilityConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2162,9 +2158,8 @@ export const createObservabilityConfiguration: (
  *
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations call to track the operation's progress.
  */
-export const createService: (
-  input: CreateServiceRequest,
-) => effect.Effect<
+export const createService: API.OperationMethod<
+  CreateServiceRequest,
   CreateServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2184,9 +2179,8 @@ export const createService: (
  * Create an App Runner VPC connector resource. App Runner requires this resource when you want to associate your App Runner service to a custom Amazon Virtual Private Cloud
  * (Amazon VPC).
  */
-export const createVpcConnector: (
-  input: CreateVpcConnectorRequest,
-) => effect.Effect<
+export const createVpcConnector: API.OperationMethod<
+  CreateVpcConnectorRequest,
   CreateVpcConnectorResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2205,9 +2199,8 @@ export const createVpcConnector: (
 /**
  * Create an App Runner VPC Ingress Connection resource. App Runner requires this resource when you want to associate your App Runner service with an Amazon VPC endpoint.
  */
-export const createVpcIngressConnection: (
-  input: CreateVpcIngressConnectionRequest,
-) => effect.Effect<
+export const createVpcIngressConnection: API.OperationMethod<
+  CreateVpcIngressConnectionRequest,
   CreateVpcIngressConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2230,9 +2223,8 @@ export const createVpcIngressConnection: (
  * revisions associated with the top level configuration. You can't delete the default auto scaling configuration or a configuration that's used by one or
  * more App Runner services.
  */
-export const deleteAutoScalingConfiguration: (
-  input: DeleteAutoScalingConfigurationRequest,
-) => effect.Effect<
+export const deleteAutoScalingConfiguration: API.OperationMethod<
+  DeleteAutoScalingConfigurationRequest,
   DeleteAutoScalingConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2252,9 +2244,8 @@ export const deleteAutoScalingConfiguration: (
  * Delete an App Runner connection. You must first ensure that there are no running App Runner services that use this connection. If there are any, the
  * `DeleteConnection` action fails.
  */
-export const deleteConnection: (
-  input: DeleteConnectionRequest,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
   DeleteConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2274,9 +2265,8 @@ export const deleteConnection: (
  * Delete an App Runner observability configuration resource. You can delete a specific revision or the latest active revision. You can't delete a
  * configuration that's used by one or more App Runner services.
  */
-export const deleteObservabilityConfiguration: (
-  input: DeleteObservabilityConfigurationRequest,
-) => effect.Effect<
+export const deleteObservabilityConfiguration: API.OperationMethod<
+  DeleteObservabilityConfigurationRequest,
   DeleteObservabilityConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2300,9 +2290,8 @@ export const deleteObservabilityConfiguration: (
  *
  * Make sure that you don't have any active VPCIngressConnections associated with the service you want to delete.
  */
-export const deleteService: (
-  input: DeleteServiceRequest,
-) => effect.Effect<
+export const deleteService: API.OperationMethod<
+  DeleteServiceRequest,
   DeleteServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2324,9 +2313,8 @@ export const deleteService: (
  * Delete an App Runner VPC connector resource. You can't delete a
  * connector that's used by one or more App Runner services.
  */
-export const deleteVpcConnector: (
-  input: DeleteVpcConnectorRequest,
-) => effect.Effect<
+export const deleteVpcConnector: API.OperationMethod<
+  DeleteVpcConnectorRequest,
   DeleteVpcConnectorResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2353,9 +2341,8 @@ export const deleteVpcConnector: (
  *
  * - `FAILED_DELETION`
  */
-export const deleteVpcIngressConnection: (
-  input: DeleteVpcIngressConnectionRequest,
-) => effect.Effect<
+export const deleteVpcIngressConnection: API.OperationMethod<
+  DeleteVpcIngressConnectionRequest,
   DeleteVpcIngressConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2376,9 +2363,8 @@ export const deleteVpcIngressConnection: (
 /**
  * Return a full description of an App Runner automatic scaling configuration resource.
  */
-export const describeAutoScalingConfiguration: (
-  input: DescribeAutoScalingConfigurationRequest,
-) => effect.Effect<
+export const describeAutoScalingConfiguration: API.OperationMethod<
+  DescribeAutoScalingConfigurationRequest,
   DescribeAutoScalingConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2397,17 +2383,15 @@ export const describeAutoScalingConfiguration: (
 /**
  * Return a description of custom domain names that are associated with an App Runner service.
  */
-export const describeCustomDomains: {
-  (
-    input: DescribeCustomDomainsRequest,
-  ): effect.Effect<
-    DescribeCustomDomainsResponse,
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCustomDomains: API.OperationMethod<
+  DescribeCustomDomainsRequest,
+  DescribeCustomDomainsResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCustomDomainsRequest,
   ) => stream.Stream<
@@ -2445,9 +2429,8 @@ export const describeCustomDomains: {
 /**
  * Return a full description of an App Runner observability configuration resource.
  */
-export const describeObservabilityConfiguration: (
-  input: DescribeObservabilityConfigurationRequest,
-) => effect.Effect<
+export const describeObservabilityConfiguration: API.OperationMethod<
+  DescribeObservabilityConfigurationRequest,
   DescribeObservabilityConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2466,9 +2449,8 @@ export const describeObservabilityConfiguration: (
 /**
  * Return a full description of an App Runner service.
  */
-export const describeService: (
-  input: DescribeServiceRequest,
-) => effect.Effect<
+export const describeService: API.OperationMethod<
+  DescribeServiceRequest,
   DescribeServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2487,9 +2469,8 @@ export const describeService: (
 /**
  * Return a description of an App Runner VPC connector resource.
  */
-export const describeVpcConnector: (
-  input: DescribeVpcConnectorRequest,
-) => effect.Effect<
+export const describeVpcConnector: API.OperationMethod<
+  DescribeVpcConnectorRequest,
   DescribeVpcConnectorResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2508,9 +2489,8 @@ export const describeVpcConnector: (
 /**
  * Return a full description of an App Runner VPC Ingress Connection resource.
  */
-export const describeVpcIngressConnection: (
-  input: DescribeVpcIngressConnectionRequest,
-) => effect.Effect<
+export const describeVpcIngressConnection: API.OperationMethod<
+  DescribeVpcIngressConnectionRequest,
   DescribeVpcIngressConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2533,9 +2513,8 @@ export const describeVpcIngressConnection: (
  * Certificate Manager (ACM). These certificates aren't deleted as part of this action. App Runner delays certificate deletion for
  * 30 days after a domain is disassociated from your service.
  */
-export const disassociateCustomDomain: (
-  input: DisassociateCustomDomainRequest,
-) => effect.Effect<
+export const disassociateCustomDomain: API.OperationMethod<
+  DisassociateCustomDomainRequest,
   DisassociateCustomDomainResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2561,14 +2540,12 @@ export const disassociateCustomDomain: (
  * To retrieve a full description of a particular configuration revision, call and provide one of
  * the ARNs returned by `ListAutoScalingConfigurations`.
  */
-export const listAutoScalingConfigurations: {
-  (
-    input: ListAutoScalingConfigurationsRequest,
-  ): effect.Effect<
-    ListAutoScalingConfigurationsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutoScalingConfigurations: API.OperationMethod<
+  ListAutoScalingConfigurationsRequest,
+  ListAutoScalingConfigurationsResponse,
+  InternalServiceErrorException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutoScalingConfigurationsRequest,
   ) => stream.Stream<
@@ -2596,14 +2573,12 @@ export const listAutoScalingConfigurations: {
 /**
  * Returns a list of App Runner connections that are associated with your Amazon Web Services account.
  */
-export const listConnections: {
-  (
-    input: ListConnectionsRequest,
-  ): effect.Effect<
-    ListConnectionsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnections: API.OperationMethod<
+  ListConnectionsRequest,
+  ListConnectionsResponse,
+  InternalServiceErrorException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectionsRequest,
   ) => stream.Stream<
@@ -2636,14 +2611,12 @@ export const listConnections: {
  * To retrieve a full description of a particular configuration revision, call and provide one
  * of the ARNs returned by `ListObservabilityConfigurations`.
  */
-export const listObservabilityConfigurations: {
-  (
-    input: ListObservabilityConfigurationsRequest,
-  ): effect.Effect<
-    ListObservabilityConfigurationsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listObservabilityConfigurations: API.OperationMethod<
+  ListObservabilityConfigurationsRequest,
+  ListObservabilityConfigurationsResponse,
+  InternalServiceErrorException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListObservabilityConfigurationsRequest,
   ) => stream.Stream<
@@ -2674,17 +2647,15 @@ export const listObservabilityConfigurations: {
  * The resulting list of OperationSummary objects is sorted in reverse chronological order. The first object on the list represents the
  * last started operation.
  */
-export const listOperations: {
-  (
-    input: ListOperationsRequest,
-  ): effect.Effect<
-    ListOperationsResponse,
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOperations: API.OperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOperationsRequest,
   ) => stream.Stream<
@@ -2722,14 +2693,12 @@ export const listOperations: {
 /**
  * Returns a list of running App Runner services in your Amazon Web Services account.
  */
-export const listServices: {
-  (
-    input: ListServicesRequest,
-  ): effect.Effect<
-    ListServicesResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServices: API.OperationMethod<
+  ListServicesRequest,
+  ListServicesResponse,
+  InternalServiceErrorException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
@@ -2757,17 +2726,15 @@ export const listServices: {
 /**
  * Returns a list of the associated App Runner services using an auto scaling configuration.
  */
-export const listServicesForAutoScalingConfiguration: {
-  (
-    input: ListServicesForAutoScalingConfigurationRequest,
-  ): effect.Effect<
-    ListServicesForAutoScalingConfigurationResponse,
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServicesForAutoScalingConfiguration: API.OperationMethod<
+  ListServicesForAutoScalingConfigurationRequest,
+  ListServicesForAutoScalingConfigurationResponse,
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesForAutoScalingConfigurationRequest,
   ) => stream.Stream<
@@ -2805,9 +2772,8 @@ export const listServicesForAutoScalingConfiguration: {
 /**
  * List tags that are associated with for an App Runner resource. The response contains a list of tag key-value pairs.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2828,14 +2794,12 @@ export const listTagsForResource: (
 /**
  * Returns a list of App Runner VPC connectors in your Amazon Web Services account.
  */
-export const listVpcConnectors: {
-  (
-    input: ListVpcConnectorsRequest,
-  ): effect.Effect<
-    ListVpcConnectorsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVpcConnectors: API.OperationMethod<
+  ListVpcConnectorsRequest,
+  ListVpcConnectorsResponse,
+  InternalServiceErrorException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVpcConnectorsRequest,
   ) => stream.Stream<
@@ -2863,14 +2827,12 @@ export const listVpcConnectors: {
 /**
  * Return a list of App Runner VPC Ingress Connections in your Amazon Web Services account.
  */
-export const listVpcIngressConnections: {
-  (
-    input: ListVpcIngressConnectionsRequest,
-  ): effect.Effect<
-    ListVpcIngressConnectionsResponse,
-    InternalServiceErrorException | InvalidRequestException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVpcIngressConnections: API.OperationMethod<
+  ListVpcIngressConnectionsRequest,
+  ListVpcIngressConnectionsResponse,
+  InternalServiceErrorException | InvalidRequestException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVpcIngressConnectionsRequest,
   ) => stream.Stream<
@@ -2902,9 +2864,8 @@ export const listVpcIngressConnections: {
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
  * call to track the operation's progress.
  */
-export const pauseService: (
-  input: PauseServiceRequest,
-) => effect.Effect<
+export const pauseService: API.OperationMethod<
+  PauseServiceRequest,
   PauseServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2928,9 +2889,8 @@ export const pauseService: (
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
  * call to track the operation's progress.
  */
-export const resumeService: (
-  input: ResumeServiceRequest,
-) => effect.Effect<
+export const resumeService: API.OperationMethod<
+  ResumeServiceRequest,
   ResumeServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2958,9 +2918,8 @@ export const resumeService: (
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
  * call to track the operation's progress.
  */
-export const startDeployment: (
-  input: StartDeploymentRequest,
-) => effect.Effect<
+export const startDeployment: API.OperationMethod<
+  StartDeploymentRequest,
   StartDeploymentResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2979,9 +2938,8 @@ export const startDeployment: (
 /**
  * Add tags to, or update the tag values of, an App Runner resource. A tag is a key-value pair.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -3002,9 +2960,8 @@ export const tagResource: (
 /**
  * Remove tags from an App Runner resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -3026,9 +2983,8 @@ export const untagResource: (
  * Update an auto scaling configuration to be the default. The existing default auto scaling configuration will be set to non-default
  * automatically.
  */
-export const updateDefaultAutoScalingConfiguration: (
-  input: UpdateDefaultAutoScalingConfigurationRequest,
-) => effect.Effect<
+export const updateDefaultAutoScalingConfiguration: API.OperationMethod<
+  UpdateDefaultAutoScalingConfigurationRequest,
   UpdateDefaultAutoScalingConfigurationResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -3054,9 +3010,8 @@ export const updateDefaultAutoScalingConfiguration: (
  * This is an asynchronous operation. On a successful call, you can use the returned `OperationId` and the ListOperations
  * call to track the operation's progress.
  */
-export const updateService: (
-  input: UpdateServiceRequest,
-) => effect.Effect<
+export const updateService: API.OperationMethod<
+  UpdateServiceRequest,
   UpdateServiceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -3083,9 +3038,8 @@ export const updateService: (
  *
  * - FAILED_UPDATE
  */
-export const updateVpcIngressConnection: (
-  input: UpdateVpcIngressConnectionRequest,
-) => effect.Effect<
+export const updateVpcIngressConnection: API.OperationMethod<
+  UpdateVpcIngressConnectionRequest,
   UpdateVpcIngressConnectionResponse,
   | InternalServiceErrorException
   | InvalidRequestException

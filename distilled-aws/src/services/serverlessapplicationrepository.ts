@@ -1224,9 +1224,8 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
 /**
  * Creates an application, optionally including an AWS SAM file to create the first application version in the same call.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | BadRequestException
   | ConflictException
@@ -1249,9 +1248,8 @@ export const createApplication: (
 /**
  * Creates an application version.
  */
-export const createApplicationVersion: (
-  input: CreateApplicationVersionRequest,
-) => effect.Effect<
+export const createApplicationVersion: API.OperationMethod<
+  CreateApplicationVersionRequest,
   CreateApplicationVersionResponse,
   | BadRequestException
   | ConflictException
@@ -1274,9 +1272,8 @@ export const createApplicationVersion: (
 /**
  * Creates an AWS CloudFormation change set for the given application.
  */
-export const createCloudFormationChangeSet: (
-  input: CreateCloudFormationChangeSetRequest,
-) => effect.Effect<
+export const createCloudFormationChangeSet: API.OperationMethod<
+  CreateCloudFormationChangeSetRequest,
   CreateCloudFormationChangeSetResponse,
   | BadRequestException
   | ForbiddenException
@@ -1297,9 +1294,8 @@ export const createCloudFormationChangeSet: (
 /**
  * Creates an AWS CloudFormation template.
  */
-export const createCloudFormationTemplate: (
-  input: CreateCloudFormationTemplateRequest,
-) => effect.Effect<
+export const createCloudFormationTemplate: API.OperationMethod<
+  CreateCloudFormationTemplateRequest,
   CreateCloudFormationTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -1322,9 +1318,8 @@ export const createCloudFormationTemplate: (
 /**
  * Deletes the specified application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | BadRequestException
   | ConflictException
@@ -1349,9 +1344,8 @@ export const deleteApplication: (
 /**
  * Gets the specified application.
  */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
   GetApplicationResponse,
   | BadRequestException
   | ForbiddenException
@@ -1374,9 +1368,8 @@ export const getApplication: (
 /**
  * Retrieves the policy for the application.
  */
-export const getApplicationPolicy: (
-  input: GetApplicationPolicyRequest,
-) => effect.Effect<
+export const getApplicationPolicy: API.OperationMethod<
+  GetApplicationPolicyRequest,
   GetApplicationPolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -1399,9 +1392,8 @@ export const getApplicationPolicy: (
 /**
  * Gets the specified AWS CloudFormation template.
  */
-export const getCloudFormationTemplate: (
-  input: GetCloudFormationTemplateRequest,
-) => effect.Effect<
+export const getCloudFormationTemplate: API.OperationMethod<
+  GetCloudFormationTemplateRequest,
   GetCloudFormationTemplateResponse,
   | BadRequestException
   | ForbiddenException
@@ -1424,19 +1416,17 @@ export const getCloudFormationTemplate: (
 /**
  * Retrieves the list of applications nested in the containing application.
  */
-export const listApplicationDependencies: {
-  (
-    input: ListApplicationDependenciesRequest,
-  ): effect.Effect<
-    ListApplicationDependenciesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationDependencies: API.OperationMethod<
+  ListApplicationDependenciesRequest,
+  ListApplicationDependenciesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationDependenciesRequest,
   ) => stream.Stream<
@@ -1480,18 +1470,16 @@ export const listApplicationDependencies: {
 /**
  * Lists applications owned by the requester.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -1532,19 +1520,17 @@ export const listApplications: {
 /**
  * Lists versions for the specified application.
  */
-export const listApplicationVersions: {
-  (
-    input: ListApplicationVersionsRequest,
-  ): effect.Effect<
-    ListApplicationVersionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationVersions: API.OperationMethod<
+  ListApplicationVersionsRequest,
+  ListApplicationVersionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationVersionsRequest,
   ) => stream.Stream<
@@ -1591,9 +1577,8 @@ export const listApplicationVersions: {
  * Permissions
  * .
  */
-export const putApplicationPolicy: (
-  input: PutApplicationPolicyRequest,
-) => effect.Effect<
+export const putApplicationPolicy: API.OperationMethod<
+  PutApplicationPolicyRequest,
   PutApplicationPolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -1618,9 +1603,8 @@ export const putApplicationPolicy: (
  *
  * This operation can be called only from the organization's master account.
  */
-export const unshareApplication: (
-  input: UnshareApplicationRequest,
-) => effect.Effect<
+export const unshareApplication: API.OperationMethod<
+  UnshareApplicationRequest,
   UnshareApplicationResponse,
   | BadRequestException
   | ForbiddenException
@@ -1643,9 +1627,8 @@ export const unshareApplication: (
 /**
  * Updates the specified application.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | BadRequestException
   | ConflictException

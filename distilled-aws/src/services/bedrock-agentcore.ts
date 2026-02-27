@@ -2582,9 +2582,8 @@ export class RetryableConflictException extends S.TaggedErrorClass<RetryableConf
 /**
  * Confirms the user authentication session for obtaining OAuth2.0 tokens for a resource.
  */
-export const completeResourceTokenAuth: (
-  input: CompleteResourceTokenAuthRequest,
-) => effect.Effect<
+export const completeResourceTokenAuth: API.OperationMethod<
+  CompleteResourceTokenAuthRequest,
   CompleteResourceTokenAuthResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2609,9 +2608,8 @@ export const completeResourceTokenAuth: (
 /**
  * Retrieves the API key associated with an API key credential provider.
  */
-export const getResourceApiKey: (
-  input: GetResourceApiKeyRequest,
-) => effect.Effect<
+export const getResourceApiKey: API.OperationMethod<
+  GetResourceApiKeyRequest,
   GetResourceApiKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2636,9 +2634,8 @@ export const getResourceApiKey: (
 /**
  * Returns the OAuth 2.0 token of the provided resource.
  */
-export const getResourceOauth2Token: (
-  input: GetResourceOauth2TokenRequest,
-) => effect.Effect<
+export const getResourceOauth2Token: API.OperationMethod<
+  GetResourceOauth2TokenRequest,
   GetResourceOauth2TokenResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2663,9 +2660,8 @@ export const getResourceOauth2Token: (
 /**
  * Obtains a workload access token for agentic workloads not acting on behalf of a user.
  */
-export const getWorkloadAccessToken: (
-  input: GetWorkloadAccessTokenRequest,
-) => effect.Effect<
+export const getWorkloadAccessToken: API.OperationMethod<
+  GetWorkloadAccessTokenRequest,
   GetWorkloadAccessTokenResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2690,9 +2686,8 @@ export const getWorkloadAccessToken: (
 /**
  * Obtains a workload access token for agentic workloads acting on behalf of a user, using a JWT token.
  */
-export const getWorkloadAccessTokenForJWT: (
-  input: GetWorkloadAccessTokenForJWTRequest,
-) => effect.Effect<
+export const getWorkloadAccessTokenForJWT: API.OperationMethod<
+  GetWorkloadAccessTokenForJWTRequest,
   GetWorkloadAccessTokenForJWTResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2717,9 +2712,8 @@ export const getWorkloadAccessTokenForJWT: (
 /**
  * Obtains a workload access token for agentic workloads acting on behalf of a user, using the user's ID.
  */
-export const getWorkloadAccessTokenForUserId: (
-  input: GetWorkloadAccessTokenForUserIdRequest,
-) => effect.Effect<
+export const getWorkloadAccessTokenForUserId: API.OperationMethod<
+  GetWorkloadAccessTokenForUserIdRequest,
   GetWorkloadAccessTokenForUserIdResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2754,9 +2748,8 @@ export const getWorkloadAccessTokenForUserId: (
  *
  * - GetCodeInterpreterSession
  */
-export const invokeCodeInterpreter: (
-  input: InvokeCodeInterpreterRequest,
-) => effect.Effect<
+export const invokeCodeInterpreter: API.OperationMethod<
+  InvokeCodeInterpreterRequest,
   InvokeCodeInterpreterResponse,
   | AccessDeniedException
   | ConflictException
@@ -2783,9 +2776,8 @@ export const invokeCodeInterpreter: (
 /**
  * Retrieves the A2A agent card associated with an AgentCore Runtime agent.
  */
-export const getAgentCard: (
-  input: GetAgentCardRequest,
-) => effect.Effect<
+export const getAgentCard: API.OperationMethod<
+  GetAgentCardRequest,
   GetAgentCardResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2822,9 +2814,8 @@ export const getAgentCard: (
  *
  * To use this operation, you must have the `bedrock-agentcore:InvokeAgentRuntime` permission. If you are making a call to `InvokeAgentRuntime` on behalf of a user ID with the `X-Amzn-Bedrock-AgentCore-Runtime-User-Id` header, You require permissions to both actions (`bedrock-agentcore:InvokeAgentRuntime` and `bedrock-agentcore:InvokeAgentRuntimeForUser`).
  */
-export const invokeAgentRuntime: (
-  input: InvokeAgentRuntimeRequest,
-) => effect.Effect<
+export const invokeAgentRuntime: API.OperationMethod<
+  InvokeAgentRuntimeRequest,
   InvokeAgentRuntimeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2851,9 +2842,8 @@ export const invokeAgentRuntime: (
 /**
  * Stops a session that is running in an running AgentCore Runtime agent.
  */
-export const stopRuntimeSession: (
-  input: StopRuntimeSessionRequest,
-) => effect.Effect<
+export const stopRuntimeSession: API.OperationMethod<
+  StopRuntimeSessionRequest,
   StopRuntimeSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2894,9 +2884,8 @@ export const stopRuntimeSession: (
  *
  * - GetBrowserSession
  */
-export const saveBrowserSessionProfile: (
-  input: SaveBrowserSessionProfileRequest,
-) => effect.Effect<
+export const saveBrowserSessionProfile: API.OperationMethod<
+  SaveBrowserSessionProfileRequest,
   SaveBrowserSessionProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -2931,9 +2920,8 @@ export const saveBrowserSessionProfile: (
  *
  * - StopBrowserSession
  */
-export const getBrowserSession: (
-  input: GetBrowserSessionRequest,
-) => effect.Effect<
+export const getBrowserSession: API.OperationMethod<
+  GetBrowserSessionRequest,
   GetBrowserSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2966,9 +2954,8 @@ export const getBrowserSession: (
  *
  * - GetBrowserSession
  */
-export const listBrowserSessions: (
-  input: ListBrowserSessionsRequest,
-) => effect.Effect<
+export const listBrowserSessions: API.OperationMethod<
+  ListBrowserSessionsRequest,
   ListBrowserSessionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3003,9 +2990,8 @@ export const listBrowserSessions: (
  *
  * - StopBrowserSession
  */
-export const startBrowserSession: (
-  input: StartBrowserSessionRequest,
-) => effect.Effect<
+export const startBrowserSession: API.OperationMethod<
+  StartBrowserSessionRequest,
   StartBrowserSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3040,9 +3026,8 @@ export const startBrowserSession: (
  *
  * - GetBrowserSession
  */
-export const stopBrowserSession: (
-  input: StopBrowserSessionRequest,
-) => effect.Effect<
+export const stopBrowserSession: API.OperationMethod<
+  StopBrowserSessionRequest,
   StopBrowserSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3069,9 +3054,8 @@ export const stopBrowserSession: (
 /**
  * Updates a browser stream. To use this operation, you must have permissions to perform the bedrock:UpdateBrowserStream action.
  */
-export const updateBrowserStream: (
-  input: UpdateBrowserStreamRequest,
-) => effect.Effect<
+export const updateBrowserStream: API.OperationMethod<
+  UpdateBrowserStreamRequest,
   UpdateBrowserStreamResponse,
   | AccessDeniedException
   | ConflictException
@@ -3108,9 +3092,8 @@ export const updateBrowserStream: (
  *
  * - StopCodeInterpreterSession
  */
-export const getCodeInterpreterSession: (
-  input: GetCodeInterpreterSessionRequest,
-) => effect.Effect<
+export const getCodeInterpreterSession: API.OperationMethod<
+  GetCodeInterpreterSessionRequest,
   GetCodeInterpreterSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3143,9 +3126,8 @@ export const getCodeInterpreterSession: (
  *
  * - GetCodeInterpreterSession
  */
-export const listCodeInterpreterSessions: (
-  input: ListCodeInterpreterSessionsRequest,
-) => effect.Effect<
+export const listCodeInterpreterSessions: API.OperationMethod<
+  ListCodeInterpreterSessionsRequest,
   ListCodeInterpreterSessionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3178,9 +3160,8 @@ export const listCodeInterpreterSessions: (
  *
  * - StopCodeInterpreterSession
  */
-export const startCodeInterpreterSession: (
-  input: StartCodeInterpreterSessionRequest,
-) => effect.Effect<
+export const startCodeInterpreterSession: API.OperationMethod<
+  StartCodeInterpreterSessionRequest,
   StartCodeInterpreterSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3215,9 +3196,8 @@ export const startCodeInterpreterSession: (
  *
  * - GetCodeInterpreterSession
  */
-export const stopCodeInterpreterSession: (
-  input: StopCodeInterpreterSessionRequest,
-) => effect.Effect<
+export const stopCodeInterpreterSession: API.OperationMethod<
+  StopCodeInterpreterSessionRequest,
   StopCodeInterpreterSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3244,9 +3224,8 @@ export const stopCodeInterpreterSession: (
 /**
  * Performs on-demand evaluation of agent traces using a specified evaluator. This synchronous API accepts traces in OpenTelemetry format and returns immediate scoring results with detailed explanations.
  */
-export const evaluate: (
-  input: EvaluateRequest,
-) => effect.Effect<
+export const evaluate: API.OperationMethod<
+  EvaluateRequest,
   EvaluateResponse,
   | AccessDeniedException
   | ConflictException
@@ -3277,9 +3256,8 @@ export const evaluate: (
 /**
  * Creates multiple memory records in a single batch operation for the specified memory with custom content.
  */
-export const batchCreateMemoryRecords: (
-  input: BatchCreateMemoryRecordsInput,
-) => effect.Effect<
+export const batchCreateMemoryRecords: API.OperationMethod<
+  BatchCreateMemoryRecordsInput,
   BatchCreateMemoryRecordsOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3304,9 +3282,8 @@ export const batchCreateMemoryRecords: (
 /**
  * Deletes multiple memory records in a single batch operation from the specified memory.
  */
-export const batchDeleteMemoryRecords: (
-  input: BatchDeleteMemoryRecordsInput,
-) => effect.Effect<
+export const batchDeleteMemoryRecords: API.OperationMethod<
+  BatchDeleteMemoryRecordsInput,
   BatchDeleteMemoryRecordsOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3331,9 +3308,8 @@ export const batchDeleteMemoryRecords: (
 /**
  * Updates multiple memory records with custom content in a single batch operation within the specified memory.
  */
-export const batchUpdateMemoryRecords: (
-  input: BatchUpdateMemoryRecordsInput,
-) => effect.Effect<
+export const batchUpdateMemoryRecords: API.OperationMethod<
+  BatchUpdateMemoryRecordsInput,
   BatchUpdateMemoryRecordsOutput,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3362,9 +3338,8 @@ export const batchUpdateMemoryRecords: (
  *
  * This operation is subject to request rate limiting.
  */
-export const createEvent: (
-  input: CreateEventInput,
-) => effect.Effect<
+export const createEvent: API.OperationMethod<
+  CreateEventInput,
   CreateEventOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -3395,9 +3370,8 @@ export const createEvent: (
  *
  * To use this operation, you must have the `bedrock-agentcore:DeleteEvent` permission.
  */
-export const deleteEvent: (
-  input: DeleteEventInput,
-) => effect.Effect<
+export const deleteEvent: API.OperationMethod<
+  DeleteEventInput,
   DeleteEventOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -3426,9 +3400,8 @@ export const deleteEvent: (
  *
  * To use this operation, you must have the `bedrock-agentcore:DeleteMemoryRecord` permission.
  */
-export const deleteMemoryRecord: (
-  input: DeleteMemoryRecordInput,
-) => effect.Effect<
+export const deleteMemoryRecord: API.OperationMethod<
+  DeleteMemoryRecordInput,
   DeleteMemoryRecordOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -3457,9 +3430,8 @@ export const deleteMemoryRecord: (
  *
  * To use this operation, you must have the `bedrock-agentcore:GetEvent` permission.
  */
-export const getEvent: (
-  input: GetEventInput,
-) => effect.Effect<
+export const getEvent: API.OperationMethod<
+  GetEventInput,
   GetEventOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -3488,9 +3460,8 @@ export const getEvent: (
  *
  * To use this operation, you must have the `bedrock-agentcore:GetMemoryRecord` permission.
  */
-export const getMemoryRecord: (
-  input: GetMemoryRecordInput,
-) => effect.Effect<
+export const getMemoryRecord: API.OperationMethod<
+  GetMemoryRecordInput,
   GetMemoryRecordOutput,
   | AccessDeniedException
   | InvalidInputException
@@ -3519,21 +3490,19 @@ export const getMemoryRecord: (
  *
  * To use this operation, you must have the `bedrock-agentcore:ListActors` permission.
  */
-export const listActors: {
-  (
-    input: ListActorsInput,
-  ): effect.Effect<
-    ListActorsOutput,
-    | AccessDeniedException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceException
-    | ServiceQuotaExceededException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listActors: API.OperationMethod<
+  ListActorsInput,
+  ListActorsOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListActorsInput,
   ) => stream.Stream<
@@ -3586,21 +3555,19 @@ export const listActors: {
  *
  * To use this operation, you must have the `bedrock-agentcore:ListEvents` permission.
  */
-export const listEvents: {
-  (
-    input: ListEventsInput,
-  ): effect.Effect<
-    ListEventsOutput,
-    | AccessDeniedException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceException
-    | ServiceQuotaExceededException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEvents: API.OperationMethod<
+  ListEventsInput,
+  ListEventsOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventsInput,
   ) => stream.Stream<
@@ -3653,20 +3620,18 @@ export const listEvents: {
  *
  * To use this operation, you must have the `bedrock-agentcore:ListMemoryExtractionJobs` permission.
  */
-export const listMemoryExtractionJobs: {
-  (
-    input: ListMemoryExtractionJobsInput,
-  ): effect.Effect<
-    ListMemoryExtractionJobsOutput,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ServiceException
-    | ServiceQuotaExceededException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMemoryExtractionJobs: API.OperationMethod<
+  ListMemoryExtractionJobsInput,
+  ListMemoryExtractionJobsOutput,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMemoryExtractionJobsInput,
   ) => stream.Stream<
@@ -3716,21 +3681,19 @@ export const listMemoryExtractionJobs: {
  *
  * To use this operation, you must have the `bedrock-agentcore:ListMemoryRecords` permission.
  */
-export const listMemoryRecords: {
-  (
-    input: ListMemoryRecordsInput,
-  ): effect.Effect<
-    ListMemoryRecordsOutput,
-    | AccessDeniedException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceException
-    | ServiceQuotaExceededException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMemoryRecords: API.OperationMethod<
+  ListMemoryRecordsInput,
+  ListMemoryRecordsOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMemoryRecordsInput,
   ) => stream.Stream<
@@ -3783,21 +3746,19 @@ export const listMemoryRecords: {
  *
  * To use this operation, you must have the `bedrock-agentcore:ListSessions` permission.
  */
-export const listSessions: {
-  (
-    input: ListSessionsInput,
-  ): effect.Effect<
-    ListSessionsOutput,
-    | AccessDeniedException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceException
-    | ServiceQuotaExceededException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessions: API.OperationMethod<
+  ListSessionsInput,
+  ListSessionsOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionsInput,
   ) => stream.Stream<
@@ -3850,21 +3811,19 @@ export const listSessions: {
  *
  * To use this operation, you must have the `bedrock-agentcore:RetrieveMemoryRecords` permission.
  */
-export const retrieveMemoryRecords: {
-  (
-    input: RetrieveMemoryRecordsInput,
-  ): effect.Effect<
-    RetrieveMemoryRecordsOutput,
-    | AccessDeniedException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceException
-    | ServiceQuotaExceededException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const retrieveMemoryRecords: API.OperationMethod<
+  RetrieveMemoryRecordsInput,
+  RetrieveMemoryRecordsOutput,
+  | AccessDeniedException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceException
+  | ServiceQuotaExceededException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: RetrieveMemoryRecordsInput,
   ) => stream.Stream<
@@ -3917,9 +3876,8 @@ export const retrieveMemoryRecords: {
  *
  * To use this operation, you must have the `bedrock-agentcore:StartMemoryExtractionJob` permission.
  */
-export const startMemoryExtractionJob: (
-  input: StartMemoryExtractionJobInput,
-) => effect.Effect<
+export const startMemoryExtractionJob: API.OperationMethod<
+  StartMemoryExtractionJobInput,
   StartMemoryExtractionJobOutput,
   | AccessDeniedException
   | ResourceNotFoundException

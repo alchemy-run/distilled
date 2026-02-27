@@ -1834,9 +1834,8 @@ export class AgentsAlreadyRunningAssessmentException extends S.TaggedErrorClass<
  * Assigns attributes (key and value pairs) to the findings that are specified by the
  * ARNs of the findings.
  */
-export const addAttributesToFindings: (
-  input: AddAttributesToFindingsRequest,
-) => effect.Effect<
+export const addAttributesToFindings: API.OperationMethod<
+  AddAttributesToFindingsRequest,
   AddAttributesToFindingsResponse,
   | AccessDeniedException
   | InternalException
@@ -1866,9 +1865,8 @@ export const addAttributesToFindings: (
  * You can run up to 500 concurrent agents per AWS account. For more information, see
  * Amazon Inspector Assessment Targets.
  */
-export const createAssessmentTarget: (
-  input: CreateAssessmentTargetRequest,
-) => effect.Effect<
+export const createAssessmentTarget: API.OperationMethod<
+  CreateAssessmentTargetRequest,
   CreateAssessmentTargetResponse,
   | AccessDeniedException
   | InternalException
@@ -1898,9 +1896,8 @@ export const createAssessmentTarget: (
  * registers a service-linked role to grant Amazon Inspector access to AWS Services needed to
  * perform security assessments.
  */
-export const createAssessmentTemplate: (
-  input: CreateAssessmentTemplateRequest,
-) => effect.Effect<
+export const createAssessmentTemplate: API.OperationMethod<
+  CreateAssessmentTemplateRequest,
   CreateAssessmentTemplateResponse,
   | AccessDeniedException
   | InternalException
@@ -1927,9 +1924,8 @@ export const createAssessmentTemplate: (
  * The exclusions preview lists the potential exclusions (ExclusionPreview) that Inspector can
  * detect before it runs the assessment.
  */
-export const createExclusionsPreview: (
-  input: CreateExclusionsPreviewRequest,
-) => effect.Effect<
+export const createExclusionsPreview: API.OperationMethod<
+  CreateExclusionsPreviewRequest,
   CreateExclusionsPreviewResponse,
   | AccessDeniedException
   | InternalException
@@ -1957,9 +1953,8 @@ export const createExclusionsPreview: (
  * target. The created resource group is then used to create an Amazon Inspector assessment
  * target. For more information, see CreateAssessmentTarget.
  */
-export const createResourceGroup: (
-  input: CreateResourceGroupRequest,
-) => effect.Effect<
+export const createResourceGroup: API.OperationMethod<
+  CreateResourceGroupRequest,
   CreateResourceGroupResponse,
   | AccessDeniedException
   | InternalException
@@ -1983,9 +1978,8 @@ export const createResourceGroup: (
  * Deletes the assessment run that is specified by the ARN of the assessment
  * run.
  */
-export const deleteAssessmentRun: (
-  input: DeleteAssessmentRunRequest,
-) => effect.Effect<
+export const deleteAssessmentRun: API.OperationMethod<
+  DeleteAssessmentRunRequest,
   DeleteAssessmentRunResponse,
   | AccessDeniedException
   | AssessmentRunInProgressException
@@ -2011,9 +2005,8 @@ export const deleteAssessmentRun: (
  * Deletes the assessment target that is specified by the ARN of the assessment
  * target.
  */
-export const deleteAssessmentTarget: (
-  input: DeleteAssessmentTargetRequest,
-) => effect.Effect<
+export const deleteAssessmentTarget: API.OperationMethod<
+  DeleteAssessmentTargetRequest,
   DeleteAssessmentTargetResponse,
   | AccessDeniedException
   | AssessmentRunInProgressException
@@ -2039,9 +2032,8 @@ export const deleteAssessmentTarget: (
  * Deletes the assessment template that is specified by the ARN of the assessment
  * template.
  */
-export const deleteAssessmentTemplate: (
-  input: DeleteAssessmentTemplateRequest,
-) => effect.Effect<
+export const deleteAssessmentTemplate: API.OperationMethod<
+  DeleteAssessmentTemplateRequest,
   DeleteAssessmentTemplateResponse,
   | AccessDeniedException
   | AssessmentRunInProgressException
@@ -2067,9 +2059,8 @@ export const deleteAssessmentTemplate: (
  * Describes the assessment runs that are specified by the ARNs of the assessment
  * runs.
  */
-export const describeAssessmentRuns: (
-  input: DescribeAssessmentRunsRequest,
-) => effect.Effect<
+export const describeAssessmentRuns: API.OperationMethod<
+  DescribeAssessmentRunsRequest,
   DescribeAssessmentRunsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2082,9 +2073,8 @@ export const describeAssessmentRuns: (
  * Describes the assessment targets that are specified by the ARNs of the assessment
  * targets.
  */
-export const describeAssessmentTargets: (
-  input: DescribeAssessmentTargetsRequest,
-) => effect.Effect<
+export const describeAssessmentTargets: API.OperationMethod<
+  DescribeAssessmentTargetsRequest,
   DescribeAssessmentTargetsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2097,9 +2087,8 @@ export const describeAssessmentTargets: (
  * Describes the assessment templates that are specified by the ARNs of the assessment
  * templates.
  */
-export const describeAssessmentTemplates: (
-  input: DescribeAssessmentTemplatesRequest,
-) => effect.Effect<
+export const describeAssessmentTemplates: API.OperationMethod<
+  DescribeAssessmentTemplatesRequest,
   DescribeAssessmentTemplatesResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2112,9 +2101,8 @@ export const describeAssessmentTemplates: (
  * Describes the IAM role that enables Amazon Inspector to access your AWS
  * account.
  */
-export const describeCrossAccountAccessRole: (
-  input: DescribeCrossAccountAccessRoleRequest,
-) => effect.Effect<
+export const describeCrossAccountAccessRole: API.OperationMethod<
+  DescribeCrossAccountAccessRoleRequest,
   DescribeCrossAccountAccessRoleResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2126,9 +2114,8 @@ export const describeCrossAccountAccessRole: (
 /**
  * Describes the exclusions that are specified by the exclusions' ARNs.
  */
-export const describeExclusions: (
-  input: DescribeExclusionsRequest,
-) => effect.Effect<
+export const describeExclusions: API.OperationMethod<
+  DescribeExclusionsRequest,
   DescribeExclusionsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2140,9 +2127,8 @@ export const describeExclusions: (
 /**
  * Describes the findings that are specified by the ARNs of the findings.
  */
-export const describeFindings: (
-  input: DescribeFindingsRequest,
-) => effect.Effect<
+export const describeFindings: API.OperationMethod<
+  DescribeFindingsRequest,
   DescribeFindingsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2155,9 +2141,8 @@ export const describeFindings: (
  * Describes the resource groups that are specified by the ARNs of the resource
  * groups.
  */
-export const describeResourceGroups: (
-  input: DescribeResourceGroupsRequest,
-) => effect.Effect<
+export const describeResourceGroups: API.OperationMethod<
+  DescribeResourceGroupsRequest,
   DescribeResourceGroupsResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2170,9 +2155,8 @@ export const describeResourceGroups: (
  * Describes the rules packages that are specified by the ARNs of the rules
  * packages.
  */
-export const describeRulesPackages: (
-  input: DescribeRulesPackagesRequest,
-) => effect.Effect<
+export const describeRulesPackages: API.OperationMethod<
+  DescribeRulesPackagesRequest,
   DescribeRulesPackagesResponse,
   InternalException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2185,9 +2169,8 @@ export const describeRulesPackages: (
  * Produces an assessment report that includes detailed and comprehensive results of a
  * specified assessment run.
  */
-export const getAssessmentReport: (
-  input: GetAssessmentReportRequest,
-) => effect.Effect<
+export const getAssessmentReport: API.OperationMethod<
+  GetAssessmentReportRequest,
   GetAssessmentReportResponse,
   | AccessDeniedException
   | AssessmentRunInProgressException
@@ -2216,18 +2199,16 @@ export const getAssessmentReport: (
  * the preview token. You can obtain the preview token by running the CreateExclusionsPreview
  * API.
  */
-export const getExclusionsPreview: {
-  (
-    input: GetExclusionsPreviewRequest,
-  ): effect.Effect<
-    GetExclusionsPreviewResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getExclusionsPreview: API.OperationMethod<
+  GetExclusionsPreviewRequest,
+  GetExclusionsPreviewResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetExclusionsPreviewRequest,
   ) => stream.Stream<
@@ -2269,9 +2250,8 @@ export const getExclusionsPreview: {
  * Information about the data that is collected for the specified assessment
  * run.
  */
-export const getTelemetryMetadata: (
-  input: GetTelemetryMetadataRequest,
-) => effect.Effect<
+export const getTelemetryMetadata: API.OperationMethod<
+  GetTelemetryMetadataRequest,
   GetTelemetryMetadataResponse,
   | AccessDeniedException
   | InternalException
@@ -2293,18 +2273,16 @@ export const getTelemetryMetadata: (
  * Lists the agents of the assessment runs that are specified by the ARNs of the
  * assessment runs.
  */
-export const listAssessmentRunAgents: {
-  (
-    input: ListAssessmentRunAgentsRequest,
-  ): effect.Effect<
-    ListAssessmentRunAgentsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssessmentRunAgents: API.OperationMethod<
+  ListAssessmentRunAgentsRequest,
+  ListAssessmentRunAgentsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssessmentRunAgentsRequest,
   ) => stream.Stream<
@@ -2346,18 +2324,16 @@ export const listAssessmentRunAgents: {
  * Lists the assessment runs that correspond to the assessment templates that are
  * specified by the ARNs of the assessment templates.
  */
-export const listAssessmentRuns: {
-  (
-    input: ListAssessmentRunsRequest,
-  ): effect.Effect<
-    ListAssessmentRunsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssessmentRuns: API.OperationMethod<
+  ListAssessmentRunsRequest,
+  ListAssessmentRunsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssessmentRunsRequest,
   ) => stream.Stream<
@@ -2400,17 +2376,15 @@ export const listAssessmentRuns: {
  * information about assessment targets, see Amazon Inspector Assessment
  * Targets.
  */
-export const listAssessmentTargets: {
-  (
-    input: ListAssessmentTargetsRequest,
-  ): effect.Effect<
-    ListAssessmentTargetsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssessmentTargets: API.OperationMethod<
+  ListAssessmentTargetsRequest,
+  ListAssessmentTargetsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssessmentTargetsRequest,
   ) => stream.Stream<
@@ -2445,18 +2419,16 @@ export const listAssessmentTargets: {
  * Lists the assessment templates that correspond to the assessment targets that are
  * specified by the ARNs of the assessment targets.
  */
-export const listAssessmentTemplates: {
-  (
-    input: ListAssessmentTemplatesRequest,
-  ): effect.Effect<
-    ListAssessmentTemplatesResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssessmentTemplates: API.OperationMethod<
+  ListAssessmentTemplatesRequest,
+  ListAssessmentTemplatesResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssessmentTemplatesRequest,
   ) => stream.Stream<
@@ -2498,18 +2470,16 @@ export const listAssessmentTemplates: {
  * Lists all the event subscriptions for the assessment template that is specified by
  * the ARN of the assessment template. For more information, see SubscribeToEvent and UnsubscribeFromEvent.
  */
-export const listEventSubscriptions: {
-  (
-    input: ListEventSubscriptionsRequest,
-  ): effect.Effect<
-    ListEventSubscriptionsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventSubscriptions: API.OperationMethod<
+  ListEventSubscriptionsRequest,
+  ListEventSubscriptionsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventSubscriptionsRequest,
   ) => stream.Stream<
@@ -2550,18 +2520,16 @@ export const listEventSubscriptions: {
 /**
  * List exclusions that are generated by the assessment run.
  */
-export const listExclusions: {
-  (
-    input: ListExclusionsRequest,
-  ): effect.Effect<
-    ListExclusionsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExclusions: API.OperationMethod<
+  ListExclusionsRequest,
+  ListExclusionsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExclusionsRequest,
   ) => stream.Stream<
@@ -2603,18 +2571,16 @@ export const listExclusions: {
  * Lists findings that are generated by the assessment runs that are specified by the
  * ARNs of the assessment runs.
  */
-export const listFindings: {
-  (
-    input: ListFindingsRequest,
-  ): effect.Effect<
-    ListFindingsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindings: API.OperationMethod<
+  ListFindingsRequest,
+  ListFindingsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingsRequest,
   ) => stream.Stream<
@@ -2655,17 +2621,15 @@ export const listFindings: {
 /**
  * Lists all available Amazon Inspector rules packages.
  */
-export const listRulesPackages: {
-  (
-    input: ListRulesPackagesRequest,
-  ): effect.Effect<
-    ListRulesPackagesResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRulesPackages: API.OperationMethod<
+  ListRulesPackagesRequest,
+  ListRulesPackagesResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRulesPackagesRequest,
   ) => stream.Stream<
@@ -2699,9 +2663,8 @@ export const listRulesPackages: {
 /**
  * Lists all tags associated with an assessment template.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalException
@@ -2723,19 +2686,17 @@ export const listTagsForResource: (
  * Previews the agents installed on the EC2 instances that are part of the specified
  * assessment target.
  */
-export const previewAgents: {
-  (
-    input: PreviewAgentsRequest,
-  ): effect.Effect<
-    PreviewAgentsResponse,
-    | AccessDeniedException
-    | InternalException
-    | InvalidCrossAccountRoleException
-    | InvalidInputException
-    | NoSuchEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const previewAgents: API.OperationMethod<
+  PreviewAgentsRequest,
+  PreviewAgentsResponse,
+  | AccessDeniedException
+  | InternalException
+  | InvalidCrossAccountRoleException
+  | InvalidInputException
+  | NoSuchEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: PreviewAgentsRequest,
   ) => stream.Stream<
@@ -2780,9 +2741,8 @@ export const previewAgents: {
  * Registers the IAM role that grants Amazon Inspector access to AWS Services needed to
  * perform security assessments.
  */
-export const registerCrossAccountAccessRole: (
-  input: RegisterCrossAccountAccessRoleRequest,
-) => effect.Effect<
+export const registerCrossAccountAccessRole: API.OperationMethod<
+  RegisterCrossAccountAccessRoleRequest,
   RegisterCrossAccountAccessRoleResponse,
   | AccessDeniedException
   | InternalException
@@ -2806,9 +2766,8 @@ export const registerCrossAccountAccessRole: (
  * Removes entire attributes (key and value pairs) from the findings that are specified
  * by the ARNs of the findings where an attribute with the specified key exists.
  */
-export const removeAttributesFromFindings: (
-  input: RemoveAttributesFromFindingsRequest,
-) => effect.Effect<
+export const removeAttributesFromFindings: API.OperationMethod<
+  RemoveAttributesFromFindingsRequest,
   RemoveAttributesFromFindingsResponse,
   | AccessDeniedException
   | InternalException
@@ -2832,9 +2791,8 @@ export const removeAttributesFromFindings: (
  * Sets tags (key and value pairs) to the assessment template that is specified by the
  * ARN of the assessment template.
  */
-export const setTagsForResource: (
-  input: SetTagsForResourceRequest,
-) => effect.Effect<
+export const setTagsForResource: API.OperationMethod<
+  SetTagsForResourceRequest,
   SetTagsForResourceResponse,
   | AccessDeniedException
   | InternalException
@@ -2859,9 +2817,8 @@ export const setTagsForResource: (
  * API to function properly, you must not exceed the limit of running up to 500 concurrent
  * agents per AWS account.
  */
-export const startAssessmentRun: (
-  input: StartAssessmentRunRequest,
-) => effect.Effect<
+export const startAssessmentRun: API.OperationMethod<
+  StartAssessmentRunRequest,
   StartAssessmentRunResponse,
   | AccessDeniedException
   | AgentsAlreadyRunningAssessmentException
@@ -2891,9 +2848,8 @@ export const startAssessmentRun: (
  * Stops the assessment run that is specified by the ARN of the assessment
  * run.
  */
-export const stopAssessmentRun: (
-  input: StopAssessmentRunRequest,
-) => effect.Effect<
+export const stopAssessmentRun: API.OperationMethod<
+  StopAssessmentRunRequest,
   StopAssessmentRunResponse,
   | AccessDeniedException
   | InternalException
@@ -2917,9 +2873,8 @@ export const stopAssessmentRun: (
  * Enables the process of sending Amazon Simple Notification Service (SNS) notifications
  * about a specified event to a specified SNS topic.
  */
-export const subscribeToEvent: (
-  input: SubscribeToEventRequest,
-) => effect.Effect<
+export const subscribeToEvent: API.OperationMethod<
+  SubscribeToEventRequest,
   SubscribeToEventResponse,
   | AccessDeniedException
   | InternalException
@@ -2945,9 +2900,8 @@ export const subscribeToEvent: (
  * Disables the process of sending Amazon Simple Notification Service (SNS)
  * notifications about a specified event to a specified SNS topic.
  */
-export const unsubscribeFromEvent: (
-  input: UnsubscribeFromEventRequest,
-) => effect.Effect<
+export const unsubscribeFromEvent: API.OperationMethod<
+  UnsubscribeFromEventRequest,
   UnsubscribeFromEventResponse,
   | AccessDeniedException
   | InternalException
@@ -2974,9 +2928,8 @@ export const unsubscribeFromEvent: (
  * If resourceGroupArn is not specified, all EC2 instances in the current AWS account
  * and region are included in the assessment target.
  */
-export const updateAssessmentTarget: (
-  input: UpdateAssessmentTargetRequest,
-) => effect.Effect<
+export const updateAssessmentTarget: API.OperationMethod<
+  UpdateAssessmentTargetRequest,
   UpdateAssessmentTargetResponse,
   | AccessDeniedException
   | InternalException

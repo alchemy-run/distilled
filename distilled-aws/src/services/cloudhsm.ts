@@ -700,9 +700,8 @@ export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestEx
  * Each tag consists of a key and a value. Tag keys must be unique to each
  * resource.
  */
-export const addTagsToResource: (
-  input: AddTagsToResourceRequest,
-) => effect.Effect<
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceRequest,
   AddTagsToResourceResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -733,9 +732,8 @@ export const addTagsToResource: (
  * Creates a high-availability partition group. A high-availability partition group is a
  * group of partitions that spans multiple physical HSMs.
  */
-export const createHapg: (
-  input: CreateHapgRequest,
-) => effect.Effect<
+export const createHapg: API.OperationMethod<
+  CreateHapgRequest,
   CreateHapgResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -774,9 +772,8 @@ export const createHapg: (
  * status of the HSM with the DescribeHsm operation. The HSM is ready to be
  * initialized when the status changes to `RUNNING`.
  */
-export const createHsm: (
-  input: CreateHsmRequest,
-) => effect.Effect<
+export const createHsm: API.OperationMethod<
+  CreateHsmRequest,
   CreateHsmResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -806,9 +803,8 @@ export const createHsm: (
  *
  * Creates an HSM client.
  */
-export const createLunaClient: (
-  input: CreateLunaClientRequest,
-) => effect.Effect<
+export const createLunaClient: API.OperationMethod<
+  CreateLunaClientRequest,
   CreateLunaClientResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -838,9 +834,8 @@ export const createLunaClient: (
  *
  * Deletes a high-availability partition group.
  */
-export const deleteHapg: (
-  input: DeleteHapgRequest,
-) => effect.Effect<
+export const deleteHapg: API.OperationMethod<
+  DeleteHapgRequest,
   DeleteHapgResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -871,9 +866,8 @@ export const deleteHapg: (
  * Deletes an HSM. After completion, this operation cannot be undone and your key material
  * cannot be recovered.
  */
-export const deleteHsm: (
-  input: DeleteHsmRequest,
-) => effect.Effect<
+export const deleteHsm: API.OperationMethod<
+  DeleteHsmRequest,
   DeleteHsmResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -903,9 +897,8 @@ export const deleteHsm: (
  *
  * Deletes a client.
  */
-export const deleteLunaClient: (
-  input: DeleteLunaClientRequest,
-) => effect.Effect<
+export const deleteLunaClient: API.OperationMethod<
+  DeleteLunaClientRequest,
   DeleteLunaClientResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -935,9 +928,8 @@ export const deleteLunaClient: (
  *
  * Retrieves information about a high-availability partition group.
  */
-export const describeHapg: (
-  input: DescribeHapgRequest,
-) => effect.Effect<
+export const describeHapg: API.OperationMethod<
+  DescribeHapgRequest,
   DescribeHapgResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -968,9 +960,8 @@ export const describeHapg: (
  * Retrieves information about an HSM. You can identify the HSM by its ARN or its serial
  * number.
  */
-export const describeHsm: (
-  input: DescribeHsmRequest,
-) => effect.Effect<
+export const describeHsm: API.OperationMethod<
+  DescribeHsmRequest,
   DescribeHsmResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1000,9 +991,8 @@ export const describeHsm: (
  *
  * Retrieves information about an HSM client.
  */
-export const describeLunaClient: (
-  input: DescribeLunaClientRequest,
-) => effect.Effect<
+export const describeLunaClient: API.OperationMethod<
+  DescribeLunaClientRequest,
   DescribeLunaClientResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1033,9 +1023,8 @@ export const describeLunaClient: (
  * Gets the configuration files necessary to connect to all high availability partition
  * groups the client is associated with.
  */
-export const getConfig: (
-  input: GetConfigRequest,
-) => effect.Effect<
+export const getConfig: API.OperationMethod<
+  GetConfigRequest,
   GetConfigResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1065,9 +1054,8 @@ export const getConfig: (
  *
  * Lists the Availability Zones that have available AWS CloudHSM capacity.
  */
-export const listAvailableZones: (
-  input: ListAvailableZonesRequest,
-) => effect.Effect<
+export const listAvailableZones: API.OperationMethod<
+  ListAvailableZonesRequest,
   ListAvailableZonesResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1102,9 +1090,8 @@ export const listAvailableZones: (
  * token that you pass in the next call to `ListHapgs` to retrieve the next set of
  * items.
  */
-export const listHapgs: (
-  input: ListHapgsRequest,
-) => effect.Effect<
+export const listHapgs: API.OperationMethod<
+  ListHapgsRequest,
   ListHapgsResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1140,9 +1127,8 @@ export const listHapgs: (
  * token that you pass in the next call to `ListHsms` to retrieve the next set of
  * items.
  */
-export const listHsms: (
-  input: ListHsmsRequest,
-) => effect.Effect<
+export const listHsms: API.OperationMethod<
+  ListHsmsRequest,
   ListHsmsResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1177,9 +1163,8 @@ export const listHsms: (
  * token that you pass in the next call to `ListLunaClients` to retrieve the next set
  * of items.
  */
-export const listLunaClients: (
-  input: ListLunaClientsRequest,
-) => effect.Effect<
+export const listLunaClients: API.OperationMethod<
+  ListLunaClientsRequest,
   ListLunaClientsResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1209,9 +1194,8 @@ export const listLunaClients: (
  *
  * Returns a list of all tags for the specified AWS CloudHSM resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1241,9 +1225,8 @@ export const listTagsForResource: (
  *
  * Modifies an existing high-availability partition group.
  */
-export const modifyHapg: (
-  input: ModifyHapgRequest,
-) => effect.Effect<
+export const modifyHapg: API.OperationMethod<
+  ModifyHapgRequest,
   ModifyHapgResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1278,9 +1261,8 @@ export const modifyHapg: (
  * that your AWS CloudHSM service is configured for high availability, and consider executing this
  * operation during a maintenance window.
  */
-export const modifyHsm: (
-  input: ModifyHsmRequest,
-) => effect.Effect<
+export const modifyHsm: API.OperationMethod<
+  ModifyHsmRequest,
   ModifyHsmResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException
@@ -1313,9 +1295,8 @@ export const modifyHsm: (
  * This action can potentially start a workflow to install the new certificate on the
  * client's HSMs.
  */
-export const modifyLunaClient: (
-  input: ModifyLunaClientRequest,
-) => effect.Effect<
+export const modifyLunaClient: API.OperationMethod<
+  ModifyLunaClientRequest,
   ModifyLunaClientResponse,
   CloudHsmServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1341,9 +1322,8 @@ export const modifyLunaClient: (
  * To remove a tag, specify only the tag key to remove (not the value). To overwrite the
  * value for an existing tag, use AddTagsToResource.
  */
-export const removeTagsFromResource: (
-  input: RemoveTagsFromResourceRequest,
-) => effect.Effect<
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceRequest,
   RemoveTagsFromResourceResponse,
   | CloudHsmInternalException
   | CloudHsmServiceException

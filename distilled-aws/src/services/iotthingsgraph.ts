@@ -1342,9 +1342,8 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
  *
  * A thing can be associated with only one device at a time. If you associate a thing with a new device id, its previous association will be removed.
  */
-export const associateEntityToThing: (
-  input: AssociateEntityToThingRequest,
-) => effect.Effect<
+export const associateEntityToThing: API.OperationMethod<
+  AssociateEntityToThingRequest,
   AssociateEntityToThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1367,9 +1366,8 @@ export const associateEntityToThing: (
  * entities.) The workflow can contain only entities in the specified namespace. The workflow is validated against the entities in the
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
-export const createFlowTemplate: (
-  input: CreateFlowTemplateRequest,
-) => effect.Effect<
+export const createFlowTemplate: API.OperationMethod<
+  CreateFlowTemplateRequest,
   CreateFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1404,9 +1402,8 @@ export const createFlowTemplate: (
  *
  * If the definition document doesn't specify a version of the user's namespace, the latest version will be used by default.
  */
-export const createSystemInstance: (
-  input: CreateSystemInstanceRequest,
-) => effect.Effect<
+export const createSystemInstance: API.OperationMethod<
+  CreateSystemInstanceRequest,
   CreateSystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1430,9 +1427,8 @@ export const createSystemInstance: (
  * Creates a system. The system is validated against the entities in the
  * latest version of the user's namespace unless another namespace version is specified in the request.
  */
-export const createSystemTemplate: (
-  input: CreateSystemTemplateRequest,
-) => effect.Effect<
+export const createSystemTemplate: API.OperationMethod<
+  CreateSystemTemplateRequest,
   CreateSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1454,9 +1450,8 @@ export const createSystemTemplate: (
  * Deletes a workflow. Any new system or deployment that contains this workflow will fail to update or deploy.
  * Existing deployments that contain the workflow will continue to run (since they use a snapshot of the workflow taken at the time of deployment).
  */
-export const deleteFlowTemplate: (
-  input: DeleteFlowTemplateRequest,
-) => effect.Effect<
+export const deleteFlowTemplate: API.OperationMethod<
+  DeleteFlowTemplateRequest,
   DeleteFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1478,9 +1473,8 @@ export const deleteFlowTemplate: (
  * Deletes the specified namespace. This action deletes all of the entities in the namespace. Delete the systems and flows that use entities in the namespace before performing this action. This action takes no
  * request parameters.
  */
-export const deleteNamespace: (
-  input: DeleteNamespaceRequest,
-) => effect.Effect<
+export const deleteNamespace: API.OperationMethod<
+  DeleteNamespaceRequest,
   DeleteNamespaceResponse,
   InternalFailureException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1495,9 +1489,8 @@ export const deleteNamespace: (
  *
  * Users can create a new system instance that has the same ID as a deleted system instance.
  */
-export const deleteSystemInstance: (
-  input: DeleteSystemInstanceRequest,
-) => effect.Effect<
+export const deleteSystemInstance: API.OperationMethod<
+  DeleteSystemInstanceRequest,
   DeleteSystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1519,9 +1512,8 @@ export const deleteSystemInstance: (
  * Deletes a system. New deployments can't contain the system after its deletion.
  * Existing deployments that contain the system will continue to work because they use a snapshot of the system that is taken when it is deployed.
  */
-export const deleteSystemTemplate: (
-  input: DeleteSystemTemplateRequest,
-) => effect.Effect<
+export const deleteSystemTemplate: API.OperationMethod<
+  DeleteSystemTemplateRequest,
   DeleteSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1554,9 +1546,8 @@ export const deleteSystemTemplate: (
  *
  * For information about the artifacts that get added to your Greengrass core device when you use this API, see AWS IoT Things Graph and AWS IoT Greengrass.
  */
-export const deploySystemInstance: (
-  input: DeploySystemInstanceRequest,
-) => effect.Effect<
+export const deploySystemInstance: API.OperationMethod<
+  DeploySystemInstanceRequest,
   DeploySystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1579,9 +1570,8 @@ export const deploySystemInstance: (
 /**
  * Deprecates the specified workflow. This action marks the workflow for deletion. Deprecated flows can't be deployed, but existing deployments will continue to run.
  */
-export const deprecateFlowTemplate: (
-  input: DeprecateFlowTemplateRequest,
-) => effect.Effect<
+export const deprecateFlowTemplate: API.OperationMethod<
+  DeprecateFlowTemplateRequest,
   DeprecateFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1602,9 +1592,8 @@ export const deprecateFlowTemplate: (
 /**
  * Deprecates the specified system.
  */
-export const deprecateSystemTemplate: (
-  input: DeprecateSystemTemplateRequest,
-) => effect.Effect<
+export const deprecateSystemTemplate: API.OperationMethod<
+  DeprecateSystemTemplateRequest,
   DeprecateSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1625,9 +1614,8 @@ export const deprecateSystemTemplate: (
 /**
  * Gets the latest version of the user's namespace and the public version that it is tracking.
  */
-export const describeNamespace: (
-  input: DescribeNamespaceRequest,
-) => effect.Effect<
+export const describeNamespace: API.OperationMethod<
+  DescribeNamespaceRequest,
   DescribeNamespaceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1649,9 +1637,8 @@ export const describeNamespace: (
  * Dissociates a device entity from a concrete thing. The action takes only the type of the entity that you need to dissociate because only
  * one entity of a particular type can be associated with a thing.
  */
-export const dissociateEntityFromThing: (
-  input: DissociateEntityFromThingRequest,
-) => effect.Effect<
+export const dissociateEntityFromThing: API.OperationMethod<
+  DissociateEntityFromThingRequest,
   DissociateEntityFromThingResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1693,9 +1680,8 @@ export const dissociateEntityFromThing: (
  *
  * This action doesn't return definitions for systems, flows, and deployments.
  */
-export const getEntities: (
-  input: GetEntitiesRequest,
-) => effect.Effect<
+export const getEntities: API.OperationMethod<
+  GetEntitiesRequest,
   GetEntitiesResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1716,9 +1702,8 @@ export const getEntities: (
 /**
  * Gets the latest version of the `DefinitionDocument` and `FlowTemplateSummary` for the specified workflow.
  */
-export const getFlowTemplate: (
-  input: GetFlowTemplateRequest,
-) => effect.Effect<
+export const getFlowTemplate: API.OperationMethod<
+  GetFlowTemplateRequest,
   GetFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1740,18 +1725,16 @@ export const getFlowTemplate: (
  * Gets revisions of the specified workflow. Only the last 100 revisions are stored. If the workflow has been deprecated,
  * this action will return revisions that occurred before the deprecation. This action won't work for workflows that have been deleted.
  */
-export const getFlowTemplateRevisions: {
-  (
-    input: GetFlowTemplateRevisionsRequest,
-  ): effect.Effect<
-    GetFlowTemplateRevisionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFlowTemplateRevisions: API.OperationMethod<
+  GetFlowTemplateRevisionsRequest,
+  GetFlowTemplateRevisionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFlowTemplateRevisionsRequest,
   ) => stream.Stream<
@@ -1793,9 +1776,8 @@ export const getFlowTemplateRevisions: {
 /**
  * Gets the status of a namespace deletion task.
  */
-export const getNamespaceDeletionStatus: (
-  input: GetNamespaceDeletionStatusRequest,
-) => effect.Effect<
+export const getNamespaceDeletionStatus: API.OperationMethod<
+  GetNamespaceDeletionStatusRequest,
   GetNamespaceDeletionStatusResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1814,9 +1796,8 @@ export const getNamespaceDeletionStatus: (
 /**
  * Gets a system instance.
  */
-export const getSystemInstance: (
-  input: GetSystemInstanceRequest,
-) => effect.Effect<
+export const getSystemInstance: API.OperationMethod<
+  GetSystemInstanceRequest,
   GetSystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1837,9 +1818,8 @@ export const getSystemInstance: (
 /**
  * Gets a system.
  */
-export const getSystemTemplate: (
-  input: GetSystemTemplateRequest,
-) => effect.Effect<
+export const getSystemTemplate: API.OperationMethod<
+  GetSystemTemplateRequest,
   GetSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1861,18 +1841,16 @@ export const getSystemTemplate: (
  * Gets revisions made to the specified system template. Only the previous 100 revisions are stored. If the system has been deprecated, this action will return
  * the revisions that occurred before its deprecation. This action won't work with systems that have been deleted.
  */
-export const getSystemTemplateRevisions: {
-  (
-    input: GetSystemTemplateRevisionsRequest,
-  ): effect.Effect<
-    GetSystemTemplateRevisionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getSystemTemplateRevisions: API.OperationMethod<
+  GetSystemTemplateRevisionsRequest,
+  GetSystemTemplateRevisionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSystemTemplateRevisionsRequest,
   ) => stream.Stream<
@@ -1914,9 +1892,8 @@ export const getSystemTemplateRevisions: {
 /**
  * Gets the status of the specified upload.
  */
-export const getUploadStatus: (
-  input: GetUploadStatusRequest,
-) => effect.Effect<
+export const getUploadStatus: API.OperationMethod<
+  GetUploadStatusRequest,
   GetUploadStatusResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -1937,18 +1914,16 @@ export const getUploadStatus: (
 /**
  * Returns a list of objects that contain information about events in a flow execution.
  */
-export const listFlowExecutionMessages: {
-  (
-    input: ListFlowExecutionMessagesRequest,
-  ): effect.Effect<
-    ListFlowExecutionMessagesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlowExecutionMessages: API.OperationMethod<
+  ListFlowExecutionMessagesRequest,
+  ListFlowExecutionMessagesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowExecutionMessagesRequest,
   ) => stream.Stream<
@@ -1990,18 +1965,16 @@ export const listFlowExecutionMessages: {
 /**
  * Lists all tags on an AWS IoT Things Graph resource.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceAlreadyExistsException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceAlreadyExistsException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -2043,17 +2016,15 @@ export const listTagsForResource: {
 /**
  * Searches for entities of the specified type. You can search for entities in your namespace and the public namespace that you're tracking.
  */
-export const searchEntities: {
-  (
-    input: SearchEntitiesRequest,
-  ): effect.Effect<
-    SearchEntitiesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchEntities: API.OperationMethod<
+  SearchEntitiesRequest,
+  SearchEntitiesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchEntitiesRequest,
   ) => stream.Stream<
@@ -2092,18 +2063,16 @@ export const searchEntities: {
 /**
  * Searches for AWS IoT Things Graph workflow execution instances.
  */
-export const searchFlowExecutions: {
-  (
-    input: SearchFlowExecutionsRequest,
-  ): effect.Effect<
-    SearchFlowExecutionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchFlowExecutions: API.OperationMethod<
+  SearchFlowExecutionsRequest,
+  SearchFlowExecutionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchFlowExecutionsRequest,
   ) => stream.Stream<
@@ -2145,17 +2114,15 @@ export const searchFlowExecutions: {
 /**
  * Searches for summary information about workflows.
  */
-export const searchFlowTemplates: {
-  (
-    input: SearchFlowTemplatesRequest,
-  ): effect.Effect<
-    SearchFlowTemplatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchFlowTemplates: API.OperationMethod<
+  SearchFlowTemplatesRequest,
+  SearchFlowTemplatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchFlowTemplatesRequest,
   ) => stream.Stream<
@@ -2194,17 +2161,15 @@ export const searchFlowTemplates: {
 /**
  * Searches for system instances in the user's account.
  */
-export const searchSystemInstances: {
-  (
-    input: SearchSystemInstancesRequest,
-  ): effect.Effect<
-    SearchSystemInstancesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchSystemInstances: API.OperationMethod<
+  SearchSystemInstancesRequest,
+  SearchSystemInstancesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchSystemInstancesRequest,
   ) => stream.Stream<
@@ -2243,17 +2208,15 @@ export const searchSystemInstances: {
 /**
  * Searches for summary information about systems in the user's account. You can filter by the ID of a workflow to return only systems that use the specified workflow.
  */
-export const searchSystemTemplates: {
-  (
-    input: SearchSystemTemplatesRequest,
-  ): effect.Effect<
-    SearchSystemTemplatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchSystemTemplates: API.OperationMethod<
+  SearchSystemTemplatesRequest,
+  SearchSystemTemplatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchSystemTemplatesRequest,
   ) => stream.Stream<
@@ -2297,18 +2260,16 @@ export const searchSystemTemplates: {
  *
  * This action searches for exact matches and doesn't perform partial text matching.
  */
-export const searchThings: {
-  (
-    input: SearchThingsRequest,
-  ): effect.Effect<
-    SearchThingsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchThings: API.OperationMethod<
+  SearchThingsRequest,
+  SearchThingsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchThingsRequest,
   ) => stream.Stream<
@@ -2350,9 +2311,8 @@ export const searchThings: {
 /**
  * Creates a tag for the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2373,9 +2333,8 @@ export const tagResource: (
 /**
  * Removes a system instance from its target (Cloud or Greengrass).
  */
-export const undeploySystemInstance: (
-  input: UndeploySystemInstanceRequest,
-) => effect.Effect<
+export const undeploySystemInstance: API.OperationMethod<
+  UndeploySystemInstanceRequest,
   UndeploySystemInstanceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2398,9 +2357,8 @@ export const undeploySystemInstance: (
 /**
  * Removes a tag from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2422,9 +2380,8 @@ export const untagResource: (
  * Updates the specified workflow. All deployed systems and system instances that use the workflow will see the changes in the flow when it is redeployed. If you don't want this
  * behavior, copy the workflow (creating a new workflow with a different ID), and update the copy. The workflow can contain only entities in the specified namespace.
  */
-export const updateFlowTemplate: (
-  input: UpdateFlowTemplateRequest,
-) => effect.Effect<
+export const updateFlowTemplate: API.OperationMethod<
+  UpdateFlowTemplateRequest,
   UpdateFlowTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2445,9 +2402,8 @@ export const updateFlowTemplate: (
 /**
  * Updates the specified system. You don't need to run this action after updating a workflow. Any deployment that uses the system will see the changes in the system when it is redeployed.
  */
-export const updateSystemTemplate: (
-  input: UpdateSystemTemplateRequest,
-) => effect.Effect<
+export const updateSystemTemplate: API.OperationMethod<
+  UpdateSystemTemplateRequest,
   UpdateSystemTemplateResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -2480,9 +2436,8 @@ export const updateSystemTemplate: (
  * Valid entities are `Device`, `DeviceModel`, `Service`, `Capability`, `State`, `Action`, `Event`, `Property`,
  * `Mapping`, `Enum`.
  */
-export const uploadEntityDefinitions: (
-  input: UploadEntityDefinitionsRequest,
-) => effect.Effect<
+export const uploadEntityDefinitions: API.OperationMethod<
+  UploadEntityDefinitionsRequest,
   UploadEntityDefinitionsResponse,
   | InternalFailureException
   | InvalidRequestException

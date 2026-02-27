@@ -1555,9 +1555,8 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 /**
  * Changes the packaging group's properities to configure log subscription
  */
-export const configureLogs: (
-  input: ConfigureLogsRequest,
-) => effect.Effect<
+export const configureLogs: API.OperationMethod<
+  ConfigureLogsRequest,
   ConfigureLogsResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1582,9 +1581,8 @@ export const configureLogs: (
 /**
  * Creates a new MediaPackage VOD Asset resource.
  */
-export const createAsset: (
-  input: CreateAssetRequest,
-) => effect.Effect<
+export const createAsset: API.OperationMethod<
+  CreateAssetRequest,
   CreateAssetResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1609,9 +1607,8 @@ export const createAsset: (
 /**
  * Creates a new MediaPackage VOD PackagingConfiguration resource.
  */
-export const createPackagingConfiguration: (
-  input: CreatePackagingConfigurationRequest,
-) => effect.Effect<
+export const createPackagingConfiguration: API.OperationMethod<
+  CreatePackagingConfigurationRequest,
   CreatePackagingConfigurationResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1636,9 +1633,8 @@ export const createPackagingConfiguration: (
 /**
  * Creates a new MediaPackage VOD PackagingGroup resource.
  */
-export const createPackagingGroup: (
-  input: CreatePackagingGroupRequest,
-) => effect.Effect<
+export const createPackagingGroup: API.OperationMethod<
+  CreatePackagingGroupRequest,
   CreatePackagingGroupResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1663,9 +1659,8 @@ export const createPackagingGroup: (
 /**
  * Deletes an existing MediaPackage VOD Asset resource.
  */
-export const deleteAsset: (
-  input: DeleteAssetRequest,
-) => effect.Effect<
+export const deleteAsset: API.OperationMethod<
+  DeleteAssetRequest,
   DeleteAssetResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1690,9 +1685,8 @@ export const deleteAsset: (
 /**
  * Deletes a MediaPackage VOD PackagingConfiguration resource.
  */
-export const deletePackagingConfiguration: (
-  input: DeletePackagingConfigurationRequest,
-) => effect.Effect<
+export const deletePackagingConfiguration: API.OperationMethod<
+  DeletePackagingConfigurationRequest,
   DeletePackagingConfigurationResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1717,9 +1711,8 @@ export const deletePackagingConfiguration: (
 /**
  * Deletes a MediaPackage VOD PackagingGroup resource.
  */
-export const deletePackagingGroup: (
-  input: DeletePackagingGroupRequest,
-) => effect.Effect<
+export const deletePackagingGroup: API.OperationMethod<
+  DeletePackagingGroupRequest,
   DeletePackagingGroupResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1744,9 +1737,8 @@ export const deletePackagingGroup: (
 /**
  * Returns a description of a MediaPackage VOD Asset resource.
  */
-export const describeAsset: (
-  input: DescribeAssetRequest,
-) => effect.Effect<
+export const describeAsset: API.OperationMethod<
+  DescribeAssetRequest,
   DescribeAssetResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1771,9 +1763,8 @@ export const describeAsset: (
 /**
  * Returns a description of a MediaPackage VOD PackagingConfiguration resource.
  */
-export const describePackagingConfiguration: (
-  input: DescribePackagingConfigurationRequest,
-) => effect.Effect<
+export const describePackagingConfiguration: API.OperationMethod<
+  DescribePackagingConfigurationRequest,
   DescribePackagingConfigurationResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1798,9 +1789,8 @@ export const describePackagingConfiguration: (
 /**
  * Returns a description of a MediaPackage VOD PackagingGroup resource.
  */
-export const describePackagingGroup: (
-  input: DescribePackagingGroupRequest,
-) => effect.Effect<
+export const describePackagingGroup: API.OperationMethod<
+  DescribePackagingGroupRequest,
   DescribePackagingGroupResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -1825,20 +1815,18 @@ export const describePackagingGroup: (
 /**
  * Returns a collection of MediaPackage VOD Asset resources.
  */
-export const listAssets: {
-  (
-    input: ListAssetsRequest,
-  ): effect.Effect<
-    ListAssetsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssets: API.OperationMethod<
+  ListAssetsRequest,
+  ListAssetsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetsRequest,
   ) => stream.Stream<
@@ -1886,20 +1874,18 @@ export const listAssets: {
 /**
  * Returns a collection of MediaPackage VOD PackagingConfiguration resources.
  */
-export const listPackagingConfigurations: {
-  (
-    input: ListPackagingConfigurationsRequest,
-  ): effect.Effect<
-    ListPackagingConfigurationsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPackagingConfigurations: API.OperationMethod<
+  ListPackagingConfigurationsRequest,
+  ListPackagingConfigurationsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackagingConfigurationsRequest,
   ) => stream.Stream<
@@ -1947,20 +1933,18 @@ export const listPackagingConfigurations: {
 /**
  * Returns a collection of MediaPackage VOD PackagingGroup resources.
  */
-export const listPackagingGroups: {
-  (
-    input: ListPackagingGroupsRequest,
-  ): effect.Effect<
-    ListPackagingGroupsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPackagingGroups: API.OperationMethod<
+  ListPackagingGroupsRequest,
+  ListPackagingGroupsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackagingGroupsRequest,
   ) => stream.Stream<
@@ -2008,9 +1992,8 @@ export const listPackagingGroups: {
 /**
  * Returns a list of the tags assigned to the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2022,9 +2005,8 @@ export const listTagsForResource: (
 /**
  * Adds tags to the specified resource. You can specify one or more tags to add.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2036,9 +2018,8 @@ export const tagResource: (
 /**
  * Removes tags from the specified resource. You can specify one or more tags to remove.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2050,9 +2031,8 @@ export const untagResource: (
 /**
  * Updates a specific packaging group. You can't change the id attribute or any other system-generated attributes.
  */
-export const updatePackagingGroup: (
-  input: UpdatePackagingGroupRequest,
-) => effect.Effect<
+export const updatePackagingGroup: API.OperationMethod<
+  UpdatePackagingGroupRequest,
   UpdatePackagingGroupResponse,
   | ForbiddenException
   | InternalServerErrorException

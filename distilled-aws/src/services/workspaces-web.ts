@@ -3553,9 +3553,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Expires an active secure browser session.
  */
-export const expireSession: (
-  input: ExpireSessionRequest,
-) => effect.Effect<
+export const expireSession: API.OperationMethod<
+  ExpireSessionRequest,
   ExpireSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3578,9 +3577,8 @@ export const expireSession: (
 /**
  * Gets information for a secure browser session.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3603,19 +3601,17 @@ export const getSession: (
 /**
  * Lists information for multiple secure browser sessions from a specific portal.
  */
-export const listSessions: {
-  (
-    input: ListSessionsRequest,
-  ): effect.Effect<
-    ListSessionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessions: API.OperationMethod<
+  ListSessionsRequest,
+  ListSessionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
@@ -3660,9 +3656,8 @@ export const listSessions: {
 /**
  * Retrieves a list of tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3685,9 +3680,8 @@ export const listTagsForResource: (
 /**
  * Adds or overwrites one or more tags for the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3712,9 +3706,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3737,9 +3730,8 @@ export const untagResource: (
 /**
  * Creates a browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
  */
-export const createBrowserSettings: (
-  input: CreateBrowserSettingsRequest,
-) => effect.Effect<
+export const createBrowserSettings: API.OperationMethod<
+  CreateBrowserSettingsRequest,
   CreateBrowserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3766,9 +3758,8 @@ export const createBrowserSettings: (
 /**
  * Gets browser settings.
  */
-export const getBrowserSettings: (
-  input: GetBrowserSettingsRequest,
-) => effect.Effect<
+export const getBrowserSettings: API.OperationMethod<
+  GetBrowserSettingsRequest,
   GetBrowserSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3791,9 +3782,8 @@ export const getBrowserSettings: (
 /**
  * Updates browser settings.
  */
-export const updateBrowserSettings: (
-  input: UpdateBrowserSettingsRequest,
-) => effect.Effect<
+export const updateBrowserSettings: API.OperationMethod<
+  UpdateBrowserSettingsRequest,
   UpdateBrowserSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3816,9 +3806,8 @@ export const updateBrowserSettings: (
 /**
  * Deletes browser settings.
  */
-export const deleteBrowserSettings: (
-  input: DeleteBrowserSettingsRequest,
-) => effect.Effect<
+export const deleteBrowserSettings: API.OperationMethod<
+  DeleteBrowserSettingsRequest,
   DeleteBrowserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3841,18 +3830,16 @@ export const deleteBrowserSettings: (
 /**
  * Retrieves a list of browser settings.
  */
-export const listBrowserSettings: {
-  (
-    input: ListBrowserSettingsRequest,
-  ): effect.Effect<
-    ListBrowserSettingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBrowserSettings: API.OperationMethod<
+  ListBrowserSettingsRequest,
+  ListBrowserSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBrowserSettingsRequest,
   ) => stream.Stream<
@@ -3893,9 +3880,8 @@ export const listBrowserSettings: {
 /**
  * Creates a data protection settings resource that can be associated with a web portal.
  */
-export const createDataProtectionSettings: (
-  input: CreateDataProtectionSettingsRequest,
-) => effect.Effect<
+export const createDataProtectionSettings: API.OperationMethod<
+  CreateDataProtectionSettingsRequest,
   CreateDataProtectionSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3922,9 +3908,8 @@ export const createDataProtectionSettings: (
 /**
  * Gets the data protection settings.
  */
-export const getDataProtectionSettings: (
-  input: GetDataProtectionSettingsRequest,
-) => effect.Effect<
+export const getDataProtectionSettings: API.OperationMethod<
+  GetDataProtectionSettingsRequest,
   GetDataProtectionSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3947,9 +3932,8 @@ export const getDataProtectionSettings: (
 /**
  * Updates data protection settings.
  */
-export const updateDataProtectionSettings: (
-  input: UpdateDataProtectionSettingsRequest,
-) => effect.Effect<
+export const updateDataProtectionSettings: API.OperationMethod<
+  UpdateDataProtectionSettingsRequest,
   UpdateDataProtectionSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3972,9 +3956,8 @@ export const updateDataProtectionSettings: (
 /**
  * Deletes data protection settings.
  */
-export const deleteDataProtectionSettings: (
-  input: DeleteDataProtectionSettingsRequest,
-) => effect.Effect<
+export const deleteDataProtectionSettings: API.OperationMethod<
+  DeleteDataProtectionSettingsRequest,
   DeleteDataProtectionSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3997,18 +3980,16 @@ export const deleteDataProtectionSettings: (
 /**
  * Retrieves a list of data protection settings.
  */
-export const listDataProtectionSettings: {
-  (
-    input: ListDataProtectionSettingsRequest,
-  ): effect.Effect<
-    ListDataProtectionSettingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataProtectionSettings: API.OperationMethod<
+  ListDataProtectionSettingsRequest,
+  ListDataProtectionSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataProtectionSettingsRequest,
   ) => stream.Stream<
@@ -4050,9 +4031,8 @@ export const listDataProtectionSettings: {
 /**
  * Creates an identity provider resource that is then associated with a web portal.
  */
-export const createIdentityProvider: (
-  input: CreateIdentityProviderRequest,
-) => effect.Effect<
+export const createIdentityProvider: API.OperationMethod<
+  CreateIdentityProviderRequest,
   CreateIdentityProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -4079,9 +4059,8 @@ export const createIdentityProvider: (
 /**
  * Gets the identity provider.
  */
-export const getIdentityProvider: (
-  input: GetIdentityProviderRequest,
-) => effect.Effect<
+export const getIdentityProvider: API.OperationMethod<
+  GetIdentityProviderRequest,
   GetIdentityProviderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4104,9 +4083,8 @@ export const getIdentityProvider: (
 /**
  * Updates the identity provider.
  */
-export const updateIdentityProvider: (
-  input: UpdateIdentityProviderRequest,
-) => effect.Effect<
+export const updateIdentityProvider: API.OperationMethod<
+  UpdateIdentityProviderRequest,
   UpdateIdentityProviderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4129,9 +4107,8 @@ export const updateIdentityProvider: (
 /**
  * Deletes the identity provider.
  */
-export const deleteIdentityProvider: (
-  input: DeleteIdentityProviderRequest,
-) => effect.Effect<
+export const deleteIdentityProvider: API.OperationMethod<
+  DeleteIdentityProviderRequest,
   DeleteIdentityProviderResponse,
   | AccessDeniedException
   | ConflictException
@@ -4154,18 +4131,16 @@ export const deleteIdentityProvider: (
 /**
  * Retrieves a list of identity providers for a specific web portal.
  */
-export const listIdentityProviders: {
-  (
-    input: ListIdentityProvidersRequest,
-  ): effect.Effect<
-    ListIdentityProvidersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdentityProviders: API.OperationMethod<
+  ListIdentityProvidersRequest,
+  ListIdentityProvidersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdentityProvidersRequest,
   ) => stream.Stream<
@@ -4206,9 +4181,8 @@ export const listIdentityProviders: {
 /**
  * Creates an IP access settings resource that can be associated with a web portal.
  */
-export const createIpAccessSettings: (
-  input: CreateIpAccessSettingsRequest,
-) => effect.Effect<
+export const createIpAccessSettings: API.OperationMethod<
+  CreateIpAccessSettingsRequest,
   CreateIpAccessSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4233,9 +4207,8 @@ export const createIpAccessSettings: (
 /**
  * Gets the IP access settings.
  */
-export const getIpAccessSettings: (
-  input: GetIpAccessSettingsRequest,
-) => effect.Effect<
+export const getIpAccessSettings: API.OperationMethod<
+  GetIpAccessSettingsRequest,
   GetIpAccessSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4258,9 +4231,8 @@ export const getIpAccessSettings: (
 /**
  * Updates IP access settings.
  */
-export const updateIpAccessSettings: (
-  input: UpdateIpAccessSettingsRequest,
-) => effect.Effect<
+export const updateIpAccessSettings: API.OperationMethod<
+  UpdateIpAccessSettingsRequest,
   UpdateIpAccessSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4283,9 +4255,8 @@ export const updateIpAccessSettings: (
 /**
  * Deletes IP access settings.
  */
-export const deleteIpAccessSettings: (
-  input: DeleteIpAccessSettingsRequest,
-) => effect.Effect<
+export const deleteIpAccessSettings: API.OperationMethod<
+  DeleteIpAccessSettingsRequest,
   DeleteIpAccessSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4308,18 +4279,16 @@ export const deleteIpAccessSettings: (
 /**
  * Retrieves a list of IP access settings.
  */
-export const listIpAccessSettings: {
-  (
-    input: ListIpAccessSettingsRequest,
-  ): effect.Effect<
-    ListIpAccessSettingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIpAccessSettings: API.OperationMethod<
+  ListIpAccessSettingsRequest,
+  ListIpAccessSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIpAccessSettingsRequest,
   ) => stream.Stream<
@@ -4360,9 +4329,8 @@ export const listIpAccessSettings: {
 /**
  * Creates a network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
  */
-export const createNetworkSettings: (
-  input: CreateNetworkSettingsRequest,
-) => effect.Effect<
+export const createNetworkSettings: API.OperationMethod<
+  CreateNetworkSettingsRequest,
   CreateNetworkSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4387,9 +4355,8 @@ export const createNetworkSettings: (
 /**
  * Gets the network settings.
  */
-export const getNetworkSettings: (
-  input: GetNetworkSettingsRequest,
-) => effect.Effect<
+export const getNetworkSettings: API.OperationMethod<
+  GetNetworkSettingsRequest,
   GetNetworkSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4412,9 +4379,8 @@ export const getNetworkSettings: (
 /**
  * Updates network settings.
  */
-export const updateNetworkSettings: (
-  input: UpdateNetworkSettingsRequest,
-) => effect.Effect<
+export const updateNetworkSettings: API.OperationMethod<
+  UpdateNetworkSettingsRequest,
   UpdateNetworkSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4437,9 +4403,8 @@ export const updateNetworkSettings: (
 /**
  * Deletes network settings.
  */
-export const deleteNetworkSettings: (
-  input: DeleteNetworkSettingsRequest,
-) => effect.Effect<
+export const deleteNetworkSettings: API.OperationMethod<
+  DeleteNetworkSettingsRequest,
   DeleteNetworkSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4462,18 +4427,16 @@ export const deleteNetworkSettings: (
 /**
  * Retrieves a list of network settings.
  */
-export const listNetworkSettings: {
-  (
-    input: ListNetworkSettingsRequest,
-  ): effect.Effect<
-    ListNetworkSettingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNetworkSettings: API.OperationMethod<
+  ListNetworkSettingsRequest,
+  ListNetworkSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNetworkSettingsRequest,
   ) => stream.Stream<
@@ -4514,9 +4477,8 @@ export const listNetworkSettings: {
 /**
  * Creates a web portal.
  */
-export const createPortal: (
-  input: CreatePortalRequest,
-) => effect.Effect<
+export const createPortal: API.OperationMethod<
+  CreatePortalRequest,
   CreatePortalResponse,
   | AccessDeniedException
   | ConflictException
@@ -4543,9 +4505,8 @@ export const createPortal: (
 /**
  * Gets the web portal.
  */
-export const getPortal: (
-  input: GetPortalRequest,
-) => effect.Effect<
+export const getPortal: API.OperationMethod<
+  GetPortalRequest,
   GetPortalResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4568,9 +4529,8 @@ export const getPortal: (
 /**
  * Updates a web portal.
  */
-export const updatePortal: (
-  input: UpdatePortalRequest,
-) => effect.Effect<
+export const updatePortal: API.OperationMethod<
+  UpdatePortalRequest,
   UpdatePortalResponse,
   | AccessDeniedException
   | ConflictException
@@ -4597,9 +4557,8 @@ export const updatePortal: (
 /**
  * Deletes a web portal.
  */
-export const deletePortal: (
-  input: DeletePortalRequest,
-) => effect.Effect<
+export const deletePortal: API.OperationMethod<
+  DeletePortalRequest,
   DeletePortalResponse,
   | AccessDeniedException
   | ConflictException
@@ -4622,18 +4581,16 @@ export const deletePortal: (
 /**
  * Retrieves a list or web portals.
  */
-export const listPortals: {
-  (
-    input: ListPortalsRequest,
-  ): effect.Effect<
-    ListPortalsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPortals: API.OperationMethod<
+  ListPortalsRequest,
+  ListPortalsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPortalsRequest,
   ) => stream.Stream<
@@ -4674,9 +4631,8 @@ export const listPortals: {
 /**
  * Associates a browser settings resource with a web portal.
  */
-export const associateBrowserSettings: (
-  input: AssociateBrowserSettingsRequest,
-) => effect.Effect<
+export const associateBrowserSettings: API.OperationMethod<
+  AssociateBrowserSettingsRequest,
   AssociateBrowserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4701,9 +4657,8 @@ export const associateBrowserSettings: (
 /**
  * Associates a data protection settings resource with a web portal.
  */
-export const associateDataProtectionSettings: (
-  input: AssociateDataProtectionSettingsRequest,
-) => effect.Effect<
+export const associateDataProtectionSettings: API.OperationMethod<
+  AssociateDataProtectionSettingsRequest,
   AssociateDataProtectionSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4728,9 +4683,8 @@ export const associateDataProtectionSettings: (
 /**
  * Associates an IP access settings resource with a web portal.
  */
-export const associateIpAccessSettings: (
-  input: AssociateIpAccessSettingsRequest,
-) => effect.Effect<
+export const associateIpAccessSettings: API.OperationMethod<
+  AssociateIpAccessSettingsRequest,
   AssociateIpAccessSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4755,9 +4709,8 @@ export const associateIpAccessSettings: (
 /**
  * Associates a network settings resource with a web portal.
  */
-export const associateNetworkSettings: (
-  input: AssociateNetworkSettingsRequest,
-) => effect.Effect<
+export const associateNetworkSettings: API.OperationMethod<
+  AssociateNetworkSettingsRequest,
   AssociateNetworkSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4782,9 +4735,8 @@ export const associateNetworkSettings: (
 /**
  * Associates a session logger with a portal.
  */
-export const associateSessionLogger: (
-  input: AssociateSessionLoggerRequest,
-) => effect.Effect<
+export const associateSessionLogger: API.OperationMethod<
+  AssociateSessionLoggerRequest,
   AssociateSessionLoggerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4809,9 +4761,8 @@ export const associateSessionLogger: (
 /**
  * Associates a trust store with a web portal.
  */
-export const associateTrustStore: (
-  input: AssociateTrustStoreRequest,
-) => effect.Effect<
+export const associateTrustStore: API.OperationMethod<
+  AssociateTrustStoreRequest,
   AssociateTrustStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -4836,9 +4787,8 @@ export const associateTrustStore: (
 /**
  * Associates a user access logging settings resource with a web portal.
  */
-export const associateUserAccessLoggingSettings: (
-  input: AssociateUserAccessLoggingSettingsRequest,
-) => effect.Effect<
+export const associateUserAccessLoggingSettings: API.OperationMethod<
+  AssociateUserAccessLoggingSettingsRequest,
   AssociateUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4863,9 +4813,8 @@ export const associateUserAccessLoggingSettings: (
 /**
  * Associates a user settings resource with a web portal.
  */
-export const associateUserSettings: (
-  input: AssociateUserSettingsRequest,
-) => effect.Effect<
+export const associateUserSettings: API.OperationMethod<
+  AssociateUserSettingsRequest,
   AssociateUserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4890,9 +4839,8 @@ export const associateUserSettings: (
 /**
  * Disassociates browser settings from a web portal.
  */
-export const disassociateBrowserSettings: (
-  input: DisassociateBrowserSettingsRequest,
-) => effect.Effect<
+export const disassociateBrowserSettings: API.OperationMethod<
+  DisassociateBrowserSettingsRequest,
   DisassociateBrowserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4917,9 +4865,8 @@ export const disassociateBrowserSettings: (
 /**
  * Disassociates data protection settings from a web portal.
  */
-export const disassociateDataProtectionSettings: (
-  input: DisassociateDataProtectionSettingsRequest,
-) => effect.Effect<
+export const disassociateDataProtectionSettings: API.OperationMethod<
+  DisassociateDataProtectionSettingsRequest,
   DisassociateDataProtectionSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4944,9 +4891,8 @@ export const disassociateDataProtectionSettings: (
 /**
  * Disassociates IP access settings from a web portal.
  */
-export const disassociateIpAccessSettings: (
-  input: DisassociateIpAccessSettingsRequest,
-) => effect.Effect<
+export const disassociateIpAccessSettings: API.OperationMethod<
+  DisassociateIpAccessSettingsRequest,
   DisassociateIpAccessSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4971,9 +4917,8 @@ export const disassociateIpAccessSettings: (
 /**
  * Disassociates network settings from a web portal.
  */
-export const disassociateNetworkSettings: (
-  input: DisassociateNetworkSettingsRequest,
-) => effect.Effect<
+export const disassociateNetworkSettings: API.OperationMethod<
+  DisassociateNetworkSettingsRequest,
   DisassociateNetworkSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4998,9 +4943,8 @@ export const disassociateNetworkSettings: (
 /**
  * Disassociates a session logger from a portal.
  */
-export const disassociateSessionLogger: (
-  input: DisassociateSessionLoggerRequest,
-) => effect.Effect<
+export const disassociateSessionLogger: API.OperationMethod<
+  DisassociateSessionLoggerRequest,
   DisassociateSessionLoggerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5023,9 +4967,8 @@ export const disassociateSessionLogger: (
 /**
  * Disassociates a trust store from a web portal.
  */
-export const disassociateTrustStore: (
-  input: DisassociateTrustStoreRequest,
-) => effect.Effect<
+export const disassociateTrustStore: API.OperationMethod<
+  DisassociateTrustStoreRequest,
   DisassociateTrustStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -5050,9 +4993,8 @@ export const disassociateTrustStore: (
 /**
  * Disassociates user access logging settings from a web portal.
  */
-export const disassociateUserAccessLoggingSettings: (
-  input: DisassociateUserAccessLoggingSettingsRequest,
-) => effect.Effect<
+export const disassociateUserAccessLoggingSettings: API.OperationMethod<
+  DisassociateUserAccessLoggingSettingsRequest,
   DisassociateUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5077,9 +5019,8 @@ export const disassociateUserAccessLoggingSettings: (
 /**
  * Disassociates user settings from a web portal.
  */
-export const disassociateUserSettings: (
-  input: DisassociateUserSettingsRequest,
-) => effect.Effect<
+export const disassociateUserSettings: API.OperationMethod<
+  DisassociateUserSettingsRequest,
   DisassociateUserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5104,9 +5045,8 @@ export const disassociateUserSettings: (
 /**
  * Gets the service provider metadata.
  */
-export const getPortalServiceProviderMetadata: (
-  input: GetPortalServiceProviderMetadataRequest,
-) => effect.Effect<
+export const getPortalServiceProviderMetadata: API.OperationMethod<
+  GetPortalServiceProviderMetadataRequest,
   GetPortalServiceProviderMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5129,9 +5069,8 @@ export const getPortalServiceProviderMetadata: (
 /**
  * Creates a session logger.
  */
-export const createSessionLogger: (
-  input: CreateSessionLoggerRequest,
-) => effect.Effect<
+export const createSessionLogger: API.OperationMethod<
+  CreateSessionLoggerRequest,
   CreateSessionLoggerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5156,9 +5095,8 @@ export const createSessionLogger: (
 /**
  * Gets details about a specific session logger resource.
  */
-export const getSessionLogger: (
-  input: GetSessionLoggerRequest,
-) => effect.Effect<
+export const getSessionLogger: API.OperationMethod<
+  GetSessionLoggerRequest,
   GetSessionLoggerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5181,9 +5119,8 @@ export const getSessionLogger: (
 /**
  * Updates the details of a session logger.
  */
-export const updateSessionLogger: (
-  input: UpdateSessionLoggerRequest,
-) => effect.Effect<
+export const updateSessionLogger: API.OperationMethod<
+  UpdateSessionLoggerRequest,
   UpdateSessionLoggerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5206,9 +5143,8 @@ export const updateSessionLogger: (
 /**
  * Deletes a session logger resource.
  */
-export const deleteSessionLogger: (
-  input: DeleteSessionLoggerRequest,
-) => effect.Effect<
+export const deleteSessionLogger: API.OperationMethod<
+  DeleteSessionLoggerRequest,
   DeleteSessionLoggerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5231,18 +5167,16 @@ export const deleteSessionLogger: (
 /**
  * Lists all available session logger resources.
  */
-export const listSessionLoggers: {
-  (
-    input: ListSessionLoggersRequest,
-  ): effect.Effect<
-    ListSessionLoggersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessionLoggers: API.OperationMethod<
+  ListSessionLoggersRequest,
+  ListSessionLoggersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionLoggersRequest,
   ) => stream.Stream<
@@ -5284,9 +5218,8 @@ export const listSessionLoggers: {
 /**
  * Creates a trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
  */
-export const createTrustStore: (
-  input: CreateTrustStoreRequest,
-) => effect.Effect<
+export const createTrustStore: API.OperationMethod<
+  CreateTrustStoreRequest,
   CreateTrustStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -5311,9 +5244,8 @@ export const createTrustStore: (
 /**
  * Gets the trust store.
  */
-export const getTrustStore: (
-  input: GetTrustStoreRequest,
-) => effect.Effect<
+export const getTrustStore: API.OperationMethod<
+  GetTrustStoreRequest,
   GetTrustStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5336,9 +5268,8 @@ export const getTrustStore: (
 /**
  * Updates the trust store.
  */
-export const updateTrustStore: (
-  input: UpdateTrustStoreRequest,
-) => effect.Effect<
+export const updateTrustStore: API.OperationMethod<
+  UpdateTrustStoreRequest,
   UpdateTrustStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5363,9 +5294,8 @@ export const updateTrustStore: (
 /**
  * Deletes the trust store.
  */
-export const deleteTrustStore: (
-  input: DeleteTrustStoreRequest,
-) => effect.Effect<
+export const deleteTrustStore: API.OperationMethod<
+  DeleteTrustStoreRequest,
   DeleteTrustStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -5388,18 +5318,16 @@ export const deleteTrustStore: (
 /**
  * Retrieves a list of trust stores.
  */
-export const listTrustStores: {
-  (
-    input: ListTrustStoresRequest,
-  ): effect.Effect<
-    ListTrustStoresResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrustStores: API.OperationMethod<
+  ListTrustStoresRequest,
+  ListTrustStoresResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrustStoresRequest,
   ) => stream.Stream<
@@ -5440,9 +5368,8 @@ export const listTrustStores: {
 /**
  * Gets the trust store certificate.
  */
-export const getTrustStoreCertificate: (
-  input: GetTrustStoreCertificateRequest,
-) => effect.Effect<
+export const getTrustStoreCertificate: API.OperationMethod<
+  GetTrustStoreCertificateRequest,
   GetTrustStoreCertificateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5465,19 +5392,17 @@ export const getTrustStoreCertificate: (
 /**
  * Retrieves a list of trust store certificates.
  */
-export const listTrustStoreCertificates: {
-  (
-    input: ListTrustStoreCertificatesRequest,
-  ): effect.Effect<
-    ListTrustStoreCertificatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrustStoreCertificates: API.OperationMethod<
+  ListTrustStoreCertificatesRequest,
+  ListTrustStoreCertificatesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrustStoreCertificatesRequest,
   ) => stream.Stream<
@@ -5521,9 +5446,8 @@ export const listTrustStoreCertificates: {
 /**
  * Creates a user access logging settings resource that can be associated with a web portal.
  */
-export const createUserAccessLoggingSettings: (
-  input: CreateUserAccessLoggingSettingsRequest,
-) => effect.Effect<
+export const createUserAccessLoggingSettings: API.OperationMethod<
+  CreateUserAccessLoggingSettingsRequest,
   CreateUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5548,9 +5472,8 @@ export const createUserAccessLoggingSettings: (
 /**
  * Gets user access logging settings.
  */
-export const getUserAccessLoggingSettings: (
-  input: GetUserAccessLoggingSettingsRequest,
-) => effect.Effect<
+export const getUserAccessLoggingSettings: API.OperationMethod<
+  GetUserAccessLoggingSettingsRequest,
   GetUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5573,9 +5496,8 @@ export const getUserAccessLoggingSettings: (
 /**
  * Updates the user access logging settings.
  */
-export const updateUserAccessLoggingSettings: (
-  input: UpdateUserAccessLoggingSettingsRequest,
-) => effect.Effect<
+export const updateUserAccessLoggingSettings: API.OperationMethod<
+  UpdateUserAccessLoggingSettingsRequest,
   UpdateUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5598,9 +5520,8 @@ export const updateUserAccessLoggingSettings: (
 /**
  * Deletes user access logging settings.
  */
-export const deleteUserAccessLoggingSettings: (
-  input: DeleteUserAccessLoggingSettingsRequest,
-) => effect.Effect<
+export const deleteUserAccessLoggingSettings: API.OperationMethod<
+  DeleteUserAccessLoggingSettingsRequest,
   DeleteUserAccessLoggingSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5623,18 +5544,16 @@ export const deleteUserAccessLoggingSettings: (
 /**
  * Retrieves a list of user access logging settings.
  */
-export const listUserAccessLoggingSettings: {
-  (
-    input: ListUserAccessLoggingSettingsRequest,
-  ): effect.Effect<
-    ListUserAccessLoggingSettingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUserAccessLoggingSettings: API.OperationMethod<
+  ListUserAccessLoggingSettingsRequest,
+  ListUserAccessLoggingSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserAccessLoggingSettingsRequest,
   ) => stream.Stream<
@@ -5675,9 +5594,8 @@ export const listUserAccessLoggingSettings: {
 /**
  * Creates a user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
  */
-export const createUserSettings: (
-  input: CreateUserSettingsRequest,
-) => effect.Effect<
+export const createUserSettings: API.OperationMethod<
+  CreateUserSettingsRequest,
   CreateUserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5704,9 +5622,8 @@ export const createUserSettings: (
 /**
  * Gets user settings.
  */
-export const getUserSettings: (
-  input: GetUserSettingsRequest,
-) => effect.Effect<
+export const getUserSettings: API.OperationMethod<
+  GetUserSettingsRequest,
   GetUserSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5729,9 +5646,8 @@ export const getUserSettings: (
 /**
  * Updates the user settings.
  */
-export const updateUserSettings: (
-  input: UpdateUserSettingsRequest,
-) => effect.Effect<
+export const updateUserSettings: API.OperationMethod<
+  UpdateUserSettingsRequest,
   UpdateUserSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5754,9 +5670,8 @@ export const updateUserSettings: (
 /**
  * Deletes user settings.
  */
-export const deleteUserSettings: (
-  input: DeleteUserSettingsRequest,
-) => effect.Effect<
+export const deleteUserSettings: API.OperationMethod<
+  DeleteUserSettingsRequest,
   DeleteUserSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5779,18 +5694,16 @@ export const deleteUserSettings: (
 /**
  * Retrieves a list of user settings.
  */
-export const listUserSettings: {
-  (
-    input: ListUserSettingsRequest,
-  ): effect.Effect<
-    ListUserSettingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUserSettings: API.OperationMethod<
+  ListUserSettingsRequest,
+  ListUserSettingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUserSettingsRequest,
   ) => stream.Stream<

@@ -2492,9 +2492,8 @@ export class ValidationError extends S.TaggedErrorClass<ValidationError>()(
  *
  * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
  */
-export const batchCreateUser: (
-  input: BatchCreateUserRequest,
-) => effect.Effect<
+export const batchCreateUser: API.OperationMethod<
+  BatchCreateUserRequest,
   BatchCreateUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -2521,9 +2520,8 @@ export const batchCreateUser: (
 /**
  * Deletes multiple users from a specified Wickr network. This operation permanently removes user accounts and their associated data from the network.
  */
-export const batchDeleteUser: (
-  input: BatchDeleteUserRequest,
-) => effect.Effect<
+export const batchDeleteUser: API.OperationMethod<
+  BatchDeleteUserRequest,
   BatchDeleteUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -2550,9 +2548,8 @@ export const batchDeleteUser: (
 /**
  * Looks up multiple user usernames from their unique username hashes (unames). This operation allows you to retrieve the email addresses associated with a list of username hashes.
  */
-export const batchLookupUserUname: (
-  input: BatchLookupUserUnameRequest,
-) => effect.Effect<
+export const batchLookupUserUname: API.OperationMethod<
+  BatchLookupUserUnameRequest,
   BatchLookupUserUnameResponse,
   | BadRequestError
   | ForbiddenError
@@ -2579,9 +2576,8 @@ export const batchLookupUserUname: (
 /**
  * Resends invitation codes to multiple users who have pending invitations in a Wickr network. This operation is useful when users haven't accepted their initial invitations or when invitations have expired.
  */
-export const batchReinviteUser: (
-  input: BatchReinviteUserRequest,
-) => effect.Effect<
+export const batchReinviteUser: API.OperationMethod<
+  BatchReinviteUserRequest,
   BatchReinviteUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -2608,9 +2604,8 @@ export const batchReinviteUser: (
 /**
  * Resets multiple devices for a specific user in a Wickr network. This operation forces the selected devices to log out and requires users to re-authenticate, which is useful for security purposes or when devices need to be revoked.
  */
-export const batchResetDevicesForUser: (
-  input: BatchResetDevicesForUserRequest,
-) => effect.Effect<
+export const batchResetDevicesForUser: API.OperationMethod<
+  BatchResetDevicesForUserRequest,
   BatchResetDevicesForUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -2637,9 +2632,8 @@ export const batchResetDevicesForUser: (
 /**
  * Suspends or unsuspends multiple users in a Wickr network. Suspended users cannot access the network until they are unsuspended. This operation is useful for temporarily restricting access without deleting user accounts.
  */
-export const batchToggleUserSuspendStatus: (
-  input: BatchToggleUserSuspendStatusRequest,
-) => effect.Effect<
+export const batchToggleUserSuspendStatus: API.OperationMethod<
+  BatchToggleUserSuspendStatusRequest,
   BatchToggleUserSuspendStatusResponse,
   | BadRequestError
   | ForbiddenError
@@ -2666,9 +2660,8 @@ export const batchToggleUserSuspendStatus: (
 /**
  * Creates a new bot in a specified Wickr network. Bots are automated accounts that can send and receive messages, enabling integration with external systems and automation of tasks.
  */
-export const createBot: (
-  input: CreateBotRequest,
-) => effect.Effect<
+export const createBot: API.OperationMethod<
+  CreateBotRequest,
   CreateBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -2695,9 +2688,8 @@ export const createBot: (
 /**
  * Creates a data retention bot in a Wickr network. Data retention bots are specialized bots that handle message archiving and compliance by capturing and storing messages for regulatory or organizational requirements.
  */
-export const createDataRetentionBot: (
-  input: CreateDataRetentionBotRequest,
-) => effect.Effect<
+export const createDataRetentionBot: API.OperationMethod<
+  CreateDataRetentionBotRequest,
   CreateDataRetentionBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -2724,9 +2716,8 @@ export const createDataRetentionBot: (
 /**
  * Creates a new challenge password for the data retention bot. This password is used for authentication when the bot connects to the network.
  */
-export const createDataRetentionBotChallenge: (
-  input: CreateDataRetentionBotChallengeRequest,
-) => effect.Effect<
+export const createDataRetentionBotChallenge: API.OperationMethod<
+  CreateDataRetentionBotChallengeRequest,
   CreateDataRetentionBotChallengeResponse,
   | BadRequestError
   | ForbiddenError
@@ -2753,9 +2744,8 @@ export const createDataRetentionBotChallenge: (
 /**
  * Creates a new Wickr network with specified access level and configuration. This operation provisions a new communication network for your organization.
  */
-export const createNetwork: (
-  input: CreateNetworkRequest,
-) => effect.Effect<
+export const createNetwork: API.OperationMethod<
+  CreateNetworkRequest,
   CreateNetworkResponse,
   | BadRequestError
   | ForbiddenError
@@ -2782,9 +2772,8 @@ export const createNetwork: (
 /**
  * Creates a new security group in a Wickr network. Security groups allow you to organize users and control their permissions, features, and security settings.
  */
-export const createSecurityGroup: (
-  input: CreateSecurityGroupRequest,
-) => effect.Effect<
+export const createSecurityGroup: API.OperationMethod<
+  CreateSecurityGroupRequest,
   CreateSecurityGroupResponse,
   | BadRequestError
   | ForbiddenError
@@ -2811,9 +2800,8 @@ export const createSecurityGroup: (
 /**
  * Deletes a bot from a specified Wickr network. This operation permanently removes the bot account and its associated data from the network.
  */
-export const deleteBot: (
-  input: DeleteBotRequest,
-) => effect.Effect<
+export const deleteBot: API.OperationMethod<
+  DeleteBotRequest,
   DeleteBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -2840,9 +2828,8 @@ export const deleteBot: (
 /**
  * Deletes the data retention bot from a Wickr network. This operation permanently removes the bot and all its associated data from the database.
  */
-export const deleteDataRetentionBot: (
-  input: DeleteDataRetentionBotRequest,
-) => effect.Effect<
+export const deleteDataRetentionBot: API.OperationMethod<
+  DeleteDataRetentionBotRequest,
   DeleteDataRetentionBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -2869,9 +2856,8 @@ export const deleteDataRetentionBot: (
 /**
  * Deletes a Wickr network and all its associated resources, including users, bots, security groups, and settings. This operation is permanent and cannot be undone.
  */
-export const deleteNetwork: (
-  input: DeleteNetworkRequest,
-) => effect.Effect<
+export const deleteNetwork: API.OperationMethod<
+  DeleteNetworkRequest,
   DeleteNetworkResponse,
   | BadRequestError
   | ForbiddenError
@@ -2898,9 +2884,8 @@ export const deleteNetwork: (
 /**
  * Deletes a security group from a Wickr network. This operation cannot be performed on the default security group.
  */
-export const deleteSecurityGroup: (
-  input: DeleteSecurityGroupRequest,
-) => effect.Effect<
+export const deleteSecurityGroup: API.OperationMethod<
+  DeleteSecurityGroupRequest,
   DeleteSecurityGroupResponse,
   | BadRequestError
   | ForbiddenError
@@ -2927,9 +2912,8 @@ export const deleteSecurityGroup: (
 /**
  * Retrieves detailed information about a specific bot in a Wickr network, including its status, group membership, and authentication details.
  */
-export const getBot: (
-  input: GetBotRequest,
-) => effect.Effect<
+export const getBot: API.OperationMethod<
+  GetBotRequest,
   GetBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -2956,9 +2940,8 @@ export const getBot: (
 /**
  * Retrieves the count of bots in a Wickr network, categorized by their status (pending, active, and total).
  */
-export const getBotsCount: (
-  input: GetBotsCountRequest,
-) => effect.Effect<
+export const getBotsCount: API.OperationMethod<
+  GetBotsCountRequest,
   GetBotsCountResponse,
   | BadRequestError
   | ForbiddenError
@@ -2985,9 +2968,8 @@ export const getBotsCount: (
 /**
  * Retrieves information about the data retention bot in a Wickr network, including its status and whether the data retention service is enabled.
  */
-export const getDataRetentionBot: (
-  input: GetDataRetentionBotRequest,
-) => effect.Effect<
+export const getDataRetentionBot: API.OperationMethod<
+  GetDataRetentionBotRequest,
   GetDataRetentionBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -3014,9 +2996,8 @@ export const getDataRetentionBot: (
 /**
  * Retrieves historical guest user count data for a Wickr network, showing the number of guest users per billing period over the past 90 days.
  */
-export const getGuestUserHistoryCount: (
-  input: GetGuestUserHistoryCountRequest,
-) => effect.Effect<
+export const getGuestUserHistoryCount: API.OperationMethod<
+  GetGuestUserHistoryCountRequest,
   GetGuestUserHistoryCountResponse,
   | BadRequestError
   | ForbiddenError
@@ -3043,9 +3024,8 @@ export const getGuestUserHistoryCount: (
 /**
  * Retrieves detailed information about a specific Wickr network, including its configuration, access level, and status.
  */
-export const getNetwork: (
-  input: GetNetworkRequest,
-) => effect.Effect<
+export const getNetwork: API.OperationMethod<
+  GetNetworkRequest,
   GetNetworkResponse,
   | BadRequestError
   | ForbiddenError
@@ -3072,9 +3052,8 @@ export const getNetwork: (
 /**
  * Retrieves all network-level settings for a Wickr network, including client metrics, data retention, and other configuration options.
  */
-export const getNetworkSettings: (
-  input: GetNetworkSettingsRequest,
-) => effect.Effect<
+export const getNetworkSettings: API.OperationMethod<
+  GetNetworkSettingsRequest,
   GetNetworkSettingsResponse,
   | BadRequestError
   | ForbiddenError
@@ -3101,9 +3080,8 @@ export const getNetworkSettings: (
 /**
  * Retrieves the OpenID Connect (OIDC) configuration for a Wickr network, including SSO settings and optional token information if access token parameters are provided.
  */
-export const getOidcInfo: (
-  input: GetOidcInfoRequest,
-) => effect.Effect<
+export const getOidcInfo: API.OperationMethod<
+  GetOidcInfoRequest,
   GetOidcInfoResponse,
   | BadRequestError
   | ForbiddenError
@@ -3130,9 +3108,8 @@ export const getOidcInfo: (
 /**
  * Retrieves the OpenTDF integration configuration for a Wickr network.
  */
-export const getOpentdfConfig: (
-  input: GetOpentdfConfigRequest,
-) => effect.Effect<
+export const getOpentdfConfig: API.OperationMethod<
+  GetOpentdfConfigRequest,
   GetOpentdfConfigResponse,
   | BadRequestError
   | ForbiddenError
@@ -3159,9 +3136,8 @@ export const getOpentdfConfig: (
 /**
  * Retrieves detailed information about a specific security group in a Wickr network, including its settings, member counts, and configuration.
  */
-export const getSecurityGroup: (
-  input: GetSecurityGroupRequest,
-) => effect.Effect<
+export const getSecurityGroup: API.OperationMethod<
+  GetSecurityGroupRequest,
   GetSecurityGroupResponse,
   | BadRequestError
   | ForbiddenError
@@ -3188,9 +3164,8 @@ export const getSecurityGroup: (
 /**
  * Retrieves detailed information about a specific user in a Wickr network, including their profile, status, and activity history.
  */
-export const getUser: (
-  input: GetUserRequest,
-) => effect.Effect<
+export const getUser: API.OperationMethod<
+  GetUserRequest,
   GetUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -3217,9 +3192,8 @@ export const getUser: (
 /**
  * Retrieves the count of users in a Wickr network, categorized by their status (pending, active, rejected) and showing how many users can still be added.
  */
-export const getUsersCount: (
-  input: GetUsersCountRequest,
-) => effect.Effect<
+export const getUsersCount: API.OperationMethod<
+  GetUsersCountRequest,
   GetUsersCountResponse,
   | BadRequestError
   | ForbiddenError
@@ -3246,21 +3220,19 @@ export const getUsersCount: (
 /**
  * Retrieves a paginated list of guest users who have been blocked from a Wickr network. You can filter and sort the results.
  */
-export const listBlockedGuestUsers: {
-  (
-    input: ListBlockedGuestUsersRequest,
-  ): effect.Effect<
-    ListBlockedGuestUsersResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBlockedGuestUsers: API.OperationMethod<
+  ListBlockedGuestUsersRequest,
+  ListBlockedGuestUsersResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBlockedGuestUsersRequest,
   ) => stream.Stream<
@@ -3311,21 +3283,19 @@ export const listBlockedGuestUsers: {
 /**
  * Retrieves a paginated list of bots in a specified Wickr network. You can filter and sort the results based on various criteria.
  */
-export const listBots: {
-  (
-    input: ListBotsRequest,
-  ): effect.Effect<
-    ListBotsResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBots: API.OperationMethod<
+  ListBotsRequest,
+  ListBotsResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBotsRequest,
   ) => stream.Stream<
@@ -3376,21 +3346,19 @@ export const listBots: {
 /**
  * Retrieves a paginated list of devices associated with a specific user in a Wickr network. This operation returns information about all devices where the user has logged into Wickr.
  */
-export const listDevicesForUser: {
-  (
-    input: ListDevicesForUserRequest,
-  ): effect.Effect<
-    ListDevicesForUserResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevicesForUser: API.OperationMethod<
+  ListDevicesForUserRequest,
+  ListDevicesForUserResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevicesForUserRequest,
   ) => stream.Stream<
@@ -3441,21 +3409,19 @@ export const listDevicesForUser: {
 /**
  * Retrieves a paginated list of guest users who have communicated with your Wickr network. Guest users are external users from federated networks who can communicate with network members.
  */
-export const listGuestUsers: {
-  (
-    input: ListGuestUsersRequest,
-  ): effect.Effect<
-    ListGuestUsersResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGuestUsers: API.OperationMethod<
+  ListGuestUsersRequest,
+  ListGuestUsersResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGuestUsersRequest,
   ) => stream.Stream<
@@ -3506,20 +3472,18 @@ export const listGuestUsers: {
 /**
  * Retrieves a paginated list of all Wickr networks associated with your Amazon Web Services account. You can sort the results by network ID or name.
  */
-export const listNetworks: {
-  (
-    input: ListNetworksRequest,
-  ): effect.Effect<
-    ListNetworksResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNetworks: API.OperationMethod<
+  ListNetworksRequest,
+  ListNetworksResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNetworksRequest,
   ) => stream.Stream<
@@ -3567,21 +3531,19 @@ export const listNetworks: {
 /**
  * Retrieves a paginated list of security groups in a specified Wickr network. You can sort the results by various criteria.
  */
-export const listSecurityGroups: {
-  (
-    input: ListSecurityGroupsRequest,
-  ): effect.Effect<
-    ListSecurityGroupsResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecurityGroups: API.OperationMethod<
+  ListSecurityGroupsRequest,
+  ListSecurityGroupsResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityGroupsRequest,
   ) => stream.Stream<
@@ -3632,21 +3594,19 @@ export const listSecurityGroups: {
 /**
  * Retrieves a paginated list of users who belong to a specific security group in a Wickr network.
  */
-export const listSecurityGroupUsers: {
-  (
-    input: ListSecurityGroupUsersRequest,
-  ): effect.Effect<
-    ListSecurityGroupUsersResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecurityGroupUsers: API.OperationMethod<
+  ListSecurityGroupUsersRequest,
+  ListSecurityGroupUsersResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityGroupUsersRequest,
   ) => stream.Stream<
@@ -3697,21 +3657,19 @@ export const listSecurityGroupUsers: {
 /**
  * Retrieves a paginated list of users in a specified Wickr network. You can filter and sort the results based on various criteria such as name, status, or security group membership.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    | BadRequestError
-    | ForbiddenError
-    | InternalServerError
-    | RateLimitError
-    | ResourceNotFoundError
-    | UnauthorizedError
-    | ValidationError
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -3762,9 +3720,8 @@ export const listUsers: {
 /**
  * Registers and saves an OpenID Connect (OIDC) configuration for a Wickr network, enabling Single Sign-On (SSO) authentication through an identity provider.
  */
-export const registerOidcConfig: (
-  input: RegisterOidcConfigRequest,
-) => effect.Effect<
+export const registerOidcConfig: API.OperationMethod<
+  RegisterOidcConfigRequest,
   RegisterOidcConfigResponse,
   | BadRequestError
   | ForbiddenError
@@ -3791,9 +3748,8 @@ export const registerOidcConfig: (
 /**
  * Tests an OpenID Connect (OIDC) configuration for a Wickr network by validating the connection to the identity provider and retrieving its supported capabilities.
  */
-export const registerOidcConfigTest: (
-  input: RegisterOidcConfigTestRequest,
-) => effect.Effect<
+export const registerOidcConfigTest: API.OperationMethod<
+  RegisterOidcConfigTestRequest,
   RegisterOidcConfigTestResponse,
   | BadRequestError
   | ForbiddenError
@@ -3820,9 +3776,8 @@ export const registerOidcConfigTest: (
 /**
  * Registers and saves OpenTDF configuration for a Wickr network, enabling attribute-based access control for Wickr through an OpenTDF provider.
  */
-export const registerOpentdfConfig: (
-  input: RegisterOpentdfConfigRequest,
-) => effect.Effect<
+export const registerOpentdfConfig: API.OperationMethod<
+  RegisterOpentdfConfigRequest,
   RegisterOpentdfConfigResponse,
   | BadRequestError
   | ForbiddenError
@@ -3849,9 +3804,8 @@ export const registerOpentdfConfig: (
 /**
  * Updates the properties of an existing bot in a Wickr network. This operation allows you to modify the bot's display name, security group, password, or suspension status.
  */
-export const updateBot: (
-  input: UpdateBotRequest,
-) => effect.Effect<
+export const updateBot: API.OperationMethod<
+  UpdateBotRequest,
   UpdateBotResponse,
   | BadRequestError
   | ForbiddenError
@@ -3878,9 +3832,8 @@ export const updateBot: (
 /**
  * Updates the data retention bot settings, allowing you to enable or disable the data retention service, or acknowledge the public key message.
  */
-export const updateDataRetention: (
-  input: UpdateDataRetentionRequest,
-) => effect.Effect<
+export const updateDataRetention: API.OperationMethod<
+  UpdateDataRetentionRequest,
   UpdateDataRetentionResponse,
   | BadRequestError
   | ForbiddenError
@@ -3907,9 +3860,8 @@ export const updateDataRetention: (
 /**
  * Updates the block status of a guest user in a Wickr network. This operation allows you to block or unblock a guest user from accessing the network.
  */
-export const updateGuestUser: (
-  input: UpdateGuestUserRequest,
-) => effect.Effect<
+export const updateGuestUser: API.OperationMethod<
+  UpdateGuestUserRequest,
   UpdateGuestUserResponse,
   | BadRequestError
   | ForbiddenError
@@ -3936,9 +3888,8 @@ export const updateGuestUser: (
 /**
  * Updates the properties of an existing Wickr network, such as its name or encryption key configuration.
  */
-export const updateNetwork: (
-  input: UpdateNetworkRequest,
-) => effect.Effect<
+export const updateNetwork: API.OperationMethod<
+  UpdateNetworkRequest,
   UpdateNetworkResponse,
   | BadRequestError
   | ForbiddenError
@@ -3965,9 +3916,8 @@ export const updateNetwork: (
 /**
  * Updates network-level settings for a Wickr network. You can modify settings such as client metrics, data retention, and other network-wide options.
  */
-export const updateNetworkSettings: (
-  input: UpdateNetworkSettingsRequest,
-) => effect.Effect<
+export const updateNetworkSettings: API.OperationMethod<
+  UpdateNetworkSettingsRequest,
   UpdateNetworkSettingsResponse,
   | BadRequestError
   | ForbiddenError
@@ -3994,9 +3944,8 @@ export const updateNetworkSettings: (
 /**
  * Updates the properties of an existing security group in a Wickr network, such as its name or settings.
  */
-export const updateSecurityGroup: (
-  input: UpdateSecurityGroupRequest,
-) => effect.Effect<
+export const updateSecurityGroup: API.OperationMethod<
+  UpdateSecurityGroupRequest,
   UpdateSecurityGroupResponse,
   | BadRequestError
   | ForbiddenError
@@ -4025,9 +3974,8 @@ export const updateSecurityGroup: (
  *
  * `codeValidation`, `inviteCode`, and `inviteCodeTtl` are restricted to networks under preview only.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | BadRequestError
   | ForbiddenError

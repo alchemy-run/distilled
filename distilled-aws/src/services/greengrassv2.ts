@@ -2082,9 +2082,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  * defines equivalent permissions for the IoT Greengrass features that you use. For more information, see
  * Greengrass service role in the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const associateServiceRoleToAccount: (
-  input: AssociateServiceRoleToAccountRequest,
-) => effect.Effect<
+export const associateServiceRoleToAccount: API.OperationMethod<
+  AssociateServiceRoleToAccountRequest,
   AssociateServiceRoleToAccountResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2106,9 +2105,8 @@ export const associateServiceRoleToAccount: (
  * see Interact with
  * local IoT devices in the *IoT Greengrass V2 Developer Guide*.
  */
-export const batchAssociateClientDeviceWithCoreDevice: (
-  input: BatchAssociateClientDeviceWithCoreDeviceRequest,
-) => effect.Effect<
+export const batchAssociateClientDeviceWithCoreDevice: API.OperationMethod<
+  BatchAssociateClientDeviceWithCoreDeviceRequest,
   BatchAssociateClientDeviceWithCoreDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2133,9 +2131,8 @@ export const batchAssociateClientDeviceWithCoreDevice: (
  * device from a core device, the client device won't be able to use cloud discovery to retrieve
  * the core device's connectivity information and certificates.
  */
-export const batchDisassociateClientDeviceFromCoreDevice: (
-  input: BatchDisassociateClientDeviceFromCoreDeviceRequest,
-) => effect.Effect<
+export const batchDisassociateClientDeviceFromCoreDevice: API.OperationMethod<
+  BatchDisassociateClientDeviceFromCoreDeviceRequest,
   BatchDisassociateClientDeviceFromCoreDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2160,9 +2157,8 @@ export const batchDisassociateClientDeviceFromCoreDevice: (
  * received it. If a device already received the deployment, this operation doesn't change
  * anything for that device.
  */
-export const cancelDeployment: (
-  input: CancelDeploymentRequest,
-) => effect.Effect<
+export const cancelDeployment: API.OperationMethod<
+  CancelDeploymentRequest,
   CancelDeploymentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2216,9 +2212,8 @@ export const cancelDeployment: (
  *
  * IoT Greengrass currently supports Lambda functions on only Linux core devices.
  */
-export const createComponentVersion: (
-  input: CreateComponentVersionRequest,
-) => effect.Effect<
+export const createComponentVersion: API.OperationMethod<
+  CreateComponentVersionRequest,
   CreateComponentVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2258,9 +2253,8 @@ export const createComponentVersion: (
  * For more information, see the Create deployments in the
  * *IoT Greengrass V2 Developer Guide*.
  */
-export const createDeployment: (
-  input: CreateDeploymentRequest,
-) => effect.Effect<
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentRequest,
   CreateDeploymentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2292,9 +2286,8 @@ export const createDeployment: (
  * component version, you can remove the component from the deployment or update the deployment
  * to use a valid version.
  */
-export const deleteComponent: (
-  input: DeleteComponentRequest,
-) => effect.Effect<
+export const deleteComponent: API.OperationMethod<
+  DeleteComponentRequest,
   DeleteComponentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2322,9 +2315,8 @@ export const deleteComponent: (
  * information about how to delete the IoT thing, see DeleteThing in the
  * *IoT API Reference*.
  */
-export const deleteCoreDevice: (
-  input: DeleteCoreDeviceRequest,
-) => effect.Effect<
+export const deleteCoreDevice: API.OperationMethod<
+  DeleteCoreDeviceRequest,
   DeleteCoreDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2354,9 +2346,8 @@ export const deleteCoreDevice: (
  * devices store the deployment's configuration on the device. Additionally, core devices can
  * roll back to a previous deployment that has been deleted.
  */
-export const deleteDeployment: (
-  input: DeleteDeploymentRequest,
-) => effect.Effect<
+export const deleteDeployment: API.OperationMethod<
+  DeleteDeploymentRequest,
   DeleteDeploymentResponse,
   | AccessDeniedException
   | ConflictException
@@ -2381,9 +2372,8 @@ export const deleteDeployment: (
 /**
  * Retrieves metadata for a version of a component.
  */
-export const describeComponent: (
-  input: DescribeComponentRequest,
-) => effect.Effect<
+export const describeComponent: API.OperationMethod<
+  DescribeComponentRequest,
   DescribeComponentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2409,9 +2399,8 @@ export const describeComponent: (
  * connectivity information. For more information, see Greengrass service role in
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const disassociateServiceRoleFromAccount: (
-  input: DisassociateServiceRoleFromAccountRequest,
-) => effect.Effect<
+export const disassociateServiceRoleFromAccount: API.OperationMethod<
+  DisassociateServiceRoleFromAccountRequest,
   DisassociateServiceRoleFromAccountResponse,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2423,9 +2412,8 @@ export const disassociateServiceRoleFromAccount: (
 /**
  * Gets the recipe for a version of a component.
  */
-export const getComponent: (
-  input: GetComponentRequest,
-) => effect.Effect<
+export const getComponent: API.OperationMethod<
+  GetComponentRequest,
   GetComponentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2450,9 +2438,8 @@ export const getComponent: (
  * call this operation to identify the URL that they can use to download an artifact to
  * install.
  */
-export const getComponentVersionArtifact: (
-  input: GetComponentVersionArtifactRequest,
-) => effect.Effect<
+export const getComponentVersionArtifact: API.OperationMethod<
+  GetComponentVersionArtifactRequest,
   GetComponentVersionArtifactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2482,9 +2469,8 @@ export const getComponentVersionArtifact: (
  * connect. For more information, see Connect client devices to
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const getConnectivityInfo: (
-  input: GetConnectivityInfoRequest,
-) => effect.Effect<
+export const getConnectivityInfo: API.OperationMethod<
+  GetConnectivityInfoRequest,
   GetConnectivityInfoResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2515,9 +2501,8 @@ export const getConnectivityInfo: (
  * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
  * cloud deployment
  */
-export const getCoreDevice: (
-  input: GetCoreDeviceRequest,
-) => effect.Effect<
+export const getCoreDevice: API.OperationMethod<
+  GetCoreDeviceRequest,
   GetCoreDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2540,9 +2525,8 @@ export const getCoreDevice: (
 /**
  * Gets a deployment. Deployments define the components that run on Greengrass core devices.
  */
-export const getDeployment: (
-  input: GetDeploymentRequest,
-) => effect.Effect<
+export const getDeployment: API.OperationMethod<
+  GetDeploymentRequest,
   GetDeploymentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2568,9 +2552,8 @@ export const getDeployment: (
  * connectivity information. For more information, see Greengrass service role in
  * the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const getServiceRoleForAccount: (
-  input: GetServiceRoleForAccountRequest,
-) => effect.Effect<
+export const getServiceRoleForAccount: API.OperationMethod<
+  GetServiceRoleForAccountRequest,
   GetServiceRoleForAccountResponse,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2583,19 +2566,17 @@ export const getServiceRoleForAccount: (
  * Retrieves a paginated list of client devices that are associated with a core
  * device.
  */
-export const listClientDevicesAssociatedWithCoreDevice: {
-  (
-    input: ListClientDevicesAssociatedWithCoreDeviceRequest,
-  ): effect.Effect<
-    ListClientDevicesAssociatedWithCoreDeviceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClientDevicesAssociatedWithCoreDevice: API.OperationMethod<
+  ListClientDevicesAssociatedWithCoreDeviceRequest,
+  ListClientDevicesAssociatedWithCoreDeviceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClientDevicesAssociatedWithCoreDeviceRequest,
   ) => stream.Stream<
@@ -2641,19 +2622,17 @@ export const listClientDevicesAssociatedWithCoreDevice: {
  * Retrieves a paginated list of component summaries. This list includes components that you
  * have permission to view.
  */
-export const listComponents: {
-  (
-    input: ListComponentsRequest,
-  ): effect.Effect<
-    ListComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponents: API.OperationMethod<
+  ListComponentsRequest,
+  ListComponentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentsRequest,
   ) => stream.Stream<
@@ -2699,19 +2678,17 @@ export const listComponents: {
  * Retrieves a paginated list of all versions for a component. Greater versions are listed
  * first.
  */
-export const listComponentVersions: {
-  (
-    input: ListComponentVersionsRequest,
-  ): effect.Effect<
-    ListComponentVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponentVersions: API.OperationMethod<
+  ListComponentVersionsRequest,
+  ListComponentVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentVersionsRequest,
   ) => stream.Stream<
@@ -2780,18 +2757,16 @@ export const listComponentVersions: {
  * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
  * cloud deployment
  */
-export const listCoreDevices: {
-  (
-    input: ListCoreDevicesRequest,
-  ): effect.Effect<
-    ListCoreDevicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCoreDevices: API.OperationMethod<
+  ListCoreDevicesRequest,
+  ListCoreDevicesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCoreDevicesRequest,
   ) => stream.Stream<
@@ -2833,18 +2808,16 @@ export const listCoreDevices: {
 /**
  * Retrieves a paginated list of deployments.
  */
-export const listDeployments: {
-  (
-    input: ListDeploymentsRequest,
-  ): effect.Effect<
-    ListDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeployments: API.OperationMethod<
+  ListDeploymentsRequest,
+  ListDeploymentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentsRequest,
   ) => stream.Stream<
@@ -2886,19 +2859,17 @@ export const listDeployments: {
 /**
  * Retrieves a paginated list of deployment jobs that IoT Greengrass sends to Greengrass core devices.
  */
-export const listEffectiveDeployments: {
-  (
-    input: ListEffectiveDeploymentsRequest,
-  ): effect.Effect<
-    ListEffectiveDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEffectiveDeployments: API.OperationMethod<
+  ListEffectiveDeploymentsRequest,
+  ListEffectiveDeploymentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEffectiveDeploymentsRequest,
   ) => stream.Stream<
@@ -2965,19 +2936,17 @@ export const listEffectiveDeployments: {
  * - For IoT Greengrass Core v2.7.0, the core device sends status updates upon local deployment and
  * cloud deployment
  */
-export const listInstalledComponents: {
-  (
-    input: ListInstalledComponentsRequest,
-  ): effect.Effect<
-    ListInstalledComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInstalledComponents: API.OperationMethod<
+  ListInstalledComponentsRequest,
+  ListInstalledComponentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstalledComponentsRequest,
   ) => stream.Stream<
@@ -3022,9 +2991,8 @@ export const listInstalledComponents: {
 /**
  * Retrieves the list of tags for an IoT Greengrass resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3058,9 +3026,8 @@ export const listTagsForResource: (
  * To use this operation, you must use the data plane API endpoint and authenticate with an
  * IoT device certificate. For more information, see IoT Greengrass endpoints and quotas.
  */
-export const resolveComponentCandidates: (
-  input: ResolveComponentCandidatesRequest,
-) => effect.Effect<
+export const resolveComponentCandidates: API.OperationMethod<
+  ResolveComponentCandidatesRequest,
   ResolveComponentCandidatesResponse,
   | AccessDeniedException
   | ConflictException
@@ -3086,9 +3053,8 @@ export const resolveComponentCandidates: (
  * Adds tags to an IoT Greengrass resource. If a tag already exists for the resource, this operation
  * updates the tag's value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3107,9 +3073,8 @@ export const tagResource: (
 /**
  * Removes a tag from an IoT Greengrass resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3135,9 +3100,8 @@ export const untagResource: (
  * connect. For more information, see Connect client devices to
  * core devices in the *IoT Greengrass Version 2 Developer Guide*.
  */
-export const updateConnectivityInfo: (
-  input: UpdateConnectivityInfoRequest,
-) => effect.Effect<
+export const updateConnectivityInfo: API.OperationMethod<
+  UpdateConnectivityInfoRequest,
   UpdateConnectivityInfoResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

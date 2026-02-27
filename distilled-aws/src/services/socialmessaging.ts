@@ -1215,9 +1215,8 @@ export class AccessDeniedByMetaException extends S.TaggedErrorClass<AccessDenied
 /**
  * List all tags associated with a resource, such as a phone number or WABA.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InternalServiceException
   | InvalidParametersException
@@ -1237,9 +1236,8 @@ export const listTagsForResource: (
  * Adds or overwrites only the specified tags for the specified resource. When you specify
  * an existing tag key, the value is overwritten with the new value.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | InternalServiceException
   | InvalidParametersException
@@ -1258,9 +1256,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | InternalServiceException
   | InvalidParametersException
@@ -1279,9 +1276,8 @@ export const untagResource: (
 /**
  * This is only used through the Amazon Web Services console during sign-up to associate your WhatsApp Business Account to your Amazon Web Services account.
  */
-export const associateWhatsAppBusinessAccount: (
-  input: AssociateWhatsAppBusinessAccountInput,
-) => effect.Effect<
+export const associateWhatsAppBusinessAccount: API.OperationMethod<
+  AssociateWhatsAppBusinessAccountInput,
   AssociateWhatsAppBusinessAccountOutput,
   | DependencyException
   | InvalidParametersException
@@ -1302,9 +1298,8 @@ export const associateWhatsAppBusinessAccount: (
 /**
  * Get the details of your linked WhatsApp Business Account.
  */
-export const getLinkedWhatsAppBusinessAccount: (
-  input: GetLinkedWhatsAppBusinessAccountInput,
-) => effect.Effect<
+export const getLinkedWhatsAppBusinessAccount: API.OperationMethod<
+  GetLinkedWhatsAppBusinessAccountInput,
   GetLinkedWhatsAppBusinessAccountOutput,
   | DependencyException
   | InternalServiceException
@@ -1327,9 +1322,8 @@ export const getLinkedWhatsAppBusinessAccount: (
 /**
  * Disassociate a WhatsApp Business Account (WABA) from your Amazon Web Services account.
  */
-export const disassociateWhatsAppBusinessAccount: (
-  input: DisassociateWhatsAppBusinessAccountInput,
-) => effect.Effect<
+export const disassociateWhatsAppBusinessAccount: API.OperationMethod<
+  DisassociateWhatsAppBusinessAccountInput,
   DisassociateWhatsAppBusinessAccountOutput,
   | DependencyException
   | InvalidParametersException
@@ -1350,18 +1344,16 @@ export const disassociateWhatsAppBusinessAccount: (
 /**
  * List all WhatsApp Business Accounts linked to your Amazon Web Services account.
  */
-export const listLinkedWhatsAppBusinessAccounts: {
-  (
-    input: ListLinkedWhatsAppBusinessAccountsInput,
-  ): effect.Effect<
-    ListLinkedWhatsAppBusinessAccountsOutput,
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLinkedWhatsAppBusinessAccounts: API.OperationMethod<
+  ListLinkedWhatsAppBusinessAccountsInput,
+  ListLinkedWhatsAppBusinessAccountsOutput,
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLinkedWhatsAppBusinessAccountsInput,
   ) => stream.Stream<
@@ -1405,9 +1397,8 @@ export const listLinkedWhatsAppBusinessAccounts: {
  *
  * Amazon Web Services End User Messaging Social does not store any WhatsApp message template content.
  */
-export const createWhatsAppMessageTemplate: (
-  input: CreateWhatsAppMessageTemplateInput,
-) => effect.Effect<
+export const createWhatsAppMessageTemplate: API.OperationMethod<
+  CreateWhatsAppMessageTemplateInput,
   CreateWhatsAppMessageTemplateOutput,
   | DependencyException
   | InternalServiceException
@@ -1430,9 +1421,8 @@ export const createWhatsAppMessageTemplate: (
 /**
  * Creates a new WhatsApp message template using a template from Meta's template library.
  */
-export const createWhatsAppMessageTemplateFromLibrary: (
-  input: CreateWhatsAppMessageTemplateFromLibraryInput,
-) => effect.Effect<
+export const createWhatsAppMessageTemplateFromLibrary: API.OperationMethod<
+  CreateWhatsAppMessageTemplateFromLibraryInput,
   CreateWhatsAppMessageTemplateFromLibraryOutput,
   | DependencyException
   | InternalServiceException
@@ -1455,9 +1445,8 @@ export const createWhatsAppMessageTemplateFromLibrary: (
 /**
  * Uploads media for use in a WhatsApp message template.
  */
-export const createWhatsAppMessageTemplateMedia: (
-  input: CreateWhatsAppMessageTemplateMediaInput,
-) => effect.Effect<
+export const createWhatsAppMessageTemplateMedia: API.OperationMethod<
+  CreateWhatsAppMessageTemplateMediaInput,
   CreateWhatsAppMessageTemplateMediaOutput,
   | DependencyException
   | InternalServiceException
@@ -1480,9 +1469,8 @@ export const createWhatsAppMessageTemplateMedia: (
 /**
  * Deletes a WhatsApp message template.
  */
-export const deleteWhatsAppMessageTemplate: (
-  input: DeleteWhatsAppMessageTemplateInput,
-) => effect.Effect<
+export const deleteWhatsAppMessageTemplate: API.OperationMethod<
+  DeleteWhatsAppMessageTemplateInput,
   DeleteWhatsAppMessageTemplateOutput,
   | DependencyException
   | InternalServiceException
@@ -1505,9 +1493,8 @@ export const deleteWhatsAppMessageTemplate: (
 /**
  * Retrieves a specific WhatsApp message template.
  */
-export const getWhatsAppMessageTemplate: (
-  input: GetWhatsAppMessageTemplateInput,
-) => effect.Effect<
+export const getWhatsAppMessageTemplate: API.OperationMethod<
+  GetWhatsAppMessageTemplateInput,
   GetWhatsAppMessageTemplateOutput,
   | DependencyException
   | InternalServiceException
@@ -1530,19 +1517,17 @@ export const getWhatsAppMessageTemplate: (
 /**
  * Lists WhatsApp message templates for a specific WhatsApp Business Account.
  */
-export const listWhatsAppMessageTemplates: {
-  (
-    input: ListWhatsAppMessageTemplatesInput,
-  ): effect.Effect<
-    ListWhatsAppMessageTemplatesOutput,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWhatsAppMessageTemplates: API.OperationMethod<
+  ListWhatsAppMessageTemplatesInput,
+  ListWhatsAppMessageTemplatesOutput,
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWhatsAppMessageTemplatesInput,
   ) => stream.Stream<
@@ -1587,19 +1572,17 @@ export const listWhatsAppMessageTemplates: {
 /**
  * Lists templates available in Meta's template library for WhatsApp messaging.
  */
-export const listWhatsAppTemplateLibrary: {
-  (
-    input: ListWhatsAppTemplateLibraryInput,
-  ): effect.Effect<
-    ListWhatsAppTemplateLibraryOutput,
-    | DependencyException
-    | InternalServiceException
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | ThrottledRequestException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWhatsAppTemplateLibrary: API.OperationMethod<
+  ListWhatsAppTemplateLibraryInput,
+  ListWhatsAppTemplateLibraryOutput,
+  | DependencyException
+  | InternalServiceException
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | ThrottledRequestException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWhatsAppTemplateLibraryInput,
   ) => stream.Stream<
@@ -1644,9 +1627,8 @@ export const listWhatsAppTemplateLibrary: {
 /**
  * Add an event destination to log event data from WhatsApp for a WhatsApp Business Account (WABA). A WABA can only have one event destination at a time. All resources associated with the WABA use the same event destination.
  */
-export const putWhatsAppBusinessAccountEventDestinations: (
-  input: PutWhatsAppBusinessAccountEventDestinationsInput,
-) => effect.Effect<
+export const putWhatsAppBusinessAccountEventDestinations: API.OperationMethod<
+  PutWhatsAppBusinessAccountEventDestinationsInput,
   PutWhatsAppBusinessAccountEventDestinationsOutput,
   | InternalServiceException
   | InvalidParametersException
@@ -1665,9 +1647,8 @@ export const putWhatsAppBusinessAccountEventDestinations: (
 /**
  * Updates an existing WhatsApp message template.
  */
-export const updateWhatsAppMessageTemplate: (
-  input: UpdateWhatsAppMessageTemplateInput,
-) => effect.Effect<
+export const updateWhatsAppMessageTemplate: API.OperationMethod<
+  UpdateWhatsAppMessageTemplateInput,
   UpdateWhatsAppMessageTemplateOutput,
   | DependencyException
   | InternalServiceException
@@ -1690,9 +1671,8 @@ export const updateWhatsAppMessageTemplate: (
 /**
  * Retrieve the WABA account id and phone number details of a WhatsApp business account phone number.
  */
-export const getLinkedWhatsAppBusinessAccountPhoneNumber: (
-  input: GetLinkedWhatsAppBusinessAccountPhoneNumberInput,
-) => effect.Effect<
+export const getLinkedWhatsAppBusinessAccountPhoneNumber: API.OperationMethod<
+  GetLinkedWhatsAppBusinessAccountPhoneNumberInput,
   GetLinkedWhatsAppBusinessAccountPhoneNumberOutput,
   | DependencyException
   | InternalServiceException
@@ -1715,9 +1695,8 @@ export const getLinkedWhatsAppBusinessAccountPhoneNumber: (
 /**
  * Delete a media object from the WhatsApp service. If the object is still in an Amazon S3 bucket you should delete it from there too.
  */
-export const deleteWhatsAppMessageMedia: (
-  input: DeleteWhatsAppMessageMediaInput,
-) => effect.Effect<
+export const deleteWhatsAppMessageMedia: API.OperationMethod<
+  DeleteWhatsAppMessageMediaInput,
   DeleteWhatsAppMessageMediaOutput,
   | AccessDeniedByMetaException
   | DependencyException
@@ -1746,9 +1725,8 @@ export const deleteWhatsAppMessageMedia: (
  * destination. If both are used then an `InvalidParameterException` is
  * returned.
  */
-export const getWhatsAppMessageMedia: (
-  input: GetWhatsAppMessageMediaInput,
-) => effect.Effect<
+export const getWhatsAppMessageMedia: API.OperationMethod<
+  GetWhatsAppMessageMediaInput,
   GetWhatsAppMessageMediaOutput,
   | AccessDeniedByMetaException
   | DependencyException
@@ -1777,9 +1755,8 @@ export const getWhatsAppMessageMedia: (
  * or `sourceS3PresignedUrl` for the source. If both or neither are specified then an
  * `InvalidParameterException` is returned.
  */
-export const postWhatsAppMessageMedia: (
-  input: PostWhatsAppMessageMediaInput,
-) => effect.Effect<
+export const postWhatsAppMessageMedia: API.OperationMethod<
+  PostWhatsAppMessageMediaInput,
   PostWhatsAppMessageMediaOutput,
   | AccessDeniedByMetaException
   | DependencyException
@@ -1808,9 +1785,8 @@ export const postWhatsAppMessageMedia: (
  * *Amazon Web Services End User Messaging Social User Guide*
  * .
  */
-export const sendWhatsAppMessage: (
-  input: SendWhatsAppMessageInput,
-) => effect.Effect<
+export const sendWhatsAppMessage: API.OperationMethod<
+  SendWhatsAppMessageInput,
   SendWhatsAppMessageOutput,
   | DependencyException
   | InternalServiceException

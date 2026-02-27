@@ -2113,9 +2113,8 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 /**
  * Changes the Channel's properities to configure log subscription
  */
-export const configureLogs: (
-  input: ConfigureLogsRequest,
-) => effect.Effect<
+export const configureLogs: API.OperationMethod<
+  ConfigureLogsRequest,
   ConfigureLogsResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2140,9 +2139,8 @@ export const configureLogs: (
 /**
  * Creates a new Channel.
  */
-export const createChannel: (
-  input: CreateChannelRequest,
-) => effect.Effect<
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
   CreateChannelResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2167,9 +2165,8 @@ export const createChannel: (
 /**
  * Creates a new HarvestJob record.
  */
-export const createHarvestJob: (
-  input: CreateHarvestJobRequest,
-) => effect.Effect<
+export const createHarvestJob: API.OperationMethod<
+  CreateHarvestJobRequest,
   CreateHarvestJobResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2194,9 +2191,8 @@ export const createHarvestJob: (
 /**
  * Creates a new OriginEndpoint record.
  */
-export const createOriginEndpoint: (
-  input: CreateOriginEndpointRequest,
-) => effect.Effect<
+export const createOriginEndpoint: API.OperationMethod<
+  CreateOriginEndpointRequest,
   CreateOriginEndpointResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2221,9 +2217,8 @@ export const createOriginEndpoint: (
 /**
  * Deletes an existing Channel.
  */
-export const deleteChannel: (
-  input: DeleteChannelRequest,
-) => effect.Effect<
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelRequest,
   DeleteChannelResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2248,9 +2243,8 @@ export const deleteChannel: (
 /**
  * Deletes an existing OriginEndpoint.
  */
-export const deleteOriginEndpoint: (
-  input: DeleteOriginEndpointRequest,
-) => effect.Effect<
+export const deleteOriginEndpoint: API.OperationMethod<
+  DeleteOriginEndpointRequest,
   DeleteOriginEndpointResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2275,9 +2269,8 @@ export const deleteOriginEndpoint: (
 /**
  * Gets details about a Channel.
  */
-export const describeChannel: (
-  input: DescribeChannelRequest,
-) => effect.Effect<
+export const describeChannel: API.OperationMethod<
+  DescribeChannelRequest,
   DescribeChannelResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2302,9 +2295,8 @@ export const describeChannel: (
 /**
  * Gets details about an existing HarvestJob.
  */
-export const describeHarvestJob: (
-  input: DescribeHarvestJobRequest,
-) => effect.Effect<
+export const describeHarvestJob: API.OperationMethod<
+  DescribeHarvestJobRequest,
   DescribeHarvestJobResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2329,9 +2321,8 @@ export const describeHarvestJob: (
 /**
  * Gets details about an existing OriginEndpoint.
  */
-export const describeOriginEndpoint: (
-  input: DescribeOriginEndpointRequest,
-) => effect.Effect<
+export const describeOriginEndpoint: API.OperationMethod<
+  DescribeOriginEndpointRequest,
   DescribeOriginEndpointResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2356,20 +2347,18 @@ export const describeOriginEndpoint: (
 /**
  * Returns a collection of Channels.
  */
-export const listChannels: {
-  (
-    input: ListChannelsRequest,
-  ): effect.Effect<
-    ListChannelsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
@@ -2417,20 +2406,18 @@ export const listChannels: {
 /**
  * Returns a collection of HarvestJob records.
  */
-export const listHarvestJobs: {
-  (
-    input: ListHarvestJobsRequest,
-  ): effect.Effect<
-    ListHarvestJobsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHarvestJobs: API.OperationMethod<
+  ListHarvestJobsRequest,
+  ListHarvestJobsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHarvestJobsRequest,
   ) => stream.Stream<
@@ -2478,20 +2465,18 @@ export const listHarvestJobs: {
 /**
  * Returns a collection of OriginEndpoint records.
  */
-export const listOriginEndpoints: {
-  (
-    input: ListOriginEndpointsRequest,
-  ): effect.Effect<
-    ListOriginEndpointsResponse,
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnprocessableEntityException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOriginEndpoints: API.OperationMethod<
+  ListOriginEndpointsRequest,
+  ListOriginEndpointsResponse,
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnprocessableEntityException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOriginEndpointsRequest,
   ) => stream.Stream<
@@ -2539,9 +2524,8 @@ export const listOriginEndpoints: {
 /**
  *
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2553,9 +2537,8 @@ export const listTagsForResource: (
 /**
  * Changes the Channel's first IngestEndpoint's username and password. WARNING - This API is deprecated. Please use RotateIngestEndpointCredentials instead
  */
-export const rotateChannelCredentials: (
-  input: RotateChannelCredentialsRequest,
-) => effect.Effect<
+export const rotateChannelCredentials: API.OperationMethod<
+  RotateChannelCredentialsRequest,
   RotateChannelCredentialsResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2580,9 +2563,8 @@ export const rotateChannelCredentials: (
 /**
  * Rotate the IngestEndpoint's username and password, as specified by the IngestEndpoint's id.
  */
-export const rotateIngestEndpointCredentials: (
-  input: RotateIngestEndpointCredentialsRequest,
-) => effect.Effect<
+export const rotateIngestEndpointCredentials: API.OperationMethod<
+  RotateIngestEndpointCredentialsRequest,
   RotateIngestEndpointCredentialsResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2607,9 +2589,8 @@ export const rotateIngestEndpointCredentials: (
 /**
  *
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2621,9 +2602,8 @@ export const tagResource: (
 /**
  *
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2635,9 +2615,8 @@ export const untagResource: (
 /**
  * Updates an existing Channel.
  */
-export const updateChannel: (
-  input: UpdateChannelRequest,
-) => effect.Effect<
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
   UpdateChannelResponse,
   | ForbiddenException
   | InternalServerErrorException
@@ -2662,9 +2641,8 @@ export const updateChannel: (
 /**
  * Updates an existing OriginEndpoint.
  */
-export const updateOriginEndpoint: (
-  input: UpdateOriginEndpointRequest,
-) => effect.Effect<
+export const updateOriginEndpoint: API.OperationMethod<
+  UpdateOriginEndpointRequest,
   UpdateOriginEndpointResponse,
   | ForbiddenException
   | InternalServerErrorException

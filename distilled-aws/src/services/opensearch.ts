@@ -5778,9 +5778,8 @@ export class SlotNotAvailableException extends S.TaggedErrorClass<SlotNotAvailab
  * Allows the destination Amazon OpenSearch Service domain owner to accept an inbound
  * cross-cluster search connection request. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const acceptInboundConnection: (
-  input: AcceptInboundConnectionRequest,
-) => effect.Effect<
+export const acceptInboundConnection: API.OperationMethod<
+  AcceptInboundConnectionRequest,
   AcceptInboundConnectionResponse,
   | DisabledOperationException
   | LimitExceededException
@@ -5801,9 +5800,8 @@ export const acceptInboundConnection: (
  * see Creating Amazon OpenSearch Service data source integrations with Amazon
  * S3.
  */
-export const addDataSource: (
-  input: AddDataSourceRequest,
-) => effect.Effect<
+export const addDataSource: API.OperationMethod<
+  AddDataSourceRequest,
   AddDataSourceResponse,
   | BaseException
   | DependencyFailureException
@@ -5831,9 +5829,8 @@ export const addDataSource: (
  * Adds a new data source in Amazon OpenSearch Service so that you can perform direct
  * queries on external data.
  */
-export const addDirectQueryDataSource: (
-  input: AddDirectQueryDataSourceRequest,
-) => effect.Effect<
+export const addDirectQueryDataSource: API.OperationMethod<
+  AddDirectQueryDataSourceRequest,
   AddDirectQueryDataSourceResponse,
   | BaseException
   | DisabledOperationException
@@ -5862,9 +5859,8 @@ export const addDirectQueryDataSource: (
  * Tags are a set of case-sensitive key-value pairs. A domain, data source, or
  * application can have up to 10 tags. For more information, see Tagging Amazon OpenSearch Service resources.
  */
-export const addTags: (
-  input: AddTagsRequest,
-) => effect.Effect<
+export const addTags: API.OperationMethod<
+  AddTagsRequest,
   AddTagsResponse,
   | BaseException
   | InternalException
@@ -5887,9 +5883,8 @@ export const addTags: (
  * see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const associatePackage: (
-  input: AssociatePackageRequest,
-) => effect.Effect<
+export const associatePackage: API.OperationMethod<
+  AssociatePackageRequest,
   AssociatePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -5915,9 +5910,8 @@ export const associatePackage: (
  * Operation in the Amazon OpenSearch Service API for associating multiple packages with
  * a domain simultaneously.
  */
-export const associatePackages: (
-  input: AssociatePackagesRequest,
-) => effect.Effect<
+export const associatePackages: API.OperationMethod<
+  AssociatePackagesRequest,
   AssociatePackagesResponse,
   | BaseException
   | ConflictException
@@ -5943,9 +5937,8 @@ export const associatePackages: (
  * Provides access to an Amazon OpenSearch Service domain through the use of an interface
  * VPC endpoint.
  */
-export const authorizeVpcEndpointAccess: (
-  input: AuthorizeVpcEndpointAccessRequest,
-) => effect.Effect<
+export const authorizeVpcEndpointAccess: API.OperationMethod<
+  AuthorizeVpcEndpointAccessRequest,
   AuthorizeVpcEndpointAccessResponse,
   | BaseException
   | DisabledOperationException
@@ -5970,9 +5963,8 @@ export const authorizeVpcEndpointAccess: (
 /**
  * Cancels a pending configuration change on an Amazon OpenSearch Service domain.
  */
-export const cancelDomainConfigChange: (
-  input: CancelDomainConfigChangeRequest,
-) => effect.Effect<
+export const cancelDomainConfigChange: API.OperationMethod<
+  CancelDomainConfigChangeRequest,
   CancelDomainConfigChangeResponse,
   | BaseException
   | DisabledOperationException
@@ -5999,9 +5991,8 @@ export const cancelDomainConfigChange: (
  * information, see Service
  * software updates in Amazon OpenSearch Service.
  */
-export const cancelServiceSoftwareUpdate: (
-  input: CancelServiceSoftwareUpdateRequest,
-) => effect.Effect<
+export const cancelServiceSoftwareUpdate: API.OperationMethod<
+  CancelServiceSoftwareUpdateRequest,
   CancelServiceSoftwareUpdateResponse,
   | BaseException
   | InternalException
@@ -6022,9 +6013,8 @@ export const cancelServiceSoftwareUpdate: (
 /**
  * Creates an OpenSearch UI application. For more information, see Using the OpenSearch user interface in Amazon OpenSearch Service.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | AccessDeniedException
   | BaseException
@@ -6050,9 +6040,8 @@ export const createApplication: (
  * Creates an Amazon OpenSearch Service domain. For more information, see Creating and
  * managing Amazon OpenSearch Service domains.
  */
-export const createDomain: (
-  input: CreateDomainRequest,
-) => effect.Effect<
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
   CreateDomainResponse,
   | BaseException
   | DisabledOperationException
@@ -6079,9 +6068,8 @@ export const createDomain: (
 /**
  * Creates an OpenSearch index with optional automatic semantic enrichment for specified text fields. Automatic semantic enrichment enables semantic search capabilities without requiring machine learning expertise, improving search relevance by up to 20% by understanding search intent and contextual meaning beyond keyword matching. The semantic enrichment process has zero impact on search latency as sparse encodings are stored directly within the index during indexing. For more information, see Automatic semantic enrichment.
  */
-export const createIndex: (
-  input: CreateIndexRequest,
-) => effect.Effect<
+export const createIndex: API.OperationMethod<
+  CreateIndexRequest,
   CreateIndexResponse,
   | AccessDeniedException
   | DependencyFailureException
@@ -6112,9 +6100,8 @@ export const createIndex: (
  * to a destination domain. For more information, see Cross-cluster search
  * for Amazon OpenSearch Service.
  */
-export const createOutboundConnection: (
-  input: CreateOutboundConnectionRequest,
-) => effect.Effect<
+export const createOutboundConnection: API.OperationMethod<
+  CreateOutboundConnectionRequest,
   CreateOutboundConnectionResponse,
   | DisabledOperationException
   | InternalException
@@ -6137,9 +6124,8 @@ export const createOutboundConnection: (
  * information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const createPackage: (
-  input: CreatePackageRequest,
-) => effect.Effect<
+export const createPackage: API.OperationMethod<
+  CreatePackageRequest,
   CreatePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -6166,9 +6152,8 @@ export const createPackage: (
 /**
  * Creates an Amazon OpenSearch Service-managed VPC endpoint.
  */
-export const createVpcEndpoint: (
-  input: CreateVpcEndpointRequest,
-) => effect.Effect<
+export const createVpcEndpoint: API.OperationMethod<
+  CreateVpcEndpointRequest,
   CreateVpcEndpointResponse,
   | BaseException
   | ConflictException
@@ -6193,9 +6178,8 @@ export const createVpcEndpoint: (
 /**
  * Deletes a specified OpenSearch application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | AccessDeniedException
   | BaseException
@@ -6223,9 +6207,8 @@ export const deleteApplication: (
  * Deletes a direct-query data source. For more information, see Deleting
  * an Amazon OpenSearch Service data source with Amazon S3.
  */
-export const deleteDataSource: (
-  input: DeleteDataSourceRequest,
-) => effect.Effect<
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceRequest,
   DeleteDataSourceResponse,
   | BaseException
   | DependencyFailureException
@@ -6251,9 +6234,8 @@ export const deleteDataSource: (
  * Deletes a previously configured direct query data source from Amazon OpenSearch
  * Service.
  */
-export const deleteDirectQueryDataSource: (
-  input: DeleteDirectQueryDataSourceRequest,
-) => effect.Effect<
+export const deleteDirectQueryDataSource: API.OperationMethod<
+  DeleteDirectQueryDataSourceRequest,
   DeleteDirectQueryDataSourceResponse,
   | BaseException
   | DisabledOperationException
@@ -6277,9 +6259,8 @@ export const deleteDirectQueryDataSource: (
  * Deletes an Amazon OpenSearch Service domain and all of its data. You can't recover a
  * domain after you delete it.
  */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResponse,
   | BaseException
   | InternalException
@@ -6301,9 +6282,8 @@ export const deleteDomain: (
  * Allows the destination Amazon OpenSearch Service domain owner to delete an existing
  * inbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const deleteInboundConnection: (
-  input: DeleteInboundConnectionRequest,
-) => effect.Effect<
+export const deleteInboundConnection: API.OperationMethod<
+  DeleteInboundConnectionRequest,
   DeleteInboundConnectionResponse,
   DisabledOperationException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6315,9 +6295,8 @@ export const deleteInboundConnection: (
 /**
  * Deletes an OpenSearch index. This operation permanently removes the index and cannot be undone.
  */
-export const deleteIndex: (
-  input: DeleteIndexRequest,
-) => effect.Effect<
+export const deleteIndex: API.OperationMethod<
+  DeleteIndexRequest,
   DeleteIndexResponse,
   | AccessDeniedException
   | DependencyFailureException
@@ -6345,9 +6324,8 @@ export const deleteIndex: (
  * Allows the source Amazon OpenSearch Service domain owner to delete an existing
  * outbound cross-cluster search connection. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const deleteOutboundConnection: (
-  input: DeleteOutboundConnectionRequest,
-) => effect.Effect<
+export const deleteOutboundConnection: API.OperationMethod<
+  DeleteOutboundConnectionRequest,
   DeleteOutboundConnectionResponse,
   DisabledOperationException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6360,9 +6338,8 @@ export const deleteOutboundConnection: (
  * Deletes an Amazon OpenSearch Service package. For more information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const deletePackage: (
-  input: DeletePackageRequest,
-) => effect.Effect<
+export const deletePackage: API.OperationMethod<
+  DeletePackageRequest,
   DeletePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -6387,9 +6364,8 @@ export const deletePackage: (
 /**
  * Deletes an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
-export const deleteVpcEndpoint: (
-  input: DeleteVpcEndpointRequest,
-) => effect.Effect<
+export const deleteVpcEndpoint: API.OperationMethod<
+  DeleteVpcEndpointRequest,
   DeleteVpcEndpointResponse,
   | BaseException
   | DisabledOperationException
@@ -6411,9 +6387,8 @@ export const deleteVpcEndpoint: (
  * Describes the domain configuration for the specified Amazon OpenSearch Service domain,
  * including the domain ID, domain service endpoint, and domain ARN.
  */
-export const describeDomain: (
-  input: DescribeDomainRequest,
-) => effect.Effect<
+export const describeDomain: API.OperationMethod<
+  DescribeDomainRequest,
   DescribeDomainResponse,
   | BaseException
   | InternalException
@@ -6436,18 +6411,16 @@ export const describeDomain: (
  * Service domain. For more information, see Auto-Tune for Amazon
  * OpenSearch Service.
  */
-export const describeDomainAutoTunes: {
-  (
-    input: DescribeDomainAutoTunesRequest,
-  ): effect.Effect<
-    DescribeDomainAutoTunesResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeDomainAutoTunes: API.OperationMethod<
+  DescribeDomainAutoTunesRequest,
+  DescribeDomainAutoTunesResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDomainAutoTunesRequest,
   ) => stream.Stream<
@@ -6489,9 +6462,8 @@ export const describeDomainAutoTunes: {
  * Returns information about the current blue/green deployment happening on an Amazon
  * OpenSearch Service domain. For more information, see Making configuration changes in Amazon OpenSearch Service.
  */
-export const describeDomainChangeProgress: (
-  input: DescribeDomainChangeProgressRequest,
-) => effect.Effect<
+export const describeDomainChangeProgress: API.OperationMethod<
+  DescribeDomainChangeProgressRequest,
   DescribeDomainChangeProgressResponse,
   | BaseException
   | InternalException
@@ -6512,9 +6484,8 @@ export const describeDomainChangeProgress: (
 /**
  * Returns the configuration of an Amazon OpenSearch Service domain.
  */
-export const describeDomainConfig: (
-  input: DescribeDomainConfigRequest,
-) => effect.Effect<
+export const describeDomainConfig: API.OperationMethod<
+  DescribeDomainConfigRequest,
   DescribeDomainConfigResponse,
   | BaseException
   | InternalException
@@ -6536,9 +6507,8 @@ export const describeDomainConfig: (
  * Returns information about domain and node health, the standby Availability Zone,
  * number of nodes per Availability Zone, and shard count per node.
  */
-export const describeDomainHealth: (
-  input: DescribeDomainHealthRequest,
-) => effect.Effect<
+export const describeDomainHealth: API.OperationMethod<
+  DescribeDomainHealthRequest,
   DescribeDomainHealthResponse,
   | BaseException
   | DisabledOperationException
@@ -6563,9 +6533,8 @@ export const describeDomainHealth: (
  * ultrawarm nodes, Availability Zone(s), standby nodes, node configurations, and node
  * states.
  */
-export const describeDomainNodes: (
-  input: DescribeDomainNodesRequest,
-) => effect.Effect<
+export const describeDomainNodes: API.OperationMethod<
+  DescribeDomainNodesRequest,
   DescribeDomainNodesResponse,
   | BaseException
   | DependencyFailureException
@@ -6591,9 +6560,8 @@ export const describeDomainNodes: (
  * Returns domain configuration information about the specified Amazon OpenSearch Service
  * domains.
  */
-export const describeDomains: (
-  input: DescribeDomainsRequest,
-) => effect.Effect<
+export const describeDomains: API.OperationMethod<
+  DescribeDomainsRequest,
   DescribeDomainsResponse,
   BaseException | InternalException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6606,9 +6574,8 @@ export const describeDomains: (
  * Describes the progress of a pre-update dry run analysis on an Amazon OpenSearch
  * Service domain. For more information, see Determining whether a change will cause a blue/green deployment.
  */
-export const describeDryRunProgress: (
-  input: DescribeDryRunProgressRequest,
-) => effect.Effect<
+export const describeDryRunProgress: API.OperationMethod<
+  DescribeDryRunProgressRequest,
   DescribeDryRunProgressResponse,
   | BaseException
   | DisabledOperationException
@@ -6632,14 +6599,12 @@ export const describeDryRunProgress: (
  * Lists all the inbound cross-cluster search connections for a destination (remote)
  * Amazon OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const describeInboundConnections: {
-  (
-    input: DescribeInboundConnectionsRequest,
-  ): effect.Effect<
-    DescribeInboundConnectionsResponse,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeInboundConnections: API.OperationMethod<
+  DescribeInboundConnectionsRequest,
+  DescribeInboundConnectionsResponse,
+  DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInboundConnectionsRequest,
   ) => stream.Stream<
@@ -6668,9 +6633,8 @@ export const describeInboundConnections: {
  * Describes the instance count, storage, and master node limits for a given OpenSearch
  * or Elasticsearch version and instance type.
  */
-export const describeInstanceTypeLimits: (
-  input: DescribeInstanceTypeLimitsRequest,
-) => effect.Effect<
+export const describeInstanceTypeLimits: API.OperationMethod<
+  DescribeInstanceTypeLimitsRequest,
   DescribeInstanceTypeLimitsResponse,
   | BaseException
   | InternalException
@@ -6696,14 +6660,12 @@ export const describeInstanceTypeLimits: (
  * Lists all the outbound cross-cluster connections for a local (source) Amazon
  * OpenSearch Service domain. For more information, see Cross-cluster search for Amazon OpenSearch Service.
  */
-export const describeOutboundConnections: {
-  (
-    input: DescribeOutboundConnectionsRequest,
-  ): effect.Effect<
-    DescribeOutboundConnectionsResponse,
-    DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeOutboundConnections: API.OperationMethod<
+  DescribeOutboundConnectionsRequest,
+  DescribeOutboundConnectionsResponse,
+  DisabledOperationException | InvalidPaginationTokenException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOutboundConnectionsRequest,
   ) => stream.Stream<
@@ -6733,19 +6695,17 @@ export const describeOutboundConnections: {
  * Custom packages
  * for Amazon OpenSearch Service.
  */
-export const describePackages: {
-  (
-    input: DescribePackagesRequest,
-  ): effect.Effect<
-    DescribePackagesResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describePackages: API.OperationMethod<
+  DescribePackagesRequest,
+  DescribePackagesResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePackagesRequest,
   ) => stream.Stream<
@@ -6791,18 +6751,16 @@ export const describePackages: {
  * given Region. For more information, see Reserved Instances in Amazon
  * OpenSearch Service.
  */
-export const describeReservedInstanceOfferings: {
-  (
-    input: DescribeReservedInstanceOfferingsRequest,
-  ): effect.Effect<
-    DescribeReservedInstanceOfferingsResponse,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeReservedInstanceOfferings: API.OperationMethod<
+  DescribeReservedInstanceOfferingsRequest,
+  DescribeReservedInstanceOfferingsResponse,
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedInstanceOfferingsRequest,
   ) => stream.Stream<
@@ -6845,18 +6803,16 @@ export const describeReservedInstanceOfferings: {
  * Region. For more information, see Reserved Instances in Amazon
  * OpenSearch Service.
  */
-export const describeReservedInstances: {
-  (
-    input: DescribeReservedInstancesRequest,
-  ): effect.Effect<
-    DescribeReservedInstancesResponse,
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeReservedInstances: API.OperationMethod<
+  DescribeReservedInstancesRequest,
+  DescribeReservedInstancesResponse,
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedInstancesRequest,
   ) => stream.Stream<
@@ -6897,9 +6853,8 @@ export const describeReservedInstances: {
 /**
  * Describes one or more Amazon OpenSearch Service-managed VPC endpoints.
  */
-export const describeVpcEndpoints: (
-  input: DescribeVpcEndpointsRequest,
-) => effect.Effect<
+export const describeVpcEndpoints: API.OperationMethod<
+  DescribeVpcEndpointsRequest,
   DescribeVpcEndpointsResponse,
   | BaseException
   | DisabledOperationException
@@ -6924,9 +6879,8 @@ export const describeVpcEndpoints: (
  * see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const dissociatePackage: (
-  input: DissociatePackageRequest,
-) => effect.Effect<
+export const dissociatePackage: API.OperationMethod<
+  DissociatePackageRequest,
   DissociatePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -6951,9 +6905,8 @@ export const dissociatePackage: (
 /**
  * Dissociates multiple packages from a domain simultaneously.
  */
-export const dissociatePackages: (
-  input: DissociatePackagesRequest,
-) => effect.Effect<
+export const dissociatePackages: API.OperationMethod<
+  DissociatePackagesRequest,
   DissociatePackagesResponse,
   | BaseException
   | ConflictException
@@ -6978,9 +6931,8 @@ export const dissociatePackages: (
 /**
  * Retrieves the configuration and status of an existing OpenSearch application.
  */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
   GetApplicationResponse,
   | AccessDeniedException
   | BaseException
@@ -7006,9 +6958,8 @@ export const getApplication: (
  * Returns a map of OpenSearch or Elasticsearch versions and the versions you can upgrade
  * them to.
  */
-export const getCompatibleVersions: (
-  input: GetCompatibleVersionsRequest,
-) => effect.Effect<
+export const getCompatibleVersions: API.OperationMethod<
+  GetCompatibleVersionsRequest,
   GetCompatibleVersionsResponse,
   | BaseException
   | DisabledOperationException
@@ -7031,9 +6982,8 @@ export const getCompatibleVersions: (
 /**
  * Retrieves information about a direct query data source.
  */
-export const getDataSource: (
-  input: GetDataSourceRequest,
-) => effect.Effect<
+export const getDataSource: API.OperationMethod<
+  GetDataSourceRequest,
   GetDataSourceResponse,
   | BaseException
   | DependencyFailureException
@@ -7061,9 +7011,8 @@ export const getDataSource: (
  * If the default application isn't set, the operation returns a resource not found
  * error.
  */
-export const getDefaultApplicationSetting: (
-  input: GetDefaultApplicationSettingRequest,
-) => effect.Effect<
+export const getDefaultApplicationSetting: API.OperationMethod<
+  GetDefaultApplicationSettingRequest,
   GetDefaultApplicationSettingResponse,
   | AccessDeniedException
   | InternalException
@@ -7085,9 +7034,8 @@ export const getDefaultApplicationSetting: (
  * Returns detailed configuration information for a specific direct query data source in
  * Amazon OpenSearch Service.
  */
-export const getDirectQueryDataSource: (
-  input: GetDirectQueryDataSourceRequest,
-) => effect.Effect<
+export const getDirectQueryDataSource: API.OperationMethod<
+  GetDirectQueryDataSourceRequest,
   GetDirectQueryDataSourceResponse,
   | BaseException
   | DisabledOperationException
@@ -7110,9 +7058,8 @@ export const getDirectQueryDataSource: (
 /**
  * The status of the maintenance action.
  */
-export const getDomainMaintenanceStatus: (
-  input: GetDomainMaintenanceStatusRequest,
-) => effect.Effect<
+export const getDomainMaintenanceStatus: API.OperationMethod<
+  GetDomainMaintenanceStatusRequest,
   GetDomainMaintenanceStatusResponse,
   | BaseException
   | DisabledOperationException
@@ -7135,9 +7082,8 @@ export const getDomainMaintenanceStatus: (
 /**
  * Retrieves information about an OpenSearch index including its schema and semantic enrichment configuration. Use this operation to view the current index structure and semantic search settings.
  */
-export const getIndex: (
-  input: GetIndexRequest,
-) => effect.Effect<
+export const getIndex: API.OperationMethod<
+  GetIndexRequest,
   GetIndexResponse,
   | AccessDeniedException
   | DependencyFailureException
@@ -7167,19 +7113,17 @@ export const getIndex: (
  * information, see Custom packages for Amazon
  * OpenSearch Service.
  */
-export const getPackageVersionHistory: {
-  (
-    input: GetPackageVersionHistoryRequest,
-  ): effect.Effect<
-    GetPackageVersionHistoryResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getPackageVersionHistory: API.OperationMethod<
+  GetPackageVersionHistoryRequest,
+  GetPackageVersionHistoryResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetPackageVersionHistoryRequest,
   ) => stream.Stream<
@@ -7224,19 +7168,17 @@ export const getPackageVersionHistory: {
  * Retrieves the complete history of the last 10 upgrades performed on an Amazon OpenSearch
  * Service domain.
  */
-export const getUpgradeHistory: {
-  (
-    input: GetUpgradeHistoryRequest,
-  ): effect.Effect<
-    GetUpgradeHistoryResponse,
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getUpgradeHistory: API.OperationMethod<
+  GetUpgradeHistoryRequest,
+  GetUpgradeHistoryResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetUpgradeHistoryRequest,
   ) => stream.Stream<
@@ -7281,9 +7223,8 @@ export const getUpgradeHistory: {
  * Returns the most recent status of the last upgrade or upgrade eligibility check performed on
  * an Amazon OpenSearch Service domain.
  */
-export const getUpgradeStatus: (
-  input: GetUpgradeStatusRequest,
-) => effect.Effect<
+export const getUpgradeStatus: API.OperationMethod<
+  GetUpgradeStatusRequest,
   GetUpgradeStatusResponse,
   | BaseException
   | DisabledOperationException
@@ -7306,20 +7247,18 @@ export const getUpgradeStatus: (
 /**
  * Lists all OpenSearch applications under your account.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    | AccessDeniedException
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  | AccessDeniedException
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -7369,9 +7308,8 @@ export const listApplications: {
  * more information, see Working with
  * Amazon OpenSearch Service direct queries with Amazon S3.
  */
-export const listDataSources: (
-  input: ListDataSourcesRequest,
-) => effect.Effect<
+export const listDataSources: API.OperationMethod<
+  ListDataSourcesRequest,
   ListDataSourcesResponse,
   | BaseException
   | DependencyFailureException
@@ -7397,9 +7335,8 @@ export const listDataSources: (
  * Lists an inventory of all the direct query data sources that you have configured
  * within Amazon OpenSearch Service.
  */
-export const listDirectQueryDataSources: (
-  input: ListDirectQueryDataSourcesRequest,
-) => effect.Effect<
+export const listDirectQueryDataSources: API.OperationMethod<
+  ListDirectQueryDataSourcesRequest,
   ListDirectQueryDataSourcesResponse,
   | BaseException
   | DisabledOperationException
@@ -7422,19 +7359,17 @@ export const listDirectQueryDataSources: (
 /**
  * A list of maintenance actions for the domain.
  */
-export const listDomainMaintenances: {
-  (
-    input: ListDomainMaintenancesRequest,
-  ): effect.Effect<
-    ListDomainMaintenancesResponse,
-    | BaseException
-    | DisabledOperationException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDomainMaintenances: API.OperationMethod<
+  ListDomainMaintenancesRequest,
+  ListDomainMaintenancesResponse,
+  | BaseException
+  | DisabledOperationException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainMaintenancesRequest,
   ) => stream.Stream<
@@ -7479,9 +7414,8 @@ export const listDomainMaintenances: {
  * Returns the names of all Amazon OpenSearch Service domains owned by the current user
  * in the active Region.
  */
-export const listDomainNames: (
-  input: ListDomainNamesRequest,
-) => effect.Effect<
+export const listDomainNames: API.OperationMethod<
+  ListDomainNamesRequest,
   ListDomainNamesResponse,
   BaseException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7495,19 +7429,17 @@ export const listDomainNames: (
  * information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const listDomainsForPackage: {
-  (
-    input: ListDomainsForPackageRequest,
-  ): effect.Effect<
-    ListDomainsForPackageResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDomainsForPackage: API.OperationMethod<
+  ListDomainsForPackageRequest,
+  ListDomainsForPackageResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsForPackageRequest,
   ) => stream.Stream<
@@ -7552,18 +7484,16 @@ export const listDomainsForPackage: {
  * Lists all instance types and available features for a given OpenSearch or
  * Elasticsearch version.
  */
-export const listInstanceTypeDetails: {
-  (
-    input: ListInstanceTypeDetailsRequest,
-  ): effect.Effect<
-    ListInstanceTypeDetailsResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listInstanceTypeDetails: API.OperationMethod<
+  ListInstanceTypeDetailsRequest,
+  ListInstanceTypeDetailsResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstanceTypeDetailsRequest,
   ) => stream.Stream<
@@ -7606,19 +7536,17 @@ export const listInstanceTypeDetails: {
  * information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const listPackagesForDomain: {
-  (
-    input: ListPackagesForDomainRequest,
-  ): effect.Effect<
-    ListPackagesForDomainResponse,
-    | AccessDeniedException
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPackagesForDomain: API.OperationMethod<
+  ListPackagesForDomainRequest,
+  ListPackagesForDomainResponse,
+  | AccessDeniedException
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackagesForDomainRequest,
   ) => stream.Stream<
@@ -7664,19 +7592,17 @@ export const listPackagesForDomain: {
  * changes can be service
  * software updates or blue/green Auto-Tune enhancements.
  */
-export const listScheduledActions: {
-  (
-    input: ListScheduledActionsRequest,
-  ): effect.Effect<
-    ListScheduledActionsResponse,
-    | BaseException
-    | InternalException
-    | InvalidPaginationTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listScheduledActions: API.OperationMethod<
+  ListScheduledActionsRequest,
+  ListScheduledActionsResponse,
+  | BaseException
+  | InternalException
+  | InvalidPaginationTokenException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScheduledActionsRequest,
   ) => stream.Stream<
@@ -7721,9 +7647,8 @@ export const listScheduledActions: {
  * Returns all resource tags for an Amazon OpenSearch Service domain, data source, or
  * application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
-export const listTags: (
-  input: ListTagsRequest,
-) => effect.Effect<
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
   ListTagsResponse,
   | BaseException
   | InternalException
@@ -7745,18 +7670,16 @@ export const listTags: (
  * Lists all versions of OpenSearch and Elasticsearch that Amazon OpenSearch Service
  * supports.
  */
-export const listVersions: {
-  (
-    input: ListVersionsRequest,
-  ): effect.Effect<
-    ListVersionsResponse,
-    | BaseException
-    | InternalException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listVersions: API.OperationMethod<
+  ListVersionsRequest,
+  ListVersionsResponse,
+  | BaseException
+  | InternalException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVersionsRequest,
   ) => stream.Stream<
@@ -7799,9 +7722,8 @@ export const listVersions: {
  * access a given Amazon OpenSearch Service domain through the use of an interface VPC
  * endpoint.
  */
-export const listVpcEndpointAccess: (
-  input: ListVpcEndpointAccessRequest,
-) => effect.Effect<
+export const listVpcEndpointAccess: API.OperationMethod<
+  ListVpcEndpointAccessRequest,
   ListVpcEndpointAccessResponse,
   | BaseException
   | DisabledOperationException
@@ -7822,9 +7744,8 @@ export const listVpcEndpointAccess: (
 /**
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints in the current Amazon Web Services account and Region.
  */
-export const listVpcEndpoints: (
-  input: ListVpcEndpointsRequest,
-) => effect.Effect<
+export const listVpcEndpoints: API.OperationMethod<
+  ListVpcEndpointsRequest,
   ListVpcEndpointsResponse,
   BaseException | DisabledOperationException | InternalException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7837,9 +7758,8 @@ export const listVpcEndpoints: (
  * Retrieves all Amazon OpenSearch Service-managed VPC endpoints associated with a
  * particular domain.
  */
-export const listVpcEndpointsForDomain: (
-  input: ListVpcEndpointsForDomainRequest,
-) => effect.Effect<
+export const listVpcEndpointsForDomain: API.OperationMethod<
+  ListVpcEndpointsForDomainRequest,
   ListVpcEndpointsForDomainResponse,
   | BaseException
   | DisabledOperationException
@@ -7860,9 +7780,8 @@ export const listVpcEndpointsForDomain: (
 /**
  * Allows you to purchase Amazon OpenSearch Service Reserved Instances.
  */
-export const purchaseReservedInstanceOffering: (
-  input: PurchaseReservedInstanceOfferingRequest,
-) => effect.Effect<
+export const purchaseReservedInstanceOffering: API.OperationMethod<
+  PurchaseReservedInstanceOfferingRequest,
   PurchaseReservedInstanceOfferingResponse,
   | DisabledOperationException
   | InternalException
@@ -7892,9 +7811,8 @@ export const purchaseReservedInstanceOffering: (
  * `PutDefaultApplicationSetting` with the current applications ARN and the
  * `setAsDefault` parameter set to `false`.
  */
-export const putDefaultApplicationSetting: (
-  input: PutDefaultApplicationSettingRequest,
-) => effect.Effect<
+export const putDefaultApplicationSetting: API.OperationMethod<
+  PutDefaultApplicationSettingRequest,
   PutDefaultApplicationSettingResponse,
   | AccessDeniedException
   | InternalException
@@ -7916,9 +7834,8 @@ export const putDefaultApplicationSetting: (
  * Allows the remote Amazon OpenSearch Service domain owner to reject an inbound
  * cross-cluster connection request.
  */
-export const rejectInboundConnection: (
-  input: RejectInboundConnectionRequest,
-) => effect.Effect<
+export const rejectInboundConnection: API.OperationMethod<
+  RejectInboundConnectionRequest,
   RejectInboundConnectionResponse,
   DisabledOperationException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7931,9 +7848,8 @@ export const rejectInboundConnection: (
  * Removes the specified set of tags from an Amazon OpenSearch Service domain, data
  * source, or application. For more information, see Tagging Amazon OpenSearch Service resources.
  */
-export const removeTags: (
-  input: RemoveTagsRequest,
-) => effect.Effect<
+export const removeTags: API.OperationMethod<
+  RemoveTagsRequest,
   RemoveTagsResponse,
   BaseException | InternalException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7946,9 +7862,8 @@ export const removeTags: (
  * Revokes access to an Amazon OpenSearch Service domain that was provided through an
  * interface VPC endpoint.
  */
-export const revokeVpcEndpointAccess: (
-  input: RevokeVpcEndpointAccessRequest,
-) => effect.Effect<
+export const revokeVpcEndpointAccess: API.OperationMethod<
+  RevokeVpcEndpointAccessRequest,
   RevokeVpcEndpointAccessResponse,
   | BaseException
   | DisabledOperationException
@@ -7973,9 +7888,8 @@ export const revokeVpcEndpointAccess: (
  * node reboot, an Opensearch or Elasticsearch process restart, or a Dashboard or Kibana
  * restart.
  */
-export const startDomainMaintenance: (
-  input: StartDomainMaintenanceRequest,
-) => effect.Effect<
+export const startDomainMaintenance: API.OperationMethod<
+  StartDomainMaintenanceRequest,
   StartDomainMaintenanceResponse,
   | BaseException
   | DisabledOperationException
@@ -8000,9 +7914,8 @@ export const startDomainMaintenance: (
  * information, see Service
  * software updates in Amazon OpenSearch Service.
  */
-export const startServiceSoftwareUpdate: (
-  input: StartServiceSoftwareUpdateRequest,
-) => effect.Effect<
+export const startServiceSoftwareUpdate: API.OperationMethod<
+  StartServiceSoftwareUpdateRequest,
   StartServiceSoftwareUpdateResponse,
   | BaseException
   | InternalException
@@ -8023,9 +7936,8 @@ export const startServiceSoftwareUpdate: (
 /**
  * Updates the configuration and settings of an existing OpenSearch application.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | AccessDeniedException
   | BaseException
@@ -8054,9 +7966,8 @@ export const updateApplication: (
  * with Amazon OpenSearch Service data source integrations with Amazon
  * S3.
  */
-export const updateDataSource: (
-  input: UpdateDataSourceRequest,
-) => effect.Effect<
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceRequest,
   UpdateDataSourceResponse,
   | BaseException
   | DependencyFailureException
@@ -8082,9 +7993,8 @@ export const updateDataSource: (
  * Updates the configuration or properties of an existing direct query data source in
  * Amazon OpenSearch Service.
  */
-export const updateDirectQueryDataSource: (
-  input: UpdateDirectQueryDataSourceRequest,
-) => effect.Effect<
+export const updateDirectQueryDataSource: API.OperationMethod<
+  UpdateDirectQueryDataSourceRequest,
   UpdateDirectQueryDataSourceResponse,
   | BaseException
   | DisabledOperationException
@@ -8108,9 +8018,8 @@ export const updateDirectQueryDataSource: (
  * Modifies the cluster configuration of the specified Amazon OpenSearch Service
  * domain.
  */
-export const updateDomainConfig: (
-  input: UpdateDomainConfigRequest,
-) => effect.Effect<
+export const updateDomainConfig: API.OperationMethod<
+  UpdateDomainConfigRequest,
   UpdateDomainConfigResponse,
   | BaseException
   | InternalException
@@ -8135,9 +8044,8 @@ export const updateDomainConfig: (
 /**
  * Updates an existing OpenSearch index schema and semantic enrichment configuration. This operation allows modification of field mappings and semantic search settings for text fields. Changes to semantic enrichment configuration will apply to newly ingested documents.
  */
-export const updateIndex: (
-  input: UpdateIndexRequest,
-) => effect.Effect<
+export const updateIndex: API.OperationMethod<
+  UpdateIndexRequest,
   UpdateIndexResponse,
   | AccessDeniedException
   | DependencyFailureException
@@ -8166,9 +8074,8 @@ export const updateIndex: (
  * information, see Custom packages
  * for Amazon OpenSearch Service.
  */
-export const updatePackage: (
-  input: UpdatePackageRequest,
-) => effect.Effect<
+export const updatePackage: API.OperationMethod<
+  UpdatePackageRequest,
   UpdatePackageResponse,
   | AccessDeniedException
   | BaseException
@@ -8194,9 +8101,8 @@ export const updatePackage: (
  * Updates the scope of a package. Scope of the package defines users who can view and
  * associate a package.
  */
-export const updatePackageScope: (
-  input: UpdatePackageScopeRequest,
-) => effect.Effect<
+export const updatePackageScope: API.OperationMethod<
+  UpdatePackageScopeRequest,
   UpdatePackageScopeResponse,
   | BaseException
   | DisabledOperationException
@@ -8221,9 +8127,8 @@ export const updatePackageScope: (
  * a scheduled service
  * software update or a blue/green Auto-Tune enhancement.
  */
-export const updateScheduledAction: (
-  input: UpdateScheduledActionRequest,
-) => effect.Effect<
+export const updateScheduledAction: API.OperationMethod<
+  UpdateScheduledActionRequest,
   UpdateScheduledActionResponse,
   | BaseException
   | ConflictException
@@ -8250,9 +8155,8 @@ export const updateScheduledAction: (
 /**
  * Modifies an Amazon OpenSearch Service-managed interface VPC endpoint.
  */
-export const updateVpcEndpoint: (
-  input: UpdateVpcEndpointRequest,
-) => effect.Effect<
+export const updateVpcEndpoint: API.OperationMethod<
+  UpdateVpcEndpointRequest,
   UpdateVpcEndpointResponse,
   | BaseException
   | ConflictException
@@ -8278,9 +8182,8 @@ export const updateVpcEndpoint: (
  * Allows you to either upgrade your Amazon OpenSearch Service domain or perform an
  * upgrade eligibility check to a compatible version of OpenSearch or Elasticsearch.
  */
-export const upgradeDomain: (
-  input: UpgradeDomainRequest,
-) => effect.Effect<
+export const upgradeDomain: API.OperationMethod<
+  UpgradeDomainRequest,
   UpgradeDomainResponse,
   | BaseException
   | DisabledOperationException

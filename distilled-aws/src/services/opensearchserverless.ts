@@ -2174,9 +2174,8 @@ export class OcuLimitExceededException extends S.TaggedErrorClass<OcuLimitExceed
 /**
  * Returns attributes for one or more collections, including the collection endpoint, the OpenSearch Dashboards endpoint, and FIPS-compliant endpoints. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
-export const batchGetCollection: (
-  input: BatchGetCollectionRequest,
-) => effect.Effect<
+export const batchGetCollection: API.OperationMethod<
+  BatchGetCollectionRequest,
   BatchGetCollectionResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2188,9 +2187,8 @@ export const batchGetCollection: (
 /**
  * Returns attributes for one or more collection groups, including capacity limits and the number of collections in each group. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
-export const batchGetCollectionGroup: (
-  input: BatchGetCollectionGroupRequest,
-) => effect.Effect<
+export const batchGetCollectionGroup: API.OperationMethod<
+  BatchGetCollectionGroupRequest,
   BatchGetCollectionGroupResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2202,9 +2200,8 @@ export const batchGetCollectionGroup: (
 /**
  * Returns a list of successful and failed retrievals for the OpenSearch Serverless indexes. For more information, see Viewing data lifecycle policies.
  */
-export const batchGetEffectiveLifecyclePolicy: (
-  input: BatchGetEffectiveLifecyclePolicyRequest,
-) => effect.Effect<
+export const batchGetEffectiveLifecyclePolicy: API.OperationMethod<
+  BatchGetEffectiveLifecyclePolicyRequest,
   BatchGetEffectiveLifecyclePolicyResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2216,9 +2213,8 @@ export const batchGetEffectiveLifecyclePolicy: (
 /**
  * Returns one or more configured OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
-export const batchGetLifecyclePolicy: (
-  input: BatchGetLifecyclePolicyRequest,
-) => effect.Effect<
+export const batchGetLifecyclePolicy: API.OperationMethod<
+  BatchGetLifecyclePolicyRequest,
   BatchGetLifecyclePolicyResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2230,9 +2226,8 @@ export const batchGetLifecyclePolicy: (
 /**
  * Returns attributes for one or more VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const batchGetVpcEndpoint: (
-  input: BatchGetVpcEndpointRequest,
-) => effect.Effect<
+export const batchGetVpcEndpoint: API.OperationMethod<
+  BatchGetVpcEndpointRequest,
   BatchGetVpcEndpointResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2244,9 +2239,8 @@ export const batchGetVpcEndpoint: (
 /**
  * Creates a lifecyle policy to be applied to OpenSearch Serverless indexes. Lifecycle policies define the number of days or hours to retain the data on an OpenSearch Serverless index. For more information, see Creating data lifecycle policies.
  */
-export const createLifecyclePolicy: (
-  input: CreateLifecyclePolicyRequest,
-) => effect.Effect<
+export const createLifecyclePolicy: API.OperationMethod<
+  CreateLifecyclePolicyRequest,
   CreateLifecyclePolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2267,9 +2261,8 @@ export const createLifecyclePolicy: (
 /**
  * Creates a security policy to be used by one or more OpenSearch Serverless collections. Security policies provide access to a collection and its OpenSearch Dashboards endpoint from public networks or specific VPC endpoints. They also allow you to secure a collection with a KMS encryption key. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
-export const createSecurityPolicy: (
-  input: CreateSecurityPolicyRequest,
-) => effect.Effect<
+export const createSecurityPolicy: API.OperationMethod<
+  CreateSecurityPolicyRequest,
   CreateSecurityPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2290,9 +2283,8 @@ export const createSecurityPolicy: (
 /**
  * Returns account-level settings related to OpenSearch Serverless.
  */
-export const getAccountSettings: (
-  input: GetAccountSettingsRequest,
-) => effect.Effect<
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsRequest,
   GetAccountSettingsResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2304,9 +2296,8 @@ export const getAccountSettings: (
 /**
  * Returns statistical information about your OpenSearch Serverless access policies, security configurations, and security policies.
  */
-export const getPoliciesStats: (
-  input: GetPoliciesStatsRequest,
-) => effect.Effect<
+export const getPoliciesStats: API.OperationMethod<
+  GetPoliciesStatsRequest,
   GetPoliciesStatsResponse,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2318,9 +2309,8 @@ export const getPoliciesStats: (
 /**
  * Returns the tags for an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2339,9 +2329,8 @@ export const listTagsForResource: (
 /**
  * Associates tags with an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConflictException
   | InternalServerException
@@ -2364,9 +2353,8 @@ export const tagResource: (
 /**
  * Removes a tag or set of tags from an OpenSearch Serverless resource. For more information, see Tagging Amazon OpenSearch Serverless collections.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConflictException
   | InternalServerException
@@ -2387,9 +2375,8 @@ export const untagResource: (
 /**
  * Update the OpenSearch Serverless settings for the current Amazon Web Services account. For more information, see Managing capacity limits for Amazon OpenSearch Serverless.
  */
-export const updateAccountSettings: (
-  input: UpdateAccountSettingsRequest,
-) => effect.Effect<
+export const updateAccountSettings: API.OperationMethod<
+  UpdateAccountSettingsRequest,
   UpdateAccountSettingsResponse,
   | InternalServerException
   | ServiceQuotaExceededException
@@ -2408,9 +2395,8 @@ export const updateAccountSettings: (
 /**
  * Updates an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const updateVpcEndpoint: (
-  input: UpdateVpcEndpointRequest,
-) => effect.Effect<
+export const updateVpcEndpoint: API.OperationMethod<
+  UpdateVpcEndpointRequest,
   UpdateVpcEndpointResponse,
   | ConflictException
   | InternalServerException
@@ -2425,9 +2411,8 @@ export const updateVpcEndpoint: (
 /**
  * Creates a data access policy for OpenSearch Serverless. Access policies limit access to collections and the resources within them, and allow a user to access that data irrespective of the access mechanism or network source. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
-export const createAccessPolicy: (
-  input: CreateAccessPolicyRequest,
-) => effect.Effect<
+export const createAccessPolicy: API.OperationMethod<
+  CreateAccessPolicyRequest,
   CreateAccessPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2448,9 +2433,8 @@ export const createAccessPolicy: (
 /**
  * Returns an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
-export const getAccessPolicy: (
-  input: GetAccessPolicyRequest,
-) => effect.Effect<
+export const getAccessPolicy: API.OperationMethod<
+  GetAccessPolicyRequest,
   GetAccessPolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2469,9 +2453,8 @@ export const getAccessPolicy: (
 /**
  * Updates an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
-export const updateAccessPolicy: (
-  input: UpdateAccessPolicyRequest,
-) => effect.Effect<
+export const updateAccessPolicy: API.OperationMethod<
+  UpdateAccessPolicyRequest,
   UpdateAccessPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2492,9 +2475,8 @@ export const updateAccessPolicy: (
 /**
  * Deletes an OpenSearch Serverless access policy. For more information, see Data access control for Amazon OpenSearch Serverless.
  */
-export const deleteAccessPolicy: (
-  input: DeleteAccessPolicyRequest,
-) => effect.Effect<
+export const deleteAccessPolicy: API.OperationMethod<
+  DeleteAccessPolicyRequest,
   DeleteAccessPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2515,14 +2497,12 @@ export const deleteAccessPolicy: (
 /**
  * Returns information about a list of OpenSearch Serverless access policies.
  */
-export const listAccessPolicies: {
-  (
-    input: ListAccessPoliciesRequest,
-  ): effect.Effect<
-    ListAccessPoliciesResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessPolicies: API.OperationMethod<
+  ListAccessPoliciesRequest,
+  ListAccessPoliciesResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessPoliciesRequest,
   ) => stream.Stream<
@@ -2546,9 +2526,8 @@ export const listAccessPolicies: {
 /**
  * Creates a new OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
-export const createCollection: (
-  input: CreateCollectionRequest,
-) => effect.Effect<
+export const createCollection: API.OperationMethod<
+  CreateCollectionRequest,
   CreateCollectionResponse,
   | ConflictException
   | InternalServerException
@@ -2571,9 +2550,8 @@ export const createCollection: (
 /**
  * Updates an OpenSearch Serverless collection.
  */
-export const updateCollection: (
-  input: UpdateCollectionRequest,
-) => effect.Effect<
+export const updateCollection: API.OperationMethod<
+  UpdateCollectionRequest,
   UpdateCollectionResponse,
   | ConflictException
   | InternalServerException
@@ -2588,9 +2566,8 @@ export const updateCollection: (
 /**
  * Deletes an OpenSearch Serverless collection. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
-export const deleteCollection: (
-  input: DeleteCollectionRequest,
-) => effect.Effect<
+export const deleteCollection: API.OperationMethod<
+  DeleteCollectionRequest,
   DeleteCollectionResponse,
   | ConflictException
   | InternalServerException
@@ -2613,14 +2590,12 @@ export const deleteCollection: (
  *
  * Make sure to include an empty request body {} if you don't include any collection filters in the request.
  */
-export const listCollections: {
-  (
-    input: ListCollectionsRequest,
-  ): effect.Effect<
-    ListCollectionsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollections: API.OperationMethod<
+  ListCollectionsRequest,
+  ListCollectionsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollectionsRequest,
   ) => stream.Stream<
@@ -2646,9 +2621,8 @@ export const listCollections: {
  *
  * For more information, see Managing collection groups.
  */
-export const createCollectionGroup: (
-  input: CreateCollectionGroupRequest,
-) => effect.Effect<
+export const createCollectionGroup: API.OperationMethod<
+  CreateCollectionGroupRequest,
   CreateCollectionGroupResponse,
   | ConflictException
   | InternalServerException
@@ -2669,9 +2643,8 @@ export const createCollectionGroup: (
 /**
  * Updates the description and capacity limits of a collection group.
  */
-export const updateCollectionGroup: (
-  input: UpdateCollectionGroupRequest,
-) => effect.Effect<
+export const updateCollectionGroup: API.OperationMethod<
+  UpdateCollectionGroupRequest,
   UpdateCollectionGroupResponse,
   | ConflictException
   | InternalServerException
@@ -2692,9 +2665,8 @@ export const updateCollectionGroup: (
 /**
  * Deletes a collection group. You can only delete empty collection groups that contain no collections. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
-export const deleteCollectionGroup: (
-  input: DeleteCollectionGroupRequest,
-) => effect.Effect<
+export const deleteCollectionGroup: API.OperationMethod<
+  DeleteCollectionGroupRequest,
   DeleteCollectionGroupResponse,
   | ConflictException
   | InternalServerException
@@ -2715,14 +2687,12 @@ export const deleteCollectionGroup: (
 /**
  * Returns a list of collection groups. For more information, see Creating and managing Amazon OpenSearch Serverless collections.
  */
-export const listCollectionGroups: {
-  (
-    input: ListCollectionGroupsRequest,
-  ): effect.Effect<
-    ListCollectionGroupsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollectionGroups: API.OperationMethod<
+  ListCollectionGroupsRequest,
+  ListCollectionGroupsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollectionGroupsRequest,
   ) => stream.Stream<
@@ -2746,9 +2716,8 @@ export const listCollectionGroups: {
 /**
  * Creates an index within an OpenSearch Serverless collection. Unlike other OpenSearch indexes, indexes created by this API are automatically configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment in the *OpenSearch User Guide*.
  */
-export const createIndex: (
-  input: CreateIndexRequest,
-) => effect.Effect<
+export const createIndex: API.OperationMethod<
+  CreateIndexRequest,
   CreateIndexResponse,
   | ConflictException
   | InternalServerException
@@ -2769,9 +2738,8 @@ export const createIndex: (
 /**
  * Retrieves information about an index in an OpenSearch Serverless collection, including its schema definition. The index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
-export const getIndex: (
-  input: GetIndexRequest,
-) => effect.Effect<
+export const getIndex: API.OperationMethod<
+  GetIndexRequest,
   GetIndexResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2790,9 +2758,8 @@ export const getIndex: (
 /**
  * Updates an existing index in an OpenSearch Serverless collection. This operation allows you to modify the index schema, including adding new fields or changing field mappings. You can also enable automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
-export const updateIndex: (
-  input: UpdateIndexRequest,
-) => effect.Effect<
+export const updateIndex: API.OperationMethod<
+  UpdateIndexRequest,
   UpdateIndexResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2811,9 +2778,8 @@ export const updateIndex: (
 /**
  * Deletes an index from an OpenSearch Serverless collection. Be aware that the index might be configured to conduct automatic semantic enrichment ingestion and search. For more information, see About automatic semantic enrichment.
  */
-export const deleteIndex: (
-  input: DeleteIndexRequest,
-) => effect.Effect<
+export const deleteIndex: API.OperationMethod<
+  DeleteIndexRequest,
   DeleteIndexResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2832,9 +2798,8 @@ export const deleteIndex: (
 /**
  * Updates an OpenSearch Serverless access policy. For more information, see Updating data lifecycle policies.
  */
-export const updateLifecyclePolicy: (
-  input: UpdateLifecyclePolicyRequest,
-) => effect.Effect<
+export const updateLifecyclePolicy: API.OperationMethod<
+  UpdateLifecyclePolicyRequest,
   UpdateLifecyclePolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2857,9 +2822,8 @@ export const updateLifecyclePolicy: (
 /**
  * Deletes an OpenSearch Serverless lifecycle policy. For more information, see Deleting data lifecycle policies.
  */
-export const deleteLifecyclePolicy: (
-  input: DeleteLifecyclePolicyRequest,
-) => effect.Effect<
+export const deleteLifecyclePolicy: API.OperationMethod<
+  DeleteLifecyclePolicyRequest,
   DeleteLifecyclePolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2880,14 +2844,12 @@ export const deleteLifecyclePolicy: (
 /**
  * Returns a list of OpenSearch Serverless lifecycle policies. For more information, see Viewing data lifecycle policies.
  */
-export const listLifecyclePolicies: {
-  (
-    input: ListLifecyclePoliciesRequest,
-  ): effect.Effect<
-    ListLifecyclePoliciesResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLifecyclePolicies: API.OperationMethod<
+  ListLifecyclePoliciesRequest,
+  ListLifecyclePoliciesResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLifecyclePoliciesRequest,
   ) => stream.Stream<
@@ -2911,9 +2873,8 @@ export const listLifecyclePolicies: {
 /**
  * Specifies a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const createSecurityConfig: (
-  input: CreateSecurityConfigRequest,
-) => effect.Effect<
+export const createSecurityConfig: API.OperationMethod<
+  CreateSecurityConfigRequest,
   CreateSecurityConfigResponse,
   | ConflictException
   | InternalServerException
@@ -2934,9 +2895,8 @@ export const createSecurityConfig: (
 /**
  * Returns information about an OpenSearch Serverless security configuration. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const getSecurityConfig: (
-  input: GetSecurityConfigRequest,
-) => effect.Effect<
+export const getSecurityConfig: API.OperationMethod<
+  GetSecurityConfigRequest,
   GetSecurityConfigResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2955,9 +2915,8 @@ export const getSecurityConfig: (
 /**
  * Updates a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const updateSecurityConfig: (
-  input: UpdateSecurityConfigRequest,
-) => effect.Effect<
+export const updateSecurityConfig: API.OperationMethod<
+  UpdateSecurityConfigRequest,
   UpdateSecurityConfigResponse,
   | ConflictException
   | InternalServerException
@@ -2978,9 +2937,8 @@ export const updateSecurityConfig: (
 /**
  * Deletes a security configuration for OpenSearch Serverless. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const deleteSecurityConfig: (
-  input: DeleteSecurityConfigRequest,
-) => effect.Effect<
+export const deleteSecurityConfig: API.OperationMethod<
+  DeleteSecurityConfigRequest,
   DeleteSecurityConfigResponse,
   | ConflictException
   | InternalServerException
@@ -3001,14 +2959,12 @@ export const deleteSecurityConfig: (
 /**
  * Returns information about configured OpenSearch Serverless security configurations. For more information, see SAML authentication for Amazon OpenSearch Serverless.
  */
-export const listSecurityConfigs: {
-  (
-    input: ListSecurityConfigsRequest,
-  ): effect.Effect<
-    ListSecurityConfigsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecurityConfigs: API.OperationMethod<
+  ListSecurityConfigsRequest,
+  ListSecurityConfigsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityConfigsRequest,
   ) => stream.Stream<
@@ -3032,9 +2988,8 @@ export const listSecurityConfigs: {
 /**
  * Returns information about a configured OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
-export const getSecurityPolicy: (
-  input: GetSecurityPolicyRequest,
-) => effect.Effect<
+export const getSecurityPolicy: API.OperationMethod<
+  GetSecurityPolicyRequest,
   GetSecurityPolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3053,9 +3008,8 @@ export const getSecurityPolicy: (
 /**
  * Updates an OpenSearch Serverless security policy. For more information, see Network access for Amazon OpenSearch Serverless and Encryption at rest for Amazon OpenSearch Serverless.
  */
-export const updateSecurityPolicy: (
-  input: UpdateSecurityPolicyRequest,
-) => effect.Effect<
+export const updateSecurityPolicy: API.OperationMethod<
+  UpdateSecurityPolicyRequest,
   UpdateSecurityPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -3078,9 +3032,8 @@ export const updateSecurityPolicy: (
 /**
  * Deletes an OpenSearch Serverless security policy.
  */
-export const deleteSecurityPolicy: (
-  input: DeleteSecurityPolicyRequest,
-) => effect.Effect<
+export const deleteSecurityPolicy: API.OperationMethod<
+  DeleteSecurityPolicyRequest,
   DeleteSecurityPolicyResponse,
   | ConflictException
   | InternalServerException
@@ -3101,14 +3054,12 @@ export const deleteSecurityPolicy: (
 /**
  * Returns information about configured OpenSearch Serverless security policies.
  */
-export const listSecurityPolicies: {
-  (
-    input: ListSecurityPoliciesRequest,
-  ): effect.Effect<
-    ListSecurityPoliciesResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecurityPolicies: API.OperationMethod<
+  ListSecurityPoliciesRequest,
+  ListSecurityPoliciesResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityPoliciesRequest,
   ) => stream.Stream<
@@ -3132,9 +3083,8 @@ export const listSecurityPolicies: {
 /**
  * Creates an OpenSearch Serverless-managed interface VPC endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const createVpcEndpoint: (
-  input: CreateVpcEndpointRequest,
-) => effect.Effect<
+export const createVpcEndpoint: API.OperationMethod<
+  CreateVpcEndpointRequest,
   CreateVpcEndpointResponse,
   | ConflictException
   | InternalServerException
@@ -3155,9 +3105,8 @@ export const createVpcEndpoint: (
 /**
  * Deletes an OpenSearch Serverless-managed interface endpoint. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const deleteVpcEndpoint: (
-  input: DeleteVpcEndpointRequest,
-) => effect.Effect<
+export const deleteVpcEndpoint: API.OperationMethod<
+  DeleteVpcEndpointRequest,
   DeleteVpcEndpointResponse,
   | ConflictException
   | InternalServerException
@@ -3178,14 +3127,12 @@ export const deleteVpcEndpoint: (
 /**
  * Returns the OpenSearch Serverless-managed interface VPC endpoints associated with the current account. For more information, see Access Amazon OpenSearch Serverless using an interface endpoint.
  */
-export const listVpcEndpoints: {
-  (
-    input: ListVpcEndpointsRequest,
-  ): effect.Effect<
-    ListVpcEndpointsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVpcEndpoints: API.OperationMethod<
+  ListVpcEndpointsRequest,
+  ListVpcEndpointsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVpcEndpointsRequest,
   ) => stream.Stream<

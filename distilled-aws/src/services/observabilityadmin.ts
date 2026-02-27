@@ -1965,9 +1965,8 @@ export class InvalidStateException extends S.TaggedErrorClass<InvalidStateExcept
 /**
  * Creates a centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const createCentralizationRuleForOrganization: (
-  input: CreateCentralizationRuleForOrganizationInput,
-) => effect.Effect<
+export const createCentralizationRuleForOrganization: API.OperationMethod<
+  CreateCentralizationRuleForOrganizationInput,
   CreateCentralizationRuleForOrganizationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1992,9 +1991,8 @@ export const createCentralizationRuleForOrganization: (
 /**
  * Creates an integration between CloudWatch and S3 Tables for analytics. This integration enables querying CloudWatch telemetry data using analytics engines like Amazon Athena, Amazon Redshift, and Apache Spark.
  */
-export const createS3TableIntegration: (
-  input: CreateS3TableIntegrationInput,
-) => effect.Effect<
+export const createS3TableIntegration: API.OperationMethod<
+  CreateS3TableIntegrationInput,
   CreateS3TableIntegrationOutput,
   | AccessDeniedException
   | ConflictException
@@ -2019,9 +2017,8 @@ export const createS3TableIntegration: (
 /**
  * Creates a telemetry rule that defines how telemetry should be configured for Amazon Web Services resources in your account. The rule specifies which resources should have telemetry enabled and how that telemetry data should be collected based on resource type, telemetry type, and selection criteria.
  */
-export const createTelemetryRule: (
-  input: CreateTelemetryRuleInput,
-) => effect.Effect<
+export const createTelemetryRule: API.OperationMethod<
+  CreateTelemetryRuleInput,
   CreateTelemetryRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -2046,9 +2043,8 @@ export const createTelemetryRule: (
 /**
  * Creates a telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const createTelemetryRuleForOrganization: (
-  input: CreateTelemetryRuleForOrganizationInput,
-) => effect.Effect<
+export const createTelemetryRuleForOrganization: API.OperationMethod<
+  CreateTelemetryRuleForOrganizationInput,
   CreateTelemetryRuleForOrganizationOutput,
   | AccessDeniedException
   | ConflictException
@@ -2073,9 +2069,8 @@ export const createTelemetryRuleForOrganization: (
 /**
  * Deletes an organization-wide centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const deleteCentralizationRuleForOrganization: (
-  input: DeleteCentralizationRuleForOrganizationInput,
-) => effect.Effect<
+export const deleteCentralizationRuleForOrganization: API.OperationMethod<
+  DeleteCentralizationRuleForOrganizationInput,
   DeleteCentralizationRuleForOrganizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2098,9 +2093,8 @@ export const deleteCentralizationRuleForOrganization: (
 /**
  * Deletes an S3 Table integration and its associated data. This operation removes the connection between CloudWatch Observability Admin and S3 Tables.
  */
-export const deleteS3TableIntegration: (
-  input: DeleteS3TableIntegrationInput,
-) => effect.Effect<
+export const deleteS3TableIntegration: API.OperationMethod<
+  DeleteS3TableIntegrationInput,
   DeleteS3TableIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2125,9 +2119,8 @@ export const deleteS3TableIntegration: (
 /**
  * Deletes a telemetry rule from your account. Any telemetry configurations previously created by the rule will remain but no new resources will be configured by this rule.
  */
-export const deleteTelemetryRule: (
-  input: DeleteTelemetryRuleInput,
-) => effect.Effect<
+export const deleteTelemetryRule: API.OperationMethod<
+  DeleteTelemetryRuleInput,
   DeleteTelemetryRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2150,9 +2143,8 @@ export const deleteTelemetryRule: (
 /**
  * Deletes an organization-wide telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const deleteTelemetryRuleForOrganization: (
-  input: DeleteTelemetryRuleForOrganizationInput,
-) => effect.Effect<
+export const deleteTelemetryRuleForOrganization: API.OperationMethod<
+  DeleteTelemetryRuleForOrganizationInput,
   DeleteTelemetryRuleForOrganizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2175,9 +2167,8 @@ export const deleteTelemetryRuleForOrganization: (
 /**
  * Retrieves the details of a specific organization centralization rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const getCentralizationRuleForOrganization: (
-  input: GetCentralizationRuleForOrganizationInput,
-) => effect.Effect<
+export const getCentralizationRuleForOrganization: API.OperationMethod<
+  GetCentralizationRuleForOrganizationInput,
   GetCentralizationRuleForOrganizationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2200,9 +2191,8 @@ export const getCentralizationRuleForOrganization: (
 /**
  * Retrieves information about a specific S3 Table integration, including its configuration, status, and metadata.
  */
-export const getS3TableIntegration: (
-  input: GetS3TableIntegrationInput,
-) => effect.Effect<
+export const getS3TableIntegration: API.OperationMethod<
+  GetS3TableIntegrationInput,
   GetS3TableIntegrationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2225,9 +2215,8 @@ export const getS3TableIntegration: (
 /**
  * Returns the current status of the resource tags for telemetry feature, which enhances telemetry data with additional resource metadata from Resource Explorer.
  */
-export const getTelemetryEnrichmentStatus: (
-  input: GetTelemetryEnrichmentStatusRequest,
-) => effect.Effect<
+export const getTelemetryEnrichmentStatus: API.OperationMethod<
+  GetTelemetryEnrichmentStatusRequest,
   GetTelemetryEnrichmentStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2248,9 +2237,8 @@ export const getTelemetryEnrichmentStatus: (
 /**
  * Returns the current onboarding status of the telemetry config feature, including the status of the feature and reason the feature failed to start or stop.
  */
-export const getTelemetryEvaluationStatus: (
-  input: GetTelemetryEvaluationStatusRequest,
-) => effect.Effect<
+export const getTelemetryEvaluationStatus: API.OperationMethod<
+  GetTelemetryEvaluationStatusRequest,
   GetTelemetryEvaluationStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2269,9 +2257,8 @@ export const getTelemetryEvaluationStatus: (
 /**
  * This returns the onboarding status of the telemetry configuration feature for the organization. It can only be called by a Management Account of an Amazon Web Services Organization or an assigned Delegated Admin Account of Amazon CloudWatch telemetry config.
  */
-export const getTelemetryEvaluationStatusForOrganization: (
-  input: GetTelemetryEvaluationStatusForOrganizationRequest,
-) => effect.Effect<
+export const getTelemetryEvaluationStatusForOrganization: API.OperationMethod<
+  GetTelemetryEvaluationStatusForOrganizationRequest,
   GetTelemetryEvaluationStatusForOrganizationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2292,9 +2279,8 @@ export const getTelemetryEvaluationStatusForOrganization: (
 /**
  * Retrieves the details of a specific telemetry rule in your account.
  */
-export const getTelemetryRule: (
-  input: GetTelemetryRuleInput,
-) => effect.Effect<
+export const getTelemetryRule: API.OperationMethod<
+  GetTelemetryRuleInput,
   GetTelemetryRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2317,9 +2303,8 @@ export const getTelemetryRule: (
 /**
  * Retrieves the details of a specific organization telemetry rule. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const getTelemetryRuleForOrganization: (
-  input: GetTelemetryRuleForOrganizationInput,
-) => effect.Effect<
+export const getTelemetryRuleForOrganization: API.OperationMethod<
+  GetTelemetryRuleForOrganizationInput,
   GetTelemetryRuleForOrganizationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2342,18 +2327,16 @@ export const getTelemetryRuleForOrganization: (
 /**
  * Lists all centralization rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const listCentralizationRulesForOrganization: {
-  (
-    input: ListCentralizationRulesForOrganizationInput,
-  ): effect.Effect<
-    ListCentralizationRulesForOrganizationOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listCentralizationRulesForOrganization: API.OperationMethod<
+  ListCentralizationRulesForOrganizationInput,
+  ListCentralizationRulesForOrganizationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCentralizationRulesForOrganizationInput,
   ) => stream.Stream<
@@ -2395,18 +2378,16 @@ export const listCentralizationRulesForOrganization: {
 /**
  * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config. For more information, see Auditing CloudWatch telemetry configurations.
  */
-export const listResourceTelemetry: {
-  (
-    input: ListResourceTelemetryInput,
-  ): effect.Effect<
-    ListResourceTelemetryOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listResourceTelemetry: API.OperationMethod<
+  ListResourceTelemetryInput,
+  ListResourceTelemetryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceTelemetryInput,
   ) => stream.Stream<
@@ -2448,18 +2429,16 @@ export const listResourceTelemetry: {
 /**
  * Returns a list of telemetry configurations for Amazon Web Services resources supported by telemetry config in the organization.
  */
-export const listResourceTelemetryForOrganization: {
-  (
-    input: ListResourceTelemetryForOrganizationInput,
-  ): effect.Effect<
-    ListResourceTelemetryForOrganizationOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listResourceTelemetryForOrganization: API.OperationMethod<
+  ListResourceTelemetryForOrganizationInput,
+  ListResourceTelemetryForOrganizationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceTelemetryForOrganizationInput,
   ) => stream.Stream<
@@ -2501,18 +2480,16 @@ export const listResourceTelemetryForOrganization: {
 /**
  * Lists all S3 Table integrations in your account. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
-export const listS3TableIntegrations: {
-  (
-    input: ListS3TableIntegrationsInput,
-  ): effect.Effect<
-    ListS3TableIntegrationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listS3TableIntegrations: API.OperationMethod<
+  ListS3TableIntegrationsInput,
+  ListS3TableIntegrationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListS3TableIntegrationsInput,
   ) => stream.Stream<
@@ -2554,9 +2531,8 @@ export const listS3TableIntegrations: {
 /**
  * Lists all tags attached to the specified resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2579,18 +2555,16 @@ export const listTagsForResource: (
 /**
  * Lists all telemetry rules in your account. You can filter the results by specifying a rule name prefix.
  */
-export const listTelemetryRules: {
-  (
-    input: ListTelemetryRulesInput,
-  ): effect.Effect<
-    ListTelemetryRulesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTelemetryRules: API.OperationMethod<
+  ListTelemetryRulesInput,
+  ListTelemetryRulesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTelemetryRulesInput,
   ) => stream.Stream<
@@ -2632,18 +2606,16 @@ export const listTelemetryRules: {
 /**
  * Lists all telemetry rules in your organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const listTelemetryRulesForOrganization: {
-  (
-    input: ListTelemetryRulesForOrganizationInput,
-  ): effect.Effect<
-    ListTelemetryRulesForOrganizationOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTelemetryRulesForOrganization: API.OperationMethod<
+  ListTelemetryRulesForOrganizationInput,
+  ListTelemetryRulesForOrganizationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTelemetryRulesForOrganizationInput,
   ) => stream.Stream<
@@ -2685,9 +2657,8 @@ export const listTelemetryRulesForOrganization: {
 /**
  * Enables the resource tags for telemetry feature for your account, which enhances telemetry data with additional resource metadata from Resource Explorer to provide richer context for monitoring and observability.
  */
-export const startTelemetryEnrichment: (
-  input: StartTelemetryEnrichmentRequest,
-) => effect.Effect<
+export const startTelemetryEnrichment: API.OperationMethod<
+  StartTelemetryEnrichmentRequest,
   StartTelemetryEnrichmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -2708,9 +2679,8 @@ export const startTelemetryEnrichment: (
 /**
  * This action begins onboarding the caller Amazon Web Services account to the telemetry config feature.
  */
-export const startTelemetryEvaluation: (
-  input: StartTelemetryEvaluationRequest,
-) => effect.Effect<
+export const startTelemetryEvaluation: API.OperationMethod<
+  StartTelemetryEvaluationRequest,
   StartTelemetryEvaluationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2731,9 +2701,8 @@ export const startTelemetryEvaluation: (
 /**
  * This actions begins onboarding the organization and all member accounts to the telemetry config feature.
  */
-export const startTelemetryEvaluationForOrganization: (
-  input: StartTelemetryEvaluationForOrganizationRequest,
-) => effect.Effect<
+export const startTelemetryEvaluationForOrganization: API.OperationMethod<
+  StartTelemetryEvaluationForOrganizationRequest,
   StartTelemetryEvaluationForOrganizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2754,9 +2723,8 @@ export const startTelemetryEvaluationForOrganization: (
 /**
  * Disables the resource tags for telemetry feature for your account, stopping the enhancement of telemetry data with additional resource metadata.
  */
-export const stopTelemetryEnrichment: (
-  input: StopTelemetryEnrichmentRequest,
-) => effect.Effect<
+export const stopTelemetryEnrichment: API.OperationMethod<
+  StopTelemetryEnrichmentRequest,
   StopTelemetryEnrichmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -2777,9 +2745,8 @@ export const stopTelemetryEnrichment: (
 /**
  * This action begins offboarding the caller Amazon Web Services account from the telemetry config feature.
  */
-export const stopTelemetryEvaluation: (
-  input: StopTelemetryEvaluationRequest,
-) => effect.Effect<
+export const stopTelemetryEvaluation: API.OperationMethod<
+  StopTelemetryEvaluationRequest,
   StopTelemetryEvaluationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2800,9 +2767,8 @@ export const stopTelemetryEvaluation: (
 /**
  * This action offboards the Organization of the caller Amazon Web Services account from the telemetry config feature.
  */
-export const stopTelemetryEvaluationForOrganization: (
-  input: StopTelemetryEvaluationForOrganizationRequest,
-) => effect.Effect<
+export const stopTelemetryEvaluationForOrganization: API.OperationMethod<
+  StopTelemetryEvaluationForOrganizationRequest,
   StopTelemetryEvaluationForOrganizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2823,9 +2789,8 @@ export const stopTelemetryEvaluationForOrganization: (
 /**
  * Adds or updates tags for a resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2850,9 +2815,8 @@ export const tagResource: (
 /**
  * Tests a pipeline configuration with sample records to validate data processing before deployment. This operation helps ensure your pipeline configuration works as expected.
  */
-export const testTelemetryPipeline: (
-  input: TestTelemetryPipelineInput,
-) => effect.Effect<
+export const testTelemetryPipeline: API.OperationMethod<
+  TestTelemetryPipelineInput,
   TestTelemetryPipelineOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2873,9 +2837,8 @@ export const testTelemetryPipeline: (
 /**
  * Removes tags from a resource. Supports telemetry rule resources and telemetry pipeline resources.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2898,9 +2861,8 @@ export const untagResource: (
 /**
  * Updates an existing centralization rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const updateCentralizationRuleForOrganization: (
-  input: UpdateCentralizationRuleForOrganizationInput,
-) => effect.Effect<
+export const updateCentralizationRuleForOrganization: API.OperationMethod<
+  UpdateCentralizationRuleForOrganizationInput,
   UpdateCentralizationRuleForOrganizationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2925,9 +2887,8 @@ export const updateCentralizationRuleForOrganization: (
 /**
  * Updates an existing telemetry rule in your account. If multiple users attempt to modify the same telemetry rule simultaneously, a ConflictException is returned to provide specific error information for concurrent modification scenarios.
  */
-export const updateTelemetryRule: (
-  input: UpdateTelemetryRuleInput,
-) => effect.Effect<
+export const updateTelemetryRule: API.OperationMethod<
+  UpdateTelemetryRuleInput,
   UpdateTelemetryRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -2954,9 +2915,8 @@ export const updateTelemetryRule: (
 /**
  * Updates an existing telemetry rule that applies across an Amazon Web Services Organization. This operation can only be called by the organization's management account or a delegated administrator account.
  */
-export const updateTelemetryRuleForOrganization: (
-  input: UpdateTelemetryRuleForOrganizationInput,
-) => effect.Effect<
+export const updateTelemetryRuleForOrganization: API.OperationMethod<
+  UpdateTelemetryRuleForOrganizationInput,
   UpdateTelemetryRuleForOrganizationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2981,9 +2941,8 @@ export const updateTelemetryRuleForOrganization: (
 /**
  * Validates a pipeline configuration without creating the pipeline. This operation checks the configuration for syntax errors and compatibility issues.
  */
-export const validateTelemetryPipelineConfiguration: (
-  input: ValidateTelemetryPipelineConfigurationInput,
-) => effect.Effect<
+export const validateTelemetryPipelineConfiguration: API.OperationMethod<
+  ValidateTelemetryPipelineConfigurationInput,
   ValidateTelemetryPipelineConfigurationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3004,9 +2963,8 @@ export const validateTelemetryPipelineConfiguration: (
 /**
  * Creates a telemetry pipeline for processing and transforming telemetry data. The pipeline defines how data flows from sources through processors to destinations, enabling data transformation and delivering capabilities.
  */
-export const createTelemetryPipeline: (
-  input: CreateTelemetryPipelineInput,
-) => effect.Effect<
+export const createTelemetryPipeline: API.OperationMethod<
+  CreateTelemetryPipelineInput,
   CreateTelemetryPipelineOutput,
   | AccessDeniedException
   | ConflictException
@@ -3031,9 +2989,8 @@ export const createTelemetryPipeline: (
 /**
  * Retrieves information about a specific telemetry pipeline, including its configuration, status, and metadata.
  */
-export const getTelemetryPipeline: (
-  input: GetTelemetryPipelineInput,
-) => effect.Effect<
+export const getTelemetryPipeline: API.OperationMethod<
+  GetTelemetryPipelineInput,
   GetTelemetryPipelineOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3104,9 +3061,8 @@ export const getTelemetryPipeline: (
  *
  * **Updatable:** All Amazon Web Services Secrets Manager attributes, `region`, `range`, OAuth2 credentials (`client_id`, `client_secret`)
  */
-export const updateTelemetryPipeline: (
-  input: UpdateTelemetryPipelineInput,
-) => effect.Effect<
+export const updateTelemetryPipeline: API.OperationMethod<
+  UpdateTelemetryPipelineInput,
   UpdateTelemetryPipelineOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3129,9 +3085,8 @@ export const updateTelemetryPipeline: (
 /**
  * Deletes a telemetry pipeline and its associated resources. This operation stops data processing and removes the pipeline configuration.
  */
-export const deleteTelemetryPipeline: (
-  input: DeleteTelemetryPipelineInput,
-) => effect.Effect<
+export const deleteTelemetryPipeline: API.OperationMethod<
+  DeleteTelemetryPipelineInput,
   DeleteTelemetryPipelineOutput,
   | AccessDeniedException
   | ConflictException
@@ -3156,18 +3111,16 @@ export const deleteTelemetryPipeline: (
 /**
  * Returns a list of telemetry pipelines in your account. Returns up to 100 results. If more than 100 telemetry pipelines exist, include the `NextToken` value from the response to retrieve the next set of results.
  */
-export const listTelemetryPipelines: {
-  (
-    input: ListTelemetryPipelinesInput,
-  ): effect.Effect<
-    ListTelemetryPipelinesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTelemetryPipelines: API.OperationMethod<
+  ListTelemetryPipelinesInput,
+  ListTelemetryPipelinesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTelemetryPipelinesInput,
   ) => stream.Stream<

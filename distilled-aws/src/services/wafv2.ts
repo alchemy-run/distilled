@@ -4564,9 +4564,8 @@ export class WAFInvalidPermissionPolicyException extends S.TaggedErrorClass<WAFI
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const associateWebACL: (
-  input: AssociateWebACLRequest,
-) => effect.Effect<
+export const associateWebACL: API.OperationMethod<
+  AssociateWebACLRequest,
   AssociateWebACLResponse,
   | WAFFeatureNotIncludedInPricingPlanException
   | WAFInternalErrorException
@@ -4604,9 +4603,8 @@ export const associateWebACL: (
  * web ACL WCU usage when they use a rule group. For more information, see WAF web ACL capacity units (WCU)
  * in the *WAF Developer Guide*.
  */
-export const checkCapacity: (
-  input: CheckCapacityRequest,
-) => effect.Effect<
+export const checkCapacity: API.OperationMethod<
+  CheckCapacityRequest,
   CheckCapacityResponse,
   | WAFExpiredManagedRuleGroupVersionException
   | WAFInternalErrorException
@@ -4644,9 +4642,8 @@ export const checkCapacity: (
  * You can use a single key for up to 5 domains. After you generate a key, you can copy it for use in your JavaScript
  * integration.
  */
-export const createAPIKey: (
-  input: CreateAPIKeyRequest,
-) => effect.Effect<
+export const createAPIKey: API.OperationMethod<
+  CreateAPIKeyRequest,
   CreateAPIKeyResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4670,9 +4667,8 @@ export const createAPIKey: (
  * receiving a lot of requests from a ranges of IP addresses, you can configure WAF to
  * block them using an IPSet that lists those IP addresses.
  */
-export const createIPSet: (
-  input: CreateIPSetRequest,
-) => effect.Effect<
+export const createIPSet: API.OperationMethod<
+  CreateIPSetRequest,
   CreateIPSetResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -4702,9 +4698,8 @@ export const createIPSet: (
  * Creates a RegexPatternSet, which you reference in a RegexPatternSetReferenceStatement, to have WAF inspect a web request
  * component for the specified patterns.
  */
-export const createRegexPatternSet: (
-  input: CreateRegexPatternSetRequest,
-) => effect.Effect<
+export const createRegexPatternSet: API.OperationMethod<
+  CreateRegexPatternSetRequest,
   CreateRegexPatternSetResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -4735,9 +4730,8 @@ export const createRegexPatternSet: (
  *
  * A rule group defines a collection of rules to inspect and control web requests that you can use in a WebACL. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements.
  */
-export const createRuleGroup: (
-  input: CreateRuleGroupRequest,
-) => effect.Effect<
+export const createRuleGroup: API.OperationMethod<
+  CreateRuleGroupRequest,
   CreateRuleGroupResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -4774,9 +4768,8 @@ export const createRuleGroup: (
  *
  * A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types Rule, RuleGroup, and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resource types include Amazon CloudFront distribution, Amazon API Gateway REST API, Application Load Balancer, AppSync GraphQL API, Amazon Cognito user pool, App Runner service, Amplify application, and Amazon Web Services Verified Access instance.
  */
-export const createWebACL: (
-  input: CreateWebACLRequest,
-) => effect.Effect<
+export const createWebACL: API.OperationMethod<
+  CreateWebACLRequest,
   CreateWebACLResponse,
   | WAFConfigurationWarningException
   | WAFDuplicateItemException
@@ -4819,9 +4812,8 @@ export const createWebACL: (
  *
  * After you delete a key, it can take up to 24 hours for WAF to disallow use of the key in all regions.
  */
-export const deleteAPIKey: (
-  input: DeleteAPIKeyRequest,
-) => effect.Effect<
+export const deleteAPIKey: API.OperationMethod<
+  DeleteAPIKeyRequest,
   DeleteAPIKeyResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4846,9 +4838,8 @@ export const deleteAPIKey: (
  *
  * You can only use this if `ManagedByFirewallManager` and `RetrofittedByFirewallManager` are both false in the web ACL.
  */
-export const deleteFirewallManagerRuleGroups: (
-  input: DeleteFirewallManagerRuleGroupsRequest,
-) => effect.Effect<
+export const deleteFirewallManagerRuleGroups: API.OperationMethod<
+  DeleteFirewallManagerRuleGroupsRequest,
   DeleteFirewallManagerRuleGroupsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4871,9 +4862,8 @@ export const deleteFirewallManagerRuleGroups: (
 /**
  * Deletes the specified IPSet.
  */
-export const deleteIPSet: (
-  input: DeleteIPSetRequest,
-) => effect.Effect<
+export const deleteIPSet: API.OperationMethod<
+  DeleteIPSetRequest,
   DeleteIPSetResponse,
   | WAFAssociatedItemException
   | WAFInternalErrorException
@@ -4902,9 +4892,8 @@ export const deleteIPSet: (
 /**
  * Deletes the LoggingConfiguration from the specified web ACL.
  */
-export const deleteLoggingConfiguration: (
-  input: DeleteLoggingConfigurationRequest,
-) => effect.Effect<
+export const deleteLoggingConfiguration: API.OperationMethod<
+  DeleteLoggingConfigurationRequest,
   DeleteLoggingConfigurationResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -4929,9 +4918,8 @@ export const deleteLoggingConfiguration: (
  *
  * You must be the owner of the rule group to perform this operation.
  */
-export const deletePermissionPolicy: (
-  input: DeletePermissionPolicyRequest,
-) => effect.Effect<
+export const deletePermissionPolicy: API.OperationMethod<
+  DeletePermissionPolicyRequest,
   DeletePermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -4950,9 +4938,8 @@ export const deletePermissionPolicy: (
 /**
  * Deletes the specified RegexPatternSet.
  */
-export const deleteRegexPatternSet: (
-  input: DeleteRegexPatternSetRequest,
-) => effect.Effect<
+export const deleteRegexPatternSet: API.OperationMethod<
+  DeleteRegexPatternSetRequest,
   DeleteRegexPatternSetResponse,
   | WAFAssociatedItemException
   | WAFInternalErrorException
@@ -4981,9 +4968,8 @@ export const deleteRegexPatternSet: (
 /**
  * Deletes the specified RuleGroup.
  */
-export const deleteRuleGroup: (
-  input: DeleteRuleGroupRequest,
-) => effect.Effect<
+export const deleteRuleGroup: API.OperationMethod<
+  DeleteRuleGroupRequest,
   DeleteRuleGroupResponse,
   | WAFAssociatedItemException
   | WAFInternalErrorException
@@ -5033,9 +5019,8 @@ export const deleteRuleGroup: (
  *
  * - For all other resources, call DisassociateWebACL.
  */
-export const deleteWebACL: (
-  input: DeleteWebACLRequest,
-) => effect.Effect<
+export const deleteWebACL: API.OperationMethod<
+  DeleteWebACLRequest,
   DeleteWebACLResponse,
   | WAFAssociatedItemException
   | WAFInternalErrorException
@@ -5064,9 +5049,8 @@ export const deleteWebACL: (
 /**
  * Provides high-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
  */
-export const describeAllManagedProducts: (
-  input: DescribeAllManagedProductsRequest,
-) => effect.Effect<
+export const describeAllManagedProducts: API.OperationMethod<
+  DescribeAllManagedProductsRequest,
   DescribeAllManagedProductsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5085,9 +5069,8 @@ export const describeAllManagedProducts: (
 /**
  * Provides high-level information for the managed rule groups owned by a specific vendor.
  */
-export const describeManagedProductsByVendor: (
-  input: DescribeManagedProductsByVendorRequest,
-) => effect.Effect<
+export const describeManagedProductsByVendor: API.OperationMethod<
+  DescribeManagedProductsByVendorRequest,
   DescribeManagedProductsByVendorResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5106,9 +5089,8 @@ export const describeManagedProductsByVendor: (
 /**
  * Provides high-level information for a managed rule group, including descriptions of the rules.
  */
-export const describeManagedRuleGroup: (
-  input: DescribeManagedRuleGroupRequest,
-) => effect.Effect<
+export const describeManagedRuleGroup: API.OperationMethod<
+  DescribeManagedRuleGroupRequest,
   DescribeManagedRuleGroupResponse,
   | WAFExpiredManagedRuleGroupVersionException
   | WAFInternalErrorException
@@ -5141,9 +5123,8 @@ export const describeManagedRuleGroup: (
  * This call requires permissions that are specific to the protected resource type.
  * For details, see Permissions for DisassociateWebACL in the *WAF Developer Guide*.
  */
-export const disassociateWebACL: (
-  input: DisassociateWebACLRequest,
-) => effect.Effect<
+export const disassociateWebACL: API.OperationMethod<
+  DisassociateWebACLRequest,
   DisassociateWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5167,9 +5148,8 @@ export const disassociateWebACL: (
  * The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see
  * WAF client application integration in the *WAF Developer Guide*.
  */
-export const generateMobileSdkReleaseUrl: (
-  input: GenerateMobileSdkReleaseUrlRequest,
-) => effect.Effect<
+export const generateMobileSdkReleaseUrl: API.OperationMethod<
+  GenerateMobileSdkReleaseUrlRequest,
   GenerateMobileSdkReleaseUrlResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5194,9 +5174,8 @@ export const generateMobileSdkReleaseUrl: (
  * The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users.
  * For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the *WAF Developer Guide*.
  */
-export const getDecryptedAPIKey: (
-  input: GetDecryptedAPIKeyRequest,
-) => effect.Effect<
+export const getDecryptedAPIKey: API.OperationMethod<
+  GetDecryptedAPIKeyRequest,
   GetDecryptedAPIKeyResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5219,9 +5198,8 @@ export const getDecryptedAPIKey: (
 /**
  * Retrieves the specified IPSet.
  */
-export const getIPSet: (
-  input: GetIPSetRequest,
-) => effect.Effect<
+export const getIPSet: API.OperationMethod<
+  GetIPSetRequest,
   GetIPSetResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5242,9 +5220,8 @@ export const getIPSet: (
 /**
  * Returns the LoggingConfiguration for the specified web ACL.
  */
-export const getLoggingConfiguration: (
-  input: GetLoggingConfigurationRequest,
-) => effect.Effect<
+export const getLoggingConfiguration: API.OperationMethod<
+  GetLoggingConfigurationRequest,
   GetLoggingConfigurationResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5269,9 +5246,8 @@ export const getLoggingConfiguration: (
  *
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
-export const getManagedRuleSet: (
-  input: GetManagedRuleSetRequest,
-) => effect.Effect<
+export const getManagedRuleSet: API.OperationMethod<
+  GetManagedRuleSetRequest,
   GetManagedRuleSetResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5296,9 +5272,8 @@ export const getManagedRuleSet: (
  * The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see
  * WAF client application integration in the *WAF Developer Guide*.
  */
-export const getMobileSdkRelease: (
-  input: GetMobileSdkReleaseRequest,
-) => effect.Effect<
+export const getMobileSdkRelease: API.OperationMethod<
+  GetMobileSdkReleaseRequest,
   GetMobileSdkReleaseResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5321,9 +5296,8 @@ export const getMobileSdkRelease: (
  *
  * You must be the owner of the rule group to perform this operation.
  */
-export const getPermissionPolicy: (
-  input: GetPermissionPolicyRequest,
-) => effect.Effect<
+export const getPermissionPolicy: API.OperationMethod<
+  GetPermissionPolicyRequest,
   GetPermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -5361,9 +5335,8 @@ export const getPermissionPolicy: (
  * monitors web requests and manages keys for this second usage completely independent of your
  * first.
  */
-export const getRateBasedStatementManagedKeys: (
-  input: GetRateBasedStatementManagedKeysRequest,
-) => effect.Effect<
+export const getRateBasedStatementManagedKeys: API.OperationMethod<
+  GetRateBasedStatementManagedKeysRequest,
   GetRateBasedStatementManagedKeysResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5386,9 +5359,8 @@ export const getRateBasedStatementManagedKeys: (
 /**
  * Retrieves the specified RegexPatternSet.
  */
-export const getRegexPatternSet: (
-  input: GetRegexPatternSetRequest,
-) => effect.Effect<
+export const getRegexPatternSet: API.OperationMethod<
+  GetRegexPatternSetRequest,
   GetRegexPatternSetResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5409,9 +5381,8 @@ export const getRegexPatternSet: (
 /**
  * Retrieves the specified RuleGroup.
  */
-export const getRuleGroup: (
-  input: GetRuleGroupRequest,
-) => effect.Effect<
+export const getRuleGroup: API.OperationMethod<
+  GetRuleGroupRequest,
   GetRuleGroupResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5441,9 +5412,8 @@ export const getRuleGroup: (
  * an updated time range. This new time range indicates the actual period during which WAF
  * selected the requests in the sample.
  */
-export const getSampledRequests: (
-  input: GetSampledRequestsRequest,
-) => effect.Effect<
+export const getSampledRequests: API.OperationMethod<
+  GetSampledRequestsRequest,
   GetSampledRequestsResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -5464,9 +5434,8 @@ export const getSampledRequests: (
  * You can use this operation to analyze which paths on your web application receive the most bot traffic and identify the specific bots accessing those paths.
  * The operation supports filtering by bot category, organization, or name, and allows you to drill down into specific path prefixes to view detailed URI-level statistics.
  */
-export const getTopPathStatisticsByTraffic: (
-  input: GetTopPathStatisticsByTrafficRequest,
-) => effect.Effect<
+export const getTopPathStatisticsByTraffic: API.OperationMethod<
+  GetTopPathStatisticsByTrafficRequest,
   GetTopPathStatisticsByTrafficResponse,
   | WAFFeatureNotIncludedInPricingPlanException
   | WAFInternalErrorException
@@ -5489,9 +5458,8 @@ export const getTopPathStatisticsByTraffic: (
 /**
  * Retrieves the specified WebACL.
  */
-export const getWebACL: (
-  input: GetWebACLRequest,
-) => effect.Effect<
+export const getWebACL: API.OperationMethod<
+  GetWebACLRequest,
   GetWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5524,9 +5492,8 @@ export const getWebACL: (
  * This call requires permissions that are specific to the protected resource type.
  * For details, see Permissions for GetWebACLForResource in the *WAF Developer Guide*.
  */
-export const getWebACLForResource: (
-  input: GetWebACLForResourceRequest,
-) => effect.Effect<
+export const getWebACLForResource: API.OperationMethod<
+  GetWebACLForResourceRequest,
   GetWebACLForResourceResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5553,9 +5520,8 @@ export const getWebACLForResource: (
  * The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users.
  * For more information about the CAPTCHA JavaScript integration, see WAF client application integration in the *WAF Developer Guide*.
  */
-export const listAPIKeys: (
-  input: ListAPIKeysRequest,
-) => effect.Effect<
+export const listAPIKeys: API.OperationMethod<
+  ListAPIKeysRequest,
   ListAPIKeysResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5578,9 +5544,8 @@ export const listAPIKeys: (
  * includes all Amazon Web Services Managed Rules rule groups and all of the Amazon Web Services Marketplace managed rule groups that you're
  * subscribed to.
  */
-export const listAvailableManagedRuleGroups: (
-  input: ListAvailableManagedRuleGroupsRequest,
-) => effect.Effect<
+export const listAvailableManagedRuleGroups: API.OperationMethod<
+  ListAvailableManagedRuleGroupsRequest,
   ListAvailableManagedRuleGroupsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5599,9 +5564,8 @@ export const listAvailableManagedRuleGroups: (
 /**
  * Returns a list of the available versions for the specified managed rule group.
  */
-export const listAvailableManagedRuleGroupVersions: (
-  input: ListAvailableManagedRuleGroupVersionsRequest,
-) => effect.Effect<
+export const listAvailableManagedRuleGroupVersions: API.OperationMethod<
+  ListAvailableManagedRuleGroupVersionsRequest,
   ListAvailableManagedRuleGroupVersionsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5623,9 +5587,8 @@ export const listAvailableManagedRuleGroupVersions: (
  * Retrieves an array of IPSetSummary objects for the IP sets that you
  * manage.
  */
-export const listIPSets: (
-  input: ListIPSetsRequest,
-) => effect.Effect<
+export const listIPSets: API.OperationMethod<
+  ListIPSetsRequest,
   ListIPSetsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5644,9 +5607,8 @@ export const listIPSets: (
 /**
  * Retrieves an array of your LoggingConfiguration objects.
  */
-export const listLoggingConfigurations: (
-  input: ListLoggingConfigurationsRequest,
-) => effect.Effect<
+export const listLoggingConfigurations: API.OperationMethod<
+  ListLoggingConfigurationsRequest,
   ListLoggingConfigurationsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5669,9 +5631,8 @@ export const listLoggingConfigurations: (
  *
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
-export const listManagedRuleSets: (
-  input: ListManagedRuleSetsRequest,
-) => effect.Effect<
+export const listManagedRuleSets: API.OperationMethod<
+  ListManagedRuleSetsRequest,
   ListManagedRuleSetsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5694,9 +5655,8 @@ export const listManagedRuleSets: (
  * The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see
  * WAF client application integration in the *WAF Developer Guide*.
  */
-export const listMobileSdkReleases: (
-  input: ListMobileSdkReleasesRequest,
-) => effect.Effect<
+export const listMobileSdkReleases: API.OperationMethod<
+  ListMobileSdkReleasesRequest,
   ListMobileSdkReleasesResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5716,9 +5676,8 @@ export const listMobileSdkReleases: (
  * Retrieves an array of RegexPatternSetSummary objects for the regex
  * pattern sets that you manage.
  */
-export const listRegexPatternSets: (
-  input: ListRegexPatternSetsRequest,
-) => effect.Effect<
+export const listRegexPatternSets: API.OperationMethod<
+  ListRegexPatternSetsRequest,
   ListRegexPatternSetsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5747,9 +5706,8 @@ export const listRegexPatternSets: (
  * This call requires permissions that are specific to the protected resource type.
  * For details, see Permissions for ListResourcesForWebACL in the *WAF Developer Guide*.
  */
-export const listResourcesForWebACL: (
-  input: ListResourcesForWebACLRequest,
-) => effect.Effect<
+export const listResourcesForWebACL: API.OperationMethod<
+  ListResourcesForWebACLRequest,
   ListResourcesForWebACLResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5771,9 +5729,8 @@ export const listResourcesForWebACL: (
  * Retrieves an array of RuleGroupSummary objects for the rule groups
  * that you manage.
  */
-export const listRuleGroups: (
-  input: ListRuleGroupsRequest,
-) => effect.Effect<
+export const listRuleGroups: API.OperationMethod<
+  ListRuleGroupsRequest,
   ListRuleGroupsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5800,9 +5757,8 @@ export const listRuleGroups: (
  * groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF
  * console.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5828,9 +5784,8 @@ export const listTagsForResource: (
  * Retrieves an array of WebACLSummary objects for the web ACLs that you
  * manage.
  */
-export const listWebACLs: (
-  input: ListWebACLsRequest,
-) => effect.Effect<
+export const listWebACLs: API.OperationMethod<
+  ListWebACLsRequest,
   ListWebACLsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5887,9 +5842,8 @@ export const listWebACLs: (
  * Logging web ACL traffic information
  * in the *WAF Developer Guide*.
  */
-export const putLoggingConfiguration: (
-  input: PutLoggingConfigurationRequest,
-) => effect.Effect<
+export const putLoggingConfiguration: API.OperationMethod<
+  PutLoggingConfigurationRequest,
   PutLoggingConfigurationResponse,
   | WAFFeatureNotIncludedInPricingPlanException
   | WAFInternalErrorException
@@ -5933,9 +5887,8 @@ export const putLoggingConfiguration: (
  *
  * To initiate the expiration of a managed rule group version, use UpdateManagedRuleSetVersionExpiryDate.
  */
-export const putManagedRuleSetVersions: (
-  input: PutManagedRuleSetVersionsRequest,
-) => effect.Effect<
+export const putManagedRuleSetVersions: API.OperationMethod<
+  PutManagedRuleSetVersionsRequest,
   PutManagedRuleSetVersionsResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -5974,9 +5927,8 @@ export const putManagedRuleSetVersions: (
  * and you can reference it in `CreateWebACL` and `UpdateWebACL`.
  * Rule groups that are shared with you don't appear in your WAF console rule groups listing.
  */
-export const putPermissionPolicy: (
-  input: PutPermissionPolicyRequest,
-) => effect.Effect<
+export const putPermissionPolicy: API.OperationMethod<
+  PutPermissionPolicyRequest,
   PutPermissionPolicyResponse,
   | WAFInternalErrorException
   | WAFInvalidParameterException
@@ -6005,9 +5957,8 @@ export const putPermissionPolicy: (
  * groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF
  * console.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -6037,9 +5988,8 @@ export const tagResource: (
  * value might be "companyA." You can specify one or more tags to add to each container. You
  * can add up to 50 tags to each Amazon Web Services resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -6088,9 +6038,8 @@ export const untagResource: (
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const updateIPSet: (
-  input: UpdateIPSetRequest,
-) => effect.Effect<
+export const updateIPSet: API.OperationMethod<
+  UpdateIPSetRequest,
   UpdateIPSetResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -6123,9 +6072,8 @@ export const updateIPSet: (
  *
  * Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are `ListManagedRuleSets`, `GetManagedRuleSet`, `PutManagedRuleSetVersions`, and `UpdateManagedRuleSetVersionExpiryDate`.
  */
-export const updateManagedRuleSetVersionExpiryDate: (
-  input: UpdateManagedRuleSetVersionExpiryDateRequest,
-) => effect.Effect<
+export const updateManagedRuleSetVersionExpiryDate: API.OperationMethod<
+  UpdateManagedRuleSetVersionExpiryDateRequest,
   UpdateManagedRuleSetVersionExpiryDateResponse,
   | WAFInternalErrorException
   | WAFInvalidOperationException
@@ -6172,9 +6120,8 @@ export const updateManagedRuleSetVersionExpiryDate: (
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const updateRegexPatternSet: (
-  input: UpdateRegexPatternSetRequest,
-) => effect.Effect<
+export const updateRegexPatternSet: API.OperationMethod<
+  UpdateRegexPatternSetRequest,
   UpdateRegexPatternSetResponse,
   | WAFDuplicateItemException
   | WAFInternalErrorException
@@ -6227,9 +6174,8 @@ export const updateRegexPatternSet: (
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const updateRuleGroup: (
-  input: UpdateRuleGroupRequest,
-) => effect.Effect<
+export const updateRuleGroup: API.OperationMethod<
+  UpdateRuleGroupRequest,
   UpdateRuleGroupResponse,
   | WAFConfigurationWarningException
   | WAFDuplicateItemException
@@ -6289,9 +6235,8 @@ export const updateRuleGroup: (
  *
  * - After you add an IP address to an IP set that is in use in a blocking rule, the new address might be blocked in one area while still allowed in another.
  */
-export const updateWebACL: (
-  input: UpdateWebACLRequest,
-) => effect.Effect<
+export const updateWebACL: API.OperationMethod<
+  UpdateWebACLRequest,
   UpdateWebACLResponse,
   | WAFConfigurationWarningException
   | WAFDuplicateItemException

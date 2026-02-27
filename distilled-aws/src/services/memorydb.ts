@@ -2909,9 +2909,8 @@ export class SubnetInUse extends S.TaggedErrorClass<SubnetInUse>()(
 /**
  * Apply the service update to a list of clusters supplied. For more information on service updates and applying them, see Applying the service updates.
  */
-export const batchUpdateCluster: (
-  input: BatchUpdateClusterRequest,
-) => effect.Effect<
+export const batchUpdateCluster: API.OperationMethod<
+  BatchUpdateClusterRequest,
   BatchUpdateClusterResponse,
   InvalidParameterValueException | ServiceUpdateNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2923,9 +2922,8 @@ export const batchUpdateCluster: (
 /**
  * Makes a copy of an existing snapshot.
  */
-export const copySnapshot: (
-  input: CopySnapshotRequest,
-) => effect.Effect<
+export const copySnapshot: API.OperationMethod<
+  CopySnapshotRequest,
   CopySnapshotResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -2954,9 +2952,8 @@ export const copySnapshot: (
 /**
  * Creates an Access Control List. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
-export const createACL: (
-  input: CreateACLRequest,
-) => effect.Effect<
+export const createACL: API.OperationMethod<
+  CreateACLRequest,
   CreateACLResponse,
   | ACLAlreadyExistsFault
   | ACLQuotaExceededFault
@@ -2983,9 +2980,8 @@ export const createACL: (
 /**
  * Creates a cluster. All nodes in the cluster run the same protocol-compliant engine software.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   | ACLNotFoundFault
   | ClusterAlreadyExistsFault
@@ -3034,9 +3030,8 @@ export const createCluster: (
 /**
  * Creates a new multi-Region cluster.
  */
-export const createMultiRegionCluster: (
-  input: CreateMultiRegionClusterRequest,
-) => effect.Effect<
+export const createMultiRegionCluster: API.OperationMethod<
+  CreateMultiRegionClusterRequest,
   CreateMultiRegionClusterResponse,
   | ClusterQuotaForCustomerExceededFault
   | InvalidParameterCombinationException
@@ -3062,9 +3057,8 @@ export const createMultiRegionCluster: (
  * Creates a new MemoryDB parameter group. A parameter group is a collection of parameters and their values that are applied to all of the nodes in any cluster. For
  * more information, see Configuring engine parameters using parameter groups.
  */
-export const createParameterGroup: (
-  input: CreateParameterGroupRequest,
-) => effect.Effect<
+export const createParameterGroup: API.OperationMethod<
+  CreateParameterGroupRequest,
   CreateParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -3091,9 +3085,8 @@ export const createParameterGroup: (
 /**
  * Creates a copy of an entire cluster at a specific moment in time.
  */
-export const createSnapshot: (
-  input: CreateSnapshotRequest,
-) => effect.Effect<
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotRequest,
   CreateSnapshotResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -3125,9 +3118,8 @@ export const createSnapshot: (
  * When you create a cluster in an Amazon VPC, you must specify a subnet group. MemoryDB uses that subnet group to choose a subnet and IP addresses within that subnet to associate with your nodes.
  * For more information, see Subnets and subnet groups.
  */
-export const createSubnetGroup: (
-  input: CreateSubnetGroupRequest,
-) => effect.Effect<
+export const createSubnetGroup: API.OperationMethod<
+  CreateSubnetGroupRequest,
   CreateSubnetGroupResponse,
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
@@ -3154,9 +3146,8 @@ export const createSubnetGroup: (
 /**
  * Creates a MemoryDB user. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | DuplicateUserNameFault
   | InvalidParameterCombinationException
@@ -3181,9 +3172,8 @@ export const createUser: (
 /**
  * Deletes an Access Control List. The ACL must first be disassociated from the cluster before it can be deleted. For more information, see Authenticating users with Access Contol Lists (ACLs).
  */
-export const deleteACL: (
-  input: DeleteACLRequest,
-) => effect.Effect<
+export const deleteACL: API.OperationMethod<
+  DeleteACLRequest,
   DeleteACLResponse,
   | ACLNotFoundFault
   | InvalidACLStateFault
@@ -3205,9 +3195,8 @@ export const deleteACL: (
  * `CreateSnapshot` permission is required to create a final snapshot.
  * Without this permission, the API call will fail with an `Access Denied` exception.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   | ClusterNotFoundFault
   | InvalidClusterStateFault
@@ -3232,9 +3221,8 @@ export const deleteCluster: (
 /**
  * Deletes an existing multi-Region cluster.
  */
-export const deleteMultiRegionCluster: (
-  input: DeleteMultiRegionClusterRequest,
-) => effect.Effect<
+export const deleteMultiRegionCluster: API.OperationMethod<
+  DeleteMultiRegionClusterRequest,
   DeleteMultiRegionClusterResponse,
   | InvalidMultiRegionClusterStateFault
   | InvalidParameterValueException
@@ -3254,9 +3242,8 @@ export const deleteMultiRegionCluster: (
  * Deletes the specified parameter group. You cannot delete a parameter group if it is associated with any clusters.
  * You cannot delete the default parameter groups in your account.
  */
-export const deleteParameterGroup: (
-  input: DeleteParameterGroupRequest,
-) => effect.Effect<
+export const deleteParameterGroup: API.OperationMethod<
+  DeleteParameterGroupRequest,
   DeleteParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -3279,9 +3266,8 @@ export const deleteParameterGroup: (
 /**
  * Deletes an existing snapshot. When you receive a successful response from this operation, MemoryDB immediately begins deleting the snapshot; you cannot cancel or revert this operation.
  */
-export const deleteSnapshot: (
-  input: DeleteSnapshotRequest,
-) => effect.Effect<
+export const deleteSnapshot: API.OperationMethod<
+  DeleteSnapshotRequest,
   DeleteSnapshotResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -3304,9 +3290,8 @@ export const deleteSnapshot: (
 /**
  * Deletes a subnet group. You cannot delete a default subnet group or one that is associated with any clusters.
  */
-export const deleteSubnetGroup: (
-  input: DeleteSubnetGroupRequest,
-) => effect.Effect<
+export const deleteSubnetGroup: API.OperationMethod<
+  DeleteSubnetGroupRequest,
   DeleteSubnetGroupResponse,
   | ServiceLinkedRoleNotFoundFault
   | SubnetGroupInUseFault
@@ -3325,9 +3310,8 @@ export const deleteSubnetGroup: (
 /**
  * Deletes a user. The user will be removed from all ACLs and in turn removed from all clusters.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | InvalidParameterValueException
   | InvalidUserStateFault
@@ -3346,14 +3330,12 @@ export const deleteUser: (
 /**
  * Returns a list of ACLs.
  */
-export const describeACLs: {
-  (
-    input: DescribeACLsRequest,
-  ): effect.Effect<
-    DescribeACLsResponse,
-    ACLNotFoundFault | InvalidParameterCombinationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeACLs: API.OperationMethod<
+  DescribeACLsRequest,
+  DescribeACLsResponse,
+  ACLNotFoundFault | InvalidParameterCombinationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeACLsRequest,
   ) => stream.Stream<
@@ -3382,18 +3364,16 @@ export const describeACLs: {
 /**
  * Returns information about all provisioned clusters if no cluster identifier is specified, or about a specific cluster if a cluster name is supplied.
  */
-export const describeClusters: {
-  (
-    input: DescribeClustersRequest,
-  ): effect.Effect<
-    DescribeClustersResponse,
-    | ClusterNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusters: API.OperationMethod<
+  DescribeClustersRequest,
+  DescribeClustersResponse,
+  | ClusterNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClustersRequest,
   ) => stream.Stream<
@@ -3435,17 +3415,15 @@ export const describeClusters: {
 /**
  * Returns a list of the available Redis OSS engine versions.
  */
-export const describeEngineVersions: {
-  (
-    input: DescribeEngineVersionsRequest,
-  ): effect.Effect<
-    DescribeEngineVersionsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEngineVersions: API.OperationMethod<
+  DescribeEngineVersionsRequest,
+  DescribeEngineVersionsResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEngineVersionsRequest,
   ) => stream.Stream<
@@ -3486,17 +3464,15 @@ export const describeEngineVersions: {
  *
  * By default, only the events occurring within the last hour are returned; however, you can retrieve up to 14 days' worth of events if necessary.
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsRequest,
-  ): effect.Effect<
-    DescribeEventsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsRequest,
+  DescribeEventsResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsRequest,
   ) => stream.Stream<
@@ -3535,18 +3511,16 @@ export const describeEvents: {
 /**
  * Returns details about one or more multi-Region clusters.
  */
-export const describeMultiRegionClusters: {
-  (
-    input: DescribeMultiRegionClustersRequest,
-  ): effect.Effect<
-    DescribeMultiRegionClustersResponse,
-    | ClusterNotFoundFault
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | MultiRegionClusterNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMultiRegionClusters: API.OperationMethod<
+  DescribeMultiRegionClustersRequest,
+  DescribeMultiRegionClustersResponse,
+  | ClusterNotFoundFault
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | MultiRegionClusterNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMultiRegionClustersRequest,
   ) => stream.Stream<
@@ -3588,9 +3562,8 @@ export const describeMultiRegionClusters: {
 /**
  * Returns a list of multi-region parameter groups.
  */
-export const describeMultiRegionParameterGroups: (
-  input: DescribeMultiRegionParameterGroupsRequest,
-) => effect.Effect<
+export const describeMultiRegionParameterGroups: API.OperationMethod<
+  DescribeMultiRegionParameterGroupsRequest,
   DescribeMultiRegionParameterGroupsResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -3611,9 +3584,8 @@ export const describeMultiRegionParameterGroups: (
 /**
  * Returns the detailed parameter list for a particular multi-region parameter group.
  */
-export const describeMultiRegionParameters: (
-  input: DescribeMultiRegionParametersRequest,
-) => effect.Effect<
+export const describeMultiRegionParameters: API.OperationMethod<
+  DescribeMultiRegionParametersRequest,
   DescribeMultiRegionParametersResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -3634,18 +3606,16 @@ export const describeMultiRegionParameters: (
 /**
  * Returns a list of parameter group descriptions. If a parameter group name is specified, the list contains only the descriptions for that group.
  */
-export const describeParameterGroups: {
-  (
-    input: DescribeParameterGroupsRequest,
-  ): effect.Effect<
-    DescribeParameterGroupsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ParameterGroupNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeParameterGroups: API.OperationMethod<
+  DescribeParameterGroupsRequest,
+  DescribeParameterGroupsResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeParameterGroupsRequest,
   ) => stream.Stream<
@@ -3687,18 +3657,16 @@ export const describeParameterGroups: {
 /**
  * Returns the detailed parameter list for a particular parameter group.
  */
-export const describeParameters: {
-  (
-    input: DescribeParametersRequest,
-  ): effect.Effect<
-    DescribeParametersResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ParameterGroupNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeParameters: API.OperationMethod<
+  DescribeParametersRequest,
+  DescribeParametersResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ParameterGroupNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeParametersRequest,
   ) => stream.Stream<
@@ -3740,18 +3708,16 @@ export const describeParameters: {
 /**
  * Returns information about reserved nodes for this account, or about a specified reserved node.
  */
-export const describeReservedNodes: {
-  (
-    input: DescribeReservedNodesRequest,
-  ): effect.Effect<
-    DescribeReservedNodesResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ReservedNodeNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReservedNodes: API.OperationMethod<
+  DescribeReservedNodesRequest,
+  DescribeReservedNodesResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ReservedNodeNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedNodesRequest,
   ) => stream.Stream<
@@ -3793,18 +3759,16 @@ export const describeReservedNodes: {
 /**
  * Lists available reserved node offerings.
  */
-export const describeReservedNodesOfferings: {
-  (
-    input: DescribeReservedNodesOfferingsRequest,
-  ): effect.Effect<
-    DescribeReservedNodesOfferingsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ReservedNodesOfferingNotFoundFault
-    | ServiceLinkedRoleNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReservedNodesOfferings: API.OperationMethod<
+  DescribeReservedNodesOfferingsRequest,
+  DescribeReservedNodesOfferingsResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ReservedNodesOfferingNotFoundFault
+  | ServiceLinkedRoleNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedNodesOfferingsRequest,
   ) => stream.Stream<
@@ -3846,16 +3810,14 @@ export const describeReservedNodesOfferings: {
 /**
  * Returns details of the service updates.
  */
-export const describeServiceUpdates: {
-  (
-    input: DescribeServiceUpdatesRequest,
-  ): effect.Effect<
-    DescribeServiceUpdatesResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeServiceUpdates: API.OperationMethod<
+  DescribeServiceUpdatesRequest,
+  DescribeServiceUpdatesResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeServiceUpdatesRequest,
   ) => stream.Stream<
@@ -3892,18 +3854,16 @@ export const describeServiceUpdates: {
  * Returns information about cluster snapshots. By default, DescribeSnapshots lists all of your snapshots; it can optionally describe a single snapshot,
  * or just the snapshots associated with a particular cluster.
  */
-export const describeSnapshots: {
-  (
-    input: DescribeSnapshotsRequest,
-  ): effect.Effect<
-    DescribeSnapshotsResponse,
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | ServiceLinkedRoleNotFoundFault
-    | SnapshotNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSnapshots: API.OperationMethod<
+  DescribeSnapshotsRequest,
+  DescribeSnapshotsResponse,
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | ServiceLinkedRoleNotFoundFault
+  | SnapshotNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
@@ -3945,14 +3905,12 @@ export const describeSnapshots: {
 /**
  * Returns a list of subnet group descriptions. If a subnet group name is specified, the list contains only the description of that group.
  */
-export const describeSubnetGroups: {
-  (
-    input: DescribeSubnetGroupsRequest,
-  ): effect.Effect<
-    DescribeSubnetGroupsResponse,
-    ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSubnetGroups: API.OperationMethod<
+  DescribeSubnetGroupsRequest,
+  DescribeSubnetGroupsResponse,
+  ServiceLinkedRoleNotFoundFault | SubnetGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSubnetGroupsRequest,
   ) => stream.Stream<
@@ -3981,14 +3939,12 @@ export const describeSubnetGroups: {
 /**
  * Returns a list of users.
  */
-export const describeUsers: {
-  (
-    input: DescribeUsersRequest,
-  ): effect.Effect<
-    DescribeUsersResponse,
-    InvalidParameterCombinationException | UserNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeUsers: API.OperationMethod<
+  DescribeUsersRequest,
+  DescribeUsersResponse,
+  InvalidParameterCombinationException | UserNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeUsersRequest,
   ) => stream.Stream<
@@ -4018,9 +3974,8 @@ export const describeUsers: {
  * Used to failover a shard. This API is designed for testing the behavior of your application in case of MemoryDB failover. It is not designed to be used as a production-level tool for initiating
  * a failover to overcome a problem you may have with the cluster. Moreover, in certain conditions such as large scale operational events, Amazon may block this API.
  */
-export const failoverShard: (
-  input: FailoverShardRequest,
-) => effect.Effect<
+export const failoverShard: API.OperationMethod<
+  FailoverShardRequest,
   FailoverShardResponse,
   | APICallRateForCustomerExceededFault
   | ClusterNotFoundFault
@@ -4049,9 +4004,8 @@ export const failoverShard: (
 /**
  * Lists the allowed updates for a multi-Region cluster.
  */
-export const listAllowedMultiRegionClusterUpdates: (
-  input: ListAllowedMultiRegionClusterUpdatesRequest,
-) => effect.Effect<
+export const listAllowedMultiRegionClusterUpdates: API.OperationMethod<
+  ListAllowedMultiRegionClusterUpdatesRequest,
   ListAllowedMultiRegionClusterUpdatesResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -4072,9 +4026,8 @@ export const listAllowedMultiRegionClusterUpdates: (
  *
  * When you use the UpdateCluster operation to scale your cluster, the value of the NodeType parameter must be one of the node types returned by this operation.
  */
-export const listAllowedNodeTypeUpdates: (
-  input: ListAllowedNodeTypeUpdatesRequest,
-) => effect.Effect<
+export const listAllowedNodeTypeUpdates: API.OperationMethod<
+  ListAllowedNodeTypeUpdatesRequest,
   ListAllowedNodeTypeUpdatesResponse,
   | ClusterNotFoundFault
   | InvalidParameterCombinationException
@@ -4097,9 +4050,8 @@ export const listAllowedNodeTypeUpdates: (
  *
  * When you add or remove tags from multi region clusters, you might not immediately see the latest effective tags in the ListTags API response due to it being eventually consistent specifically for multi region clusters. For more information, see Tagging your MemoryDB resources.
  */
-export const listTags: (
-  input: ListTagsRequest,
-) => effect.Effect<
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
   ListTagsResponse,
   | ACLNotFoundFault
   | ClusterNotFoundFault
@@ -4134,9 +4086,8 @@ export const listTags: (
 /**
  * Allows you to purchase a reserved node offering. Reserved nodes are not eligible for cancellation and are non-refundable.
  */
-export const purchaseReservedNodesOffering: (
-  input: PurchaseReservedNodesOfferingRequest,
-) => effect.Effect<
+export const purchaseReservedNodesOffering: API.OperationMethod<
+  PurchaseReservedNodesOfferingRequest,
   PurchaseReservedNodesOfferingResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException
@@ -4163,9 +4114,8 @@ export const purchaseReservedNodesOffering: (
 /**
  * Modifies the parameters of a parameter group to the engine or system default value. You can reset specific parameters by submitting a list of parameter names. To reset the entire parameter group, specify the AllParameters and ParameterGroupName parameters.
  */
-export const resetParameterGroup: (
-  input: ResetParameterGroupRequest,
-) => effect.Effect<
+export const resetParameterGroup: API.OperationMethod<
+  ResetParameterGroupRequest,
   ResetParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -4196,9 +4146,8 @@ export const resetParameterGroup: (
  *
  * For more information, see Using Cost Allocation Tags.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ACLNotFoundFault
   | ClusterNotFoundFault
@@ -4245,9 +4194,8 @@ export const tagResource: (
  *
  * For more information, see Using Cost Allocation Tags.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ACLNotFoundFault
   | ClusterNotFoundFault
@@ -4286,9 +4234,8 @@ export const untagResource: (
 /**
  * Changes the list of users that belong to the Access Control List.
  */
-export const updateACL: (
-  input: UpdateACLRequest,
-) => effect.Effect<
+export const updateACL: API.OperationMethod<
+  UpdateACLRequest,
   UpdateACLResponse,
   | ACLNotFoundFault
   | DefaultUserRequired
@@ -4315,9 +4262,8 @@ export const updateACL: (
 /**
  * Modifies the settings for a cluster. You can use this operation to change one or more cluster configuration settings by specifying the settings and the new values.
  */
-export const updateCluster: (
-  input: UpdateClusterRequest,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterRequest,
   UpdateClusterResponse,
   | ACLNotFoundFault
   | ClusterNotFoundFault
@@ -4362,9 +4308,8 @@ export const updateCluster: (
 /**
  * Updates the configuration of an existing multi-Region cluster.
  */
-export const updateMultiRegionCluster: (
-  input: UpdateMultiRegionClusterRequest,
-) => effect.Effect<
+export const updateMultiRegionCluster: API.OperationMethod<
+  UpdateMultiRegionClusterRequest,
   UpdateMultiRegionClusterResponse,
   | InvalidMultiRegionClusterStateFault
   | InvalidParameterCombinationException
@@ -4387,9 +4332,8 @@ export const updateMultiRegionCluster: (
 /**
  * Updates the parameters of a parameter group. You can modify up to 20 parameters in a single request by submitting a list parameter name and value pairs.
  */
-export const updateParameterGroup: (
-  input: UpdateParameterGroupRequest,
-) => effect.Effect<
+export const updateParameterGroup: API.OperationMethod<
+  UpdateParameterGroupRequest,
   UpdateParameterGroupResponse,
   | InvalidParameterCombinationException
   | InvalidParameterGroupStateFault
@@ -4412,9 +4356,8 @@ export const updateParameterGroup: (
 /**
  * Updates a subnet group. For more information, see Updating a subnet group
  */
-export const updateSubnetGroup: (
-  input: UpdateSubnetGroupRequest,
-) => effect.Effect<
+export const updateSubnetGroup: API.OperationMethod<
+  UpdateSubnetGroupRequest,
   UpdateSubnetGroupResponse,
   | InvalidSubnet
   | ServiceLinkedRoleNotFoundFault
@@ -4439,9 +4382,8 @@ export const updateSubnetGroup: (
 /**
  * Changes user password(s) and/or access string.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | InvalidParameterCombinationException
   | InvalidParameterValueException

@@ -1347,9 +1347,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Associates the fraudsters with the watchlist specified in the same domain.
  */
-export const associateFraudster: (
-  input: AssociateFraudsterRequest,
-) => effect.Effect<
+export const associateFraudster: API.OperationMethod<
+  AssociateFraudsterRequest,
   AssociateFraudsterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1376,9 +1375,8 @@ export const associateFraudster: (
 /**
  * Creates a watchlist that fraudsters can be a part of.
  */
-export const createWatchlist: (
-  input: CreateWatchlistRequest,
-) => effect.Effect<
+export const createWatchlist: API.OperationMethod<
+  CreateWatchlistRequest,
   CreateWatchlistResponse,
   | AccessDeniedException
   | ConflictException
@@ -1405,9 +1403,8 @@ export const createWatchlist: (
 /**
  * Deletes the specified fraudster from Voice ID. This action disassociates the fraudster from any watchlists it is a part of.
  */
-export const deleteFraudster: (
-  input: DeleteFraudsterRequest,
-) => effect.Effect<
+export const deleteFraudster: API.OperationMethod<
+  DeleteFraudsterRequest,
   DeleteFraudsterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1432,9 +1429,8 @@ export const deleteFraudster: (
 /**
  * Deletes the specified speaker from Voice ID.
  */
-export const deleteSpeaker: (
-  input: DeleteSpeakerRequest,
-) => effect.Effect<
+export const deleteSpeaker: API.OperationMethod<
+  DeleteSpeakerRequest,
   DeleteSpeakerResponse,
   | AccessDeniedException
   | ConflictException
@@ -1461,9 +1457,8 @@ export const deleteSpeaker: (
  * there are fraudsters in the watchlist that you are trying to delete. You must delete the
  * fraudsters, and then delete the watchlist. Every domain has a default watchlist which cannot be deleted.
  */
-export const deleteWatchlist: (
-  input: DeleteWatchlistRequest,
-) => effect.Effect<
+export const deleteWatchlist: API.OperationMethod<
+  DeleteWatchlistRequest,
   DeleteWatchlistResponse,
   | AccessDeniedException
   | ConflictException
@@ -1488,9 +1483,8 @@ export const deleteWatchlist: (
 /**
  * Describes the specified fraudster.
  */
-export const describeFraudster: (
-  input: DescribeFraudsterRequest,
-) => effect.Effect<
+export const describeFraudster: API.OperationMethod<
+  DescribeFraudsterRequest,
   DescribeFraudsterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1513,9 +1507,8 @@ export const describeFraudster: (
 /**
  * Describes the specified fraudster registration job.
  */
-export const describeFraudsterRegistrationJob: (
-  input: DescribeFraudsterRegistrationJobRequest,
-) => effect.Effect<
+export const describeFraudsterRegistrationJob: API.OperationMethod<
+  DescribeFraudsterRegistrationJobRequest,
   DescribeFraudsterRegistrationJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1538,9 +1531,8 @@ export const describeFraudsterRegistrationJob: (
 /**
  * Describes the specified speaker.
  */
-export const describeSpeaker: (
-  input: DescribeSpeakerRequest,
-) => effect.Effect<
+export const describeSpeaker: API.OperationMethod<
+  DescribeSpeakerRequest,
   DescribeSpeakerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1563,9 +1555,8 @@ export const describeSpeaker: (
 /**
  * Describes the specified speaker enrollment job.
  */
-export const describeSpeakerEnrollmentJob: (
-  input: DescribeSpeakerEnrollmentJobRequest,
-) => effect.Effect<
+export const describeSpeakerEnrollmentJob: API.OperationMethod<
+  DescribeSpeakerEnrollmentJobRequest,
   DescribeSpeakerEnrollmentJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1588,9 +1579,8 @@ export const describeSpeakerEnrollmentJob: (
 /**
  * Describes the specified watchlist.
  */
-export const describeWatchlist: (
-  input: DescribeWatchlistRequest,
-) => effect.Effect<
+export const describeWatchlist: API.OperationMethod<
+  DescribeWatchlistRequest,
   DescribeWatchlistResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1615,9 +1605,8 @@ export const describeWatchlist: (
  * fraudster to be a part of at least one watchlist. If
  * you try to disassociate a fraudster from its only watchlist, a `ValidationException` is thrown.
  */
-export const disassociateFraudster: (
-  input: DisassociateFraudsterRequest,
-) => effect.Effect<
+export const disassociateFraudster: API.OperationMethod<
+  DisassociateFraudsterRequest,
   DisassociateFraudsterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1643,9 +1632,8 @@ export const disassociateFraudster: (
  * Evaluates a specified session based on audio data accumulated during a streaming
  * Amazon Connect Voice ID call.
  */
-export const evaluateSession: (
-  input: EvaluateSessionRequest,
-) => effect.Effect<
+export const evaluateSession: API.OperationMethod<
+  EvaluateSessionRequest,
   EvaluateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1672,19 +1660,17 @@ export const evaluateSession: (
  * `JobStatus`. If `JobStatus` is not provided, this lists all
  * fraudster registration jobs in the given domain.
  */
-export const listFraudsterRegistrationJobs: {
-  (
-    input: ListFraudsterRegistrationJobsRequest,
-  ): effect.Effect<
-    ListFraudsterRegistrationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFraudsterRegistrationJobs: API.OperationMethod<
+  ListFraudsterRegistrationJobsRequest,
+  ListFraudsterRegistrationJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFraudsterRegistrationJobsRequest,
   ) => stream.Stream<
@@ -1729,19 +1715,17 @@ export const listFraudsterRegistrationJobs: {
 /**
  * Lists all fraudsters in a specified watchlist or domain.
  */
-export const listFraudsters: {
-  (
-    input: ListFraudstersRequest,
-  ): effect.Effect<
-    ListFraudstersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFraudsters: API.OperationMethod<
+  ListFraudstersRequest,
+  ListFraudstersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFraudstersRequest,
   ) => stream.Stream<
@@ -1788,19 +1772,17 @@ export const listFraudsters: {
  * `JobStatus`. If `JobStatus` is not provided, this lists all
  * jobs with all possible speaker enrollment job statuses.
  */
-export const listSpeakerEnrollmentJobs: {
-  (
-    input: ListSpeakerEnrollmentJobsRequest,
-  ): effect.Effect<
-    ListSpeakerEnrollmentJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSpeakerEnrollmentJobs: API.OperationMethod<
+  ListSpeakerEnrollmentJobsRequest,
+  ListSpeakerEnrollmentJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSpeakerEnrollmentJobsRequest,
   ) => stream.Stream<
@@ -1845,19 +1827,17 @@ export const listSpeakerEnrollmentJobs: {
 /**
  * Lists all speakers in a specified domain.
  */
-export const listSpeakers: {
-  (
-    input: ListSpeakersRequest,
-  ): effect.Effect<
-    ListSpeakersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSpeakers: API.OperationMethod<
+  ListSpeakersRequest,
+  ListSpeakersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSpeakersRequest,
   ) => stream.Stream<
@@ -1902,9 +1882,8 @@ export const listSpeakers: {
 /**
  * Lists all tags associated with a specified Voice ID resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1927,19 +1906,17 @@ export const listTagsForResource: (
 /**
  * Lists all watchlists in a specified domain.
  */
-export const listWatchlists: {
-  (
-    input: ListWatchlistsRequest,
-  ): effect.Effect<
-    ListWatchlistsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWatchlists: API.OperationMethod<
+  ListWatchlistsRequest,
+  ListWatchlistsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWatchlistsRequest,
   ) => stream.Stream<
@@ -1989,9 +1966,8 @@ export const listWatchlists: {
  * opted out speakers, and opted out speakers have no voice embeddings stored in
  * Voice ID.
  */
-export const optOutSpeaker: (
-  input: OptOutSpeakerRequest,
-) => effect.Effect<
+export const optOutSpeaker: API.OperationMethod<
+  OptOutSpeakerRequest,
   OptOutSpeakerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2018,9 +1994,8 @@ export const optOutSpeaker: (
 /**
  * Starts a new batch fraudster registration job using provided details.
  */
-export const startFraudsterRegistrationJob: (
-  input: StartFraudsterRegistrationJobRequest,
-) => effect.Effect<
+export const startFraudsterRegistrationJob: API.OperationMethod<
+  StartFraudsterRegistrationJobRequest,
   StartFraudsterRegistrationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2047,9 +2022,8 @@ export const startFraudsterRegistrationJob: (
 /**
  * Starts a new batch speaker enrollment job using specified details.
  */
-export const startSpeakerEnrollmentJob: (
-  input: StartSpeakerEnrollmentJobRequest,
-) => effect.Effect<
+export const startSpeakerEnrollmentJob: API.OperationMethod<
+  StartSpeakerEnrollmentJobRequest,
   StartSpeakerEnrollmentJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2076,9 +2050,8 @@ export const startSpeakerEnrollmentJob: (
 /**
  * Tags a Voice ID resource with the provided list of tags.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2103,9 +2076,8 @@ export const tagResource: (
 /**
  * Removes specified tags from a specified Amazon Connect Voice ID resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2130,9 +2102,8 @@ export const untagResource: (
 /**
  * Updates the specified watchlist. Every domain has a default watchlist which cannot be updated.
  */
-export const updateWatchlist: (
-  input: UpdateWatchlistRequest,
-) => effect.Effect<
+export const updateWatchlist: API.OperationMethod<
+  UpdateWatchlistRequest,
   UpdateWatchlistResponse,
   | AccessDeniedException
   | ConflictException
@@ -2158,9 +2129,8 @@ export const updateWatchlist: (
  * Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters,
  * customer audio, and voiceprints. Every domain is created with a default watchlist that fraudsters can be a part of.
  */
-export const createDomain: (
-  input: CreateDomainRequest,
-) => effect.Effect<
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
   CreateDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -2187,9 +2157,8 @@ export const createDomain: (
 /**
  * Describes the specified domain.
  */
-export const describeDomain: (
-  input: DescribeDomainRequest,
-) => effect.Effect<
+export const describeDomain: API.OperationMethod<
+  DescribeDomainRequest,
   DescribeDomainResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2214,9 +2183,8 @@ export const describeDomain: (
  * all attributes. If an optional field, such as 'Description' is not provided, it is
  * removed from the domain.
  */
-export const updateDomain: (
-  input: UpdateDomainRequest,
-) => effect.Effect<
+export const updateDomain: API.OperationMethod<
+  UpdateDomainRequest,
   UpdateDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -2241,9 +2209,8 @@ export const updateDomain: (
 /**
  * Deletes the specified domain from Voice ID.
  */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResponse,
   | AccessDeniedException
   | ConflictException
@@ -2268,18 +2235,16 @@ export const deleteDomain: (
 /**
  * Lists all the domains in the Amazon Web Services account.
  */
-export const listDomains: {
-  (
-    input: ListDomainsRequest,
-  ): effect.Effect<
-    ListDomainsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
+  ListDomainsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsRequest,
   ) => stream.Stream<

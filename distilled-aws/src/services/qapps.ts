@@ -2189,9 +2189,8 @@ export class ContentTooLargeException extends S.TaggedErrorClass<ContentTooLarge
 /**
  * Associates a rating or review for a library item with the user submitting the request. This increments the rating count for the specified library item.
  */
-export const associateLibraryItemReview: (
-  input: AssociateLibraryItemReviewInput,
-) => effect.Effect<
+export const associateLibraryItemReview: API.OperationMethod<
+  AssociateLibraryItemReviewInput,
   AssociateLibraryItemReviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -2220,9 +2219,8 @@ export const associateLibraryItemReview: (
 /**
  * This operation creates a link between the user's identity calling the operation and a specific Q App. This is useful to mark the Q App as a *favorite* for the user if the user doesn't own the Amazon Q App so they can still run it and see it in their inventory of Q Apps.
  */
-export const associateQAppWithUser: (
-  input: AssociateQAppWithUserInput,
-) => effect.Effect<
+export const associateQAppWithUser: API.OperationMethod<
+  AssociateQAppWithUserInput,
   AssociateQAppWithUserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2249,9 +2247,8 @@ export const associateQAppWithUser: (
 /**
  * Creates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
  */
-export const batchCreateCategory: (
-  input: BatchCreateCategoryInput,
-) => effect.Effect<
+export const batchCreateCategory: API.OperationMethod<
+  BatchCreateCategoryInput,
   BatchCreateCategoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2278,9 +2275,8 @@ export const batchCreateCategory: (
 /**
  * Deletes Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
  */
-export const batchDeleteCategory: (
-  input: BatchDeleteCategoryInput,
-) => effect.Effect<
+export const batchDeleteCategory: API.OperationMethod<
+  BatchDeleteCategoryInput,
   BatchDeleteCategoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2307,9 +2303,8 @@ export const batchDeleteCategory: (
 /**
  * Updates Categories for the Amazon Q Business application environment instance. Web experience users use Categories to tag and filter library items. For more information, see Custom labels for Amazon Q Apps.
  */
-export const batchUpdateCategory: (
-  input: BatchUpdateCategoryInput,
-) => effect.Effect<
+export const batchUpdateCategory: API.OperationMethod<
+  BatchUpdateCategoryInput,
   BatchUpdateCategoryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2336,9 +2331,8 @@ export const batchUpdateCategory: (
 /**
  * Creates a new library item for an Amazon Q App, allowing it to be discovered and used by other allowed users.
  */
-export const createLibraryItem: (
-  input: CreateLibraryItemInput,
-) => effect.Effect<
+export const createLibraryItem: API.OperationMethod<
+  CreateLibraryItemInput,
   CreateLibraryItemOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2367,9 +2361,8 @@ export const createLibraryItem: (
  *
  * The IAM permissions are derived from the `qapps:ImportDocument` action. For more information on the IAM policy for Amazon Q Apps, see IAM permissions for using Amazon Q Apps.
  */
-export const createPresignedUrl: (
-  input: CreatePresignedUrlInput,
-) => effect.Effect<
+export const createPresignedUrl: API.OperationMethod<
+  CreatePresignedUrlInput,
   CreatePresignedUrlOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2392,9 +2385,8 @@ export const createPresignedUrl: (
 /**
  * Creates a new Amazon Q App based on the provided definition. The Q App definition specifies the cards and flow of the Q App. This operation also calculates the dependencies between the cards by inspecting the references in the prompts.
  */
-export const createQApp: (
-  input: CreateQAppInput,
-) => effect.Effect<
+export const createQApp: API.OperationMethod<
+  CreateQAppInput,
   CreateQAppOutput,
   | AccessDeniedException
   | ConflictException
@@ -2423,9 +2415,8 @@ export const createQApp: (
 /**
  * Deletes a library item for an Amazon Q App, removing it from the library so it can no longer be discovered or used by other users.
  */
-export const deleteLibraryItem: (
-  input: DeleteLibraryItemInput,
-) => effect.Effect<
+export const deleteLibraryItem: API.OperationMethod<
+  DeleteLibraryItemInput,
   DeleteLibraryItemResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2452,9 +2443,8 @@ export const deleteLibraryItem: (
 /**
  * Deletes an Amazon Q App owned by the user. If the Q App was previously published to the library, it is also removed from the library.
  */
-export const deleteQApp: (
-  input: DeleteQAppInput,
-) => effect.Effect<
+export const deleteQApp: API.OperationMethod<
+  DeleteQAppInput,
   DeleteQAppResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2479,9 +2469,8 @@ export const deleteQApp: (
 /**
  * Describes read permissions for a Amazon Q App in Amazon Q Business application environment instance.
  */
-export const describeQAppPermissions: (
-  input: DescribeQAppPermissionsInput,
-) => effect.Effect<
+export const describeQAppPermissions: API.OperationMethod<
+  DescribeQAppPermissionsInput,
   DescribeQAppPermissionsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2506,9 +2495,8 @@ export const describeQAppPermissions: (
 /**
  * Removes a rating or review previously submitted by the user for a library item.
  */
-export const disassociateLibraryItemReview: (
-  input: DisassociateLibraryItemReviewInput,
-) => effect.Effect<
+export const disassociateLibraryItemReview: API.OperationMethod<
+  DisassociateLibraryItemReviewInput,
   DisassociateLibraryItemReviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -2537,9 +2525,8 @@ export const disassociateLibraryItemReview: (
 /**
  * Disassociates a Q App from a user removing the user's access to run the Q App.
  */
-export const disassociateQAppFromUser: (
-  input: DisassociateQAppFromUserInput,
-) => effect.Effect<
+export const disassociateQAppFromUser: API.OperationMethod<
+  DisassociateQAppFromUserInput,
   DisassociateQAppFromUserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2564,9 +2551,8 @@ export const disassociateQAppFromUser: (
 /**
  * Exports the collected data of a Q App data collection session.
  */
-export const exportQAppSessionData: (
-  input: ExportQAppSessionDataInput,
-) => effect.Effect<
+export const exportQAppSessionData: API.OperationMethod<
+  ExportQAppSessionDataInput,
   ExportQAppSessionDataOutput,
   | AccessDeniedException
   | ConflictException
@@ -2595,9 +2581,8 @@ export const exportQAppSessionData: (
 /**
  * Retrieves details about a library item for an Amazon Q App, including its metadata, categories, ratings, and usage statistics.
  */
-export const getLibraryItem: (
-  input: GetLibraryItemInput,
-) => effect.Effect<
+export const getLibraryItem: API.OperationMethod<
+  GetLibraryItemInput,
   GetLibraryItemOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2622,9 +2607,8 @@ export const getLibraryItem: (
 /**
  * Retrieves the full details of an Q App, including its definition specifying the cards and flow.
  */
-export const getQApp: (
-  input: GetQAppInput,
-) => effect.Effect<
+export const getQApp: API.OperationMethod<
+  GetQAppInput,
   GetQAppOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2649,9 +2633,8 @@ export const getQApp: (
 /**
  * Retrieves the current state and results for an active session of an Amazon Q App.
  */
-export const getQAppSession: (
-  input: GetQAppSessionInput,
-) => effect.Effect<
+export const getQAppSession: API.OperationMethod<
+  GetQAppSessionInput,
   GetQAppSessionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2678,9 +2661,8 @@ export const getQAppSession: (
 /**
  * Retrieves the current configuration of a Q App session.
  */
-export const getQAppSessionMetadata: (
-  input: GetQAppSessionMetadataInput,
-) => effect.Effect<
+export const getQAppSessionMetadata: API.OperationMethod<
+  GetQAppSessionMetadataInput,
   GetQAppSessionMetadataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2707,9 +2689,8 @@ export const getQAppSessionMetadata: (
 /**
  * Uploads a file that can then be used either as a default in a `FileUploadCard` from Q App definition or as a file that is used inside a single Q App run. The purpose of the document is determined by a scope parameter that indicates whether it is at the app definition level or at the app session level.
  */
-export const importDocument: (
-  input: ImportDocumentInput,
-) => effect.Effect<
+export const importDocument: API.OperationMethod<
+  ImportDocumentInput,
   ImportDocumentOutput,
   | AccessDeniedException
   | ContentTooLargeException
@@ -2738,9 +2719,8 @@ export const importDocument: (
 /**
  * Lists the categories of a Amazon Q Business application environment instance. For more information, see Custom labels for Amazon Q Apps.
  */
-export const listCategories: (
-  input: ListCategoriesInput,
-) => effect.Effect<
+export const listCategories: API.OperationMethod<
+  ListCategoriesInput,
   ListCategoriesOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2765,20 +2745,18 @@ export const listCategories: (
 /**
  * Lists the library items for Amazon Q Apps that are published and available for users in your Amazon Web Services account.
  */
-export const listLibraryItems: {
-  (
-    input: ListLibraryItemsInput,
-  ): effect.Effect<
-    ListLibraryItemsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLibraryItems: API.OperationMethod<
+  ListLibraryItemsInput,
+  ListLibraryItemsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLibraryItemsInput,
   ) => stream.Stream<
@@ -2826,19 +2804,17 @@ export const listLibraryItems: {
 /**
  * Lists the Amazon Q Apps owned by or associated with the user either because they created it or because they used it from the library in the past. The user identity is extracted from the credentials used to invoke this operation..
  */
-export const listQApps: {
-  (
-    input: ListQAppsInput,
-  ): effect.Effect<
-    ListQAppsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | UnauthorizedException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQApps: API.OperationMethod<
+  ListQAppsInput,
+  ListQAppsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | UnauthorizedException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQAppsInput,
   ) => stream.Stream<
@@ -2883,9 +2859,8 @@ export const listQApps: {
 /**
  * Lists the collected data of a Q App data collection session.
  */
-export const listQAppSessionData: (
-  input: ListQAppSessionDataInput,
-) => effect.Effect<
+export const listQAppSessionData: API.OperationMethod<
+  ListQAppSessionDataInput,
   ListQAppSessionDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2912,9 +2887,8 @@ export const listQAppSessionData: (
 /**
  * Lists the tags associated with an Amazon Q Apps resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2937,9 +2911,8 @@ export const listTagsForResource: (
 /**
  * Generates an Amazon Q App definition based on either a conversation or a problem statement provided as input.The resulting app definition can be used to call `CreateQApp`. This API doesn't create Amazon Q Apps directly.
  */
-export const predictQApp: (
-  input: PredictQAppInput,
-) => effect.Effect<
+export const predictQApp: API.OperationMethod<
+  PredictQAppInput,
   PredictQAppOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2964,9 +2937,8 @@ export const predictQApp: (
  *
  * Each Q App session will be condensed into a single conversation in the web experience.
  */
-export const startQAppSession: (
-  input: StartQAppSessionInput,
-) => effect.Effect<
+export const startQAppSession: API.OperationMethod<
+  StartQAppSessionInput,
   StartQAppSessionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2993,9 +2965,8 @@ export const startQAppSession: (
 /**
  * Stops an active session for an Amazon Q App.This deletes all data related to the session and makes it invalid for future uses. The results of the session will be persisted as part of the conversation.
  */
-export const stopQAppSession: (
-  input: StopQAppSessionInput,
-) => effect.Effect<
+export const stopQAppSession: API.OperationMethod<
+  StopQAppSessionInput,
   StopQAppSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3022,9 +2993,8 @@ export const stopQAppSession: (
 /**
  * Associates tags with an Amazon Q Apps resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3049,9 +3019,8 @@ export const tagResource: (
 /**
  * Disassociates tags from an Amazon Q Apps resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3074,9 +3043,8 @@ export const untagResource: (
 /**
  * Updates the library item for an Amazon Q App.
  */
-export const updateLibraryItem: (
-  input: UpdateLibraryItemInput,
-) => effect.Effect<
+export const updateLibraryItem: API.OperationMethod<
+  UpdateLibraryItemInput,
   UpdateLibraryItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -3103,9 +3071,8 @@ export const updateLibraryItem: (
 /**
  * Updates the verification status of a library item for an Amazon Q App.
  */
-export const updateLibraryItemMetadata: (
-  input: UpdateLibraryItemMetadataInput,
-) => effect.Effect<
+export const updateLibraryItemMetadata: API.OperationMethod<
+  UpdateLibraryItemMetadataInput,
   UpdateLibraryItemMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -3132,9 +3099,8 @@ export const updateLibraryItemMetadata: (
 /**
  * Updates an existing Amazon Q App, allowing modifications to its title, description, and definition.
  */
-export const updateQApp: (
-  input: UpdateQAppInput,
-) => effect.Effect<
+export const updateQApp: API.OperationMethod<
+  UpdateQAppInput,
   UpdateQAppOutput,
   | AccessDeniedException
   | ContentTooLargeException
@@ -3161,9 +3127,8 @@ export const updateQApp: (
 /**
  * Updates read permissions for a Amazon Q App in Amazon Q Business application environment instance.
  */
-export const updateQAppPermissions: (
-  input: UpdateQAppPermissionsInput,
-) => effect.Effect<
+export const updateQAppPermissions: API.OperationMethod<
+  UpdateQAppPermissionsInput,
   UpdateQAppPermissionsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3188,9 +3153,8 @@ export const updateQAppPermissions: (
 /**
  * Updates the session for a given Q App `sessionId`. This is only valid when at least one card of the session is in the `WAITING` state. Data for each `WAITING` card can be provided as input. If inputs are not provided, the call will be accepted but session will not move forward. Inputs for cards that are not in the `WAITING` status will be ignored.
  */
-export const updateQAppSession: (
-  input: UpdateQAppSessionInput,
-) => effect.Effect<
+export const updateQAppSession: API.OperationMethod<
+  UpdateQAppSessionInput,
   UpdateQAppSessionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3217,9 +3181,8 @@ export const updateQAppSession: (
 /**
  * Updates the configuration metadata of a session for a given Q App `sessionId`.
  */
-export const updateQAppSessionMetadata: (
-  input: UpdateQAppSessionMetadataInput,
-) => effect.Effect<
+export const updateQAppSessionMetadata: API.OperationMethod<
+  UpdateQAppSessionMetadataInput,
   UpdateQAppSessionMetadataOutput,
   | AccessDeniedException
   | InternalServerException

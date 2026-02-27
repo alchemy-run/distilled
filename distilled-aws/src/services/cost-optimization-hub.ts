@@ -1908,9 +1908,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 /**
  * Returns a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented—estimated savings after discounts or estimated savings before discounts, for example.
  */
-export const getPreferences: (
-  input: GetPreferencesRequest,
-) => effect.Effect<
+export const getPreferences: API.OperationMethod<
+  GetPreferencesRequest,
   GetPreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1933,9 +1932,8 @@ export const getPreferences: (
  *
  * The `recommendationId` is only valid for up to a maximum of 24 hours as recommendations are refreshed daily. To retrieve the `recommendationId`, use the `ListRecommendations` API.
  */
-export const getRecommendation: (
-  input: GetRecommendationRequest,
-) => effect.Effect<
+export const getRecommendation: API.OperationMethod<
+  GetRecommendationRequest,
   GetRecommendationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1960,18 +1958,16 @@ export const getRecommendation: (
  *
  * The operation supports both daily and monthly time granularities and allows grouping results by account ID, Amazon Web Services Region. Results are returned as time-series data, enabling you to analyze trends in your cost optimization performance over the specified time period.
  */
-export const listEfficiencyMetrics: {
-  (
-    input: ListEfficiencyMetricsRequest,
-  ): effect.Effect<
-    ListEfficiencyMetricsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEfficiencyMetrics: API.OperationMethod<
+  ListEfficiencyMetricsRequest,
+  ListEfficiencyMetricsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEfficiencyMetricsRequest,
   ) => stream.Stream<
@@ -2013,18 +2009,16 @@ export const listEfficiencyMetrics: {
 /**
  * Retrieves the enrollment status for an account. It can also return the list of accounts that are enrolled under the organization.
  */
-export const listEnrollmentStatuses: {
-  (
-    input: ListEnrollmentStatusesRequest,
-  ): effect.Effect<
-    ListEnrollmentStatusesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnrollmentStatuses: API.OperationMethod<
+  ListEnrollmentStatusesRequest,
+  ListEnrollmentStatusesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnrollmentStatusesRequest,
   ) => stream.Stream<
@@ -2066,18 +2060,16 @@ export const listEnrollmentStatuses: {
 /**
  * Returns a list of recommendations.
  */
-export const listRecommendations: {
-  (
-    input: ListRecommendationsRequest,
-  ): effect.Effect<
-    ListRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendations: API.OperationMethod<
+  ListRecommendationsRequest,
+  ListRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
@@ -2121,18 +2113,16 @@ export const listRecommendations: {
  *
  * The following filters are not supported for this API: `recommendationIds`, `resourceArns`, and `resourceIds`.
  */
-export const listRecommendationSummaries: {
-  (
-    input: ListRecommendationSummariesRequest,
-  ): effect.Effect<
-    ListRecommendationSummariesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendationSummaries: API.OperationMethod<
+  ListRecommendationSummariesRequest,
+  ListRecommendationSummariesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendationSummariesRequest,
   ) => stream.Stream<
@@ -2178,9 +2168,8 @@ export const listRecommendationSummaries: {
  *
  * You must have the appropriate permissions to opt in to Cost Optimization Hub and to view its recommendations. When you opt in, Cost Optimization Hub automatically creates a service-linked role in your account to access its data.
  */
-export const updateEnrollmentStatus: (
-  input: UpdateEnrollmentStatusRequest,
-) => effect.Effect<
+export const updateEnrollmentStatus: API.OperationMethod<
+  UpdateEnrollmentStatusRequest,
   UpdateEnrollmentStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2201,9 +2190,8 @@ export const updateEnrollmentStatus: (
 /**
  * Updates a set of preferences for an account in order to add account-specific preferences into the service. These preferences impact how the savings associated with recommendations are presented.
  */
-export const updatePreferences: (
-  input: UpdatePreferencesRequest,
-) => effect.Effect<
+export const updatePreferences: API.OperationMethod<
+  UpdatePreferencesRequest,
   UpdatePreferencesResponse,
   | AccessDeniedException
   | InternalServerException

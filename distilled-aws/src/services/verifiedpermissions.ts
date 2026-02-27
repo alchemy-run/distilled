@@ -2331,9 +2331,8 @@ export class InvalidStateException extends S.TaggedErrorClass<InvalidStateExcept
 /**
  * Returns the tags associated with the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2360,9 +2359,8 @@ export const listTagsForResource: (
  *
  * You can associate as many as 50 tags with a resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2385,9 +2383,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified Amazon Verified Permissions resource. In Verified Permissions, policy stores can be tagged.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2412,9 +2409,8 @@ export const untagResource: (
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const createPolicyStore: (
-  input: CreatePolicyStoreInput,
-) => effect.Effect<
+export const createPolicyStore: API.OperationMethod<
+  CreatePolicyStoreInput,
   CreatePolicyStoreOutput,
   ConflictException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2426,9 +2422,8 @@ export const createPolicyStore: (
 /**
  * Retrieves details about a policy store.
  */
-export const getPolicyStore: (
-  input: GetPolicyStoreInput,
-) => effect.Effect<
+export const getPolicyStore: API.OperationMethod<
+  GetPolicyStoreInput,
   GetPolicyStoreOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2442,9 +2437,8 @@ export const getPolicyStore: (
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const updatePolicyStore: (
-  input: UpdatePolicyStoreInput,
-) => effect.Effect<
+export const updatePolicyStore: API.OperationMethod<
+  UpdatePolicyStoreInput,
   UpdatePolicyStoreOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2458,9 +2452,8 @@ export const updatePolicyStore: (
  *
  * This operation is idempotent. If you specify a policy store that does not exist, the request response will still return a successful HTTP 200 status code.
  */
-export const deletePolicyStore: (
-  input: DeletePolicyStoreInput,
-) => effect.Effect<
+export const deletePolicyStore: API.OperationMethod<
+  DeletePolicyStoreInput,
   DeletePolicyStoreOutput,
   InvalidStateException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2472,14 +2465,12 @@ export const deletePolicyStore: (
 /**
  * Returns a paginated list of all policy stores in the calling Amazon Web Services account.
  */
-export const listPolicyStores: {
-  (
-    input: ListPolicyStoresInput,
-  ): effect.Effect<
-    ListPolicyStoresOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyStores: API.OperationMethod<
+  ListPolicyStoresInput,
+  ListPolicyStoresOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyStoresInput,
   ) => stream.Stream<
@@ -2514,9 +2505,8 @@ export const listPolicyStores: {
  *
  * The `BatchIsAuthorized` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `verifiedpermissions:IsAuthorized` in their IAM policies.
  */
-export const batchIsAuthorized: (
-  input: BatchIsAuthorizedInput,
-) => effect.Effect<
+export const batchIsAuthorized: API.OperationMethod<
+  BatchIsAuthorizedInput,
   BatchIsAuthorizedOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2534,9 +2524,8 @@ export const batchIsAuthorized: (
  *
  * The `BatchIsAuthorizedWithToken` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `verifiedpermissions:IsAuthorizedWithToken` in their IAM policies.
  */
-export const batchIsAuthorizedWithToken: (
-  input: BatchIsAuthorizedWithTokenInput,
-) => effect.Effect<
+export const batchIsAuthorizedWithToken: API.OperationMethod<
+  BatchIsAuthorizedWithTokenInput,
   BatchIsAuthorizedWithTokenOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2548,9 +2537,8 @@ export const batchIsAuthorizedWithToken: (
 /**
  * Retrieve the details for the specified schema in the specified policy store.
  */
-export const getSchema: (
-  input: GetSchemaInput,
-) => effect.Effect<
+export const getSchema: API.OperationMethod<
+  GetSchemaInput,
   GetSchemaOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2562,9 +2550,8 @@ export const getSchema: (
 /**
  * Makes an authorization decision about a service request described in the parameters. The information in the parameters can also define additional context that Verified Permissions can include in the evaluation. The request is evaluated against all matching policies in the specified policy store. The result of the decision is either `Allow` or `Deny`, along with a list of the policies that resulted in the decision.
  */
-export const isAuthorized: (
-  input: IsAuthorizedInput,
-) => effect.Effect<
+export const isAuthorized: API.OperationMethod<
+  IsAuthorizedInput,
   IsAuthorizedOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2580,9 +2567,8 @@ export const isAuthorized: (
  *
  * Tokens from an identity source user continue to be usable until they expire. Token revocation and resource deletion have no effect on the validity of a token in your policy store
  */
-export const isAuthorizedWithToken: (
-  input: IsAuthorizedWithTokenInput,
-) => effect.Effect<
+export const isAuthorizedWithToken: API.OperationMethod<
+  IsAuthorizedWithTokenInput,
   IsAuthorizedWithTokenOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2596,9 +2582,8 @@ export const isAuthorizedWithToken: (
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const putSchema: (
-  input: PutSchemaInput,
-) => effect.Effect<
+export const putSchema: API.OperationMethod<
+  PutSchemaInput,
   PutSchemaOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2619,9 +2604,8 @@ export const putSchema: (
  *
  * The `BatchGetPolicy` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `verifiedpermissions:GetPolicy` in their IAM policies.
  */
-export const batchGetPolicy: (
-  input: BatchGetPolicyInput,
-) => effect.Effect<
+export const batchGetPolicy: API.OperationMethod<
+  BatchGetPolicyInput,
   BatchGetPolicyOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2645,9 +2629,8 @@ export const batchGetPolicy: (
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const createIdentitySource: (
-  input: CreateIdentitySourceInput,
-) => effect.Effect<
+export const createIdentitySource: API.OperationMethod<
+  CreateIdentitySourceInput,
   CreateIdentitySourceOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2666,9 +2649,8 @@ export const createIdentitySource: (
 /**
  * Retrieves the details about the specified identity source.
  */
-export const getIdentitySource: (
-  input: GetIdentitySourceInput,
-) => effect.Effect<
+export const getIdentitySource: API.OperationMethod<
+  GetIdentitySourceInput,
   GetIdentitySourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2682,9 +2664,8 @@ export const getIdentitySource: (
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const updateIdentitySource: (
-  input: UpdateIdentitySourceInput,
-) => effect.Effect<
+export const updateIdentitySource: API.OperationMethod<
+  UpdateIdentitySourceInput,
   UpdateIdentitySourceOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2696,9 +2677,8 @@ export const updateIdentitySource: (
 /**
  * Deletes an identity source that references an identity provider (IdP) such as Amazon Cognito. After you delete the identity source, you can no longer use tokens for identities from that identity source to represent principals in authorization queries made using IsAuthorizedWithToken. operations.
  */
-export const deleteIdentitySource: (
-  input: DeleteIdentitySourceInput,
-) => effect.Effect<
+export const deleteIdentitySource: API.OperationMethod<
+  DeleteIdentitySourceInput,
   DeleteIdentitySourceOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2710,14 +2690,12 @@ export const deleteIdentitySource: (
 /**
  * Returns a paginated list of all of the identity sources defined in the specified policy store.
  */
-export const listIdentitySources: {
-  (
-    input: ListIdentitySourcesInput,
-  ): effect.Effect<
-    ListIdentitySourcesOutput,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdentitySources: API.OperationMethod<
+  ListIdentitySourcesInput,
+  ListIdentitySourcesOutput,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdentitySourcesInput,
   ) => stream.Stream<
@@ -2754,9 +2732,8 @@ export const listIdentitySources: {
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const createPolicy: (
-  input: CreatePolicyInput,
-) => effect.Effect<
+export const createPolicy: API.OperationMethod<
+  CreatePolicyInput,
   CreatePolicyOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2775,9 +2752,8 @@ export const createPolicy: (
 /**
  * Retrieves information about the specified policy.
  */
-export const getPolicy: (
-  input: GetPolicyInput,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyInput,
   GetPolicyOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2811,9 +2787,8 @@ export const getPolicy: (
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const updatePolicy: (
-  input: UpdatePolicyInput,
-) => effect.Effect<
+export const updatePolicy: API.OperationMethod<
+  UpdatePolicyInput,
   UpdatePolicyOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2834,9 +2809,8 @@ export const updatePolicy: (
  *
  * This operation is idempotent; if you specify a policy that doesn't exist, the request response returns a successful `HTTP 200` status code.
  */
-export const deletePolicy: (
-  input: DeletePolicyInput,
-) => effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyInput,
   DeletePolicyOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2848,14 +2822,12 @@ export const deletePolicy: (
 /**
  * Returns a paginated list of all policies stored in the specified policy store.
  */
-export const listPolicies: {
-  (
-    input: ListPoliciesInput,
-  ): effect.Effect<
-    ListPoliciesOutput,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicies: API.OperationMethod<
+  ListPoliciesInput,
+  ListPoliciesOutput,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPoliciesInput,
   ) => stream.Stream<
@@ -2886,9 +2858,8 @@ export const listPolicies: {
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const createPolicyTemplate: (
-  input: CreatePolicyTemplateInput,
-) => effect.Effect<
+export const createPolicyTemplate: API.OperationMethod<
+  CreatePolicyTemplateInput,
   CreatePolicyTemplateOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -2907,9 +2878,8 @@ export const createPolicyTemplate: (
 /**
  * Retrieve the details for the specified policy template in the specified policy store.
  */
-export const getPolicyTemplate: (
-  input: GetPolicyTemplateInput,
-) => effect.Effect<
+export const getPolicyTemplate: API.OperationMethod<
+  GetPolicyTemplateInput,
   GetPolicyTemplateOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2925,9 +2895,8 @@ export const getPolicyTemplate: (
  *
  * Verified Permissions is * eventually consistent *. It can take a few seconds for a new or changed element to propagate through the service and be visible in the results of other Verified Permissions operations.
  */
-export const updatePolicyTemplate: (
-  input: UpdatePolicyTemplateInput,
-) => effect.Effect<
+export const updatePolicyTemplate: API.OperationMethod<
+  UpdatePolicyTemplateInput,
   UpdatePolicyTemplateOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2941,9 +2910,8 @@ export const updatePolicyTemplate: (
  *
  * This operation also deletes any policies that were created from the specified policy template. Those policies are immediately removed from all future API responses, and are asynchronously deleted from the policy store.
  */
-export const deletePolicyTemplate: (
-  input: DeletePolicyTemplateInput,
-) => effect.Effect<
+export const deletePolicyTemplate: API.OperationMethod<
+  DeletePolicyTemplateInput,
   DeletePolicyTemplateOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2955,14 +2923,12 @@ export const deletePolicyTemplate: (
 /**
  * Returns a paginated list of all policy templates in the specified policy store.
  */
-export const listPolicyTemplates: {
-  (
-    input: ListPolicyTemplatesInput,
-  ): effect.Effect<
-    ListPolicyTemplatesOutput,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyTemplates: API.OperationMethod<
+  ListPolicyTemplatesInput,
+  ListPolicyTemplatesOutput,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyTemplatesInput,
   ) => stream.Stream<

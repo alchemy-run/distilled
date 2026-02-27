@@ -3236,9 +3236,8 @@ export class MultipleIamArnsProvidedException extends S.TaggedErrorClass<Multipl
 /**
  * Adds tags to on-premises instances.
  */
-export const addTagsToOnPremisesInstances: (
-  input: AddTagsToOnPremisesInstancesInput,
-) => effect.Effect<
+export const addTagsToOnPremisesInstances: API.OperationMethod<
+  AddTagsToOnPremisesInstancesInput,
   AddTagsToOnPremisesInstancesResponse,
   | InstanceLimitExceededException
   | InstanceNameRequiredException
@@ -3266,9 +3265,8 @@ export const addTagsToOnPremisesInstances: (
  * Gets information about one or more application revisions. The maximum number of
  * application revisions that can be returned is 25.
  */
-export const batchGetApplicationRevisions: (
-  input: BatchGetApplicationRevisionsInput,
-) => effect.Effect<
+export const batchGetApplicationRevisions: API.OperationMethod<
+  BatchGetApplicationRevisionsInput,
   BatchGetApplicationRevisionsOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3294,9 +3292,8 @@ export const batchGetApplicationRevisions: (
  * Gets information about one or more applications. The maximum number of applications
  * that can be returned is 100.
  */
-export const batchGetApplications: (
-  input: BatchGetApplicationsInput,
-) => effect.Effect<
+export const batchGetApplications: API.OperationMethod<
+  BatchGetApplicationsInput,
   BatchGetApplicationsOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3317,9 +3314,8 @@ export const batchGetApplications: (
 /**
  * Gets information about one or more deployment groups.
  */
-export const batchGetDeploymentGroups: (
-  input: BatchGetDeploymentGroupsInput,
-) => effect.Effect<
+export const batchGetDeploymentGroups: API.OperationMethod<
+  BatchGetDeploymentGroupsInput,
   BatchGetDeploymentGroupsOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3352,9 +3348,8 @@ export const batchGetDeploymentGroups: (
  * `BatchGetDeploymentTargets` works with all compute platforms. The maximum
  * number of instances that can be returned is 25.
  */
-export const batchGetDeploymentInstances: (
-  input: BatchGetDeploymentInstancesInput,
-) => effect.Effect<
+export const batchGetDeploymentInstances: API.OperationMethod<
+  BatchGetDeploymentInstancesInput,
   BatchGetDeploymentInstancesOutput,
   | BatchLimitExceededException
   | DeploymentDoesNotExistException
@@ -3382,9 +3377,8 @@ export const batchGetDeploymentInstances: (
  * Gets information about one or more deployments. The maximum number of deployments that
  * can be returned is 25.
  */
-export const batchGetDeployments: (
-  input: BatchGetDeploymentsInput,
-) => effect.Effect<
+export const batchGetDeployments: API.OperationMethod<
+  BatchGetDeploymentsInput,
   BatchGetDeploymentsOutput,
   | BatchLimitExceededException
   | DeploymentIdRequiredException
@@ -3420,9 +3414,8 @@ export const batchGetDeployments: (
  * targets of blue/green deployments initiated by a CloudFormation stack
  * update.
  */
-export const batchGetDeploymentTargets: (
-  input: BatchGetDeploymentTargetsInput,
-) => effect.Effect<
+export const batchGetDeploymentTargets: API.OperationMethod<
+  BatchGetDeploymentTargetsInput,
   BatchGetDeploymentTargetsOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -3454,9 +3447,8 @@ export const batchGetDeploymentTargets: (
  * Gets information about one or more on-premises instances. The maximum number of
  * on-premises instances that can be returned is 25.
  */
-export const batchGetOnPremisesInstances: (
-  input: BatchGetOnPremisesInstancesInput,
-) => effect.Effect<
+export const batchGetOnPremisesInstances: API.OperationMethod<
+  BatchGetOnPremisesInstancesInput,
   BatchGetOnPremisesInstancesOutput,
   | BatchLimitExceededException
   | InstanceNameRequiredException
@@ -3479,9 +3471,8 @@ export const batchGetOnPremisesInstances: (
  * instances in the replacement environment with the load balancer, can start as soon as
  * all instances have a status of Ready.)
  */
-export const continueDeployment: (
-  input: ContinueDeploymentInput,
-) => effect.Effect<
+export const continueDeployment: API.OperationMethod<
+  ContinueDeploymentInput,
   ContinueDeploymentResponse,
   | DeploymentAlreadyCompletedException
   | DeploymentDoesNotExistException
@@ -3510,9 +3501,8 @@ export const continueDeployment: (
 /**
  * Creates an application.
  */
-export const createApplication: (
-  input: CreateApplicationInput,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationInput,
   CreateApplicationOutput,
   | ApplicationAlreadyExistsException
   | ApplicationLimitExceededException
@@ -3537,9 +3527,8 @@ export const createApplication: (
 /**
  * Deploys an application revision through the specified deployment group.
  */
-export const createDeployment: (
-  input: CreateDeploymentInput,
-) => effect.Effect<
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentInput,
   CreateDeploymentOutput,
   | AlarmsLimitExceededException
   | ApplicationDoesNotExistException
@@ -3604,9 +3593,8 @@ export const createDeployment: (
 /**
  * Creates a deployment configuration.
  */
-export const createDeploymentConfig: (
-  input: CreateDeploymentConfigInput,
-) => effect.Effect<
+export const createDeploymentConfig: API.OperationMethod<
+  CreateDeploymentConfigInput,
   CreateDeploymentConfigOutput,
   | DeploymentConfigAlreadyExistsException
   | DeploymentConfigLimitExceededException
@@ -3635,9 +3623,8 @@ export const createDeploymentConfig: (
 /**
  * Creates a deployment group to which application revisions are deployed.
  */
-export const createDeploymentGroup: (
-  input: CreateDeploymentGroupInput,
-) => effect.Effect<
+export const createDeploymentGroup: API.OperationMethod<
+  CreateDeploymentGroupInput,
   CreateDeploymentGroupOutput,
   | AlarmsLimitExceededException
   | ApplicationDoesNotExistException
@@ -3716,9 +3703,8 @@ export const createDeploymentGroup: (
 /**
  * Deletes an application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationInput,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationInput,
   DeleteApplicationResponse,
   | ApplicationNameRequiredException
   | InvalidApplicationNameException
@@ -3740,9 +3726,8 @@ export const deleteApplication: (
  * A deployment configuration cannot be deleted if it is currently in use. Predefined
  * configurations cannot be deleted.
  */
-export const deleteDeploymentConfig: (
-  input: DeleteDeploymentConfigInput,
-) => effect.Effect<
+export const deleteDeploymentConfig: API.OperationMethod<
+  DeleteDeploymentConfigInput,
   DeleteDeploymentConfigResponse,
   | DeploymentConfigInUseException
   | DeploymentConfigNameRequiredException
@@ -3763,9 +3748,8 @@ export const deleteDeploymentConfig: (
 /**
  * Deletes a deployment group.
  */
-export const deleteDeploymentGroup: (
-  input: DeleteDeploymentGroupInput,
-) => effect.Effect<
+export const deleteDeploymentGroup: API.OperationMethod<
+  DeleteDeploymentGroupInput,
   DeleteDeploymentGroupOutput,
   | ApplicationNameRequiredException
   | DeploymentGroupNameRequiredException
@@ -3788,9 +3772,8 @@ export const deleteDeploymentGroup: (
 /**
  * Deletes a GitHub account connection.
  */
-export const deleteGitHubAccountToken: (
-  input: DeleteGitHubAccountTokenInput,
-) => effect.Effect<
+export const deleteGitHubAccountToken: API.OperationMethod<
+  DeleteGitHubAccountTokenInput,
   DeleteGitHubAccountTokenOutput,
   | GitHubAccountTokenDoesNotExistException
   | GitHubAccountTokenNameRequiredException
@@ -3819,9 +3802,8 @@ export const deleteGitHubAccountToken: (
  * publicly in case you need to delete resources to comply with General Data Protection
  * Regulation (GDPR) requirements.
  */
-export const deleteResourcesByExternalId: (
-  input: DeleteResourcesByExternalIdInput,
-) => effect.Effect<
+export const deleteResourcesByExternalId: API.OperationMethod<
+  DeleteResourcesByExternalIdInput,
   DeleteResourcesByExternalIdOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3833,9 +3815,8 @@ export const deleteResourcesByExternalId: (
 /**
  * Deregisters an on-premises instance.
  */
-export const deregisterOnPremisesInstance: (
-  input: DeregisterOnPremisesInstanceInput,
-) => effect.Effect<
+export const deregisterOnPremisesInstance: API.OperationMethod<
+  DeregisterOnPremisesInstanceInput,
   DeregisterOnPremisesInstanceResponse,
   InstanceNameRequiredException | InvalidInstanceNameException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3847,9 +3828,8 @@ export const deregisterOnPremisesInstance: (
 /**
  * Gets information about an application.
  */
-export const getApplication: (
-  input: GetApplicationInput,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationInput,
   GetApplicationOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3868,9 +3848,8 @@ export const getApplication: (
 /**
  * Gets information about an application revision.
  */
-export const getApplicationRevision: (
-  input: GetApplicationRevisionInput,
-) => effect.Effect<
+export const getApplicationRevision: API.OperationMethod<
+  GetApplicationRevisionInput,
   GetApplicationRevisionOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3900,9 +3879,8 @@ export const getApplicationRevision: (
  * the `sha256` property of the returned `appSpecContent` object
  * to get the content of the deployment’s AppSpec file.
  */
-export const getDeployment: (
-  input: GetDeploymentInput,
-) => effect.Effect<
+export const getDeployment: API.OperationMethod<
+  GetDeploymentInput,
   GetDeploymentOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -3921,9 +3899,8 @@ export const getDeployment: (
 /**
  * Gets information about a deployment configuration.
  */
-export const getDeploymentConfig: (
-  input: GetDeploymentConfigInput,
-) => effect.Effect<
+export const getDeploymentConfig: API.OperationMethod<
+  GetDeploymentConfigInput,
   GetDeploymentConfigOutput,
   | DeploymentConfigDoesNotExistException
   | DeploymentConfigNameRequiredException
@@ -3944,9 +3921,8 @@ export const getDeploymentConfig: (
 /**
  * Gets information about a deployment group.
  */
-export const getDeploymentGroup: (
-  input: GetDeploymentGroupInput,
-) => effect.Effect<
+export const getDeploymentGroup: API.OperationMethod<
+  GetDeploymentGroupInput,
   GetDeploymentGroupOutput,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -3973,9 +3949,8 @@ export const getDeploymentGroup: (
 /**
  * Gets information about an instance as part of a deployment.
  */
-export const getDeploymentInstance: (
-  input: GetDeploymentInstanceInput,
-) => effect.Effect<
+export const getDeploymentInstance: API.OperationMethod<
+  GetDeploymentInstanceInput,
   GetDeploymentInstanceOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -4002,9 +3977,8 @@ export const getDeploymentInstance: (
 /**
  * Returns information about a deployment target.
  */
-export const getDeploymentTarget: (
-  input: GetDeploymentTargetInput,
-) => effect.Effect<
+export const getDeploymentTarget: API.OperationMethod<
+  GetDeploymentTargetInput,
   GetDeploymentTargetOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -4033,9 +4007,8 @@ export const getDeploymentTarget: (
 /**
  * Gets information about an on-premises instance.
  */
-export const getOnPremisesInstance: (
-  input: GetOnPremisesInstanceInput,
-) => effect.Effect<
+export const getOnPremisesInstance: API.OperationMethod<
+  GetOnPremisesInstanceInput,
   GetOnPremisesInstanceOutput,
   | InstanceNameRequiredException
   | InstanceNotRegisteredException
@@ -4054,24 +4027,22 @@ export const getOnPremisesInstance: (
 /**
  * Lists information about revisions for an application.
  */
-export const listApplicationRevisions: {
-  (
-    input: ListApplicationRevisionsInput,
-  ): effect.Effect<
-    ListApplicationRevisionsOutput,
-    | ApplicationDoesNotExistException
-    | ApplicationNameRequiredException
-    | BucketNameFilterRequiredException
-    | InvalidApplicationNameException
-    | InvalidBucketNameFilterException
-    | InvalidDeployedStateFilterException
-    | InvalidKeyPrefixFilterException
-    | InvalidNextTokenException
-    | InvalidSortByException
-    | InvalidSortOrderException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationRevisions: API.OperationMethod<
+  ListApplicationRevisionsInput,
+  ListApplicationRevisionsOutput,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | BucketNameFilterRequiredException
+  | InvalidApplicationNameException
+  | InvalidBucketNameFilterException
+  | InvalidDeployedStateFilterException
+  | InvalidKeyPrefixFilterException
+  | InvalidNextTokenException
+  | InvalidSortByException
+  | InvalidSortOrderException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationRevisionsInput,
   ) => stream.Stream<
@@ -4130,14 +4101,12 @@ export const listApplicationRevisions: {
 /**
  * Lists the applications registered with the user or Amazon Web Services account.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsInput,
-  ): effect.Effect<
-    ListApplicationsOutput,
-    InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsInput,
+  ListApplicationsOutput,
+  InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsInput,
   ) => stream.Stream<
@@ -4165,14 +4134,12 @@ export const listApplications: {
 /**
  * Lists the deployment configurations with the user or Amazon Web Services account.
  */
-export const listDeploymentConfigs: {
-  (
-    input: ListDeploymentConfigsInput,
-  ): effect.Effect<
-    ListDeploymentConfigsOutput,
-    InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeploymentConfigs: API.OperationMethod<
+  ListDeploymentConfigsInput,
+  ListDeploymentConfigsOutput,
+  InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentConfigsInput,
   ) => stream.Stream<
@@ -4201,18 +4168,16 @@ export const listDeploymentConfigs: {
  * Lists the deployment groups for an application registered with the Amazon Web Services
  * user or Amazon Web Services account.
  */
-export const listDeploymentGroups: {
-  (
-    input: ListDeploymentGroupsInput,
-  ): effect.Effect<
-    ListDeploymentGroupsOutput,
-    | ApplicationDoesNotExistException
-    | ApplicationNameRequiredException
-    | InvalidApplicationNameException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeploymentGroups: API.OperationMethod<
+  ListDeploymentGroupsInput,
+  ListDeploymentGroupsOutput,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentGroupsInput,
   ) => stream.Stream<
@@ -4258,24 +4223,22 @@ export const listDeploymentGroups: {
  *
  * Lists the instance for a deployment associated with the user or Amazon Web Services account.
  */
-export const listDeploymentInstances: {
-  (
-    input: ListDeploymentInstancesInput,
-  ): effect.Effect<
-    ListDeploymentInstancesOutput,
-    | DeploymentDoesNotExistException
-    | DeploymentIdRequiredException
-    | DeploymentNotStartedException
-    | InvalidComputePlatformException
-    | InvalidDeploymentIdException
-    | InvalidDeploymentInstanceTypeException
-    | InvalidInstanceStatusException
-    | InvalidInstanceTypeException
-    | InvalidNextTokenException
-    | InvalidTargetFilterNameException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeploymentInstances: API.OperationMethod<
+  ListDeploymentInstancesInput,
+  ListDeploymentInstancesOutput,
+  | DeploymentDoesNotExistException
+  | DeploymentIdRequiredException
+  | DeploymentNotStartedException
+  | InvalidComputePlatformException
+  | InvalidDeploymentIdException
+  | InvalidDeploymentInstanceTypeException
+  | InvalidInstanceStatusException
+  | InvalidInstanceTypeException
+  | InvalidNextTokenException
+  | InvalidTargetFilterNameException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentInstancesInput,
   ) => stream.Stream<
@@ -4335,25 +4298,23 @@ export const listDeploymentInstances: {
  * Lists the deployments in a deployment group for an application registered with the
  * user or Amazon Web Services account.
  */
-export const listDeployments: {
-  (
-    input: ListDeploymentsInput,
-  ): effect.Effect<
-    ListDeploymentsOutput,
-    | ApplicationDoesNotExistException
-    | ApplicationNameRequiredException
-    | DeploymentGroupDoesNotExistException
-    | DeploymentGroupNameRequiredException
-    | InvalidApplicationNameException
-    | InvalidDeploymentGroupNameException
-    | InvalidDeploymentStatusException
-    | InvalidExternalIdException
-    | InvalidInputException
-    | InvalidNextTokenException
-    | InvalidTimeRangeException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeployments: API.OperationMethod<
+  ListDeploymentsInput,
+  ListDeploymentsOutput,
+  | ApplicationDoesNotExistException
+  | ApplicationNameRequiredException
+  | DeploymentGroupDoesNotExistException
+  | DeploymentGroupNameRequiredException
+  | InvalidApplicationNameException
+  | InvalidDeploymentGroupNameException
+  | InvalidDeploymentStatusException
+  | InvalidExternalIdException
+  | InvalidInputException
+  | InvalidNextTokenException
+  | InvalidTimeRangeException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentsInput,
   ) => stream.Stream<
@@ -4415,9 +4376,8 @@ export const listDeployments: {
 /**
  * Returns an array of target IDs that are associated a deployment.
  */
-export const listDeploymentTargets: (
-  input: ListDeploymentTargetsInput,
-) => effect.Effect<
+export const listDeploymentTargets: API.OperationMethod<
+  ListDeploymentTargetsInput,
   ListDeploymentTargetsOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -4448,9 +4408,8 @@ export const listDeploymentTargets: (
 /**
  * Lists the names of stored connections to GitHub accounts.
  */
-export const listGitHubAccountTokenNames: (
-  input: ListGitHubAccountTokenNamesInput,
-) => effect.Effect<
+export const listGitHubAccountTokenNames: API.OperationMethod<
+  ListGitHubAccountTokenNamesInput,
   ListGitHubAccountTokenNamesOutput,
   | InvalidNextTokenException
   | OperationNotSupportedException
@@ -4473,9 +4432,8 @@ export const listGitHubAccountTokenNames: (
  * names are listed. To list only registered or deregistered on-premises instance names,
  * use the registration status parameter.
  */
-export const listOnPremisesInstances: (
-  input: ListOnPremisesInstancesInput,
-) => effect.Effect<
+export const listOnPremisesInstances: API.OperationMethod<
+  ListOnPremisesInstancesInput,
   ListOnPremisesInstancesOutput,
   | InvalidNextTokenException
   | InvalidRegistrationStatusException
@@ -4495,9 +4453,8 @@ export const listOnPremisesInstances: (
  * Returns a list of tags for the resource identified by a specified Amazon Resource
  * Name (ARN). Tags are used to organize and categorize your CodeDeploy resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | ArnNotSupportedException
   | InvalidArnException
@@ -4524,9 +4481,8 @@ export const listTagsForResource: (
  * `Succeeded` or `Failed`. For more information, see AppSpec 'hooks' Section for an Lambda Deployment and
  * AppSpec 'hooks' Section for an Amazon ECS Deployment.
  */
-export const putLifecycleEventHookExecutionStatus: (
-  input: PutLifecycleEventHookExecutionStatusInput,
-) => effect.Effect<
+export const putLifecycleEventHookExecutionStatus: API.OperationMethod<
+  PutLifecycleEventHookExecutionStatusInput,
   PutLifecycleEventHookExecutionStatusOutput,
   | DeploymentDoesNotExistException
   | DeploymentIdRequiredException
@@ -4553,9 +4509,8 @@ export const putLifecycleEventHookExecutionStatus: (
 /**
  * Registers with CodeDeploy a revision for the specified application.
  */
-export const registerApplicationRevision: (
-  input: RegisterApplicationRevisionInput,
-) => effect.Effect<
+export const registerApplicationRevision: API.OperationMethod<
+  RegisterApplicationRevisionInput,
   RegisterApplicationRevisionResponse,
   | ApplicationDoesNotExistException
   | ApplicationNameRequiredException
@@ -4582,9 +4537,8 @@ export const registerApplicationRevision: (
  *
  * Only one IAM ARN (an IAM session ARN or IAM user ARN) is supported in the request. You cannot use both.
  */
-export const registerOnPremisesInstance: (
-  input: RegisterOnPremisesInstanceInput,
-) => effect.Effect<
+export const registerOnPremisesInstance: API.OperationMethod<
+  RegisterOnPremisesInstanceInput,
   RegisterOnPremisesInstanceResponse,
   | IamArnRequiredException
   | IamSessionArnAlreadyRegisteredException
@@ -4617,9 +4571,8 @@ export const registerOnPremisesInstance: (
 /**
  * Removes one or more tags from one or more on-premises instances.
  */
-export const removeTagsFromOnPremisesInstances: (
-  input: RemoveTagsFromOnPremisesInstancesInput,
-) => effect.Effect<
+export const removeTagsFromOnPremisesInstances: API.OperationMethod<
+  RemoveTagsFromOnPremisesInstancesInput,
   RemoveTagsFromOnPremisesInstancesResponse,
   | InstanceLimitExceededException
   | InstanceNameRequiredException
@@ -4647,9 +4600,8 @@ export const removeTagsFromOnPremisesInstances: (
  * In a blue/green deployment, overrides any specified wait time and starts terminating
  * instances immediately after the traffic routing is complete.
  */
-export const skipWaitTimeForInstanceTermination: (
-  input: SkipWaitTimeForInstanceTerminationInput,
-) => effect.Effect<
+export const skipWaitTimeForInstanceTermination: API.OperationMethod<
+  SkipWaitTimeForInstanceTerminationInput,
   SkipWaitTimeForInstanceTerminationResponse,
   | DeploymentAlreadyCompletedException
   | DeploymentDoesNotExistException
@@ -4674,9 +4626,8 @@ export const skipWaitTimeForInstanceTermination: (
 /**
  * Attempts to stop an ongoing deployment.
  */
-export const stopDeployment: (
-  input: StopDeploymentInput,
-) => effect.Effect<
+export const stopDeployment: API.OperationMethod<
+  StopDeploymentInput,
   StopDeploymentOutput,
   | DeploymentAlreadyCompletedException
   | DeploymentDoesNotExistException
@@ -4702,9 +4653,8 @@ export const stopDeployment: (
  * Associates the list of tags in the input `Tags` parameter with the
  * resource identified by the `ResourceArn` input parameter.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | ApplicationDoesNotExistException
   | ArnNotSupportedException
@@ -4735,9 +4685,8 @@ export const tagResource: (
  * `ResourceArn` input parameter. The tags are identified by the list of
  * keys in the `TagKeys` input parameter.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | ApplicationDoesNotExistException
   | ArnNotSupportedException
@@ -4766,9 +4715,8 @@ export const untagResource: (
 /**
  * Changes the name of an application.
  */
-export const updateApplication: (
-  input: UpdateApplicationInput,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationInput,
   UpdateApplicationResponse,
   | ApplicationAlreadyExistsException
   | ApplicationDoesNotExistException
@@ -4789,9 +4737,8 @@ export const updateApplication: (
 /**
  * Changes information about a deployment group.
  */
-export const updateDeploymentGroup: (
-  input: UpdateDeploymentGroupInput,
-) => effect.Effect<
+export const updateDeploymentGroup: API.OperationMethod<
+  UpdateDeploymentGroupInput,
   UpdateDeploymentGroupOutput,
   | AlarmsLimitExceededException
   | ApplicationDoesNotExistException

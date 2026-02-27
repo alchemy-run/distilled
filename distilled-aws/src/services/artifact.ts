@@ -597,9 +597,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Get the account settings for Artifact.
  */
-export const getAccountSettings: (
-  input: GetAccountSettingsRequest,
-) => effect.Effect<
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsRequest,
   GetAccountSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -626,9 +625,8 @@ export const getAccountSettings: (
 /**
  * Put the account settings for Artifact.
  */
-export const putAccountSettings: (
-  input: PutAccountSettingsRequest,
-) => effect.Effect<
+export const putAccountSettings: API.OperationMethod<
+  PutAccountSettingsRequest,
   PutAccountSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -655,18 +653,16 @@ export const putAccountSettings: (
 /**
  * List active customer-agreements applicable to calling identity.
  */
-export const listCustomerAgreements: {
-  (
-    input: ListCustomerAgreementsRequest,
-  ): effect.Effect<
-    ListCustomerAgreementsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomerAgreements: API.OperationMethod<
+  ListCustomerAgreementsRequest,
+  ListCustomerAgreementsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomerAgreementsRequest,
   ) => stream.Stream<
@@ -708,9 +704,8 @@ export const listCustomerAgreements: {
 /**
  * Get the metadata for a single report.
  */
-export const getReportMetadata: (
-  input: GetReportMetadataRequest,
-) => effect.Effect<
+export const getReportMetadata: API.OperationMethod<
+  GetReportMetadataRequest,
   GetReportMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -735,20 +730,18 @@ export const getReportMetadata: (
 /**
  * List available reports.
  */
-export const listReports: {
-  (
-    input: ListReportsRequest,
-  ): effect.Effect<
-    ListReportsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReports: API.OperationMethod<
+  ListReportsRequest,
+  ListReportsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReportsRequest,
   ) => stream.Stream<
@@ -796,9 +789,8 @@ export const listReports: {
 /**
  * Get the content for a single report.
  */
-export const getReport: (
-  input: GetReportRequest,
-) => effect.Effect<
+export const getReport: API.OperationMethod<
+  GetReportRequest,
   GetReportResponse,
   | AccessDeniedException
   | ConflictException
@@ -825,9 +817,8 @@ export const getReport: (
 /**
  * Get the Term content associated with a single report.
  */
-export const getTermForReport: (
-  input: GetTermForReportRequest,
-) => effect.Effect<
+export const getTermForReport: API.OperationMethod<
+  GetTermForReportRequest,
   GetTermForReportResponse,
   | AccessDeniedException
   | ConflictException
@@ -854,20 +845,18 @@ export const getTermForReport: (
 /**
  * List available report versions for a given report.
  */
-export const listReportVersions: {
-  (
-    input: ListReportVersionsRequest,
-  ): effect.Effect<
-    ListReportVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReportVersions: API.OperationMethod<
+  ListReportVersionsRequest,
+  ListReportVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReportVersionsRequest,
   ) => stream.Stream<

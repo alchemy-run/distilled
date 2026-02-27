@@ -356,9 +356,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  * If the human loop was deleted, this operation will return a
  * `ResourceNotFoundException`.
  */
-export const deleteHumanLoop: (
-  input: DeleteHumanLoopRequest,
-) => effect.Effect<
+export const deleteHumanLoop: API.OperationMethod<
+  DeleteHumanLoopRequest,
   DeleteHumanLoopResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -380,9 +379,8 @@ export const deleteHumanLoop: (
  * Returns information about the specified human loop. If the human loop was deleted, this
  * operation will return a `ResourceNotFoundException` error.
  */
-export const describeHumanLoop: (
-  input: DescribeHumanLoopRequest,
-) => effect.Effect<
+export const describeHumanLoop: API.OperationMethod<
+  DescribeHumanLoopRequest,
   DescribeHumanLoopResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -403,18 +401,16 @@ export const describeHumanLoop: (
 /**
  * Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
  */
-export const listHumanLoops: {
-  (
-    input: ListHumanLoopsRequest,
-  ): effect.Effect<
-    ListHumanLoopsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHumanLoops: API.OperationMethod<
+  ListHumanLoopsRequest,
+  ListHumanLoopsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHumanLoopsRequest,
   ) => stream.Stream<
@@ -456,9 +452,8 @@ export const listHumanLoops: {
 /**
  * Starts a human loop, provided that at least one activation condition is met.
  */
-export const startHumanLoop: (
-  input: StartHumanLoopRequest,
-) => effect.Effect<
+export const startHumanLoop: API.OperationMethod<
+  StartHumanLoopRequest,
   StartHumanLoopResponse,
   | ConflictException
   | InternalServerException
@@ -481,9 +476,8 @@ export const startHumanLoop: (
 /**
  * Stops the specified human loop.
  */
-export const stopHumanLoop: (
-  input: StopHumanLoopRequest,
-) => effect.Effect<
+export const stopHumanLoop: API.OperationMethod<
+  StopHumanLoopRequest,
   StopHumanLoopResponse,
   | InternalServerException
   | ResourceNotFoundException

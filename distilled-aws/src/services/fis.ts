@@ -2291,9 +2291,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  * For more information, see experiment templates
  * in the *Fault Injection Service User Guide*.
  */
-export const createExperimentTemplate: (
-  input: CreateExperimentTemplateRequest,
-) => effect.Effect<
+export const createExperimentTemplate: API.OperationMethod<
+  CreateExperimentTemplateRequest,
   CreateExperimentTemplateResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2317,9 +2316,8 @@ export const createExperimentTemplate: (
  * For more information, see experiment options
  * in the *Fault Injection Service User Guide*.
  */
-export const createTargetAccountConfiguration: (
-  input: CreateTargetAccountConfigurationRequest,
-) => effect.Effect<
+export const createTargetAccountConfiguration: API.OperationMethod<
+  CreateTargetAccountConfigurationRequest,
   CreateTargetAccountConfigurationResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2340,9 +2338,8 @@ export const createTargetAccountConfiguration: (
 /**
  * Deletes the specified experiment template.
  */
-export const deleteExperimentTemplate: (
-  input: DeleteExperimentTemplateRequest,
-) => effect.Effect<
+export const deleteExperimentTemplate: API.OperationMethod<
+  DeleteExperimentTemplateRequest,
   DeleteExperimentTemplateResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2354,9 +2351,8 @@ export const deleteExperimentTemplate: (
 /**
  * Deletes the specified target account configuration of the experiment template.
  */
-export const deleteTargetAccountConfiguration: (
-  input: DeleteTargetAccountConfigurationRequest,
-) => effect.Effect<
+export const deleteTargetAccountConfiguration: API.OperationMethod<
+  DeleteTargetAccountConfigurationRequest,
   DeleteTargetAccountConfigurationResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2368,9 +2364,8 @@ export const deleteTargetAccountConfiguration: (
 /**
  * Gets information about the specified FIS action.
  */
-export const getAction: (
-  input: GetActionRequest,
-) => effect.Effect<
+export const getAction: API.OperationMethod<
+  GetActionRequest,
   GetActionResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2382,9 +2377,8 @@ export const getAction: (
 /**
  * Gets information about the specified experiment.
  */
-export const getExperiment: (
-  input: GetExperimentRequest,
-) => effect.Effect<
+export const getExperiment: API.OperationMethod<
+  GetExperimentRequest,
   GetExperimentResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2396,9 +2390,8 @@ export const getExperiment: (
 /**
  * Gets information about the specified target account configuration of the experiment.
  */
-export const getExperimentTargetAccountConfiguration: (
-  input: GetExperimentTargetAccountConfigurationRequest,
-) => effect.Effect<
+export const getExperimentTargetAccountConfiguration: API.OperationMethod<
+  GetExperimentTargetAccountConfigurationRequest,
   GetExperimentTargetAccountConfigurationResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2410,9 +2403,8 @@ export const getExperimentTargetAccountConfiguration: (
 /**
  * Gets information about the specified experiment template.
  */
-export const getExperimentTemplate: (
-  input: GetExperimentTemplateRequest,
-) => effect.Effect<
+export const getExperimentTemplate: API.OperationMethod<
+  GetExperimentTemplateRequest,
   GetExperimentTemplateResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2424,9 +2416,8 @@ export const getExperimentTemplate: (
 /**
  * Gets information about the specified safety lever.
  */
-export const getSafetyLever: (
-  input: GetSafetyLeverRequest,
-) => effect.Effect<
+export const getSafetyLever: API.OperationMethod<
+  GetSafetyLeverRequest,
   GetSafetyLeverResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2438,9 +2429,8 @@ export const getSafetyLever: (
 /**
  * Gets information about the specified target account configuration of the experiment template.
  */
-export const getTargetAccountConfiguration: (
-  input: GetTargetAccountConfigurationRequest,
-) => effect.Effect<
+export const getTargetAccountConfiguration: API.OperationMethod<
+  GetTargetAccountConfigurationRequest,
   GetTargetAccountConfigurationResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2452,9 +2442,8 @@ export const getTargetAccountConfiguration: (
 /**
  * Gets information about the specified resource type.
  */
-export const getTargetResourceType: (
-  input: GetTargetResourceTypeRequest,
-) => effect.Effect<
+export const getTargetResourceType: API.OperationMethod<
+  GetTargetResourceTypeRequest,
   GetTargetResourceTypeResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2466,14 +2455,12 @@ export const getTargetResourceType: (
 /**
  * Lists the available FIS actions.
  */
-export const listActions: {
-  (
-    input: ListActionsRequest,
-  ): effect.Effect<
-    ListActionsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listActions: API.OperationMethod<
+  ListActionsRequest,
+  ListActionsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListActionsRequest,
   ) => stream.Stream<
@@ -2502,14 +2489,12 @@ export const listActions: {
 /**
  * Lists the resolved targets information of the specified experiment.
  */
-export const listExperimentResolvedTargets: {
-  (
-    input: ListExperimentResolvedTargetsRequest,
-  ): effect.Effect<
-    ListExperimentResolvedTargetsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExperimentResolvedTargets: API.OperationMethod<
+  ListExperimentResolvedTargetsRequest,
+  ListExperimentResolvedTargetsResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExperimentResolvedTargetsRequest,
   ) => stream.Stream<
@@ -2538,14 +2523,12 @@ export const listExperimentResolvedTargets: {
 /**
  * Lists your experiments.
  */
-export const listExperiments: {
-  (
-    input: ListExperimentsRequest,
-  ): effect.Effect<
-    ListExperimentsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExperiments: API.OperationMethod<
+  ListExperimentsRequest,
+  ListExperimentsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExperimentsRequest,
   ) => stream.Stream<
@@ -2574,9 +2557,8 @@ export const listExperiments: {
 /**
  * Lists the target account configurations of the specified experiment.
  */
-export const listExperimentTargetAccountConfigurations: (
-  input: ListExperimentTargetAccountConfigurationsRequest,
-) => effect.Effect<
+export const listExperimentTargetAccountConfigurations: API.OperationMethod<
+  ListExperimentTargetAccountConfigurationsRequest,
   ListExperimentTargetAccountConfigurationsResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2588,14 +2570,12 @@ export const listExperimentTargetAccountConfigurations: (
 /**
  * Lists your experiment templates.
  */
-export const listExperimentTemplates: {
-  (
-    input: ListExperimentTemplatesRequest,
-  ): effect.Effect<
-    ListExperimentTemplatesResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExperimentTemplates: API.OperationMethod<
+  ListExperimentTemplatesRequest,
+  ListExperimentTemplatesResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExperimentTemplatesRequest,
   ) => stream.Stream<
@@ -2624,9 +2604,8 @@ export const listExperimentTemplates: {
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2638,14 +2617,12 @@ export const listTagsForResource: (
 /**
  * Lists the target account configurations of the specified experiment template.
  */
-export const listTargetAccountConfigurations: {
-  (
-    input: ListTargetAccountConfigurationsRequest,
-  ): effect.Effect<
-    ListTargetAccountConfigurationsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTargetAccountConfigurations: API.OperationMethod<
+  ListTargetAccountConfigurationsRequest,
+  ListTargetAccountConfigurationsResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTargetAccountConfigurationsRequest,
   ) => stream.Stream<
@@ -2674,14 +2651,12 @@ export const listTargetAccountConfigurations: {
 /**
  * Lists the target resource types.
  */
-export const listTargetResourceTypes: {
-  (
-    input: ListTargetResourceTypesRequest,
-  ): effect.Effect<
-    ListTargetResourceTypesResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTargetResourceTypes: API.OperationMethod<
+  ListTargetResourceTypesRequest,
+  ListTargetResourceTypesResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTargetResourceTypesRequest,
   ) => stream.Stream<
@@ -2710,9 +2685,8 @@ export const listTargetResourceTypes: {
 /**
  * Starts running an experiment from the specified experiment template.
  */
-export const startExperiment: (
-  input: StartExperimentRequest,
-) => effect.Effect<
+export const startExperiment: API.OperationMethod<
+  StartExperimentRequest,
   StartExperimentResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2733,9 +2707,8 @@ export const startExperiment: (
 /**
  * Stops the specified experiment.
  */
-export const stopExperiment: (
-  input: StopExperimentRequest,
-) => effect.Effect<
+export const stopExperiment: API.OperationMethod<
+  StopExperimentRequest,
   StopExperimentResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2747,9 +2720,8 @@ export const stopExperiment: (
 /**
  * Applies the specified tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2761,9 +2733,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2775,9 +2746,8 @@ export const untagResource: (
 /**
  * Updates the specified experiment template.
  */
-export const updateExperimentTemplate: (
-  input: UpdateExperimentTemplateRequest,
-) => effect.Effect<
+export const updateExperimentTemplate: API.OperationMethod<
+  UpdateExperimentTemplateRequest,
   UpdateExperimentTemplateResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -2796,9 +2766,8 @@ export const updateExperimentTemplate: (
 /**
  * Updates the specified safety lever state.
  */
-export const updateSafetyLeverState: (
-  input: UpdateSafetyLeverStateRequest,
-) => effect.Effect<
+export const updateSafetyLeverState: API.OperationMethod<
+  UpdateSafetyLeverStateRequest,
   UpdateSafetyLeverStateResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2813,9 +2782,8 @@ export const updateSafetyLeverState: (
 /**
  * Updates the target account configuration for the specified experiment template.
  */
-export const updateTargetAccountConfiguration: (
-  input: UpdateTargetAccountConfigurationRequest,
-) => effect.Effect<
+export const updateTargetAccountConfiguration: API.OperationMethod<
+  UpdateTargetAccountConfigurationRequest,
   UpdateTargetAccountConfigurationResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

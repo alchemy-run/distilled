@@ -1946,9 +1946,8 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
  * To view the status of the streaming session, check the `StreamStatus` field in the response. To get the
  * details of post-stream analytics, including its status, check the `PostStreamAnalyticsResult` field in the response.
  */
-export const getMedicalScribeStream: (
-  input: GetMedicalScribeStreamRequest,
-) => effect.Effect<
+export const getMedicalScribeStream: API.OperationMethod<
+  GetMedicalScribeStreamRequest,
   GetMedicalScribeStreamResponse,
   | BadRequestException
   | InternalFailureException
@@ -1981,9 +1980,8 @@ export const getMedicalScribeStream: (
  *
  * For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
  */
-export const startCallAnalyticsStreamTranscription: (
-  input: StartCallAnalyticsStreamTranscriptionRequest,
-) => effect.Effect<
+export const startCallAnalyticsStreamTranscription: API.OperationMethod<
+  StartCallAnalyticsStreamTranscriptionRequest,
   StartCallAnalyticsStreamTranscriptionResponse,
   | BadRequestException
   | ConflictException
@@ -2034,9 +2032,8 @@ export const startCallAnalyticsStreamTranscription: (
  * Amazon Web Services HealthScribe,
  * see Amazon Web Services HealthScribe.
  */
-export const startMedicalScribeStream: (
-  input: StartMedicalScribeStreamRequest,
-) => effect.Effect<
+export const startMedicalScribeStream: API.OperationMethod<
+  StartMedicalScribeStreamRequest,
   StartMedicalScribeStreamResponse,
   | BadRequestException
   | ConflictException
@@ -2073,9 +2070,8 @@ export const startMedicalScribeStream: (
  * Transcribing
  * streaming audio.
  */
-export const startMedicalStreamTranscription: (
-  input: StartMedicalStreamTranscriptionRequest,
-) => effect.Effect<
+export const startMedicalStreamTranscription: API.OperationMethod<
+  StartMedicalStreamTranscriptionRequest,
   StartMedicalStreamTranscriptionResponse,
   | BadRequestException
   | ConflictException
@@ -2109,9 +2105,8 @@ export const startMedicalStreamTranscription: (
  *
  * For more information on streaming with Amazon Transcribe, see Transcribing streaming audio.
  */
-export const startStreamTranscription: (
-  input: StartStreamTranscriptionRequest,
-) => effect.Effect<
+export const startStreamTranscription: API.OperationMethod<
+  StartStreamTranscriptionRequest,
   StartStreamTranscriptionResponse,
   | BadRequestException
   | ConflictException

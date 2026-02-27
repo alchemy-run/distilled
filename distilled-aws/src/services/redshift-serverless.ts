@@ -2485,9 +2485,8 @@ export class Ipv6CidrBlockNotFoundException extends S.TaggedErrorClass<Ipv6CidrB
 /**
  * Creates a custom domain association for Amazon Redshift Serverless.
  */
-export const createCustomDomainAssociation: (
-  input: CreateCustomDomainAssociationRequest,
-) => effect.Effect<
+export const createCustomDomainAssociation: API.OperationMethod<
+  CreateCustomDomainAssociationRequest,
   CreateCustomDomainAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2512,9 +2511,8 @@ export const createCustomDomainAssociation: (
 /**
  * Deletes a custom domain association for Amazon Redshift Serverless.
  */
-export const deleteCustomDomainAssociation: (
-  input: DeleteCustomDomainAssociationRequest,
-) => effect.Effect<
+export const deleteCustomDomainAssociation: API.OperationMethod<
+  DeleteCustomDomainAssociationRequest,
   DeleteCustomDomainAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2539,9 +2537,8 @@ export const deleteCustomDomainAssociation: (
 /**
  * Deletes the specified resource policy.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2566,9 +2563,8 @@ export const deleteResourcePolicy: (
  *
  * If the `DbName` parameter is specified, the IAM policy must allow access to the resource dbname for the specified database name.
  */
-export const getCredentials: (
-  input: GetCredentialsRequest,
-) => effect.Effect<
+export const getCredentials: API.OperationMethod<
+  GetCredentialsRequest,
   GetCredentialsResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2587,9 +2583,8 @@ export const getCredentials: (
 /**
  * Gets information about a specific custom domain association.
  */
-export const getCustomDomainAssociation: (
-  input: GetCustomDomainAssociationRequest,
-) => effect.Effect<
+export const getCustomDomainAssociation: API.OperationMethod<
+  GetCustomDomainAssociationRequest,
   GetCustomDomainAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2618,9 +2613,8 @@ export const getCustomDomainAssociation: (
  *
  * The Identity and Access Management (IAM) user or role that runs GetIdentityCenterAuthToken must have appropriate permissions to access the specified workgroups and Identity Center integration must be configured for the workgroups.
  */
-export const getIdentityCenterAuthToken: (
-  input: GetIdentityCenterAuthTokenRequest,
-) => effect.Effect<
+export const getIdentityCenterAuthToken: API.OperationMethod<
+  GetIdentityCenterAuthTokenRequest,
   GetIdentityCenterAuthTokenResponse,
   | AccessDeniedException
   | ConflictException
@@ -2647,9 +2641,8 @@ export const getIdentityCenterAuthToken: (
 /**
  * Returns a resource policy.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2668,9 +2661,8 @@ export const getResourcePolicy: (
 /**
  * Get the Redshift Serverless version for a specified track.
  */
-export const getTrack: (
-  input: GetTrackRequest,
-) => effect.Effect<
+export const getTrack: API.OperationMethod<
+  GetTrackRequest,
   GetTrackResponse,
   | AccessDeniedException
   | ConflictException
@@ -2697,19 +2689,17 @@ export const getTrack: (
 /**
  * Lists custom domain associations for Amazon Redshift Serverless.
  */
-export const listCustomDomainAssociations: {
-  (
-    input: ListCustomDomainAssociationsRequest,
-  ): effect.Effect<
-    ListCustomDomainAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidPaginationException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomDomainAssociations: API.OperationMethod<
+  ListCustomDomainAssociationsRequest,
+  ListCustomDomainAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidPaginationException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomDomainAssociationsRequest,
   ) => stream.Stream<
@@ -2754,9 +2744,8 @@ export const listCustomDomainAssociations: {
 /**
  * Lists the tags assigned to a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2777,19 +2766,17 @@ export const listTagsForResource: (
 /**
  * List the Amazon Redshift Serverless versions.
  */
-export const listTracks: {
-  (
-    input: ListTracksRequest,
-  ): effect.Effect<
-    ListTracksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidPaginationException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTracks: API.OperationMethod<
+  ListTracksRequest,
+  ListTracksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidPaginationException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTracksRequest,
   ) => stream.Stream<
@@ -2834,9 +2821,8 @@ export const listTracks: {
 /**
  * Creates or updates a resource policy. Currently, you can use policies to share snapshots across Amazon Web Services accounts.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | ConflictException
   | InternalServerException
@@ -2859,9 +2845,8 @@ export const putResourcePolicy: (
 /**
  * Assigns one or more tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2884,9 +2869,8 @@ export const tagResource: (
 /**
  * Removes a tag or set of tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2907,9 +2891,8 @@ export const untagResource: (
 /**
  * Updates an Amazon Redshift Serverless certificate associated with a custom domain.
  */
-export const updateCustomDomainAssociation: (
-  input: UpdateCustomDomainAssociationRequest,
-) => effect.Effect<
+export const updateCustomDomainAssociation: API.OperationMethod<
+  UpdateCustomDomainAssociationRequest,
   UpdateCustomDomainAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2934,9 +2917,8 @@ export const updateCustomDomainAssociation: (
 /**
  * Creates an Amazon Redshift Serverless managed VPC endpoint.
  */
-export const createEndpointAccess: (
-  input: CreateEndpointAccessRequest,
-) => effect.Effect<
+export const createEndpointAccess: API.OperationMethod<
+  CreateEndpointAccessRequest,
   CreateEndpointAccessResponse,
   | AccessDeniedException
   | ConflictException
@@ -2961,9 +2943,8 @@ export const createEndpointAccess: (
 /**
  * Deletes an Amazon Redshift Serverless managed VPC endpoint.
  */
-export const deleteEndpointAccess: (
-  input: DeleteEndpointAccessRequest,
-) => effect.Effect<
+export const deleteEndpointAccess: API.OperationMethod<
+  DeleteEndpointAccessRequest,
   DeleteEndpointAccessResponse,
   | ConflictException
   | InternalServerException
@@ -2984,9 +2965,8 @@ export const deleteEndpointAccess: (
 /**
  * Returns information, such as the name, about a VPC endpoint.
  */
-export const getEndpointAccess: (
-  input: GetEndpointAccessRequest,
-) => effect.Effect<
+export const getEndpointAccess: API.OperationMethod<
+  GetEndpointAccessRequest,
   GetEndpointAccessResponse,
   | ConflictException
   | InternalServerException
@@ -3007,18 +2987,16 @@ export const getEndpointAccess: (
 /**
  * Returns an array of `EndpointAccess` objects and relevant information.
  */
-export const listEndpointAccess: {
-  (
-    input: ListEndpointAccessRequest,
-  ): effect.Effect<
-    ListEndpointAccessResponse,
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEndpointAccess: API.OperationMethod<
+  ListEndpointAccessRequest,
+  ListEndpointAccessResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEndpointAccessRequest,
   ) => stream.Stream<
@@ -3060,9 +3038,8 @@ export const listEndpointAccess: {
 /**
  * Updates an Amazon Redshift Serverless managed endpoint.
  */
-export const updateEndpointAccess: (
-  input: UpdateEndpointAccessRequest,
-) => effect.Effect<
+export const updateEndpointAccess: API.OperationMethod<
+  UpdateEndpointAccessRequest,
   UpdateEndpointAccessResponse,
   | AccessDeniedException
   | ConflictException
@@ -3085,14 +3062,12 @@ export const updateEndpointAccess: (
 /**
  * Returns information about a list of specified managed workgroups in your account.
  */
-export const listManagedWorkgroups: {
-  (
-    input: ListManagedWorkgroupsRequest,
-  ): effect.Effect<
-    ListManagedWorkgroupsResponse,
-    AccessDeniedException | InternalServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedWorkgroups: API.OperationMethod<
+  ListManagedWorkgroupsRequest,
+  ListManagedWorkgroupsResponse,
+  AccessDeniedException | InternalServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedWorkgroupsRequest,
   ) => stream.Stream<
@@ -3121,9 +3096,8 @@ export const listManagedWorkgroups: {
 /**
  * Creates a namespace in Amazon Redshift Serverless.
  */
-export const createNamespace: (
-  input: CreateNamespaceRequest,
-) => effect.Effect<
+export const createNamespace: API.OperationMethod<
+  CreateNamespaceRequest,
   CreateNamespaceResponse,
   | ConflictException
   | InternalServerException
@@ -3144,9 +3118,8 @@ export const createNamespace: (
 /**
  * Returns information about a namespace in Amazon Redshift Serverless.
  */
-export const getNamespace: (
-  input: GetNamespaceRequest,
-) => effect.Effect<
+export const getNamespace: API.OperationMethod<
+  GetNamespaceRequest,
   GetNamespaceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3165,9 +3138,8 @@ export const getNamespace: (
 /**
  * Updates a namespace with the specified settings. Unless required, you can't update multiple parameters in one request. For example, you must specify both `adminUsername` and `adminUserPassword` to update either field, but you can't update both `kmsKeyId` and `logExports` in a single request.
  */
-export const updateNamespace: (
-  input: UpdateNamespaceRequest,
-) => effect.Effect<
+export const updateNamespace: API.OperationMethod<
+  UpdateNamespaceRequest,
   UpdateNamespaceResponse,
   | ConflictException
   | InternalServerException
@@ -3188,9 +3160,8 @@ export const updateNamespace: (
 /**
  * Deletes a namespace from Amazon Redshift Serverless. Before you delete the namespace, you can create a final snapshot that has all of the data within the namespace.
  */
-export const deleteNamespace: (
-  input: DeleteNamespaceRequest,
-) => effect.Effect<
+export const deleteNamespace: API.OperationMethod<
+  DeleteNamespaceRequest,
   DeleteNamespaceResponse,
   | ConflictException
   | InternalServerException
@@ -3211,14 +3182,12 @@ export const deleteNamespace: (
 /**
  * Returns information about a list of specified namespaces.
  */
-export const listNamespaces: {
-  (
-    input: ListNamespacesRequest,
-  ): effect.Effect<
-    ListNamespacesResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNamespaces: API.OperationMethod<
+  ListNamespacesRequest,
+  ListNamespacesResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
@@ -3247,9 +3216,8 @@ export const listNamespaces: {
 /**
  * Modifies the lakehouse configuration for a namespace. This operation allows you to manage Amazon Redshift federated permissions and Amazon Web Services IAM Identity Center trusted identity propagation.
  */
-export const updateLakehouseConfiguration: (
-  input: UpdateLakehouseConfigurationRequest,
-) => effect.Effect<
+export const updateLakehouseConfiguration: API.OperationMethod<
+  UpdateLakehouseConfigurationRequest,
   UpdateLakehouseConfigurationResponse,
   | ConflictException
   | DryRunException
@@ -3272,9 +3240,8 @@ export const updateLakehouseConfiguration: (
 /**
  * Converts a recovery point to a snapshot. For more information about recovery points and snapshots, see Working with snapshots and recovery points.
  */
-export const convertRecoveryPointToSnapshot: (
-  input: ConvertRecoveryPointToSnapshotRequest,
-) => effect.Effect<
+export const convertRecoveryPointToSnapshot: API.OperationMethod<
+  ConvertRecoveryPointToSnapshotRequest,
   ConvertRecoveryPointToSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -3299,9 +3266,8 @@ export const convertRecoveryPointToSnapshot: (
 /**
  * Returns information about a recovery point.
  */
-export const getRecoveryPoint: (
-  input: GetRecoveryPointRequest,
-) => effect.Effect<
+export const getRecoveryPoint: API.OperationMethod<
+  GetRecoveryPointRequest,
   GetRecoveryPointResponse,
   | ConflictException
   | InternalServerException
@@ -3322,14 +3288,12 @@ export const getRecoveryPoint: (
 /**
  * Returns an array of recovery points.
  */
-export const listRecoveryPoints: {
-  (
-    input: ListRecoveryPointsRequest,
-  ): effect.Effect<
-    ListRecoveryPointsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecoveryPoints: API.OperationMethod<
+  ListRecoveryPointsRequest,
+  ListRecoveryPointsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecoveryPointsRequest,
   ) => stream.Stream<
@@ -3358,9 +3322,8 @@ export const listRecoveryPoints: {
 /**
  * Restore the data from a recovery point.
  */
-export const restoreFromRecoveryPoint: (
-  input: RestoreFromRecoveryPointRequest,
-) => effect.Effect<
+export const restoreFromRecoveryPoint: API.OperationMethod<
+  RestoreFromRecoveryPointRequest,
   RestoreFromRecoveryPointResponse,
   | ConflictException
   | InternalServerException
@@ -3381,9 +3344,8 @@ export const restoreFromRecoveryPoint: (
 /**
  * Restores a table from a recovery point to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
-export const restoreTableFromRecoveryPoint: (
-  input: RestoreTableFromRecoveryPointRequest,
-) => effect.Effect<
+export const restoreTableFromRecoveryPoint: API.OperationMethod<
+  RestoreTableFromRecoveryPointRequest,
   RestoreTableFromRecoveryPointResponse,
   | ConflictException
   | InternalServerException
@@ -3404,9 +3366,8 @@ export const restoreTableFromRecoveryPoint: (
 /**
  * Creates an Amazon Redshift Serverless reservation, which gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
  */
-export const createReservation: (
-  input: CreateReservationRequest,
-) => effect.Effect<
+export const createReservation: API.OperationMethod<
+  CreateReservationRequest,
   CreateReservationResponse,
   | ConflictException
   | InternalServerException
@@ -3433,9 +3394,8 @@ export const createReservation: (
 /**
  * Gets an Amazon Redshift Serverless reservation. A reservation gives you the option to commit to a specified number of Redshift Processing Units (RPUs) for a year at a discount from Serverless on-demand (OD) rates.
  */
-export const getReservation: (
-  input: GetReservationRequest,
-) => effect.Effect<
+export const getReservation: API.OperationMethod<
+  GetReservationRequest,
   GetReservationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3456,9 +3416,8 @@ export const getReservation: (
 /**
  * Returns the reservation offering. The offering determines the payment schedule for the reservation.
  */
-export const getReservationOffering: (
-  input: GetReservationOfferingRequest,
-) => effect.Effect<
+export const getReservationOffering: API.OperationMethod<
+  GetReservationOfferingRequest,
   GetReservationOfferingResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3479,17 +3438,15 @@ export const getReservationOffering: (
 /**
  * Returns the current reservation offerings in your account.
  */
-export const listReservationOfferings: {
-  (
-    input: ListReservationOfferingsRequest,
-  ): effect.Effect<
-    ListReservationOfferingsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReservationOfferings: API.OperationMethod<
+  ListReservationOfferingsRequest,
+  ListReservationOfferingsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReservationOfferingsRequest,
   ) => stream.Stream<
@@ -3524,17 +3481,15 @@ export const listReservationOfferings: {
 /**
  * Returns a list of Reservation objects.
  */
-export const listReservations: {
-  (
-    input: ListReservationsRequest,
-  ): effect.Effect<
-    ListReservationsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReservations: API.OperationMethod<
+  ListReservationsRequest,
+  ListReservationsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReservationsRequest,
   ) => stream.Stream<
@@ -3569,9 +3524,8 @@ export const listReservations: {
 /**
  * Creates a scheduled action. A scheduled action contains a schedule and an Amazon Redshift API action. For example, you can create a schedule of when to run the `CreateSnapshot` API operation.
  */
-export const createScheduledAction: (
-  input: CreateScheduledActionRequest,
-) => effect.Effect<
+export const createScheduledAction: API.OperationMethod<
+  CreateScheduledActionRequest,
   CreateScheduledActionResponse,
   | ConflictException
   | InternalServerException
@@ -3592,9 +3546,8 @@ export const createScheduledAction: (
 /**
  * Deletes a scheduled action.
  */
-export const deleteScheduledAction: (
-  input: DeleteScheduledActionRequest,
-) => effect.Effect<
+export const deleteScheduledAction: API.OperationMethod<
+  DeleteScheduledActionRequest,
   DeleteScheduledActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3613,9 +3566,8 @@ export const deleteScheduledAction: (
 /**
  * Returns information about a scheduled action.
  */
-export const getScheduledAction: (
-  input: GetScheduledActionRequest,
-) => effect.Effect<
+export const getScheduledAction: API.OperationMethod<
+  GetScheduledActionRequest,
   GetScheduledActionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3634,18 +3586,16 @@ export const getScheduledAction: (
 /**
  * Returns a list of scheduled actions. You can use the flags to filter the list of returned scheduled actions.
  */
-export const listScheduledActions: {
-  (
-    input: ListScheduledActionsRequest,
-  ): effect.Effect<
-    ListScheduledActionsResponse,
-    | InternalServerException
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScheduledActions: API.OperationMethod<
+  ListScheduledActionsRequest,
+  ListScheduledActionsResponse,
+  | InternalServerException
+  | InvalidPaginationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScheduledActionsRequest,
   ) => stream.Stream<
@@ -3687,9 +3637,8 @@ export const listScheduledActions: {
 /**
  * Updates a scheduled action.
  */
-export const updateScheduledAction: (
-  input: UpdateScheduledActionRequest,
-) => effect.Effect<
+export const updateScheduledAction: API.OperationMethod<
+  UpdateScheduledActionRequest,
   UpdateScheduledActionResponse,
   | ConflictException
   | InternalServerException
@@ -3710,9 +3659,8 @@ export const updateScheduledAction: (
 /**
  * Creates a snapshot of all databases in a namespace. For more information about snapshots, see Working with snapshots and recovery points.
  */
-export const createSnapshot: (
-  input: CreateSnapshotRequest,
-) => effect.Effect<
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotRequest,
   CreateSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -3737,9 +3685,8 @@ export const createSnapshot: (
 /**
  * Creates a snapshot copy configuration that lets you copy snapshots to another Amazon Web Services Region.
  */
-export const createSnapshotCopyConfiguration: (
-  input: CreateSnapshotCopyConfigurationRequest,
-) => effect.Effect<
+export const createSnapshotCopyConfiguration: API.OperationMethod<
+  CreateSnapshotCopyConfigurationRequest,
   CreateSnapshotCopyConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3764,9 +3711,8 @@ export const createSnapshotCopyConfiguration: (
 /**
  * Deletes a snapshot from Amazon Redshift Serverless.
  */
-export const deleteSnapshot: (
-  input: DeleteSnapshotRequest,
-) => effect.Effect<
+export const deleteSnapshot: API.OperationMethod<
+  DeleteSnapshotRequest,
   DeleteSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -3787,9 +3733,8 @@ export const deleteSnapshot: (
 /**
  * Deletes a snapshot copy configuration
  */
-export const deleteSnapshotCopyConfiguration: (
-  input: DeleteSnapshotCopyConfigurationRequest,
-) => effect.Effect<
+export const deleteSnapshotCopyConfiguration: API.OperationMethod<
+  DeleteSnapshotCopyConfigurationRequest,
   DeleteSnapshotCopyConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3812,9 +3757,8 @@ export const deleteSnapshotCopyConfiguration: (
 /**
  * Returns information about a specific snapshot.
  */
-export const getSnapshot: (
-  input: GetSnapshotRequest,
-) => effect.Effect<
+export const getSnapshot: API.OperationMethod<
+  GetSnapshotRequest,
   GetSnapshotResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3833,9 +3777,8 @@ export const getSnapshot: (
 /**
  * Returns information about a `TableRestoreStatus` object.
  */
-export const getTableRestoreStatus: (
-  input: GetTableRestoreStatusRequest,
-) => effect.Effect<
+export const getTableRestoreStatus: API.OperationMethod<
+  GetTableRestoreStatusRequest,
   GetTableRestoreStatusResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3847,19 +3790,17 @@ export const getTableRestoreStatus: (
 /**
  * Returns a list of snapshot copy configurations.
  */
-export const listSnapshotCopyConfigurations: {
-  (
-    input: ListSnapshotCopyConfigurationsRequest,
-  ): effect.Effect<
-    ListSnapshotCopyConfigurationsResponse,
-    | ConflictException
-    | InternalServerException
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSnapshotCopyConfigurations: API.OperationMethod<
+  ListSnapshotCopyConfigurationsRequest,
+  ListSnapshotCopyConfigurationsResponse,
+  | ConflictException
+  | InternalServerException
+  | InvalidPaginationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSnapshotCopyConfigurationsRequest,
   ) => stream.Stream<
@@ -3904,17 +3845,15 @@ export const listSnapshotCopyConfigurations: {
 /**
  * Returns a list of snapshots.
  */
-export const listSnapshots: {
-  (
-    input: ListSnapshotsRequest,
-  ): effect.Effect<
-    ListSnapshotsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSnapshots: API.OperationMethod<
+  ListSnapshotsRequest,
+  ListSnapshotsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSnapshotsRequest,
   ) => stream.Stream<
@@ -3953,17 +3892,15 @@ export const listSnapshots: {
 /**
  * Returns information about an array of `TableRestoreStatus` objects.
  */
-export const listTableRestoreStatus: {
-  (
-    input: ListTableRestoreStatusRequest,
-  ): effect.Effect<
-    ListTableRestoreStatusResponse,
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTableRestoreStatus: API.OperationMethod<
+  ListTableRestoreStatusRequest,
+  ListTableRestoreStatusResponse,
+  | InvalidPaginationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTableRestoreStatusRequest,
   ) => stream.Stream<
@@ -4002,9 +3939,8 @@ export const listTableRestoreStatus: {
 /**
  * Restores a namespace from a snapshot.
  */
-export const restoreFromSnapshot: (
-  input: RestoreFromSnapshotRequest,
-) => effect.Effect<
+export const restoreFromSnapshot: API.OperationMethod<
+  RestoreFromSnapshotRequest,
   RestoreFromSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -4027,9 +3963,8 @@ export const restoreFromSnapshot: (
 /**
  * Restores a table from a snapshot to your Amazon Redshift Serverless instance. You can't use this operation to restore tables with interleaved sort keys.
  */
-export const restoreTableFromSnapshot: (
-  input: RestoreTableFromSnapshotRequest,
-) => effect.Effect<
+export const restoreTableFromSnapshot: API.OperationMethod<
+  RestoreTableFromSnapshotRequest,
   RestoreTableFromSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -4050,9 +3985,8 @@ export const restoreTableFromSnapshot: (
 /**
  * Updates a snapshot.
  */
-export const updateSnapshot: (
-  input: UpdateSnapshotRequest,
-) => effect.Effect<
+export const updateSnapshot: API.OperationMethod<
+  UpdateSnapshotRequest,
   UpdateSnapshotResponse,
   | ConflictException
   | InternalServerException
@@ -4073,9 +4007,8 @@ export const updateSnapshot: (
 /**
  * Updates a snapshot copy configuration.
  */
-export const updateSnapshotCopyConfiguration: (
-  input: UpdateSnapshotCopyConfigurationRequest,
-) => effect.Effect<
+export const updateSnapshotCopyConfiguration: API.OperationMethod<
+  UpdateSnapshotCopyConfigurationRequest,
   UpdateSnapshotCopyConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4098,9 +4031,8 @@ export const updateSnapshotCopyConfiguration: (
 /**
  * Creates a usage limit for a specified Amazon Redshift Serverless usage type. The usage limit is identified by the returned usage limit identifier.
  */
-export const createUsageLimit: (
-  input: CreateUsageLimitRequest,
-) => effect.Effect<
+export const createUsageLimit: API.OperationMethod<
+  CreateUsageLimitRequest,
   CreateUsageLimitResponse,
   | ConflictException
   | InternalServerException
@@ -4123,9 +4055,8 @@ export const createUsageLimit: (
 /**
  * Deletes a usage limit from Amazon Redshift Serverless.
  */
-export const deleteUsageLimit: (
-  input: DeleteUsageLimitRequest,
-) => effect.Effect<
+export const deleteUsageLimit: API.OperationMethod<
+  DeleteUsageLimitRequest,
   DeleteUsageLimitResponse,
   | ConflictException
   | InternalServerException
@@ -4146,9 +4077,8 @@ export const deleteUsageLimit: (
 /**
  * Returns information about a usage limit.
  */
-export const getUsageLimit: (
-  input: GetUsageLimitRequest,
-) => effect.Effect<
+export const getUsageLimit: API.OperationMethod<
+  GetUsageLimitRequest,
   GetUsageLimitResponse,
   | ConflictException
   | InternalServerException
@@ -4169,19 +4099,17 @@ export const getUsageLimit: (
 /**
  * Lists all usage limits within Amazon Redshift Serverless.
  */
-export const listUsageLimits: {
-  (
-    input: ListUsageLimitsRequest,
-  ): effect.Effect<
-    ListUsageLimitsResponse,
-    | ConflictException
-    | InternalServerException
-    | InvalidPaginationException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsageLimits: API.OperationMethod<
+  ListUsageLimitsRequest,
+  ListUsageLimitsResponse,
+  | ConflictException
+  | InternalServerException
+  | InvalidPaginationException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsageLimitsRequest,
   ) => stream.Stream<
@@ -4226,9 +4154,8 @@ export const listUsageLimits: {
 /**
  * Update a usage limit in Amazon Redshift Serverless. You can't update the usage type or period of a usage limit.
  */
-export const updateUsageLimit: (
-  input: UpdateUsageLimitRequest,
-) => effect.Effect<
+export const updateUsageLimit: API.OperationMethod<
+  UpdateUsageLimitRequest,
   UpdateUsageLimitResponse,
   | ConflictException
   | InternalServerException
@@ -4259,9 +4186,8 @@ export const updateUsageLimit: (
  *
  * For more information about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const createWorkgroup: (
-  input: CreateWorkgroupRequest,
-) => effect.Effect<
+export const createWorkgroup: API.OperationMethod<
+  CreateWorkgroupRequest,
   CreateWorkgroupResponse,
   | ConflictException
   | InsufficientCapacityException
@@ -4288,9 +4214,8 @@ export const createWorkgroup: (
 /**
  * Returns information about a specific workgroup.
  */
-export const getWorkgroup: (
-  input: GetWorkgroupRequest,
-) => effect.Effect<
+export const getWorkgroup: API.OperationMethod<
+  GetWorkgroupRequest,
   GetWorkgroupResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -4319,9 +4244,8 @@ export const getWorkgroup: (
  *
  * For more information about VPC BPA, see Block public access to VPCs and subnets in the *Amazon VPC User Guide*.
  */
-export const updateWorkgroup: (
-  input: UpdateWorkgroupRequest,
-) => effect.Effect<
+export const updateWorkgroup: API.OperationMethod<
+  UpdateWorkgroupRequest,
   UpdateWorkgroupResponse,
   | ConflictException
   | InsufficientCapacityException
@@ -4346,9 +4270,8 @@ export const updateWorkgroup: (
 /**
  * Deletes a workgroup.
  */
-export const deleteWorkgroup: (
-  input: DeleteWorkgroupRequest,
-) => effect.Effect<
+export const deleteWorkgroup: API.OperationMethod<
+  DeleteWorkgroupRequest,
   DeleteWorkgroupResponse,
   | ConflictException
   | InternalServerException
@@ -4369,14 +4292,12 @@ export const deleteWorkgroup: (
 /**
  * Returns information about a list of specified workgroups.
  */
-export const listWorkgroups: {
-  (
-    input: ListWorkgroupsRequest,
-  ): effect.Effect<
-    ListWorkgroupsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkgroups: API.OperationMethod<
+  ListWorkgroupsRequest,
+  ListWorkgroupsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkgroupsRequest,
   ) => stream.Stream<

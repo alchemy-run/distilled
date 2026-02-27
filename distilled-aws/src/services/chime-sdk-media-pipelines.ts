@@ -2629,9 +2629,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Creates a media pipeline.
  */
-export const createMediaCapturePipeline: (
-  input: CreateMediaCapturePipelineRequest,
-) => effect.Effect<
+export const createMediaCapturePipeline: API.OperationMethod<
+  CreateMediaCapturePipelineRequest,
   CreateMediaCapturePipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2658,9 +2657,8 @@ export const createMediaCapturePipeline: (
 /**
  * Creates a media concatenation pipeline.
  */
-export const createMediaConcatenationPipeline: (
-  input: CreateMediaConcatenationPipelineRequest,
-) => effect.Effect<
+export const createMediaConcatenationPipeline: API.OperationMethod<
+  CreateMediaConcatenationPipelineRequest,
   CreateMediaConcatenationPipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2687,9 +2685,8 @@ export const createMediaConcatenationPipeline: (
 /**
  * Creates a media insights pipeline.
  */
-export const createMediaInsightsPipeline: (
-  input: CreateMediaInsightsPipelineRequest,
-) => effect.Effect<
+export const createMediaInsightsPipeline: API.OperationMethod<
+  CreateMediaInsightsPipelineRequest,
   CreateMediaInsightsPipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2719,9 +2716,8 @@ export const createMediaInsightsPipeline: (
  * A structure that contains the static configurations for a media insights
  * pipeline.
  */
-export const createMediaInsightsPipelineConfiguration: (
-  input: CreateMediaInsightsPipelineConfigurationRequest,
-) => effect.Effect<
+export const createMediaInsightsPipelineConfiguration: API.OperationMethod<
+  CreateMediaInsightsPipelineConfigurationRequest,
   CreateMediaInsightsPipelineConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -2750,9 +2746,8 @@ export const createMediaInsightsPipelineConfiguration: (
 /**
  * Creates a media live connector pipeline in an Amazon Chime SDK meeting.
  */
-export const createMediaLiveConnectorPipeline: (
-  input: CreateMediaLiveConnectorPipelineRequest,
-) => effect.Effect<
+export const createMediaLiveConnectorPipeline: API.OperationMethod<
+  CreateMediaLiveConnectorPipelineRequest,
   CreateMediaLiveConnectorPipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2795,9 +2790,8 @@ export const createMediaLiveConnectorPipeline: (
  * Specify which AWS Regions your account can use,
  * in the *AWS Account Management Reference Guide*.
  */
-export const createMediaPipelineKinesisVideoStreamPool: (
-  input: CreateMediaPipelineKinesisVideoStreamPoolRequest,
-) => effect.Effect<
+export const createMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
+  CreateMediaPipelineKinesisVideoStreamPoolRequest,
   CreateMediaPipelineKinesisVideoStreamPoolResponse,
   | BadRequestException
   | ConflictException
@@ -2826,9 +2820,8 @@ export const createMediaPipelineKinesisVideoStreamPool: (
 /**
  * Creates a streaming media pipeline.
  */
-export const createMediaStreamPipeline: (
-  input: CreateMediaStreamPipelineRequest,
-) => effect.Effect<
+export const createMediaStreamPipeline: API.OperationMethod<
+  CreateMediaStreamPipelineRequest,
   CreateMediaStreamPipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2857,9 +2850,8 @@ export const createMediaStreamPipeline: (
 /**
  * Deletes the media pipeline.
  */
-export const deleteMediaCapturePipeline: (
-  input: DeleteMediaCapturePipelineRequest,
-) => effect.Effect<
+export const deleteMediaCapturePipeline: API.OperationMethod<
+  DeleteMediaCapturePipelineRequest,
   DeleteMediaCapturePipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -2886,9 +2878,8 @@ export const deleteMediaCapturePipeline: (
 /**
  * Deletes the specified configuration settings.
  */
-export const deleteMediaInsightsPipelineConfiguration: (
-  input: DeleteMediaInsightsPipelineConfigurationRequest,
-) => effect.Effect<
+export const deleteMediaInsightsPipelineConfiguration: API.OperationMethod<
+  DeleteMediaInsightsPipelineConfigurationRequest,
   DeleteMediaInsightsPipelineConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2917,9 +2908,8 @@ export const deleteMediaInsightsPipelineConfiguration: (
 /**
  * Deletes the media pipeline.
  */
-export const deleteMediaPipeline: (
-  input: DeleteMediaPipelineRequest,
-) => effect.Effect<
+export const deleteMediaPipeline: API.OperationMethod<
+  DeleteMediaPipelineRequest,
   DeleteMediaPipelineResponse,
   | BadRequestException
   | ConflictException
@@ -2948,9 +2938,8 @@ export const deleteMediaPipeline: (
 /**
  * Deletes an Amazon Kinesis Video Stream pool.
  */
-export const deleteMediaPipelineKinesisVideoStreamPool: (
-  input: DeleteMediaPipelineKinesisVideoStreamPoolRequest,
-) => effect.Effect<
+export const deleteMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
+  DeleteMediaPipelineKinesisVideoStreamPoolRequest,
   DeleteMediaPipelineKinesisVideoStreamPoolResponse,
   | BadRequestException
   | ConflictException
@@ -2979,9 +2968,8 @@ export const deleteMediaPipelineKinesisVideoStreamPool: (
 /**
  * Gets an existing media pipeline.
  */
-export const getMediaCapturePipeline: (
-  input: GetMediaCapturePipelineRequest,
-) => effect.Effect<
+export const getMediaCapturePipeline: API.OperationMethod<
+  GetMediaCapturePipelineRequest,
   GetMediaCapturePipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -3008,9 +2996,8 @@ export const getMediaCapturePipeline: (
 /**
  * Gets the configuration settings for a media insights pipeline.
  */
-export const getMediaInsightsPipelineConfiguration: (
-  input: GetMediaInsightsPipelineConfigurationRequest,
-) => effect.Effect<
+export const getMediaInsightsPipelineConfiguration: API.OperationMethod<
+  GetMediaInsightsPipelineConfigurationRequest,
   GetMediaInsightsPipelineConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -3037,9 +3024,8 @@ export const getMediaInsightsPipelineConfiguration: (
 /**
  * Gets an existing media pipeline.
  */
-export const getMediaPipeline: (
-  input: GetMediaPipelineRequest,
-) => effect.Effect<
+export const getMediaPipeline: API.OperationMethod<
+  GetMediaPipelineRequest,
   GetMediaPipelineResponse,
   | BadRequestException
   | ForbiddenException
@@ -3066,9 +3052,8 @@ export const getMediaPipeline: (
 /**
  * Gets an Kinesis video stream pool.
  */
-export const getMediaPipelineKinesisVideoStreamPool: (
-  input: GetMediaPipelineKinesisVideoStreamPoolRequest,
-) => effect.Effect<
+export const getMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
+  GetMediaPipelineKinesisVideoStreamPoolRequest,
   GetMediaPipelineKinesisVideoStreamPoolResponse,
   | BadRequestException
   | ForbiddenException
@@ -3095,9 +3080,8 @@ export const getMediaPipelineKinesisVideoStreamPool: (
 /**
  * Retrieves the details of the specified speaker search task.
  */
-export const getSpeakerSearchTask: (
-  input: GetSpeakerSearchTaskRequest,
-) => effect.Effect<
+export const getSpeakerSearchTask: API.OperationMethod<
+  GetSpeakerSearchTaskRequest,
   GetSpeakerSearchTaskResponse,
   | BadRequestException
   | ForbiddenException
@@ -3124,9 +3108,8 @@ export const getSpeakerSearchTask: (
 /**
  * Retrieves the details of a voice tone analysis task.
  */
-export const getVoiceToneAnalysisTask: (
-  input: GetVoiceToneAnalysisTaskRequest,
-) => effect.Effect<
+export const getVoiceToneAnalysisTask: API.OperationMethod<
+  GetVoiceToneAnalysisTaskRequest,
   GetVoiceToneAnalysisTaskResponse,
   | BadRequestException
   | ForbiddenException
@@ -3153,21 +3136,19 @@ export const getVoiceToneAnalysisTask: (
 /**
  * Returns a list of media pipelines.
  */
-export const listMediaCapturePipelines: {
-  (
-    input: ListMediaCapturePipelinesRequest,
-  ): effect.Effect<
-    ListMediaCapturePipelinesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMediaCapturePipelines: API.OperationMethod<
+  ListMediaCapturePipelinesRequest,
+  ListMediaCapturePipelinesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMediaCapturePipelinesRequest,
   ) => stream.Stream<
@@ -3217,21 +3198,19 @@ export const listMediaCapturePipelines: {
 /**
  * Lists the available media insights pipeline configurations.
  */
-export const listMediaInsightsPipelineConfigurations: {
-  (
-    input: ListMediaInsightsPipelineConfigurationsRequest,
-  ): effect.Effect<
-    ListMediaInsightsPipelineConfigurationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMediaInsightsPipelineConfigurations: API.OperationMethod<
+  ListMediaInsightsPipelineConfigurationsRequest,
+  ListMediaInsightsPipelineConfigurationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMediaInsightsPipelineConfigurationsRequest,
   ) => stream.Stream<
@@ -3281,21 +3260,19 @@ export const listMediaInsightsPipelineConfigurations: {
 /**
  * Lists the video stream pools in the media pipeline.
  */
-export const listMediaPipelineKinesisVideoStreamPools: {
-  (
-    input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
-  ): effect.Effect<
-    ListMediaPipelineKinesisVideoStreamPoolsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMediaPipelineKinesisVideoStreamPools: API.OperationMethod<
+  ListMediaPipelineKinesisVideoStreamPoolsRequest,
+  ListMediaPipelineKinesisVideoStreamPoolsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMediaPipelineKinesisVideoStreamPoolsRequest,
   ) => stream.Stream<
@@ -3345,21 +3322,19 @@ export const listMediaPipelineKinesisVideoStreamPools: {
 /**
  * Returns a list of media pipelines.
  */
-export const listMediaPipelines: {
-  (
-    input: ListMediaPipelinesRequest,
-  ): effect.Effect<
-    ListMediaPipelinesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ResourceLimitExceededException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMediaPipelines: API.OperationMethod<
+  ListMediaPipelinesRequest,
+  ListMediaPipelinesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ResourceLimitExceededException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMediaPipelinesRequest,
   ) => stream.Stream<
@@ -3409,9 +3384,8 @@ export const listMediaPipelines: {
 /**
  * Lists the tags available for a media pipeline.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -3441,9 +3415,8 @@ export const listTagsForResource: (
  * Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
  * AWS service terms for the Amazon Chime SDK.
  */
-export const startSpeakerSearchTask: (
-  input: StartSpeakerSearchTaskRequest,
-) => effect.Effect<
+export const startSpeakerSearchTask: API.OperationMethod<
+  StartSpeakerSearchTaskRequest,
   StartSpeakerSearchTaskResponse,
   | BadRequestException
   | ConflictException
@@ -3477,9 +3450,8 @@ export const startSpeakerSearchTask: (
  * Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
  * AWS service terms for the Amazon Chime SDK.
  */
-export const startVoiceToneAnalysisTask: (
-  input: StartVoiceToneAnalysisTaskRequest,
-) => effect.Effect<
+export const startVoiceToneAnalysisTask: API.OperationMethod<
+  StartVoiceToneAnalysisTaskRequest,
   StartVoiceToneAnalysisTaskResponse,
   | BadRequestException
   | ConflictException
@@ -3508,9 +3480,8 @@ export const startVoiceToneAnalysisTask: (
 /**
  * Stops a speaker search task.
  */
-export const stopSpeakerSearchTask: (
-  input: StopSpeakerSearchTaskRequest,
-) => effect.Effect<
+export const stopSpeakerSearchTask: API.OperationMethod<
+  StopSpeakerSearchTaskRequest,
   StopSpeakerSearchTaskResponse,
   | BadRequestException
   | ConflictException
@@ -3539,9 +3510,8 @@ export const stopSpeakerSearchTask: (
 /**
  * Stops a voice tone analysis task.
  */
-export const stopVoiceToneAnalysisTask: (
-  input: StopVoiceToneAnalysisTaskRequest,
-) => effect.Effect<
+export const stopVoiceToneAnalysisTask: API.OperationMethod<
+  StopVoiceToneAnalysisTaskRequest,
   StopVoiceToneAnalysisTaskResponse,
   | BadRequestException
   | ConflictException
@@ -3570,9 +3540,8 @@ export const stopVoiceToneAnalysisTask: (
 /**
  * The ARN of the media pipeline that you want to tag. Consists of the pipeline's endpoint region, resource ID, and pipeline ID.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -3599,9 +3568,8 @@ export const tagResource: (
 /**
  * Removes any tags from a media pipeline.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -3628,9 +3596,8 @@ export const untagResource: (
 /**
  * Updates the media insights pipeline's configuration settings.
  */
-export const updateMediaInsightsPipelineConfiguration: (
-  input: UpdateMediaInsightsPipelineConfigurationRequest,
-) => effect.Effect<
+export const updateMediaInsightsPipelineConfiguration: API.OperationMethod<
+  UpdateMediaInsightsPipelineConfigurationRequest,
   UpdateMediaInsightsPipelineConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -3659,9 +3626,8 @@ export const updateMediaInsightsPipelineConfiguration: (
 /**
  * Updates the status of a media insights pipeline.
  */
-export const updateMediaInsightsPipelineStatus: (
-  input: UpdateMediaInsightsPipelineStatusRequest,
-) => effect.Effect<
+export const updateMediaInsightsPipelineStatus: API.OperationMethod<
+  UpdateMediaInsightsPipelineStatusRequest,
   UpdateMediaInsightsPipelineStatusResponse,
   | BadRequestException
   | ConflictException
@@ -3690,9 +3656,8 @@ export const updateMediaInsightsPipelineStatus: (
 /**
  * Updates an Amazon Kinesis Video Stream pool in a media pipeline.
  */
-export const updateMediaPipelineKinesisVideoStreamPool: (
-  input: UpdateMediaPipelineKinesisVideoStreamPoolRequest,
-) => effect.Effect<
+export const updateMediaPipelineKinesisVideoStreamPool: API.OperationMethod<
+  UpdateMediaPipelineKinesisVideoStreamPoolRequest,
   UpdateMediaPipelineKinesisVideoStreamPoolResponse,
   | BadRequestException
   | ConflictException

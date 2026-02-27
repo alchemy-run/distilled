@@ -719,9 +719,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists the tags assigned to this resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -746,9 +745,8 @@ export const listTagsForResource: (
 /**
  * Adds key-value pairs to a monitor or probe.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -773,9 +771,8 @@ export const tagResource: (
 /**
  * Removes a key-value pair from a monitor or probe.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -820,9 +817,8 @@ export const untagResource: (
  * - (Optional) `tags` —Key-value pairs created and assigned to the
  * probe.
  */
-export const createMonitor: (
-  input: CreateMonitorInput,
-) => effect.Effect<
+export const createMonitor: API.OperationMethod<
+  CreateMonitorInput,
   CreateMonitorOutput,
   | AccessDeniedException
   | ConflictException
@@ -850,9 +846,8 @@ export const createMonitor: (
  * This action requires the `monitorName` parameter. Run
  * `ListMonitors` to get a list of monitor names.
  */
-export const getMonitor: (
-  input: GetMonitorInput,
-) => effect.Effect<
+export const getMonitor: API.OperationMethod<
+  GetMonitorInput,
   GetMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -878,9 +873,8 @@ export const getMonitor: (
  * This action requires the `monitorName` and `probeId` parameter.
  * Run `ListMonitors` to get a list of monitor names.
  */
-export const updateMonitor: (
-  input: UpdateMonitorInput,
-) => effect.Effect<
+export const updateMonitor: API.OperationMethod<
+  UpdateMonitorInput,
   UpdateMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -908,9 +902,8 @@ export const updateMonitor: (
  * This action requires the `monitorName` parameter. Run
  * `ListMonitors` to get a list of monitor names.
  */
-export const deleteMonitor: (
-  input: DeleteMonitorInput,
-) => effect.Effect<
+export const deleteMonitor: API.OperationMethod<
+  DeleteMonitorInput,
   DeleteMonitorOutput,
   | AccessDeniedException
   | InternalServerException
@@ -933,18 +926,16 @@ export const deleteMonitor: (
 /**
  * Returns a list of all of your monitors.
  */
-export const listMonitors: {
-  (
-    input: ListMonitorsInput,
-  ): effect.Effect<
-    ListMonitorsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMonitors: API.OperationMethod<
+  ListMonitorsInput,
+  ListMonitorsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMonitorsInput,
   ) => stream.Stream<
@@ -990,9 +981,8 @@ export const listMonitors: {
  * monitor names. Note the name of the `monitorName` you want to create the
  * probe for.
  */
-export const createProbe: (
-  input: CreateProbeInput,
-) => effect.Effect<
+export const createProbe: API.OperationMethod<
+  CreateProbeInput,
   CreateProbeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1020,9 +1010,8 @@ export const createProbe: (
  * `ListMonitors` to get a list of monitor names. Run
  * `GetMonitor` to get a list of probes and probe IDs.
  */
-export const getProbe: (
-  input: GetProbeInput,
-) => effect.Effect<
+export const getProbe: API.OperationMethod<
+  GetProbeInput,
   GetProbeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1065,9 +1054,8 @@ export const getProbe: (
  * - (Optional) `tags` —Key-value pairs created and assigned to the
  * probe.
  */
-export const updateProbe: (
-  input: UpdateProbeInput,
-) => effect.Effect<
+export const updateProbe: API.OperationMethod<
+  UpdateProbeInput,
   UpdateProbeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1098,9 +1086,8 @@ export const updateProbe: (
  * `GetMonitor` to get a list of probes and probe IDs. You can only delete a
  * single probe at a time using this action.
  */
-export const deleteProbe: (
-  input: DeleteProbeInput,
-) => effect.Effect<
+export const deleteProbe: API.OperationMethod<
+  DeleteProbeInput,
   DeleteProbeOutput,
   | AccessDeniedException
   | InternalServerException

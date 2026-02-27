@@ -1426,9 +1426,8 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
  *
  * You must run this operation in the Region where the canary exists.
  */
-export const associateResource: (
-  input: AssociateResourceRequest,
-) => effect.Effect<
+export const associateResource: API.OperationMethod<
+  AssociateResourceRequest,
   AssociateResourceResponse,
   | ConflictException
   | InternalServerException
@@ -1467,9 +1466,8 @@ export const associateResource: (
  * outbound calls over the internet. For more information, see Security
  * Considerations for Synthetics Canaries.
  */
-export const createCanary: (
-  input: CreateCanaryRequest,
-) => effect.Effect<
+export const createCanary: API.OperationMethod<
+  CreateCanaryRequest,
   CreateCanaryResponse,
   | InternalServerException
   | RequestEntityTooLargeException
@@ -1503,9 +1501,8 @@ export const createCanary: (
  * Each group can contain as many as 10 canaries. You can have as many as 20 groups in your account. Any single canary
  * can be a member of up to 10 groups.
  */
-export const createGroup: (
-  input: CreateGroupRequest,
-) => effect.Effect<
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
   CreateGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1551,9 +1548,8 @@ export const createGroup: (
  * note of the information returned by this operation so that you can delete these resources
  * after you delete the canary.
  */
-export const deleteCanary: (
-  input: DeleteCanaryRequest,
-) => effect.Effect<
+export const deleteCanary: API.OperationMethod<
+  DeleteCanaryRequest,
   DeleteCanaryResponse,
   | ConflictException
   | InternalServerException
@@ -1578,9 +1574,8 @@ export const deleteCanary: (
  * Groups are a global resource that appear in all Regions, but the request to delete a group
  * must be made from its home Region. You can find the home Region of a group within its ARN.
  */
-export const deleteGroup: (
-  input: DeleteGroupRequest,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
   DeleteGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1612,14 +1607,12 @@ export const deleteGroup: (
  * see
  * Limiting a user to viewing specific canaries.
  */
-export const describeCanaries: {
-  (
-    input: DescribeCanariesRequest,
-  ): effect.Effect<
-    DescribeCanariesResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCanaries: API.OperationMethod<
+  DescribeCanariesRequest,
+  DescribeCanariesResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCanariesRequest,
   ) => stream.Stream<
@@ -1657,14 +1650,12 @@ export const describeCanaries: {
  * see
  * Limiting a user to viewing specific canaries.
  */
-export const describeCanariesLastRun: {
-  (
-    input: DescribeCanariesLastRunRequest,
-  ): effect.Effect<
-    DescribeCanariesLastRunResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCanariesLastRun: API.OperationMethod<
+  DescribeCanariesLastRunRequest,
+  DescribeCanariesLastRunResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCanariesLastRunRequest,
   ) => stream.Stream<
@@ -1694,14 +1685,12 @@ export const describeCanariesLastRun: {
  * see
  * Canary Runtime Versions.
  */
-export const describeRuntimeVersions: {
-  (
-    input: DescribeRuntimeVersionsRequest,
-  ): effect.Effect<
-    DescribeRuntimeVersionsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRuntimeVersions: API.OperationMethod<
+  DescribeRuntimeVersionsRequest,
+  DescribeRuntimeVersionsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRuntimeVersionsRequest,
   ) => stream.Stream<
@@ -1729,9 +1718,8 @@ export const describeRuntimeVersions: {
 /**
  * Removes a canary from a group. You must run this operation in the Region where the canary exists.
  */
-export const disassociateResource: (
-  input: DisassociateResourceRequest,
-) => effect.Effect<
+export const disassociateResource: API.OperationMethod<
+  DisassociateResourceRequest,
   DisassociateResourceResponse,
   | ConflictException
   | InternalServerException
@@ -1754,9 +1742,8 @@ export const disassociateResource: (
  * the name of the canary that you want. To get a list of canaries
  * and their names, use DescribeCanaries.
  */
-export const getCanary: (
-  input: GetCanaryRequest,
-) => effect.Effect<
+export const getCanary: API.OperationMethod<
+  GetCanaryRequest,
   GetCanaryResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1768,17 +1755,15 @@ export const getCanary: (
 /**
  * Retrieves a list of runs for a specified canary.
  */
-export const getCanaryRuns: {
-  (
-    input: GetCanaryRunsRequest,
-  ): effect.Effect<
-    GetCanaryRunsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCanaryRuns: API.OperationMethod<
+  GetCanaryRunsRequest,
+  GetCanaryRunsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCanaryRunsRequest,
   ) => stream.Stream<
@@ -1817,9 +1802,8 @@ export const getCanaryRuns: {
  * Returns information about one group. Groups are a global resource, so you can use this operation from
  * any Region.
  */
-export const getGroup: (
-  input: GetGroupRequest,
-) => effect.Effect<
+export const getGroup: API.OperationMethod<
+  GetGroupRequest,
   GetGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1841,17 +1825,15 @@ export const getGroup: (
  * Returns a list of the groups that the specified canary is associated with. The canary
  * that you specify must be in the current Region.
  */
-export const listAssociatedGroups: {
-  (
-    input: ListAssociatedGroupsRequest,
-  ): effect.Effect<
-    ListAssociatedGroupsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociatedGroups: API.OperationMethod<
+  ListAssociatedGroupsRequest,
+  ListAssociatedGroupsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociatedGroupsRequest,
   ) => stream.Stream<
@@ -1889,18 +1871,16 @@ export const listAssociatedGroups: {
 /**
  * This operation returns a list of the ARNs of the canaries that are associated with the specified group.
  */
-export const listGroupResources: {
-  (
-    input: ListGroupResourcesRequest,
-  ): effect.Effect<
-    ListGroupResourcesResponse,
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupResources: API.OperationMethod<
+  ListGroupResourcesRequest,
+  ListGroupResourcesResponse,
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupResourcesRequest,
   ) => stream.Stream<
@@ -1942,14 +1922,12 @@ export const listGroupResources: {
  * Returns a list of all groups in the account, displaying their names, unique IDs, and ARNs. The groups
  * from all Regions are returned.
  */
-export const listGroups: {
-  (
-    input: ListGroupsRequest,
-  ): effect.Effect<
-    ListGroupsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
@@ -1977,9 +1955,8 @@ export const listGroups: {
 /**
  * Displays the tags associated with a canary or group.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2004,9 +1981,8 @@ export const listTagsForResource: (
  * The frequency of the canary runs is determined by the value of the canary's `Schedule`. To see a canary's schedule,
  * use GetCanary.
  */
-export const startCanary: (
-  input: StartCanaryRequest,
-) => effect.Effect<
+export const startCanary: API.OperationMethod<
+  StartCanaryRequest,
   StartCanaryResponse,
   | ConflictException
   | InternalServerException
@@ -2027,9 +2003,8 @@ export const startCanary: (
 /**
  * Use this operation to start a dry run for a canary that has already been created
  */
-export const startCanaryDryRun: (
-  input: StartCanaryDryRunRequest,
-) => effect.Effect<
+export const startCanaryDryRun: API.OperationMethod<
+  StartCanaryDryRunRequest,
   StartCanaryDryRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -2057,9 +2032,8 @@ export const startCanaryDryRun: (
  * You can use `StartCanary` to start it running again
  * with the canary’s current schedule at any point in the future.
  */
-export const stopCanary: (
-  input: StopCanaryRequest,
-) => effect.Effect<
+export const stopCanary: API.OperationMethod<
+  StopCanaryRequest,
   StopCanaryResponse,
   | ConflictException
   | InternalServerException
@@ -2095,9 +2069,8 @@ export const stopCanary: (
  *
  * You can associate as many as 50 tags with a canary or group.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2120,9 +2093,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2156,9 +2128,8 @@ export const untagResource: (
  *
  * When you use the `dryRunId` field when updating a canary, the only other field you can provide is the `Schedule`. Adding any other field will thrown an exception.
  */
-export const updateCanary: (
-  input: UpdateCanaryRequest,
-) => effect.Effect<
+export const updateCanary: API.OperationMethod<
+  UpdateCanaryRequest,
   UpdateCanaryResponse,
   | AccessDeniedException
   | ConflictException

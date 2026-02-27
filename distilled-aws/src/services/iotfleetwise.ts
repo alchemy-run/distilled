@@ -3648,9 +3648,8 @@ export class InvalidNodeException extends S.TaggedErrorClass<InvalidNodeExceptio
  * For more information, see Create multiple
  * vehicles (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const batchCreateVehicle: (
-  input: BatchCreateVehicleRequest,
-) => effect.Effect<
+export const batchCreateVehicle: API.OperationMethod<
+  BatchCreateVehicleRequest,
   BatchCreateVehicleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3679,9 +3678,8 @@ export const batchCreateVehicle: (
  * For more information, see Update multiple
  * vehicles (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const batchUpdateVehicle: (
-  input: BatchUpdateVehicleRequest,
-) => effect.Effect<
+export const batchUpdateVehicle: API.OperationMethod<
+  BatchUpdateVehicleRequest,
   BatchUpdateVehicleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3704,9 +3702,8 @@ export const batchUpdateVehicle: (
 /**
  * Retrieves the encryption configuration for resources and data in Amazon Web Services IoT FleetWise.
  */
-export const getEncryptionConfiguration: (
-  input: GetEncryptionConfigurationRequest,
-) => effect.Effect<
+export const getEncryptionConfiguration: API.OperationMethod<
+  GetEncryptionConfigurationRequest,
   GetEncryptionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3729,9 +3726,8 @@ export const getEncryptionConfiguration: (
 /**
  * Retrieves the logging options.
  */
-export const getLoggingOptions: (
-  input: GetLoggingOptionsRequest,
-) => effect.Effect<
+export const getLoggingOptions: API.OperationMethod<
+  GetLoggingOptionsRequest,
   GetLoggingOptionsResponse,
   AccessDeniedException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3749,9 +3745,8 @@ export const getLoggingOptions: (
  *
  * This API operation doesn't require input parameters.
  */
-export const getRegisterAccountStatus: (
-  input: GetRegisterAccountStatusRequest,
-) => effect.Effect<
+export const getRegisterAccountStatus: API.OperationMethod<
+  GetRegisterAccountStatusRequest,
   GetRegisterAccountStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3775,18 +3770,16 @@ export const getRegisterAccountStatus: (
  * Retrieves information about the status of campaigns, decoder manifests, or state templates
  * associated with a vehicle.
  */
-export const getVehicleStatus: {
-  (
-    input: GetVehicleStatusRequest,
-  ): effect.Effect<
-    GetVehicleStatusResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getVehicleStatus: API.OperationMethod<
+  GetVehicleStatusRequest,
+  GetVehicleStatusResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetVehicleStatusRequest,
   ) => stream.Stream<
@@ -3828,9 +3821,8 @@ export const getVehicleStatus: {
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3856,9 +3848,8 @@ export const listTagsForResource: (
  * manage. For more information, see Data
  * encryption in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const putEncryptionConfiguration: (
-  input: PutEncryptionConfigurationRequest,
-) => effect.Effect<
+export const putEncryptionConfiguration: API.OperationMethod<
+  PutEncryptionConfigurationRequest,
   PutEncryptionConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3883,9 +3874,8 @@ export const putEncryptionConfiguration: (
 /**
  * Creates or updates the logging option.
  */
-export const putLoggingOptions: (
-  input: PutLoggingOptionsRequest,
-) => effect.Effect<
+export const putLoggingOptions: API.OperationMethod<
+  PutLoggingOptionsRequest,
   PutLoggingOptionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3930,9 +3920,8 @@ export const putLoggingOptions: (
  * with credentials. A single Amazon Web Services account can, and typically does,
  * contain many users and roles.
  */
-export const registerAccount: (
-  input: RegisterAccountRequest,
-) => effect.Effect<
+export const registerAccount: API.OperationMethod<
+  RegisterAccountRequest,
   RegisterAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -3958,9 +3947,8 @@ export const registerAccount: (
  * Adds to or modifies the tags of the given resource. Tags are metadata which can be
  * used to manage a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3983,9 +3971,8 @@ export const tagResource: (
 /**
  * Removes the given tags (metadata) from the resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4016,9 +4003,8 @@ export const untagResource: (
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createCampaign: (
-  input: CreateCampaignRequest,
-) => effect.Effect<
+export const createCampaign: API.OperationMethod<
+  CreateCampaignRequest,
   CreateCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -4045,9 +4031,8 @@ export const createCampaign: (
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const getCampaign: (
-  input: GetCampaignRequest,
-) => effect.Effect<
+export const getCampaign: API.OperationMethod<
+  GetCampaignRequest,
   GetCampaignResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4068,9 +4053,8 @@ export const getCampaign: (
 /**
  * Updates a campaign.
  */
-export const updateCampaign: (
-  input: UpdateCampaignRequest,
-) => effect.Effect<
+export const updateCampaign: API.OperationMethod<
+  UpdateCampaignRequest,
   UpdateCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -4094,9 +4078,8 @@ export const updateCampaign: (
  * Deletes a data collection campaign. Deleting a campaign suspends all data collection
  * and removes it from any vehicles.
  */
-export const deleteCampaign: (
-  input: DeleteCampaignRequest,
-) => effect.Effect<
+export const deleteCampaign: API.OperationMethod<
+  DeleteCampaignRequest,
   DeleteCampaignResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4119,17 +4102,15 @@ export const deleteCampaign: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listCampaigns: {
-  (
-    input: ListCampaignsRequest,
-  ): effect.Effect<
-    ListCampaignsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCampaigns: API.OperationMethod<
+  ListCampaignsRequest,
+  ListCampaignsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCampaignsRequest,
   ) => stream.Stream<
@@ -4173,9 +4154,8 @@ export const listCampaigns: {
  *
  * - The signal decoders are specified in the model manifest.
  */
-export const createDecoderManifest: (
-  input: CreateDecoderManifestRequest,
-) => effect.Effect<
+export const createDecoderManifest: API.OperationMethod<
+  CreateDecoderManifestRequest,
   CreateDecoderManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -4202,9 +4182,8 @@ export const createDecoderManifest: (
 /**
  * Retrieves information about a created decoder manifest.
  */
-export const getDecoderManifest: (
-  input: GetDecoderManifestRequest,
-) => effect.Effect<
+export const getDecoderManifest: API.OperationMethod<
+  GetDecoderManifestRequest,
   GetDecoderManifestResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4228,9 +4207,8 @@ export const getDecoderManifest: (
  * A decoder manifest can only be updated when the status is `DRAFT`. Only
  * `ACTIVE` decoder manifests can be associated with vehicles.
  */
-export const updateDecoderManifest: (
-  input: UpdateDecoderManifestRequest,
-) => effect.Effect<
+export const updateDecoderManifest: API.OperationMethod<
+  UpdateDecoderManifestRequest,
   UpdateDecoderManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -4258,9 +4236,8 @@ export const updateDecoderManifest: (
  * Deletes a decoder manifest. You can't delete a decoder manifest if it has vehicles
  * associated with it.
  */
-export const deleteDecoderManifest: (
-  input: DeleteDecoderManifestRequest,
-) => effect.Effect<
+export const deleteDecoderManifest: API.OperationMethod<
+  DeleteDecoderManifestRequest,
   DeleteDecoderManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -4285,18 +4262,16 @@ export const deleteDecoderManifest: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listDecoderManifests: {
-  (
-    input: ListDecoderManifestsRequest,
-  ): effect.Effect<
-    ListDecoderManifestsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDecoderManifests: API.OperationMethod<
+  ListDecoderManifestsRequest,
+  ListDecoderManifestsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDecoderManifestsRequest,
   ) => stream.Stream<
@@ -4340,9 +4315,8 @@ export const listDecoderManifests: {
  *
  * The CAN signal name must be unique and not repeated across CAN message definitions in a .dbc file.
  */
-export const importDecoderManifest: (
-  input: ImportDecoderManifestRequest,
-) => effect.Effect<
+export const importDecoderManifest: API.OperationMethod<
+  ImportDecoderManifestRequest,
   ImportDecoderManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -4371,19 +4345,17 @@ export const importDecoderManifest: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listDecoderManifestNetworkInterfaces: {
-  (
-    input: ListDecoderManifestNetworkInterfacesRequest,
-  ): effect.Effect<
-    ListDecoderManifestNetworkInterfacesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDecoderManifestNetworkInterfaces: API.OperationMethod<
+  ListDecoderManifestNetworkInterfacesRequest,
+  ListDecoderManifestNetworkInterfacesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDecoderManifestNetworkInterfacesRequest,
   ) => stream.Stream<
@@ -4430,19 +4402,17 @@ export const listDecoderManifestNetworkInterfaces: {
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listDecoderManifestSignals: {
-  (
-    input: ListDecoderManifestSignalsRequest,
-  ): effect.Effect<
-    ListDecoderManifestSignalsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDecoderManifestSignals: API.OperationMethod<
+  ListDecoderManifestSignalsRequest,
+  ListDecoderManifestSignalsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDecoderManifestSignalsRequest,
   ) => stream.Stream<
@@ -4492,9 +4462,8 @@ export const listDecoderManifestSignals: {
  * For more information, see Fleets in the
  * *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createFleet: (
-  input: CreateFleetRequest,
-) => effect.Effect<
+export const createFleet: API.OperationMethod<
+  CreateFleetRequest,
   CreateFleetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4521,9 +4490,8 @@ export const createFleet: (
 /**
  * Retrieves information about a fleet.
  */
-export const getFleet: (
-  input: GetFleetRequest,
-) => effect.Effect<
+export const getFleet: API.OperationMethod<
+  GetFleetRequest,
   GetFleetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4546,9 +4514,8 @@ export const getFleet: (
 /**
  * Updates the description of an existing fleet.
  */
-export const updateFleet: (
-  input: UpdateFleetRequest,
-) => effect.Effect<
+export const updateFleet: API.OperationMethod<
+  UpdateFleetRequest,
   UpdateFleetResponse,
   | AccessDeniedException
   | ConflictException
@@ -4575,9 +4542,8 @@ export const updateFleet: (
  * dissociated from the fleet. For more information, see Delete a fleet (AWS
  * CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const deleteFleet: (
-  input: DeleteFleetRequest,
-) => effect.Effect<
+export const deleteFleet: API.OperationMethod<
+  DeleteFleetRequest,
   DeleteFleetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4600,19 +4566,17 @@ export const deleteFleet: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listFleets: {
-  (
-    input: ListFleetsRequest,
-  ): effect.Effect<
-    ListFleetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFleets: API.OperationMethod<
+  ListFleetsRequest,
+  ListFleetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFleetsRequest,
   ) => stream.Stream<
@@ -4659,19 +4623,17 @@ export const listFleets: {
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listVehiclesInFleet: {
-  (
-    input: ListVehiclesInFleetRequest,
-  ): effect.Effect<
-    ListVehiclesInFleetResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVehiclesInFleet: API.OperationMethod<
+  ListVehiclesInFleetRequest,
+  ListVehiclesInFleetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVehiclesInFleetRequest,
   ) => stream.Stream<
@@ -4720,9 +4682,8 @@ export const listVehiclesInFleet: {
  * For more information, see Vehicle models
  * in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createModelManifest: (
-  input: CreateModelManifestRequest,
-) => effect.Effect<
+export const createModelManifest: API.OperationMethod<
+  CreateModelManifestRequest,
   CreateModelManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -4749,9 +4710,8 @@ export const createModelManifest: (
 /**
  * Retrieves information about a vehicle model (model manifest).
  */
-export const getModelManifest: (
-  input: GetModelManifestRequest,
-) => effect.Effect<
+export const getModelManifest: API.OperationMethod<
+  GetModelManifestRequest,
   GetModelManifestResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4773,9 +4733,8 @@ export const getModelManifest: (
  * Updates a vehicle model (model manifest). If created vehicles are associated with a
  * vehicle model, it can't be updated.
  */
-export const updateModelManifest: (
-  input: UpdateModelManifestRequest,
-) => effect.Effect<
+export const updateModelManifest: API.OperationMethod<
+  UpdateModelManifestRequest,
   UpdateModelManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -4802,9 +4761,8 @@ export const updateModelManifest: (
 /**
  * Deletes a vehicle model (model manifest).
  */
-export const deleteModelManifest: (
-  input: DeleteModelManifestRequest,
-) => effect.Effect<
+export const deleteModelManifest: API.OperationMethod<
+  DeleteModelManifestRequest,
   DeleteModelManifestResponse,
   | AccessDeniedException
   | ConflictException
@@ -4829,18 +4787,16 @@ export const deleteModelManifest: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listModelManifests: {
-  (
-    input: ListModelManifestsRequest,
-  ): effect.Effect<
-    ListModelManifestsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelManifests: API.OperationMethod<
+  ListModelManifestsRequest,
+  ListModelManifestsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelManifestsRequest,
   ) => stream.Stream<
@@ -4884,20 +4840,18 @@ export const listModelManifests: {
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listModelManifestNodes: {
-  (
-    input: ListModelManifestNodesRequest,
-  ): effect.Effect<
-    ListModelManifestNodesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelManifestNodes: API.OperationMethod<
+  ListModelManifestNodesRequest,
+  ListModelManifestNodesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelManifestNodesRequest,
   ) => stream.Stream<
@@ -4946,9 +4900,8 @@ export const listModelManifestNodes: {
  * Creates a collection of standardized signals that can be reused to create vehicle
  * models.
  */
-export const createSignalCatalog: (
-  input: CreateSignalCatalogRequest,
-) => effect.Effect<
+export const createSignalCatalog: API.OperationMethod<
+  CreateSignalCatalogRequest,
   CreateSignalCatalogResponse,
   | AccessDeniedException
   | ConflictException
@@ -4975,9 +4928,8 @@ export const createSignalCatalog: (
 /**
  * Retrieves information about a signal catalog.
  */
-export const getSignalCatalog: (
-  input: GetSignalCatalogRequest,
-) => effect.Effect<
+export const getSignalCatalog: API.OperationMethod<
+  GetSignalCatalogRequest,
   GetSignalCatalogResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4998,9 +4950,8 @@ export const getSignalCatalog: (
 /**
  * Updates a signal catalog.
  */
-export const updateSignalCatalog: (
-  input: UpdateSignalCatalogRequest,
-) => effect.Effect<
+export const updateSignalCatalog: API.OperationMethod<
+  UpdateSignalCatalogRequest,
   UpdateSignalCatalogResponse,
   | AccessDeniedException
   | ConflictException
@@ -5031,9 +4982,8 @@ export const updateSignalCatalog: (
 /**
  * Deletes a signal catalog.
  */
-export const deleteSignalCatalog: (
-  input: DeleteSignalCatalogRequest,
-) => effect.Effect<
+export const deleteSignalCatalog: API.OperationMethod<
+  DeleteSignalCatalogRequest,
   DeleteSignalCatalogResponse,
   | AccessDeniedException
   | ConflictException
@@ -5061,18 +5011,16 @@ export const deleteSignalCatalog: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listSignalCatalogs: {
-  (
-    input: ListSignalCatalogsRequest,
-  ): effect.Effect<
-    ListSignalCatalogsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSignalCatalogs: API.OperationMethod<
+  ListSignalCatalogsRequest,
+  ListSignalCatalogsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSignalCatalogsRequest,
   ) => stream.Stream<
@@ -5115,9 +5063,8 @@ export const listSignalCatalogs: {
  * Creates a signal catalog using your existing VSS formatted content from your local
  * device.
  */
-export const importSignalCatalog: (
-  input: ImportSignalCatalogRequest,
-) => effect.Effect<
+export const importSignalCatalog: API.OperationMethod<
+  ImportSignalCatalogRequest,
   ImportSignalCatalogResponse,
   | AccessDeniedException
   | ConflictException
@@ -5148,20 +5095,18 @@ export const importSignalCatalog: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listSignalCatalogNodes: {
-  (
-    input: ListSignalCatalogNodesRequest,
-  ): effect.Effect<
-    ListSignalCatalogNodesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSignalCatalogNodes: API.OperationMethod<
+  ListSignalCatalogNodesRequest,
+  ListSignalCatalogNodesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSignalCatalogNodesRequest,
   ) => stream.Stream<
@@ -5211,9 +5156,8 @@ export const listSignalCatalogNodes: {
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createStateTemplate: (
-  input: CreateStateTemplateRequest,
-) => effect.Effect<
+export const createStateTemplate: API.OperationMethod<
+  CreateStateTemplateRequest,
   CreateStateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -5244,9 +5188,8 @@ export const createStateTemplate: (
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const getStateTemplate: (
-  input: GetStateTemplateRequest,
-) => effect.Effect<
+export const getStateTemplate: API.OperationMethod<
+  GetStateTemplateRequest,
   GetStateTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5271,9 +5214,8 @@ export const getStateTemplate: (
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const updateStateTemplate: (
-  input: UpdateStateTemplateRequest,
-) => effect.Effect<
+export const updateStateTemplate: API.OperationMethod<
+  UpdateStateTemplateRequest,
   UpdateStateTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5300,9 +5242,8 @@ export const updateStateTemplate: (
 /**
  * Deletes a state template.
  */
-export const deleteStateTemplate: (
-  input: DeleteStateTemplateRequest,
-) => effect.Effect<
+export const deleteStateTemplate: API.OperationMethod<
+  DeleteStateTemplateRequest,
   DeleteStateTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5325,18 +5266,16 @@ export const deleteStateTemplate: (
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const listStateTemplates: {
-  (
-    input: ListStateTemplatesRequest,
-  ): effect.Effect<
-    ListStateTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStateTemplates: API.OperationMethod<
+  ListStateTemplatesRequest,
+  ListStateTemplatesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStateTemplatesRequest,
   ) => stream.Stream<
@@ -5386,9 +5325,8 @@ export const listStateTemplates: {
  * For more information, see Create a vehicle
  * (AWS CLI) in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const createVehicle: (
-  input: CreateVehicleRequest,
-) => effect.Effect<
+export const createVehicle: API.OperationMethod<
+  CreateVehicleRequest,
   CreateVehicleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5415,9 +5353,8 @@ export const createVehicle: (
 /**
  * Retrieves information about a vehicle.
  */
-export const getVehicle: (
-  input: GetVehicleRequest,
-) => effect.Effect<
+export const getVehicle: API.OperationMethod<
+  GetVehicleRequest,
   GetVehicleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5442,9 +5379,8 @@ export const getVehicle: (
  *
  * Access to certain Amazon Web Services IoT FleetWise features is currently gated. For more information, see Amazon Web Services Region and feature availability in the *Amazon Web Services IoT FleetWise Developer Guide*.
  */
-export const updateVehicle: (
-  input: UpdateVehicleRequest,
-) => effect.Effect<
+export const updateVehicle: API.OperationMethod<
+  UpdateVehicleRequest,
   UpdateVehicleResponse,
   | AccessDeniedException
   | ConflictException
@@ -5471,9 +5407,8 @@ export const updateVehicle: (
 /**
  * Deletes a vehicle and removes it from any campaigns.
  */
-export const deleteVehicle: (
-  input: DeleteVehicleRequest,
-) => effect.Effect<
+export const deleteVehicle: API.OperationMethod<
+  DeleteVehicleRequest,
   DeleteVehicleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5496,18 +5431,16 @@ export const deleteVehicle: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listVehicles: {
-  (
-    input: ListVehiclesRequest,
-  ): effect.Effect<
-    ListVehiclesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVehicles: API.OperationMethod<
+  ListVehiclesRequest,
+  ListVehiclesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVehiclesRequest,
   ) => stream.Stream<
@@ -5549,9 +5482,8 @@ export const listVehicles: {
 /**
  * Adds, or associates, a vehicle with a fleet.
  */
-export const associateVehicleFleet: (
-  input: AssociateVehicleFleetRequest,
-) => effect.Effect<
+export const associateVehicleFleet: API.OperationMethod<
+  AssociateVehicleFleetRequest,
   AssociateVehicleFleetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5577,9 +5509,8 @@ export const associateVehicleFleet: (
  * Removes, or disassociates, a vehicle from a fleet. Disassociating a vehicle from a
  * fleet doesn't delete the vehicle.
  */
-export const disassociateVehicleFleet: (
-  input: DisassociateVehicleFleetRequest,
-) => effect.Effect<
+export const disassociateVehicleFleet: API.OperationMethod<
+  DisassociateVehicleFleetRequest,
   DisassociateVehicleFleetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5604,19 +5535,17 @@ export const disassociateVehicleFleet: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the request to return more results.
  */
-export const listFleetsForVehicle: {
-  (
-    input: ListFleetsForVehicleRequest,
-  ): effect.Effect<
-    ListFleetsForVehicleResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFleetsForVehicle: API.OperationMethod<
+  ListFleetsForVehicleRequest,
+  ListFleetsForVehicleResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFleetsForVehicleRequest,
   ) => stream.Stream<

@@ -2852,9 +2852,8 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
  * transcriptions and Creating categories for
  * real-time transcriptions.
  */
-export const createCallAnalyticsCategory: (
-  input: CreateCallAnalyticsCategoryRequest,
-) => effect.Effect<
+export const createCallAnalyticsCategory: API.OperationMethod<
+  CreateCallAnalyticsCategoryRequest,
   CreateCallAnalyticsCategoryResponse,
   | BadRequestException
   | ConflictException
@@ -2886,9 +2885,8 @@ export const createCallAnalyticsCategory: (
  *
  * - A unique name for your model
  */
-export const createLanguageModel: (
-  input: CreateLanguageModelRequest,
-) => effect.Effect<
+export const createLanguageModel: API.OperationMethod<
+  CreateLanguageModelRequest,
   CreateLanguageModelResponse,
   | BadRequestException
   | ConflictException
@@ -2924,9 +2922,8 @@ export const createLanguageModel: (
  * For more information, see Custom
  * vocabularies.
  */
-export const createMedicalVocabulary: (
-  input: CreateMedicalVocabularyRequest,
-) => effect.Effect<
+export const createMedicalVocabulary: API.OperationMethod<
+  CreateMedicalVocabularyRequest,
   CreateMedicalVocabularyResponse,
   | BadRequestException
   | ConflictException
@@ -2960,9 +2957,8 @@ export const createMedicalVocabulary: (
  * For more information, see Custom
  * vocabularies.
  */
-export const createVocabulary: (
-  input: CreateVocabularyRequest,
-) => effect.Effect<
+export const createVocabulary: API.OperationMethod<
+  CreateVocabularyRequest,
   CreateVocabularyResponse,
   | BadRequestException
   | ConflictException
@@ -2995,9 +2991,8 @@ export const createVocabulary: (
  * For more information, see Vocabulary
  * filtering.
  */
-export const createVocabularyFilter: (
-  input: CreateVocabularyFilterRequest,
-) => effect.Effect<
+export const createVocabularyFilter: API.OperationMethod<
+  CreateVocabularyFilterRequest,
   CreateVocabularyFilterResponse,
   | BadRequestException
   | ConflictException
@@ -3020,9 +3015,8 @@ export const createVocabularyFilter: (
  * category you want to delete using `CategoryName`. Category names are case
  * sensitive.
  */
-export const deleteCallAnalyticsCategory: (
-  input: DeleteCallAnalyticsCategoryRequest,
-) => effect.Effect<
+export const deleteCallAnalyticsCategory: API.OperationMethod<
+  DeleteCallAnalyticsCategoryRequest,
   DeleteCallAnalyticsCategoryResponse,
   | BadRequestException
   | InternalFailureException
@@ -3045,9 +3039,8 @@ export const deleteCallAnalyticsCategory: (
  * want to delete using `CallAnalyticsJobName`. Job names are case
  * sensitive.
  */
-export const deleteCallAnalyticsJob: (
-  input: DeleteCallAnalyticsJobRequest,
-) => effect.Effect<
+export const deleteCallAnalyticsJob: API.OperationMethod<
+  DeleteCallAnalyticsJobRequest,
   DeleteCallAnalyticsJobResponse,
   | BadRequestException
   | InternalFailureException
@@ -3068,9 +3061,8 @@ export const deleteCallAnalyticsJob: (
  * language model you want to delete using `ModelName`. custom language model
  * names are case sensitive.
  */
-export const deleteLanguageModel: (
-  input: DeleteLanguageModelRequest,
-) => effect.Effect<
+export const deleteLanguageModel: API.OperationMethod<
+  DeleteLanguageModelRequest,
   DeleteLanguageModelResponse,
   | BadRequestException
   | InternalFailureException
@@ -3091,9 +3083,8 @@ export const deleteLanguageModel: (
  * job you want to delete using `MedicalScribeJobName`. Job names are
  * case sensitive.
  */
-export const deleteMedicalScribeJob: (
-  input: DeleteMedicalScribeJobRequest,
-) => effect.Effect<
+export const deleteMedicalScribeJob: API.OperationMethod<
+  DeleteMedicalScribeJobRequest,
   DeleteMedicalScribeJobResponse,
   | BadRequestException
   | InternalFailureException
@@ -3114,9 +3105,8 @@ export const deleteMedicalScribeJob: (
  * job you want to delete using `MedicalTranscriptionJobName`. Job names are
  * case sensitive.
  */
-export const deleteMedicalTranscriptionJob: (
-  input: DeleteMedicalTranscriptionJobRequest,
-) => effect.Effect<
+export const deleteMedicalTranscriptionJob: API.OperationMethod<
+  DeleteMedicalTranscriptionJobRequest,
   DeleteMedicalTranscriptionJobResponse,
   | BadRequestException
   | InternalFailureException
@@ -3137,9 +3127,8 @@ export const deleteMedicalTranscriptionJob: (
  * custom vocabulary you want to delete using `VocabularyName`. Custom
  * vocabulary names are case sensitive.
  */
-export const deleteMedicalVocabulary: (
-  input: DeleteMedicalVocabularyRequest,
-) => effect.Effect<
+export const deleteMedicalVocabulary: API.OperationMethod<
+  DeleteMedicalVocabularyRequest,
   DeleteMedicalVocabularyResponse,
   | BadRequestException
   | InternalFailureException
@@ -3162,9 +3151,8 @@ export const deleteMedicalVocabulary: (
  * want to delete using `TranscriptionJobName`. Job names are case
  * sensitive.
  */
-export const deleteTranscriptionJob: (
-  input: DeleteTranscriptionJobRequest,
-) => effect.Effect<
+export const deleteTranscriptionJob: API.OperationMethod<
+  DeleteTranscriptionJobRequest,
   DeleteTranscriptionJobResponse,
   | BadRequestException
   | InternalFailureException
@@ -3185,9 +3173,8 @@ export const deleteTranscriptionJob: (
  * vocabulary you want to delete using `VocabularyName`. Custom vocabulary names
  * are case sensitive.
  */
-export const deleteVocabulary: (
-  input: DeleteVocabularyRequest,
-) => effect.Effect<
+export const deleteVocabulary: API.OperationMethod<
+  DeleteVocabularyRequest,
   DeleteVocabularyResponse,
   | BadRequestException
   | InternalFailureException
@@ -3210,9 +3197,8 @@ export const deleteVocabulary: (
  * custom vocabulary filter you want to delete using `VocabularyFilterName`.
  * Custom vocabulary filter names are case sensitive.
  */
-export const deleteVocabularyFilter: (
-  input: DeleteVocabularyFilterRequest,
-) => effect.Effect<
+export const deleteVocabularyFilter: API.OperationMethod<
+  DeleteVocabularyFilterRequest,
   DeleteVocabularyFilterResponse,
   | BadRequestException
   | InternalFailureException
@@ -3241,9 +3227,8 @@ export const deleteVocabularyFilter: (
  * you can use `DescribeLanguageModel` to help identify the reason for this
  * failure.
  */
-export const describeLanguageModel: (
-  input: DescribeLanguageModelRequest,
-) => effect.Effect<
+export const describeLanguageModel: API.OperationMethod<
+  DescribeLanguageModelRequest,
   DescribeLanguageModelResponse,
   | BadRequestException
   | InternalFailureException
@@ -3266,9 +3251,8 @@ export const describeLanguageModel: (
  *
  * To get a list of your Call Analytics categories, use the operation.
  */
-export const getCallAnalyticsCategory: (
-  input: GetCallAnalyticsCategoryRequest,
-) => effect.Effect<
+export const getCallAnalyticsCategory: API.OperationMethod<
+  GetCallAnalyticsCategoryRequest,
   GetCallAnalyticsCategoryResponse,
   | BadRequestException
   | InternalFailureException
@@ -3304,9 +3288,8 @@ export const getCallAnalyticsCategory: (
  *
  * To get a list of your Call Analytics jobs, use the operation.
  */
-export const getCallAnalyticsJob: (
-  input: GetCallAnalyticsJobRequest,
-) => effect.Effect<
+export const getCallAnalyticsJob: API.OperationMethod<
+  GetCallAnalyticsJobRequest,
   GetCallAnalyticsJobResponse,
   | BadRequestException
   | InternalFailureException
@@ -3336,9 +3319,8 @@ export const getCallAnalyticsJob: (
  *
  * To get a list of your Medical Scribe jobs, use the operation.
  */
-export const getMedicalScribeJob: (
-  input: GetMedicalScribeJobRequest,
-) => effect.Effect<
+export const getMedicalScribeJob: API.OperationMethod<
+  GetMedicalScribeJobRequest,
   GetMedicalScribeJobResponse,
   | BadRequestException
   | InternalFailureException
@@ -3368,9 +3350,8 @@ export const getMedicalScribeJob: (
  *
  * To get a list of your medical transcription jobs, use the operation.
  */
-export const getMedicalTranscriptionJob: (
-  input: GetMedicalTranscriptionJobRequest,
-) => effect.Effect<
+export const getMedicalTranscriptionJob: API.OperationMethod<
+  GetMedicalTranscriptionJobRequest,
   GetMedicalTranscriptionJobResponse,
   | BadRequestException
   | InternalFailureException
@@ -3398,9 +3379,8 @@ export const getMedicalTranscriptionJob: (
  *
  * To get a list of your custom medical vocabularies, use the operation.
  */
-export const getMedicalVocabulary: (
-  input: GetMedicalVocabularyRequest,
-) => effect.Effect<
+export const getMedicalVocabulary: API.OperationMethod<
+  GetMedicalVocabularyRequest,
   GetMedicalVocabularyResponse,
   | BadRequestException
   | InternalFailureException
@@ -3433,9 +3413,8 @@ export const getMedicalVocabulary: (
  *
  * To get a list of your transcription jobs, use the operation.
  */
-export const getTranscriptionJob: (
-  input: GetTranscriptionJobRequest,
-) => effect.Effect<
+export const getTranscriptionJob: API.OperationMethod<
+  GetTranscriptionJobRequest,
   GetTranscriptionJobResponse,
   | BadRequestException
   | InternalFailureException
@@ -3464,9 +3443,8 @@ export const getTranscriptionJob: (
  *
  * To get a list of your custom vocabularies, use the operation.
  */
-export const getVocabulary: (
-  input: GetVocabularyRequest,
-) => effect.Effect<
+export const getVocabulary: API.OperationMethod<
+  GetVocabularyRequest,
   GetVocabularyResponse,
   | BadRequestException
   | InternalFailureException
@@ -3489,9 +3467,8 @@ export const getVocabulary: (
  *
  * To get a list of your custom vocabulary filters, use the operation.
  */
-export const getVocabularyFilter: (
-  input: GetVocabularyFilterRequest,
-) => effect.Effect<
+export const getVocabularyFilter: API.OperationMethod<
+  GetVocabularyFilterRequest,
   GetVocabularyFilterResponse,
   | BadRequestException
   | InternalFailureException
@@ -3515,17 +3492,15 @@ export const getVocabularyFilter: (
  *
  * To get detailed information about a specific Call Analytics category, use the operation.
  */
-export const listCallAnalyticsCategories: {
-  (
-    input: ListCallAnalyticsCategoriesRequest,
-  ): effect.Effect<
-    ListCallAnalyticsCategoriesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCallAnalyticsCategories: API.OperationMethod<
+  ListCallAnalyticsCategoriesRequest,
+  ListCallAnalyticsCategoriesResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCallAnalyticsCategoriesRequest,
   ) => stream.Stream<
@@ -3566,17 +3541,15 @@ export const listCallAnalyticsCategories: {
  *
  * To get detailed information about a specific Call Analytics job, use the operation.
  */
-export const listCallAnalyticsJobs: {
-  (
-    input: ListCallAnalyticsJobsRequest,
-  ): effect.Effect<
-    ListCallAnalyticsJobsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCallAnalyticsJobs: API.OperationMethod<
+  ListCallAnalyticsJobsRequest,
+  ListCallAnalyticsJobsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCallAnalyticsJobsRequest,
   ) => stream.Stream<
@@ -3617,17 +3590,15 @@ export const listCallAnalyticsJobs: {
  *
  * To get detailed information about a specific custom language model, use the operation.
  */
-export const listLanguageModels: {
-  (
-    input: ListLanguageModelsRequest,
-  ): effect.Effect<
-    ListLanguageModelsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLanguageModels: API.OperationMethod<
+  ListLanguageModelsRequest,
+  ListLanguageModelsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLanguageModelsRequest,
   ) => stream.Stream<
@@ -3668,17 +3639,15 @@ export const listLanguageModels: {
  *
  * To get detailed information about a specific Medical Scribe job, use the operation.
  */
-export const listMedicalScribeJobs: {
-  (
-    input: ListMedicalScribeJobsRequest,
-  ): effect.Effect<
-    ListMedicalScribeJobsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMedicalScribeJobs: API.OperationMethod<
+  ListMedicalScribeJobsRequest,
+  ListMedicalScribeJobsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMedicalScribeJobsRequest,
   ) => stream.Stream<
@@ -3719,17 +3688,15 @@ export const listMedicalScribeJobs: {
  *
  * To get detailed information about a specific medical transcription job, use the operation.
  */
-export const listMedicalTranscriptionJobs: {
-  (
-    input: ListMedicalTranscriptionJobsRequest,
-  ): effect.Effect<
-    ListMedicalTranscriptionJobsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMedicalTranscriptionJobs: API.OperationMethod<
+  ListMedicalTranscriptionJobsRequest,
+  ListMedicalTranscriptionJobsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMedicalTranscriptionJobsRequest,
   ) => stream.Stream<
@@ -3770,17 +3737,15 @@ export const listMedicalTranscriptionJobs: {
  *
  * To get detailed information about a specific custom medical vocabulary, use the operation.
  */
-export const listMedicalVocabularies: {
-  (
-    input: ListMedicalVocabulariesRequest,
-  ): effect.Effect<
-    ListMedicalVocabulariesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMedicalVocabularies: API.OperationMethod<
+  ListMedicalVocabulariesRequest,
+  ListMedicalVocabulariesResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMedicalVocabulariesRequest,
   ) => stream.Stream<
@@ -3822,9 +3787,8 @@ export const listMedicalVocabularies: {
  * To learn more about using tags with Amazon Transcribe, refer to Tagging
  * resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalFailureException
@@ -3848,17 +3812,15 @@ export const listTagsForResource: (
  *
  * To get detailed information about a specific transcription job, use the operation.
  */
-export const listTranscriptionJobs: {
-  (
-    input: ListTranscriptionJobsRequest,
-  ): effect.Effect<
-    ListTranscriptionJobsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTranscriptionJobs: API.OperationMethod<
+  ListTranscriptionJobsRequest,
+  ListTranscriptionJobsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTranscriptionJobsRequest,
   ) => stream.Stream<
@@ -3899,17 +3861,15 @@ export const listTranscriptionJobs: {
  *
  * To get detailed information about a specific custom vocabulary, use the operation.
  */
-export const listVocabularies: {
-  (
-    input: ListVocabulariesRequest,
-  ): effect.Effect<
-    ListVocabulariesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVocabularies: API.OperationMethod<
+  ListVocabulariesRequest,
+  ListVocabulariesResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVocabulariesRequest,
   ) => stream.Stream<
@@ -3950,17 +3910,15 @@ export const listVocabularies: {
  *
  * To get detailed information about a specific custom vocabulary filter, use the operation.
  */
-export const listVocabularyFilters: {
-  (
-    input: ListVocabularyFiltersRequest,
-  ): effect.Effect<
-    ListVocabularyFiltersResponse,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVocabularyFilters: API.OperationMethod<
+  ListVocabularyFiltersRequest,
+  ListVocabularyFiltersResponse,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVocabularyFiltersRequest,
   ) => stream.Stream<
@@ -4040,9 +3998,8 @@ export const listVocabularyFilters: {
  * can find your redacted media at the location specified in the
  * `RedactedMediaFileUri` field of your response.
  */
-export const startCallAnalyticsJob: (
-  input: StartCallAnalyticsJobRequest,
-) => effect.Effect<
+export const startCallAnalyticsJob: API.OperationMethod<
+  StartCallAnalyticsJobRequest,
   StartCallAnalyticsJobResponse,
   | BadRequestException
   | ConflictException
@@ -4094,9 +4051,8 @@ export const startCallAnalyticsJob: (
  * - `ChannelDefinitions`: A `MedicalScribeChannelDefinitions` array should be set if and only if the `ChannelIdentification`
  * value of `Settings` is set to true.
  */
-export const startMedicalScribeJob: (
-  input: StartMedicalScribeJobRequest,
-) => effect.Effect<
+export const startMedicalScribeJob: API.OperationMethod<
+  StartMedicalScribeJobRequest,
   StartMedicalScribeJobResponse,
   | BadRequestException
   | ConflictException
@@ -4152,9 +4108,8 @@ export const startMedicalScribeJob: (
  * - `Type`: Choose whether your audio is a conversation or a
  * dictation.
  */
-export const startMedicalTranscriptionJob: (
-  input: StartMedicalTranscriptionJobRequest,
-) => effect.Effect<
+export const startMedicalTranscriptionJob: API.OperationMethod<
+  StartMedicalTranscriptionJobRequest,
   StartMedicalTranscriptionJobResponse,
   | BadRequestException
   | ConflictException
@@ -4202,9 +4157,8 @@ export const startMedicalTranscriptionJob: (
  * `IdentifyMultipleLanguages` and let Amazon Transcribe identify
  * the languages for you.
  */
-export const startTranscriptionJob: (
-  input: StartTranscriptionJobRequest,
-) => effect.Effect<
+export const startTranscriptionJob: API.OperationMethod<
+  StartTranscriptionJobRequest,
   StartTranscriptionJobResponse,
   | BadRequestException
   | ConflictException
@@ -4229,9 +4183,8 @@ export const startTranscriptionJob: (
  * To learn more about using tags with Amazon Transcribe, refer to Tagging
  * resources.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -4257,9 +4210,8 @@ export const tagResource: (
  * If you include `UntagResource` in your request, you must also include
  * `ResourceArn` and `TagKeys`.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -4287,9 +4239,8 @@ export const untagResource: (
  *
  * To create a new category, see .
  */
-export const updateCallAnalyticsCategory: (
-  input: UpdateCallAnalyticsCategoryRequest,
-) => effect.Effect<
+export const updateCallAnalyticsCategory: API.OperationMethod<
+  UpdateCallAnalyticsCategoryRequest,
   UpdateCallAnalyticsCategoryResponse,
   | BadRequestException
   | ConflictException
@@ -4314,9 +4265,8 @@ export const updateCallAnalyticsCategory: (
  * overwrites all existing information with your new values; you cannot append new terms
  * onto an existing custom vocabulary.
  */
-export const updateMedicalVocabulary: (
-  input: UpdateMedicalVocabularyRequest,
-) => effect.Effect<
+export const updateMedicalVocabulary: API.OperationMethod<
+  UpdateMedicalVocabularyRequest,
   UpdateMedicalVocabularyResponse,
   | BadRequestException
   | ConflictException
@@ -4341,9 +4291,8 @@ export const updateMedicalVocabulary: (
  * existing information with your new values; you cannot append new terms onto an existing
  * custom vocabulary.
  */
-export const updateVocabulary: (
-  input: UpdateVocabularyRequest,
-) => effect.Effect<
+export const updateVocabulary: API.OperationMethod<
+  UpdateVocabularyRequest,
   UpdateVocabularyResponse,
   | BadRequestException
   | ConflictException
@@ -4368,9 +4317,8 @@ export const updateVocabulary: (
  * you provide overwrites all previous entries; you cannot append new terms onto an
  * existing custom vocabulary filter.
  */
-export const updateVocabularyFilter: (
-  input: UpdateVocabularyFilterRequest,
-) => effect.Effect<
+export const updateVocabularyFilter: API.OperationMethod<
+  UpdateVocabularyFilterRequest,
   UpdateVocabularyFilterResponse,
   | BadRequestException
   | InternalFailureException

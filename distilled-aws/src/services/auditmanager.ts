@@ -3440,9 +3440,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  * Associates an evidence folder to an assessment report in an Audit Manager
  * assessment.
  */
-export const associateAssessmentReportEvidenceFolder: (
-  input: AssociateAssessmentReportEvidenceFolderRequest,
-) => effect.Effect<
+export const associateAssessmentReportEvidenceFolder: API.OperationMethod<
+  AssociateAssessmentReportEvidenceFolderRequest,
   AssociateAssessmentReportEvidenceFolderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3464,9 +3463,8 @@ export const associateAssessmentReportEvidenceFolder: (
  * Associates a list of evidence to an assessment report in an Audit Manager
  * assessment.
  */
-export const batchAssociateAssessmentReportEvidence: (
-  input: BatchAssociateAssessmentReportEvidenceRequest,
-) => effect.Effect<
+export const batchAssociateAssessmentReportEvidence: API.OperationMethod<
+  BatchAssociateAssessmentReportEvidenceRequest,
   BatchAssociateAssessmentReportEvidenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3487,9 +3485,8 @@ export const batchAssociateAssessmentReportEvidence: (
 /**
  * Creates a batch of delegations for an assessment in Audit Manager.
  */
-export const batchCreateDelegationByAssessment: (
-  input: BatchCreateDelegationByAssessmentRequest,
-) => effect.Effect<
+export const batchCreateDelegationByAssessment: API.OperationMethod<
+  BatchCreateDelegationByAssessmentRequest,
   BatchCreateDelegationByAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3510,9 +3507,8 @@ export const batchCreateDelegationByAssessment: (
 /**
  * Deletes a batch of delegations for an assessment in Audit Manager.
  */
-export const batchDeleteDelegationByAssessment: (
-  input: BatchDeleteDelegationByAssessmentRequest,
-) => effect.Effect<
+export const batchDeleteDelegationByAssessment: API.OperationMethod<
+  BatchDeleteDelegationByAssessmentRequest,
   BatchDeleteDelegationByAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3533,9 +3529,8 @@ export const batchDeleteDelegationByAssessment: (
 /**
  * Disassociates a list of evidence from an assessment report in Audit Manager.
  */
-export const batchDisassociateAssessmentReportEvidence: (
-  input: BatchDisassociateAssessmentReportEvidenceRequest,
-) => effect.Effect<
+export const batchDisassociateAssessmentReportEvidence: API.OperationMethod<
+  BatchDisassociateAssessmentReportEvidenceRequest,
   BatchDisassociateAssessmentReportEvidenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3575,9 +3570,8 @@ export const batchDisassociateAssessmentReportEvidence: (
  * For more information about Audit Manager service restrictions, see Quotas and
  * restrictions for Audit Manager.
  */
-export const batchImportEvidenceToAssessmentControl: (
-  input: BatchImportEvidenceToAssessmentControlRequest,
-) => effect.Effect<
+export const batchImportEvidenceToAssessmentControl: API.OperationMethod<
+  BatchImportEvidenceToAssessmentControlRequest,
   BatchImportEvidenceToAssessmentControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3600,9 +3594,8 @@ export const batchImportEvidenceToAssessmentControl: (
 /**
  * Creates an assessment in Audit Manager.
  */
-export const createAssessment: (
-  input: CreateAssessmentRequest,
-) => effect.Effect<
+export const createAssessment: API.OperationMethod<
+  CreateAssessmentRequest,
   CreateAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3627,9 +3620,8 @@ export const createAssessment: (
 /**
  * Creates a custom framework in Audit Manager.
  */
-export const createAssessmentFramework: (
-  input: CreateAssessmentFrameworkRequest,
-) => effect.Effect<
+export const createAssessmentFramework: API.OperationMethod<
+  CreateAssessmentFrameworkRequest,
   CreateAssessmentFrameworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3652,9 +3644,8 @@ export const createAssessmentFramework: (
 /**
  * Creates an assessment report for the specified assessment.
  */
-export const createAssessmentReport: (
-  input: CreateAssessmentReportRequest,
-) => effect.Effect<
+export const createAssessmentReport: API.OperationMethod<
+  CreateAssessmentReportRequest,
   CreateAssessmentReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3675,9 +3666,8 @@ export const createAssessmentReport: (
 /**
  * Creates a new custom control in Audit Manager.
  */
-export const createControl: (
-  input: CreateControlRequest,
-) => effect.Effect<
+export const createControl: API.OperationMethod<
+  CreateControlRequest,
   CreateControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3700,9 +3690,8 @@ export const createControl: (
 /**
  * Deletes an assessment in Audit Manager.
  */
-export const deleteAssessment: (
-  input: DeleteAssessmentRequest,
-) => effect.Effect<
+export const deleteAssessment: API.OperationMethod<
+  DeleteAssessmentRequest,
   DeleteAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3723,9 +3712,8 @@ export const deleteAssessment: (
 /**
  * Deletes a custom framework in Audit Manager.
  */
-export const deleteAssessmentFramework: (
-  input: DeleteAssessmentFrameworkRequest,
-) => effect.Effect<
+export const deleteAssessmentFramework: API.OperationMethod<
+  DeleteAssessmentFrameworkRequest,
   DeleteAssessmentFrameworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3746,9 +3734,8 @@ export const deleteAssessmentFramework: (
 /**
  * Deletes a share request for a custom framework in Audit Manager.
  */
-export const deleteAssessmentFrameworkShare: (
-  input: DeleteAssessmentFrameworkShareRequest,
-) => effect.Effect<
+export const deleteAssessmentFrameworkShare: API.OperationMethod<
+  DeleteAssessmentFrameworkShareRequest,
   DeleteAssessmentFrameworkShareResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3789,9 +3776,8 @@ export const deleteAssessmentFrameworkShare: (
  * List of Error Codes in the Amazon Simple Storage Service API
  * Reference.
  */
-export const deleteAssessmentReport: (
-  input: DeleteAssessmentReportRequest,
-) => effect.Effect<
+export const deleteAssessmentReport: API.OperationMethod<
+  DeleteAssessmentReportRequest,
   DeleteAssessmentReportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3817,9 +3803,8 @@ export const deleteAssessmentReport: (
  * collecting evidence for that custom control in all of your assessments. This includes
  * assessments that you previously created before you deleted the custom control.
  */
-export const deleteControl: (
-  input: DeleteControlRequest,
-) => effect.Effect<
+export const deleteControl: API.OperationMethod<
+  DeleteControlRequest,
   DeleteControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3848,9 +3833,8 @@ export const deleteControl: (
  * For more information about data retention, see Data
  * Protection in the *Audit Manager User Guide*.
  */
-export const deregisterAccount: (
-  input: DeregisterAccountRequest,
-) => effect.Effect<
+export const deregisterAccount: API.OperationMethod<
+  DeregisterAccountRequest,
   DeregisterAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3923,9 +3907,8 @@ export const deregisterAccount: (
  * specific delegated administrator. Instead, when your management account deregisters Audit Manager, we perform a cleanup for the current delegated administrator account at the
  * time of deregistration.
  */
-export const deregisterOrganizationAdminAccount: (
-  input: DeregisterOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const deregisterOrganizationAdminAccount: API.OperationMethod<
+  DeregisterOrganizationAdminAccountRequest,
   DeregisterOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3946,9 +3929,8 @@ export const deregisterOrganizationAdminAccount: (
 /**
  * Disassociates an evidence folder from the specified assessment report in Audit Manager.
  */
-export const disassociateAssessmentReportEvidenceFolder: (
-  input: DisassociateAssessmentReportEvidenceFolderRequest,
-) => effect.Effect<
+export const disassociateAssessmentReportEvidenceFolder: API.OperationMethod<
+  DisassociateAssessmentReportEvidenceFolderRequest,
   DisassociateAssessmentReportEvidenceFolderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3969,9 +3951,8 @@ export const disassociateAssessmentReportEvidenceFolder: (
 /**
  * Gets the registration status of an account in Audit Manager.
  */
-export const getAccountStatus: (
-  input: GetAccountStatusRequest,
-) => effect.Effect<
+export const getAccountStatus: API.OperationMethod<
+  GetAccountStatusRequest,
   GetAccountStatusResponse,
   InternalServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -3983,9 +3964,8 @@ export const getAccountStatus: (
 /**
  * Gets information about a specified assessment.
  */
-export const getAssessment: (
-  input: GetAssessmentRequest,
-) => effect.Effect<
+export const getAssessment: API.OperationMethod<
+  GetAssessmentRequest,
   GetAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4006,9 +3986,8 @@ export const getAssessment: (
 /**
  * Gets information about a specified framework.
  */
-export const getAssessmentFramework: (
-  input: GetAssessmentFrameworkRequest,
-) => effect.Effect<
+export const getAssessmentFramework: API.OperationMethod<
+  GetAssessmentFrameworkRequest,
   GetAssessmentFrameworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4029,9 +4008,8 @@ export const getAssessmentFramework: (
 /**
  * Gets the URL of an assessment report in Audit Manager.
  */
-export const getAssessmentReportUrl: (
-  input: GetAssessmentReportUrlRequest,
-) => effect.Effect<
+export const getAssessmentReportUrl: API.OperationMethod<
+  GetAssessmentReportUrlRequest,
   GetAssessmentReportUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4052,18 +4030,16 @@ export const getAssessmentReportUrl: (
 /**
  * Gets a list of changelogs from Audit Manager.
  */
-export const getChangeLogs: {
-  (
-    input: GetChangeLogsRequest,
-  ): effect.Effect<
-    GetChangeLogsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getChangeLogs: API.OperationMethod<
+  GetChangeLogsRequest,
+  GetChangeLogsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetChangeLogsRequest,
   ) => stream.Stream<
@@ -4104,9 +4080,8 @@ export const getChangeLogs: {
 /**
  * Gets information about a specified control.
  */
-export const getControl: (
-  input: GetControlRequest,
-) => effect.Effect<
+export const getControl: API.OperationMethod<
+  GetControlRequest,
   GetControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4127,17 +4102,15 @@ export const getControl: (
 /**
  * Gets a list of delegations from an audit owner to a delegate.
  */
-export const getDelegations: {
-  (
-    input: GetDelegationsRequest,
-  ): effect.Effect<
-    GetDelegationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getDelegations: API.OperationMethod<
+  GetDelegationsRequest,
+  GetDelegationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDelegationsRequest,
   ) => stream.Stream<
@@ -4171,9 +4144,8 @@ export const getDelegations: {
 /**
  * Gets information about a specified evidence item.
  */
-export const getEvidence: (
-  input: GetEvidenceRequest,
-) => effect.Effect<
+export const getEvidence: API.OperationMethod<
+  GetEvidenceRequest,
   GetEvidenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4194,18 +4166,16 @@ export const getEvidence: (
 /**
  * Gets all evidence from a specified evidence folder in Audit Manager.
  */
-export const getEvidenceByEvidenceFolder: {
-  (
-    input: GetEvidenceByEvidenceFolderRequest,
-  ): effect.Effect<
-    GetEvidenceByEvidenceFolderResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getEvidenceByEvidenceFolder: API.OperationMethod<
+  GetEvidenceByEvidenceFolderRequest,
+  GetEvidenceByEvidenceFolderResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetEvidenceByEvidenceFolderRequest,
   ) => stream.Stream<
@@ -4259,9 +4229,8 @@ export const getEvidenceByEvidenceFolder: {
  * For more information about Audit Manager service restrictions, see Quotas and
  * restrictions for Audit Manager.
  */
-export const getEvidenceFileUploadUrl: (
-  input: GetEvidenceFileUploadUrlRequest,
-) => effect.Effect<
+export const getEvidenceFileUploadUrl: API.OperationMethod<
+  GetEvidenceFileUploadUrlRequest,
   GetEvidenceFileUploadUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4282,9 +4251,8 @@ export const getEvidenceFileUploadUrl: (
 /**
  * Gets an evidence folder from a specified assessment in Audit Manager.
  */
-export const getEvidenceFolder: (
-  input: GetEvidenceFolderRequest,
-) => effect.Effect<
+export const getEvidenceFolder: API.OperationMethod<
+  GetEvidenceFolderRequest,
   GetEvidenceFolderResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4305,18 +4273,16 @@ export const getEvidenceFolder: (
 /**
  * Gets the evidence folders from a specified assessment in Audit Manager.
  */
-export const getEvidenceFoldersByAssessment: {
-  (
-    input: GetEvidenceFoldersByAssessmentRequest,
-  ): effect.Effect<
-    GetEvidenceFoldersByAssessmentResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getEvidenceFoldersByAssessment: API.OperationMethod<
+  GetEvidenceFoldersByAssessmentRequest,
+  GetEvidenceFoldersByAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetEvidenceFoldersByAssessmentRequest,
   ) => stream.Stream<
@@ -4358,18 +4324,16 @@ export const getEvidenceFoldersByAssessment: {
  * Gets a list of evidence folders that are associated with a specified control in an
  * Audit Manager assessment.
  */
-export const getEvidenceFoldersByAssessmentControl: {
-  (
-    input: GetEvidenceFoldersByAssessmentControlRequest,
-  ): effect.Effect<
-    GetEvidenceFoldersByAssessmentControlResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getEvidenceFoldersByAssessmentControl: API.OperationMethod<
+  GetEvidenceFoldersByAssessmentControlRequest,
+  GetEvidenceFoldersByAssessmentControlResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetEvidenceFoldersByAssessmentControlRequest,
   ) => stream.Stream<
@@ -4410,9 +4374,8 @@ export const getEvidenceFoldersByAssessmentControl: {
 /**
  * Gets the latest analytics data for all your current active assessments.
  */
-export const getInsights: (
-  input: GetInsightsRequest,
-) => effect.Effect<
+export const getInsights: API.OperationMethod<
+  GetInsightsRequest,
   GetInsightsResponse,
   AccessDeniedException | InternalServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4424,9 +4387,8 @@ export const getInsights: (
 /**
  * Gets the latest analytics data for a specific active assessment.
  */
-export const getInsightsByAssessment: (
-  input: GetInsightsByAssessmentRequest,
-) => effect.Effect<
+export const getInsightsByAssessment: API.OperationMethod<
+  GetInsightsByAssessmentRequest,
   GetInsightsByAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4448,9 +4410,8 @@ export const getInsightsByAssessment: (
  * Gets the name of the delegated Amazon Web Services administrator account for a specified
  * organization.
  */
-export const getOrganizationAdminAccount: (
-  input: GetOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const getOrganizationAdminAccount: API.OperationMethod<
+  GetOrganizationAdminAccountRequest,
   GetOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4482,9 +4443,8 @@ export const getOrganizationAdminAccount: (
  * the *Troubleshooting* section of the Audit Manager user
  * guide.
  */
-export const getServicesInScope: (
-  input: GetServicesInScopeRequest,
-) => effect.Effect<
+export const getServicesInScope: API.OperationMethod<
+  GetServicesInScopeRequest,
   GetServicesInScopeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4499,9 +4459,8 @@ export const getServicesInScope: (
 /**
  * Gets the settings for a specified Amazon Web Services account.
  */
-export const getSettings: (
-  input: GetSettingsRequest,
-) => effect.Effect<
+export const getSettings: API.OperationMethod<
+  GetSettingsRequest,
   GetSettingsResponse,
   AccessDeniedException | InternalServerException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4519,18 +4478,16 @@ export const getSettings: (
  * `lastUpdated` date of `controlInsightsByAssessment`. If neither
  * of these conditions are met, no data is listed for that control.
  */
-export const listAssessmentControlInsightsByControlDomain: {
-  (
-    input: ListAssessmentControlInsightsByControlDomainRequest,
-  ): effect.Effect<
-    ListAssessmentControlInsightsByControlDomainResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAssessmentControlInsightsByControlDomain: API.OperationMethod<
+  ListAssessmentControlInsightsByControlDomainRequest,
+  ListAssessmentControlInsightsByControlDomainResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssessmentControlInsightsByControlDomainRequest,
   ) => stream.Stream<
@@ -4572,17 +4529,15 @@ export const listAssessmentControlInsightsByControlDomain: {
  * Returns a list of the frameworks that are available in the Audit Manager framework
  * library.
  */
-export const listAssessmentFrameworks: {
-  (
-    input: ListAssessmentFrameworksRequest,
-  ): effect.Effect<
-    ListAssessmentFrameworksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAssessmentFrameworks: API.OperationMethod<
+  ListAssessmentFrameworksRequest,
+  ListAssessmentFrameworksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssessmentFrameworksRequest,
   ) => stream.Stream<
@@ -4616,17 +4571,15 @@ export const listAssessmentFrameworks: {
 /**
  * Returns a list of sent or received share requests for custom frameworks in Audit Manager.
  */
-export const listAssessmentFrameworkShareRequests: {
-  (
-    input: ListAssessmentFrameworkShareRequestsRequest,
-  ): effect.Effect<
-    ListAssessmentFrameworkShareRequestsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAssessmentFrameworkShareRequests: API.OperationMethod<
+  ListAssessmentFrameworkShareRequestsRequest,
+  ListAssessmentFrameworkShareRequestsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssessmentFrameworkShareRequestsRequest,
   ) => stream.Stream<
@@ -4660,17 +4613,15 @@ export const listAssessmentFrameworkShareRequests: {
 /**
  * Returns a list of assessment reports created in Audit Manager.
  */
-export const listAssessmentReports: {
-  (
-    input: ListAssessmentReportsRequest,
-  ): effect.Effect<
-    ListAssessmentReportsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAssessmentReports: API.OperationMethod<
+  ListAssessmentReportsRequest,
+  ListAssessmentReportsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssessmentReportsRequest,
   ) => stream.Stream<
@@ -4704,17 +4655,15 @@ export const listAssessmentReports: {
 /**
  * Returns a list of current and past assessments from Audit Manager.
  */
-export const listAssessments: {
-  (
-    input: ListAssessmentsRequest,
-  ): effect.Effect<
-    ListAssessmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAssessments: API.OperationMethod<
+  ListAssessmentsRequest,
+  ListAssessmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssessmentsRequest,
   ) => stream.Stream<
@@ -4761,18 +4710,16 @@ export const listAssessments: {
  * `controlDomainInsights`. If this condition isn’t met, no data is listed
  * for that control domain.
  */
-export const listControlDomainInsights: {
-  (
-    input: ListControlDomainInsightsRequest,
-  ): effect.Effect<
-    ListControlDomainInsightsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listControlDomainInsights: API.OperationMethod<
+  ListControlDomainInsightsRequest,
+  ListControlDomainInsightsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListControlDomainInsightsRequest,
   ) => stream.Stream<
@@ -4825,18 +4772,16 @@ export const listControlDomainInsights: {
  * `controlDomainInsights`. If this condition isn’t met, no data is listed
  * for that domain.
  */
-export const listControlDomainInsightsByAssessment: {
-  (
-    input: ListControlDomainInsightsByAssessmentRequest,
-  ): effect.Effect<
-    ListControlDomainInsightsByAssessmentResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listControlDomainInsightsByAssessment: API.OperationMethod<
+  ListControlDomainInsightsByAssessmentRequest,
+  ListControlDomainInsightsByAssessmentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListControlDomainInsightsByAssessmentRequest,
   ) => stream.Stream<
@@ -4883,18 +4828,16 @@ export const listControlDomainInsightsByAssessment: {
  * `controlInsightsMetadata`. If neither of these conditions are met, no data
  * is listed for that control.
  */
-export const listControlInsightsByControlDomain: {
-  (
-    input: ListControlInsightsByControlDomainRequest,
-  ): effect.Effect<
-    ListControlInsightsByControlDomainResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listControlInsightsByControlDomain: API.OperationMethod<
+  ListControlInsightsByControlDomainRequest,
+  ListControlInsightsByControlDomainResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListControlInsightsByControlDomainRequest,
   ) => stream.Stream<
@@ -4935,17 +4878,15 @@ export const listControlInsightsByControlDomain: {
 /**
  * Returns a list of controls from Audit Manager.
  */
-export const listControls: {
-  (
-    input: ListControlsRequest,
-  ): effect.Effect<
-    ListControlsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listControls: API.OperationMethod<
+  ListControlsRequest,
+  ListControlsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListControlsRequest,
   ) => stream.Stream<
@@ -4980,17 +4921,15 @@ export const listControls: {
  * Returns a list of keywords that are pre-mapped to the specified control data
  * source.
  */
-export const listKeywordsForDataSource: {
-  (
-    input: ListKeywordsForDataSourceRequest,
-  ): effect.Effect<
-    ListKeywordsForDataSourceResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listKeywordsForDataSource: API.OperationMethod<
+  ListKeywordsForDataSourceRequest,
+  ListKeywordsForDataSourceResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeywordsForDataSourceRequest,
   ) => stream.Stream<
@@ -5024,17 +4963,15 @@ export const listKeywordsForDataSource: {
 /**
  * Returns a list of all Audit Manager notifications.
  */
-export const listNotifications: {
-  (
-    input: ListNotificationsRequest,
-  ): effect.Effect<
-    ListNotificationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listNotifications: API.OperationMethod<
+  ListNotificationsRequest,
+  ListNotificationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotificationsRequest,
   ) => stream.Stream<
@@ -5068,9 +5005,8 @@ export const listNotifications: {
 /**
  * Returns a list of tags for the specified resource in Audit Manager.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -5089,9 +5025,8 @@ export const listTagsForResource: (
 /**
  * Enables Audit Manager for the specified Amazon Web Services account.
  */
-export const registerAccount: (
-  input: RegisterAccountRequest,
-) => effect.Effect<
+export const registerAccount: API.OperationMethod<
+  RegisterAccountRequest,
   RegisterAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5115,9 +5050,8 @@ export const registerAccount: (
  * Enables an Amazon Web Services account within the organization as the delegated
  * administrator for Audit Manager.
  */
-export const registerOrganizationAdminAccount: (
-  input: RegisterOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const registerOrganizationAdminAccount: API.OperationMethod<
+  RegisterOrganizationAdminAccountRequest,
   RegisterOrganizationAdminAccountResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5174,9 +5108,8 @@ export const registerOrganizationAdminAccount: (
  * standard frameworks are eligible for sharing, see Framework sharing eligibility in the Audit Manager User
  * Guide.
  */
-export const startAssessmentFrameworkShare: (
-  input: StartAssessmentFrameworkShareRequest,
-) => effect.Effect<
+export const startAssessmentFrameworkShare: API.OperationMethod<
+  StartAssessmentFrameworkShareRequest,
   StartAssessmentFrameworkShareResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5197,9 +5130,8 @@ export const startAssessmentFrameworkShare: (
 /**
  * Tags the specified resource in Audit Manager.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -5218,9 +5150,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource in Audit Manager.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -5239,9 +5170,8 @@ export const untagResource: (
 /**
  * Edits an Audit Manager assessment.
  */
-export const updateAssessment: (
-  input: UpdateAssessmentRequest,
-) => effect.Effect<
+export const updateAssessment: API.OperationMethod<
+  UpdateAssessmentRequest,
   UpdateAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5266,9 +5196,8 @@ export const updateAssessment: (
 /**
  * Updates a control within an assessment in Audit Manager.
  */
-export const updateAssessmentControl: (
-  input: UpdateAssessmentControlRequest,
-) => effect.Effect<
+export const updateAssessmentControl: API.OperationMethod<
+  UpdateAssessmentControlRequest,
   UpdateAssessmentControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5289,9 +5218,8 @@ export const updateAssessmentControl: (
 /**
  * Updates the status of a control set in an Audit Manager assessment.
  */
-export const updateAssessmentControlSetStatus: (
-  input: UpdateAssessmentControlSetStatusRequest,
-) => effect.Effect<
+export const updateAssessmentControlSetStatus: API.OperationMethod<
+  UpdateAssessmentControlSetStatusRequest,
   UpdateAssessmentControlSetStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5312,9 +5240,8 @@ export const updateAssessmentControlSetStatus: (
 /**
  * Updates a custom framework in Audit Manager.
  */
-export const updateAssessmentFramework: (
-  input: UpdateAssessmentFrameworkRequest,
-) => effect.Effect<
+export const updateAssessmentFramework: API.OperationMethod<
+  UpdateAssessmentFrameworkRequest,
   UpdateAssessmentFrameworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5337,9 +5264,8 @@ export const updateAssessmentFramework: (
 /**
  * Updates a share request for a custom framework in Audit Manager.
  */
-export const updateAssessmentFrameworkShare: (
-  input: UpdateAssessmentFrameworkShareRequest,
-) => effect.Effect<
+export const updateAssessmentFrameworkShare: API.OperationMethod<
+  UpdateAssessmentFrameworkShareRequest,
   UpdateAssessmentFrameworkShareResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5362,9 +5288,8 @@ export const updateAssessmentFrameworkShare: (
 /**
  * Updates the status of an assessment in Audit Manager.
  */
-export const updateAssessmentStatus: (
-  input: UpdateAssessmentStatusRequest,
-) => effect.Effect<
+export const updateAssessmentStatus: API.OperationMethod<
+  UpdateAssessmentStatusRequest,
   UpdateAssessmentStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5387,9 +5312,8 @@ export const updateAssessmentStatus: (
 /**
  * Updates a custom control in Audit Manager.
  */
-export const updateControl: (
-  input: UpdateControlRequest,
-) => effect.Effect<
+export const updateControl: API.OperationMethod<
+  UpdateControlRequest,
   UpdateControlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5410,9 +5334,8 @@ export const updateControl: (
 /**
  * Updates Audit Manager settings for the current account.
  */
-export const updateSettings: (
-  input: UpdateSettingsRequest,
-) => effect.Effect<
+export const updateSettings: API.OperationMethod<
+  UpdateSettingsRequest,
   UpdateSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5427,9 +5350,8 @@ export const updateSettings: (
 /**
  * Validates the integrity of an assessment report in Audit Manager.
  */
-export const validateAssessmentReportIntegrity: (
-  input: ValidateAssessmentReportIntegrityRequest,
-) => effect.Effect<
+export const validateAssessmentReportIntegrity: API.OperationMethod<
+  ValidateAssessmentReportIntegrityRequest,
   ValidateAssessmentReportIntegrityResponse,
   | AccessDeniedException
   | InternalServerException

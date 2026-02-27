@@ -4263,9 +4263,8 @@ export class UnprocessableEntityException extends S.TaggedErrorClass<Unprocessab
 /**
  * Associates phone numbers with the specified Amazon Chime SDK Voice Connector.
  */
-export const associatePhoneNumbersWithVoiceConnector: (
-  input: AssociatePhoneNumbersWithVoiceConnectorRequest,
-) => effect.Effect<
+export const associatePhoneNumbersWithVoiceConnector: API.OperationMethod<
+  AssociatePhoneNumbersWithVoiceConnectorRequest,
   AssociatePhoneNumbersWithVoiceConnectorResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4294,9 +4293,8 @@ export const associatePhoneNumbersWithVoiceConnector: (
 /**
  * Associates phone numbers with the specified Amazon Chime SDK Voice Connector group.
  */
-export const associatePhoneNumbersWithVoiceConnectorGroup: (
-  input: AssociatePhoneNumbersWithVoiceConnectorGroupRequest,
-) => effect.Effect<
+export const associatePhoneNumbersWithVoiceConnectorGroup: API.OperationMethod<
+  AssociatePhoneNumbersWithVoiceConnectorGroupRequest,
   AssociatePhoneNumbersWithVoiceConnectorGroupResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4329,9 +4327,8 @@ export const associatePhoneNumbersWithVoiceConnectorGroup: (
  * Phone numbers remain in the
  * **Deletion queue** for 7 days before they are deleted permanently.
  */
-export const batchDeletePhoneNumber: (
-  input: BatchDeletePhoneNumberRequest,
-) => effect.Effect<
+export const batchDeletePhoneNumber: API.OperationMethod<
+  BatchDeletePhoneNumberRequest,
   BatchDeletePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -4361,9 +4358,8 @@ export const batchDeletePhoneNumber: (
  *
  * You cannot have a duplicate `phoneNumberId` in a request.
  */
-export const batchUpdatePhoneNumber: (
-  input: BatchUpdatePhoneNumberRequest,
-) => effect.Effect<
+export const batchUpdatePhoneNumber: API.OperationMethod<
+  BatchUpdatePhoneNumberRequest,
   BatchUpdatePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -4390,9 +4386,8 @@ export const batchUpdatePhoneNumber: (
 /**
  * Creates an order for phone numbers to be provisioned. For numbers outside the U.S., you must use the Amazon Chime SDK SIP media application dial-in product type.
  */
-export const createPhoneNumberOrder: (
-  input: CreatePhoneNumberOrderRequest,
-) => effect.Effect<
+export const createPhoneNumberOrder: API.OperationMethod<
+  CreatePhoneNumberOrderRequest,
   CreatePhoneNumberOrderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4422,9 +4417,8 @@ export const createPhoneNumberOrder: (
  * Creates a proxy session for the specified Amazon Chime SDK Voice Connector for
  * the specified participant phone numbers.
  */
-export const createProxySession: (
-  input: CreateProxySessionRequest,
-) => effect.Effect<
+export const createProxySession: API.OperationMethod<
+  CreateProxySessionRequest,
   CreateProxySessionResponse,
   | BadRequestException
   | ForbiddenException
@@ -4452,9 +4446,8 @@ export const createProxySession: (
  * Creates a SIP media application. For more information about SIP media applications, see Managing SIP media applications
  * and rules in the *Amazon Chime SDK Administrator Guide*.
  */
-export const createSipMediaApplication: (
-  input: CreateSipMediaApplicationRequest,
-) => effect.Effect<
+export const createSipMediaApplication: API.OperationMethod<
+  CreateSipMediaApplicationRequest,
   CreateSipMediaApplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4487,9 +4480,8 @@ export const createSipMediaApplication: (
  * in the request, and it invokes the endpoint of the specified
  * `sipMediaApplicationId`.
  */
-export const createSipMediaApplicationCall: (
-  input: CreateSipMediaApplicationCallRequest,
-) => effect.Effect<
+export const createSipMediaApplicationCall: API.OperationMethod<
+  CreateSipMediaApplicationCallRequest,
   CreateSipMediaApplicationCallResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4519,9 +4511,8 @@ export const createSipMediaApplicationCall: (
  * Creates a SIP rule, which can be used to run a SIP media application as a target for a specific trigger type. For more information about SIP rules, see Managing SIP media applications
  * and rules in the *Amazon Chime SDK Administrator Guide*.
  */
-export const createSipRule: (
-  input: CreateSipRuleRequest,
-) => effect.Effect<
+export const createSipRule: API.OperationMethod<
+  CreateSipRuleRequest,
   CreateSipRuleResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4555,9 +4546,8 @@ export const createSipRule: (
  * see Managing Amazon Chime SDK Voice Connector groups in the Amazon Chime SDK
  * Administrator Guide.
  */
-export const createVoiceConnector: (
-  input: CreateVoiceConnectorRequest,
-) => effect.Effect<
+export const createVoiceConnector: API.OperationMethod<
+  CreateVoiceConnectorRequest,
   CreateVoiceConnectorResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4592,9 +4582,8 @@ export const createVoiceConnector: (
  * You can include Voice Connectors from different AWS Regions in your group.
  * This creates a fault tolerant mechanism for fallback in case of availability events.
  */
-export const createVoiceConnectorGroup: (
-  input: CreateVoiceConnectorGroupRequest,
-) => effect.Effect<
+export const createVoiceConnectorGroup: API.OperationMethod<
+  CreateVoiceConnectorGroupRequest,
   CreateVoiceConnectorGroupResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4629,9 +4618,8 @@ export const createVoiceConnectorGroup: (
  * For more information about voice profiles and voice analytics, see Using Amazon Chime SDK Voice Analytics
  * in the *Amazon Chime SDK Developer Guide*.
  */
-export const createVoiceProfile: (
-  input: CreateVoiceProfileRequest,
-) => effect.Effect<
+export const createVoiceProfile: API.OperationMethod<
+  CreateVoiceProfileRequest,
   CreateVoiceProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4672,9 +4660,8 @@ export const createVoiceProfile: (
  * For more information about voice profile domains, see Using Amazon Chime SDK Voice Analytics
  * in the *Amazon Chime SDK Developer Guide*.
  */
-export const createVoiceProfileDomain: (
-  input: CreateVoiceProfileDomainRequest,
-) => effect.Effect<
+export const createVoiceProfileDomain: API.OperationMethod<
+  CreateVoiceProfileDomainRequest,
   CreateVoiceProfileDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4712,9 +4699,8 @@ export const createVoiceProfileDomain: (
  * **Deletion queue** queue for 7 days before
  * they are deleted permanently.
  */
-export const deletePhoneNumber: (
-  input: DeletePhoneNumberRequest,
-) => effect.Effect<
+export const deletePhoneNumber: API.OperationMethod<
+  DeletePhoneNumberRequest,
   DeletePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -4742,9 +4728,8 @@ export const deletePhoneNumber: (
  * Deletes the specified proxy session from the specified Amazon Chime SDK Voice
  * Connector.
  */
-export const deleteProxySession: (
-  input: DeleteProxySessionRequest,
-) => effect.Effect<
+export const deleteProxySession: API.OperationMethod<
+  DeleteProxySessionRequest,
   DeleteProxySessionResponse,
   | BadRequestException
   | ForbiddenException
@@ -4771,9 +4756,8 @@ export const deleteProxySession: (
 /**
  * Deletes a SIP media application.
  */
-export const deleteSipMediaApplication: (
-  input: DeleteSipMediaApplicationRequest,
-) => effect.Effect<
+export const deleteSipMediaApplication: API.OperationMethod<
+  DeleteSipMediaApplicationRequest,
   DeleteSipMediaApplicationResponse,
   | BadRequestException
   | ConflictException
@@ -4802,9 +4786,8 @@ export const deleteSipMediaApplication: (
 /**
  * Deletes a SIP rule.
  */
-export const deleteSipRule: (
-  input: DeleteSipRuleRequest,
-) => effect.Effect<
+export const deleteSipRule: API.OperationMethod<
+  DeleteSipRuleRequest,
   DeleteSipRuleResponse,
   | BadRequestException
   | ConflictException
@@ -4835,9 +4818,8 @@ export const deleteSipRule: (
  * with the Amazon Chime SDK Voice Connector must be disassociated from it before it
  * can be deleted.
  */
-export const deleteVoiceConnector: (
-  input: DeleteVoiceConnectorRequest,
-) => effect.Effect<
+export const deleteVoiceConnector: API.OperationMethod<
+  DeleteVoiceConnectorRequest,
   DeleteVoiceConnectorResponse,
   | BadRequestException
   | ConflictException
@@ -4867,9 +4849,8 @@ export const deleteVoiceConnector: (
  * Deletes the emergency calling details from the specified Amazon Chime SDK Voice
  * Connector.
  */
-export const deleteVoiceConnectorEmergencyCallingConfiguration: (
-  input: DeleteVoiceConnectorEmergencyCallingConfigurationRequest,
-) => effect.Effect<
+export const deleteVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
+  DeleteVoiceConnectorEmergencyCallingConfigurationRequest,
   DeleteVoiceConnectorEmergencyCallingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4896,9 +4877,8 @@ export const deleteVoiceConnectorEmergencyCallingConfiguration: (
 /**
  * Deletes the external systems configuration for a Voice Connector.
  */
-export const deleteVoiceConnectorExternalSystemsConfiguration: (
-  input: DeleteVoiceConnectorExternalSystemsConfigurationRequest,
-) => effect.Effect<
+export const deleteVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
+  DeleteVoiceConnectorExternalSystemsConfigurationRequest,
   DeleteVoiceConnectorExternalSystemsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4927,9 +4907,8 @@ export const deleteVoiceConnectorExternalSystemsConfiguration: (
  * and phone numbers associated with the group must be removed before it can be
  * deleted.
  */
-export const deleteVoiceConnectorGroup: (
-  input: DeleteVoiceConnectorGroupRequest,
-) => effect.Effect<
+export const deleteVoiceConnectorGroup: API.OperationMethod<
+  DeleteVoiceConnectorGroupRequest,
   DeleteVoiceConnectorGroupResponse,
   | BadRequestException
   | ConflictException
@@ -4961,9 +4940,8 @@ export const deleteVoiceConnectorGroup: (
  * If emergency calling is configured for the Voice Connector, it must be
  * deleted prior to deleting the origination settings.
  */
-export const deleteVoiceConnectorOrigination: (
-  input: DeleteVoiceConnectorOriginationRequest,
-) => effect.Effect<
+export const deleteVoiceConnectorOrigination: API.OperationMethod<
+  DeleteVoiceConnectorOriginationRequest,
   DeleteVoiceConnectorOriginationResponse,
   | BadRequestException
   | ForbiddenException
@@ -4990,9 +4968,8 @@ export const deleteVoiceConnectorOrigination: (
 /**
  * Deletes the proxy configuration from the specified Amazon Chime SDK Voice Connector.
  */
-export const deleteVoiceConnectorProxy: (
-  input: DeleteVoiceConnectorProxyRequest,
-) => effect.Effect<
+export const deleteVoiceConnectorProxy: API.OperationMethod<
+  DeleteVoiceConnectorProxyRequest,
   DeleteVoiceConnectorProxyResponse,
   | BadRequestException
   | ForbiddenException
@@ -5019,9 +4996,8 @@ export const deleteVoiceConnectorProxy: (
 /**
  * Deletes a Voice Connector's streaming configuration.
  */
-export const deleteVoiceConnectorStreamingConfiguration: (
-  input: DeleteVoiceConnectorStreamingConfigurationRequest,
-) => effect.Effect<
+export const deleteVoiceConnectorStreamingConfiguration: API.OperationMethod<
+  DeleteVoiceConnectorStreamingConfigurationRequest,
   DeleteVoiceConnectorStreamingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5051,9 +5027,8 @@ export const deleteVoiceConnectorStreamingConfiguration: (
  * If emergency calling is configured for the Voice Connector, it must be
  * deleted prior to deleting the termination settings.
  */
-export const deleteVoiceConnectorTermination: (
-  input: DeleteVoiceConnectorTerminationRequest,
-) => effect.Effect<
+export const deleteVoiceConnectorTermination: API.OperationMethod<
+  DeleteVoiceConnectorTerminationRequest,
   DeleteVoiceConnectorTerminationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5081,9 +5056,8 @@ export const deleteVoiceConnectorTermination: (
  * Deletes the specified SIP credentials used by your equipment to
  * authenticate during call termination.
  */
-export const deleteVoiceConnectorTerminationCredentials: (
-  input: DeleteVoiceConnectorTerminationCredentialsRequest,
-) => effect.Effect<
+export const deleteVoiceConnectorTerminationCredentials: API.OperationMethod<
+  DeleteVoiceConnectorTerminationCredentialsRequest,
   DeleteVoiceConnectorTerminationCredentialsResponse,
   | BadRequestException
   | ForbiddenException
@@ -5110,9 +5084,8 @@ export const deleteVoiceConnectorTerminationCredentials: (
 /**
  * Deletes a voice profile, including its voice print and enrollment data. WARNING: This action is not reversible.
  */
-export const deleteVoiceProfile: (
-  input: DeleteVoiceProfileRequest,
-) => effect.Effect<
+export const deleteVoiceProfile: API.OperationMethod<
+  DeleteVoiceProfileRequest,
   DeleteVoiceProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5143,9 +5116,8 @@ export const deleteVoiceProfile: (
 /**
  * Deletes all voice profiles in the domain. WARNING: This action is not reversible.
  */
-export const deleteVoiceProfileDomain: (
-  input: DeleteVoiceProfileDomainRequest,
-) => effect.Effect<
+export const deleteVoiceProfileDomain: API.OperationMethod<
+  DeleteVoiceProfileDomainRequest,
   DeleteVoiceProfileDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5177,9 +5149,8 @@ export const deleteVoiceProfileDomain: (
  * Disassociates the specified phone numbers from the specified
  * Amazon Chime SDK Voice Connector.
  */
-export const disassociatePhoneNumbersFromVoiceConnector: (
-  input: DisassociatePhoneNumbersFromVoiceConnectorRequest,
-) => effect.Effect<
+export const disassociatePhoneNumbersFromVoiceConnector: API.OperationMethod<
+  DisassociatePhoneNumbersFromVoiceConnectorRequest,
   DisassociatePhoneNumbersFromVoiceConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -5207,9 +5178,8 @@ export const disassociatePhoneNumbersFromVoiceConnector: (
  * Disassociates the specified phone numbers from the specified Amazon Chime SDK Voice
  * Connector group.
  */
-export const disassociatePhoneNumbersFromVoiceConnectorGroup: (
-  input: DisassociatePhoneNumbersFromVoiceConnectorGroupRequest,
-) => effect.Effect<
+export const disassociatePhoneNumbersFromVoiceConnectorGroup: API.OperationMethod<
+  DisassociatePhoneNumbersFromVoiceConnectorGroupRequest,
   DisassociatePhoneNumbersFromVoiceConnectorGroupResponse,
   | BadRequestException
   | ForbiddenException
@@ -5236,9 +5206,8 @@ export const disassociatePhoneNumbersFromVoiceConnectorGroup: (
 /**
  * Retrieves the global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
  */
-export const getGlobalSettings: (
-  input: GetGlobalSettingsRequest,
-) => effect.Effect<
+export const getGlobalSettings: API.OperationMethod<
+  GetGlobalSettingsRequest,
   GetGlobalSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -5264,9 +5233,8 @@ export const getGlobalSettings: (
  * Retrieves details for the specified phone number ID, such as associations,
  * capabilities, and product type.
  */
-export const getPhoneNumber: (
-  input: GetPhoneNumberRequest,
-) => effect.Effect<
+export const getPhoneNumber: API.OperationMethod<
+  GetPhoneNumberRequest,
   GetPhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -5295,9 +5263,8 @@ export const getPhoneNumber: (
  * creation timestamp, phone numbers in E.164 format, product type, and
  * order status.
  */
-export const getPhoneNumberOrder: (
-  input: GetPhoneNumberOrderRequest,
-) => effect.Effect<
+export const getPhoneNumberOrder: API.OperationMethod<
+  GetPhoneNumberOrderRequest,
   GetPhoneNumberOrderResponse,
   | BadRequestException
   | ForbiddenException
@@ -5325,9 +5292,8 @@ export const getPhoneNumberOrder: (
  * Retrieves the phone number settings for the administrator's AWS account,
  * such as the default outbound calling name.
  */
-export const getPhoneNumberSettings: (
-  input: GetPhoneNumberSettingsRequest,
-) => effect.Effect<
+export const getPhoneNumberSettings: API.OperationMethod<
+  GetPhoneNumberSettingsRequest,
   GetPhoneNumberSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -5352,9 +5318,8 @@ export const getPhoneNumberSettings: (
 /**
  * Retrieves the specified proxy session details for the specified Amazon Chime SDK Voice Connector.
  */
-export const getProxySession: (
-  input: GetProxySessionRequest,
-) => effect.Effect<
+export const getProxySession: API.OperationMethod<
+  GetProxySessionRequest,
   GetProxySessionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5382,9 +5347,8 @@ export const getProxySession: (
  * Retrieves the information for a SIP media application, including name,
  * AWS Region, and endpoints.
  */
-export const getSipMediaApplication: (
-  input: GetSipMediaApplicationRequest,
-) => effect.Effect<
+export const getSipMediaApplication: API.OperationMethod<
+  GetSipMediaApplicationRequest,
   GetSipMediaApplicationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5414,9 +5378,8 @@ export const getSipMediaApplication: (
  * Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to
  * the Alexa Smart Properties page.
  */
-export const getSipMediaApplicationAlexaSkillConfiguration: (
-  input: GetSipMediaApplicationAlexaSkillConfigurationRequest,
-) => effect.Effect<
+export const getSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
+  GetSipMediaApplicationAlexaSkillConfigurationRequest,
   GetSipMediaApplicationAlexaSkillConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5443,9 +5406,8 @@ export const getSipMediaApplicationAlexaSkillConfiguration: (
 /**
  * Retrieves the logging configuration for the specified SIP media application.
  */
-export const getSipMediaApplicationLoggingConfiguration: (
-  input: GetSipMediaApplicationLoggingConfigurationRequest,
-) => effect.Effect<
+export const getSipMediaApplicationLoggingConfiguration: API.OperationMethod<
+  GetSipMediaApplicationLoggingConfigurationRequest,
   GetSipMediaApplicationLoggingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5473,9 +5435,8 @@ export const getSipMediaApplicationLoggingConfiguration: (
  * Retrieves the details of a SIP rule, such as the rule ID, name, triggers, and
  * target endpoints.
  */
-export const getSipRule: (
-  input: GetSipRuleRequest,
-) => effect.Effect<
+export const getSipRule: API.OperationMethod<
+  GetSipRuleRequest,
   GetSipRuleResponse,
   | BadRequestException
   | ForbiddenException
@@ -5502,9 +5463,8 @@ export const getSipRule: (
 /**
  * Retrieves the details of the specified speaker search task.
  */
-export const getSpeakerSearchTask: (
-  input: GetSpeakerSearchTaskRequest,
-) => effect.Effect<
+export const getSpeakerSearchTask: API.OperationMethod<
+  GetSpeakerSearchTaskRequest,
   GetSpeakerSearchTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5536,9 +5496,8 @@ export const getSpeakerSearchTask: (
  * Retrieves details for the specified Amazon Chime SDK Voice Connector, such as
  * timestamps,name, outbound host, and encryption requirements.
  */
-export const getVoiceConnector: (
-  input: GetVoiceConnectorRequest,
-) => effect.Effect<
+export const getVoiceConnector: API.OperationMethod<
+  GetVoiceConnectorRequest,
   GetVoiceConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -5565,9 +5524,8 @@ export const getVoiceConnector: (
 /**
  * Retrieves the emergency calling configuration details for the specified Voice Connector.
  */
-export const getVoiceConnectorEmergencyCallingConfiguration: (
-  input: GetVoiceConnectorEmergencyCallingConfigurationRequest,
-) => effect.Effect<
+export const getVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
+  GetVoiceConnectorEmergencyCallingConfigurationRequest,
   GetVoiceConnectorEmergencyCallingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5595,9 +5553,8 @@ export const getVoiceConnectorEmergencyCallingConfiguration: (
  * Gets information about an external systems configuration for a Voice
  * Connector.
  */
-export const getVoiceConnectorExternalSystemsConfiguration: (
-  input: GetVoiceConnectorExternalSystemsConfigurationRequest,
-) => effect.Effect<
+export const getVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
+  GetVoiceConnectorExternalSystemsConfigurationRequest,
   GetVoiceConnectorExternalSystemsConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5625,9 +5582,8 @@ export const getVoiceConnectorExternalSystemsConfiguration: (
  * Retrieves details for the specified Amazon Chime SDK Voice Connector group,
  * such as timestamps,name, and associated `VoiceConnectorItems`.
  */
-export const getVoiceConnectorGroup: (
-  input: GetVoiceConnectorGroupRequest,
-) => effect.Effect<
+export const getVoiceConnectorGroup: API.OperationMethod<
+  GetVoiceConnectorGroupRequest,
   GetVoiceConnectorGroupResponse,
   | BadRequestException
   | ForbiddenException
@@ -5655,9 +5611,8 @@ export const getVoiceConnectorGroup: (
  * Retrieves the logging configuration settings for the specified Voice Connector.
  * Shows whether SIP message logs are enabled for sending to Amazon CloudWatch Logs.
  */
-export const getVoiceConnectorLoggingConfiguration: (
-  input: GetVoiceConnectorLoggingConfigurationRequest,
-) => effect.Effect<
+export const getVoiceConnectorLoggingConfiguration: API.OperationMethod<
+  GetVoiceConnectorLoggingConfigurationRequest,
   GetVoiceConnectorLoggingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5684,9 +5639,8 @@ export const getVoiceConnectorLoggingConfiguration: (
 /**
  * Retrieves the origination settings for the specified Voice Connector.
  */
-export const getVoiceConnectorOrigination: (
-  input: GetVoiceConnectorOriginationRequest,
-) => effect.Effect<
+export const getVoiceConnectorOrigination: API.OperationMethod<
+  GetVoiceConnectorOriginationRequest,
   GetVoiceConnectorOriginationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5714,9 +5668,8 @@ export const getVoiceConnectorOrigination: (
  * Retrieves the proxy configuration details for the specified Amazon Chime SDK Voice
  * Connector.
  */
-export const getVoiceConnectorProxy: (
-  input: GetVoiceConnectorProxyRequest,
-) => effect.Effect<
+export const getVoiceConnectorProxy: API.OperationMethod<
+  GetVoiceConnectorProxyRequest,
   GetVoiceConnectorProxyResponse,
   | BadRequestException
   | ForbiddenException
@@ -5745,9 +5698,8 @@ export const getVoiceConnectorProxy: (
  * Voice Connector. Shows whether media streaming is enabled for sending to Amazon
  * Kinesis. It also shows the retention period, in hours, for the Amazon Kinesis data.
  */
-export const getVoiceConnectorStreamingConfiguration: (
-  input: GetVoiceConnectorStreamingConfigurationRequest,
-) => effect.Effect<
+export const getVoiceConnectorStreamingConfiguration: API.OperationMethod<
+  GetVoiceConnectorStreamingConfigurationRequest,
   GetVoiceConnectorStreamingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5774,9 +5726,8 @@ export const getVoiceConnectorStreamingConfiguration: (
 /**
  * Retrieves the termination setting details for the specified Voice Connector.
  */
-export const getVoiceConnectorTermination: (
-  input: GetVoiceConnectorTerminationRequest,
-) => effect.Effect<
+export const getVoiceConnectorTermination: API.OperationMethod<
+  GetVoiceConnectorTerminationRequest,
   GetVoiceConnectorTerminationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5805,9 +5756,8 @@ export const getVoiceConnectorTermination: (
  * was received from your SIP infrastructure for the specified Amazon Chime SDK Voice
  * Connector.
  */
-export const getVoiceConnectorTerminationHealth: (
-  input: GetVoiceConnectorTerminationHealthRequest,
-) => effect.Effect<
+export const getVoiceConnectorTerminationHealth: API.OperationMethod<
+  GetVoiceConnectorTerminationHealthRequest,
   GetVoiceConnectorTerminationHealthResponse,
   | BadRequestException
   | ForbiddenException
@@ -5834,9 +5784,8 @@ export const getVoiceConnectorTerminationHealth: (
 /**
  * Retrieves the details of the specified voice profile.
  */
-export const getVoiceProfile: (
-  input: GetVoiceProfileRequest,
-) => effect.Effect<
+export const getVoiceProfile: API.OperationMethod<
+  GetVoiceProfileRequest,
   GetVoiceProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5865,9 +5814,8 @@ export const getVoiceProfile: (
 /**
  * Retrieves the details of the specified voice profile domain.
  */
-export const getVoiceProfileDomain: (
-  input: GetVoiceProfileDomainRequest,
-) => effect.Effect<
+export const getVoiceProfileDomain: API.OperationMethod<
+  GetVoiceProfileDomainRequest,
   GetVoiceProfileDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5896,9 +5844,8 @@ export const getVoiceProfileDomain: (
 /**
  * Retrieves the details of a voice tone analysis task.
  */
-export const getVoiceToneAnalysisTask: (
-  input: GetVoiceToneAnalysisTaskRequest,
-) => effect.Effect<
+export const getVoiceToneAnalysisTask: API.OperationMethod<
+  GetVoiceToneAnalysisTaskRequest,
   GetVoiceToneAnalysisTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5929,9 +5876,8 @@ export const getVoiceToneAnalysisTask: (
 /**
  * Lists the available AWS Regions in which you can create an Amazon Chime SDK Voice Connector.
  */
-export const listAvailableVoiceConnectorRegions: (
-  input: ListAvailableVoiceConnectorRegionsRequest,
-) => effect.Effect<
+export const listAvailableVoiceConnectorRegions: API.OperationMethod<
+  ListAvailableVoiceConnectorRegionsRequest,
   ListAvailableVoiceConnectorRegionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -5956,20 +5902,18 @@ export const listAvailableVoiceConnectorRegions: (
 /**
  * Lists the phone numbers for an administrator's Amazon Chime SDK account.
  */
-export const listPhoneNumberOrders: {
-  (
-    input: ListPhoneNumberOrdersRequest,
-  ): effect.Effect<
-    ListPhoneNumberOrdersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPhoneNumberOrders: API.OperationMethod<
+  ListPhoneNumberOrdersRequest,
+  ListPhoneNumberOrdersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPhoneNumberOrdersRequest,
   ) => stream.Stream<
@@ -6018,21 +5962,19 @@ export const listPhoneNumberOrders: {
  * Amazon Chime SDK user, Amazon Chime SDK Voice Connector, or Amazon Chime SDK Voice
  * Connector group.
  */
-export const listPhoneNumbers: {
-  (
-    input: ListPhoneNumbersRequest,
-  ): effect.Effect<
-    ListPhoneNumbersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPhoneNumbers: API.OperationMethod<
+  ListPhoneNumbersRequest,
+  ListPhoneNumbersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPhoneNumbersRequest,
   ) => stream.Stream<
@@ -6082,21 +6024,19 @@ export const listPhoneNumbers: {
 /**
  * Lists the proxy sessions for the specified Amazon Chime SDK Voice Connector.
  */
-export const listProxySessions: {
-  (
-    input: ListProxySessionsRequest,
-  ): effect.Effect<
-    ListProxySessionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProxySessions: API.OperationMethod<
+  ListProxySessionsRequest,
+  ListProxySessionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProxySessionsRequest,
   ) => stream.Stream<
@@ -6146,20 +6086,18 @@ export const listProxySessions: {
 /**
  * Lists the SIP media applications under the administrator's AWS account.
  */
-export const listSipMediaApplications: {
-  (
-    input: ListSipMediaApplicationsRequest,
-  ): effect.Effect<
-    ListSipMediaApplicationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSipMediaApplications: API.OperationMethod<
+  ListSipMediaApplicationsRequest,
+  ListSipMediaApplicationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSipMediaApplicationsRequest,
   ) => stream.Stream<
@@ -6207,20 +6145,18 @@ export const listSipMediaApplications: {
 /**
  * Lists the SIP rules under the administrator's AWS account.
  */
-export const listSipRules: {
-  (
-    input: ListSipRulesRequest,
-  ): effect.Effect<
-    ListSipRulesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSipRules: API.OperationMethod<
+  ListSipRulesRequest,
+  ListSipRulesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSipRulesRequest,
   ) => stream.Stream<
@@ -6268,9 +6204,8 @@ export const listSipRules: {
 /**
  * Lists the countries that you can order phone numbers from.
  */
-export const listSupportedPhoneNumberCountries: (
-  input: ListSupportedPhoneNumberCountriesRequest,
-) => effect.Effect<
+export const listSupportedPhoneNumberCountries: API.OperationMethod<
+  ListSupportedPhoneNumberCountriesRequest,
   ListSupportedPhoneNumberCountriesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6297,9 +6232,8 @@ export const listSupportedPhoneNumberCountries: (
 /**
  * Returns a list of the tags in a given resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -6325,20 +6259,18 @@ export const listTagsForResource: (
  * Lists the Amazon Chime SDK Voice Connector groups in the administrator's AWS
  * account.
  */
-export const listVoiceConnectorGroups: {
-  (
-    input: ListVoiceConnectorGroupsRequest,
-  ): effect.Effect<
-    ListVoiceConnectorGroupsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVoiceConnectorGroups: API.OperationMethod<
+  ListVoiceConnectorGroupsRequest,
+  ListVoiceConnectorGroupsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVoiceConnectorGroupsRequest,
   ) => stream.Stream<
@@ -6386,20 +6318,18 @@ export const listVoiceConnectorGroups: {
  * Lists the Amazon Chime SDK Voice Connectors in the administrators
  * AWS account.
  */
-export const listVoiceConnectors: {
-  (
-    input: ListVoiceConnectorsRequest,
-  ): effect.Effect<
-    ListVoiceConnectorsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVoiceConnectors: API.OperationMethod<
+  ListVoiceConnectorsRequest,
+  ListVoiceConnectorsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVoiceConnectorsRequest,
   ) => stream.Stream<
@@ -6446,9 +6376,8 @@ export const listVoiceConnectors: {
 /**
  * Lists the SIP credentials for the specified Amazon Chime SDK Voice Connector.
  */
-export const listVoiceConnectorTerminationCredentials: (
-  input: ListVoiceConnectorTerminationCredentialsRequest,
-) => effect.Effect<
+export const listVoiceConnectorTerminationCredentials: API.OperationMethod<
+  ListVoiceConnectorTerminationCredentialsRequest,
   ListVoiceConnectorTerminationCredentialsResponse,
   | BadRequestException
   | ForbiddenException
@@ -6475,21 +6404,19 @@ export const listVoiceConnectorTerminationCredentials: (
 /**
  * Lists the specified voice profile domains in the administrator's AWS account.
  */
-export const listVoiceProfileDomains: {
-  (
-    input: ListVoiceProfileDomainsRequest,
-  ): effect.Effect<
-    ListVoiceProfileDomainsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVoiceProfileDomains: API.OperationMethod<
+  ListVoiceProfileDomainsRequest,
+  ListVoiceProfileDomainsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVoiceProfileDomainsRequest,
   ) => stream.Stream<
@@ -6539,21 +6466,19 @@ export const listVoiceProfileDomains: {
 /**
  * Lists the voice profiles in a voice profile domain.
  */
-export const listVoiceProfiles: {
-  (
-    input: ListVoiceProfilesRequest,
-  ): effect.Effect<
-    ListVoiceProfilesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVoiceProfiles: API.OperationMethod<
+  ListVoiceProfilesRequest,
+  ListVoiceProfilesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVoiceProfilesRequest,
   ) => stream.Stream<
@@ -6606,9 +6531,8 @@ export const listVoiceProfiles: {
  * Due to changes made by the Amazon Alexa service, this API is no longer available for use. For more information, refer to
  * the Alexa Smart Properties page.
  */
-export const putSipMediaApplicationAlexaSkillConfiguration: (
-  input: PutSipMediaApplicationAlexaSkillConfigurationRequest,
-) => effect.Effect<
+export const putSipMediaApplicationAlexaSkillConfiguration: API.OperationMethod<
+  PutSipMediaApplicationAlexaSkillConfigurationRequest,
   PutSipMediaApplicationAlexaSkillConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -6635,9 +6559,8 @@ export const putSipMediaApplicationAlexaSkillConfiguration: (
 /**
  * Updates the logging configuration for the specified SIP media application.
  */
-export const putSipMediaApplicationLoggingConfiguration: (
-  input: PutSipMediaApplicationLoggingConfigurationRequest,
-) => effect.Effect<
+export const putSipMediaApplicationLoggingConfiguration: API.OperationMethod<
+  PutSipMediaApplicationLoggingConfigurationRequest,
   PutSipMediaApplicationLoggingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -6664,9 +6587,8 @@ export const putSipMediaApplicationLoggingConfiguration: (
 /**
  * Updates a Voice Connector's emergency calling configuration.
  */
-export const putVoiceConnectorEmergencyCallingConfiguration: (
-  input: PutVoiceConnectorEmergencyCallingConfigurationRequest,
-) => effect.Effect<
+export const putVoiceConnectorEmergencyCallingConfiguration: API.OperationMethod<
+  PutVoiceConnectorEmergencyCallingConfigurationRequest,
   PutVoiceConnectorEmergencyCallingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -6693,9 +6615,8 @@ export const putVoiceConnectorEmergencyCallingConfiguration: (
 /**
  * Adds an external systems configuration to a Voice Connector.
  */
-export const putVoiceConnectorExternalSystemsConfiguration: (
-  input: PutVoiceConnectorExternalSystemsConfigurationRequest,
-) => effect.Effect<
+export const putVoiceConnectorExternalSystemsConfiguration: API.OperationMethod<
+  PutVoiceConnectorExternalSystemsConfigurationRequest,
   PutVoiceConnectorExternalSystemsConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -6724,9 +6645,8 @@ export const putVoiceConnectorExternalSystemsConfiguration: (
 /**
  * Updates a Voice Connector's logging configuration.
  */
-export const putVoiceConnectorLoggingConfiguration: (
-  input: PutVoiceConnectorLoggingConfigurationRequest,
-) => effect.Effect<
+export const putVoiceConnectorLoggingConfiguration: API.OperationMethod<
+  PutVoiceConnectorLoggingConfigurationRequest,
   PutVoiceConnectorLoggingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -6753,9 +6673,8 @@ export const putVoiceConnectorLoggingConfiguration: (
 /**
  * Updates a Voice Connector's origination settings.
  */
-export const putVoiceConnectorOrigination: (
-  input: PutVoiceConnectorOriginationRequest,
-) => effect.Effect<
+export const putVoiceConnectorOrigination: API.OperationMethod<
+  PutVoiceConnectorOriginationRequest,
   PutVoiceConnectorOriginationResponse,
   | BadRequestException
   | ForbiddenException
@@ -6782,9 +6701,8 @@ export const putVoiceConnectorOrigination: (
 /**
  * Puts the specified proxy configuration to the specified Amazon Chime SDK Voice Connector.
  */
-export const putVoiceConnectorProxy: (
-  input: PutVoiceConnectorProxyRequest,
-) => effect.Effect<
+export const putVoiceConnectorProxy: API.OperationMethod<
+  PutVoiceConnectorProxyRequest,
   PutVoiceConnectorProxyResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6813,9 +6731,8 @@ export const putVoiceConnectorProxy: (
 /**
  * Updates a Voice Connector's streaming configuration settings.
  */
-export const putVoiceConnectorStreamingConfiguration: (
-  input: PutVoiceConnectorStreamingConfigurationRequest,
-) => effect.Effect<
+export const putVoiceConnectorStreamingConfiguration: API.OperationMethod<
+  PutVoiceConnectorStreamingConfigurationRequest,
   PutVoiceConnectorStreamingConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -6842,9 +6759,8 @@ export const putVoiceConnectorStreamingConfiguration: (
 /**
  * Updates a Voice Connector's termination settings.
  */
-export const putVoiceConnectorTermination: (
-  input: PutVoiceConnectorTerminationRequest,
-) => effect.Effect<
+export const putVoiceConnectorTermination: API.OperationMethod<
+  PutVoiceConnectorTerminationRequest,
   PutVoiceConnectorTerminationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6873,9 +6789,8 @@ export const putVoiceConnectorTermination: (
 /**
  * Updates a Voice Connector's termination credentials.
  */
-export const putVoiceConnectorTerminationCredentials: (
-  input: PutVoiceConnectorTerminationCredentialsRequest,
-) => effect.Effect<
+export const putVoiceConnectorTerminationCredentials: API.OperationMethod<
+  PutVoiceConnectorTerminationCredentialsRequest,
   PutVoiceConnectorTerminationCredentialsResponse,
   | BadRequestException
   | ForbiddenException
@@ -6902,9 +6817,8 @@ export const putVoiceConnectorTerminationCredentials: (
 /**
  * Restores a deleted phone number.
  */
-export const restorePhoneNumber: (
-  input: RestorePhoneNumberRequest,
-) => effect.Effect<
+export const restorePhoneNumber: API.OperationMethod<
+  RestorePhoneNumberRequest,
   RestorePhoneNumberResponse,
   | BadRequestException
   | ForbiddenException
@@ -6933,21 +6847,19 @@ export const restorePhoneNumber: (
 /**
  * Searches the provisioned phone numbers in an organization.
  */
-export const searchAvailablePhoneNumbers: {
-  (
-    input: SearchAvailablePhoneNumbersRequest,
-  ): effect.Effect<
-    SearchAvailablePhoneNumbersResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchAvailablePhoneNumbers: API.OperationMethod<
+  SearchAvailablePhoneNumbersRequest,
+  SearchAvailablePhoneNumbersResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchAvailablePhoneNumbersRequest,
   ) => stream.Stream<
@@ -7000,9 +6912,8 @@ export const searchAvailablePhoneNumbers: {
  * Before starting any speaker search tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
  * AWS service terms for the Amazon Chime SDK.
  */
-export const startSpeakerSearchTask: (
-  input: StartSpeakerSearchTaskRequest,
-) => effect.Effect<
+export const startSpeakerSearchTask: API.OperationMethod<
+  StartSpeakerSearchTaskRequest,
   StartSpeakerSearchTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7044,9 +6955,8 @@ export const startSpeakerSearchTask: (
  * Before starting any voice tone analysis tasks, you must provide all notices and obtain all consents from the speaker as required under applicable privacy and biometrics laws, and as required under the
  * AWS service terms for the Amazon Chime SDK.
  */
-export const startVoiceToneAnalysisTask: (
-  input: StartVoiceToneAnalysisTaskRequest,
-) => effect.Effect<
+export const startVoiceToneAnalysisTask: API.OperationMethod<
+  StartVoiceToneAnalysisTaskRequest,
   StartVoiceToneAnalysisTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7083,9 +6993,8 @@ export const startVoiceToneAnalysisTask: (
 /**
  * Stops a speaker search task.
  */
-export const stopSpeakerSearchTask: (
-  input: StopSpeakerSearchTaskRequest,
-) => effect.Effect<
+export const stopSpeakerSearchTask: API.OperationMethod<
+  StopSpeakerSearchTaskRequest,
   StopSpeakerSearchTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7118,9 +7027,8 @@ export const stopSpeakerSearchTask: (
 /**
  * Stops a voice tone analysis task.
  */
-export const stopVoiceToneAnalysisTask: (
-  input: StopVoiceToneAnalysisTaskRequest,
-) => effect.Effect<
+export const stopVoiceToneAnalysisTask: API.OperationMethod<
+  StopVoiceToneAnalysisTaskRequest,
   StopVoiceToneAnalysisTaskResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7153,9 +7061,8 @@ export const stopVoiceToneAnalysisTask: (
 /**
  * Adds a tag to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -7182,9 +7089,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -7209,9 +7115,8 @@ export const untagResource: (
 /**
  * Updates global settings for the Amazon Chime SDK Voice Connectors in an AWS account.
  */
-export const updateGlobalSettings: (
-  input: UpdateGlobalSettingsRequest,
-) => effect.Effect<
+export const updateGlobalSettings: API.OperationMethod<
+  UpdateGlobalSettingsRequest,
   UpdateGlobalSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -7245,9 +7150,8 @@ export const updateGlobalSettings: (
  * updates to outbound calling names must be complete before you can request another
  * update.
  */
-export const updatePhoneNumber: (
-  input: UpdatePhoneNumberRequest,
-) => effect.Effect<
+export const updatePhoneNumber: API.OperationMethod<
+  UpdatePhoneNumberRequest,
   UpdatePhoneNumberResponse,
   | BadRequestException
   | ConflictException
@@ -7279,9 +7183,8 @@ export const updatePhoneNumber: (
  * name once every seven days. Outbound calling names can take up to 72 hours to
  * update.
  */
-export const updatePhoneNumberSettings: (
-  input: UpdatePhoneNumberSettingsRequest,
-) => effect.Effect<
+export const updatePhoneNumberSettings: API.OperationMethod<
+  UpdatePhoneNumberSettingsRequest,
   UpdatePhoneNumberSettingsResponse,
   | BadRequestException
   | ForbiddenException
@@ -7306,9 +7209,8 @@ export const updatePhoneNumberSettings: (
 /**
  * Updates the specified proxy session details, such as voice or SMS capabilities.
  */
-export const updateProxySession: (
-  input: UpdateProxySessionRequest,
-) => effect.Effect<
+export const updateProxySession: API.OperationMethod<
+  UpdateProxySessionRequest,
   UpdateProxySessionResponse,
   | BadRequestException
   | ForbiddenException
@@ -7335,9 +7237,8 @@ export const updateProxySession: (
 /**
  * Updates the details of the specified SIP media application.
  */
-export const updateSipMediaApplication: (
-  input: UpdateSipMediaApplicationRequest,
-) => effect.Effect<
+export const updateSipMediaApplication: API.OperationMethod<
+  UpdateSipMediaApplicationRequest,
   UpdateSipMediaApplicationResponse,
   | BadRequestException
   | ConflictException
@@ -7368,9 +7269,8 @@ export const updateSipMediaApplication: (
  * transaction ID in an update request. The Lambda function can then return a new set
  * of actions.
  */
-export const updateSipMediaApplicationCall: (
-  input: UpdateSipMediaApplicationCallRequest,
-) => effect.Effect<
+export const updateSipMediaApplicationCall: API.OperationMethod<
+  UpdateSipMediaApplicationCallRequest,
   UpdateSipMediaApplicationCallResponse,
   | BadRequestException
   | ForbiddenException
@@ -7399,9 +7299,8 @@ export const updateSipMediaApplicationCall: (
 /**
  * Updates the details of the specified SIP rule.
  */
-export const updateSipRule: (
-  input: UpdateSipRuleRequest,
-) => effect.Effect<
+export const updateSipRule: API.OperationMethod<
+  UpdateSipRuleRequest,
   UpdateSipRuleResponse,
   | BadRequestException
   | ConflictException
@@ -7432,9 +7331,8 @@ export const updateSipRule: (
 /**
  * Updates the details for the specified Amazon Chime SDK Voice Connector.
  */
-export const updateVoiceConnector: (
-  input: UpdateVoiceConnectorRequest,
-) => effect.Effect<
+export const updateVoiceConnector: API.OperationMethod<
+  UpdateVoiceConnectorRequest,
   UpdateVoiceConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -7461,9 +7359,8 @@ export const updateVoiceConnector: (
 /**
  * Updates the settings for the specified Amazon Chime SDK Voice Connector group.
  */
-export const updateVoiceConnectorGroup: (
-  input: UpdateVoiceConnectorGroupRequest,
-) => effect.Effect<
+export const updateVoiceConnectorGroup: API.OperationMethod<
+  UpdateVoiceConnectorGroupRequest,
   UpdateVoiceConnectorGroupResponse,
   | BadRequestException
   | ConflictException
@@ -7501,9 +7398,8 @@ export const updateVoiceConnectorGroup: (
  * consent before using Amazon Chime SDK Voice Insights service, as required under the terms of your agreement
  * with AWS governing your use of the service.
  */
-export const updateVoiceProfile: (
-  input: UpdateVoiceProfileRequest,
-) => effect.Effect<
+export const updateVoiceProfile: API.OperationMethod<
+  UpdateVoiceProfileRequest,
   UpdateVoiceProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7536,9 +7432,8 @@ export const updateVoiceProfile: (
 /**
  * Updates the settings for the specified voice profile domain.
  */
-export const updateVoiceProfileDomain: (
-  input: UpdateVoiceProfileDomainRequest,
-) => effect.Effect<
+export const updateVoiceProfileDomain: API.OperationMethod<
+  UpdateVoiceProfileDomainRequest,
   UpdateVoiceProfileDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7570,9 +7465,8 @@ export const updateVoiceProfileDomain: (
  * Location Object file that you include in SIP requests. That helps ensure that addresses
  * are routed to the appropriate Public Safety Answering Point.
  */
-export const validateE911Address: (
-  input: ValidateE911AddressRequest,
-) => effect.Effect<
+export const validateE911Address: API.OperationMethod<
+  ValidateE911AddressRequest,
   ValidateE911AddressResponse,
   | AccessDeniedException
   | BadRequestException

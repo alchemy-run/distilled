@@ -1751,9 +1751,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Retrieves details about an application component.
  */
-export const getApplicationComponentDetails: (
-  input: GetApplicationComponentDetailsRequest,
-) => effect.Effect<
+export const getApplicationComponentDetails: API.OperationMethod<
+  GetApplicationComponentDetailsRequest,
   GetApplicationComponentDetailsResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1773,9 +1772,8 @@ export const getApplicationComponentDetails: (
  * Retrieves a list of all the recommended strategies and tools for an application component
  * running on a server.
  */
-export const getApplicationComponentStrategies: (
-  input: GetApplicationComponentStrategiesRequest,
-) => effect.Effect<
+export const getApplicationComponentStrategies: API.OperationMethod<
+  GetApplicationComponentStrategiesRequest,
   GetApplicationComponentStrategiesResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1794,9 +1792,8 @@ export const getApplicationComponentStrategies: (
 /**
  * Retrieves the status of an on-going assessment.
  */
-export const getAssessment: (
-  input: GetAssessmentRequest,
-) => effect.Effect<
+export const getAssessment: API.OperationMethod<
+  GetAssessmentRequest,
   GetAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1817,9 +1814,8 @@ export const getAssessment: (
 /**
  * Retrieves the details about a specific import task.
  */
-export const getImportFileTask: (
-  input: GetImportFileTaskRequest,
-) => effect.Effect<
+export const getImportFileTask: API.OperationMethod<
+  GetImportFileTaskRequest,
   GetImportFileTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1842,9 +1838,8 @@ export const getImportFileTask: (
 /**
  * Retrieve the latest ID of a specific assessment task.
  */
-export const getLatestAssessmentId: (
-  input: GetLatestAssessmentIdRequest,
-) => effect.Effect<
+export const getLatestAssessmentId: API.OperationMethod<
+  GetLatestAssessmentIdRequest,
   GetLatestAssessmentIdResponse,
   | AccessDeniedException
   | DependencyException
@@ -1865,9 +1860,8 @@ export const getLatestAssessmentId: (
 /**
  * Retrieves your migration and modernization preferences.
  */
-export const getPortfolioPreferences: (
-  input: GetPortfolioPreferencesRequest,
-) => effect.Effect<
+export const getPortfolioPreferences: API.OperationMethod<
+  GetPortfolioPreferencesRequest,
   GetPortfolioPreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1889,9 +1883,8 @@ export const getPortfolioPreferences: (
  * Retrieves overall summary including the number of servers to rehost and the overall
  * number of anti-patterns.
  */
-export const getPortfolioSummary: (
-  input: GetPortfolioSummaryRequest,
-) => effect.Effect<
+export const getPortfolioSummary: API.OperationMethod<
+  GetPortfolioSummaryRequest,
   GetPortfolioSummaryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1906,9 +1899,8 @@ export const getPortfolioSummary: (
 /**
  * Retrieves detailed information about the specified recommendation report.
  */
-export const getRecommendationReportDetails: (
-  input: GetRecommendationReportDetailsRequest,
-) => effect.Effect<
+export const getRecommendationReportDetails: API.OperationMethod<
+  GetRecommendationReportDetailsRequest,
   GetRecommendationReportDetailsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1931,19 +1923,17 @@ export const getRecommendationReportDetails: (
 /**
  * Retrieves detailed information about a specified server.
  */
-export const getServerDetails: {
-  (
-    input: GetServerDetailsRequest,
-  ): effect.Effect<
-    GetServerDetailsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getServerDetails: API.OperationMethod<
+  GetServerDetailsRequest,
+  GetServerDetailsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetServerDetailsRequest,
   ) => stream.Stream<
@@ -1988,9 +1978,8 @@ export const getServerDetails: {
 /**
  * Retrieves recommended strategies and tools for the specified server.
  */
-export const getServerStrategies: (
-  input: GetServerStrategiesRequest,
-) => effect.Effect<
+export const getServerStrategies: API.OperationMethod<
+  GetServerStrategiesRequest,
   GetServerStrategiesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2013,18 +2002,16 @@ export const getServerStrategies: (
 /**
  * Retrieves a list of all the servers fetched from customer vCenter using Strategy Recommendation Collector.
  */
-export const listAnalyzableServers: {
-  (
-    input: ListAnalyzableServersRequest,
-  ): effect.Effect<
-    ListAnalyzableServersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnalyzableServers: API.OperationMethod<
+  ListAnalyzableServersRequest,
+  ListAnalyzableServersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnalyzableServersRequest,
   ) => stream.Stream<
@@ -2066,18 +2053,16 @@ export const listAnalyzableServers: {
 /**
  * Retrieves a list of all the application components (processes).
  */
-export const listApplicationComponents: {
-  (
-    input: ListApplicationComponentsRequest,
-  ): effect.Effect<
-    ListApplicationComponentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ServiceLinkedRoleLockClientException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationComponents: API.OperationMethod<
+  ListApplicationComponentsRequest,
+  ListApplicationComponentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ServiceLinkedRoleLockClientException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationComponentsRequest,
   ) => stream.Stream<
@@ -2119,18 +2104,16 @@ export const listApplicationComponents: {
 /**
  * Retrieves a list of all the installed collectors.
  */
-export const listCollectors: {
-  (
-    input: ListCollectorsRequest,
-  ): effect.Effect<
-    ListCollectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollectors: API.OperationMethod<
+  ListCollectorsRequest,
+  ListCollectorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollectorsRequest,
   ) => stream.Stream<
@@ -2172,18 +2155,16 @@ export const listCollectors: {
 /**
  * Retrieves a list of all the imports performed.
  */
-export const listImportFileTask: {
-  (
-    input: ListImportFileTaskRequest,
-  ): effect.Effect<
-    ListImportFileTaskResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImportFileTask: API.OperationMethod<
+  ListImportFileTaskRequest,
+  ListImportFileTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportFileTaskRequest,
   ) => stream.Stream<
@@ -2225,18 +2206,16 @@ export const listImportFileTask: {
 /**
  * Returns a list of all the servers.
  */
-export const listServers: {
-  (
-    input: ListServersRequest,
-  ): effect.Effect<
-    ListServersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServers: API.OperationMethod<
+  ListServersRequest,
+  ListServersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServersRequest,
   ) => stream.Stream<
@@ -2278,9 +2257,8 @@ export const listServers: {
 /**
  * Saves the specified migration and modernization preferences.
  */
-export const putPortfolioPreferences: (
-  input: PutPortfolioPreferencesRequest,
-) => effect.Effect<
+export const putPortfolioPreferences: API.OperationMethod<
+  PutPortfolioPreferencesRequest,
   PutPortfolioPreferencesResponse,
   | AccessDeniedException
   | ConflictException
@@ -2303,9 +2281,8 @@ export const putPortfolioPreferences: (
 /**
  * Starts the assessment of an on-premises environment.
  */
-export const startAssessment: (
-  input: StartAssessmentRequest,
-) => effect.Effect<
+export const startAssessment: API.OperationMethod<
+  StartAssessmentRequest,
   StartAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2326,9 +2303,8 @@ export const startAssessment: (
 /**
  * Starts a file import.
  */
-export const startImportFileTask: (
-  input: StartImportFileTaskRequest,
-) => effect.Effect<
+export const startImportFileTask: API.OperationMethod<
+  StartImportFileTaskRequest,
   StartImportFileTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2351,9 +2327,8 @@ export const startImportFileTask: (
 /**
  * Starts generating a recommendation report.
  */
-export const startRecommendationReportGeneration: (
-  input: StartRecommendationReportGenerationRequest,
-) => effect.Effect<
+export const startRecommendationReportGeneration: API.OperationMethod<
+  StartRecommendationReportGenerationRequest,
   StartRecommendationReportGenerationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2376,9 +2351,8 @@ export const startRecommendationReportGeneration: (
 /**
  * Stops the assessment of an on-premises environment.
  */
-export const stopAssessment: (
-  input: StopAssessmentRequest,
-) => effect.Effect<
+export const stopAssessment: API.OperationMethod<
+  StopAssessmentRequest,
   StopAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2399,9 +2373,8 @@ export const stopAssessment: (
 /**
  * Updates the configuration of an application component.
  */
-export const updateApplicationComponentConfig: (
-  input: UpdateApplicationComponentConfigRequest,
-) => effect.Effect<
+export const updateApplicationComponentConfig: API.OperationMethod<
+  UpdateApplicationComponentConfigRequest,
   UpdateApplicationComponentConfigResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2422,9 +2395,8 @@ export const updateApplicationComponentConfig: (
 /**
  * Updates the configuration of the specified server.
  */
-export const updateServerConfig: (
-  input: UpdateServerConfigRequest,
-) => effect.Effect<
+export const updateServerConfig: API.OperationMethod<
+  UpdateServerConfigRequest,
   UpdateServerConfigResponse,
   | InternalServerException
   | ResourceNotFoundException

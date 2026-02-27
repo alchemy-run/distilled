@@ -1839,9 +1839,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists the tags, if any, that are associated with your resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1864,9 +1863,8 @@ export const listTagsForResource: (
 /**
  * Adds one or more tags to your resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1889,9 +1887,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from your resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1915,9 +1912,8 @@ export const untagResource: (
  * Creates a connector between Amazon Web Services Private CA and an Active Directory. You must specify the private CA,
  * directory ID, and security groups.
  */
-export const createConnector: (
-  input: CreateConnectorRequest,
-) => effect.Effect<
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
   CreateConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -1945,9 +1941,8 @@ export const createConnector: (
  * Lists information about your connector. You specify the connector on input by its ARN
  * (Amazon Resource Name).
  */
-export const getConnector: (
-  input: GetConnectorRequest,
-) => effect.Effect<
+export const getConnector: API.OperationMethod<
+  GetConnectorRequest,
   GetConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1974,9 +1969,8 @@ export const getConnector: (
  * deregister your directory by calling the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_DeleteDirectoryRegistration
  * action.
  */
-export const deleteConnector: (
-  input: DeleteConnectorRequest,
-) => effect.Effect<
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
   DeleteConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -2001,18 +1995,16 @@ export const deleteConnector: (
 /**
  * Lists the connectors that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateConnector action.
  */
-export const listConnectors: {
-  (
-    input: ListConnectorsRequest,
-  ): effect.Effect<
-    ListConnectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectors: API.OperationMethod<
+  ListConnectorsRequest,
+  ListConnectorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
@@ -2055,9 +2047,8 @@ export const listConnectors: {
  * Creates a directory registration that authorizes communication between Amazon Web Services Private CA and an
  * Active Directory
  */
-export const createDirectoryRegistration: (
-  input: CreateDirectoryRegistrationRequest,
-) => effect.Effect<
+export const createDirectoryRegistration: API.OperationMethod<
+  CreateDirectoryRegistrationRequest,
   CreateDirectoryRegistrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2082,9 +2073,8 @@ export const createDirectoryRegistration: (
 /**
  * A structure that contains information about your directory registration.
  */
-export const getDirectoryRegistration: (
-  input: GetDirectoryRegistrationRequest,
-) => effect.Effect<
+export const getDirectoryRegistration: API.OperationMethod<
+  GetDirectoryRegistrationRequest,
   GetDirectoryRegistrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2108,9 +2098,8 @@ export const getDirectoryRegistration: (
  * Deletes a directory registration. Deleting a directory registration deauthorizes
  * Amazon Web Services Private CA with the directory.
  */
-export const deleteDirectoryRegistration: (
-  input: DeleteDirectoryRegistrationRequest,
-) => effect.Effect<
+export const deleteDirectoryRegistration: API.OperationMethod<
+  DeleteDirectoryRegistrationRequest,
   DeleteDirectoryRegistrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2134,18 +2123,16 @@ export const deleteDirectoryRegistration: (
  * Lists the directory registrations that you created by using the https://docs.aws.amazon.com/pca-connector-ad/latest/APIReference/API_CreateDirectoryRegistration
  * action.
  */
-export const listDirectoryRegistrations: {
-  (
-    input: ListDirectoryRegistrationsRequest,
-  ): effect.Effect<
-    ListDirectoryRegistrationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDirectoryRegistrations: API.OperationMethod<
+  ListDirectoryRegistrationsRequest,
+  ListDirectoryRegistrationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDirectoryRegistrationsRequest,
   ) => stream.Stream<
@@ -2189,9 +2176,8 @@ export const listDirectoryRegistrations: {
  * authentication uses SPNs to associate a service instance with a service sign-in
  * account.
  */
-export const createServicePrincipalName: (
-  input: CreateServicePrincipalNameRequest,
-) => effect.Effect<
+export const createServicePrincipalName: API.OperationMethod<
+  CreateServicePrincipalNameRequest,
   CreateServicePrincipalNameResponse,
   | AccessDeniedException
   | ConflictException
@@ -2217,9 +2203,8 @@ export const createServicePrincipalName: (
  * Lists the service principal name that the connector uses to authenticate with
  * Active Directory.
  */
-export const getServicePrincipalName: (
-  input: GetServicePrincipalNameRequest,
-) => effect.Effect<
+export const getServicePrincipalName: API.OperationMethod<
+  GetServicePrincipalNameRequest,
   GetServicePrincipalNameResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2243,9 +2228,8 @@ export const getServicePrincipalName: (
  * Deletes the service principal name (SPN) used by a connector to authenticate with your
  * Active Directory.
  */
-export const deleteServicePrincipalName: (
-  input: DeleteServicePrincipalNameRequest,
-) => effect.Effect<
+export const deleteServicePrincipalName: API.OperationMethod<
+  DeleteServicePrincipalNameRequest,
   DeleteServicePrincipalNameResponse,
   | AccessDeniedException
   | ConflictException
@@ -2269,19 +2253,17 @@ export const deleteServicePrincipalName: (
  * Lists the service principal names that the connector uses to authenticate with
  * Active Directory.
  */
-export const listServicePrincipalNames: {
-  (
-    input: ListServicePrincipalNamesRequest,
-  ): effect.Effect<
-    ListServicePrincipalNamesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServicePrincipalNames: API.OperationMethod<
+  ListServicePrincipalNamesRequest,
+  ListServicePrincipalNamesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicePrincipalNamesRequest,
   ) => stream.Stream<
@@ -2327,9 +2309,8 @@ export const listServicePrincipalNames: {
  * Create a group access control entry. Allow or deny Active Directory groups from enrolling and/or
  * autoenrolling with the template based on the group security identifiers (SIDs).
  */
-export const createTemplateGroupAccessControlEntry: (
-  input: CreateTemplateGroupAccessControlEntryRequest,
-) => effect.Effect<
+export const createTemplateGroupAccessControlEntry: API.OperationMethod<
+  CreateTemplateGroupAccessControlEntryRequest,
   CreateTemplateGroupAccessControlEntryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2356,9 +2337,8 @@ export const createTemplateGroupAccessControlEntry: (
 /**
  * Retrieves the group access control entries for a template.
  */
-export const getTemplateGroupAccessControlEntry: (
-  input: GetTemplateGroupAccessControlEntryRequest,
-) => effect.Effect<
+export const getTemplateGroupAccessControlEntry: API.OperationMethod<
+  GetTemplateGroupAccessControlEntryRequest,
   GetTemplateGroupAccessControlEntryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2381,9 +2361,8 @@ export const getTemplateGroupAccessControlEntry: (
 /**
  * Update a group access control entry you created using CreateTemplateGroupAccessControlEntry.
  */
-export const updateTemplateGroupAccessControlEntry: (
-  input: UpdateTemplateGroupAccessControlEntryRequest,
-) => effect.Effect<
+export const updateTemplateGroupAccessControlEntry: API.OperationMethod<
+  UpdateTemplateGroupAccessControlEntryRequest,
   UpdateTemplateGroupAccessControlEntryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2408,9 +2387,8 @@ export const updateTemplateGroupAccessControlEntry: (
 /**
  * Deletes a group access control entry.
  */
-export const deleteTemplateGroupAccessControlEntry: (
-  input: DeleteTemplateGroupAccessControlEntryRequest,
-) => effect.Effect<
+export const deleteTemplateGroupAccessControlEntry: API.OperationMethod<
+  DeleteTemplateGroupAccessControlEntryRequest,
   DeleteTemplateGroupAccessControlEntryResponse,
   | AccessDeniedException
   | ConflictException
@@ -2435,19 +2413,17 @@ export const deleteTemplateGroupAccessControlEntry: (
 /**
  * Lists group access control entries you created.
  */
-export const listTemplateGroupAccessControlEntries: {
-  (
-    input: ListTemplateGroupAccessControlEntriesRequest,
-  ): effect.Effect<
-    ListTemplateGroupAccessControlEntriesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplateGroupAccessControlEntries: API.OperationMethod<
+  ListTemplateGroupAccessControlEntriesRequest,
+  ListTemplateGroupAccessControlEntriesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplateGroupAccessControlEntriesRequest,
   ) => stream.Stream<
@@ -2493,9 +2469,8 @@ export const listTemplateGroupAccessControlEntries: {
  * Creates an Active Directory compatible certificate template. The connectors issues certificates
  * using these templates based on the requester’s Active Directory group membership.
  */
-export const createTemplate: (
-  input: CreateTemplateRequest,
-) => effect.Effect<
+export const createTemplate: API.OperationMethod<
+  CreateTemplateRequest,
   CreateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -2523,9 +2498,8 @@ export const createTemplate: (
  * Retrieves a certificate template that the connector uses to issue certificates from a
  * private CA.
  */
-export const getTemplate: (
-  input: GetTemplateRequest,
-) => effect.Effect<
+export const getTemplate: API.OperationMethod<
+  GetTemplateRequest,
   GetTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2548,9 +2522,8 @@ export const getTemplate: (
 /**
  * Update template configuration to define the information included in certificates.
  */
-export const updateTemplate: (
-  input: UpdateTemplateRequest,
-) => effect.Effect<
+export const updateTemplate: API.OperationMethod<
+  UpdateTemplateRequest,
   UpdateTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -2576,9 +2549,8 @@ export const updateTemplate: (
  * Deletes a template. Certificates issued using the template are still valid until they
  * are revoked or expired.
  */
-export const deleteTemplate: (
-  input: DeleteTemplateRequest,
-) => effect.Effect<
+export const deleteTemplate: API.OperationMethod<
+  DeleteTemplateRequest,
   DeleteTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -2603,19 +2575,17 @@ export const deleteTemplate: (
 /**
  * Lists the templates, if any, that are associated with a connector.
  */
-export const listTemplates: {
-  (
-    input: ListTemplatesRequest,
-  ): effect.Effect<
-    ListTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplates: API.OperationMethod<
+  ListTemplatesRequest,
+  ListTemplatesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplatesRequest,
   ) => stream.Stream<

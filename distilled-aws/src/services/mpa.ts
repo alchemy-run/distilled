@@ -1419,9 +1419,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Returns details for the version of a policy. Policies define the permissions for team resources.
  */
-export const getPolicyVersion: (
-  input: GetPolicyVersionRequest,
-) => effect.Effect<
+export const getPolicyVersion: API.OperationMethod<
+  GetPolicyVersionRequest,
   GetPolicyVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1444,9 +1443,8 @@ export const getPolicyVersion: (
 /**
  * Returns details about a policy for a resource.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -1469,18 +1467,16 @@ export const getResourcePolicy: (
 /**
  * Returns a list of policies. Policies define the permissions for team resources.
  */
-export const listPolicies: {
-  (
-    input: ListPoliciesRequest,
-  ): effect.Effect<
-    ListPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPolicies: API.OperationMethod<
+  ListPoliciesRequest,
+  ListPoliciesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
@@ -1522,19 +1518,17 @@ export const listPolicies: {
 /**
  * Returns a list of the versions for policies. Policies define the permissions for team resources.
  */
-export const listPolicyVersions: {
-  (
-    input: ListPolicyVersionsRequest,
-  ): effect.Effect<
-    ListPolicyVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPolicyVersions: API.OperationMethod<
+  ListPolicyVersionsRequest,
+  ListPolicyVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyVersionsRequest,
   ) => stream.Stream<
@@ -1579,19 +1573,17 @@ export const listPolicyVersions: {
 /**
  * Returns a list of policies for a resource.
  */
-export const listResourcePolicies: {
-  (
-    input: ListResourcePoliciesRequest,
-  ): effect.Effect<
-    ListResourcePoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listResourcePolicies: API.OperationMethod<
+  ListResourcePoliciesRequest,
+  ListResourcePoliciesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourcePoliciesRequest,
   ) => stream.Stream<
@@ -1636,9 +1628,8 @@ export const listResourcePolicies: {
 /**
  * Returns a list of the tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1661,9 +1652,8 @@ export const listTagsForResource: (
 /**
  * Creates or updates a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1688,9 +1678,8 @@ export const tagResource: (
 /**
  * Removes a resource tag. Each tag is a label consisting of a user-defined key and value. Tags can help you manage, identify, organize, search for, and filter resources.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1713,9 +1702,8 @@ export const untagResource: (
 /**
  * Creates a new approval team. For more information, see Approval team in the *Multi-party approval User Guide*.
  */
-export const createApprovalTeam: (
-  input: CreateApprovalTeamRequest,
-) => effect.Effect<
+export const createApprovalTeam: API.OperationMethod<
+  CreateApprovalTeamRequest,
   CreateApprovalTeamResponse,
   | AccessDeniedException
   | ConflictException
@@ -1740,9 +1728,8 @@ export const createApprovalTeam: (
 /**
  * Returns details for an approval team.
  */
-export const getApprovalTeam: (
-  input: GetApprovalTeamRequest,
-) => effect.Effect<
+export const getApprovalTeam: API.OperationMethod<
+  GetApprovalTeamRequest,
   GetApprovalTeamResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1769,9 +1756,8 @@ export const getApprovalTeam: (
  *
  * Updates to an active team must be approved by the team.
  */
-export const updateApprovalTeam: (
-  input: UpdateApprovalTeamRequest,
-) => effect.Effect<
+export const updateApprovalTeam: API.OperationMethod<
+  UpdateApprovalTeamRequest,
   UpdateApprovalTeamResponse,
   | AccessDeniedException
   | ConflictException
@@ -1800,9 +1786,8 @@ export const updateApprovalTeam: (
  *
  * You can also use this operation to delete a team draft. For more information, see Interacting with drafts in the *Multi-party approval User Guide*.
  */
-export const deleteInactiveApprovalTeamVersion: (
-  input: DeleteInactiveApprovalTeamVersionRequest,
-) => effect.Effect<
+export const deleteInactiveApprovalTeamVersion: API.OperationMethod<
+  DeleteInactiveApprovalTeamVersionRequest,
   DeleteInactiveApprovalTeamVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1827,18 +1812,16 @@ export const deleteInactiveApprovalTeamVersion: (
 /**
  * Returns a list of approval teams.
  */
-export const listApprovalTeams: {
-  (
-    input: ListApprovalTeamsRequest,
-  ): effect.Effect<
-    ListApprovalTeamsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listApprovalTeams: API.OperationMethod<
+  ListApprovalTeamsRequest,
+  ListApprovalTeamsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApprovalTeamsRequest,
   ) => stream.Stream<
@@ -1884,9 +1867,8 @@ export const listApprovalTeams: {
  *
  * Requests to delete an active team must be approved by the team.
  */
-export const startActiveApprovalTeamDeletion: (
-  input: StartActiveApprovalTeamDeletionRequest,
-) => effect.Effect<
+export const startActiveApprovalTeamDeletion: API.OperationMethod<
+  StartActiveApprovalTeamDeletionRequest,
   StartActiveApprovalTeamDeletionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1911,9 +1893,8 @@ export const startActiveApprovalTeamDeletion: (
 /**
  * Creates a new identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
-export const createIdentitySource: (
-  input: CreateIdentitySourceRequest,
-) => effect.Effect<
+export const createIdentitySource: API.OperationMethod<
+  CreateIdentitySourceRequest,
   CreateIdentitySourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1936,9 +1917,8 @@ export const createIdentitySource: (
 /**
  * Returns details for an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
-export const getIdentitySource: (
-  input: GetIdentitySourceRequest,
-) => effect.Effect<
+export const getIdentitySource: API.OperationMethod<
+  GetIdentitySourceRequest,
   GetIdentitySourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1961,9 +1941,8 @@ export const getIdentitySource: (
 /**
  * Deletes an identity source. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
-export const deleteIdentitySource: (
-  input: DeleteIdentitySourceRequest,
-) => effect.Effect<
+export const deleteIdentitySource: API.OperationMethod<
+  DeleteIdentitySourceRequest,
   DeleteIdentitySourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1986,18 +1965,16 @@ export const deleteIdentitySource: (
 /**
  * Returns a list of identity sources. For more information, see Identity Source in the *Multi-party approval User Guide*.
  */
-export const listIdentitySources: {
-  (
-    input: ListIdentitySourcesRequest,
-  ): effect.Effect<
-    ListIdentitySourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listIdentitySources: API.OperationMethod<
+  ListIdentitySourcesRequest,
+  ListIdentitySourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdentitySourcesRequest,
   ) => stream.Stream<
@@ -2039,9 +2016,8 @@ export const listIdentitySources: {
 /**
  * Returns details for an approval session. For more information, see Session in the *Multi-party approval User Guide*.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2064,9 +2040,8 @@ export const getSession: (
 /**
  * Cancels an approval session. For more information, see Session in the *Multi-party approval User Guide*.
  */
-export const cancelSession: (
-  input: CancelSessionRequest,
-) => effect.Effect<
+export const cancelSession: API.OperationMethod<
+  CancelSessionRequest,
   CancelSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2091,19 +2066,17 @@ export const cancelSession: (
 /**
  * Returns a list of approval sessions. For more information, see Session in the *Multi-party approval User Guide*.
  */
-export const listSessions: {
-  (
-    input: ListSessionsRequest,
-  ): effect.Effect<
-    ListSessionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listSessions: API.OperationMethod<
+  ListSessionsRequest,
+  ListSessionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<

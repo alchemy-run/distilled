@@ -6909,9 +6909,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
  * parent asset's model. For more information, see Associating assets in the
  * *IoT SiteWise User Guide*.
  */
-export const associateAssets: (
-  input: AssociateAssetsRequest,
-) => effect.Effect<
+export const associateAssets: API.OperationMethod<
+  AssociateAssetsRequest,
   AssociateAssetsResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -6938,9 +6937,8 @@ export const associateAssets: (
 /**
  * Associates a time series (data stream) with an asset property.
  */
-export const associateTimeSeriesToAssetProperty: (
-  input: AssociateTimeSeriesToAssetPropertyRequest,
-) => effect.Effect<
+export const associateTimeSeriesToAssetProperty: API.OperationMethod<
+  AssociateTimeSeriesToAssetPropertyRequest,
   AssociateTimeSeriesToAssetPropertyResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -6963,9 +6961,8 @@ export const associateTimeSeriesToAssetProperty: (
 /**
  * Associates a group (batch) of assets with an IoT SiteWise Monitor project.
  */
-export const batchAssociateProjectAssets: (
-  input: BatchAssociateProjectAssetsRequest,
-) => effect.Effect<
+export const batchAssociateProjectAssets: API.OperationMethod<
+  BatchAssociateProjectAssetsRequest,
   BatchAssociateProjectAssetsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -6988,9 +6985,8 @@ export const batchAssociateProjectAssets: (
 /**
  * Disassociates a group (batch) of assets from an IoT SiteWise Monitor project.
  */
-export const batchDisassociateProjectAssets: (
-  input: BatchDisassociateProjectAssetsRequest,
-) => effect.Effect<
+export const batchDisassociateProjectAssets: API.OperationMethod<
+  BatchDisassociateProjectAssetsRequest,
   BatchDisassociateProjectAssetsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7013,18 +7009,16 @@ export const batchDisassociateProjectAssets: (
  * properties. For more information, see Querying aggregates in the
  * *IoT SiteWise User Guide*.
  */
-export const batchGetAssetPropertyAggregates: {
-  (
-    input: BatchGetAssetPropertyAggregatesRequest,
-  ): effect.Effect<
-    BatchGetAssetPropertyAggregatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const batchGetAssetPropertyAggregates: API.OperationMethod<
+  BatchGetAssetPropertyAggregatesRequest,
+  BatchGetAssetPropertyAggregatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: BatchGetAssetPropertyAggregatesRequest,
   ) => stream.Stream<
@@ -7066,18 +7060,16 @@ export const batchGetAssetPropertyAggregates: {
  * Gets the current value for one or more asset properties. For more information, see Querying
  * current values in the *IoT SiteWise User Guide*.
  */
-export const batchGetAssetPropertyValue: {
-  (
-    input: BatchGetAssetPropertyValueRequest,
-  ): effect.Effect<
-    BatchGetAssetPropertyValueResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const batchGetAssetPropertyValue: API.OperationMethod<
+  BatchGetAssetPropertyValueRequest,
+  BatchGetAssetPropertyValueResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: BatchGetAssetPropertyValueRequest,
   ) => stream.Stream<
@@ -7115,18 +7107,16 @@ export const batchGetAssetPropertyValue: {
  * Gets the historical values for one or more asset properties. For more information, see
  * Querying historical values in the *IoT SiteWise User Guide*.
  */
-export const batchGetAssetPropertyValueHistory: {
-  (
-    input: BatchGetAssetPropertyValueHistoryRequest,
-  ): effect.Effect<
-    BatchGetAssetPropertyValueHistoryResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const batchGetAssetPropertyValueHistory: API.OperationMethod<
+  BatchGetAssetPropertyValueHistoryRequest,
+  BatchGetAssetPropertyValueHistoryResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: BatchGetAssetPropertyValueHistoryRequest,
   ) => stream.Stream<
@@ -7189,9 +7179,8 @@ export const batchGetAssetPropertyValueHistory: {
  * For more information, see BatchPutAssetPropertyValue authorization in the
  * *IoT SiteWise User Guide*.
  */
-export const batchPutAssetPropertyValue: (
-  input: BatchPutAssetPropertyValueRequest,
-) => effect.Effect<
+export const batchPutAssetPropertyValue: API.OperationMethod<
+  BatchPutAssetPropertyValueRequest,
   BatchPutAssetPropertyValueResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7221,9 +7210,8 @@ export const batchPutAssetPropertyValue: (
  *
  * Support for access policies that use an SSO Group as the identity is not supported at this time.
  */
-export const createAccessPolicy: (
-  input: CreateAccessPolicyRequest,
-) => effect.Effect<
+export const createAccessPolicy: API.OperationMethod<
+  CreateAccessPolicyRequest,
   CreateAccessPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7247,9 +7235,8 @@ export const createAccessPolicy: (
  * Creates an asset from an existing asset model. For more information, see Creating assets in the
  * *IoT SiteWise User Guide*.
  */
-export const createAsset: (
-  input: CreateAssetRequest,
-) => effect.Effect<
+export const createAsset: API.OperationMethod<
+  CreateAssetRequest,
   CreateAssetResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7294,9 +7281,8 @@ export const createAsset: (
  * - **INTERFACE** – An interface is a type of model
  * that defines a standard structure that can be applied to different asset models.
  */
-export const createAssetModel: (
-  input: CreateAssetModelRequest,
-) => effect.Effect<
+export const createAssetModel: API.OperationMethod<
+  CreateAssetModelRequest,
   CreateAssetModelResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7343,9 +7329,8 @@ export const createAssetModel: (
  * To create an inline model, specify the `assetModelCompositeModelProperties` and
  * don't include an `composedAssetModelId`.
  */
-export const createAssetModelCompositeModel: (
-  input: CreateAssetModelCompositeModelRequest,
-) => effect.Effect<
+export const createAssetModelCompositeModel: API.OperationMethod<
+  CreateAssetModelCompositeModelRequest,
   CreateAssetModelCompositeModelResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7387,9 +7372,8 @@ export const createAssetModelCompositeModel: (
  *
  * - Data older than 7 days does not trigger computations or notifications.
  */
-export const createBulkImportJob: (
-  input: CreateBulkImportJobRequest,
-) => effect.Effect<
+export const createBulkImportJob: API.OperationMethod<
+  CreateBulkImportJobRequest,
   CreateBulkImportJobResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7416,9 +7400,8 @@ export const createBulkImportJob: (
 /**
  * Create a computation model with a configuration and data binding.
  */
-export const createComputationModel: (
-  input: CreateComputationModelRequest,
-) => effect.Effect<
+export const createComputationModel: API.OperationMethod<
+  CreateComputationModelRequest,
   CreateComputationModelResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7445,9 +7428,8 @@ export const createComputationModel: (
 /**
  * Creates a dashboard in an IoT SiteWise Monitor project.
  */
-export const createDashboard: (
-  input: CreateDashboardRequest,
-) => effect.Effect<
+export const createDashboard: API.OperationMethod<
+  CreateDashboardRequest,
   CreateDashboardResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7470,9 +7452,8 @@ export const createDashboard: (
 /**
  * Creates a dataset to connect an external datasource.
  */
-export const createDataset: (
-  input: CreateDatasetRequest,
-) => effect.Effect<
+export const createDataset: API.OperationMethod<
+  CreateDatasetRequest,
   CreateDatasetResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7501,9 +7482,8 @@ export const createDataset: (
  * from local servers to IoT SiteWise. For more information, see Ingesting data using a gateway in the
  * *IoT SiteWise User Guide*.
  */
-export const createGateway: (
-  input: CreateGatewayRequest,
-) => effect.Effect<
+export const createGateway: API.OperationMethod<
+  CreateGatewayRequest,
   CreateGatewayResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7531,9 +7511,8 @@ export const createGateway: (
  * portal. For more information, see Adding or removing portal
  * administrators in the *IoT SiteWise User Guide*.
  */
-export const createPortal: (
-  input: CreatePortalRequest,
-) => effect.Effect<
+export const createPortal: API.OperationMethod<
+  CreatePortalRequest,
   CreatePortalResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7559,9 +7538,8 @@ export const createPortal: (
  * Make sure that the project name and description don't contain confidential
  * information.
  */
-export const createProject: (
-  input: CreateProjectRequest,
-) => effect.Effect<
+export const createProject: API.OperationMethod<
+  CreateProjectRequest,
   CreateProjectResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7586,9 +7564,8 @@ export const createProject: (
  * IoT SiteWise Monitor resource. You can use this operation to revoke access to an IoT SiteWise Monitor
  * resource.
  */
-export const deleteAccessPolicy: (
-  input: DeleteAccessPolicyRequest,
-) => effect.Effect<
+export const deleteAccessPolicy: API.OperationMethod<
+  DeleteAccessPolicyRequest,
   DeleteAccessPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7613,9 +7590,8 @@ export const deleteAccessPolicy: (
  * You can't delete an asset that's associated to another asset. For more information, see
  * DisassociateAssets.
  */
-export const deleteAsset: (
-  input: DeleteAssetRequest,
-) => effect.Effect<
+export const deleteAsset: API.OperationMethod<
+  DeleteAssetRequest,
   DeleteAssetResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7642,9 +7618,8 @@ export const deleteAsset: (
  * asset model that you want to delete. For more information, see Deleting assets and models in the
  * *IoT SiteWise User Guide*.
  */
-export const deleteAssetModel: (
-  input: DeleteAssetModelRequest,
-) => effect.Effect<
+export const deleteAssetModel: API.OperationMethod<
+  DeleteAssetModelRequest,
   DeleteAssetModelResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7673,9 +7648,8 @@ export const deleteAssetModel: (
  * on the asset model that you want to delete. For more information, see Deleting assets and
  * models in the *IoT SiteWise User Guide*.
  */
-export const deleteAssetModelCompositeModel: (
-  input: DeleteAssetModelCompositeModelRequest,
-) => effect.Effect<
+export const deleteAssetModelCompositeModel: API.OperationMethod<
+  DeleteAssetModelCompositeModelRequest,
   DeleteAssetModelCompositeModelResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7701,9 +7675,8 @@ export const deleteAssetModelCompositeModel: (
  * Deletes an interface relationship between an asset model and an interface asset
  * model.
  */
-export const deleteAssetModelInterfaceRelationship: (
-  input: DeleteAssetModelInterfaceRelationshipRequest,
-) => effect.Effect<
+export const deleteAssetModelInterfaceRelationship: API.OperationMethod<
+  DeleteAssetModelInterfaceRelationshipRequest,
   DeleteAssetModelInterfaceRelationshipResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7726,9 +7699,8 @@ export const deleteAssetModelInterfaceRelationship: (
 /**
  * Deletes a computation model. This action can't be undone.
  */
-export const deleteComputationModel: (
-  input: DeleteComputationModelRequest,
-) => effect.Effect<
+export const deleteComputationModel: API.OperationMethod<
+  DeleteComputationModelRequest,
   DeleteComputationModelResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7751,9 +7723,8 @@ export const deleteComputationModel: (
 /**
  * Deletes a dashboard from IoT SiteWise Monitor.
  */
-export const deleteDashboard: (
-  input: DeleteDashboardRequest,
-) => effect.Effect<
+export const deleteDashboard: API.OperationMethod<
+  DeleteDashboardRequest,
   DeleteDashboardResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7774,9 +7745,8 @@ export const deleteDashboard: (
 /**
  * Deletes a dataset. This cannot be undone.
  */
-export const deleteDataset: (
-  input: DeleteDatasetRequest,
-) => effect.Effect<
+export const deleteDataset: API.OperationMethod<
+  DeleteDatasetRequest,
   DeleteDatasetResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7800,9 +7770,8 @@ export const deleteDataset: (
  * Deletes a gateway from IoT SiteWise. When you delete a gateway, some of the gateway's files remain
  * in your gateway's file system.
  */
-export const deleteGateway: (
-  input: DeleteGatewayRequest,
-) => effect.Effect<
+export const deleteGateway: API.OperationMethod<
+  DeleteGatewayRequest,
   DeleteGatewayResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7825,9 +7794,8 @@ export const deleteGateway: (
 /**
  * Deletes a portal from IoT SiteWise Monitor.
  */
-export const deletePortal: (
-  input: DeletePortalRequest,
-) => effect.Effect<
+export const deletePortal: API.OperationMethod<
+  DeletePortalRequest,
   DeletePortalResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7850,9 +7818,8 @@ export const deletePortal: (
 /**
  * Deletes a project from IoT SiteWise Monitor.
  */
-export const deleteProject: (
-  input: DeleteProjectRequest,
-) => effect.Effect<
+export const deleteProject: API.OperationMethod<
+  DeleteProjectRequest,
   DeleteProjectResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7887,9 +7854,8 @@ export const deleteProject: (
  *
  * - The `assetId` and `propertyId` that identifies the asset property.
  */
-export const deleteTimeSeries: (
-  input: DeleteTimeSeriesRequest,
-) => effect.Effect<
+export const deleteTimeSeries: API.OperationMethod<
+  DeleteTimeSeriesRequest,
   DeleteTimeSeriesResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -7913,9 +7879,8 @@ export const deleteTimeSeries: (
  * Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or
  * project.
  */
-export const describeAccessPolicy: (
-  input: DescribeAccessPolicyRequest,
-) => effect.Effect<
+export const describeAccessPolicy: API.OperationMethod<
+  DescribeAccessPolicyRequest,
   DescribeAccessPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7936,9 +7901,8 @@ export const describeAccessPolicy: (
 /**
  * Retrieves information about an action.
  */
-export const describeAction: (
-  input: DescribeActionRequest,
-) => effect.Effect<
+export const describeAction: API.OperationMethod<
+  DescribeActionRequest,
   DescribeActionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7959,9 +7923,8 @@ export const describeAction: (
 /**
  * Retrieves information about an asset.
  */
-export const describeAsset: (
-  input: DescribeAssetRequest,
-) => effect.Effect<
+export const describeAsset: API.OperationMethod<
+  DescribeAssetRequest,
   DescribeAssetResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -7985,9 +7948,8 @@ export const describeAsset: (
  * `AssetModelCompositeModel`. If you want to see information about the model this is
  * based on, call DescribeAssetModelCompositeModel.
  */
-export const describeAssetCompositeModel: (
-  input: DescribeAssetCompositeModelRequest,
-) => effect.Effect<
+export const describeAssetCompositeModel: API.OperationMethod<
+  DescribeAssetCompositeModelRequest,
   DescribeAssetCompositeModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8010,9 +7972,8 @@ export const describeAssetCompositeModel: (
  * properties, hierarchies, composite models, and any interface relationships if the asset model
  * implements interfaces.
  */
-export const describeAssetModel: (
-  input: DescribeAssetModelRequest,
-) => effect.Effect<
+export const describeAssetModel: API.OperationMethod<
+  DescribeAssetModelRequest,
   DescribeAssetModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8035,9 +7996,8 @@ export const describeAssetModel: (
  * component). For more information, see Custom composite models
  * (Components) in the *IoT SiteWise User Guide*.
  */
-export const describeAssetModelCompositeModel: (
-  input: DescribeAssetModelCompositeModelRequest,
-) => effect.Effect<
+export const describeAssetModelCompositeModel: API.OperationMethod<
+  DescribeAssetModelCompositeModelRequest,
   DescribeAssetModelCompositeModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8059,9 +8019,8 @@ export const describeAssetModelCompositeModel: (
  * Retrieves information about an interface relationship between an asset model and an
  * interface asset model.
  */
-export const describeAssetModelInterfaceRelationship: (
-  input: DescribeAssetModelInterfaceRelationshipRequest,
-) => effect.Effect<
+export const describeAssetModelInterfaceRelationship: API.OperationMethod<
+  DescribeAssetModelInterfaceRelationshipRequest,
   DescribeAssetModelInterfaceRelationshipResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8089,9 +8048,8 @@ export const describeAssetModelInterfaceRelationship: (
  * This operation doesn't return the value of the asset property. To get the value of an
  * asset property, use GetAssetPropertyValue.
  */
-export const describeAssetProperty: (
-  input: DescribeAssetPropertyRequest,
-) => effect.Effect<
+export const describeAssetProperty: API.OperationMethod<
+  DescribeAssetPropertyRequest,
   DescribeAssetPropertyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8113,9 +8071,8 @@ export const describeAssetProperty: (
  * Retrieves information about a bulk import job request. For more information, see Describe
  * a bulk import job (CLI) in the *Amazon Simple Storage Service User Guide*.
  */
-export const describeBulkImportJob: (
-  input: DescribeBulkImportJobRequest,
-) => effect.Effect<
+export const describeBulkImportJob: API.OperationMethod<
+  DescribeBulkImportJobRequest,
   DescribeBulkImportJobResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8136,9 +8093,8 @@ export const describeBulkImportJob: (
 /**
  * Retrieves information about a computation model.
  */
-export const describeComputationModel: (
-  input: DescribeComputationModelRequest,
-) => effect.Effect<
+export const describeComputationModel: API.OperationMethod<
+  DescribeComputationModelRequest,
   DescribeComputationModelResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8159,9 +8115,8 @@ export const describeComputationModel: (
 /**
  * Retrieves information about the execution summary of a computation model.
  */
-export const describeComputationModelExecutionSummary: (
-  input: DescribeComputationModelExecutionSummaryRequest,
-) => effect.Effect<
+export const describeComputationModelExecutionSummary: API.OperationMethod<
+  DescribeComputationModelExecutionSummaryRequest,
   DescribeComputationModelExecutionSummaryResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8182,9 +8137,8 @@ export const describeComputationModelExecutionSummary: (
 /**
  * Retrieves information about a dashboard.
  */
-export const describeDashboard: (
-  input: DescribeDashboardRequest,
-) => effect.Effect<
+export const describeDashboard: API.OperationMethod<
+  DescribeDashboardRequest,
   DescribeDashboardResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8205,9 +8159,8 @@ export const describeDashboard: (
 /**
  * Retrieves information about a dataset.
  */
-export const describeDataset: (
-  input: DescribeDatasetRequest,
-) => effect.Effect<
+export const describeDataset: API.OperationMethod<
+  DescribeDatasetRequest,
   DescribeDatasetResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8230,9 +8183,8 @@ export const describeDataset: (
  * the default or specified Region. For more information, see Key management in the
  * *IoT SiteWise User Guide*.
  */
-export const describeDefaultEncryptionConfiguration: (
-  input: DescribeDefaultEncryptionConfigurationRequest,
-) => effect.Effect<
+export const describeDefaultEncryptionConfiguration: API.OperationMethod<
+  DescribeDefaultEncryptionConfigurationRequest,
   DescribeDefaultEncryptionConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8251,9 +8203,8 @@ export const describeDefaultEncryptionConfiguration: (
 /**
  * Retrieves information about the execution.
  */
-export const describeExecution: (
-  input: DescribeExecutionRequest,
-) => effect.Effect<
+export const describeExecution: API.OperationMethod<
+  DescribeExecutionRequest,
   DescribeExecutionResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8274,9 +8225,8 @@ export const describeExecution: (
 /**
  * Retrieves information about a gateway.
  */
-export const describeGateway: (
-  input: DescribeGatewayRequest,
-) => effect.Effect<
+export const describeGateway: API.OperationMethod<
+  DescribeGatewayRequest,
   DescribeGatewayResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8309,9 +8259,8 @@ export const describeGateway: (
  *
  * A gateway can have multiple capability configurations with different namespaces.
  */
-export const describeGatewayCapabilityConfiguration: (
-  input: DescribeGatewayCapabilityConfigurationRequest,
-) => effect.Effect<
+export const describeGatewayCapabilityConfiguration: API.OperationMethod<
+  DescribeGatewayCapabilityConfigurationRequest,
   DescribeGatewayCapabilityConfigurationResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8332,9 +8281,8 @@ export const describeGatewayCapabilityConfiguration: (
 /**
  * Retrieves the current IoT SiteWise logging options.
  */
-export const describeLoggingOptions: (
-  input: DescribeLoggingOptionsRequest,
-) => effect.Effect<
+export const describeLoggingOptions: API.OperationMethod<
+  DescribeLoggingOptionsRequest,
   DescribeLoggingOptionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8355,9 +8303,8 @@ export const describeLoggingOptions: (
 /**
  * Retrieves information about a portal.
  */
-export const describePortal: (
-  input: DescribePortalRequest,
-) => effect.Effect<
+export const describePortal: API.OperationMethod<
+  DescribePortalRequest,
   DescribePortalResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8378,9 +8325,8 @@ export const describePortal: (
 /**
  * Retrieves information about a project.
  */
-export const describeProject: (
-  input: DescribeProjectRequest,
-) => effect.Effect<
+export const describeProject: API.OperationMethod<
+  DescribeProjectRequest,
   DescribeProjectResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8401,9 +8347,8 @@ export const describeProject: (
 /**
  * Retrieves information about the storage configuration for IoT SiteWise.
  */
-export const describeStorageConfiguration: (
-  input: DescribeStorageConfigurationRequest,
-) => effect.Effect<
+export const describeStorageConfiguration: API.OperationMethod<
+  DescribeStorageConfigurationRequest,
   DescribeStorageConfigurationResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -8440,9 +8385,8 @@ export const describeStorageConfiguration: (
  *
  * - The `assetId` and `propertyId` that identifies the asset property.
  */
-export const describeTimeSeries: (
-  input: DescribeTimeSeriesRequest,
-) => effect.Effect<
+export const describeTimeSeries: API.OperationMethod<
+  DescribeTimeSeriesRequest,
   DescribeTimeSeriesResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8464,9 +8408,8 @@ export const describeTimeSeries: (
  * Disassociates a child asset from the given parent asset through a hierarchy defined in the
  * parent asset's model.
  */
-export const disassociateAssets: (
-  input: DisassociateAssetsRequest,
-) => effect.Effect<
+export const disassociateAssets: API.OperationMethod<
+  DisassociateAssetsRequest,
   DisassociateAssetsResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -8489,9 +8432,8 @@ export const disassociateAssets: (
 /**
  * Disassociates a time series (data stream) from an asset property.
  */
-export const disassociateTimeSeriesFromAssetProperty: (
-  input: DisassociateTimeSeriesFromAssetPropertyRequest,
-) => effect.Effect<
+export const disassociateTimeSeriesFromAssetProperty: API.OperationMethod<
+  DisassociateTimeSeriesFromAssetPropertyRequest,
   DisassociateTimeSeriesFromAssetPropertyResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -8514,9 +8456,8 @@ export const disassociateTimeSeriesFromAssetProperty: (
 /**
  * Executes an action on a target resource.
  */
-export const executeAction: (
-  input: ExecuteActionRequest,
-) => effect.Effect<
+export const executeAction: API.OperationMethod<
+  ExecuteActionRequest,
   ExecuteActionResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -8542,21 +8483,19 @@ export const executeAction: (
  * Run SQL queries to retrieve metadata and time-series data from asset models, assets,
  * measurements, metrics, transforms, and aggregates.
  */
-export const executeQuery: {
-  (
-    input: ExecuteQueryRequest,
-  ): effect.Effect<
-    ExecuteQueryResponse,
-    | AccessDeniedException
-    | InternalFailureException
-    | InvalidRequestException
-    | QueryTimeoutException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const executeQuery: API.OperationMethod<
+  ExecuteQueryRequest,
+  ExecuteQueryResponse,
+  | AccessDeniedException
+  | InternalFailureException
+  | InvalidRequestException
+  | QueryTimeoutException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ExecuteQueryRequest,
   ) => stream.Stream<
@@ -8615,19 +8554,17 @@ export const executeQuery: {
  * - A `propertyAlias`, which is a data stream alias (for example,
  * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
  */
-export const getAssetPropertyAggregates: {
-  (
-    input: GetAssetPropertyAggregatesRequest,
-  ): effect.Effect<
-    GetAssetPropertyAggregatesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAssetPropertyAggregates: API.OperationMethod<
+  GetAssetPropertyAggregatesRequest,
+  GetAssetPropertyAggregatesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAssetPropertyAggregatesRequest,
   ) => stream.Stream<
@@ -8680,9 +8617,8 @@ export const getAssetPropertyAggregates: {
  * - A `propertyAlias`, which is a data stream alias (for example,
  * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
  */
-export const getAssetPropertyValue: (
-  input: GetAssetPropertyValueRequest,
-) => effect.Effect<
+export const getAssetPropertyValue: API.OperationMethod<
+  GetAssetPropertyValueRequest,
   GetAssetPropertyValueResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8713,19 +8649,17 @@ export const getAssetPropertyValue: (
  * - A `propertyAlias`, which is a data stream alias (for example,
  * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
  */
-export const getAssetPropertyValueHistory: {
-  (
-    input: GetAssetPropertyValueHistoryRequest,
-  ): effect.Effect<
-    GetAssetPropertyValueHistoryResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAssetPropertyValueHistory: API.OperationMethod<
+  GetAssetPropertyValueHistoryRequest,
+  GetAssetPropertyValueHistoryResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAssetPropertyValueHistoryRequest,
   ) => stream.Stream<
@@ -8782,19 +8716,17 @@ export const getAssetPropertyValueHistory: {
  * - A `propertyAlias`, which is a data stream alias (for example,
  * `/company/windfarm/3/turbine/7/temperature`). To define an asset property's alias, see UpdateAssetProperty.
  */
-export const getInterpolatedAssetPropertyValues: {
-  (
-    input: GetInterpolatedAssetPropertyValuesRequest,
-  ): effect.Effect<
-    GetInterpolatedAssetPropertyValuesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getInterpolatedAssetPropertyValues: API.OperationMethod<
+  GetInterpolatedAssetPropertyValuesRequest,
+  GetInterpolatedAssetPropertyValuesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetInterpolatedAssetPropertyValuesRequest,
   ) => stream.Stream<
@@ -8839,9 +8771,8 @@ export const getInterpolatedAssetPropertyValues: {
 /**
  * Invokes SiteWise Assistant to start or continue a conversation.
  */
-export const invokeAssistant: (
-  input: InvokeAssistantRequest,
-) => effect.Effect<
+export const invokeAssistant: API.OperationMethod<
+  InvokeAssistantRequest,
   InvokeAssistantResponse,
   | AccessDeniedException
   | ConflictingOperationException
@@ -8869,17 +8800,15 @@ export const invokeAssistant: (
  * Retrieves a paginated list of access policies for an identity (an IAM Identity Center user, an IAM Identity Center
  * group, or an IAM user) or an IoT SiteWise Monitor resource (a portal or project).
  */
-export const listAccessPolicies: {
-  (
-    input: ListAccessPoliciesRequest,
-  ): effect.Effect<
-    ListAccessPoliciesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessPolicies: API.OperationMethod<
+  ListAccessPoliciesRequest,
+  ListAccessPoliciesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessPoliciesRequest,
   ) => stream.Stream<
@@ -8918,9 +8847,8 @@ export const listAccessPolicies: {
 /**
  * Retrieves a paginated list of actions for a specific target resource.
  */
-export const listActions: (
-  input: ListActionsRequest,
-) => effect.Effect<
+export const listActions: API.OperationMethod<
+  ListActionsRequest,
   ListActionsResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -8941,18 +8869,16 @@ export const listActions: (
 /**
  * Retrieves a paginated list of composite models associated with the asset model
  */
-export const listAssetModelCompositeModels: {
-  (
-    input: ListAssetModelCompositeModelsRequest,
-  ): effect.Effect<
-    ListAssetModelCompositeModelsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssetModelCompositeModels: API.OperationMethod<
+  ListAssetModelCompositeModelsRequest,
+  ListAssetModelCompositeModelsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetModelCompositeModelsRequest,
   ) => stream.Stream<
@@ -8996,18 +8922,16 @@ export const listAssetModelCompositeModels: {
  * If you update properties associated with the model before you finish listing all the properties,
  * you need to start all over again.
  */
-export const listAssetModelProperties: {
-  (
-    input: ListAssetModelPropertiesRequest,
-  ): effect.Effect<
-    ListAssetModelPropertiesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssetModelProperties: API.OperationMethod<
+  ListAssetModelPropertiesRequest,
+  ListAssetModelPropertiesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetModelPropertiesRequest,
   ) => stream.Stream<
@@ -9049,17 +8973,15 @@ export const listAssetModelProperties: {
 /**
  * Retrieves a paginated list of summaries of all asset models.
  */
-export const listAssetModels: {
-  (
-    input: ListAssetModelsRequest,
-  ): effect.Effect<
-    ListAssetModelsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssetModels: API.OperationMethod<
+  ListAssetModelsRequest,
+  ListAssetModelsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetModelsRequest,
   ) => stream.Stream<
@@ -9100,18 +9022,16 @@ export const listAssetModels: {
  * If you update properties associated with the model before you finish listing all the properties,
  * you need to start all over again.
  */
-export const listAssetProperties: {
-  (
-    input: ListAssetPropertiesRequest,
-  ): effect.Effect<
-    ListAssetPropertiesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssetProperties: API.OperationMethod<
+  ListAssetPropertiesRequest,
+  ListAssetPropertiesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetPropertiesRequest,
   ) => stream.Stream<
@@ -9155,18 +9075,16 @@ export const listAssetProperties: {
  * to identify an asset's root asset and all associated assets between that asset and its
  * root.
  */
-export const listAssetRelationships: {
-  (
-    input: ListAssetRelationshipsRequest,
-  ): effect.Effect<
-    ListAssetRelationshipsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssetRelationships: API.OperationMethod<
+  ListAssetRelationshipsRequest,
+  ListAssetRelationshipsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetRelationshipsRequest,
   ) => stream.Stream<
@@ -9218,18 +9136,16 @@ export const listAssetRelationships: {
  * assets, use ListAssetModels to get all of your asset model IDs. Then, use ListAssets to get all
  * assets for each asset model.
  */
-export const listAssets: {
-  (
-    input: ListAssetsRequest,
-  ): effect.Effect<
-    ListAssetsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssets: API.OperationMethod<
+  ListAssetsRequest,
+  ListAssetsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetsRequest,
   ) => stream.Stream<
@@ -9277,18 +9193,16 @@ export const listAssets: {
  *
  * - `PARENT` - List the asset's parent asset.
  */
-export const listAssociatedAssets: {
-  (
-    input: ListAssociatedAssetsRequest,
-  ): effect.Effect<
-    ListAssociatedAssetsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociatedAssets: API.OperationMethod<
+  ListAssociatedAssetsRequest,
+  ListAssociatedAssetsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociatedAssetsRequest,
   ) => stream.Stream<
@@ -9331,18 +9245,16 @@ export const listAssociatedAssets: {
  * Retrieves a paginated list of bulk import job requests. For more information, see List bulk
  * import jobs (CLI) in the *IoT SiteWise User Guide*.
  */
-export const listBulkImportJobs: {
-  (
-    input: ListBulkImportJobsRequest,
-  ): effect.Effect<
-    ListBulkImportJobsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBulkImportJobs: API.OperationMethod<
+  ListBulkImportJobsRequest,
+  ListBulkImportJobsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBulkImportJobsRequest,
   ) => stream.Stream<
@@ -9385,18 +9297,16 @@ export const listBulkImportJobs: {
  * Retrieves a paginated list of composition relationships for an asset model of type
  * `COMPONENT_MODEL`.
  */
-export const listCompositionRelationships: {
-  (
-    input: ListCompositionRelationshipsRequest,
-  ): effect.Effect<
-    ListCompositionRelationshipsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCompositionRelationships: API.OperationMethod<
+  ListCompositionRelationshipsRequest,
+  ListCompositionRelationshipsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCompositionRelationshipsRequest,
   ) => stream.Stream<
@@ -9440,17 +9350,15 @@ export const listCompositionRelationships: {
  * specific data bindings are being utilized across the computation models. This track
  * dependencies between data sources and computation models.
  */
-export const listComputationModelDataBindingUsages: {
-  (
-    input: ListComputationModelDataBindingUsagesRequest,
-  ): effect.Effect<
-    ListComputationModelDataBindingUsagesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComputationModelDataBindingUsages: API.OperationMethod<
+  ListComputationModelDataBindingUsagesRequest,
+  ListComputationModelDataBindingUsagesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComputationModelDataBindingUsagesRequest,
   ) => stream.Stream<
@@ -9490,18 +9398,16 @@ export const listComputationModelDataBindingUsages: {
  * Lists all distinct resources that are resolved from the executed actions of the
  * computation model.
  */
-export const listComputationModelResolveToResources: {
-  (
-    input: ListComputationModelResolveToResourcesRequest,
-  ): effect.Effect<
-    ListComputationModelResolveToResourcesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComputationModelResolveToResources: API.OperationMethod<
+  ListComputationModelResolveToResourcesRequest,
+  ListComputationModelResolveToResourcesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComputationModelResolveToResourcesRequest,
   ) => stream.Stream<
@@ -9543,17 +9449,15 @@ export const listComputationModelResolveToResources: {
 /**
  * Retrieves a paginated list of summaries of all computation models.
  */
-export const listComputationModels: {
-  (
-    input: ListComputationModelsRequest,
-  ): effect.Effect<
-    ListComputationModelsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComputationModels: API.OperationMethod<
+  ListComputationModelsRequest,
+  ListComputationModelsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComputationModelsRequest,
   ) => stream.Stream<
@@ -9592,17 +9496,15 @@ export const listComputationModels: {
 /**
  * Retrieves a paginated list of dashboards for an IoT SiteWise Monitor project.
  */
-export const listDashboards: {
-  (
-    input: ListDashboardsRequest,
-  ): effect.Effect<
-    ListDashboardsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDashboards: API.OperationMethod<
+  ListDashboardsRequest,
+  ListDashboardsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDashboardsRequest,
   ) => stream.Stream<
@@ -9641,17 +9543,15 @@ export const listDashboards: {
 /**
  * Retrieves a paginated list of datasets for a specific target resource.
  */
-export const listDatasets: {
-  (
-    input: ListDatasetsRequest,
-  ): effect.Effect<
-    ListDatasetsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasets: API.OperationMethod<
+  ListDatasetsRequest,
+  ListDatasetsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
@@ -9690,18 +9590,16 @@ export const listDatasets: {
 /**
  * Retrieves a paginated list of summaries of all executions.
  */
-export const listExecutions: {
-  (
-    input: ListExecutionsRequest,
-  ): effect.Effect<
-    ListExecutionsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExecutions: API.OperationMethod<
+  ListExecutionsRequest,
+  ListExecutionsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExecutionsRequest,
   ) => stream.Stream<
@@ -9743,17 +9641,15 @@ export const listExecutions: {
 /**
  * Retrieves a paginated list of gateways.
  */
-export const listGateways: {
-  (
-    input: ListGatewaysRequest,
-  ): effect.Effect<
-    ListGatewaysResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGateways: API.OperationMethod<
+  ListGatewaysRequest,
+  ListGatewaysResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGatewaysRequest,
   ) => stream.Stream<
@@ -9793,18 +9689,16 @@ export const listGateways: {
  * Retrieves a paginated list of asset models that have a specific interface asset model
  * applied to them.
  */
-export const listInterfaceRelationships: {
-  (
-    input: ListInterfaceRelationshipsRequest,
-  ): effect.Effect<
-    ListInterfaceRelationshipsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInterfaceRelationships: API.OperationMethod<
+  ListInterfaceRelationshipsRequest,
+  ListInterfaceRelationshipsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInterfaceRelationshipsRequest,
   ) => stream.Stream<
@@ -9846,17 +9740,15 @@ export const listInterfaceRelationships: {
 /**
  * Retrieves a paginated list of IoT SiteWise Monitor portals.
  */
-export const listPortals: {
-  (
-    input: ListPortalsRequest,
-  ): effect.Effect<
-    ListPortalsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPortals: API.OperationMethod<
+  ListPortalsRequest,
+  ListPortalsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPortalsRequest,
   ) => stream.Stream<
@@ -9895,17 +9787,15 @@ export const listPortals: {
 /**
  * Retrieves a paginated list of assets associated with an IoT SiteWise Monitor project.
  */
-export const listProjectAssets: {
-  (
-    input: ListProjectAssetsRequest,
-  ): effect.Effect<
-    ListProjectAssetsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProjectAssets: API.OperationMethod<
+  ListProjectAssetsRequest,
+  ListProjectAssetsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectAssetsRequest,
   ) => stream.Stream<
@@ -9944,17 +9834,15 @@ export const listProjectAssets: {
 /**
  * Retrieves a paginated list of projects for an IoT SiteWise Monitor portal.
  */
-export const listProjects: {
-  (
-    input: ListProjectsRequest,
-  ): effect.Effect<
-    ListProjectsResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProjects: API.OperationMethod<
+  ListProjectsRequest,
+  ListProjectsResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectsRequest,
   ) => stream.Stream<
@@ -9993,9 +9881,8 @@ export const listProjects: {
 /**
  * Retrieves the list of tags for an IoT SiteWise resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10022,18 +9909,16 @@ export const listTagsForResource: (
 /**
  * Retrieves a paginated list of time series (data streams).
  */
-export const listTimeSeries: {
-  (
-    input: ListTimeSeriesRequest,
-  ): effect.Effect<
-    ListTimeSeriesResponse,
-    | InternalFailureException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTimeSeries: API.OperationMethod<
+  ListTimeSeriesRequest,
+  ListTimeSeriesResponse,
+  | InternalFailureException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTimeSeriesRequest,
   ) => stream.Stream<
@@ -10076,9 +9961,8 @@ export const listTimeSeries: {
  * Creates or updates an interface relationship between an asset model and an interface asset
  * model. This operation applies an interface to an asset model.
  */
-export const putAssetModelInterfaceRelationship: (
-  input: PutAssetModelInterfaceRelationshipRequest,
-) => effect.Effect<
+export const putAssetModelInterfaceRelationship: API.OperationMethod<
+  PutAssetModelInterfaceRelationshipRequest,
   PutAssetModelInterfaceRelationshipResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10105,9 +9989,8 @@ export const putAssetModelInterfaceRelationship: (
  * Key management in
  * the *IoT SiteWise User Guide*.
  */
-export const putDefaultEncryptionConfiguration: (
-  input: PutDefaultEncryptionConfigurationRequest,
-) => effect.Effect<
+export const putDefaultEncryptionConfiguration: API.OperationMethod<
+  PutDefaultEncryptionConfigurationRequest,
   PutDefaultEncryptionConfigurationResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10130,9 +10013,8 @@ export const putDefaultEncryptionConfiguration: (
 /**
  * Sets logging options for IoT SiteWise.
  */
-export const putLoggingOptions: (
-  input: PutLoggingOptionsRequest,
-) => effect.Effect<
+export const putLoggingOptions: API.OperationMethod<
+  PutLoggingOptionsRequest,
   PutLoggingOptionsResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10155,9 +10037,8 @@ export const putLoggingOptions: (
 /**
  * Configures storage settings for IoT SiteWise.
  */
-export const putStorageConfiguration: (
-  input: PutStorageConfigurationRequest,
-) => effect.Effect<
+export const putStorageConfiguration: API.OperationMethod<
+  PutStorageConfigurationRequest,
   PutStorageConfigurationResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10185,9 +10066,8 @@ export const putStorageConfiguration: (
  * Adds tags to an IoT SiteWise resource. If a tag already exists for the resource, this operation
  * updates the tag's value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10216,9 +10096,8 @@ export const tagResource: (
 /**
  * Removes a tag from an IoT SiteWise resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10246,9 +10125,8 @@ export const untagResource: (
  * Updates an existing access policy that specifies an identity's access to an IoT SiteWise Monitor
  * portal or project resource.
  */
-export const updateAccessPolicy: (
-  input: UpdateAccessPolicyRequest,
-) => effect.Effect<
+export const updateAccessPolicy: API.OperationMethod<
+  UpdateAccessPolicyRequest,
   UpdateAccessPolicyResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -10270,9 +10148,8 @@ export const updateAccessPolicy: (
  * Updates an asset's name. For more information, see Updating assets and models in the
  * *IoT SiteWise User Guide*.
  */
-export const updateAsset: (
-  input: UpdateAssetRequest,
-) => effect.Effect<
+export const updateAsset: API.OperationMethod<
+  UpdateAssetRequest,
   UpdateAssetResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10313,9 +10190,8 @@ export const updateAsset: (
  * property. The new asset property will have the same `name` as the previous
  * one and IoT SiteWise will generate a new unique `id`.
  */
-export const updateAssetModel: (
-  input: UpdateAssetModelRequest,
-) => effect.Effect<
+export const updateAssetModel: API.OperationMethod<
+  UpdateAssetModelRequest,
   UpdateAssetModelResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10360,9 +10236,8 @@ export const updateAssetModel: (
  * the new property. The new asset property will have the same `name` as the
  * previous one and IoT SiteWise will generate a new unique `id`.
  */
-export const updateAssetModelCompositeModel: (
-  input: UpdateAssetModelCompositeModelRequest,
-) => effect.Effect<
+export const updateAssetModelCompositeModel: API.OperationMethod<
+  UpdateAssetModelCompositeModelRequest,
   UpdateAssetModelCompositeModelResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10395,9 +10270,8 @@ export const updateAssetModelCompositeModel: (
  * your existing property's alias or notification state, you must include the existing values
  * in the UpdateAssetProperty request. For more information, see DescribeAssetProperty.
  */
-export const updateAssetProperty: (
-  input: UpdateAssetPropertyRequest,
-) => effect.Effect<
+export const updateAssetProperty: API.OperationMethod<
+  UpdateAssetPropertyRequest,
   UpdateAssetPropertyResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10420,9 +10294,8 @@ export const updateAssetProperty: (
 /**
  * Updates the computation model.
  */
-export const updateComputationModel: (
-  input: UpdateComputationModelRequest,
-) => effect.Effect<
+export const updateComputationModel: API.OperationMethod<
+  UpdateComputationModelRequest,
   UpdateComputationModelResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10449,9 +10322,8 @@ export const updateComputationModel: (
 /**
  * Updates an IoT SiteWise Monitor dashboard.
  */
-export const updateDashboard: (
-  input: UpdateDashboardRequest,
-) => effect.Effect<
+export const updateDashboard: API.OperationMethod<
+  UpdateDashboardRequest,
   UpdateDashboardResponse,
   | InternalFailureException
   | InvalidRequestException
@@ -10472,9 +10344,8 @@ export const updateDashboard: (
 /**
  * Updates a dataset.
  */
-export const updateDataset: (
-  input: UpdateDatasetRequest,
-) => effect.Effect<
+export const updateDataset: API.OperationMethod<
+  UpdateDatasetRequest,
   UpdateDatasetResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10499,9 +10370,8 @@ export const updateDataset: (
 /**
  * Updates a gateway's name.
  */
-export const updateGateway: (
-  input: UpdateGatewayRequest,
-) => effect.Effect<
+export const updateGateway: API.OperationMethod<
+  UpdateGatewayRequest,
   UpdateGatewayResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10540,9 +10410,8 @@ export const updateGateway: (
  *
  * A gateway can have multiple capability configurations with different namespaces.
  */
-export const updateGatewayCapabilityConfiguration: (
-  input: UpdateGatewayCapabilityConfigurationRequest,
-) => effect.Effect<
+export const updateGatewayCapabilityConfiguration: API.OperationMethod<
+  UpdateGatewayCapabilityConfigurationRequest,
   UpdateGatewayCapabilityConfigurationResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10567,9 +10436,8 @@ export const updateGatewayCapabilityConfiguration: (
 /**
  * Updates an IoT SiteWise Monitor portal.
  */
-export const updatePortal: (
-  input: UpdatePortalRequest,
-) => effect.Effect<
+export const updatePortal: API.OperationMethod<
+  UpdatePortalRequest,
   UpdatePortalResponse,
   | ConflictingOperationException
   | InternalFailureException
@@ -10592,9 +10460,8 @@ export const updatePortal: (
 /**
  * Updates an IoT SiteWise Monitor project.
  */
-export const updateProject: (
-  input: UpdateProjectRequest,
-) => effect.Effect<
+export const updateProject: API.OperationMethod<
+  UpdateProjectRequest,
   UpdateProjectResponse,
   | InternalFailureException
   | InvalidRequestException

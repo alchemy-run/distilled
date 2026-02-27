@@ -624,9 +624,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 /**
  * Lists all of the tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -638,9 +637,8 @@ export const listTagsForResource: (
 /**
  * Tags a resource with a map of key and value pairs.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -652,9 +650,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -708,9 +705,8 @@ export const untagResource: (
  *
  * - The witness Region specified in `multiRegionProperties.witnessRegion` cannot be the same as the cluster's Region.
  */
-export const createCluster: (
-  input: CreateClusterInput,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterInput,
   CreateClusterOutput,
   | ConflictException
   | ServiceQuotaExceededException
@@ -729,9 +725,8 @@ export const createCluster: (
 /**
  * Retrieves information about a cluster.
  */
-export const getCluster: (
-  input: GetClusterInput,
-) => effect.Effect<
+export const getCluster: API.OperationMethod<
+  GetClusterInput,
   GetClusterOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -797,9 +792,8 @@ export const getCluster: (
  *
  * - The `dsql:RemovePeerCluster` permission uses a wildcard ARN pattern to simplify permission management during updates.
  */
-export const updateCluster: (
-  input: UpdateClusterInput,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterInput,
   UpdateClusterOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -814,9 +808,8 @@ export const updateCluster: (
 /**
  * Deletes a cluster in Amazon Aurora DSQL.
  */
-export const deleteCluster: (
-  input: DeleteClusterInput,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterInput,
   DeleteClusterOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -828,14 +821,12 @@ export const deleteCluster: (
 /**
  * Retrieves information about a list of clusters.
  */
-export const listClusters: {
-  (
-    input: ListClustersInput,
-  ): effect.Effect<
-    ListClustersOutput,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersInput,
+  ListClustersOutput,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersInput,
   ) => stream.Stream<
@@ -864,9 +855,8 @@ export const listClusters: {
 /**
  * Deletes the resource-based policy attached to a cluster. This removes all access permissions defined by the policy, reverting to default access controls.
  */
-export const deleteClusterPolicy: (
-  input: DeleteClusterPolicyInput,
-) => effect.Effect<
+export const deleteClusterPolicy: API.OperationMethod<
+  DeleteClusterPolicyInput,
   DeleteClusterPolicyOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -881,9 +871,8 @@ export const deleteClusterPolicy: (
 /**
  * Retrieves the resource-based policy document attached to a cluster. This policy defines the access permissions and conditions for the cluster.
  */
-export const getClusterPolicy: (
-  input: GetClusterPolicyInput,
-) => effect.Effect<
+export const getClusterPolicy: API.OperationMethod<
+  GetClusterPolicyInput,
   GetClusterPolicyOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -895,9 +884,8 @@ export const getClusterPolicy: (
 /**
  * Retrieves the VPC endpoint service name.
  */
-export const getVpcEndpointServiceName: (
-  input: GetVpcEndpointServiceNameInput,
-) => effect.Effect<
+export const getVpcEndpointServiceName: API.OperationMethod<
+  GetVpcEndpointServiceNameInput,
   GetVpcEndpointServiceNameOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -918,9 +906,8 @@ export const getVpcEndpointServiceName: (
 /**
  * Attaches a resource-based policy to a cluster. This policy defines access permissions and conditions for the cluster, allowing you to control which principals can perform actions on the cluster.
  */
-export const putClusterPolicy: (
-  input: PutClusterPolicyInput,
-) => effect.Effect<
+export const putClusterPolicy: API.OperationMethod<
+  PutClusterPolicyInput,
   PutClusterPolicyOutput,
   | ConflictException
   | ResourceNotFoundException

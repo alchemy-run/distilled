@@ -2059,9 +2059,8 @@ export class VerificationFailedException extends S.TaggedErrorClass<Verification
  *
  * - ImportKey
  */
-export const decryptData: (
-  input: DecryptDataInput,
-) => effect.Effect<
+export const decryptData: API.OperationMethod<
+  DecryptDataInput,
   DecryptDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2110,9 +2109,8 @@ export const decryptData: (
  *
  * - ReEncryptData
  */
-export const encryptData: (
-  input: EncryptDataInput,
-) => effect.Effect<
+export const encryptData: API.OperationMethod<
+  EncryptDataInput,
   EncryptDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2143,9 +2141,8 @@ export const encryptData: (
  *
  * **Cross-account use**: This operation can't be used across different Amazon Web Services accounts.
  */
-export const generateAs2805KekValidation: (
-  input: GenerateAs2805KekValidationInput,
-) => effect.Effect<
+export const generateAs2805KekValidation: API.OperationMethod<
+  GenerateAs2805KekValidationInput,
   GenerateAs2805KekValidationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2180,9 +2177,8 @@ export const generateAs2805KekValidation: (
  *
  * - VerifyCardValidationData
  */
-export const generateCardValidationData: (
-  input: GenerateCardValidationDataInput,
-) => effect.Effect<
+export const generateCardValidationData: API.OperationMethod<
+  GenerateCardValidationDataInput,
   GenerateCardValidationDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2217,9 +2213,8 @@ export const generateCardValidationData: (
  *
  * - VerifyMac
  */
-export const generateMac: (
-  input: GenerateMacInput,
-) => effect.Effect<
+export const generateMac: API.OperationMethod<
+  GenerateMacInput,
   GenerateMacOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2260,9 +2255,8 @@ export const generateMac: (
  *
  * - GenerateMac
  */
-export const generateMacEmvPinChange: (
-  input: GenerateMacEmvPinChangeInput,
-) => effect.Effect<
+export const generateMacEmvPinChange: API.OperationMethod<
+  GenerateMacEmvPinChangeInput,
   GenerateMacEmvPinChangeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2301,9 +2295,8 @@ export const generateMacEmvPinChange: (
  *
  * - VerifyPinData
  */
-export const generatePinData: (
-  input: GeneratePinDataInput,
-) => effect.Effect<
+export const generatePinData: API.OperationMethod<
+  GeneratePinDataInput,
   GeneratePinDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2346,9 +2339,8 @@ export const generatePinData: (
  *
  * - ImportKey
  */
-export const reEncryptData: (
-  input: ReEncryptDataInput,
-) => effect.Effect<
+export const reEncryptData: API.OperationMethod<
+  ReEncryptDataInput,
   ReEncryptDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2387,9 +2379,8 @@ export const reEncryptData: (
  *
  * - ImportKey
  */
-export const translateKeyMaterial: (
-  input: TranslateKeyMaterialInput,
-) => effect.Effect<
+export const translateKeyMaterial: API.OperationMethod<
+  TranslateKeyMaterialInput,
   TranslateKeyMaterialOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2434,9 +2425,8 @@ export const translateKeyMaterial: (
  *
  * - VerifyPinData
  */
-export const translatePinData: (
-  input: TranslatePinDataInput,
-) => effect.Effect<
+export const translatePinData: API.OperationMethod<
+  TranslatePinDataInput,
   TranslatePinDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2471,9 +2461,8 @@ export const translatePinData: (
  *
  * - VerifyPinData
  */
-export const verifyAuthRequestCryptogram: (
-  input: VerifyAuthRequestCryptogramInput,
-) => effect.Effect<
+export const verifyAuthRequestCryptogram: API.OperationMethod<
+  VerifyAuthRequestCryptogramInput,
   VerifyAuthRequestCryptogramOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2512,9 +2501,8 @@ export const verifyAuthRequestCryptogram: (
  *
  * - VerifyPinData
  */
-export const verifyCardValidationData: (
-  input: VerifyCardValidationDataInput,
-) => effect.Effect<
+export const verifyCardValidationData: API.OperationMethod<
+  VerifyCardValidationDataInput,
   VerifyCardValidationDataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2549,9 +2537,8 @@ export const verifyCardValidationData: (
  *
  * - GenerateMac
  */
-export const verifyMac: (
-  input: VerifyMacInput,
-) => effect.Effect<
+export const verifyMac: API.OperationMethod<
+  VerifyMacInput,
   VerifyMacOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2588,9 +2575,8 @@ export const verifyMac: (
  *
  * - TranslatePinData
  */
-export const verifyPinData: (
-  input: VerifyPinDataInput,
-) => effect.Effect<
+export const verifyPinData: API.OperationMethod<
+  VerifyPinDataInput,
   VerifyPinDataOutput,
   | AccessDeniedException
   | InternalServerException

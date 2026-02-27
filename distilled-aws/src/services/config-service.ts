@@ -6439,9 +6439,8 @@ export class IdempotentParameterMismatch extends S.TaggedErrorClass<IdempotentPa
  *
  * For this operation, the specified configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
  */
-export const associateResourceTypes: (
-  input: AssociateResourceTypesRequest,
-) => effect.Effect<
+export const associateResourceTypes: API.OperationMethod<
+  AssociateResourceTypesRequest,
   AssociateResourceTypesResponse,
   | ConflictException
   | NoSuchConfigurationRecorderException
@@ -6465,9 +6464,8 @@ export const associateResourceTypes: (
  *
  * - The API does not return tags and relationships.
  */
-export const batchGetAggregateResourceConfig: (
-  input: BatchGetAggregateResourceConfigRequest,
-) => effect.Effect<
+export const batchGetAggregateResourceConfig: API.OperationMethod<
+  BatchGetAggregateResourceConfigRequest,
   BatchGetAggregateResourceConfigResponse,
   NoSuchConfigurationAggregatorException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6491,9 +6489,8 @@ export const batchGetAggregateResourceConfig: (
  * supplementaryConfiguration section of the API
  * response.
  */
-export const batchGetResourceConfig: (
-  input: BatchGetResourceConfigRequest,
-) => effect.Effect<
+export const batchGetResourceConfig: API.OperationMethod<
+  BatchGetResourceConfigRequest,
   BatchGetResourceConfigResponse,
   | NoAvailableConfigurationRecorderException
   | ValidationException
@@ -6508,9 +6505,8 @@ export const batchGetResourceConfig: (
  * Deletes the authorization granted to the specified
  * configuration aggregator account in a specified region.
  */
-export const deleteAggregationAuthorization: (
-  input: DeleteAggregationAuthorizationRequest,
-) => effect.Effect<
+export const deleteAggregationAuthorization: API.OperationMethod<
+  DeleteAggregationAuthorizationRequest,
   DeleteAggregationAuthorizationResponse,
   InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6544,9 +6540,8 @@ export const deleteAggregationAuthorization: (
  * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
  */
-export const deleteConfigRule: (
-  input: DeleteConfigRuleRequest,
-) => effect.Effect<
+export const deleteConfigRule: API.OperationMethod<
+  DeleteConfigRuleRequest,
   DeleteConfigRuleResponse,
   NoSuchConfigRuleException | ResourceInUseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6559,9 +6554,8 @@ export const deleteConfigRule: (
  * Deletes the specified configuration aggregator and the
  * aggregated data associated with the aggregator.
  */
-export const deleteConfigurationAggregator: (
-  input: DeleteConfigurationAggregatorRequest,
-) => effect.Effect<
+export const deleteConfigurationAggregator: API.OperationMethod<
+  DeleteConfigurationAggregatorRequest,
   DeleteConfigurationAggregatorResponse,
   NoSuchConfigurationAggregatorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6580,9 +6574,8 @@ export const deleteConfigurationAggregator: (
  * be able to access this information in the Config console until
  * you have created a new customer managed configuration recorder.
  */
-export const deleteConfigurationRecorder: (
-  input: DeleteConfigurationRecorderRequest,
-) => effect.Effect<
+export const deleteConfigurationRecorder: API.OperationMethod<
+  DeleteConfigurationRecorderRequest,
   DeleteConfigurationRecorderResponse,
   | NoSuchConfigurationRecorderException
   | UnmodifiableEntityException
@@ -6612,9 +6605,8 @@ export const deleteConfigurationRecorder: (
  * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
  */
-export const deleteConformancePack: (
-  input: DeleteConformancePackRequest,
-) => effect.Effect<
+export const deleteConformancePack: API.OperationMethod<
+  DeleteConformancePackRequest,
   DeleteConformancePackResponse,
   NoSuchConformancePackException | ResourceInUseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6628,9 +6620,8 @@ export const deleteConformancePack: (
  *
  * Before you can delete the delivery channel, you must stop the customer managed configuration recorder. You can use the StopConfigurationRecorder operation to stop the customer managed configuration recorder.
  */
-export const deleteDeliveryChannel: (
-  input: DeleteDeliveryChannelRequest,
-) => effect.Effect<
+export const deleteDeliveryChannel: API.OperationMethod<
+  DeleteDeliveryChannelRequest,
   DeleteDeliveryChannelResponse,
   | LastDeliveryChannelDeleteFailedException
   | NoSuchDeliveryChannelException
@@ -6650,9 +6641,8 @@ export const deleteDeliveryChannel: (
  * delete the evaluation results, you can call the StartConfigRulesEvaluation API to start evaluating
  * your Amazon Web Services resources against the rule.
  */
-export const deleteEvaluationResults: (
-  input: DeleteEvaluationResultsRequest,
-) => effect.Effect<
+export const deleteEvaluationResults: API.OperationMethod<
+  DeleteEvaluationResultsRequest,
   DeleteEvaluationResultsResponse,
   NoSuchConfigRuleException | ResourceInUseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6683,9 +6673,8 @@ export const deleteEvaluationResults: (
  * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
  */
-export const deleteOrganizationConfigRule: (
-  input: DeleteOrganizationConfigRuleRequest,
-) => effect.Effect<
+export const deleteOrganizationConfigRule: API.OperationMethod<
+  DeleteOrganizationConfigRuleRequest,
   DeleteOrganizationConfigRuleResponse,
   | NoSuchOrganizationConfigRuleException
   | OrganizationAccessDeniedException
@@ -6724,9 +6713,8 @@ export const deleteOrganizationConfigRule: (
  * However, since deleting rules is an asynchronous process, it might take an hour or more to complete. During the time
  * when recording is disabled for `AWS::Config::ResourceCompliance`, rule evaluations will not be recorded in the associated resource’s history.
  */
-export const deleteOrganizationConformancePack: (
-  input: DeleteOrganizationConformancePackRequest,
-) => effect.Effect<
+export const deleteOrganizationConformancePack: API.OperationMethod<
+  DeleteOrganizationConformancePackRequest,
   DeleteOrganizationConformancePackResponse,
   | NoSuchOrganizationConformancePackException
   | OrganizationAccessDeniedException
@@ -6746,9 +6734,8 @@ export const deleteOrganizationConformancePack: (
  * Deletes pending authorization requests for a specified
  * aggregator account in a specified region.
  */
-export const deletePendingAggregationRequest: (
-  input: DeletePendingAggregationRequestRequest,
-) => effect.Effect<
+export const deletePendingAggregationRequest: API.OperationMethod<
+  DeletePendingAggregationRequestRequest,
   DeletePendingAggregationRequestResponse,
   InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6760,9 +6747,8 @@ export const deletePendingAggregationRequest: (
 /**
  * Deletes the remediation configuration.
  */
-export const deleteRemediationConfiguration: (
-  input: DeleteRemediationConfigurationRequest,
-) => effect.Effect<
+export const deleteRemediationConfiguration: API.OperationMethod<
+  DeleteRemediationConfigurationRequest,
   DeleteRemediationConfigurationResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -6786,9 +6772,8 @@ export const deleteRemediationConfiguration: (
  * Config generates a remediation exception when a problem occurs executing a remediation action to a specific resource.
  * Remediation exceptions blocks auto-remediation until the exception is cleared.
  */
-export const deleteRemediationExceptions: (
-  input: DeleteRemediationExceptionsRequest,
-) => effect.Effect<
+export const deleteRemediationExceptions: API.OperationMethod<
+  DeleteRemediationExceptionsRequest,
   DeleteRemediationExceptionsResponse,
   NoSuchRemediationExceptionException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6800,9 +6785,8 @@ export const deleteRemediationExceptions: (
 /**
  * Records the configuration state for a custom resource that has been deleted. This API records a new ConfigurationItem with a ResourceDeleted status. You can retrieve the ConfigurationItems recorded for this resource in your Config History.
  */
-export const deleteResourceConfig: (
-  input: DeleteResourceConfigRequest,
-) => effect.Effect<
+export const deleteResourceConfig: API.OperationMethod<
+  DeleteResourceConfigRequest,
   DeleteResourceConfigResponse,
   NoRunningConfigurationRecorderException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6814,9 +6798,8 @@ export const deleteResourceConfig: (
 /**
  * Deletes the retention configuration.
  */
-export const deleteRetentionConfiguration: (
-  input: DeleteRetentionConfigurationRequest,
-) => effect.Effect<
+export const deleteRetentionConfiguration: API.OperationMethod<
+  DeleteRetentionConfigurationRequest,
   DeleteRetentionConfigurationResponse,
   | InvalidParameterValueException
   | NoSuchRetentionConfigurationException
@@ -6843,9 +6826,8 @@ export const deleteRetentionConfiguration: (
  *
  * The recording scope is set by the service that is linked to the configuration recorder and determines whether you receive configuration items (CIs) in the delivery channel. If the recording scope is internal, you will not receive CIs in the delivery channel.
  */
-export const deleteServiceLinkedConfigurationRecorder: (
-  input: DeleteServiceLinkedConfigurationRecorderRequest,
-) => effect.Effect<
+export const deleteServiceLinkedConfigurationRecorder: API.OperationMethod<
+  DeleteServiceLinkedConfigurationRecorderRequest,
   DeleteServiceLinkedConfigurationRecorderResponse,
   | ConflictException
   | NoSuchConfigurationRecorderException
@@ -6864,9 +6846,8 @@ export const deleteServiceLinkedConfigurationRecorder: (
 /**
  * Deletes the stored query for a single Amazon Web Services account and a single Amazon Web Services Region.
  */
-export const deleteStoredQuery: (
-  input: DeleteStoredQueryRequest,
-) => effect.Effect<
+export const deleteStoredQuery: API.OperationMethod<
+  DeleteStoredQueryRequest,
   DeleteStoredQueryResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6889,9 +6870,8 @@ export const deleteStoredQuery: (
  * - Notification of delivery failure, if the delivery
  * failed.
  */
-export const deliverConfigSnapshot: (
-  input: DeliverConfigSnapshotRequest,
-) => effect.Effect<
+export const deliverConfigSnapshot: API.OperationMethod<
+  DeliverConfigSnapshotRequest,
   DeliverConfigSnapshotResponse,
   | NoAvailableConfigurationRecorderException
   | NoRunningConfigurationRecorderException
@@ -6915,18 +6895,16 @@ export const deliverConfigSnapshot: (
  * have a `nextToken`, the results are displayed on the next
  * page.
  */
-export const describeAggregateComplianceByConfigRules: {
-  (
-    input: DescribeAggregateComplianceByConfigRulesRequest,
-  ): effect.Effect<
-    DescribeAggregateComplianceByConfigRulesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAggregateComplianceByConfigRules: API.OperationMethod<
+  DescribeAggregateComplianceByConfigRulesRequest,
+  DescribeAggregateComplianceByConfigRulesResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAggregateComplianceByConfigRulesRequest,
   ) => stream.Stream<
@@ -6970,18 +6948,16 @@ export const describeAggregateComplianceByConfigRules: {
  *
  * The results can return an empty result page, but if you have a `nextToken`, the results are displayed on the next page.
  */
-export const describeAggregateComplianceByConformancePacks: {
-  (
-    input: DescribeAggregateComplianceByConformancePacksRequest,
-  ): effect.Effect<
-    DescribeAggregateComplianceByConformancePacksResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAggregateComplianceByConformancePacks: API.OperationMethod<
+  DescribeAggregateComplianceByConformancePacksRequest,
+  DescribeAggregateComplianceByConformancePacksResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAggregateComplianceByConformancePacksRequest,
   ) => stream.Stream<
@@ -7024,17 +7000,15 @@ export const describeAggregateComplianceByConformancePacks: {
  * Returns a list of authorizations granted to various aggregator
  * accounts and regions.
  */
-export const describeAggregationAuthorizations: {
-  (
-    input: DescribeAggregationAuthorizationsRequest,
-  ): effect.Effect<
-    DescribeAggregationAuthorizationsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAggregationAuthorizations: API.OperationMethod<
+  DescribeAggregationAuthorizationsRequest,
+  DescribeAggregationAuthorizationsResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAggregationAuthorizationsRequest,
   ) => stream.Stream<
@@ -7102,17 +7076,15 @@ export const describeAggregationAuthorizations: {
  * This can occur if the resources were deleted or removed from
  * the rule's scope.
  */
-export const describeComplianceByConfigRule: {
-  (
-    input: DescribeComplianceByConfigRuleRequest,
-  ): effect.Effect<
-    DescribeComplianceByConfigRuleResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeComplianceByConfigRule: API.OperationMethod<
+  DescribeComplianceByConfigRuleRequest,
+  DescribeComplianceByConfigRuleResponse,
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeComplianceByConfigRuleRequest,
   ) => stream.Stream<
@@ -7179,14 +7151,12 @@ export const describeComplianceByConfigRule: {
  * This can occur if the resources were deleted or removed from
  * the rule's scope.
  */
-export const describeComplianceByResource: {
-  (
-    input: DescribeComplianceByResourceRequest,
-  ): effect.Effect<
-    DescribeComplianceByResourceResponse,
-    InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeComplianceByResource: API.OperationMethod<
+  DescribeComplianceByResourceRequest,
+  DescribeComplianceByResourceResponse,
+  InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeComplianceByResourceRequest,
   ) => stream.Stream<
@@ -7216,17 +7186,15 @@ export const describeComplianceByResource: {
  * Returns status information for each of your Config managed rules. The status includes information such as the last time Config invoked the rule, the last time Config failed to invoke
  * the rule, and the related error for the last failure.
  */
-export const describeConfigRuleEvaluationStatus: {
-  (
-    input: DescribeConfigRuleEvaluationStatusRequest,
-  ): effect.Effect<
-    DescribeConfigRuleEvaluationStatusResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConfigRuleEvaluationStatus: API.OperationMethod<
+  DescribeConfigRuleEvaluationStatusRequest,
+  DescribeConfigRuleEvaluationStatusResponse,
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConfigRuleEvaluationStatusRequest,
   ) => stream.Stream<
@@ -7265,17 +7233,15 @@ export const describeConfigRuleEvaluationStatus: {
 /**
  * Returns details about your Config rules.
  */
-export const describeConfigRules: {
-  (
-    input: DescribeConfigRulesRequest,
-  ): effect.Effect<
-    DescribeConfigRulesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConfigRules: API.OperationMethod<
+  DescribeConfigRulesRequest,
+  DescribeConfigRulesResponse,
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConfigRulesRequest,
   ) => stream.Stream<
@@ -7316,18 +7282,16 @@ export const describeConfigRules: {
  * returns the details for all the configuration aggregators associated
  * with the account.
  */
-export const describeConfigurationAggregators: {
-  (
-    input: DescribeConfigurationAggregatorsRequest,
-  ): effect.Effect<
-    DescribeConfigurationAggregatorsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigurationAggregatorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConfigurationAggregators: API.OperationMethod<
+  DescribeConfigurationAggregatorsRequest,
+  DescribeConfigurationAggregatorsResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigurationAggregatorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConfigurationAggregatorsRequest,
   ) => stream.Stream<
@@ -7370,18 +7334,16 @@ export const describeConfigurationAggregators: {
  * Returns status information for sources within an aggregator.
  * The status includes information about the last time Config verified authorization between the source account and an aggregator account. In case of a failure, the status contains the related error code or message.
  */
-export const describeConfigurationAggregatorSourcesStatus: {
-  (
-    input: DescribeConfigurationAggregatorSourcesStatusRequest,
-  ): effect.Effect<
-    DescribeConfigurationAggregatorSourcesStatusResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigurationAggregatorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConfigurationAggregatorSourcesStatus: API.OperationMethod<
+  DescribeConfigurationAggregatorSourcesStatusRequest,
+  DescribeConfigurationAggregatorSourcesStatusResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigurationAggregatorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConfigurationAggregatorSourcesStatusRequest,
   ) => stream.Stream<
@@ -7428,9 +7390,8 @@ export const describeConfigurationAggregatorSourcesStatus: {
  *
  * When making a request to this operation, you can only specify one configuration recorder.
  */
-export const describeConfigurationRecorders: (
-  input: DescribeConfigurationRecordersRequest,
-) => effect.Effect<
+export const describeConfigurationRecorders: API.OperationMethod<
+  DescribeConfigurationRecordersRequest,
   DescribeConfigurationRecordersResponse,
   NoSuchConfigurationRecorderException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7450,9 +7411,8 @@ export const describeConfigurationRecorders: (
  *
  * When making a request to this operation, you can only specify one configuration recorder.
  */
-export const describeConfigurationRecorderStatus: (
-  input: DescribeConfigurationRecorderStatusRequest,
-) => effect.Effect<
+export const describeConfigurationRecorderStatus: API.OperationMethod<
+  DescribeConfigurationRecorderStatusRequest,
   DescribeConfigurationRecorderStatusResponse,
   NoSuchConfigurationRecorderException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7466,19 +7426,17 @@ export const describeConfigurationRecorderStatus: (
  *
  * You must provide exact rule names.
  */
-export const describeConformancePackCompliance: {
-  (
-    input: DescribeConformancePackComplianceRequest,
-  ): effect.Effect<
-    DescribeConformancePackComplianceResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleInConformancePackException
-    | NoSuchConformancePackException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConformancePackCompliance: API.OperationMethod<
+  DescribeConformancePackComplianceRequest,
+  DescribeConformancePackComplianceResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleInConformancePackException
+  | NoSuchConformancePackException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConformancePackComplianceRequest,
   ) => stream.Stream<
@@ -7522,18 +7480,16 @@ export const describeConformancePackCompliance: {
 /**
  * Returns a list of one or more conformance packs.
  */
-export const describeConformancePacks: {
-  (
-    input: DescribeConformancePacksRequest,
-  ): effect.Effect<
-    DescribeConformancePacksResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConformancePackException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConformancePacks: API.OperationMethod<
+  DescribeConformancePacksRequest,
+  DescribeConformancePacksResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConformancePackException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConformancePacksRequest,
   ) => stream.Stream<
@@ -7577,17 +7533,15 @@ export const describeConformancePacks: {
  *
  * If there are no conformance packs then you will see an empty result.
  */
-export const describeConformancePackStatus: {
-  (
-    input: DescribeConformancePackStatusRequest,
-  ): effect.Effect<
-    DescribeConformancePackStatusResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConformancePackStatus: API.OperationMethod<
+  DescribeConformancePackStatusRequest,
+  DescribeConformancePackStatusResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConformancePackStatusRequest,
   ) => stream.Stream<
@@ -7631,9 +7585,8 @@ export const describeConformancePackStatus: {
  * Currently, you can specify only one delivery channel per
  * region in your account.
  */
-export const describeDeliveryChannels: (
-  input: DescribeDeliveryChannelsRequest,
-) => effect.Effect<
+export const describeDeliveryChannels: API.OperationMethod<
+  DescribeDeliveryChannelsRequest,
   DescribeDeliveryChannelsResponse,
   NoSuchDeliveryChannelException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7651,9 +7604,8 @@ export const describeDeliveryChannels: (
  * Currently, you can specify only one delivery channel per
  * region in your account.
  */
-export const describeDeliveryChannelStatus: (
-  input: DescribeDeliveryChannelStatusRequest,
-) => effect.Effect<
+export const describeDeliveryChannelStatus: API.OperationMethod<
+  DescribeDeliveryChannelStatusRequest,
   DescribeDeliveryChannelStatusResponse,
   NoSuchDeliveryChannelException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7683,18 +7635,16 @@ export const describeDeliveryChannelStatus: (
  * the organization-related resource that were deployed from within the account calling
  * those APIs.
  */
-export const describeOrganizationConfigRules: {
-  (
-    input: DescribeOrganizationConfigRulesRequest,
-  ): effect.Effect<
-    DescribeOrganizationConfigRulesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConfigRuleException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrganizationConfigRules: API.OperationMethod<
+  DescribeOrganizationConfigRulesRequest,
+  DescribeOrganizationConfigRulesResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrganizationConfigRulesRequest,
   ) => stream.Stream<
@@ -7743,18 +7693,16 @@ export const describeOrganizationConfigRules: {
  * Limit and next token are not applicable if you specify organization Config rule names.
  * It is only applicable, when you request all the organization Config rules.
  */
-export const describeOrganizationConfigRuleStatuses: {
-  (
-    input: DescribeOrganizationConfigRuleStatusesRequest,
-  ): effect.Effect<
-    DescribeOrganizationConfigRuleStatusesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConfigRuleException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrganizationConfigRuleStatuses: API.OperationMethod<
+  DescribeOrganizationConfigRuleStatusesRequest,
+  DescribeOrganizationConfigRuleStatusesResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrganizationConfigRuleStatusesRequest,
   ) => stream.Stream<
@@ -7814,18 +7762,16 @@ export const describeOrganizationConfigRuleStatuses: {
  * the organization-related resource that were deployed from within the account calling
  * those APIs.
  */
-export const describeOrganizationConformancePacks: {
-  (
-    input: DescribeOrganizationConformancePacksRequest,
-  ): effect.Effect<
-    DescribeOrganizationConformancePacksResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConformancePackException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrganizationConformancePacks: API.OperationMethod<
+  DescribeOrganizationConformancePacksRequest,
+  DescribeOrganizationConformancePacksResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConformancePackException
+  | OrganizationAccessDeniedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrganizationConformancePacksRequest,
   ) => stream.Stream<
@@ -7874,18 +7820,16 @@ export const describeOrganizationConformancePacks: {
  * Limit and next token are not applicable if you specify organization conformance pack names.
  * They are only applicable, when you request all the organization conformance packs.
  */
-export const describeOrganizationConformancePackStatuses: {
-  (
-    input: DescribeOrganizationConformancePackStatusesRequest,
-  ): effect.Effect<
-    DescribeOrganizationConformancePackStatusesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConformancePackException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrganizationConformancePackStatuses: API.OperationMethod<
+  DescribeOrganizationConformancePackStatusesRequest,
+  DescribeOrganizationConformancePackStatusesResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConformancePackException
+  | OrganizationAccessDeniedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrganizationConformancePackStatusesRequest,
   ) => stream.Stream<
@@ -7927,17 +7871,15 @@ export const describeOrganizationConformancePackStatuses: {
 /**
  * Returns a list of all pending aggregation requests.
  */
-export const describePendingAggregationRequests: {
-  (
-    input: DescribePendingAggregationRequestsRequest,
-  ): effect.Effect<
-    DescribePendingAggregationRequestsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePendingAggregationRequests: API.OperationMethod<
+  DescribePendingAggregationRequestsRequest,
+  DescribePendingAggregationRequestsResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePendingAggregationRequestsRequest,
   ) => stream.Stream<
@@ -7976,9 +7918,8 @@ export const describePendingAggregationRequests: {
 /**
  * Returns the details of one or more remediation configurations.
  */
-export const describeRemediationConfigurations: (
-  input: DescribeRemediationConfigurationsRequest,
-) => effect.Effect<
+export const describeRemediationConfigurations: API.OperationMethod<
+  DescribeRemediationConfigurationsRequest,
   DescribeRemediationConfigurationsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7998,14 +7939,12 @@ export const describeRemediationConfigurations: (
  *
  * Limit and next token are not applicable if you request resources in batch. It is only applicable, when you request all resources.
  */
-export const describeRemediationExceptions: {
-  (
-    input: DescribeRemediationExceptionsRequest,
-  ): effect.Effect<
-    DescribeRemediationExceptionsResponse,
-    InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRemediationExceptions: API.OperationMethod<
+  DescribeRemediationExceptionsRequest,
+  DescribeRemediationExceptionsResponse,
+  InvalidNextTokenException | InvalidParameterValueException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRemediationExceptionsRequest,
   ) => stream.Stream<
@@ -8034,17 +7973,15 @@ export const describeRemediationExceptions: {
  * Provides a detailed view of a Remediation Execution for a set of resources including state, timestamps for when steps for the remediation execution occur, and any error messages for steps that have failed.
  * When you specify the limit and the next token, you receive a paginated response.
  */
-export const describeRemediationExecutionStatus: {
-  (
-    input: DescribeRemediationExecutionStatusRequest,
-  ): effect.Effect<
-    DescribeRemediationExecutionStatusResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchRemediationConfigurationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRemediationExecutionStatus: API.OperationMethod<
+  DescribeRemediationExecutionStatusRequest,
+  DescribeRemediationExecutionStatusResponse,
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchRemediationConfigurationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRemediationExecutionStatusRequest,
   ) => stream.Stream<
@@ -8089,17 +8026,15 @@ export const describeRemediationExecutionStatus: {
  * Currently, Config supports only one retention
  * configuration per region in your account.
  */
-export const describeRetentionConfigurations: {
-  (
-    input: DescribeRetentionConfigurationsRequest,
-  ): effect.Effect<
-    DescribeRetentionConfigurationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchRetentionConfigurationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRetentionConfigurations: API.OperationMethod<
+  DescribeRetentionConfigurationsRequest,
+  DescribeRetentionConfigurationsResponse,
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchRetentionConfigurationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRetentionConfigurationsRequest,
   ) => stream.Stream<
@@ -8139,9 +8074,8 @@ export const describeRetentionConfigurations: {
  *
  * For this operation, the configuration recorder must use a RecordingStrategy that is either `INCLUSION_BY_RESOURCE_TYPES` or `EXCLUSION_BY_RESOURCE_TYPES`.
  */
-export const disassociateResourceTypes: (
-  input: DisassociateResourceTypesRequest,
-) => effect.Effect<
+export const disassociateResourceTypes: API.OperationMethod<
+  DisassociateResourceTypesRequest,
   DisassociateResourceTypesResponse,
   | ConflictException
   | NoSuchConfigurationRecorderException
@@ -8167,18 +8101,16 @@ export const disassociateResourceTypes: (
  * have a `nextToken`, the results are displayed on the next
  * page.
  */
-export const getAggregateComplianceDetailsByConfigRule: {
-  (
-    input: GetAggregateComplianceDetailsByConfigRuleRequest,
-  ): effect.Effect<
-    GetAggregateComplianceDetailsByConfigRuleResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAggregateComplianceDetailsByConfigRule: API.OperationMethod<
+  GetAggregateComplianceDetailsByConfigRuleRequest,
+  GetAggregateComplianceDetailsByConfigRuleResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAggregateComplianceDetailsByConfigRuleRequest,
   ) => stream.Stream<
@@ -8225,18 +8157,16 @@ export const getAggregateComplianceDetailsByConfigRule: {
  * have a nextToken, the results are displayed on the next
  * page.
  */
-export const getAggregateConfigRuleComplianceSummary: {
-  (
-    input: GetAggregateConfigRuleComplianceSummaryRequest,
-  ): effect.Effect<
-    GetAggregateConfigRuleComplianceSummaryResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAggregateConfigRuleComplianceSummary: API.OperationMethod<
+  GetAggregateConfigRuleComplianceSummaryRequest,
+  GetAggregateConfigRuleComplianceSummaryResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAggregateConfigRuleComplianceSummaryRequest,
   ) => stream.Stream<
@@ -8279,18 +8209,16 @@ export const getAggregateConfigRuleComplianceSummary: {
  *
  * The results can return an empty result page, but if you have a nextToken, the results are displayed on the next page.
  */
-export const getAggregateConformancePackComplianceSummary: {
-  (
-    input: GetAggregateConformancePackComplianceSummaryRequest,
-  ): effect.Effect<
-    GetAggregateConformancePackComplianceSummaryResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAggregateConformancePackComplianceSummary: API.OperationMethod<
+  GetAggregateConformancePackComplianceSummaryRequest,
+  GetAggregateConformancePackComplianceSummaryResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAggregateConformancePackComplianceSummaryRequest,
   ) => stream.Stream<
@@ -8334,18 +8262,16 @@ export const getAggregateConformancePackComplianceSummary: {
  * For example, if the input contains accountID 12345678910 and region us-east-1 in filters, the API returns the count of resources in account ID 12345678910 and region us-east-1.
  * If the input contains ACCOUNT_ID as a GroupByKey, the API returns resource counts for all source accounts that are present in your aggregator.
  */
-export const getAggregateDiscoveredResourceCounts: {
-  (
-    input: GetAggregateDiscoveredResourceCountsRequest,
-  ): effect.Effect<
-    GetAggregateDiscoveredResourceCountsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAggregateDiscoveredResourceCounts: API.OperationMethod<
+  GetAggregateDiscoveredResourceCountsRequest,
+  GetAggregateDiscoveredResourceCountsResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAggregateDiscoveredResourceCountsRequest,
   ) => stream.Stream<
@@ -8388,9 +8314,8 @@ export const getAggregateDiscoveredResourceCounts: {
  *
  * The API does not return results for deleted resources.
  */
-export const getAggregateResourceConfig: (
-  input: GetAggregateResourceConfigRequest,
-) => effect.Effect<
+export const getAggregateResourceConfig: API.OperationMethod<
+  GetAggregateResourceConfigRequest,
   GetAggregateResourceConfigResponse,
   | NoSuchConfigurationAggregatorException
   | OversizedConfigurationItemException
@@ -8414,17 +8339,15 @@ export const getAggregateResourceConfig: (
  * rule, when each resource was last evaluated, and whether each
  * resource complies with the rule.
  */
-export const getComplianceDetailsByConfigRule: {
-  (
-    input: GetComplianceDetailsByConfigRuleRequest,
-  ): effect.Effect<
-    GetComplianceDetailsByConfigRuleResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getComplianceDetailsByConfigRule: API.OperationMethod<
+  GetComplianceDetailsByConfigRuleRequest,
+  GetComplianceDetailsByConfigRuleResponse,
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetComplianceDetailsByConfigRuleRequest,
   ) => stream.Stream<
@@ -8466,14 +8389,12 @@ export const getComplianceDetailsByConfigRule: {
  * the resource, when each rule was last invoked, and whether the resource
  * complies with each rule.
  */
-export const getComplianceDetailsByResource: {
-  (
-    input: GetComplianceDetailsByResourceRequest,
-  ): effect.Effect<
-    GetComplianceDetailsByResourceResponse,
-    InvalidParameterValueException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getComplianceDetailsByResource: API.OperationMethod<
+  GetComplianceDetailsByResourceRequest,
+  GetComplianceDetailsByResourceResponse,
+  InvalidParameterValueException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetComplianceDetailsByResourceRequest,
   ) => stream.Stream<
@@ -8502,9 +8423,8 @@ export const getComplianceDetailsByResource: {
  * Returns the number of Config rules that are compliant and
  * noncompliant, up to a maximum of 25 for each.
  */
-export const getComplianceSummaryByConfigRule: (
-  input: GetComplianceSummaryByConfigRuleRequest,
-) => effect.Effect<
+export const getComplianceSummaryByConfigRule: API.OperationMethod<
+  GetComplianceSummaryByConfigRuleRequest,
   GetComplianceSummaryByConfigRuleResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8519,9 +8439,8 @@ export const getComplianceSummaryByConfigRule: (
  * types to get these numbers for each resource type. The maximum
  * number returned is 100.
  */
-export const getComplianceSummaryByResourceType: (
-  input: GetComplianceSummaryByResourceTypeRequest,
-) => effect.Effect<
+export const getComplianceSummaryByResourceType: API.OperationMethod<
+  GetComplianceSummaryByResourceTypeRequest,
   GetComplianceSummaryByResourceTypeResponse,
   InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8533,19 +8452,17 @@ export const getComplianceSummaryByResourceType: (
 /**
  * Returns compliance details of a conformance pack for all Amazon Web Services resources that are monitered by conformance pack.
  */
-export const getConformancePackComplianceDetails: {
-  (
-    input: GetConformancePackComplianceDetailsRequest,
-  ): effect.Effect<
-    GetConformancePackComplianceDetailsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | NoSuchConfigRuleInConformancePackException
-    | NoSuchConformancePackException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getConformancePackComplianceDetails: API.OperationMethod<
+  GetConformancePackComplianceDetailsRequest,
+  GetConformancePackComplianceDetailsResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | NoSuchConfigRuleInConformancePackException
+  | NoSuchConformancePackException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetConformancePackComplianceDetailsRequest,
   ) => stream.Stream<
@@ -8589,17 +8506,15 @@ export const getConformancePackComplianceDetails: {
 /**
  * Returns compliance details for the conformance pack based on the cumulative compliance results of all the rules in that conformance pack.
  */
-export const getConformancePackComplianceSummary: {
-  (
-    input: GetConformancePackComplianceSummaryRequest,
-  ): effect.Effect<
-    GetConformancePackComplianceSummaryResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConformancePackException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getConformancePackComplianceSummary: API.OperationMethod<
+  GetConformancePackComplianceSummaryRequest,
+  GetConformancePackComplianceSummaryResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConformancePackException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetConformancePackComplianceSummaryRequest,
   ) => stream.Stream<
@@ -8638,9 +8553,8 @@ export const getConformancePackComplianceSummary: {
 /**
  * Returns the policy definition containing the logic for your Config Custom Policy rule.
  */
-export const getCustomRulePolicy: (
-  input: GetCustomRulePolicyRequest,
-) => effect.Effect<
+export const getCustomRulePolicy: API.OperationMethod<
+  GetCustomRulePolicyRequest,
   GetCustomRulePolicyResponse,
   NoSuchConfigRuleException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8694,17 +8608,15 @@ export const getCustomRulePolicy: (
  * count your resources. Wait a few minutes and then retry the
  * GetDiscoveredResourceCounts action.
  */
-export const getDiscoveredResourceCounts: {
-  (
-    input: GetDiscoveredResourceCountsRequest,
-  ): effect.Effect<
-    GetDiscoveredResourceCountsResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDiscoveredResourceCounts: API.OperationMethod<
+  GetDiscoveredResourceCountsRequest,
+  GetDiscoveredResourceCountsResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDiscoveredResourceCountsRequest,
   ) => stream.Stream<
@@ -8742,18 +8654,16 @@ export const getDiscoveredResourceCounts: {
 /**
  * Returns detailed status for each member account within an organization for a given organization Config rule.
  */
-export const getOrganizationConfigRuleDetailedStatus: {
-  (
-    input: GetOrganizationConfigRuleDetailedStatusRequest,
-  ): effect.Effect<
-    GetOrganizationConfigRuleDetailedStatusResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConfigRuleException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getOrganizationConfigRuleDetailedStatus: API.OperationMethod<
+  GetOrganizationConfigRuleDetailedStatusRequest,
+  GetOrganizationConfigRuleDetailedStatusResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConfigRuleException
+  | OrganizationAccessDeniedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetOrganizationConfigRuleDetailedStatusRequest,
   ) => stream.Stream<
@@ -8795,18 +8705,16 @@ export const getOrganizationConfigRuleDetailedStatus: {
 /**
  * Returns detailed status for each member account within an organization for a given organization conformance pack.
  */
-export const getOrganizationConformancePackDetailedStatus: {
-  (
-    input: GetOrganizationConformancePackDetailedStatusRequest,
-  ): effect.Effect<
-    GetOrganizationConformancePackDetailedStatusResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchOrganizationConformancePackException
-    | OrganizationAccessDeniedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getOrganizationConformancePackDetailedStatus: API.OperationMethod<
+  GetOrganizationConformancePackDetailedStatusRequest,
+  GetOrganizationConformancePackDetailedStatusResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchOrganizationConformancePackException
+  | OrganizationAccessDeniedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetOrganizationConformancePackDetailedStatusRequest,
   ) => stream.Stream<
@@ -8848,9 +8756,8 @@ export const getOrganizationConformancePackDetailedStatus: {
 /**
  * Returns the policy definition containing the logic for your organization Config Custom Policy rule.
  */
-export const getOrganizationCustomRulePolicy: (
-  input: GetOrganizationCustomRulePolicyRequest,
-) => effect.Effect<
+export const getOrganizationCustomRulePolicy: API.OperationMethod<
+  GetOrganizationCustomRulePolicyRequest,
   GetOrganizationCustomRulePolicyResponse,
   | NoSuchOrganizationConfigRuleException
   | OrganizationAccessDeniedException
@@ -8895,20 +8802,18 @@ export const getOrganizationCustomRulePolicy: (
  * you can make another call, using the
  * `nextToken`.
  */
-export const getResourceConfigHistory: {
-  (
-    input: GetResourceConfigHistoryRequest,
-  ): effect.Effect<
-    GetResourceConfigHistoryResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidTimeRangeException
-    | NoAvailableConfigurationRecorderException
-    | ResourceNotDiscoveredException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourceConfigHistory: API.OperationMethod<
+  GetResourceConfigHistoryRequest,
+  GetResourceConfigHistoryResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidTimeRangeException
+  | NoAvailableConfigurationRecorderException
+  | ResourceNotDiscoveredException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourceConfigHistoryRequest,
   ) => stream.Stream<
@@ -8961,9 +8866,8 @@ export const getResourceConfigHistory: {
  * To see additional information about the evaluation result, such as which rule flagged a resource as NON_COMPLIANT, use the GetComplianceDetailsByResource API.
  * For more information, see the Examples section.
  */
-export const getResourceEvaluationSummary: (
-  input: GetResourceEvaluationSummaryRequest,
-) => effect.Effect<
+export const getResourceEvaluationSummary: API.OperationMethod<
+  GetResourceEvaluationSummaryRequest,
   GetResourceEvaluationSummaryResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8975,9 +8879,8 @@ export const getResourceEvaluationSummary: (
 /**
  * Returns the details of a specific stored query.
  */
-export const getStoredQuery: (
-  input: GetStoredQueryRequest,
-) => effect.Effect<
+export const getStoredQuery: API.OperationMethod<
+  GetStoredQueryRequest,
   GetStoredQueryResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8993,18 +8896,16 @@ export const getStoredQuery: (
  *
  * For example, if the input consists of accountID 12345678910 and the region is us-east-1 for resource type `AWS::EC2::Instance` then the API returns all the EC2 instance identifiers of accountID 12345678910 and region us-east-1.
  */
-export const listAggregateDiscoveredResources: {
-  (
-    input: ListAggregateDiscoveredResourcesRequest,
-  ): effect.Effect<
-    ListAggregateDiscoveredResourcesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAggregateDiscoveredResources: API.OperationMethod<
+  ListAggregateDiscoveredResourcesRequest,
+  ListAggregateDiscoveredResourcesResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAggregateDiscoveredResourcesRequest,
   ) => stream.Stream<
@@ -9046,14 +8947,12 @@ export const listAggregateDiscoveredResources: {
 /**
  * Returns a list of configuration recorders depending on the filters you specify.
  */
-export const listConfigurationRecorders: {
-  (
-    input: ListConfigurationRecordersRequest,
-  ): effect.Effect<
-    ListConfigurationRecordersResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationRecorders: API.OperationMethod<
+  ListConfigurationRecordersRequest,
+  ListConfigurationRecordersResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationRecordersRequest,
   ) => stream.Stream<
@@ -9087,17 +8986,15 @@ export const listConfigurationRecorders: {
  *
  * Conformance packs with no evaluation results will have a compliance score of `INSUFFICIENT_DATA`.
  */
-export const listConformancePackComplianceScores: {
-  (
-    input: ListConformancePackComplianceScoresRequest,
-  ): effect.Effect<
-    ListConformancePackComplianceScoresResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConformancePackComplianceScores: API.OperationMethod<
+  ListConformancePackComplianceScoresRequest,
+  ListConformancePackComplianceScoresResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConformancePackComplianceScoresRequest,
   ) => stream.Stream<
@@ -9168,18 +9065,16 @@ export const listConformancePackComplianceScores: {
  * for that stack in Config, even after the stack is deleted. This helps make sure that Config only
  * tracks resources that were successfully provisioned.
  */
-export const listDiscoveredResources: {
-  (
-    input: ListDiscoveredResourcesRequest,
-  ): effect.Effect<
-    ListDiscoveredResourcesResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoAvailableConfigurationRecorderException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDiscoveredResources: API.OperationMethod<
+  ListDiscoveredResourcesRequest,
+  ListDiscoveredResourcesResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoAvailableConfigurationRecorderException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDiscoveredResourcesRequest,
   ) => stream.Stream<
@@ -9221,17 +9116,15 @@ export const listDiscoveredResources: {
 /**
  * Returns a list of proactive resource evaluations.
  */
-export const listResourceEvaluations: {
-  (
-    input: ListResourceEvaluationsRequest,
-  ): effect.Effect<
-    ListResourceEvaluationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterValueException
-    | InvalidTimeRangeException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceEvaluations: API.OperationMethod<
+  ListResourceEvaluationsRequest,
+  ListResourceEvaluationsResponse,
+  | InvalidNextTokenException
+  | InvalidParameterValueException
+  | InvalidTimeRangeException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceEvaluationsRequest,
   ) => stream.Stream<
@@ -9270,14 +9163,12 @@ export const listResourceEvaluations: {
 /**
  * Lists the stored queries for a single Amazon Web Services account and a single Amazon Web Services Region. The default is 100.
  */
-export const listStoredQueries: {
-  (
-    input: ListStoredQueriesRequest,
-  ): effect.Effect<
-    ListStoredQueriesResponse,
-    InvalidNextTokenException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStoredQueries: API.OperationMethod<
+  ListStoredQueriesRequest,
+  ListStoredQueriesResponse,
+  InvalidNextTokenException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStoredQueriesRequest,
   ) => stream.Stream<
@@ -9305,18 +9196,16 @@ export const listStoredQueries: {
 /**
  * List the tags for Config resource.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -9366,9 +9255,8 @@ export const listTagsForResource: {
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putAggregationAuthorization: (
-  input: PutAggregationAuthorizationRequest,
-) => effect.Effect<
+export const putAggregationAuthorization: API.OperationMethod<
+  PutAggregationAuthorizationRequest,
   PutAggregationAuthorizationResponse,
   InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9431,9 +9319,8 @@ export const putAggregationAuthorization: (
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putConfigRule: (
-  input: PutConfigRuleRequest,
-) => effect.Effect<
+export const putConfigRule: API.OperationMethod<
+  PutConfigRuleRequest,
   PutConfigRuleResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -9477,9 +9364,8 @@ export const putConfigRule: (
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putConfigurationAggregator: (
-  input: PutConfigurationAggregatorRequest,
-) => effect.Effect<
+export const putConfigurationAggregator: API.OperationMethod<
+  PutConfigurationAggregatorRequest,
   PutConfigurationAggregatorResponse,
   | InvalidParameterValueException
   | InvalidRoleException
@@ -9529,9 +9415,8 @@ export const putConfigurationAggregator: (
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putConfigurationRecorder: (
-  input: PutConfigurationRecorderRequest,
-) => effect.Effect<
+export const putConfigurationRecorder: API.OperationMethod<
+  PutConfigurationRecorderRequest,
   PutConfigurationRecorderResponse,
   | InvalidConfigurationRecorderNameException
   | InvalidRecordingGroupException
@@ -9583,9 +9468,8 @@ export const putConfigurationRecorder: (
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putConformancePack: (
-  input: PutConformancePackRequest,
-) => effect.Effect<
+export const putConformancePack: API.OperationMethod<
+  PutConformancePackRequest,
   PutConformancePackResponse,
   | ConformancePackTemplateValidationException
   | InsufficientPermissionsException
@@ -9620,9 +9504,8 @@ export const putConformancePack: (
  *
  * You can have only one delivery channel for each account for each Amazon Web Services Region.
  */
-export const putDeliveryChannel: (
-  input: PutDeliveryChannelRequest,
-) => effect.Effect<
+export const putDeliveryChannel: API.OperationMethod<
+  PutDeliveryChannelRequest,
   PutDeliveryChannelResponse,
   | InsufficientDeliveryPolicyException
   | InvalidDeliveryChannelNameException
@@ -9653,9 +9536,8 @@ export const putDeliveryChannel: (
  * Config. This operation is required in every Lambda function
  * that is invoked by an Config rule.
  */
-export const putEvaluations: (
-  input: PutEvaluationsRequest,
-) => effect.Effect<
+export const putEvaluations: API.OperationMethod<
+  PutEvaluationsRequest,
   PutEvaluationsResponse,
   | InvalidParameterValueException
   | InvalidResultTokenException
@@ -9675,9 +9557,8 @@ export const putEvaluations: (
  * Add or updates the evaluations for process checks.
  * This API checks if the rule is a process check when the name of the Config rule is provided.
  */
-export const putExternalEvaluation: (
-  input: PutExternalEvaluationRequest,
-) => effect.Effect<
+export const putExternalEvaluation: API.OperationMethod<
+  PutExternalEvaluationRequest,
   PutExternalEvaluationResponse,
   InvalidParameterValueException | NoSuchConfigRuleException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9730,9 +9611,8 @@ export const putExternalEvaluation: (
  *
  * Make sure to specify one of either `OrganizationCustomPolicyRuleMetadata` for Custom Policy rules, `OrganizationCustomRuleMetadata` for Custom Lambda rules, or `OrganizationManagedRuleMetadata` for managed rules.
  */
-export const putOrganizationConfigRule: (
-  input: PutOrganizationConfigRuleRequest,
-) => effect.Effect<
+export const putOrganizationConfigRule: API.OperationMethod<
+  PutOrganizationConfigRuleRequest,
   PutOrganizationConfigRuleResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -9795,9 +9675,8 @@ export const putOrganizationConfigRule: (
  * Config sets the state of a conformance pack to CREATE_IN_PROGRESS and UPDATE_IN_PROGRESS until the conformance pack is created or updated.
  * You cannot update a conformance pack while it is in this state.
  */
-export const putOrganizationConformancePack: (
-  input: PutOrganizationConformancePackRequest,
-) => effect.Effect<
+export const putOrganizationConformancePack: API.OperationMethod<
+  PutOrganizationConformancePackRequest,
   PutOrganizationConformancePackResponse,
   | InsufficientPermissionsException
   | MaxNumberOfOrganizationConformancePacksExceededException
@@ -9853,9 +9732,8 @@ export const putOrganizationConformancePack: (
  *
  * This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
  */
-export const putRemediationConfigurations: (
-  input: PutRemediationConfigurationsRequest,
-) => effect.Effect<
+export const putRemediationConfigurations: API.OperationMethod<
+  PutRemediationConfigurationsRequest,
   PutRemediationConfigurationsResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -9902,9 +9780,8 @@ export const putRemediationConfigurations: (
  *
  * This means that in some cases auto remediation can be initiated even for compliant resources, since the bootstrap processor uses a database that can have stale evaluation results based on the last known compliance data snapshot.
  */
-export const putRemediationExceptions: (
-  input: PutRemediationExceptionsRequest,
-) => effect.Effect<
+export const putRemediationExceptions: API.OperationMethod<
+  PutRemediationExceptionsRequest,
   PutRemediationExceptionsResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -9927,9 +9804,8 @@ export const putRemediationExceptions: (
  *
  * Write-only schema properites are not recorded as part of the published configuration item.
  */
-export const putResourceConfig: (
-  input: PutResourceConfigRequest,
-) => effect.Effect<
+export const putResourceConfig: API.OperationMethod<
+  PutResourceConfigRequest,
   PutResourceConfigResponse,
   | InsufficientPermissionsException
   | MaxActiveResourcesExceededException
@@ -9959,9 +9835,8 @@ export const putResourceConfig: (
  * Currently, Config supports only one retention
  * configuration per region in your account.
  */
-export const putRetentionConfiguration: (
-  input: PutRetentionConfigurationRequest,
-) => effect.Effect<
+export const putRetentionConfiguration: API.OperationMethod<
+  PutRetentionConfigurationRequest,
   PutRetentionConfigurationResponse,
   | InvalidParameterValueException
   | MaxNumberOfRetentionConfigurationsExceededException
@@ -9994,9 +9869,8 @@ export const putRetentionConfiguration: (
  *
  * Use TagResource and UntagResource to update tags after creation.
  */
-export const putServiceLinkedConfigurationRecorder: (
-  input: PutServiceLinkedConfigurationRecorderRequest,
-) => effect.Effect<
+export const putServiceLinkedConfigurationRecorder: API.OperationMethod<
+  PutServiceLinkedConfigurationRecorderRequest,
   PutServiceLinkedConfigurationRecorderResponse,
   | ConflictException
   | InsufficientPermissionsException
@@ -10023,9 +9897,8 @@ export const putServiceLinkedConfigurationRecorder: (
  * `PutStoredQuery` is an idempotent API. Subsequent requests won’t create a duplicate resource if one was already created. If a following request has different `tags` values,
  * Config will ignore these differences and treat it as an idempotent request of the previous. In this case, `tags` will not be updated, even if they are different.
  */
-export const putStoredQuery: (
-  input: PutStoredQueryRequest,
-) => effect.Effect<
+export const putStoredQuery: API.OperationMethod<
+  PutStoredQueryRequest,
   PutStoredQueryResponse,
   | ResourceConcurrentModificationException
   | TooManyTagsException
@@ -10056,18 +9929,16 @@ export const putStoredQuery: (
  * If you run a non-aggregation query (i.e., not using `GROUP BY` or aggregate function; e.g., `SELECT * WHERE resourceType = 'AWS::IAM::Role'`)
  * and do not specify the `MaxResults` or the `Limit` query parameters, the default page size is set to 25.
  */
-export const selectAggregateResourceConfig: {
-  (
-    input: SelectAggregateResourceConfigRequest,
-  ): effect.Effect<
-    SelectAggregateResourceConfigResponse,
-    | InvalidExpressionException
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | NoSuchConfigurationAggregatorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const selectAggregateResourceConfig: API.OperationMethod<
+  SelectAggregateResourceConfigRequest,
+  SelectAggregateResourceConfigResponse,
+  | InvalidExpressionException
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | NoSuchConfigurationAggregatorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SelectAggregateResourceConfigRequest,
   ) => stream.Stream<
@@ -10114,17 +9985,15 @@ export const selectAggregateResourceConfig: {
  * **Query Components**
  * section in the *Config Developer Guide*.
  */
-export const selectResourceConfig: {
-  (
-    input: SelectResourceConfigRequest,
-  ): effect.Effect<
-    SelectResourceConfigResponse,
-    | InvalidExpressionException
-    | InvalidLimitException
-    | InvalidNextTokenException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const selectResourceConfig: API.OperationMethod<
+  SelectResourceConfigRequest,
+  SelectResourceConfigResponse,
+  | InvalidExpressionException
+  | InvalidLimitException
+  | InvalidNextTokenException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SelectResourceConfigRequest,
   ) => stream.Stream<
@@ -10202,9 +10071,8 @@ export const selectResourceConfig: {
  * - Your custom rule will still run periodic evaluations
  * every 24 hours.
  */
-export const startConfigRulesEvaluation: (
-  input: StartConfigRulesEvaluationRequest,
-) => effect.Effect<
+export const startConfigRulesEvaluation: API.OperationMethod<
+  StartConfigRulesEvaluationRequest,
   StartConfigRulesEvaluationResponse,
   | InvalidParameterValueException
   | LimitExceededException
@@ -10228,9 +10096,8 @@ export const startConfigRulesEvaluation: (
  * You must have created a delivery channel to
  * successfully start the customer managed configuration recorder. You can use the PutDeliveryChannel operation to create a delivery channel.
  */
-export const startConfigurationRecorder: (
-  input: StartConfigurationRecorderRequest,
-) => effect.Effect<
+export const startConfigurationRecorder: API.OperationMethod<
+  StartConfigurationRecorderRequest,
   StartConfigurationRecorderResponse,
   | NoAvailableDeliveryChannelException
   | NoSuchConfigurationRecorderException
@@ -10251,9 +10118,8 @@ export const startConfigurationRecorder: (
  *
  * You can specify up to 100 resource keys per request. An existing StartRemediationExecution call for the specified resource keys must complete before you can call the API again.
  */
-export const startRemediationExecution: (
-  input: StartRemediationExecutionRequest,
-) => effect.Effect<
+export const startRemediationExecution: API.OperationMethod<
+  StartRemediationExecutionRequest,
   StartRemediationExecutionResponse,
   | InsufficientPermissionsException
   | InvalidParameterValueException
@@ -10283,9 +10149,8 @@ export const startRemediationExecution: (
  * For more information, see Managing extensions through the CloudFormation registry
  * and Amazon Web Services resource and property types reference in the CloudFormation User Guide.
  */
-export const startResourceEvaluation: (
-  input: StartResourceEvaluationRequest,
-) => effect.Effect<
+export const startResourceEvaluation: API.OperationMethod<
+  StartResourceEvaluationRequest,
   StartResourceEvaluationResponse,
   IdempotentParameterMismatch | InvalidParameterValueException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10297,9 +10162,8 @@ export const startResourceEvaluation: (
 /**
  * Stops the customer managed configuration recorder. The customer managed configuration recorder will stop recording configuration changes for the resource types you have specified.
  */
-export const stopConfigurationRecorder: (
-  input: StopConfigurationRecorderRequest,
-) => effect.Effect<
+export const stopConfigurationRecorder: API.OperationMethod<
+  StopConfigurationRecorderRequest,
   StopConfigurationRecorderResponse,
   | NoSuchConfigurationRecorderException
   | UnmodifiableEntityException
@@ -10314,9 +10178,8 @@ export const stopConfigurationRecorder: (
  * Associates the specified tags to a resource with the specified `ResourceArn`. If existing tags on a resource are not specified in the request parameters, they are not changed.
  * If existing tags are specified, however, then their values will be updated. When a resource is deleted, the tags associated with that resource are deleted as well.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -10335,9 +10198,8 @@ export const tagResource: (
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

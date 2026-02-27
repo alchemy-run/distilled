@@ -1473,9 +1473,8 @@ export class CaseCreationLimitExceededException extends S.TaggedErrorClass<CaseC
  *
  * This API operation can't be used to delete your tax registration in Brazil. Use the Payment preferences page in the Billing and Cost Management console instead.
  */
-export const batchDeleteTaxRegistration: (
-  input: BatchDeleteTaxRegistrationRequest,
-) => effect.Effect<
+export const batchDeleteTaxRegistration: API.OperationMethod<
+  BatchDeleteTaxRegistrationRequest,
   BatchDeleteTaxRegistrationResponse,
   | ConflictException
   | InternalServerException
@@ -1490,9 +1489,8 @@ export const batchDeleteTaxRegistration: (
 /**
  * Get the active tax exemptions for a given list of accounts. The IAM action is `tax:GetExemptions`.
  */
-export const batchGetTaxExemptions: (
-  input: BatchGetTaxExemptionsRequest,
-) => effect.Effect<
+export const batchGetTaxExemptions: API.OperationMethod<
+  BatchGetTaxExemptionsRequest,
   BatchGetTaxExemptionsResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1645,9 +1643,8 @@ export const batchGetTaxExemptions: (
  *
  * - The sector valid values are `Business` and `Individual`.
  */
-export const batchPutTaxRegistration: (
-  input: BatchPutTaxRegistrationRequest,
-) => effect.Effect<
+export const batchPutTaxRegistration: API.OperationMethod<
+  BatchPutTaxRegistrationRequest,
   BatchPutTaxRegistrationResponse,
   | ConflictException
   | InternalServerException
@@ -1662,9 +1659,8 @@ export const batchPutTaxRegistration: (
 /**
  * Deletes a supplemental tax registration for a single account.
  */
-export const deleteSupplementalTaxRegistration: (
-  input: DeleteSupplementalTaxRegistrationRequest,
-) => effect.Effect<
+export const deleteSupplementalTaxRegistration: API.OperationMethod<
+  DeleteSupplementalTaxRegistrationRequest,
   DeleteSupplementalTaxRegistrationResponse,
   | ConflictException
   | InternalServerException
@@ -1687,9 +1683,8 @@ export const deleteSupplementalTaxRegistration: (
  *
  * This API operation can't be used to delete your tax registration in Brazil. Use the Payment preferences page in the Billing and Cost Management console instead.
  */
-export const deleteTaxRegistration: (
-  input: DeleteTaxRegistrationRequest,
-) => effect.Effect<
+export const deleteTaxRegistration: API.OperationMethod<
+  DeleteTaxRegistrationRequest,
   DeleteTaxRegistrationResponse,
   | ConflictException
   | InternalServerException
@@ -1710,9 +1705,8 @@ export const deleteTaxRegistration: (
 /**
  * Get supported tax exemption types. The IAM action is `tax:GetExemptions`.
  */
-export const getTaxExemptionTypes: (
-  input: GetTaxExemptionTypesRequest,
-) => effect.Effect<
+export const getTaxExemptionTypes: API.OperationMethod<
+  GetTaxExemptionTypesRequest,
   GetTaxExemptionTypesResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1731,9 +1725,8 @@ export const getTaxExemptionTypes: (
 /**
  * The get account tax inheritance status.
  */
-export const getTaxInheritance: (
-  input: GetTaxInheritanceRequest,
-) => effect.Effect<
+export const getTaxInheritance: API.OperationMethod<
+  GetTaxInheritanceRequest,
   GetTaxInheritanceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1752,9 +1745,8 @@ export const getTaxInheritance: (
 /**
  * Retrieves tax registration for a single account.
  */
-export const getTaxRegistration: (
-  input: GetTaxRegistrationRequest,
-) => effect.Effect<
+export const getTaxRegistration: API.OperationMethod<
+  GetTaxRegistrationRequest,
   GetTaxRegistrationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1774,9 +1766,8 @@ export const getTaxRegistration: (
  * Downloads your tax documents to the Amazon S3 bucket that you specify in your
  * request.
  */
-export const getTaxRegistrationDocument: (
-  input: GetTaxRegistrationDocumentRequest,
-) => effect.Effect<
+export const getTaxRegistrationDocument: API.OperationMethod<
+  GetTaxRegistrationDocumentRequest,
   GetTaxRegistrationDocumentResponse,
   InternalServerException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1788,17 +1779,15 @@ export const getTaxRegistrationDocument: (
 /**
  * Retrieves supplemental tax registrations for a single account.
  */
-export const listSupplementalTaxRegistrations: {
-  (
-    input: ListSupplementalTaxRegistrationsRequest,
-  ): effect.Effect<
-    ListSupplementalTaxRegistrationsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSupplementalTaxRegistrations: API.OperationMethod<
+  ListSupplementalTaxRegistrationsRequest,
+  ListSupplementalTaxRegistrationsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSupplementalTaxRegistrationsRequest,
   ) => stream.Stream<
@@ -1837,17 +1826,15 @@ export const listSupplementalTaxRegistrations: {
 /**
  * Retrieves the tax exemption of accounts listed in a consolidated billing family. The IAM action is `tax:GetExemptions`.
  */
-export const listTaxExemptions: {
-  (
-    input: ListTaxExemptionsRequest,
-  ): effect.Effect<
-    ListTaxExemptionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTaxExemptions: API.OperationMethod<
+  ListTaxExemptionsRequest,
+  ListTaxExemptionsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTaxExemptionsRequest,
   ) => stream.Stream<
@@ -1887,17 +1874,15 @@ export const listTaxExemptions: {
  * Retrieves the tax registration of accounts listed in a consolidated billing family. This
  * can be used to retrieve up to 100 accounts' tax registrations in one call (default 50).
  */
-export const listTaxRegistrations: {
-  (
-    input: ListTaxRegistrationsRequest,
-  ): effect.Effect<
-    ListTaxRegistrationsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTaxRegistrations: API.OperationMethod<
+  ListTaxRegistrationsRequest,
+  ListTaxRegistrationsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTaxRegistrationsRequest,
   ) => stream.Stream<
@@ -1936,9 +1921,8 @@ export const listTaxRegistrations: {
 /**
  * Stores supplemental tax registration for a single account.
  */
-export const putSupplementalTaxRegistration: (
-  input: PutSupplementalTaxRegistrationRequest,
-) => effect.Effect<
+export const putSupplementalTaxRegistration: API.OperationMethod<
+  PutSupplementalTaxRegistrationRequest,
   PutSupplementalTaxRegistrationResponse,
   | ConflictException
   | InternalServerException
@@ -1953,9 +1937,8 @@ export const putSupplementalTaxRegistration: (
 /**
  * Adds the tax exemption for a single account or all accounts listed in a consolidated billing family. The IAM action is `tax:UpdateExemptions`.
  */
-export const putTaxExemption: (
-  input: PutTaxExemptionRequest,
-) => effect.Effect<
+export const putTaxExemption: API.OperationMethod<
+  PutTaxExemptionRequest,
   PutTaxExemptionResponse,
   | AccessDeniedException
   | AttachmentUploadException
@@ -1980,9 +1963,8 @@ export const putTaxExemption: (
 /**
  * The updated tax inheritance status.
  */
-export const putTaxInheritance: (
-  input: PutTaxInheritanceRequest,
-) => effect.Effect<
+export const putTaxInheritance: API.OperationMethod<
+  PutTaxInheritanceRequest,
   PutTaxInheritanceResponse,
   | ConflictException
   | InternalServerException
@@ -2136,9 +2118,8 @@ export const putTaxInheritance: (
  *
  * - The sector valid values are `Business` and `Individual`.
  */
-export const putTaxRegistration: (
-  input: PutTaxRegistrationRequest,
-) => effect.Effect<
+export const putTaxRegistration: API.OperationMethod<
+  PutTaxRegistrationRequest,
   PutTaxRegistrationResponse,
   | ConflictException
   | InternalServerException

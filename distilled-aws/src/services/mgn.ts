@@ -3604,9 +3604,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Initialize Application Migration Service.
  */
-export const initializeService: (
-  input: InitializeServiceRequest,
-) => effect.Effect<
+export const initializeService: API.OperationMethod<
+  InitializeServiceRequest,
   InitializeServiceResponse,
   AccessDeniedException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3618,14 +3617,12 @@ export const initializeService: (
 /**
  * List Managed Accounts.
  */
-export const listManagedAccounts: {
-  (
-    input: ListManagedAccountsRequest,
-  ): effect.Effect<
-    ListManagedAccountsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedAccounts: API.OperationMethod<
+  ListManagedAccountsRequest,
+  ListManagedAccountsResponse,
+  UninitializedAccountException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedAccountsRequest,
   ) => stream.Stream<
@@ -3654,9 +3651,8 @@ export const listManagedAccounts: {
 /**
  * List all tags for your Application Migration Service resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3679,9 +3675,8 @@ export const listTagsForResource: (
 /**
  * Adds or overwrites only the specified tags for the specified Application Migration Service resource or resources. When you specify an existing tag key, the value is overwritten with the new value. Each resource can have a maximum of 50 tags. Each tag consists of a key and optional value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3704,9 +3699,8 @@ export const tagResource: (
 /**
  * Deletes the specified set of tags from the specified set of Application Migration Service resources.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3729,9 +3723,8 @@ export const untagResource: (
 /**
  * Create application.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   Application,
   | ConflictException
   | ServiceQuotaExceededException
@@ -3750,9 +3743,8 @@ export const createApplication: (
 /**
  * Delete application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3771,14 +3763,12 @@ export const deleteApplication: (
 /**
  * Retrieves all applications or multiple applications by ID.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    UninitializedAccountException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  UninitializedAccountException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -3807,9 +3797,8 @@ export const listApplications: {
 /**
  * Archive application.
  */
-export const archiveApplication: (
-  input: ArchiveApplicationRequest,
-) => effect.Effect<
+export const archiveApplication: API.OperationMethod<
+  ArchiveApplicationRequest,
   Application,
   | ConflictException
   | ResourceNotFoundException
@@ -3830,9 +3819,8 @@ export const archiveApplication: (
 /**
  * Associate source servers to application.
  */
-export const associateSourceServers: (
-  input: AssociateSourceServersRequest,
-) => effect.Effect<
+export const associateSourceServers: API.OperationMethod<
+  AssociateSourceServersRequest,
   AssociateSourceServersResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3853,9 +3841,8 @@ export const associateSourceServers: (
 /**
  * Disassociate source servers from application.
  */
-export const disassociateSourceServers: (
-  input: DisassociateSourceServersRequest,
-) => effect.Effect<
+export const disassociateSourceServers: API.OperationMethod<
+  DisassociateSourceServersRequest,
   DisassociateSourceServersResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3874,9 +3861,8 @@ export const disassociateSourceServers: (
 /**
  * Unarchive application.
  */
-export const unarchiveApplication: (
-  input: UnarchiveApplicationRequest,
-) => effect.Effect<
+export const unarchiveApplication: API.OperationMethod<
+  UnarchiveApplicationRequest,
   Application,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -3895,9 +3881,8 @@ export const unarchiveApplication: (
 /**
  * Update application.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   Application,
   | ConflictException
   | ResourceNotFoundException
@@ -3916,9 +3901,8 @@ export const updateApplication: (
 /**
  * Create Connector.
  */
-export const createConnector: (
-  input: CreateConnectorRequest,
-) => effect.Effect<
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
   Connector,
   UninitializedAccountException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3930,9 +3914,8 @@ export const createConnector: (
 /**
  * Update Connector.
  */
-export const updateConnector: (
-  input: UpdateConnectorRequest,
-) => effect.Effect<
+export const updateConnector: API.OperationMethod<
+  UpdateConnectorRequest,
   Connector,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -3951,9 +3934,8 @@ export const updateConnector: (
 /**
  * Delete Connector.
  */
-export const deleteConnector: (
-  input: DeleteConnectorRequest,
-) => effect.Effect<
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
   DeleteConnectorResponse,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -3972,14 +3954,12 @@ export const deleteConnector: (
 /**
  * List Connectors.
  */
-export const listConnectors: {
-  (
-    input: ListConnectorsRequest,
-  ): effect.Effect<
-    ListConnectorsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectors: API.OperationMethod<
+  ListConnectorsRequest,
+  ListConnectorsResponse,
+  UninitializedAccountException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
@@ -4008,9 +3988,8 @@ export const listConnectors: {
 /**
  * Start export.
  */
-export const startExport: (
-  input: StartExportRequest,
-) => effect.Effect<
+export const startExport: API.OperationMethod<
+  StartExportRequest,
   StartExportResponse,
   | ServiceQuotaExceededException
   | UninitializedAccountException
@@ -4029,14 +4008,12 @@ export const startExport: (
 /**
  * List exports.
  */
-export const listExports: {
-  (
-    input: ListExportsRequest,
-  ): effect.Effect<
-    ListExportsResponse,
-    UninitializedAccountException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExports: API.OperationMethod<
+  ListExportsRequest,
+  ListExportsResponse,
+  UninitializedAccountException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExportsRequest,
   ) => stream.Stream<
@@ -4065,14 +4042,12 @@ export const listExports: {
 /**
  * List export errors.
  */
-export const listExportErrors: {
-  (
-    input: ListExportErrorsRequest,
-  ): effect.Effect<
-    ListExportErrorsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExportErrors: API.OperationMethod<
+  ListExportErrorsRequest,
+  ListExportErrorsResponse,
+  UninitializedAccountException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExportErrorsRequest,
   ) => stream.Stream<
@@ -4101,9 +4076,8 @@ export const listExportErrors: {
 /**
  * Start import.
  */
-export const startImport: (
-  input: StartImportRequest,
-) => effect.Effect<
+export const startImport: API.OperationMethod<
+  StartImportRequest,
   StartImportResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4126,14 +4100,12 @@ export const startImport: (
 /**
  * List imports.
  */
-export const listImports: {
-  (
-    input: ListImportsRequest,
-  ): effect.Effect<
-    ListImportsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImports: API.OperationMethod<
+  ListImportsRequest,
+  ListImportsResponse,
+  UninitializedAccountException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportsRequest,
   ) => stream.Stream<
@@ -4162,14 +4134,12 @@ export const listImports: {
 /**
  * List import errors.
  */
-export const listImportErrors: {
-  (
-    input: ListImportErrorsRequest,
-  ): effect.Effect<
-    ListImportErrorsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImportErrors: API.OperationMethod<
+  ListImportErrorsRequest,
+  ListImportErrorsResponse,
+  UninitializedAccountException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportErrorsRequest,
   ) => stream.Stream<
@@ -4198,9 +4168,8 @@ export const listImportErrors: {
 /**
  * Deletes a single Job by ID.
  */
-export const deleteJob: (
-  input: DeleteJobRequest,
-) => effect.Effect<
+export const deleteJob: API.OperationMethod<
+  DeleteJobRequest,
   DeleteJobResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4219,14 +4188,12 @@ export const deleteJob: (
 /**
  * Returns a list of Jobs. Use the JobsID and fromDate and toData filters to limit which jobs are returned. The response is sorted by creationDataTime - latest date first. Jobs are normally created by the StartTest, StartCutover, and TerminateTargetInstances APIs. Jobs are also created by DiagnosticLaunch and TerminateDiagnosticInstances, which are APIs available only to *Support* and only used in response to relevant support tickets.
  */
-export const describeJobs: {
-  (
-    input: DescribeJobsRequest,
-  ): effect.Effect<
-    DescribeJobsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeJobs: API.OperationMethod<
+  DescribeJobsRequest,
+  DescribeJobsResponse,
+  UninitializedAccountException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeJobsRequest,
   ) => stream.Stream<
@@ -4255,14 +4222,12 @@ export const describeJobs: {
 /**
  * Retrieves detailed job log items with paging.
  */
-export const describeJobLogItems: {
-  (
-    input: DescribeJobLogItemsRequest,
-  ): effect.Effect<
-    DescribeJobLogItemsResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeJobLogItems: API.OperationMethod<
+  DescribeJobLogItemsRequest,
+  DescribeJobLogItemsResponse,
+  UninitializedAccountException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeJobLogItemsRequest,
   ) => stream.Stream<
@@ -4291,9 +4256,8 @@ export const describeJobLogItems: {
 /**
  * Creates a new Launch Configuration Template.
  */
-export const createLaunchConfigurationTemplate: (
-  input: CreateLaunchConfigurationTemplateRequest,
-) => effect.Effect<
+export const createLaunchConfigurationTemplate: API.OperationMethod<
+  CreateLaunchConfigurationTemplateRequest,
   LaunchConfigurationTemplate,
   | AccessDeniedException
   | UninitializedAccountException
@@ -4312,9 +4276,8 @@ export const createLaunchConfigurationTemplate: (
 /**
  * Updates an existing Launch Configuration Template by ID.
  */
-export const updateLaunchConfigurationTemplate: (
-  input: UpdateLaunchConfigurationTemplateRequest,
-) => effect.Effect<
+export const updateLaunchConfigurationTemplate: API.OperationMethod<
+  UpdateLaunchConfigurationTemplateRequest,
   LaunchConfigurationTemplate,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4335,9 +4298,8 @@ export const updateLaunchConfigurationTemplate: (
 /**
  * Deletes a single Launch Configuration Template by ID.
  */
-export const deleteLaunchConfigurationTemplate: (
-  input: DeleteLaunchConfigurationTemplateRequest,
-) => effect.Effect<
+export const deleteLaunchConfigurationTemplate: API.OperationMethod<
+  DeleteLaunchConfigurationTemplateRequest,
   DeleteLaunchConfigurationTemplateResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4356,17 +4318,15 @@ export const deleteLaunchConfigurationTemplate: (
 /**
  * Lists all Launch Configuration Templates, filtered by Launch Configuration Template IDs
  */
-export const describeLaunchConfigurationTemplates: {
-  (
-    input: DescribeLaunchConfigurationTemplatesRequest,
-  ): effect.Effect<
-    DescribeLaunchConfigurationTemplatesResponse,
-    | ResourceNotFoundException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLaunchConfigurationTemplates: API.OperationMethod<
+  DescribeLaunchConfigurationTemplatesRequest,
+  DescribeLaunchConfigurationTemplatesResponse,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLaunchConfigurationTemplatesRequest,
   ) => stream.Stream<
@@ -4405,14 +4365,12 @@ export const describeLaunchConfigurationTemplates: {
 /**
  * List template post migration custom actions.
  */
-export const listTemplateActions: {
-  (
-    input: ListTemplateActionsRequest,
-  ): effect.Effect<
-    ListTemplateActionsResponse,
-    ResourceNotFoundException | UninitializedAccountException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplateActions: API.OperationMethod<
+  ListTemplateActionsRequest,
+  ListTemplateActionsResponse,
+  ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplateActionsRequest,
   ) => stream.Stream<
@@ -4441,9 +4399,8 @@ export const listTemplateActions: {
 /**
  * Put template post migration custom action.
  */
-export const putTemplateAction: (
-  input: PutTemplateActionRequest,
-) => effect.Effect<
+export const putTemplateAction: API.OperationMethod<
+  PutTemplateActionRequest,
   TemplateActionDocument,
   | ConflictException
   | ResourceNotFoundException
@@ -4464,9 +4421,8 @@ export const putTemplateAction: (
 /**
  * Remove template post migration custom action.
  */
-export const removeTemplateAction: (
-  input: RemoveTemplateActionRequest,
-) => effect.Effect<
+export const removeTemplateAction: API.OperationMethod<
+  RemoveTemplateActionRequest,
   RemoveTemplateActionResponse,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -4485,9 +4441,8 @@ export const removeTemplateAction: (
 /**
  * Creates a new ReplicationConfigurationTemplate.
  */
-export const createReplicationConfigurationTemplate: (
-  input: CreateReplicationConfigurationTemplateRequest,
-) => effect.Effect<
+export const createReplicationConfigurationTemplate: API.OperationMethod<
+  CreateReplicationConfigurationTemplateRequest,
   ReplicationConfigurationTemplate,
   | AccessDeniedException
   | UninitializedAccountException
@@ -4506,9 +4461,8 @@ export const createReplicationConfigurationTemplate: (
 /**
  * Updates multiple ReplicationConfigurationTemplates by ID.
  */
-export const updateReplicationConfigurationTemplate: (
-  input: UpdateReplicationConfigurationTemplateRequest,
-) => effect.Effect<
+export const updateReplicationConfigurationTemplate: API.OperationMethod<
+  UpdateReplicationConfigurationTemplateRequest,
   ReplicationConfigurationTemplate,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4529,9 +4483,8 @@ export const updateReplicationConfigurationTemplate: (
 /**
  * Deletes a single Replication Configuration Template by ID
  */
-export const deleteReplicationConfigurationTemplate: (
-  input: DeleteReplicationConfigurationTemplateRequest,
-) => effect.Effect<
+export const deleteReplicationConfigurationTemplate: API.OperationMethod<
+  DeleteReplicationConfigurationTemplateRequest,
   DeleteReplicationConfigurationTemplateResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4550,17 +4503,15 @@ export const deleteReplicationConfigurationTemplate: (
 /**
  * Lists all ReplicationConfigurationTemplates, filtered by Source Server IDs.
  */
-export const describeReplicationConfigurationTemplates: {
-  (
-    input: DescribeReplicationConfigurationTemplatesRequest,
-  ): effect.Effect<
-    DescribeReplicationConfigurationTemplatesResponse,
-    | ResourceNotFoundException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReplicationConfigurationTemplates: API.OperationMethod<
+  DescribeReplicationConfigurationTemplatesRequest,
+  DescribeReplicationConfigurationTemplatesResponse,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReplicationConfigurationTemplatesRequest,
   ) => stream.Stream<
@@ -4599,9 +4550,8 @@ export const describeReplicationConfigurationTemplates: {
 /**
  * Update Source Server.
  */
-export const updateSourceServer: (
-  input: UpdateSourceServerRequest,
-) => effect.Effect<
+export const updateSourceServer: API.OperationMethod<
+  UpdateSourceServerRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4620,9 +4570,8 @@ export const updateSourceServer: (
 /**
  * Deletes a single source server by ID.
  */
-export const deleteSourceServer: (
-  input: DeleteSourceServerRequest,
-) => effect.Effect<
+export const deleteSourceServer: API.OperationMethod<
+  DeleteSourceServerRequest,
   DeleteSourceServerResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -4641,14 +4590,12 @@ export const deleteSourceServer: (
 /**
  * Retrieves all SourceServers or multiple SourceServers by ID.
  */
-export const describeSourceServers: {
-  (
-    input: DescribeSourceServersRequest,
-  ): effect.Effect<
-    DescribeSourceServersResponse,
-    UninitializedAccountException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSourceServers: API.OperationMethod<
+  DescribeSourceServersRequest,
+  DescribeSourceServersResponse,
+  UninitializedAccountException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSourceServersRequest,
   ) => stream.Stream<
@@ -4677,9 +4624,8 @@ export const describeSourceServers: {
 /**
  * Allows the user to set the SourceServer.LifeCycle.state property for specific Source Server IDs to one of the following: READY_FOR_TEST or READY_FOR_CUTOVER. This command only works if the Source Server is already launchable (dataReplicationInfo.lagDuration is not null.)
  */
-export const changeServerLifeCycleState: (
-  input: ChangeServerLifeCycleStateRequest,
-) => effect.Effect<
+export const changeServerLifeCycleState: API.OperationMethod<
+  ChangeServerLifeCycleStateRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4700,9 +4646,8 @@ export const changeServerLifeCycleState: (
 /**
  * Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communicating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
-export const disconnectFromService: (
-  input: DisconnectFromServiceRequest,
-) => effect.Effect<
+export const disconnectFromService: API.OperationMethod<
+  DisconnectFromServiceRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4721,9 +4666,8 @@ export const disconnectFromService: (
 /**
  * Finalizes the cutover immediately for specific Source Servers. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. The AWS Replication Agent will receive a command to uninstall itself (within 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be changed to DISCONNECTED; The SourceServer.lifeCycle.state will be changed to CUTOVER; The totalStorageBytes property fo each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDuration will be nullified.
  */
-export const finalizeCutover: (
-  input: FinalizeCutoverRequest,
-) => effect.Effect<
+export const finalizeCutover: API.OperationMethod<
+  FinalizeCutoverRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4744,9 +4688,8 @@ export const finalizeCutover: (
 /**
  * Lists all LaunchConfigurations available, filtered by Source Server IDs.
  */
-export const getLaunchConfiguration: (
-  input: GetLaunchConfigurationRequest,
-) => effect.Effect<
+export const getLaunchConfiguration: API.OperationMethod<
+  GetLaunchConfigurationRequest,
   LaunchConfiguration,
   ResourceNotFoundException | UninitializedAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4758,9 +4701,8 @@ export const getLaunchConfiguration: (
 /**
  * Lists all ReplicationConfigurations, filtered by Source Server ID.
  */
-export const getReplicationConfiguration: (
-  input: GetReplicationConfigurationRequest,
-) => effect.Effect<
+export const getReplicationConfiguration: API.OperationMethod<
+  GetReplicationConfigurationRequest,
   ReplicationConfiguration,
   ResourceNotFoundException | UninitializedAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4772,14 +4714,12 @@ export const getReplicationConfiguration: (
 /**
  * List source server post migration custom actions.
  */
-export const listSourceServerActions: {
-  (
-    input: ListSourceServerActionsRequest,
-  ): effect.Effect<
-    ListSourceServerActionsResponse,
-    ResourceNotFoundException | UninitializedAccountException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSourceServerActions: API.OperationMethod<
+  ListSourceServerActionsRequest,
+  ListSourceServerActionsResponse,
+  ResourceNotFoundException | UninitializedAccountException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSourceServerActionsRequest,
   ) => stream.Stream<
@@ -4808,9 +4748,8 @@ export const listSourceServerActions: {
 /**
  * Archives specific Source Servers by setting the SourceServer.isArchived property to true for specified SourceServers by ID. This command only works for SourceServers with a lifecycle. state which equals DISCONNECTED or CUTOVER.
  */
-export const markAsArchived: (
-  input: MarkAsArchivedRequest,
-) => effect.Effect<
+export const markAsArchived: API.OperationMethod<
+  MarkAsArchivedRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4829,9 +4768,8 @@ export const markAsArchived: (
 /**
  * Pause Replication.
  */
-export const pauseReplication: (
-  input: PauseReplicationRequest,
-) => effect.Effect<
+export const pauseReplication: API.OperationMethod<
+  PauseReplicationRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4854,9 +4792,8 @@ export const pauseReplication: (
 /**
  * Put source server post migration custom action.
  */
-export const putSourceServerAction: (
-  input: PutSourceServerActionRequest,
-) => effect.Effect<
+export const putSourceServerAction: API.OperationMethod<
+  PutSourceServerActionRequest,
   SourceServerActionDocument,
   | ConflictException
   | ResourceNotFoundException
@@ -4877,9 +4814,8 @@ export const putSourceServerAction: (
 /**
  * Remove source server post migration custom action.
  */
-export const removeSourceServerAction: (
-  input: RemoveSourceServerActionRequest,
-) => effect.Effect<
+export const removeSourceServerAction: API.OperationMethod<
+  RemoveSourceServerActionRequest,
   RemoveSourceServerActionResponse,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -4898,9 +4834,8 @@ export const removeSourceServerAction: (
 /**
  * Resume Replication.
  */
-export const resumeReplication: (
-  input: ResumeReplicationRequest,
-) => effect.Effect<
+export const resumeReplication: API.OperationMethod<
+  ResumeReplicationRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4923,9 +4858,8 @@ export const resumeReplication: (
 /**
  * Causes the data replication initiation sequence to begin immediately upon next Handshake for specified SourceServer IDs, regardless of when the previous initiation started. This command will not work if the SourceServer is not stalled or is in a DISCONNECTED or STOPPED state.
  */
-export const retryDataReplication: (
-  input: RetryDataReplicationRequest,
-) => effect.Effect<
+export const retryDataReplication: API.OperationMethod<
+  RetryDataReplicationRequest,
   SourceServer,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -4944,9 +4878,8 @@ export const retryDataReplication: (
 /**
  * Start replication for source server irrespective of its replication type.
  */
-export const startReplication: (
-  input: StartReplicationRequest,
-) => effect.Effect<
+export const startReplication: API.OperationMethod<
+  StartReplicationRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4969,9 +4902,8 @@ export const startReplication: (
 /**
  * Stop Replication.
  */
-export const stopReplication: (
-  input: StopReplicationRequest,
-) => effect.Effect<
+export const stopReplication: API.OperationMethod<
+  StopReplicationRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -4996,9 +4928,8 @@ export const stopReplication: (
  *
  * bootMode valid values are `LEGACY_BIOS | UEFI`
  */
-export const updateLaunchConfiguration: (
-  input: UpdateLaunchConfigurationRequest,
-) => effect.Effect<
+export const updateLaunchConfiguration: API.OperationMethod<
+  UpdateLaunchConfigurationRequest,
   LaunchConfiguration,
   | ConflictException
   | ResourceNotFoundException
@@ -5019,9 +4950,8 @@ export const updateLaunchConfiguration: (
 /**
  * Allows you to update multiple ReplicationConfigurations by Source Server ID.
  */
-export const updateReplicationConfiguration: (
-  input: UpdateReplicationConfigurationRequest,
-) => effect.Effect<
+export const updateReplicationConfiguration: API.OperationMethod<
+  UpdateReplicationConfigurationRequest,
   ReplicationConfiguration,
   | AccessDeniedException
   | ConflictException
@@ -5046,9 +4976,8 @@ export const updateReplicationConfiguration: (
  *
  * SNAPSHOT_SHIPPING should be used for agentless replication.
  */
-export const updateSourceServerReplicationType: (
-  input: UpdateSourceServerReplicationTypeRequest,
-) => effect.Effect<
+export const updateSourceServerReplicationType: API.OperationMethod<
+  UpdateSourceServerReplicationTypeRequest,
   SourceServer,
   | ConflictException
   | ResourceNotFoundException
@@ -5069,9 +4998,8 @@ export const updateSourceServerReplicationType: (
 /**
  * Launches a Cutover Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartCutover and changes the SourceServer.lifeCycle.state property to CUTTING_OVER.
  */
-export const startCutover: (
-  input: StartCutoverRequest,
-) => effect.Effect<
+export const startCutover: API.OperationMethod<
+  StartCutoverRequest,
   StartCutoverResponse,
   | ConflictException
   | UninitializedAccountException
@@ -5090,9 +5018,8 @@ export const startCutover: (
 /**
  * Launches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
  */
-export const startTest: (
-  input: StartTestRequest,
-) => effect.Effect<
+export const startTest: API.OperationMethod<
+  StartTestRequest,
   StartTestResponse,
   | ConflictException
   | UninitializedAccountException
@@ -5111,9 +5038,8 @@ export const startTest: (
 /**
  * Starts a job that terminates specific launched EC2 Test and Cutover instances. This command will not work for any Source Server with a lifecycle.state of TESTING, CUTTING_OVER, or CUTOVER.
  */
-export const terminateTargetInstances: (
-  input: TerminateTargetInstancesRequest,
-) => effect.Effect<
+export const terminateTargetInstances: API.OperationMethod<
+  TerminateTargetInstancesRequest,
   TerminateTargetInstancesResponse,
   | ConflictException
   | UninitializedAccountException
@@ -5132,9 +5058,8 @@ export const terminateTargetInstances: (
 /**
  * Deletes a given vCenter client by ID.
  */
-export const deleteVcenterClient: (
-  input: DeleteVcenterClientRequest,
-) => effect.Effect<
+export const deleteVcenterClient: API.OperationMethod<
+  DeleteVcenterClientRequest,
   DeleteVcenterClientResponse,
   | ResourceNotFoundException
   | UninitializedAccountException
@@ -5153,17 +5078,15 @@ export const deleteVcenterClient: (
 /**
  * Returns a list of the installed vCenter clients.
  */
-export const describeVcenterClients: {
-  (
-    input: DescribeVcenterClientsRequest,
-  ): effect.Effect<
-    DescribeVcenterClientsResponse,
-    | ResourceNotFoundException
-    | UninitializedAccountException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeVcenterClients: API.OperationMethod<
+  DescribeVcenterClientsRequest,
+  DescribeVcenterClientsResponse,
+  | ResourceNotFoundException
+  | UninitializedAccountException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeVcenterClientsRequest,
   ) => stream.Stream<
@@ -5202,9 +5125,8 @@ export const describeVcenterClients: {
 /**
  * Create wave.
  */
-export const createWave: (
-  input: CreateWaveRequest,
-) => effect.Effect<
+export const createWave: API.OperationMethod<
+  CreateWaveRequest,
   Wave,
   | ConflictException
   | ServiceQuotaExceededException
@@ -5223,9 +5145,8 @@ export const createWave: (
 /**
  * Delete wave.
  */
-export const deleteWave: (
-  input: DeleteWaveRequest,
-) => effect.Effect<
+export const deleteWave: API.OperationMethod<
+  DeleteWaveRequest,
   DeleteWaveResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -5244,14 +5165,12 @@ export const deleteWave: (
 /**
  * Retrieves all waves or multiple waves by ID.
  */
-export const listWaves: {
-  (
-    input: ListWavesRequest,
-  ): effect.Effect<
-    ListWavesResponse,
-    UninitializedAccountException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWaves: API.OperationMethod<
+  ListWavesRequest,
+  ListWavesResponse,
+  UninitializedAccountException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWavesRequest,
   ) => stream.Stream<
@@ -5280,9 +5199,8 @@ export const listWaves: {
 /**
  * Archive wave.
  */
-export const archiveWave: (
-  input: ArchiveWaveRequest,
-) => effect.Effect<
+export const archiveWave: API.OperationMethod<
+  ArchiveWaveRequest,
   Wave,
   | ConflictException
   | ResourceNotFoundException
@@ -5303,9 +5221,8 @@ export const archiveWave: (
 /**
  * Associate applications to wave.
  */
-export const associateApplications: (
-  input: AssociateApplicationsRequest,
-) => effect.Effect<
+export const associateApplications: API.OperationMethod<
+  AssociateApplicationsRequest,
   AssociateApplicationsResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -5326,9 +5243,8 @@ export const associateApplications: (
 /**
  * Disassociate applications from wave.
  */
-export const disassociateApplications: (
-  input: DisassociateApplicationsRequest,
-) => effect.Effect<
+export const disassociateApplications: API.OperationMethod<
+  DisassociateApplicationsRequest,
   DisassociateApplicationsResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -5347,9 +5263,8 @@ export const disassociateApplications: (
 /**
  * Unarchive wave.
  */
-export const unarchiveWave: (
-  input: UnarchiveWaveRequest,
-) => effect.Effect<
+export const unarchiveWave: API.OperationMethod<
+  UnarchiveWaveRequest,
   Wave,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -5368,9 +5283,8 @@ export const unarchiveWave: (
 /**
  * Update wave.
  */
-export const updateWave: (
-  input: UpdateWaveRequest,
-) => effect.Effect<
+export const updateWave: API.OperationMethod<
+  UpdateWaveRequest,
   Wave,
   | ConflictException
   | ResourceNotFoundException

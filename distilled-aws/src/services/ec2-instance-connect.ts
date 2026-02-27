@@ -230,9 +230,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
  * instance using SSH. For more information, see EC2 Serial Console in
  * the *Amazon EC2 User Guide*.
  */
-export const sendSerialConsoleSSHPublicKey: (
-  input: SendSerialConsoleSSHPublicKeyRequest,
-) => effect.Effect<
+export const sendSerialConsoleSSHPublicKey: API.OperationMethod<
+  SendSerialConsoleSSHPublicKeyRequest,
   SendSerialConsoleSSHPublicKeyResponse,
   | AuthException
   | EC2InstanceNotFoundException
@@ -272,9 +271,8 @@ export const sendSerialConsoleSSHPublicKey: (
  * your Linux instance using EC2 Instance Connect in the Amazon EC2
  * User Guide.
  */
-export const sendSSHPublicKey: (
-  input: SendSSHPublicKeyRequest,
-) => effect.Effect<
+export const sendSSHPublicKey: API.OperationMethod<
+  SendSSHPublicKeyRequest,
   SendSSHPublicKeyResponse,
   | AuthException
   | EC2InstanceNotFoundException

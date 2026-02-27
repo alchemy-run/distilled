@@ -2244,9 +2244,8 @@ export class MethodNotAllowedException extends S.TaggedErrorClass<MethodNotAllow
  *
  * For tables and table buckets, you must have the `s3tables:ListTagsForResource` permission to use this operation.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2277,9 +2276,8 @@ export const listTagsForResource: (
  *
  * For tables and table buckets, you must have the `s3tables:TagResource` permission to use this operation.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2310,9 +2308,8 @@ export const tagResource: (
  *
  * For tables and table buckets, you must have the `s3tables:UntagResource` permission to use this operation.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2341,9 +2338,8 @@ export const untagResource: (
  *
  * You must have the `s3tables:CreateNamespace` permission to use this operation.
  */
-export const createNamespace: (
-  input: CreateNamespaceRequest,
-) => effect.Effect<
+export const createNamespace: API.OperationMethod<
+  CreateNamespaceRequest,
   CreateNamespaceResponse,
   | BadRequestException
   | ConflictException
@@ -2372,9 +2368,8 @@ export const createNamespace: (
  *
  * You must have the `s3tables:DeleteNamespace` permission to use this operation.
  */
-export const deleteNamespace: (
-  input: DeleteNamespaceRequest,
-) => effect.Effect<
+export const deleteNamespace: API.OperationMethod<
+  DeleteNamespaceRequest,
   DeleteNamespaceResponse,
   | BadRequestException
   | ConflictException
@@ -2403,9 +2398,8 @@ export const deleteNamespace: (
  *
  * You must have the `s3tables:GetNamespace` permission to use this operation.
  */
-export const getNamespace: (
-  input: GetNamespaceRequest,
-) => effect.Effect<
+export const getNamespace: API.OperationMethod<
+  GetNamespaceRequest,
   GetNamespaceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2436,21 +2430,19 @@ export const getNamespace: (
  *
  * You must have the `s3tables:ListNamespaces` permission to use this operation.
  */
-export const listNamespaces: {
-  (
-    input: ListNamespacesRequest,
-  ): effect.Effect<
-    ListNamespacesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNamespaces: API.OperationMethod<
+  ListNamespacesRequest,
+  ListNamespacesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
@@ -2505,9 +2497,8 @@ export const listNamespaces: {
  *
  * You must have the `s3tables:DeleteTableBucketEncryption` permission to use this operation.
  */
-export const deleteTableBucketEncryption: (
-  input: DeleteTableBucketEncryptionRequest,
-) => effect.Effect<
+export const deleteTableBucketEncryption: API.OperationMethod<
+  DeleteTableBucketEncryptionRequest,
   DeleteTableBucketEncryptionResponse,
   | BadRequestException
   | ConflictException
@@ -2536,9 +2527,8 @@ export const deleteTableBucketEncryption: (
  *
  * You must have the `s3tables:GetTableBucketEncryption` permission to use this operation.
  */
-export const getTableBucketEncryption: (
-  input: GetTableBucketEncryptionRequest,
-) => effect.Effect<
+export const getTableBucketEncryption: API.OperationMethod<
+  GetTableBucketEncryptionRequest,
   GetTableBucketEncryptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2569,9 +2559,8 @@ export const getTableBucketEncryption: (
  *
  * If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption in the *Amazon Simple Storage Service User Guide*.
  */
-export const putTableBucketEncryption: (
-  input: PutTableBucketEncryptionRequest,
-) => effect.Effect<
+export const putTableBucketEncryption: API.OperationMethod<
+  PutTableBucketEncryptionRequest,
   PutTableBucketEncryptionResponse,
   | BadRequestException
   | ConflictException
@@ -2600,9 +2589,8 @@ export const putTableBucketEncryption: (
  *
  * You must have the `s3tables:DeleteTableBucketPolicy` permission to use this operation.
  */
-export const deleteTableBucketPolicy: (
-  input: DeleteTableBucketPolicyRequest,
-) => effect.Effect<
+export const deleteTableBucketPolicy: API.OperationMethod<
+  DeleteTableBucketPolicyRequest,
   DeleteTableBucketPolicyResponse,
   | BadRequestException
   | ConflictException
@@ -2631,9 +2619,8 @@ export const deleteTableBucketPolicy: (
  *
  * You must have the `s3tables:GetTableBucketPolicy` permission to use this operation.
  */
-export const getTableBucketPolicy: (
-  input: GetTableBucketPolicyRequest,
-) => effect.Effect<
+export const getTableBucketPolicy: API.OperationMethod<
+  GetTableBucketPolicyRequest,
   GetTableBucketPolicyResponse,
   | BadRequestException
   | ConflictException
@@ -2662,9 +2649,8 @@ export const getTableBucketPolicy: (
  *
  * You must have the `s3tables:PutTableBucketPolicy` permission to use this operation.
  */
-export const putTableBucketPolicy: (
-  input: PutTableBucketPolicyRequest,
-) => effect.Effect<
+export const putTableBucketPolicy: API.OperationMethod<
+  PutTableBucketPolicyRequest,
   PutTableBucketPolicyResponse,
   | BadRequestException
   | ConflictException
@@ -2693,9 +2679,8 @@ export const putTableBucketPolicy: (
  *
  * You must have the `s3tables:DeleteTableBucketReplication` permission to use this operation.
  */
-export const deleteTableBucketReplication: (
-  input: DeleteTableBucketReplicationRequest,
-) => effect.Effect<
+export const deleteTableBucketReplication: API.OperationMethod<
+  DeleteTableBucketReplicationRequest,
   DeleteTableBucketReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2726,9 +2711,8 @@ export const deleteTableBucketReplication: (
  *
  * You must have the `s3tables:GetTableBucketReplication` permission to use this operation.
  */
-export const getTableBucketReplication: (
-  input: GetTableBucketReplicationRequest,
-) => effect.Effect<
+export const getTableBucketReplication: API.OperationMethod<
+  GetTableBucketReplicationRequest,
   GetTableBucketReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2775,9 +2759,8 @@ export const getTableBucketReplication: (
  *
  * - You must have `iam:PassRole` permission with condition allowing roles to be passed to `replication.s3tables.amazonaws.com`.
  */
-export const putTableBucketReplication: (
-  input: PutTableBucketReplicationRequest,
-) => effect.Effect<
+export const putTableBucketReplication: API.OperationMethod<
+  PutTableBucketReplicationRequest,
   PutTableBucketReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2814,9 +2797,8 @@ export const putTableBucketReplication: (
  *
  * - To create a table bucket with tags, you must have the `s3tables:TagResource` permission in addition to `s3tables:CreateTableBucket` permission.
  */
-export const createTableBucket: (
-  input: CreateTableBucketRequest,
-) => effect.Effect<
+export const createTableBucket: API.OperationMethod<
+  CreateTableBucketRequest,
   CreateTableBucketResponse,
   | BadRequestException
   | ConflictException
@@ -2845,9 +2827,8 @@ export const createTableBucket: (
  *
  * You must have the `s3tables:DeleteTableBucket` permission to use this operation.
  */
-export const deleteTableBucket: (
-  input: DeleteTableBucketRequest,
-) => effect.Effect<
+export const deleteTableBucket: API.OperationMethod<
+  DeleteTableBucketRequest,
   DeleteTableBucketResponse,
   | BadRequestException
   | ConflictException
@@ -2876,9 +2857,8 @@ export const deleteTableBucket: (
  *
  * You must have the `s3tables:DeleteTableBucketMetricsConfiguration` permission to use this operation.
  */
-export const deleteTableBucketMetricsConfiguration: (
-  input: DeleteTableBucketMetricsConfigurationRequest,
-) => effect.Effect<
+export const deleteTableBucketMetricsConfiguration: API.OperationMethod<
+  DeleteTableBucketMetricsConfigurationRequest,
   DeleteTableBucketMetricsConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2907,9 +2887,8 @@ export const deleteTableBucketMetricsConfiguration: (
  *
  * You must have the `s3tables:GetTableBucket` permission to use this operation.
  */
-export const getTableBucket: (
-  input: GetTableBucketRequest,
-) => effect.Effect<
+export const getTableBucket: API.OperationMethod<
+  GetTableBucketRequest,
   GetTableBucketResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2940,9 +2919,8 @@ export const getTableBucket: (
  *
  * You must have the `s3tables:GetTableBucketMaintenanceConfiguration` permission to use this operation.
  */
-export const getTableBucketMaintenanceConfiguration: (
-  input: GetTableBucketMaintenanceConfigurationRequest,
-) => effect.Effect<
+export const getTableBucketMaintenanceConfiguration: API.OperationMethod<
+  GetTableBucketMaintenanceConfigurationRequest,
   GetTableBucketMaintenanceConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2971,9 +2949,8 @@ export const getTableBucketMaintenanceConfiguration: (
  *
  * You must have the `s3tables:GetTableBucketMetricsConfiguration` permission to use this operation.
  */
-export const getTableBucketMetricsConfiguration: (
-  input: GetTableBucketMetricsConfigurationRequest,
-) => effect.Effect<
+export const getTableBucketMetricsConfiguration: API.OperationMethod<
+  GetTableBucketMetricsConfigurationRequest,
   GetTableBucketMetricsConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -3002,9 +2979,8 @@ export const getTableBucketMetricsConfiguration: (
  *
  * You must have the `s3tables:GetTableBucketStorageClass` permission to use this operation.
  */
-export const getTableBucketStorageClass: (
-  input: GetTableBucketStorageClassRequest,
-) => effect.Effect<
+export const getTableBucketStorageClass: API.OperationMethod<
+  GetTableBucketStorageClassRequest,
   GetTableBucketStorageClassResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3033,21 +3009,19 @@ export const getTableBucketStorageClass: (
  *
  * You must have the `s3tables:ListTableBuckets` permission to use this operation.
  */
-export const listTableBuckets: {
-  (
-    input: ListTableBucketsRequest,
-  ): effect.Effect<
-    ListTableBucketsResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTableBuckets: API.OperationMethod<
+  ListTableBucketsRequest,
+  ListTableBucketsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTableBucketsRequest,
   ) => stream.Stream<
@@ -3102,9 +3076,8 @@ export const listTableBuckets: {
  *
  * You must have the `s3tables:PutTableBucketMaintenanceConfiguration` permission to use this operation.
  */
-export const putTableBucketMaintenanceConfiguration: (
-  input: PutTableBucketMaintenanceConfigurationRequest,
-) => effect.Effect<
+export const putTableBucketMaintenanceConfiguration: API.OperationMethod<
+  PutTableBucketMaintenanceConfigurationRequest,
   PutTableBucketMaintenanceConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -3133,9 +3106,8 @@ export const putTableBucketMaintenanceConfiguration: (
  *
  * You must have the `s3tables:PutTableBucketMetricsConfiguration` permission to use this operation.
  */
-export const putTableBucketMetricsConfiguration: (
-  input: PutTableBucketMetricsConfigurationRequest,
-) => effect.Effect<
+export const putTableBucketMetricsConfiguration: API.OperationMethod<
+  PutTableBucketMetricsConfigurationRequest,
   PutTableBucketMetricsConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -3164,9 +3136,8 @@ export const putTableBucketMetricsConfiguration: (
  *
  * You must have the `s3tables:PutTableBucketStorageClass` permission to use this operation.
  */
-export const putTableBucketStorageClass: (
-  input: PutTableBucketStorageClassRequest,
-) => effect.Effect<
+export const putTableBucketStorageClass: API.OperationMethod<
+  PutTableBucketStorageClassRequest,
   PutTableBucketStorageClassResponse,
   | BadRequestException
   | ConflictException
@@ -3195,9 +3166,8 @@ export const putTableBucketStorageClass: (
  *
  * You must have the `s3tables:GetTableEncryption` permission to use this operation.
  */
-export const getTableEncryption: (
-  input: GetTableEncryptionRequest,
-) => effect.Effect<
+export const getTableEncryption: API.OperationMethod<
+  GetTableEncryptionRequest,
   GetTableEncryptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3226,9 +3196,8 @@ export const getTableEncryption: (
  *
  * You must have the `s3tables:DeleteTablePolicy` permission to use this operation.
  */
-export const deleteTablePolicy: (
-  input: DeleteTablePolicyRequest,
-) => effect.Effect<
+export const deleteTablePolicy: API.OperationMethod<
+  DeleteTablePolicyRequest,
   DeleteTablePolicyResponse,
   | BadRequestException
   | ConflictException
@@ -3257,9 +3226,8 @@ export const deleteTablePolicy: (
  *
  * You must have the `s3tables:GetTablePolicy` permission to use this operation.
  */
-export const getTablePolicy: (
-  input: GetTablePolicyRequest,
-) => effect.Effect<
+export const getTablePolicy: API.OperationMethod<
+  GetTablePolicyRequest,
   GetTablePolicyResponse,
   | BadRequestException
   | ConflictException
@@ -3288,9 +3256,8 @@ export const getTablePolicy: (
  *
  * You must have the `s3tables:PutTablePolicy` permission to use this operation.
  */
-export const putTablePolicy: (
-  input: PutTablePolicyRequest,
-) => effect.Effect<
+export const putTablePolicy: API.OperationMethod<
+  PutTablePolicyRequest,
   PutTablePolicyResponse,
   | BadRequestException
   | ConflictException
@@ -3319,9 +3286,8 @@ export const putTablePolicy: (
  *
  * You must have the `s3tables:DeleteTableReplication` permission to use this operation.
  */
-export const deleteTableReplication: (
-  input: DeleteTableReplicationRequest,
-) => effect.Effect<
+export const deleteTableReplication: API.OperationMethod<
+  DeleteTableReplicationRequest,
   DeleteTableReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3352,9 +3318,8 @@ export const deleteTableReplication: (
  *
  * You must have the `s3tables:GetTableReplication` permission to use this operation.
  */
-export const getTableReplication: (
-  input: GetTableReplicationRequest,
-) => effect.Effect<
+export const getTableReplication: API.OperationMethod<
+  GetTableReplicationRequest,
   GetTableReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3385,9 +3350,8 @@ export const getTableReplication: (
  *
  * You must have the `s3tables:GetTableReplicationStatus` permission to use this operation.
  */
-export const getTableReplicationStatus: (
-  input: GetTableReplicationStatusRequest,
-) => effect.Effect<
+export const getTableReplicationStatus: API.OperationMethod<
+  GetTableReplicationStatusRequest,
   GetTableReplicationStatusResponse,
   | BadRequestException
   | ConflictException
@@ -3430,9 +3394,8 @@ export const getTableReplicationStatus: (
  *
  * - You must have `iam:PassRole` permission with condition allowing roles to be passed to `replication.s3tables.amazonaws.com`.
  */
-export const putTableReplication: (
-  input: PutTableReplicationRequest,
-) => effect.Effect<
+export const putTableReplication: API.OperationMethod<
+  PutTableReplicationRequest,
   PutTableReplicationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3473,9 +3436,8 @@ export const putTableReplication: (
  *
  * Additionally, If you choose SSE-KMS encryption you must grant the S3 Tables maintenance principal access to your KMS key. For more information, see Permissions requirements for S3 Tables SSE-KMS encryption.
  */
-export const createTable: (
-  input: CreateTableRequest,
-) => effect.Effect<
+export const createTable: API.OperationMethod<
+  CreateTableRequest,
   CreateTableResponse,
   | BadRequestException
   | ConflictException
@@ -3504,9 +3466,8 @@ export const createTable: (
  *
  * You must have the `s3tables:DeleteTable` permission to use this operation.
  */
-export const deleteTable: (
-  input: DeleteTableRequest,
-) => effect.Effect<
+export const deleteTable: API.OperationMethod<
+  DeleteTableRequest,
   DeleteTableResponse,
   | BadRequestException
   | ConflictException
@@ -3535,9 +3496,8 @@ export const deleteTable: (
  *
  * You must have the `s3tables:GetTable` permission to use this operation.
  */
-export const getTable: (
-  input: GetTableRequest,
-) => effect.Effect<
+export const getTable: API.OperationMethod<
+  GetTableRequest,
   GetTableResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3570,9 +3530,8 @@ export const getTable: (
  *
  * - You must have the `s3tables:GetTableData` permission to use set the compaction strategy to `sort` or `zorder`.
  */
-export const getTableMaintenanceConfiguration: (
-  input: GetTableMaintenanceConfigurationRequest,
-) => effect.Effect<
+export const getTableMaintenanceConfiguration: API.OperationMethod<
+  GetTableMaintenanceConfigurationRequest,
   GetTableMaintenanceConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -3601,9 +3560,8 @@ export const getTableMaintenanceConfiguration: (
  *
  * You must have the `s3tables:GetTableMaintenanceJobStatus` permission to use this operation.
  */
-export const getTableMaintenanceJobStatus: (
-  input: GetTableMaintenanceJobStatusRequest,
-) => effect.Effect<
+export const getTableMaintenanceJobStatus: API.OperationMethod<
+  GetTableMaintenanceJobStatusRequest,
   GetTableMaintenanceJobStatusResponse,
   | BadRequestException
   | ConflictException
@@ -3632,9 +3590,8 @@ export const getTableMaintenanceJobStatus: (
  *
  * You must have the `s3tables:GetTableMetadataLocation` permission to use this operation.
  */
-export const getTableMetadataLocation: (
-  input: GetTableMetadataLocationRequest,
-) => effect.Effect<
+export const getTableMetadataLocation: API.OperationMethod<
+  GetTableMetadataLocationRequest,
   GetTableMetadataLocationResponse,
   | BadRequestException
   | ConflictException
@@ -3663,9 +3620,8 @@ export const getTableMetadataLocation: (
  *
  * You must have the `s3tables:GetTableRecordExpirationConfiguration` permission to use this operation.
  */
-export const getTableRecordExpirationConfiguration: (
-  input: GetTableRecordExpirationConfigurationRequest,
-) => effect.Effect<
+export const getTableRecordExpirationConfiguration: API.OperationMethod<
+  GetTableRecordExpirationConfigurationRequest,
   GetTableRecordExpirationConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -3694,9 +3650,8 @@ export const getTableRecordExpirationConfiguration: (
  *
  * You must have the `s3tables:GetTableRecordExpirationJobStatus` permission to use this operation.
  */
-export const getTableRecordExpirationJobStatus: (
-  input: GetTableRecordExpirationJobStatusRequest,
-) => effect.Effect<
+export const getTableRecordExpirationJobStatus: API.OperationMethod<
+  GetTableRecordExpirationJobStatusRequest,
   GetTableRecordExpirationJobStatusResponse,
   | BadRequestException
   | ForbiddenException
@@ -3725,9 +3680,8 @@ export const getTableRecordExpirationJobStatus: (
  *
  * You must have the `s3tables:GetTableStorageClass` permission to use this operation.
  */
-export const getTableStorageClass: (
-  input: GetTableStorageClassRequest,
-) => effect.Effect<
+export const getTableStorageClass: API.OperationMethod<
+  GetTableStorageClassRequest,
   GetTableStorageClassResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3756,20 +3710,18 @@ export const getTableStorageClass: (
  *
  * You must have the `s3tables:ListTables` permission to use this operation.
  */
-export const listTables: {
-  (
-    input: ListTablesRequest,
-  ): effect.Effect<
-    ListTablesResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTables: API.OperationMethod<
+  ListTablesRequest,
+  ListTablesResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTablesRequest,
   ) => stream.Stream<
@@ -3821,9 +3773,8 @@ export const listTables: {
  *
  * You must have the `s3tables:PutTableMaintenanceConfiguration` permission to use this operation.
  */
-export const putTableMaintenanceConfiguration: (
-  input: PutTableMaintenanceConfigurationRequest,
-) => effect.Effect<
+export const putTableMaintenanceConfiguration: API.OperationMethod<
+  PutTableMaintenanceConfigurationRequest,
   PutTableMaintenanceConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -3852,9 +3803,8 @@ export const putTableMaintenanceConfiguration: (
  *
  * You must have the `s3tables:PutTableRecordExpirationConfiguration` permission to use this operation.
  */
-export const putTableRecordExpirationConfiguration: (
-  input: PutTableRecordExpirationConfigurationRequest,
-) => effect.Effect<
+export const putTableRecordExpirationConfiguration: API.OperationMethod<
+  PutTableRecordExpirationConfigurationRequest,
   PutTableRecordExpirationConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -3883,9 +3833,8 @@ export const putTableRecordExpirationConfiguration: (
  *
  * You must have the `s3tables:RenameTable` permission to use this operation.
  */
-export const renameTable: (
-  input: RenameTableRequest,
-) => effect.Effect<
+export const renameTable: API.OperationMethod<
+  RenameTableRequest,
   RenameTableResponse,
   | BadRequestException
   | ConflictException
@@ -3914,9 +3863,8 @@ export const renameTable: (
  *
  * You must have the `s3tables:UpdateTableMetadataLocation` permission to use this operation.
  */
-export const updateTableMetadataLocation: (
-  input: UpdateTableMetadataLocationRequest,
-) => effect.Effect<
+export const updateTableMetadataLocation: API.OperationMethod<
+  UpdateTableMetadataLocationRequest,
   UpdateTableMetadataLocationResponse,
   | BadRequestException
   | ConflictException

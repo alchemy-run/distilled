@@ -848,14 +848,12 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  *
  * Only recovery points with a backup index that has a status of `ACTIVE` will be included in search results. If the index has any other status, its status will be displayed along with a status message.
  */
-export const listSearchJobBackups: {
-  (
-    input: ListSearchJobBackupsInput,
-  ): effect.Effect<
-    ListSearchJobBackupsOutput,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSearchJobBackups: API.OperationMethod<
+  ListSearchJobBackupsInput,
+  ListSearchJobBackupsOutput,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSearchJobBackupsInput,
   ) => stream.Stream<
@@ -884,14 +882,12 @@ export const listSearchJobBackups: {
 /**
  * This operation returns a list of a specified search job.
  */
-export const listSearchJobResults: {
-  (
-    input: ListSearchJobResultsInput,
-  ): effect.Effect<
-    ListSearchJobResultsOutput,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSearchJobResults: API.OperationMethod<
+  ListSearchJobResultsInput,
+  ListSearchJobResultsOutput,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSearchJobResultsInput,
   ) => stream.Stream<
@@ -920,9 +916,8 @@ export const listSearchJobResults: {
 /**
  * This operation returns the tags for a resource type.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -934,9 +929,8 @@ export const listTagsForResource: (
 /**
  * This operation puts tags on the resource you indicate.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -948,9 +942,8 @@ export const tagResource: (
 /**
  * This operation removes tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -964,9 +957,8 @@ export const untagResource: (
  *
  * You can optionally include ClientToken, EncryptionKeyArn, Name, and/or Tags.
  */
-export const startSearchJob: (
-  input: StartSearchJobInput,
-) => effect.Effect<
+export const startSearchJob: API.OperationMethod<
+  StartSearchJobInput,
   StartSearchJobOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -985,9 +977,8 @@ export const startSearchJob: (
 /**
  * This operation retrieves metadata of a search job, including its progress.
  */
-export const getSearchJob: (
-  input: GetSearchJobInput,
-) => effect.Effect<
+export const getSearchJob: API.OperationMethod<
+  GetSearchJobInput,
   GetSearchJobOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1001,9 +992,8 @@ export const getSearchJob: (
  *
  * Only a search job with a status of `RUNNING` can be stopped.
  */
-export const stopSearchJob: (
-  input: StopSearchJobInput,
-) => effect.Effect<
+export const stopSearchJob: API.OperationMethod<
+  StopSearchJobInput,
   StopSearchJobOutput,
   ConflictException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1015,14 +1005,12 @@ export const stopSearchJob: (
 /**
  * This operation returns a list of search jobs belonging to an account.
  */
-export const listSearchJobs: {
-  (
-    input: ListSearchJobsInput,
-  ): effect.Effect<
-    ListSearchJobsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSearchJobs: API.OperationMethod<
+  ListSearchJobsInput,
+  ListSearchJobsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSearchJobsInput,
   ) => stream.Stream<
@@ -1051,9 +1039,8 @@ export const listSearchJobs: {
 /**
  * This operations starts a job to export the results of search job to a designated S3 bucket.
  */
-export const startSearchResultExportJob: (
-  input: StartSearchResultExportJobInput,
-) => effect.Effect<
+export const startSearchResultExportJob: API.OperationMethod<
+  StartSearchResultExportJobInput,
   StartSearchResultExportJobOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -1076,9 +1063,8 @@ export const startSearchResultExportJob: (
  *
  * An export job allows you to retain results of a search beyond the search job's scheduled retention of 7 days.
  */
-export const getSearchResultExportJob: (
-  input: GetSearchResultExportJobInput,
-) => effect.Effect<
+export const getSearchResultExportJob: API.OperationMethod<
+  GetSearchResultExportJobInput,
   GetSearchResultExportJobOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1090,14 +1076,12 @@ export const getSearchResultExportJob: (
 /**
  * This operation exports search results of a search job to a specified destination S3 bucket.
  */
-export const listSearchResultExportJobs: {
-  (
-    input: ListSearchResultExportJobsInput,
-  ): effect.Effect<
-    ListSearchResultExportJobsOutput,
-    ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSearchResultExportJobs: API.OperationMethod<
+  ListSearchResultExportJobsInput,
+  ListSearchResultExportJobsOutput,
+  ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSearchResultExportJobsInput,
   ) => stream.Stream<

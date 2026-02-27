@@ -10135,9 +10135,8 @@ export class TooManyRequestsException extends S.TaggedErrorClass<TooManyRequests
 /**
  * Associates an AWS Certificate Manager (ACM) Amazon Resource Name (ARN) with AWS Elemental MediaConvert.
  */
-export const associateCertificate: (
-  input: AssociateCertificateRequest,
-) => effect.Effect<
+export const associateCertificate: API.OperationMethod<
+  AssociateCertificateRequest,
   AssociateCertificateResponse,
   | BadRequestException
   | ConflictException
@@ -10164,9 +10163,8 @@ export const associateCertificate: (
 /**
  * Permanently cancel a job. Once you have canceled a job, you can't start it again.
  */
-export const cancelJob: (
-  input: CancelJobRequest,
-) => effect.Effect<
+export const cancelJob: API.OperationMethod<
+  CancelJobRequest,
   CancelJobResponse,
   | BadRequestException
   | ConflictException
@@ -10193,9 +10191,8 @@ export const cancelJob: (
 /**
  * Create a new transcoding job. For information about jobs and job settings, see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
   CreateJobResponse,
   | BadRequestException
   | ConflictException
@@ -10222,9 +10219,8 @@ export const createJob: (
 /**
  * Create a new job template. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
-export const createJobTemplate: (
-  input: CreateJobTemplateRequest,
-) => effect.Effect<
+export const createJobTemplate: API.OperationMethod<
+  CreateJobTemplateRequest,
   CreateJobTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -10251,9 +10247,8 @@ export const createJobTemplate: (
 /**
  * Create a new preset. For information about job templates see the User Guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
-export const createPreset: (
-  input: CreatePresetRequest,
-) => effect.Effect<
+export const createPreset: API.OperationMethod<
+  CreatePresetRequest,
   CreatePresetResponse,
   | BadRequestException
   | ConflictException
@@ -10280,9 +10275,8 @@ export const createPreset: (
 /**
  * Create a new transcoding queue. For information about queues, see Working With Queues in the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/working-with-queues.html
  */
-export const createQueue: (
-  input: CreateQueueRequest,
-) => effect.Effect<
+export const createQueue: API.OperationMethod<
+  CreateQueueRequest,
   CreateQueueResponse,
   | BadRequestException
   | ConflictException
@@ -10309,9 +10303,8 @@ export const createQueue: (
 /**
  * Create a new resource share request for MediaConvert resources with AWS Support.
  */
-export const createResourceShare: (
-  input: CreateResourceShareRequest,
-) => effect.Effect<
+export const createResourceShare: API.OperationMethod<
+  CreateResourceShareRequest,
   CreateResourceShareResponse,
   | BadRequestException
   | ConflictException
@@ -10338,9 +10331,8 @@ export const createResourceShare: (
 /**
  * Permanently delete a job template you have created.
  */
-export const deleteJobTemplate: (
-  input: DeleteJobTemplateRequest,
-) => effect.Effect<
+export const deleteJobTemplate: API.OperationMethod<
+  DeleteJobTemplateRequest,
   DeleteJobTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -10367,9 +10359,8 @@ export const deleteJobTemplate: (
 /**
  * Permanently delete a policy that you created.
  */
-export const deletePolicy: (
-  input: DeletePolicyRequest,
-) => effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
   DeletePolicyResponse,
   | BadRequestException
   | ConflictException
@@ -10396,9 +10387,8 @@ export const deletePolicy: (
 /**
  * Permanently delete a preset you have created.
  */
-export const deletePreset: (
-  input: DeletePresetRequest,
-) => effect.Effect<
+export const deletePreset: API.OperationMethod<
+  DeletePresetRequest,
   DeletePresetResponse,
   | BadRequestException
   | ConflictException
@@ -10425,9 +10415,8 @@ export const deletePreset: (
 /**
  * Permanently delete a queue you have created.
  */
-export const deleteQueue: (
-  input: DeleteQueueRequest,
-) => effect.Effect<
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueRequest,
   DeleteQueueResponse,
   | BadRequestException
   | ConflictException
@@ -10454,21 +10443,19 @@ export const deleteQueue: (
 /**
  * Send a request with an empty body to the regional API endpoint to get your account API endpoint. Note that DescribeEndpoints is no longer required. We recommend that you send your requests directly to the regional endpoint instead.
  */
-export const describeEndpoints: {
-  (
-    input: DescribeEndpointsRequest,
-  ): effect.Effect<
-    DescribeEndpointsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEndpoints: API.OperationMethod<
+  DescribeEndpointsRequest,
+  DescribeEndpointsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEndpointsRequest,
   ) => stream.Stream<
@@ -10519,9 +10506,8 @@ export const describeEndpoints: {
 /**
  * Removes an association between the Amazon Resource Name (ARN) of an AWS Certificate Manager (ACM) certificate and an AWS Elemental MediaConvert resource.
  */
-export const disassociateCertificate: (
-  input: DisassociateCertificateRequest,
-) => effect.Effect<
+export const disassociateCertificate: API.OperationMethod<
+  DisassociateCertificateRequest,
   DisassociateCertificateResponse,
   | BadRequestException
   | ConflictException
@@ -10548,9 +10534,8 @@ export const disassociateCertificate: (
 /**
  * Retrieve the JSON for a specific transcoding job.
  */
-export const getJob: (
-  input: GetJobRequest,
-) => effect.Effect<
+export const getJob: API.OperationMethod<
+  GetJobRequest,
   GetJobResponse,
   | BadRequestException
   | ConflictException
@@ -10577,9 +10562,8 @@ export const getJob: (
 /**
  * Retrieve a JSON array of up to twenty of your most recent jobs matched by a jobs query.
  */
-export const getJobsQueryResults: (
-  input: GetJobsQueryResultsRequest,
-) => effect.Effect<
+export const getJobsQueryResults: API.OperationMethod<
+  GetJobsQueryResultsRequest,
   GetJobsQueryResultsResponse,
   | BadRequestException
   | ConflictException
@@ -10606,9 +10590,8 @@ export const getJobsQueryResults: (
 /**
  * Retrieve the JSON for a specific job template.
  */
-export const getJobTemplate: (
-  input: GetJobTemplateRequest,
-) => effect.Effect<
+export const getJobTemplate: API.OperationMethod<
+  GetJobTemplateRequest,
   GetJobTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -10635,9 +10618,8 @@ export const getJobTemplate: (
 /**
  * Retrieve the JSON for your policy.
  */
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   | BadRequestException
   | ConflictException
@@ -10664,9 +10646,8 @@ export const getPolicy: (
 /**
  * Retrieve the JSON for a specific preset.
  */
-export const getPreset: (
-  input: GetPresetRequest,
-) => effect.Effect<
+export const getPreset: API.OperationMethod<
+  GetPresetRequest,
   GetPresetResponse,
   | BadRequestException
   | ConflictException
@@ -10693,9 +10674,8 @@ export const getPreset: (
 /**
  * Retrieve the JSON for a specific queue.
  */
-export const getQueue: (
-  input: GetQueueRequest,
-) => effect.Effect<
+export const getQueue: API.OperationMethod<
+  GetQueueRequest,
   GetQueueResponse,
   | BadRequestException
   | ConflictException
@@ -10722,21 +10702,19 @@ export const getQueue: (
 /**
  * Retrieve a JSON array of up to twenty of your most recently created jobs. This array includes in-process, completed, and errored jobs. This will return the jobs themselves, not just a list of the jobs. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -10787,21 +10765,19 @@ export const listJobs: {
 /**
  * Retrieve a JSON array of up to twenty of your job templates. This will return the templates themselves, not just a list of them. To retrieve the next twenty templates, use the nextToken string returned with the array
  */
-export const listJobTemplates: {
-  (
-    input: ListJobTemplatesRequest,
-  ): effect.Effect<
-    ListJobTemplatesResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobTemplates: API.OperationMethod<
+  ListJobTemplatesRequest,
+  ListJobTemplatesResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobTemplatesRequest,
   ) => stream.Stream<
@@ -10852,21 +10828,19 @@ export const listJobTemplates: {
 /**
  * Retrieve a JSON array of up to twenty of your presets. This will return the presets themselves, not just a list of them. To retrieve the next twenty presets, use the nextToken string returned with the array.
  */
-export const listPresets: {
-  (
-    input: ListPresetsRequest,
-  ): effect.Effect<
-    ListPresetsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPresets: API.OperationMethod<
+  ListPresetsRequest,
+  ListPresetsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPresetsRequest,
   ) => stream.Stream<
@@ -10917,21 +10891,19 @@ export const listPresets: {
 /**
  * Retrieve a JSON array of up to twenty of your queues. This will return the queues themselves, not just a list of them. To retrieve the next twenty queues, use the nextToken string returned with the array.
  */
-export const listQueues: {
-  (
-    input: ListQueuesRequest,
-  ): effect.Effect<
-    ListQueuesResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueues: API.OperationMethod<
+  ListQueuesRequest,
+  ListQueuesResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<
@@ -10982,9 +10954,8 @@ export const listQueues: {
 /**
  * Retrieve the tags for a MediaConvert resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ConflictException
@@ -11011,21 +10982,19 @@ export const listTagsForResource: (
 /**
  * Retrieve a JSON array of all available Job engine versions and the date they expire.
  */
-export const listVersions: {
-  (
-    input: ListVersionsRequest,
-  ): effect.Effect<
-    ListVersionsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVersions: API.OperationMethod<
+  ListVersionsRequest,
+  ListVersionsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVersionsRequest,
   ) => stream.Stream<
@@ -11076,9 +11045,8 @@ export const listVersions: {
 /**
  * Use Probe to obtain detailed information about your input media files. Probe returns a JSON that includes container, codec, frame rate, resolution, track count, audio layout, captions, and more. You can use this information to learn more about your media files, or to help make decisions while automating your transcoding workflow.
  */
-export const probe: (
-  input: ProbeRequest,
-) => effect.Effect<
+export const probe: API.OperationMethod<
+  ProbeRequest,
   ProbeResponse,
   | BadRequestException
   | ConflictException
@@ -11105,9 +11073,8 @@ export const probe: (
 /**
  * Create or change your policy. For more information about policies, see the user guide at http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
  */
-export const putPolicy: (
-  input: PutPolicyRequest,
-) => effect.Effect<
+export const putPolicy: API.OperationMethod<
+  PutPolicyRequest,
   PutPolicyResponse,
   | BadRequestException
   | ConflictException
@@ -11134,21 +11101,19 @@ export const putPolicy: (
 /**
  * Retrieve a JSON array that includes job details for up to twenty of your most recent jobs. Optionally filter results further according to input file, queue, or status. To retrieve the twenty next most recent jobs, use the nextToken string returned with the array.
  */
-export const searchJobs: {
-  (
-    input: SearchJobsRequest,
-  ): effect.Effect<
-    SearchJobsResponse,
-    | BadRequestException
-    | ConflictException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceQuotaExceededException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchJobs: API.OperationMethod<
+  SearchJobsRequest,
+  SearchJobsResponse,
+  | BadRequestException
+  | ConflictException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceQuotaExceededException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchJobsRequest,
   ) => stream.Stream<
@@ -11199,9 +11164,8 @@ export const searchJobs: {
 /**
  * Start an asynchronous jobs query using the provided filters. To receive the list of jobs that match your query, call the GetJobsQueryResults API using the query ID returned by this API.
  */
-export const startJobsQuery: (
-  input: StartJobsQueryRequest,
-) => effect.Effect<
+export const startJobsQuery: API.OperationMethod<
+  StartJobsQueryRequest,
   StartJobsQueryResponse,
   | BadRequestException
   | ConflictException
@@ -11228,9 +11192,8 @@ export const startJobsQuery: (
 /**
  * Add tags to a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -11257,9 +11220,8 @@ export const tagResource: (
 /**
  * Remove tags from a MediaConvert queue, preset, or job template. For information about tagging, see the User Guide at https://docs.aws.amazon.com/mediaconvert/latest/ug/tagging-resources.html
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -11286,9 +11248,8 @@ export const untagResource: (
 /**
  * Modify one of your existing job templates.
  */
-export const updateJobTemplate: (
-  input: UpdateJobTemplateRequest,
-) => effect.Effect<
+export const updateJobTemplate: API.OperationMethod<
+  UpdateJobTemplateRequest,
   UpdateJobTemplateResponse,
   | BadRequestException
   | ConflictException
@@ -11315,9 +11276,8 @@ export const updateJobTemplate: (
 /**
  * Modify one of your existing presets.
  */
-export const updatePreset: (
-  input: UpdatePresetRequest,
-) => effect.Effect<
+export const updatePreset: API.OperationMethod<
+  UpdatePresetRequest,
   UpdatePresetResponse,
   | BadRequestException
   | ConflictException
@@ -11344,9 +11304,8 @@ export const updatePreset: (
 /**
  * Modify one of your existing queues.
  */
-export const updateQueue: (
-  input: UpdateQueueRequest,
-) => effect.Effect<
+export const updateQueue: API.OperationMethod<
+  UpdateQueueRequest,
   UpdateQueueResponse,
   | BadRequestException
   | ConflictException

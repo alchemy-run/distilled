@@ -1149,9 +1149,8 @@ export class SyncBlockerDoesNotExistException extends S.TaggedErrorClass<SyncBlo
  * that it can access third-party code repositories. The connection is in pending status until
  * the third-party connection handshake is completed from the console.
  */
-export const createConnection: (
-  input: CreateConnectionInput,
-) => effect.Effect<
+export const createConnection: API.OperationMethod<
+  CreateConnectionInput,
   CreateConnectionOutput,
   | LimitExceededException
   | ResourceNotFoundException
@@ -1176,9 +1175,8 @@ export const createConnection: (
  * A host created through the CLI or the SDK is in `PENDING` status by
  * default. You can make its status `AVAILABLE` by setting up the host in the console.
  */
-export const createHost: (
-  input: CreateHostInput,
-) => effect.Effect<
+export const createHost: API.OperationMethod<
+  CreateHostInput,
   CreateHostOutput,
   LimitExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1190,9 +1188,8 @@ export const createHost: (
 /**
  * Creates a link to a specified external Git repository. A repository link allows Git sync to monitor and sync changes to files in a specified Git repository.
  */
-export const createRepositoryLink: (
-  input: CreateRepositoryLinkInput,
-) => effect.Effect<
+export const createRepositoryLink: API.OperationMethod<
+  CreateRepositoryLinkInput,
   CreateRepositoryLinkOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1221,9 +1218,8 @@ export const createRepositoryLink: (
  * repository to update a specified Amazon Web Services resource. Parameters for the sync
  * configuration are determined by the sync type.
  */
-export const createSyncConfiguration: (
-  input: CreateSyncConfigurationInput,
-) => effect.Effect<
+export const createSyncConfiguration: API.OperationMethod<
+  CreateSyncConfigurationInput,
   CreateSyncConfigurationOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1250,9 +1246,8 @@ export const createSyncConfiguration: (
 /**
  * The connection to be deleted.
  */
-export const deleteConnection: (
-  input: DeleteConnectionInput,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionInput,
   DeleteConnectionOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1266,9 +1261,8 @@ export const deleteConnection: (
  *
  * A host cannot be deleted if it is in the VPC_CONFIG_INITIALIZING or VPC_CONFIG_DELETING state.
  */
-export const deleteHost: (
-  input: DeleteHostInput,
-) => effect.Effect<
+export const deleteHost: API.OperationMethod<
+  DeleteHostInput,
   DeleteHostOutput,
   ResourceNotFoundException | ResourceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1280,9 +1274,8 @@ export const deleteHost: (
 /**
  * Deletes the association between your connection and a specified external Git repository.
  */
-export const deleteRepositoryLink: (
-  input: DeleteRepositoryLinkInput,
-) => effect.Effect<
+export const deleteRepositoryLink: API.OperationMethod<
+  DeleteRepositoryLinkInput,
   DeleteRepositoryLinkOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1311,9 +1304,8 @@ export const deleteRepositoryLink: (
 /**
  * Deletes the sync configuration for a specified repository and connection.
  */
-export const deleteSyncConfiguration: (
-  input: DeleteSyncConfigurationInput,
-) => effect.Effect<
+export const deleteSyncConfiguration: API.OperationMethod<
+  DeleteSyncConfigurationInput,
   DeleteSyncConfigurationOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1338,9 +1330,8 @@ export const deleteSyncConfiguration: (
 /**
  * Returns the connection ARN and details such as status, owner, and provider type.
  */
-export const getConnection: (
-  input: GetConnectionInput,
-) => effect.Effect<
+export const getConnection: API.OperationMethod<
+  GetConnectionInput,
   GetConnectionOutput,
   ResourceNotFoundException | ResourceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1353,9 +1344,8 @@ export const getConnection: (
  * Returns the host ARN and details such as status, provider type, endpoint, and, if
  * applicable, the VPC configuration.
  */
-export const getHost: (
-  input: GetHostInput,
-) => effect.Effect<
+export const getHost: API.OperationMethod<
+  GetHostInput,
   GetHostOutput,
   ResourceNotFoundException | ResourceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1368,9 +1358,8 @@ export const getHost: (
  * Returns details about a repository link. A repository link allows Git sync to monitor
  * and sync changes from files in a specified Git repository.
  */
-export const getRepositoryLink: (
-  input: GetRepositoryLinkInput,
-) => effect.Effect<
+export const getRepositoryLink: API.OperationMethod<
+  GetRepositoryLinkInput,
   GetRepositoryLinkOutput,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -1396,9 +1385,8 @@ export const getRepositoryLink: (
  * Returns details about the sync status for a repository. A repository sync uses Git sync
  * to push and pull changes from your remote repository.
  */
-export const getRepositorySyncStatus: (
-  input: GetRepositorySyncStatusInput,
-) => effect.Effect<
+export const getRepositorySyncStatus: API.OperationMethod<
+  GetRepositorySyncStatusInput,
   GetRepositorySyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1422,9 +1410,8 @@ export const getRepositorySyncStatus: (
  * Returns the status of the sync with the Git repository for a specific Amazon Web Services
  * resource.
  */
-export const getResourceSyncStatus: (
-  input: GetResourceSyncStatusInput,
-) => effect.Effect<
+export const getResourceSyncStatus: API.OperationMethod<
+  GetResourceSyncStatusInput,
   GetResourceSyncStatusOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1447,9 +1434,8 @@ export const getResourceSyncStatus: (
 /**
  * Returns a list of the most recent sync blockers.
  */
-export const getSyncBlockerSummary: (
-  input: GetSyncBlockerSummaryInput,
-) => effect.Effect<
+export const getSyncBlockerSummary: API.OperationMethod<
+  GetSyncBlockerSummaryInput,
   GetSyncBlockerSummaryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1472,9 +1458,8 @@ export const getSyncBlockerSummary: (
 /**
  * Returns details about a sync configuration, including the sync type and resource name. A sync configuration allows the configuration to sync (push and pull) changes from the remote repository for a specified branch in a Git repository.
  */
-export const getSyncConfiguration: (
-  input: GetSyncConfigurationInput,
-) => effect.Effect<
+export const getSyncConfiguration: API.OperationMethod<
+  GetSyncConfigurationInput,
   GetSyncConfigurationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1497,14 +1482,12 @@ export const getSyncConfiguration: (
 /**
  * Lists the connections associated with your account.
  */
-export const listConnections: {
-  (
-    input: ListConnectionsInput,
-  ): effect.Effect<
-    ListConnectionsOutput,
-    ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnections: API.OperationMethod<
+  ListConnectionsInput,
+  ListConnectionsOutput,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectionsInput,
   ) => stream.Stream<
@@ -1532,14 +1515,12 @@ export const listConnections: {
 /**
  * Lists the hosts associated with your account.
  */
-export const listHosts: {
-  (
-    input: ListHostsInput,
-  ): effect.Effect<
-    ListHostsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHosts: API.OperationMethod<
+  ListHostsInput,
+  ListHostsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHostsInput,
   ) => stream.Stream<
@@ -1567,20 +1548,18 @@ export const listHosts: {
 /**
  * Lists the repository links created for connections in your account.
  */
-export const listRepositoryLinks: {
-  (
-    input: ListRepositoryLinksInput,
-  ): effect.Effect<
-    ListRepositoryLinksOutput,
-    | AccessDeniedException
-    | ConcurrentModificationException
-    | InternalServerException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRepositoryLinks: API.OperationMethod<
+  ListRepositoryLinksInput,
+  ListRepositoryLinksOutput,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRepositoryLinksInput,
   ) => stream.Stream<
@@ -1627,9 +1606,8 @@ export const listRepositoryLinks: {
 /**
  * Lists the repository sync definitions for repository links in your account.
  */
-export const listRepositorySyncDefinitions: (
-  input: ListRepositorySyncDefinitionsInput,
-) => effect.Effect<
+export const listRepositorySyncDefinitions: API.OperationMethod<
+  ListRepositorySyncDefinitionsInput,
   ListRepositorySyncDefinitionsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1652,19 +1630,17 @@ export const listRepositorySyncDefinitions: (
 /**
  * Returns a list of sync configurations for a specified repository.
  */
-export const listSyncConfigurations: {
-  (
-    input: ListSyncConfigurationsInput,
-  ): effect.Effect<
-    ListSyncConfigurationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSyncConfigurations: API.OperationMethod<
+  ListSyncConfigurationsInput,
+  ListSyncConfigurationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSyncConfigurationsInput,
   ) => stream.Stream<
@@ -1708,9 +1684,8 @@ export const listSyncConfigurations: {
 /**
  * Gets the set of key-value pairs (metadata) that are used to manage the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1723,9 +1698,8 @@ export const listTagsForResource: (
  * Adds to or modifies the tags of the given resource. Tags are metadata that can be used
  * to manage a resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   LimitExceededException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1737,9 +1711,8 @@ export const tagResource: (
 /**
  * Removes tags from an Amazon Web Services resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1751,9 +1724,8 @@ export const untagResource: (
 /**
  * Updates a specified host with the provided configurations.
  */
-export const updateHost: (
-  input: UpdateHostInput,
-) => effect.Effect<
+export const updateHost: API.OperationMethod<
+  UpdateHostInput,
   UpdateHostOutput,
   | ConflictException
   | ResourceNotFoundException
@@ -1776,9 +1748,8 @@ export const updateHost: (
  * A repository link allows Git sync to monitor and sync changes to files in a specified Git
  * repository.
  */
-export const updateRepositoryLink: (
-  input: UpdateRepositoryLinkInput,
-) => effect.Effect<
+export const updateRepositoryLink: API.OperationMethod<
+  UpdateRepositoryLinkInput,
   UpdateRepositoryLinkOutput,
   | AccessDeniedException
   | ConditionalCheckFailedException
@@ -1805,9 +1776,8 @@ export const updateRepositoryLink: (
 /**
  * Allows you to update the status of a sync blocker, resolving the blocker and allowing syncing to continue.
  */
-export const updateSyncBlocker: (
-  input: UpdateSyncBlockerInput,
-) => effect.Effect<
+export const updateSyncBlocker: API.OperationMethod<
+  UpdateSyncBlockerInput,
   UpdateSyncBlockerOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1834,9 +1804,8 @@ export const updateSyncBlocker: (
 /**
  * Updates the sync configuration for your connection and a specified external Git repository.
  */
-export const updateSyncConfiguration: (
-  input: UpdateSyncConfigurationInput,
-) => effect.Effect<
+export const updateSyncConfiguration: API.OperationMethod<
+  UpdateSyncConfigurationInput,
   UpdateSyncConfigurationOutput,
   | AccessDeniedException
   | ConcurrentModificationException

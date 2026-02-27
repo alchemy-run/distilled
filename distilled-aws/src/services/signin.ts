@@ -258,9 +258,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  * Note: This operation cannot be marked as @idempotent because it handles both idempotent
  * (token refresh) and non-idempotent (auth code redemption) flows in a single endpoint.
  */
-export const createOAuth2Token: (
-  input: CreateOAuth2TokenRequest,
-) => effect.Effect<
+export const createOAuth2Token: API.OperationMethod<
+  CreateOAuth2TokenRequest,
   CreateOAuth2TokenResponse,
   | AccessDeniedException
   | InternalServerException

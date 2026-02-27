@@ -1551,14 +1551,12 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists requester gateways.
  */
-export const listRequesterGateways: {
-  (
-    input: ListRequesterGatewaysRequest,
-  ): effect.Effect<
-    ListRequesterGatewaysResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRequesterGateways: API.OperationMethod<
+  ListRequesterGatewaysRequest,
+  ListRequesterGatewaysResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRequesterGatewaysRequest,
   ) => stream.Stream<
@@ -1587,14 +1585,12 @@ export const listRequesterGateways: {
 /**
  * Lists reponder gateways.
  */
-export const listResponderGateways: {
-  (
-    input: ListResponderGatewaysRequest,
-  ): effect.Effect<
-    ListResponderGatewaysResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResponderGateways: API.OperationMethod<
+  ListResponderGatewaysRequest,
+  ListResponderGatewaysResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResponderGatewaysRequest,
   ) => stream.Stream<
@@ -1623,9 +1619,8 @@ export const listResponderGateways: {
 /**
  * Lists tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1648,9 +1643,8 @@ export const listTagsForResource: (
 /**
  * Assigns one or more tags (key-value pairs) to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1673,9 +1667,8 @@ export const tagResource: (
 /**
  * Removes a tag or tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1700,9 +1693,8 @@ export const untagResource: (
  *
  * Establishes a connection that allows gateways to communicate and exchange bid requests and responses.
  */
-export const createLink: (
-  input: CreateLinkRequest,
-) => effect.Effect<
+export const createLink: API.OperationMethod<
+  CreateLinkRequest,
   CreateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1731,9 +1723,8 @@ export const createLink: (
  *
  * Returns detailed information about the link configuration, status, and associated gateways.
  */
-export const getLink: (
-  input: GetLinkRequest,
-) => effect.Effect<
+export const getLink: API.OperationMethod<
+  GetLinkRequest,
   GetLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1760,9 +1751,8 @@ export const getLink: (
  *
  * Permanently removes the connection between gateways. This action cannot be undone.
  */
-export const deleteLink: (
-  input: DeleteLinkRequest,
-) => effect.Effect<
+export const deleteLink: API.OperationMethod<
+  DeleteLinkRequest,
   DeleteLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1789,19 +1779,17 @@ export const deleteLink: (
  *
  * Returns a list of all links for the specified gateways, including their status and configuration details.
  */
-export const listLinks: {
-  (
-    input: ListLinksRequest,
-  ): effect.Effect<
-    ListLinksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLinks: API.OperationMethod<
+  ListLinksRequest,
+  ListLinksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLinksRequest,
   ) => stream.Stream<
@@ -1848,9 +1836,8 @@ export const listLinks: {
  *
  * When a requester gateway requests to link with a responder gateway, the responder can use this operation to accept the link request and establish the connection.
  */
-export const acceptLink: (
-  input: AcceptLinkRequest,
-) => effect.Effect<
+export const acceptLink: API.OperationMethod<
+  AcceptLinkRequest,
   AcceptLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1877,9 +1864,8 @@ export const acceptLink: (
  *
  * When a requester gateway requests to link with a responder gateway, the responder can use this operation to decline the link request.
  */
-export const rejectLink: (
-  input: RejectLinkRequest,
-) => effect.Effect<
+export const rejectLink: API.OperationMethod<
+  RejectLinkRequest,
   RejectLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1906,9 +1892,8 @@ export const rejectLink: (
  *
  * Allows you to modify settings and parameters for an existing link.
  */
-export const updateLink: (
-  input: UpdateLinkRequest,
-) => effect.Effect<
+export const updateLink: API.OperationMethod<
+  UpdateLinkRequest,
   UpdateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -1933,9 +1918,8 @@ export const updateLink: (
 /**
  * Updates a link module flow.
  */
-export const updateLinkModuleFlow: (
-  input: UpdateLinkModuleFlowRequest,
-) => effect.Effect<
+export const updateLinkModuleFlow: API.OperationMethod<
+  UpdateLinkModuleFlowRequest,
   UpdateLinkModuleFlowResponse,
   | AccessDeniedException
   | ConflictException
@@ -1962,9 +1946,8 @@ export const updateLinkModuleFlow: (
 /**
  * Creates a requester gateway.
  */
-export const createRequesterGateway: (
-  input: CreateRequesterGatewayRequest,
-) => effect.Effect<
+export const createRequesterGateway: API.OperationMethod<
+  CreateRequesterGatewayRequest,
   CreateRequesterGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1989,9 +1972,8 @@ export const createRequesterGateway: (
 /**
  * Retrieves information about a requester gateway.
  */
-export const getRequesterGateway: (
-  input: GetRequesterGatewayRequest,
-) => effect.Effect<
+export const getRequesterGateway: API.OperationMethod<
+  GetRequesterGatewayRequest,
   GetRequesterGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2014,9 +1996,8 @@ export const getRequesterGateway: (
 /**
  * Deletes a requester gateway.
  */
-export const deleteRequesterGateway: (
-  input: DeleteRequesterGatewayRequest,
-) => effect.Effect<
+export const deleteRequesterGateway: API.OperationMethod<
+  DeleteRequesterGatewayRequest,
   DeleteRequesterGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2039,9 +2020,8 @@ export const deleteRequesterGateway: (
 /**
  * Updates a requester gateway.
  */
-export const updateRequesterGateway: (
-  input: UpdateRequesterGatewayRequest,
-) => effect.Effect<
+export const updateRequesterGateway: API.OperationMethod<
+  UpdateRequesterGatewayRequest,
   UpdateRequesterGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -2066,9 +2046,8 @@ export const updateRequesterGateway: (
 /**
  * Creates an outbound external link.
  */
-export const createOutboundExternalLink: (
-  input: CreateOutboundExternalLinkRequest,
-) => effect.Effect<
+export const createOutboundExternalLink: API.OperationMethod<
+  CreateOutboundExternalLinkRequest,
   CreateOutboundExternalLinkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2093,9 +2072,8 @@ export const createOutboundExternalLink: (
 /**
  * Deletes an outbound external link.
  */
-export const deleteOutboundExternalLink: (
-  input: DeleteOutboundExternalLinkRequest,
-) => effect.Effect<
+export const deleteOutboundExternalLink: API.OperationMethod<
+  DeleteOutboundExternalLinkRequest,
   DeleteOutboundExternalLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -2120,9 +2098,8 @@ export const deleteOutboundExternalLink: (
 /**
  * Retrieves information about an outbound external link.
  */
-export const getOutboundExternalLink: (
-  input: GetOutboundExternalLinkRequest,
-) => effect.Effect<
+export const getOutboundExternalLink: API.OperationMethod<
+  GetOutboundExternalLinkRequest,
   GetOutboundExternalLinkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2147,9 +2124,8 @@ export const getOutboundExternalLink: (
  *
  * A domain name or managed endpoint is required.
  */
-export const createResponderGateway: (
-  input: CreateResponderGatewayRequest,
-) => effect.Effect<
+export const createResponderGateway: API.OperationMethod<
+  CreateResponderGatewayRequest,
   CreateResponderGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2174,9 +2150,8 @@ export const createResponderGateway: (
 /**
  * Retrieves information about a responder gateway.
  */
-export const getResponderGateway: (
-  input: GetResponderGatewayRequest,
-) => effect.Effect<
+export const getResponderGateway: API.OperationMethod<
+  GetResponderGatewayRequest,
   GetResponderGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2199,9 +2174,8 @@ export const getResponderGateway: (
 /**
  * Deletes a responder gateway.
  */
-export const deleteResponderGateway: (
-  input: DeleteResponderGatewayRequest,
-) => effect.Effect<
+export const deleteResponderGateway: API.OperationMethod<
+  DeleteResponderGatewayRequest,
   DeleteResponderGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2224,9 +2198,8 @@ export const deleteResponderGateway: (
 /**
  * Updates a responder gateway.
  */
-export const updateResponderGateway: (
-  input: UpdateResponderGatewayRequest,
-) => effect.Effect<
+export const updateResponderGateway: API.OperationMethod<
+  UpdateResponderGatewayRequest,
   UpdateResponderGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -2251,9 +2224,8 @@ export const updateResponderGateway: (
 /**
  * Creates an inbound external link.
  */
-export const createInboundExternalLink: (
-  input: CreateInboundExternalLinkRequest,
-) => effect.Effect<
+export const createInboundExternalLink: API.OperationMethod<
+  CreateInboundExternalLinkRequest,
   CreateInboundExternalLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -2280,9 +2252,8 @@ export const createInboundExternalLink: (
 /**
  * Deletes an inbound external link.
  */
-export const deleteInboundExternalLink: (
-  input: DeleteInboundExternalLinkRequest,
-) => effect.Effect<
+export const deleteInboundExternalLink: API.OperationMethod<
+  DeleteInboundExternalLinkRequest,
   DeleteInboundExternalLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -2307,9 +2278,8 @@ export const deleteInboundExternalLink: (
 /**
  * Retrieves information about an inbound external link.
  */
-export const getInboundExternalLink: (
-  input: GetInboundExternalLinkRequest,
-) => effect.Effect<
+export const getInboundExternalLink: API.OperationMethod<
+  GetInboundExternalLinkRequest,
   GetInboundExternalLinkResponse,
   | AccessDeniedException
   | InternalServerException

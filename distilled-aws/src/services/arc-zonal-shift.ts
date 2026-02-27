@@ -886,18 +886,16 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Returns the autoshifts for an Amazon Web Services Region. By default, the call returns only `ACTIVE` autoshifts. Optionally, you can specify the `status` parameter to return `COMPLETED` autoshifts.
  */
-export const listAutoshifts: {
-  (
-    input: ListAutoshiftsRequest,
-  ): effect.Effect<
-    ListAutoshiftsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutoshifts: API.OperationMethod<
+  ListAutoshiftsRequest,
+  ListAutoshiftsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutoshiftsRequest,
   ) => stream.Stream<
@@ -939,9 +937,8 @@ export const listAutoshifts: {
 /**
  * Returns the status of the autoshift observer notification. Autoshift observer notifications notify you through Amazon EventBridge when there is an autoshift event for zonal autoshift. The status can be `ENABLED` or `DISABLED`. When `ENABLED`, a notification is sent when an autoshift is triggered. When `DISABLED`, notifications are not sent.
  */
-export const getAutoshiftObserverNotificationStatus: (
-  input: GetAutoshiftObserverNotificationStatusRequest,
-) => effect.Effect<
+export const getAutoshiftObserverNotificationStatus: API.OperationMethod<
+  GetAutoshiftObserverNotificationStatusRequest,
   GetAutoshiftObserverNotificationStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -960,9 +957,8 @@ export const getAutoshiftObserverNotificationStatus: (
  *
  * For more information, see Notifications for practice runs and autoshifts in the Amazon Application Recovery Controller Developer Guide.
  */
-export const updateAutoshiftObserverNotificationStatus: (
-  input: UpdateAutoshiftObserverNotificationStatusRequest,
-) => effect.Effect<
+export const updateAutoshiftObserverNotificationStatus: API.OperationMethod<
+  UpdateAutoshiftObserverNotificationStatusRequest,
   UpdateAutoshiftObserverNotificationStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -983,9 +979,8 @@ export const updateAutoshiftObserverNotificationStatus: (
 /**
  * Get information about a resource that's been registered for zonal shifts with Amazon Application Recovery Controller in this Amazon Web Services Region. Resources that are registered for zonal shifts are managed resources in ARC. You can start zonal shifts and configure zonal autoshift for managed resources.
  */
-export const getManagedResource: (
-  input: GetManagedResourceRequest,
-) => effect.Effect<
+export const getManagedResource: API.OperationMethod<
+  GetManagedResourceRequest,
   GetManagedResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1008,18 +1003,16 @@ export const getManagedResource: (
 /**
  * Lists all the resources in your Amazon Web Services account in this Amazon Web Services Region that are managed for zonal shifts in Amazon Application Recovery Controller, and information about them. The information includes the zonal autoshift status for the resource, as well as the Amazon Resource Name (ARN), the Availability Zones that each resource is deployed in, and the resource name.
  */
-export const listManagedResources: {
-  (
-    input: ListManagedResourcesRequest,
-  ): effect.Effect<
-    ListManagedResourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedResources: API.OperationMethod<
+  ListManagedResourcesRequest,
+  ListManagedResourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedResourcesRequest,
   ) => stream.Stream<
@@ -1063,9 +1056,8 @@ export const listManagedResources: {
  *
  * You can update the zonal autoshift status to enable or disable zonal autoshift. When zonal autoshift is `ENABLED`, you authorize Amazon Web Services to shift away resource traffic for an application from an Availability Zone during events, on your behalf, to help reduce time to recovery. Traffic is also shifted away for the required weekly practice runs.
  */
-export const updateZonalAutoshiftConfiguration: (
-  input: UpdateZonalAutoshiftConfigurationRequest,
-) => effect.Effect<
+export const updateZonalAutoshiftConfiguration: API.OperationMethod<
+  UpdateZonalAutoshiftConfigurationRequest,
   UpdateZonalAutoshiftConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1090,9 +1082,8 @@ export const updateZonalAutoshiftConfiguration: (
 /**
  * Update a practice run configuration to change one or more of the following: add, change, or remove the blocking alarm; change the outcome alarm; or add, change, or remove blocking dates or time windows.
  */
-export const updatePracticeRunConfiguration: (
-  input: UpdatePracticeRunConfigurationRequest,
-) => effect.Effect<
+export const updatePracticeRunConfiguration: API.OperationMethod<
+  UpdatePracticeRunConfigurationRequest,
   UpdatePracticeRunConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1117,9 +1108,8 @@ export const updatePracticeRunConfiguration: (
 /**
  * Deletes the practice run configuration for a resource. Before you can delete a practice run configuration for a resource., you must disable zonal autoshift for the resource. Practice runs must be configured for zonal autoshift to be enabled.
  */
-export const deletePracticeRunConfiguration: (
-  input: DeletePracticeRunConfigurationRequest,
-) => effect.Effect<
+export const deletePracticeRunConfiguration: API.OperationMethod<
+  DeletePracticeRunConfigurationRequest,
   DeletePracticeRunConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1148,9 +1138,8 @@ export const deletePracticeRunConfiguration: (
  *
  * For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide.
  */
-export const createPracticeRunConfiguration: (
-  input: CreatePracticeRunConfigurationRequest,
-) => effect.Effect<
+export const createPracticeRunConfiguration: API.OperationMethod<
+  CreatePracticeRunConfigurationRequest,
   CreatePracticeRunConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1175,9 +1164,8 @@ export const createPracticeRunConfiguration: (
 /**
  * Cancel an in-progress practice run zonal shift in Amazon Application Recovery Controller.
  */
-export const cancelPracticeRun: (
-  input: CancelPracticeRunRequest,
-) => effect.Effect<
+export const cancelPracticeRun: API.OperationMethod<
+  CancelPracticeRunRequest,
   CancelPracticeRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1204,9 +1192,8 @@ export const cancelPracticeRun: (
  *
  * A zonal shift can be one that you've started for a resource in your Amazon Web Services account in an Amazon Web Services Region, or it can be a zonal shift started by a practice run with zonal autoshift.
  */
-export const cancelZonalShift: (
-  input: CancelZonalShiftRequest,
-) => effect.Effect<
+export const cancelZonalShift: API.OperationMethod<
+  CancelZonalShiftRequest,
   ZonalShift,
   | AccessDeniedException
   | ConflictException
@@ -1231,9 +1218,8 @@ export const cancelZonalShift: (
 /**
  * Update an active zonal shift in Amazon Application Recovery Controller in your Amazon Web Services account. You can update a zonal shift to set a new expiration, or edit or replace the comment for the zonal shift.
  */
-export const updateZonalShift: (
-  input: UpdateZonalShiftRequest,
-) => effect.Effect<
+export const updateZonalShift: API.OperationMethod<
+  UpdateZonalShiftRequest,
   ZonalShift,
   | AccessDeniedException
   | ConflictException
@@ -1260,18 +1246,16 @@ export const updateZonalShift: (
  *
  * For more information about listing autoshifts, see ">ListAutoshifts.
  */
-export const listZonalShifts: {
-  (
-    input: ListZonalShiftsRequest,
-  ): effect.Effect<
-    ListZonalShiftsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listZonalShifts: API.OperationMethod<
+  ListZonalShiftsRequest,
+  ListZonalShiftsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListZonalShiftsRequest,
   ) => stream.Stream<
@@ -1315,9 +1299,8 @@ export const listZonalShifts: {
  *
  * For more information, see Considerations when you configure zonal autoshift in the Amazon Application Recovery Controller Developer Guide.
  */
-export const startPracticeRun: (
-  input: StartPracticeRunRequest,
-) => effect.Effect<
+export const startPracticeRun: API.OperationMethod<
+  StartPracticeRunRequest,
   StartPracticeRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1356,9 +1339,8 @@ export const startPracticeRun: (
  *
  * For more information, see Zonal shift in the Amazon Application Recovery Controller Developer Guide.
  */
-export const startZonalShift: (
-  input: StartZonalShiftRequest,
-) => effect.Effect<
+export const startZonalShift: API.OperationMethod<
+  StartZonalShiftRequest,
   ZonalShift,
   | AccessDeniedException
   | ConflictException

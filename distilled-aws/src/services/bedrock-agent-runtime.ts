@@ -6193,9 +6193,8 @@ export class ModelNotReadyException extends S.TaggedErrorClass<ModelNotReadyExce
  *
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
-export const getExecutionFlowSnapshot: (
-  input: GetExecutionFlowSnapshotRequest,
-) => effect.Effect<
+export const getExecutionFlowSnapshot: API.OperationMethod<
+  GetExecutionFlowSnapshotRequest,
   GetExecutionFlowSnapshotResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6218,9 +6217,8 @@ export const getExecutionFlowSnapshot: (
 /**
  * Retrieves details about a specific flow execution, including its status, start and end times, and any errors that occurred during execution.
  */
-export const getFlowExecution: (
-  input: GetFlowExecutionRequest,
-) => effect.Effect<
+export const getFlowExecution: API.OperationMethod<
+  GetFlowExecutionRequest,
   GetFlowExecutionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6245,19 +6243,17 @@ export const getFlowExecution: (
  *
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
-export const listFlowExecutionEvents: {
-  (
-    input: ListFlowExecutionEventsRequest,
-  ): effect.Effect<
-    ListFlowExecutionEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlowExecutionEvents: API.OperationMethod<
+  ListFlowExecutionEventsRequest,
+  ListFlowExecutionEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowExecutionEventsRequest,
   ) => stream.Stream<
@@ -6304,19 +6300,17 @@ export const listFlowExecutionEvents: {
  *
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
-export const listFlowExecutions: {
-  (
-    input: ListFlowExecutionsRequest,
-  ): effect.Effect<
-    ListFlowExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlowExecutions: API.OperationMethod<
+  ListFlowExecutionsRequest,
+  ListFlowExecutionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowExecutionsRequest,
   ) => stream.Stream<
@@ -6365,9 +6359,8 @@ export const listFlowExecutions: {
  *
  * Flow executions is in preview release for Amazon Bedrock and is subject to change.
  */
-export const startFlowExecution: (
-  input: StartFlowExecutionRequest,
-) => effect.Effect<
+export const startFlowExecution: API.OperationMethod<
+  StartFlowExecutionRequest,
   StartFlowExecutionResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6398,9 +6391,8 @@ export const startFlowExecution: (
 /**
  * Stops an Amazon Bedrock flow's execution. This operation prevents further processing of the flow and changes the execution status to `Aborted`.
  */
-export const stopFlowExecution: (
-  input: StopFlowExecutionRequest,
-) => effect.Effect<
+export const stopFlowExecution: API.OperationMethod<
+  StopFlowExecutionRequest,
   StopFlowExecutionResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6431,9 +6423,8 @@ export const stopFlowExecution: (
  *
  * The CLI doesn't support streaming operations in Amazon Bedrock, including `InvokeFlow`.
  */
-export const invokeFlow: (
-  input: InvokeFlowRequest,
-) => effect.Effect<
+export const invokeFlow: API.OperationMethod<
+  InvokeFlowRequest,
   InvokeFlowResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6464,9 +6455,8 @@ export const invokeFlow: (
 /**
  * Generates an SQL query from a natural language query. For more information, see Generate a query for structured data in the Amazon Bedrock User Guide.
  */
-export const generateQuery: (
-  input: GenerateQueryRequest,
-) => effect.Effect<
+export const generateQuery: API.OperationMethod<
+  GenerateQueryRequest,
   GenerateQueryResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6517,9 +6507,8 @@ export const generateQuery: (
  *
  * - Errors are also surfaced in the response.
  */
-export const invokeAgent: (
-  input: InvokeAgentRequest,
-) => effect.Effect<
+export const invokeAgent: API.OperationMethod<
+  InvokeAgentRequest,
   InvokeAgentResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6562,9 +6551,8 @@ export const invokeAgent: (
  *
  * - The agent instructions will not be honored if your agent has only one knowledge base, uses default prompts, has no action group, and user input is disabled.
  */
-export const invokeInlineAgent: (
-  input: InvokeInlineAgentRequest,
-) => effect.Effect<
+export const invokeInlineAgent: API.OperationMethod<
+  InvokeInlineAgentRequest,
   InvokeInlineAgentResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6595,9 +6583,8 @@ export const invokeInlineAgent: (
 /**
  * Deletes memory from the specified memory identifier.
  */
-export const deleteAgentMemory: (
-  input: DeleteAgentMemoryRequest,
-) => effect.Effect<
+export const deleteAgentMemory: API.OperationMethod<
+  DeleteAgentMemoryRequest,
   DeleteAgentMemoryResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6628,23 +6615,21 @@ export const deleteAgentMemory: (
 /**
  * Gets the sessions stored in the memory of the agent.
  */
-export const getAgentMemory: {
-  (
-    input: GetAgentMemoryRequest,
-  ): effect.Effect<
-    GetAgentMemoryResponse,
-    | AccessDeniedException
-    | BadGatewayException
-    | ConflictException
-    | DependencyFailedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAgentMemory: API.OperationMethod<
+  GetAgentMemoryRequest,
+  GetAgentMemoryResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAgentMemoryRequest,
   ) => stream.Stream<
@@ -6701,9 +6686,8 @@ export const getAgentMemory: {
 /**
  * Optimizes a prompt for the task that you specify. For more information, see Optimize a prompt in the Amazon Bedrock User Guide.
  */
-export const optimizePrompt: (
-  input: OptimizePromptRequest,
-) => effect.Effect<
+export const optimizePrompt: API.OperationMethod<
+  OptimizePromptRequest,
   OptimizePromptResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6728,23 +6712,21 @@ export const optimizePrompt: (
 /**
  * Reranks the relevance of sources based on queries. For more information, see Improve the relevance of query responses with a reranker model.
  */
-export const rerank: {
-  (
-    input: RerankRequest,
-  ): effect.Effect<
-    RerankResponse,
-    | AccessDeniedException
-    | BadGatewayException
-    | ConflictException
-    | DependencyFailedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const rerank: API.OperationMethod<
+  RerankRequest,
+  RerankResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: RerankRequest,
   ) => stream.Stream<
@@ -6800,9 +6782,8 @@ export const rerank: {
 /**
  * Queries a knowledge base and generates responses based on the retrieved results and using the specified foundation model or inference profile. The response only cites sources that are relevant to the query.
  */
-export const retrieveAndGenerate: (
-  input: RetrieveAndGenerateRequest,
-) => effect.Effect<
+export const retrieveAndGenerate: API.OperationMethod<
+  RetrieveAndGenerateRequest,
   RetrieveAndGenerateResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6837,9 +6818,8 @@ export const retrieveAndGenerate: (
  *
  * This operation requires permission for the ` bedrock:RetrieveAndGenerate` action.
  */
-export const retrieveAndGenerateStream: (
-  input: RetrieveAndGenerateStreamRequest,
-) => effect.Effect<
+export const retrieveAndGenerateStream: API.OperationMethod<
+  RetrieveAndGenerateStreamRequest,
   RetrieveAndGenerateStreamResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -6870,23 +6850,21 @@ export const retrieveAndGenerateStream: (
 /**
  * Queries a knowledge base and retrieves information from it.
  */
-export const retrieve: {
-  (
-    input: RetrieveRequest,
-  ): effect.Effect<
-    RetrieveResponse,
-    | AccessDeniedException
-    | BadGatewayException
-    | ConflictException
-    | DependencyFailedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const retrieve: API.OperationMethod<
+  RetrieveRequest,
+  RetrieveResponse,
+  | AccessDeniedException
+  | BadGatewayException
+  | ConflictException
+  | DependencyFailedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: RetrieveRequest,
   ) => stream.Stream<
@@ -6956,9 +6934,8 @@ export const retrieve: {
  *
  * - DeleteSession
  */
-export const createSession: (
-  input: CreateSessionRequest,
-) => effect.Effect<
+export const createSession: API.OperationMethod<
+  CreateSessionRequest,
   CreateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6983,9 +6960,8 @@ export const createSession: (
 /**
  * Retrieves details about a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7008,9 +6984,8 @@ export const getSession: (
 /**
  * Updates the metadata or encryption settings of a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const updateSession: (
-  input: UpdateSessionRequest,
-) => effect.Effect<
+export const updateSession: API.OperationMethod<
+  UpdateSessionRequest,
   UpdateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7035,9 +7010,8 @@ export const updateSession: (
 /**
  * Deletes a session that you ended. You can't delete a session with an `ACTIVE` status. To delete an active session, you must first end it with the EndSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const deleteSession: (
-  input: DeleteSessionRequest,
-) => effect.Effect<
+export const deleteSession: API.OperationMethod<
+  DeleteSessionRequest,
   DeleteSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7062,18 +7036,16 @@ export const deleteSession: (
 /**
  * Lists all sessions in your Amazon Web Services account. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const listSessions: {
-  (
-    input: ListSessionsRequest,
-  ): effect.Effect<
-    ListSessionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessions: API.OperationMethod<
+  ListSessionsRequest,
+  ListSessionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
@@ -7115,9 +7087,8 @@ export const listSessions: {
 /**
  * Ends the session. After you end a session, you can still access its content but you can’t add to it. To delete the session and it's content, you use the DeleteSession API operation. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const endSession: (
-  input: EndSessionRequest,
-) => effect.Effect<
+export const endSession: API.OperationMethod<
+  EndSessionRequest,
   EndSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7150,9 +7121,8 @@ export const endSession: (
  *
  * - GetSession
  */
-export const createInvocation: (
-  input: CreateInvocationRequest,
-) => effect.Effect<
+export const createInvocation: API.OperationMethod<
+  CreateInvocationRequest,
   CreateInvocationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7179,19 +7149,17 @@ export const createInvocation: (
 /**
  * Lists all invocations associated with a specific session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const listInvocations: {
-  (
-    input: ListInvocationsRequest,
-  ): effect.Effect<
-    ListInvocationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvocations: API.OperationMethod<
+  ListInvocationsRequest,
+  ListInvocationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvocationsRequest,
   ) => stream.Stream<
@@ -7246,9 +7214,8 @@ export const listInvocations: {
  *
  * - ListSessions
  */
-export const putInvocationStep: (
-  input: PutInvocationStepRequest,
-) => effect.Effect<
+export const putInvocationStep: API.OperationMethod<
+  PutInvocationStepRequest,
   PutInvocationStepResponse,
   | AccessDeniedException
   | ConflictException
@@ -7275,9 +7242,8 @@ export const putInvocationStep: (
 /**
  * Retrieves the details of a specific invocation step within an invocation in a session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const getInvocationStep: (
-  input: GetInvocationStepRequest,
-) => effect.Effect<
+export const getInvocationStep: API.OperationMethod<
+  GetInvocationStepRequest,
   GetInvocationStepResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7300,19 +7266,17 @@ export const getInvocationStep: (
 /**
  * Lists all invocation steps associated with a session and optionally, an invocation within the session. For more information about sessions, see Store and retrieve conversation history and context with Amazon Bedrock sessions.
  */
-export const listInvocationSteps: {
-  (
-    input: ListInvocationStepsRequest,
-  ): effect.Effect<
-    ListInvocationStepsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvocationSteps: API.OperationMethod<
+  ListInvocationStepsRequest,
+  ListInvocationStepsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvocationStepsRequest,
   ) => stream.Stream<
@@ -7357,9 +7321,8 @@ export const listInvocationSteps: {
 /**
  * List all the tags for the resource you specify.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7382,9 +7345,8 @@ export const listTagsForResource: (
 /**
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7409,9 +7371,8 @@ export const tagResource: (
 /**
  * Remove tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException

@@ -987,9 +987,8 @@ export class NotAuthorizedException extends S.TaggedErrorClass<NotAuthorizedExce
  * Creates a new performance analysis report for a specific time period for the
  * DB instance.
  */
-export const createPerformanceAnalysisReport: (
-  input: CreatePerformanceAnalysisReportRequest,
-) => effect.Effect<
+export const createPerformanceAnalysisReport: API.OperationMethod<
+  CreatePerformanceAnalysisReportRequest,
   CreatePerformanceAnalysisReportResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1008,9 +1007,8 @@ export const createPerformanceAnalysisReport: (
 /**
  * Deletes a performance analysis report.
  */
-export const deletePerformanceAnalysisReport: (
-  input: DeletePerformanceAnalysisReportRequest,
-) => effect.Effect<
+export const deletePerformanceAnalysisReport: API.OperationMethod<
+  DeletePerformanceAnalysisReportRequest,
   DeletePerformanceAnalysisReportResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1032,17 +1030,15 @@ export const deletePerformanceAnalysisReport: (
  * Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,
  * only the first 500 bytes are returned.
  */
-export const describeDimensionKeys: {
-  (
-    input: DescribeDimensionKeysRequest,
-  ): effect.Effect<
-    DescribeDimensionKeysResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDimensionKeys: API.OperationMethod<
+  DescribeDimensionKeysRequest,
+  DescribeDimensionKeysResponse,
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDimensionKeysRequest,
   ) => stream.Stream<
@@ -1083,9 +1079,8 @@ export const describeDimensionKeys: {
  * This operation is useful because `GetResourceMetrics` and `DescribeDimensionKeys` don't support retrieval of large
  * SQL statement text, lock snapshots, and execution plans.
  */
-export const getDimensionKeyDetails: (
-  input: GetDimensionKeyDetailsRequest,
-) => effect.Effect<
+export const getDimensionKeyDetails: API.OperationMethod<
+  GetDimensionKeyDetailsRequest,
   GetDimensionKeyDetailsResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1107,9 +1102,8 @@ export const getDimensionKeyDetails: (
  * `SUCCEEDED`, or `FAILED`. The insights include the
  * `description` and `recommendation` fields.
  */
-export const getPerformanceAnalysisReport: (
-  input: GetPerformanceAnalysisReportRequest,
-) => effect.Effect<
+export const getPerformanceAnalysisReport: API.OperationMethod<
+  GetPerformanceAnalysisReportRequest,
   GetPerformanceAnalysisReportResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1129,9 +1123,8 @@ export const getPerformanceAnalysisReport: (
  * Retrieve the metadata for different features. For example, the metadata might indicate
  * that a feature is turned on or off on a specific DB instance.
  */
-export const getResourceMetadata: (
-  input: GetResourceMetadataRequest,
-) => effect.Effect<
+export const getResourceMetadata: API.OperationMethod<
+  GetResourceMetadataRequest,
   GetResourceMetadataResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1155,17 +1148,15 @@ export const getResourceMetadata: (
  * Each response element returns a maximum of 500 bytes. For larger elements, such as SQL statements,
  * only the first 500 bytes are returned.
  */
-export const getResourceMetrics: {
-  (
-    input: GetResourceMetricsRequest,
-  ): effect.Effect<
-    GetResourceMetricsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourceMetrics: API.OperationMethod<
+  GetResourceMetricsRequest,
+  GetResourceMetricsResponse,
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourceMetricsRequest,
   ) => stream.Stream<
@@ -1203,17 +1194,15 @@ export const getResourceMetrics: {
 /**
  * Retrieve the dimensions that can be queried for each specified metric type on a specified DB instance.
  */
-export const listAvailableResourceDimensions: {
-  (
-    input: ListAvailableResourceDimensionsRequest,
-  ): effect.Effect<
-    ListAvailableResourceDimensionsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAvailableResourceDimensions: API.OperationMethod<
+  ListAvailableResourceDimensionsRequest,
+  ListAvailableResourceDimensionsResponse,
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAvailableResourceDimensionsRequest,
   ) => stream.Stream<
@@ -1251,17 +1240,15 @@ export const listAvailableResourceDimensions: {
 /**
  * Retrieve metrics of the specified types that can be queried for a specified DB instance.
  */
-export const listAvailableResourceMetrics: {
-  (
-    input: ListAvailableResourceMetricsRequest,
-  ): effect.Effect<
-    ListAvailableResourceMetricsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAvailableResourceMetrics: API.OperationMethod<
+  ListAvailableResourceMetricsRequest,
+  ListAvailableResourceMetricsResponse,
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAvailableResourceMetricsRequest,
   ) => stream.Stream<
@@ -1299,17 +1286,15 @@ export const listAvailableResourceMetrics: {
 /**
  * Lists all the analysis reports created for the DB instance. The reports are sorted based on the start time of each report.
  */
-export const listPerformanceAnalysisReports: {
-  (
-    input: ListPerformanceAnalysisReportsRequest,
-  ): effect.Effect<
-    ListPerformanceAnalysisReportsResponse,
-    | InternalServiceError
-    | InvalidArgumentException
-    | NotAuthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPerformanceAnalysisReports: API.OperationMethod<
+  ListPerformanceAnalysisReportsRequest,
+  ListPerformanceAnalysisReportsResponse,
+  | InternalServiceError
+  | InvalidArgumentException
+  | NotAuthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPerformanceAnalysisReportsRequest,
   ) => stream.Stream<
@@ -1347,9 +1332,8 @@ export const listPerformanceAnalysisReports: {
 /**
  * Retrieves all the metadata tags associated with Amazon RDS Performance Insights resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1368,9 +1352,8 @@ export const listTagsForResource: (
 /**
  * Adds metadata tags to the Amazon RDS Performance Insights resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceError
   | InvalidArgumentException
@@ -1389,9 +1372,8 @@ export const tagResource: (
 /**
  * Deletes the metadata tags from the Amazon RDS Performance Insights resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceError
   | InvalidArgumentException

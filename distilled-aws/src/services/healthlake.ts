@@ -743,9 +743,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 /**
  * Create a FHIR-enabled data store.
  */
-export const createFHIRDatastore: (
-  input: CreateFHIRDatastoreRequest,
-) => effect.Effect<
+export const createFHIRDatastore: API.OperationMethod<
+  CreateFHIRDatastoreRequest,
   CreateFHIRDatastoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -766,9 +765,8 @@ export const createFHIRDatastore: (
 /**
  * Delete a FHIR-enabled data store.
  */
-export const deleteFHIRDatastore: (
-  input: DeleteFHIRDatastoreRequest,
-) => effect.Effect<
+export const deleteFHIRDatastore: API.OperationMethod<
+  DeleteFHIRDatastoreRequest,
   DeleteFHIRDatastoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -793,9 +791,8 @@ export const deleteFHIRDatastore: (
 /**
  * Get properties for a FHIR-enabled data store.
  */
-export const describeFHIRDatastore: (
-  input: DescribeFHIRDatastoreRequest,
-) => effect.Effect<
+export const describeFHIRDatastore: API.OperationMethod<
+  DescribeFHIRDatastoreRequest,
   DescribeFHIRDatastoreResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -816,9 +813,8 @@ export const describeFHIRDatastore: (
 /**
  * Get FHIR export job properties.
  */
-export const describeFHIRExportJob: (
-  input: DescribeFHIRExportJobRequest,
-) => effect.Effect<
+export const describeFHIRExportJob: API.OperationMethod<
+  DescribeFHIRExportJobRequest,
   DescribeFHIRExportJobResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -839,9 +835,8 @@ export const describeFHIRExportJob: (
 /**
  * Get the import job properties to learn more about the job or job progress.
  */
-export const describeFHIRImportJob: (
-  input: DescribeFHIRImportJobRequest,
-) => effect.Effect<
+export const describeFHIRImportJob: API.OperationMethod<
+  DescribeFHIRImportJobRequest,
   DescribeFHIRImportJobResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -863,17 +858,15 @@ export const describeFHIRImportJob: (
  * List all FHIR-enabled data stores in a user’s account, regardless of data store
  * status.
  */
-export const listFHIRDatastores: {
-  (
-    input: ListFHIRDatastoresRequest,
-  ): effect.Effect<
-    ListFHIRDatastoresResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFHIRDatastores: API.OperationMethod<
+  ListFHIRDatastoresRequest,
+  ListFHIRDatastoresResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFHIRDatastoresRequest,
   ) => stream.Stream<
@@ -907,19 +900,17 @@ export const listFHIRDatastores: {
 /**
  * Lists all FHIR export jobs associated with an account and their statuses.
  */
-export const listFHIRExportJobs: {
-  (
-    input: ListFHIRExportJobsRequest,
-  ): effect.Effect<
-    ListFHIRExportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFHIRExportJobs: API.OperationMethod<
+  ListFHIRExportJobsRequest,
+  ListFHIRExportJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFHIRExportJobsRequest,
   ) => stream.Stream<
@@ -963,19 +954,17 @@ export const listFHIRExportJobs: {
 /**
  * List all FHIR import jobs associated with an account and their statuses.
  */
-export const listFHIRImportJobs: {
-  (
-    input: ListFHIRImportJobsRequest,
-  ): effect.Effect<
-    ListFHIRImportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFHIRImportJobs: API.OperationMethod<
+  ListFHIRImportJobsRequest,
+  ListFHIRImportJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFHIRImportJobsRequest,
   ) => stream.Stream<
@@ -1019,9 +1008,8 @@ export const listFHIRImportJobs: {
 /**
  * Returns a list of all existing tags associated with a data store.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1033,9 +1021,8 @@ export const listTagsForResource: (
 /**
  * Start a FHIR export job.
  */
-export const startFHIRExportJob: (
-  input: StartFHIRExportJobRequest,
-) => effect.Effect<
+export const startFHIRExportJob: API.OperationMethod<
+  StartFHIRExportJobRequest,
   StartFHIRExportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1060,9 +1047,8 @@ export const startFHIRExportJob: (
  * data found in the `InputDataConfig` object and stores processing results in the
  * `JobOutputDataConfig` object.
  */
-export const startFHIRImportJob: (
-  input: StartFHIRImportJobRequest,
-) => effect.Effect<
+export const startFHIRImportJob: API.OperationMethod<
+  StartFHIRImportJobRequest,
   StartFHIRImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1085,9 +1071,8 @@ export const startFHIRImportJob: (
 /**
  * Add a user-specifed key and value tag to a data store.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1099,9 +1084,8 @@ export const tagResource: (
 /**
  * Remove a user-specifed key and value tag from a data store.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

@@ -480,9 +480,8 @@ export class ResourceUnavailableException extends S.TaggedErrorClass<ResourceUna
  * the Python and Java SDKs, see Semantically
  * ranking a search service's results.
  */
-export const createRescoreExecutionPlan: (
-  input: CreateRescoreExecutionPlanRequest,
-) => effect.Effect<
+export const createRescoreExecutionPlan: API.OperationMethod<
+  CreateRescoreExecutionPlanRequest,
   CreateRescoreExecutionPlanResponse,
   | AccessDeniedException
   | ConflictException
@@ -509,9 +508,8 @@ export const createRescoreExecutionPlan: (
  * plan is an Amazon Kendra Intelligent Ranking resource
  * used for provisioning the `Rescore` API.
  */
-export const deleteRescoreExecutionPlan: (
-  input: DeleteRescoreExecutionPlanRequest,
-) => effect.Effect<
+export const deleteRescoreExecutionPlan: API.OperationMethod<
+  DeleteRescoreExecutionPlanRequest,
   DeleteRescoreExecutionPlanResponse,
   | AccessDeniedException
   | ConflictException
@@ -538,9 +536,8 @@ export const deleteRescoreExecutionPlan: (
  * execution plan is an Amazon Kendra Intelligent Ranking
  * resource used for provisioning the `Rescore` API.
  */
-export const describeRescoreExecutionPlan: (
-  input: DescribeRescoreExecutionPlanRequest,
-) => effect.Effect<
+export const describeRescoreExecutionPlan: API.OperationMethod<
+  DescribeRescoreExecutionPlanRequest,
   DescribeRescoreExecutionPlanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -565,18 +562,16 @@ export const describeRescoreExecutionPlan: (
  * is an Amazon Kendra Intelligent Ranking resource used for
  * provisioning the `Rescore` API.
  */
-export const listRescoreExecutionPlans: {
-  (
-    input: ListRescoreExecutionPlansRequest,
-  ): effect.Effect<
-    ListRescoreExecutionPlansResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRescoreExecutionPlans: API.OperationMethod<
+  ListRescoreExecutionPlansRequest,
+  ListRescoreExecutionPlansResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRescoreExecutionPlansRequest,
   ) => stream.Stream<
@@ -619,9 +614,8 @@ export const listRescoreExecutionPlans: {
  * A rescore execution plan is an example of a resource that
  * can have tags associated with it.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -647,9 +641,8 @@ export const listTagsForResource: (
  * capabilities of Amazon Kendra Intelligent Ranking to
  * improve the search service's results.
  */
-export const rescore: (
-  input: RescoreRequest,
-) => effect.Effect<
+export const rescore: API.OperationMethod<
+  RescoreRequest,
   RescoreResult,
   | AccessDeniedException
   | ConflictException
@@ -678,9 +671,8 @@ export const rescore: (
  * `Rescore` API. If the tag already exists,
  * the existing value is replaced with the new value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -706,9 +698,8 @@ export const tagResource: (
  * Ranking resource used for provisioning the
  * `Rescore` operation.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -736,9 +727,8 @@ export const untagResource: (
  * Intelligent Ranking to rescore or re-rank a search service's
  * results.
  */
-export const updateRescoreExecutionPlan: (
-  input: UpdateRescoreExecutionPlanRequest,
-) => effect.Effect<
+export const updateRescoreExecutionPlan: API.OperationMethod<
+  UpdateRescoreExecutionPlanRequest,
   UpdateRescoreExecutionPlanResponse,
   | AccessDeniedException
   | ConflictException

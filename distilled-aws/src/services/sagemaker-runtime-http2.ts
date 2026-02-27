@@ -505,9 +505,8 @@ export class ServiceUnavailableError extends S.TaggedErrorClass<ServiceUnavailab
  *
  * Endpoints are scoped to an individual account, and are not public. The URL does not contain the account ID, but Amazon SageMaker AI determines the account ID from the authentication token that is supplied by the caller.
  */
-export const invokeEndpointWithBidirectionalStream: (
-  input: InvokeEndpointWithBidirectionalStreamInput,
-) => effect.Effect<
+export const invokeEndpointWithBidirectionalStream: API.OperationMethod<
+  InvokeEndpointWithBidirectionalStreamInput,
   InvokeEndpointWithBidirectionalStreamOutput,
   | InputValidationError
   | InternalServerError

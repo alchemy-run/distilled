@@ -1976,9 +1976,8 @@ export class NotFoundException extends S.TaggedErrorClass<NotFoundException>()(
  *
  * For more information, see Create an IAM User and Get Your Amazon Web Services Credentials and Never Modify or Delete the Amazon MQ Elastic Network Interface in the *Amazon MQ Developer Guide*.
  */
-export const createBroker: (
-  input: CreateBrokerRequest,
-) => effect.Effect<
+export const createBroker: API.OperationMethod<
+  CreateBrokerRequest,
   CreateBrokerResponse,
   | BadRequestException
   | ConflictException
@@ -2001,9 +2000,8 @@ export const createBroker: (
 /**
  * Creates a new configuration for the specified configuration name. Amazon MQ uses the default configuration (the engine type and version).
  */
-export const createConfiguration: (
-  input: CreateConfigurationRequest,
-) => effect.Effect<
+export const createConfiguration: API.OperationMethod<
+  CreateConfigurationRequest,
   CreateConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2024,9 +2022,8 @@ export const createConfiguration: (
 /**
  * Add a tag to a resource.
  */
-export const createTags: (
-  input: CreateTagsRequest,
-) => effect.Effect<
+export const createTags: API.OperationMethod<
+  CreateTagsRequest,
   CreateTagsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2049,9 +2046,8 @@ export const createTags: (
  *
  * Do not add personally identifiable information (PII) or other confidential or sensitive information in broker usernames. Broker usernames are accessible to other Amazon Web Services services, including CloudWatch Logs. Broker usernames are not intended to be used for private or sensitive data.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | BadRequestException
   | ConflictException
@@ -2074,9 +2070,8 @@ export const createUser: (
 /**
  * Deletes a broker. Note: This API is asynchronous.
  */
-export const deleteBroker: (
-  input: DeleteBrokerRequest,
-) => effect.Effect<
+export const deleteBroker: API.OperationMethod<
+  DeleteBrokerRequest,
   DeleteBrokerResponse,
   | BadRequestException
   | ForbiddenException
@@ -2097,9 +2092,8 @@ export const deleteBroker: (
 /**
  * Deletes the specified configuration.
  */
-export const deleteConfiguration: (
-  input: DeleteConfigurationRequest,
-) => effect.Effect<
+export const deleteConfiguration: API.OperationMethod<
+  DeleteConfigurationRequest,
   DeleteConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2122,9 +2116,8 @@ export const deleteConfiguration: (
 /**
  * Removes a tag from a resource.
  */
-export const deleteTags: (
-  input: DeleteTagsRequest,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsRequest,
   DeleteTagsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2145,9 +2138,8 @@ export const deleteTags: (
 /**
  * Deletes an ActiveMQ user.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -2168,9 +2160,8 @@ export const deleteUser: (
 /**
  * Returns information about the specified broker.
  */
-export const describeBroker: (
-  input: DescribeBrokerRequest,
-) => effect.Effect<
+export const describeBroker: API.OperationMethod<
+  DescribeBrokerRequest,
   DescribeBrokerResponse,
   | BadRequestException
   | ForbiddenException
@@ -2191,9 +2182,8 @@ export const describeBroker: (
 /**
  * Describe available engine types and versions.
  */
-export const describeBrokerEngineTypes: (
-  input: DescribeBrokerEngineTypesRequest,
-) => effect.Effect<
+export const describeBrokerEngineTypes: API.OperationMethod<
+  DescribeBrokerEngineTypesRequest,
   DescribeBrokerEngineTypesResponse,
   | BadRequestException
   | ForbiddenException
@@ -2212,9 +2202,8 @@ export const describeBrokerEngineTypes: (
 /**
  * Describe available broker instance options.
  */
-export const describeBrokerInstanceOptions: (
-  input: DescribeBrokerInstanceOptionsRequest,
-) => effect.Effect<
+export const describeBrokerInstanceOptions: API.OperationMethod<
+  DescribeBrokerInstanceOptionsRequest,
   DescribeBrokerInstanceOptionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2233,9 +2222,8 @@ export const describeBrokerInstanceOptions: (
 /**
  * Returns information about the specified configuration.
  */
-export const describeConfiguration: (
-  input: DescribeConfigurationRequest,
-) => effect.Effect<
+export const describeConfiguration: API.OperationMethod<
+  DescribeConfigurationRequest,
   DescribeConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -2256,9 +2244,8 @@ export const describeConfiguration: (
 /**
  * Returns the specified configuration revision for the specified configuration.
  */
-export const describeConfigurationRevision: (
-  input: DescribeConfigurationRevisionRequest,
-) => effect.Effect<
+export const describeConfigurationRevision: API.OperationMethod<
+  DescribeConfigurationRevisionRequest,
   DescribeConfigurationRevisionResponse,
   | BadRequestException
   | ForbiddenException
@@ -2279,9 +2266,8 @@ export const describeConfigurationRevision: (
 /**
  * Returns information about an ActiveMQ user.
  */
-export const describeUser: (
-  input: DescribeUserRequest,
-) => effect.Effect<
+export const describeUser: API.OperationMethod<
+  DescribeUserRequest,
   DescribeUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -2302,17 +2288,15 @@ export const describeUser: (
 /**
  * Returns a list of all brokers.
  */
-export const listBrokers: {
-  (
-    input: ListBrokersRequest,
-  ): effect.Effect<
-    ListBrokersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBrokers: API.OperationMethod<
+  ListBrokersRequest,
+  ListBrokersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBrokersRequest,
   ) => stream.Stream<
@@ -2351,9 +2335,8 @@ export const listBrokers: {
 /**
  * Returns a list of all revisions for the specified configuration.
  */
-export const listConfigurationRevisions: (
-  input: ListConfigurationRevisionsRequest,
-) => effect.Effect<
+export const listConfigurationRevisions: API.OperationMethod<
+  ListConfigurationRevisionsRequest,
   ListConfigurationRevisionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2374,9 +2357,8 @@ export const listConfigurationRevisions: (
 /**
  * Returns a list of all configurations.
  */
-export const listConfigurations: (
-  input: ListConfigurationsRequest,
-) => effect.Effect<
+export const listConfigurations: API.OperationMethod<
+  ListConfigurationsRequest,
   ListConfigurationsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2395,9 +2377,8 @@ export const listConfigurations: (
 /**
  * Lists tags for a resource.
  */
-export const listTags: (
-  input: ListTagsRequest,
-) => effect.Effect<
+export const listTags: API.OperationMethod<
+  ListTagsRequest,
   ListTagsResponse,
   | BadRequestException
   | ForbiddenException
@@ -2418,9 +2399,8 @@ export const listTags: (
 /**
  * Returns a list of all ActiveMQ users.
  */
-export const listUsers: (
-  input: ListUsersRequest,
-) => effect.Effect<
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
   ListUsersResponse,
   | BadRequestException
   | ForbiddenException
@@ -2441,9 +2421,8 @@ export const listUsers: (
 /**
  * Promotes a data replication replica broker to the primary broker role.
  */
-export const promote: (
-  input: PromoteRequest,
-) => effect.Effect<
+export const promote: API.OperationMethod<
+  PromoteRequest,
   PromoteResponse,
   | BadRequestException
   | ForbiddenException
@@ -2464,9 +2443,8 @@ export const promote: (
 /**
  * Reboots a broker. Note: This API is asynchronous.
  */
-export const rebootBroker: (
-  input: RebootBrokerRequest,
-) => effect.Effect<
+export const rebootBroker: API.OperationMethod<
+  RebootBrokerRequest,
   RebootBrokerResponse,
   | BadRequestException
   | ForbiddenException
@@ -2487,9 +2465,8 @@ export const rebootBroker: (
 /**
  * Adds a pending configuration change to a broker.
  */
-export const updateBroker: (
-  input: UpdateBrokerRequest,
-) => effect.Effect<
+export const updateBroker: API.OperationMethod<
+  UpdateBrokerRequest,
   UpdateBrokerResponse,
   | BadRequestException
   | ConflictException
@@ -2512,9 +2489,8 @@ export const updateBroker: (
 /**
  * Updates the specified configuration.
  */
-export const updateConfiguration: (
-  input: UpdateConfigurationRequest,
-) => effect.Effect<
+export const updateConfiguration: API.OperationMethod<
+  UpdateConfigurationRequest,
   UpdateConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -2537,9 +2513,8 @@ export const updateConfiguration: (
 /**
  * Updates the information for an ActiveMQ user.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | BadRequestException
   | ConflictException

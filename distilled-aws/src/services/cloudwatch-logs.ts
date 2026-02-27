@@ -6003,9 +6003,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
  * If you attempt to associate a KMS key with a log group but the KMS key does not exist or the KMS key is disabled, you receive an
  * `InvalidParameterException` error.
  */
-export const associateKmsKey: (
-  input: AssociateKmsKeyRequest,
-) => effect.Effect<
+export const associateKmsKey: API.OperationMethod<
+  AssociateKmsKeyRequest,
   AssociateKmsKeyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6028,9 +6027,8 @@ export const associateKmsKey: (
  * namespace. This enables querying log data using analytics engines that support Iceberg such as
  * Amazon Athena, Amazon Redshift, and Apache Spark.
  */
-export const associateSourceToS3TableIntegration: (
-  input: AssociateSourceToS3TableIntegrationRequest,
-) => effect.Effect<
+export const associateSourceToS3TableIntegration: API.OperationMethod<
+  AssociateSourceToS3TableIntegrationRequest,
   AssociateSourceToS3TableIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6055,9 +6053,8 @@ export const associateSourceToS3TableIntegration: (
  *
  * The task must be in the `PENDING` or `RUNNING` state.
  */
-export const cancelExportTask: (
-  input: CancelExportTaskRequest,
-) => effect.Effect<
+export const cancelExportTask: API.OperationMethod<
+  CancelExportTaskRequest,
   CancelExportTaskResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -6078,9 +6075,8 @@ export const cancelExportTask: (
 /**
  * Cancels an active import task and stops importing data from the CloudTrail Lake Event Data Store.
  */
-export const cancelImportTask: (
-  input: CancelImportTaskRequest,
-) => effect.Effect<
+export const cancelImportTask: API.OperationMethod<
+  CancelImportTaskRequest,
   CancelImportTaskResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -6132,9 +6128,8 @@ export const cancelImportTask: (
  *
  * To update an existing delivery configuration, use UpdateDeliveryConfiguration.
  */
-export const createDelivery: (
-  input: CreateDeliveryRequest,
-) => effect.Effect<
+export const createDelivery: API.OperationMethod<
+  CreateDeliveryRequest,
   CreateDeliveryResponse,
   | AccessDeniedException
   | ConflictException
@@ -6188,9 +6183,8 @@ export const createDelivery: (
  * Time-based sorting on chunks of log data inside an exported file is not guaranteed. You
  * can sort the exported log field data by using Linux utilities.
  */
-export const createExportTask: (
-  input: CreateExportTaskRequest,
-) => effect.Effect<
+export const createExportTask: API.OperationMethod<
+  CreateExportTaskRequest,
   CreateExportTaskResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6249,9 +6243,8 @@ export const createExportTask: (
  *
  * - The data being imported must be within the specified source's retention period.
  */
-export const createImportTask: (
-  input: CreateImportTaskRequest,
-) => effect.Effect<
+export const createImportTask: API.OperationMethod<
+  CreateImportTaskRequest,
   CreateImportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -6305,9 +6298,8 @@ export const createImportTask: (
  * For more information about masking sensitive data, see Help protect sensitive log
  * data with masking.
  */
-export const createLogAnomalyDetector: (
-  input: CreateLogAnomalyDetectorRequest,
-) => effect.Effect<
+export const createLogAnomalyDetector: API.OperationMethod<
+  CreateLogAnomalyDetectorRequest,
   CreateLogAnomalyDetectorResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6360,9 +6352,8 @@ export const createLogAnomalyDetector: (
  * asymmetric KMS key with your log group. For more information, see Using
  * Symmetric and Asymmetric Keys.
  */
-export const createLogGroup: (
-  input: CreateLogGroupRequest,
-) => effect.Effect<
+export const createLogGroup: API.OperationMethod<
+  CreateLogGroupRequest,
   CreateLogGroupResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6399,9 +6390,8 @@ export const createLogGroup: (
  *
  * - Don't use ':' (colon) or '*' (asterisk) characters.
  */
-export const createLogStream: (
-  input: CreateLogStreamRequest,
-) => effect.Effect<
+export const createLogStream: API.OperationMethod<
+  CreateLogStreamRequest,
   CreateLogStreamResponse,
   | InvalidParameterException
   | ResourceAlreadyExistsException
@@ -6425,9 +6415,8 @@ export const createLogStream: (
  * patterns and anomalies in your log data. Query results can be delivered to Amazon S3 for analysis
  * or further processing.
  */
-export const createScheduledQuery: (
-  input: CreateScheduledQueryRequest,
-) => effect.Effect<
+export const createScheduledQuery: API.OperationMethod<
+  CreateScheduledQueryRequest,
   CreateScheduledQueryResponse,
   | AccessDeniedException
   | ConflictException
@@ -6483,9 +6472,8 @@ export const createScheduledQuery: (
  * you deleted the policy will still be used for up to 30 days to improve CloudWatch Logs
  * Insights queries.
  */
-export const deleteAccountPolicy: (
-  input: DeleteAccountPolicyRequest,
-) => effect.Effect<
+export const deleteAccountPolicy: API.OperationMethod<
+  DeleteAccountPolicyRequest,
   DeleteAccountPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6508,9 +6496,8 @@ export const deleteAccountPolicy: (
  *
  * For more information about data protection policies, see PutDataProtectionPolicy.
  */
-export const deleteDataProtectionPolicy: (
-  input: DeleteDataProtectionPolicyRequest,
-) => effect.Effect<
+export const deleteDataProtectionPolicy: API.OperationMethod<
+  DeleteDataProtectionPolicyRequest,
   DeleteDataProtectionPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6535,9 +6522,8 @@ export const deleteDataProtectionPolicy: (
  * source and delivery destination. It does not delete the delivery destination or the delivery
  * source.
  */
-export const deleteDelivery: (
-  input: DeleteDeliveryRequest,
-) => effect.Effect<
+export const deleteDelivery: API.OperationMethod<
+  DeleteDeliveryRequest,
   DeleteDeliveryResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -6568,9 +6554,8 @@ export const deleteDelivery: (
  * To find whether any deliveries are associated with this delivery destination, use the DescribeDeliveries operation and check the `deliveryDestinationArn`
  * field in the results.
  */
-export const deleteDeliveryDestination: (
-  input: DeleteDeliveryDestinationRequest,
-) => effect.Effect<
+export const deleteDeliveryDestination: API.OperationMethod<
+  DeleteDeliveryDestinationRequest,
   DeleteDeliveryDestinationResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -6596,9 +6581,8 @@ export const deleteDeliveryDestination: (
  * Deletes a delivery destination policy. For more information about these policies, see
  * PutDeliveryDestinationPolicy.
  */
-export const deleteDeliveryDestinationPolicy: (
-  input: DeleteDeliveryDestinationPolicyRequest,
-) => effect.Effect<
+export const deleteDeliveryDestinationPolicy: API.OperationMethod<
+  DeleteDeliveryDestinationPolicyRequest,
   DeleteDeliveryDestinationPolicyResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -6625,9 +6609,8 @@ export const deleteDeliveryDestinationPolicy: (
  * find whether any deliveries are associated with this delivery source, use the DescribeDeliveries operation and check the `deliverySourceName` field in
  * the results.
  */
-export const deleteDeliverySource: (
-  input: DeleteDeliverySourceRequest,
-) => effect.Effect<
+export const deleteDeliverySource: API.OperationMethod<
+  DeleteDeliverySourceRequest,
   DeleteDeliverySourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -6654,9 +6637,8 @@ export const deleteDeliverySource: (
  * that publish to it. This operation does not delete the physical resource encapsulated by the
  * destination.
  */
-export const deleteDestination: (
-  input: DeleteDestinationRequest,
-) => effect.Effect<
+export const deleteDestination: API.OperationMethod<
+  DeleteDestinationRequest,
   DeleteDestinationResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6691,9 +6673,8 @@ export const deleteDestination: (
  * facet configurations, and preserves any data source-based account policies that may apply to
  * the log group.
  */
-export const deleteIndexPolicy: (
-  input: DeleteIndexPolicyRequest,
-) => effect.Effect<
+export const deleteIndexPolicy: API.OperationMethod<
+  DeleteIndexPolicyRequest,
   DeleteIndexPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -6721,9 +6702,8 @@ export const deleteIndexPolicy: (
  * dashboards powered by OpenSearch Service will be deleted and the data that was on them will no
  * longer be accessible.
  */
-export const deleteIntegration: (
-  input: DeleteIntegrationRequest,
-) => effect.Effect<
+export const deleteIntegration: API.OperationMethod<
+  DeleteIntegrationRequest,
   DeleteIntegrationResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -6744,9 +6724,8 @@ export const deleteIntegration: (
 /**
  * Deletes the specified CloudWatch Logs anomaly detector.
  */
-export const deleteLogAnomalyDetector: (
-  input: DeleteLogAnomalyDetectorRequest,
-) => effect.Effect<
+export const deleteLogAnomalyDetector: API.OperationMethod<
+  DeleteLogAnomalyDetectorRequest,
   DeleteLogAnomalyDetectorResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6768,9 +6747,8 @@ export const deleteLogAnomalyDetector: (
  * Deletes the specified log group and permanently deletes all the archived log events
  * associated with the log group.
  */
-export const deleteLogGroup: (
-  input: DeleteLogGroupRequest,
-) => effect.Effect<
+export const deleteLogGroup: API.OperationMethod<
+  DeleteLogGroupRequest,
   DeleteLogGroupResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6794,9 +6772,8 @@ export const deleteLogGroup: (
  * Deletes the specified log stream and permanently deletes all the archived log events
  * associated with the log stream.
  */
-export const deleteLogStream: (
-  input: DeleteLogStreamRequest,
-) => effect.Effect<
+export const deleteLogStream: API.OperationMethod<
+  DeleteLogStreamRequest,
   DeleteLogStreamResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6819,9 +6796,8 @@ export const deleteLogStream: (
 /**
  * Deletes the specified metric filter.
  */
-export const deleteMetricFilter: (
-  input: DeleteMetricFilterRequest,
-) => effect.Effect<
+export const deleteMetricFilter: API.OperationMethod<
+  DeleteMetricFilterRequest,
   DeleteMetricFilterResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6848,9 +6824,8 @@ export const deleteMetricFilter: (
  * You must have the `logs:DeleteQueryDefinition` permission to be able to perform
  * this operation.
  */
-export const deleteQueryDefinition: (
-  input: DeleteQueryDefinitionRequest,
-) => effect.Effect<
+export const deleteQueryDefinition: API.OperationMethod<
+  DeleteQueryDefinitionRequest,
   DeleteQueryDefinitionResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -6870,9 +6845,8 @@ export const deleteQueryDefinition: (
  * Deletes a resource policy from this account. This revokes the access of the identities
  * in that policy to put log events to this account.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6896,9 +6870,8 @@ export const deleteResourcePolicy: (
  * Log events do not expire if they belong to log groups without a retention
  * policy.
  */
-export const deleteRetentionPolicy: (
-  input: DeleteRetentionPolicyRequest,
-) => effect.Effect<
+export const deleteRetentionPolicy: API.OperationMethod<
+  DeleteRetentionPolicyRequest,
   DeleteRetentionPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6920,9 +6893,8 @@ export const deleteRetentionPolicy: (
  * Deletes a scheduled query and stops all future executions. This operation also removes any
  * configured actions and associated resources.
  */
-export const deleteScheduledQuery: (
-  input: DeleteScheduledQueryRequest,
-) => effect.Effect<
+export const deleteScheduledQuery: API.OperationMethod<
+  DeleteScheduledQueryRequest,
   DeleteScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6945,9 +6917,8 @@ export const deleteScheduledQuery: (
 /**
  * Deletes the specified subscription filter.
  */
-export const deleteSubscriptionFilter: (
-  input: DeleteSubscriptionFilterRequest,
-) => effect.Effect<
+export const deleteSubscriptionFilter: API.OperationMethod<
+  DeleteSubscriptionFilterRequest,
   DeleteSubscriptionFilterResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -6974,9 +6945,8 @@ export const deleteSubscriptionFilter: (
  * After you delete a transformer, be sure to edit any metric filters or subscription filters
  * that relied on the transformed versions of the log events.
  */
-export const deleteTransformer: (
-  input: DeleteTransformerRequest,
-) => effect.Effect<
+export const deleteTransformer: API.OperationMethod<
+  DeleteTransformerRequest,
   DeleteTransformerResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -7016,9 +6986,8 @@ export const deleteTransformer: (
  * - To see field index policies, you must have the `logs:DescribeIndexPolicies`
  * and `logs:DescribeAccountPolicies` permissions.
  */
-export const describeAccountPolicies: (
-  input: DescribeAccountPoliciesRequest,
-) => effect.Effect<
+export const describeAccountPolicies: API.OperationMethod<
+  DescribeAccountPoliciesRequest,
   DescribeAccountPoliciesResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -7041,18 +7010,16 @@ export const describeAccountPolicies: (
  * delivery sources, delivery destinations, and deliveries. For more information about
  * deliveries, see CreateDelivery.
  */
-export const describeConfigurationTemplates: {
-  (
-    input: DescribeConfigurationTemplatesRequest,
-  ): effect.Effect<
-    DescribeConfigurationTemplatesResponse,
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeConfigurationTemplates: API.OperationMethod<
+  DescribeConfigurationTemplatesRequest,
+  DescribeConfigurationTemplatesResponse,
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeConfigurationTemplatesRequest,
   ) => stream.Stream<
@@ -7106,18 +7073,16 @@ export const describeConfigurationTemplates: {
  * configured as a delivery source. These services are listed in Enable logging from
  * Amazon Web Services services.
  */
-export const describeDeliveries: {
-  (
-    input: DescribeDeliveriesRequest,
-  ): effect.Effect<
-    DescribeDeliveriesResponse,
-    | ServiceQuotaExceededException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDeliveries: API.OperationMethod<
+  DescribeDeliveriesRequest,
+  DescribeDeliveriesResponse,
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDeliveriesRequest,
   ) => stream.Stream<
@@ -7160,18 +7125,16 @@ export const describeDeliveries: {
  * Retrieves a list of the delivery destinations that have been created in the
  * account.
  */
-export const describeDeliveryDestinations: {
-  (
-    input: DescribeDeliveryDestinationsRequest,
-  ): effect.Effect<
-    DescribeDeliveryDestinationsResponse,
-    | ServiceQuotaExceededException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDeliveryDestinations: API.OperationMethod<
+  DescribeDeliveryDestinationsRequest,
+  DescribeDeliveryDestinationsResponse,
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDeliveryDestinationsRequest,
   ) => stream.Stream<
@@ -7213,18 +7176,16 @@ export const describeDeliveryDestinations: {
 /**
  * Retrieves a list of the delivery sources that have been created in the account.
  */
-export const describeDeliverySources: {
-  (
-    input: DescribeDeliverySourcesRequest,
-  ): effect.Effect<
-    DescribeDeliverySourcesResponse,
-    | ServiceQuotaExceededException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDeliverySources: API.OperationMethod<
+  DescribeDeliverySourcesRequest,
+  DescribeDeliverySourcesResponse,
+  | ServiceQuotaExceededException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDeliverySourcesRequest,
   ) => stream.Stream<
@@ -7267,14 +7228,12 @@ export const describeDeliverySources: {
  * Lists all your destinations. The results are ASCII-sorted by destination
  * name.
  */
-export const describeDestinations: {
-  (
-    input: DescribeDestinationsRequest,
-  ): effect.Effect<
-    DescribeDestinationsResponse,
-    InvalidParameterException | ServiceUnavailableException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDestinations: API.OperationMethod<
+  DescribeDestinationsRequest,
+  DescribeDestinationsResponse,
+  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDestinationsRequest,
   ) => stream.Stream<
@@ -7304,9 +7263,8 @@ export const describeDestinations: {
  * Lists the specified export tasks. You can list all your export tasks or filter the
  * results based on task ID or task status.
  */
-export const describeExportTasks: (
-  input: DescribeExportTasksRequest,
-) => effect.Effect<
+export const describeExportTasks: API.OperationMethod<
+  DescribeExportTasksRequest,
   DescribeExportTasksResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7319,9 +7277,8 @@ export const describeExportTasks: (
  * Returns a list of custom and default field indexes which are discovered in log data. For
  * more information about field index policies, see PutIndexPolicy.
  */
-export const describeFieldIndexes: (
-  input: DescribeFieldIndexesRequest,
-) => effect.Effect<
+export const describeFieldIndexes: API.OperationMethod<
+  DescribeFieldIndexesRequest,
   DescribeFieldIndexesResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -7345,9 +7302,8 @@ export const describeFieldIndexes: (
  * Gets detailed information about the individual batches within an import task, including their status and any error messages.
  * For CloudTrail Event Data Store sources, a batch refers to a subset of stored events grouped by their eventTime.
  */
-export const describeImportTaskBatches: (
-  input: DescribeImportTaskBatchesRequest,
-) => effect.Effect<
+export const describeImportTaskBatches: API.OperationMethod<
+  DescribeImportTaskBatchesRequest,
   DescribeImportTaskBatchesResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -7370,9 +7326,8 @@ export const describeImportTaskBatches: (
 /**
  * Lists and describes import tasks, with optional filtering by import status and source ARN.
  */
-export const describeImportTasks: (
-  input: DescribeImportTasksRequest,
-) => effect.Effect<
+export const describeImportTasks: API.OperationMethod<
+  DescribeImportTasksRequest,
   DescribeImportTasksResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -7404,9 +7359,8 @@ export const describeImportTasks: (
  *
  * To find information about only account-level policies, use DescribeAccountPolicies instead.
  */
-export const describeIndexPolicies: (
-  input: DescribeIndexPoliciesRequest,
-) => effect.Effect<
+export const describeIndexPolicies: API.OperationMethod<
+  DescribeIndexPoliciesRequest,
   DescribeIndexPoliciesResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -7445,14 +7399,12 @@ export const describeIndexPolicies: (
  * in a monitoring account and view data from the linked source accounts. For more information,
  * see CloudWatch cross-account observability.
  */
-export const describeLogGroups: {
-  (
-    input: DescribeLogGroupsRequest,
-  ): effect.Effect<
-    DescribeLogGroupsResponse,
-    InvalidParameterException | ServiceUnavailableException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLogGroups: API.OperationMethod<
+  DescribeLogGroupsRequest,
+  DescribeLogGroupsResponse,
+  InvalidParameterException | ServiceUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLogGroupsRequest,
   ) => stream.Stream<
@@ -7493,17 +7445,15 @@ export const describeLogGroups: {
  * in a monitoring account and view data from the linked source accounts. For more information,
  * see CloudWatch cross-account observability.
  */
-export const describeLogStreams: {
-  (
-    input: DescribeLogStreamsRequest,
-  ): effect.Effect<
-    DescribeLogStreamsResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLogStreams: API.OperationMethod<
+  DescribeLogStreamsRequest,
+  DescribeLogStreamsResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLogStreamsRequest,
   ) => stream.Stream<
@@ -7544,17 +7494,15 @@ export const describeLogStreams: {
  * the results by log name, prefix, metric name, or metric namespace. The results are
  * ASCII-sorted by filter name.
  */
-export const describeMetricFilters: {
-  (
-    input: DescribeMetricFiltersRequest,
-  ): effect.Effect<
-    DescribeMetricFiltersResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMetricFilters: API.OperationMethod<
+  DescribeMetricFiltersRequest,
+  DescribeMetricFiltersResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMetricFiltersRequest,
   ) => stream.Stream<
@@ -7600,9 +7548,8 @@ export const describeMetricFilters: {
  * results alongside manually initiated queries, providing visibility into all query activity in
  * your account.
  */
-export const describeQueries: (
-  input: DescribeQueriesRequest,
-) => effect.Effect<
+export const describeQueries: API.OperationMethod<
+  DescribeQueriesRequest,
   DescribeQueriesResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -7626,9 +7573,8 @@ export const describeQueries: (
  * You can use the `queryDefinitionNamePrefix` parameter to limit the results to
  * only the query definitions that have names that start with a certain string.
  */
-export const describeQueryDefinitions: (
-  input: DescribeQueryDefinitionsRequest,
-) => effect.Effect<
+export const describeQueryDefinitions: API.OperationMethod<
+  DescribeQueryDefinitionsRequest,
   DescribeQueryDefinitionsResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7640,9 +7586,8 @@ export const describeQueryDefinitions: (
 /**
  * Lists the resource policies in this account.
  */
-export const describeResourcePolicies: (
-  input: DescribeResourcePoliciesRequest,
-) => effect.Effect<
+export const describeResourcePolicies: API.OperationMethod<
+  DescribeResourcePoliciesRequest,
   DescribeResourcePoliciesResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7656,17 +7601,15 @@ export const describeResourcePolicies: (
  * subscription filters or filter the results by prefix. The results are ASCII-sorted by filter
  * name.
  */
-export const describeSubscriptionFilters: {
-  (
-    input: DescribeSubscriptionFiltersRequest,
-  ): effect.Effect<
-    DescribeSubscriptionFiltersResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSubscriptionFilters: API.OperationMethod<
+  DescribeSubscriptionFiltersRequest,
+  DescribeSubscriptionFiltersResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSubscriptionFiltersRequest,
   ) => stream.Stream<
@@ -7725,9 +7668,8 @@ export const describeSubscriptionFilters: {
  *
  * It can take up to 5 minutes for this operation to take effect.
  */
-export const disassociateKmsKey: (
-  input: DisassociateKmsKeyRequest,
-) => effect.Effect<
+export const disassociateKmsKey: API.OperationMethod<
+  DisassociateKmsKeyRequest,
   DisassociateKmsKeyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -7749,9 +7691,8 @@ export const disassociateKmsKey: (
  * Disassociates a data source from an S3 Table Integration, removing query access and
  * deleting all associated data from the integration.
  */
-export const disassociateSourceFromS3TableIntegration: (
-  input: DisassociateSourceFromS3TableIntegrationRequest,
-) => effect.Effect<
+export const disassociateSourceFromS3TableIntegration: API.OperationMethod<
+  DisassociateSourceFromS3TableIntegrationRequest,
   DisassociateSourceFromS3TableIntegrationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7817,17 +7758,15 @@ export const disassociateSourceFromS3TableIntegration: (
  * versions, you must use a CloudWatch Logs
  * query.
  */
-export const filterLogEvents: {
-  (
-    input: FilterLogEventsRequest,
-  ): effect.Effect<
-    FilterLogEventsResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const filterLogEvents: API.OperationMethod<
+  FilterLogEventsRequest,
+  FilterLogEventsResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: FilterLogEventsRequest,
   ) => stream.Stream<
@@ -7865,9 +7804,8 @@ export const filterLogEvents: {
 /**
  * Returns information about a log group data protection policy.
  */
-export const getDataProtectionPolicy: (
-  input: GetDataProtectionPolicyRequest,
-) => effect.Effect<
+export const getDataProtectionPolicy: API.OperationMethod<
+  GetDataProtectionPolicyRequest,
   GetDataProtectionPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -7902,9 +7840,8 @@ export const getDataProtectionPolicy: (
  * You need to specify the delivery `id` in this operation. You can find the IDs
  * of the deliveries in your account with the DescribeDeliveries operation.
  */
-export const getDelivery: (
-  input: GetDeliveryRequest,
-) => effect.Effect<
+export const getDelivery: API.OperationMethod<
+  GetDeliveryRequest,
   GetDeliveryResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -7927,9 +7864,8 @@ export const getDelivery: (
 /**
  * Retrieves complete information about one delivery destination.
  */
-export const getDeliveryDestination: (
-  input: GetDeliveryDestinationRequest,
-) => effect.Effect<
+export const getDeliveryDestination: API.OperationMethod<
+  GetDeliveryDestinationRequest,
   GetDeliveryDestinationResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -7953,9 +7889,8 @@ export const getDeliveryDestination: (
  * Retrieves the delivery destination policy assigned to the delivery destination that you
  * specify. For more information about delivery destinations and their policies, see PutDeliveryDestinationPolicy.
  */
-export const getDeliveryDestinationPolicy: (
-  input: GetDeliveryDestinationPolicyRequest,
-) => effect.Effect<
+export const getDeliveryDestinationPolicy: API.OperationMethod<
+  GetDeliveryDestinationPolicyRequest,
   GetDeliveryDestinationPolicyResponse,
   | ResourceNotFoundException
   | ServiceUnavailableException
@@ -7974,9 +7909,8 @@ export const getDeliveryDestinationPolicy: (
 /**
  * Retrieves complete information about one delivery source.
  */
-export const getDeliverySource: (
-  input: GetDeliverySourceRequest,
-) => effect.Effect<
+export const getDeliverySource: API.OperationMethod<
+  GetDeliverySourceRequest,
   GetDeliverySourceResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -7999,9 +7933,8 @@ export const getDeliverySource: (
 /**
  * Returns information about one integration between CloudWatch Logs and OpenSearch Service.
  */
-export const getIntegration: (
-  input: GetIntegrationRequest,
-) => effect.Effect<
+export const getIntegration: API.OperationMethod<
+  GetIntegrationRequest,
   GetIntegrationResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -8020,9 +7953,8 @@ export const getIntegration: (
 /**
  * Retrieves information about the log anomaly detector that you specify. The KMS key ARN detected is valid.
  */
-export const getLogAnomalyDetector: (
-  input: GetLogAnomalyDetectorRequest,
-) => effect.Effect<
+export const getLogAnomalyDetector: API.OperationMethod<
+  GetLogAnomalyDetectorRequest,
   GetLogAnomalyDetectorResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -8075,17 +8007,15 @@ export const getLogAnomalyDetector: (
  * must use a CloudWatch Logs
  * query.
  */
-export const getLogEvents: {
-  (
-    input: GetLogEventsRequest,
-  ): effect.Effect<
-    GetLogEventsResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getLogEvents: API.OperationMethod<
+  GetLogEventsRequest,
+  GetLogEventsResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetLogEventsRequest,
   ) => stream.Stream<
@@ -8125,9 +8055,8 @@ export const getLogEvents: {
  * Discovers available fields for a specific data source and type. The response includes any
  * field modifications introduced through pipelines, such as new fields or changed field types.
  */
-export const getLogFields: (
-  input: GetLogFieldsRequest,
-) => effect.Effect<
+export const getLogFields: API.OperationMethod<
+  GetLogFieldsRequest,
   GetLogFieldsResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -8169,9 +8098,8 @@ export const getLogFields: (
  * in a monitoring account and view data from the linked source accounts. For more information,
  * see CloudWatch cross-account observability.
  */
-export const getLogGroupFields: (
-  input: GetLogGroupFieldsRequest,
-) => effect.Effect<
+export const getLogGroupFields: API.OperationMethod<
+  GetLogGroupFieldsRequest,
   GetLogGroupFieldsResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -8202,9 +8130,8 @@ export const getLogGroupFields: (
  * `@ptr.$['input']['message']`, `@ptr.$['AAA']['BBB']['CCC']['DDD']`,
  * `@ptr.$['AAA']`, or any other path matching your log structure.
  */
-export const getLogObject: (
-  input: GetLogObjectRequest,
-) => effect.Effect<
+export const getLogObject: API.OperationMethod<
+  GetLogObjectRequest,
   GetLogObjectResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -8231,9 +8158,8 @@ export const getLogObject: (
  *
  * The full unparsed log event is returned within `@message`.
  */
-export const getLogRecord: (
-  input: GetLogRecordRequest,
-) => effect.Effect<
+export const getLogRecord: API.OperationMethod<
+  GetLogRecordRequest,
   GetLogRecordResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -8277,9 +8203,8 @@ export const getLogRecord: (
  * in a monitoring account to start queries in linked source accounts. For more information, see
  * CloudWatch cross-account observability.
  */
-export const getQueryResults: (
-  input: GetQueryResultsRequest,
-) => effect.Effect<
+export const getQueryResults: API.OperationMethod<
+  GetQueryResultsRequest,
   GetQueryResultsResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -8299,9 +8224,8 @@ export const getQueryResults: (
  * Retrieves details about a specific scheduled query, including its configuration, execution
  * status, and metadata.
  */
-export const getScheduledQuery: (
-  input: GetScheduledQueryRequest,
-) => effect.Effect<
+export const getScheduledQuery: API.OperationMethod<
+  GetScheduledQueryRequest,
   GetScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8325,19 +8249,17 @@ export const getScheduledQuery: (
  * Retrieves the execution history of a scheduled query within a specified time range,
  * including query results and destination processing status.
  */
-export const getScheduledQueryHistory: {
-  (
-    input: GetScheduledQueryHistoryRequest,
-  ): effect.Effect<
-    GetScheduledQueryHistoryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getScheduledQueryHistory: API.OperationMethod<
+  GetScheduledQueryHistoryRequest,
+  GetScheduledQueryHistoryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetScheduledQueryHistoryRequest,
   ) => stream.Stream<
@@ -8385,9 +8307,8 @@ export const getScheduledQueryHistory: {
  * This operation returns data only for transformers created at the log group level. To get
  * information for an account-level transformer, use DescribeAccountPolicies.
  */
-export const getTransformer: (
-  input: GetTransformerRequest,
-) => effect.Effect<
+export const getTransformer: API.OperationMethod<
+  GetTransformerRequest,
   GetTransformerResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -8419,17 +8340,15 @@ export const getTransformer: (
  * results. By default, it returns up to 50 results and includes a token to retrieve more
  * results.
  */
-export const listAggregateLogGroupSummaries: {
-  (
-    input: ListAggregateLogGroupSummariesRequest,
-  ): effect.Effect<
-    ListAggregateLogGroupSummariesResponse,
-    | InvalidParameterException
-    | ServiceUnavailableException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAggregateLogGroupSummaries: API.OperationMethod<
+  ListAggregateLogGroupSummariesRequest,
+  ListAggregateLogGroupSummariesResponse,
+  | InvalidParameterException
+  | ServiceUnavailableException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAggregateLogGroupSummariesRequest,
   ) => stream.Stream<
@@ -8470,18 +8389,16 @@ export const listAggregateLogGroupSummaries: {
  * structure format of each anomaly object that is returned, see the example in this
  * section.
  */
-export const listAnomalies: {
-  (
-    input: ListAnomaliesRequest,
-  ): effect.Effect<
-    ListAnomaliesResponse,
-    | InvalidParameterException
-    | OperationAbortedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnomalies: API.OperationMethod<
+  ListAnomaliesRequest,
+  ListAnomaliesResponse,
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnomaliesRequest,
   ) => stream.Stream<
@@ -8525,9 +8442,8 @@ export const listAnomalies: {
  * account. Currently, only one integration can be created in an account, and this integration
  * must be with OpenSearch Service.
  */
-export const listIntegrations: (
-  input: ListIntegrationsRequest,
-) => effect.Effect<
+export const listIntegrations: API.OperationMethod<
+  ListIntegrationsRequest,
   ListIntegrationsResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8539,18 +8455,16 @@ export const listIntegrations: (
 /**
  * Retrieves a list of the log anomaly detectors in the account.
  */
-export const listLogAnomalyDetectors: {
-  (
-    input: ListLogAnomalyDetectorsRequest,
-  ): effect.Effect<
-    ListLogAnomalyDetectorsResponse,
-    | InvalidParameterException
-    | OperationAbortedException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLogAnomalyDetectors: API.OperationMethod<
+  ListLogAnomalyDetectorsRequest,
+  ListLogAnomalyDetectorsResponse,
+  | InvalidParameterException
+  | OperationAbortedException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLogAnomalyDetectorsRequest,
   ) => stream.Stream<
@@ -8605,9 +8519,8 @@ export const listLogAnomalyDetectors: {
  * This operation is paginated. By default, your first use of this operation returns 50
  * results, and includes a token to use in a subsequent operation to return more results.
  */
-export const listLogGroups: (
-  input: ListLogGroupsRequest,
-) => effect.Effect<
+export const listLogGroups: API.OperationMethod<
+  ListLogGroupsRequest,
   ListLogGroupsResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8625,18 +8538,16 @@ export const listLogGroups: (
  * For more information about field indexes, see Create field indexes
  * to improve query performance and reduce costs.
  */
-export const listLogGroupsForQuery: {
-  (
-    input: ListLogGroupsForQueryRequest,
-  ): effect.Effect<
-    ListLogGroupsForQueryResponse,
-    | AccessDeniedException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLogGroupsForQuery: API.OperationMethod<
+  ListLogGroupsForQueryRequest,
+  ListLogGroupsForQueryResponse,
+  | AccessDeniedException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLogGroupsForQueryRequest,
   ) => stream.Stream<
@@ -8679,18 +8590,16 @@ export const listLogGroupsForQuery: {
  * Lists all scheduled queries in your account and region. You can filter results by state to
  * show only enabled or disabled queries.
  */
-export const listScheduledQueries: {
-  (
-    input: ListScheduledQueriesRequest,
-  ): effect.Effect<
-    ListScheduledQueriesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScheduledQueries: API.OperationMethod<
+  ListScheduledQueriesRequest,
+  ListScheduledQueriesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScheduledQueriesRequest,
   ) => stream.Stream<
@@ -8733,19 +8642,17 @@ export const listScheduledQueries: {
  * Returns a list of data source associations for a specified S3 Table Integration, showing
  * which data sources are currently associated for query access.
  */
-export const listSourcesForS3TableIntegration: {
-  (
-    input: ListSourcesForS3TableIntegrationRequest,
-  ): effect.Effect<
-    ListSourcesForS3TableIntegrationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSourcesForS3TableIntegration: API.OperationMethod<
+  ListSourcesForS3TableIntegrationRequest,
+  ListSourcesForS3TableIntegrationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSourcesForS3TableIntegrationRequest,
   ) => stream.Stream<
@@ -8791,9 +8698,8 @@ export const listSourcesForS3TableIntegration: {
  * Displays the tags associated with a CloudWatch Logs resource. Currently, log groups and
  * destinations support tagging.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -8815,9 +8721,8 @@ export const listTagsForResource: (
  *
  * Lists the tags for the specified log group.
  */
-export const listTagsLogGroup: (
-  input: ListTagsLogGroupRequest,
-) => effect.Effect<
+export const listTagsLogGroup: API.OperationMethod<
+  ListTagsLogGroupRequest,
   ListTagsLogGroupResponse,
   ResourceNotFoundException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9146,9 +9051,8 @@ export const listTagsLogGroup: (
  * log groups matching `"/aws"` is not a subset of the log groups matching
  * `"/aws/lambda"`.
  */
-export const putAccountPolicy: (
-  input: PutAccountPolicyRequest,
-) => effect.Effect<
+export const putAccountPolicy: API.OperationMethod<
+  PutAccountPolicyRequest,
   PutAccountPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -9192,9 +9096,8 @@ export const putAccountPolicy: (
  * account-level data protection policy, then the two policies are cumulative. Any sensitive term
  * specified in either policy is masked.
  */
-export const putDataProtectionPolicy: (
-  input: PutDataProtectionPolicyRequest,
-) => effect.Effect<
+export const putDataProtectionPolicy: API.OperationMethod<
+  PutDataProtectionPolicyRequest,
   PutDataProtectionPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -9250,9 +9153,8 @@ export const putDataProtectionPolicy: (
  * delivery destination parameters are overwritten with the new parameter values that you
  * specify.
  */
-export const putDeliveryDestination: (
-  input: PutDeliveryDestinationRequest,
-) => effect.Effect<
+export const putDeliveryDestination: API.OperationMethod<
+  PutDeliveryDestinationRequest,
   PutDeliveryDestinationResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -9300,9 +9202,8 @@ export const putDeliveryDestination: (
  * delivery, and the other allows delivery to the chosen destination. See the examples for the
  * needed policies.
  */
-export const putDeliveryDestinationPolicy: (
-  input: PutDeliveryDestinationPolicyRequest,
-) => effect.Effect<
+export const putDeliveryDestinationPolicy: API.OperationMethod<
+  PutDeliveryDestinationPolicyRequest,
   PutDeliveryDestinationPolicyResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -9352,9 +9253,8 @@ export const putDeliveryDestinationPolicy: (
  * If you use this operation to update an existing delivery source, all the current delivery
  * source parameters are overwritten with the new parameter values that you specify.
  */
-export const putDeliverySource: (
-  input: PutDeliverySourceRequest,
-) => effect.Effect<
+export const putDeliverySource: API.OperationMethod<
+  PutDeliverySourceRequest,
   PutDeliverySourceResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -9392,9 +9292,8 @@ export const putDeliverySource: (
  * To perform a `PutDestination` operation, you must also have the
  * `iam:PassRole` permission.
  */
-export const putDestination: (
-  input: PutDestinationRequest,
-) => effect.Effect<
+export const putDestination: API.OperationMethod<
+  PutDestinationRequest,
   PutDestinationResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -9416,9 +9315,8 @@ export const putDestination: (
  * policy document that is used to authorize claims to register a subscription filter
  * against a given destination.
  */
-export const putDestinationPolicy: (
-  input: PutDestinationPolicyRequest,
-) => effect.Effect<
+export const putDestinationPolicy: API.OperationMethod<
+  PutDestinationPolicyRequest,
   PutDestinationPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -9497,9 +9395,8 @@ export const putDestinationPolicy: (
  * account-wide field index policy that applies to log groups, but data source-based account
  * policies may still apply.
  */
-export const putIndexPolicy: (
-  input: PutIndexPolicyRequest,
-) => effect.Effect<
+export const putIndexPolicy: API.OperationMethod<
+  PutIndexPolicyRequest,
   PutIndexPolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -9531,9 +9428,8 @@ export const putIndexPolicy: (
  * You can use this operation only to create a new integration. You can't modify an existing
  * integration.
  */
-export const putIntegration: (
-  input: PutIntegrationRequest,
-) => effect.Effect<
+export const putIntegration: API.OperationMethod<
+  PutIntegrationRequest,
   PutIntegrationResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -9594,9 +9490,8 @@ export const putIntegration: (
  * If a call to `PutLogEvents` returns "UnrecognizedClientException" the most
  * likely cause is a non-valid Amazon Web Services access key ID or secret key.
  */
-export const putLogEvents: (
-  input: PutLogEventsRequest,
-) => effect.Effect<
+export const putLogEvents: API.OperationMethod<
+  PutLogEventsRequest,
   PutLogEventsResponse,
   | DataAlreadyAcceptedException
   | InvalidParameterException
@@ -9625,9 +9520,8 @@ export const putLogEvents: (
  *
  * For information about the parameters that are common to all actions, see Common Parameters.
  */
-export const putLogGroupDeletionProtection: (
-  input: PutLogGroupDeletionProtectionRequest,
-) => effect.Effect<
+export const putLogGroupDeletionProtection: API.OperationMethod<
+  PutLogGroupDeletionProtectionRequest,
   PutLogGroupDeletionProtectionResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -9678,9 +9572,8 @@ export const putLogGroupDeletionProtection: (
  * expected. For more information, see
  * Creating a Billing Alarm to Monitor Your Estimated Amazon Web Services Charges.
  */
-export const putMetricFilter: (
-  input: PutMetricFilterRequest,
-) => effect.Effect<
+export const putMetricFilter: API.OperationMethod<
+  PutMetricFilterRequest,
   PutMetricFilterResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -9717,9 +9610,8 @@ export const putMetricFilter: (
  * You must have the `logs:PutQueryDefinition` permission to be able to perform
  * this operation.
  */
-export const putQueryDefinition: (
-  input: PutQueryDefinitionRequest,
-) => effect.Effect<
+export const putQueryDefinition: API.OperationMethod<
+  PutQueryDefinitionRequest,
   PutQueryDefinitionResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -9757,9 +9649,8 @@ export const putQueryDefinition: (
  * enforced. For access control involving these principals, use the IAM
  * policies.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -9802,9 +9693,8 @@ export const putResourcePolicy: (
  * included when you use an API to retrieve the `storedBytes` value to see how many
  * bytes a log group is storing.
  */
-export const putRetentionPolicy: (
-  input: PutRetentionPolicyRequest,
-) => effect.Effect<
+export const putRetentionPolicy: API.OperationMethod<
+  PutRetentionPolicyRequest,
   PutRetentionPolicyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -9857,9 +9747,8 @@ export const putRetentionPolicy: (
  * Lambda function, you must also have the `iam:PassRole`
  * permission.
  */
-export const putSubscriptionFilter: (
-  input: PutSubscriptionFilterRequest,
-) => effect.Effect<
+export const putSubscriptionFilter: API.OperationMethod<
+  PutSubscriptionFilterRequest,
   PutSubscriptionFilterResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -9914,9 +9803,8 @@ export const putSubscriptionFilter: (
  * log group, the log group uses only the log-group level transformer. It ignores the
  * account-level transformer.
  */
-export const putTransformer: (
-  input: PutTransformerRequest,
-) => effect.Effect<
+export const putTransformer: API.OperationMethod<
+  PutTransformerRequest,
   PutTransformerResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -9982,9 +9870,8 @@ export const putTransformer: (
  * For examples of using an SDK to start a Live Tail session, see Start
  * a Live Tail session using an Amazon Web Services SDK.
  */
-export const startLiveTail: (
-  input: StartLiveTailRequest,
-) => effect.Effect<
+export const startLiveTail: API.OperationMethod<
+  StartLiveTailRequest,
   StartLiveTailResponse,
   | AccessDeniedException
   | InvalidOperationException
@@ -10051,9 +9938,8 @@ export const startLiveTail: (
  * You can have up to 30 concurrent CloudWatch Logs insights queries, including queries
  * that have been added to dashboards.
  */
-export const startQuery: (
-  input: StartQueryRequest,
-) => effect.Effect<
+export const startQuery: API.OperationMethod<
+  StartQueryRequest,
   StartQueryResponse,
   | InvalidParameterException
   | LimitExceededException
@@ -10083,9 +9969,8 @@ export const startQuery: (
  * specific execution identified by the query ID, not the scheduled query configuration
  * itself.
  */
-export const stopQuery: (
-  input: StopQueryRequest,
-) => effect.Effect<
+export const stopQuery: API.OperationMethod<
+  StopQueryRequest,
   StopQueryResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -10119,9 +10004,8 @@ export const stopQuery: (
  * `aws:TagKeys` condition keys. For more information about using tags to control
  * access, see Controlling access to Amazon Web Services resources using tags.
  */
-export const tagLogGroup: (
-  input: TagLogGroupRequest,
-) => effect.Effect<
+export const tagLogGroup: API.OperationMethod<
+  TagLogGroupRequest,
   TagLogGroupResponse,
   InvalidParameterException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10149,9 +10033,8 @@ export const tagLogGroup: (
  *
  * You can associate as many as 50 tags with a CloudWatch Logs resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -10173,9 +10056,8 @@ export const tagResource: (
  * Tests the filter pattern of a metric filter against a sample of log event messages. You
  * can use this operation to validate the correctness of a metric filter pattern.
  */
-export const testMetricFilter: (
-  input: TestMetricFilterRequest,
-) => effect.Effect<
+export const testMetricFilter: API.OperationMethod<
+  TestMetricFilterRequest,
   TestMetricFilterResponse,
   InvalidParameterException | ServiceUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10189,9 +10071,8 @@ export const testMetricFilter: (
  * a set of log events to test with. The operation responds with an array that includes the
  * original log events and the transformed versions.
  */
-export const testTransformer: (
-  input: TestTransformerRequest,
-) => effect.Effect<
+export const testTransformer: API.OperationMethod<
+  TestTransformerRequest,
   TestTransformerResponse,
   | InvalidOperationException
   | InvalidParameterException
@@ -10219,9 +10100,8 @@ export const testTransformer: (
  * condition keys `aws:Resource/key-name` and `aws:TagKeys` cannot be used
  * to restrict which tags users can assign.
  */
-export const untagLogGroup: (
-  input: UntagLogGroupRequest,
-) => effect.Effect<
+export const untagLogGroup: API.OperationMethod<
+  UntagLogGroupRequest,
   UntagLogGroupResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10233,9 +10113,8 @@ export const untagLogGroup: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -10265,9 +10144,8 @@ export const untagResource: (
  * operation and specify the anomaly or pattern to stop suppressing, and omit the
  * `suppressionType` and `suppressionPeriod` parameters.
  */
-export const updateAnomaly: (
-  input: UpdateAnomalyRequest,
-) => effect.Effect<
+export const updateAnomaly: API.OperationMethod<
+  UpdateAnomalyRequest,
   UpdateAnomalyResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -10290,9 +10168,8 @@ export const updateAnomaly: (
  * either the S3 path pattern or the format of the delivered logs. You can't use this operation
  * to change the source or destination of the delivery.
  */
-export const updateDeliveryConfiguration: (
-  input: UpdateDeliveryConfigurationRequest,
-) => effect.Effect<
+export const updateDeliveryConfiguration: API.OperationMethod<
+  UpdateDeliveryConfigurationRequest,
   UpdateDeliveryConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -10317,9 +10194,8 @@ export const updateDeliveryConfiguration: (
 /**
  * Updates an existing log anomaly detector.
  */
-export const updateLogAnomalyDetector: (
-  input: UpdateLogAnomalyDetectorRequest,
-) => effect.Effect<
+export const updateLogAnomalyDetector: API.OperationMethod<
+  UpdateLogAnomalyDetectorRequest,
   UpdateLogAnomalyDetectorResponse,
   | InvalidParameterException
   | OperationAbortedException
@@ -10341,9 +10217,8 @@ export const updateLogAnomalyDetector: (
  * Updates an existing scheduled query with new configuration. This operation uses PUT
  * semantics, allowing modification of query parameters, schedule, and destinations.
  */
-export const updateScheduledQuery: (
-  input: UpdateScheduledQueryRequest,
-) => effect.Effect<
+export const updateScheduledQuery: API.OperationMethod<
+  UpdateScheduledQueryRequest,
   UpdateScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException

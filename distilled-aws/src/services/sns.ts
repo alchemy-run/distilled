@@ -1746,9 +1746,8 @@ export class VerificationException extends S.TaggedErrorClass<VerificationExcept
  * the `AddPermission`, `RemovePermission`, and
  * `SetTopicAttributes` actions in your IAM policy.
  */
-export const addPermission: (
-  input: AddPermissionInput,
-) => effect.Effect<
+export const addPermission: API.OperationMethod<
+  AddPermissionInput,
   AddPermissionResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -1778,9 +1777,8 @@ export const addPermission: (
  * To resume sending messages, you can opt in the number by using the
  * `OptInPhoneNumber` action.
  */
-export const checkIfPhoneNumberIsOptedOut: (
-  input: CheckIfPhoneNumberIsOptedOutInput,
-) => effect.Effect<
+export const checkIfPhoneNumberIsOptedOut: API.OperationMethod<
+  CheckIfPhoneNumberIsOptedOutInput,
   CheckIfPhoneNumberIsOptedOutResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -1805,9 +1803,8 @@ export const checkIfPhoneNumberIsOptedOut: (
  * requires an AWS signature only when the `AuthenticateOnUnsubscribe` flag is
  * set to "true".
  */
-export const confirmSubscription: (
-  input: ConfirmSubscriptionInput,
-) => effect.Effect<
+export const confirmSubscription: API.OperationMethod<
+  ConfirmSubscriptionInput,
   ConfirmSubscriptionResponse,
   | AuthorizationErrorException
   | FilterPolicyLimitExceededException
@@ -1871,9 +1868,8 @@ export const confirmSubscription: (
  * You can use the returned `PlatformApplicationArn` as an attribute for the
  * `CreatePlatformEndpoint` action.
  */
-export const createPlatformApplication: (
-  input: CreatePlatformApplicationInput,
-) => effect.Effect<
+export const createPlatformApplication: API.OperationMethod<
+  CreatePlatformApplicationInput,
   CreatePlatformApplicationResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -1906,9 +1902,8 @@ export const createPlatformApplication: (
  * more information, see Creating an Amazon SNS Endpoint for
  * Baidu.
  */
-export const createPlatformEndpoint: (
-  input: CreatePlatformEndpointInput,
-) => effect.Effect<
+export const createPlatformEndpoint: API.OperationMethod<
+  CreatePlatformEndpointInput,
   CreateEndpointResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -1943,9 +1938,8 @@ export const createPlatformEndpoint: (
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const createSMSSandboxPhoneNumber: (
-  input: CreateSMSSandboxPhoneNumberInput,
-) => effect.Effect<
+export const createSMSSandboxPhoneNumber: API.OperationMethod<
+  CreateSMSSandboxPhoneNumberInput,
   CreateSMSSandboxPhoneNumberResult,
   | AuthorizationErrorException
   | InternalErrorException
@@ -1974,9 +1968,8 @@ export const createSMSSandboxPhoneNumber: (
  * idempotent, so if the requester already owns a topic with the specified name, that
  * topic's ARN is returned without creating a new topic.
  */
-export const createTopic: (
-  input: CreateTopicInput,
-) => effect.Effect<
+export const createTopic: API.OperationMethod<
+  CreateTopicInput,
   CreateTopicResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -2012,9 +2005,8 @@ export const createTopic: (
  * When you delete an endpoint that is also subscribed to a topic, then you must also
  * unsubscribe the endpoint from the topic.
  */
-export const deleteEndpoint: (
-  input: DeleteEndpointInput,
-) => effect.Effect<
+export const deleteEndpoint: API.OperationMethod<
+  DeleteEndpointInput,
   DeleteEndpointResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2040,9 +2032,8 @@ export const deleteEndpoint: (
  * Using Amazon SNS
  * Mobile Push Notifications.
  */
-export const deletePlatformApplication: (
-  input: DeletePlatformApplicationInput,
-) => effect.Effect<
+export const deletePlatformApplication: API.OperationMethod<
+  DeletePlatformApplicationInput,
   DeletePlatformApplicationResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2075,9 +2066,8 @@ export const deletePlatformApplication: (
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const deleteSMSSandboxPhoneNumber: (
-  input: DeleteSMSSandboxPhoneNumberInput,
-) => effect.Effect<
+export const deleteSMSSandboxPhoneNumber: API.OperationMethod<
+  DeleteSMSSandboxPhoneNumberInput,
   DeleteSMSSandboxPhoneNumberResult,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2105,9 +2095,8 @@ export const deleteSMSSandboxPhoneNumber: (
  * is idempotent, so deleting a topic that does not exist does not result in an
  * error.
  */
-export const deleteTopic: (
-  input: DeleteTopicInput,
-) => effect.Effect<
+export const deleteTopic: API.OperationMethod<
+  DeleteTopicInput,
   DeleteTopicResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -2141,9 +2130,8 @@ export const deleteTopic: (
  * Retrieves the specified inline `DataProtectionPolicy` document that is
  * stored in the specified Amazon SNS topic.
  */
-export const getDataProtectionPolicy: (
-  input: GetDataProtectionPolicyInput,
-) => effect.Effect<
+export const getDataProtectionPolicy: API.OperationMethod<
+  GetDataProtectionPolicyInput,
   GetDataProtectionPolicyResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2172,9 +2160,8 @@ export const getDataProtectionPolicy: (
  * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
-export const getEndpointAttributes: (
-  input: GetEndpointAttributesInput,
-) => effect.Effect<
+export const getEndpointAttributes: API.OperationMethod<
+  GetEndpointAttributesInput,
   GetEndpointAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2201,9 +2188,8 @@ export const getEndpointAttributes: (
  * notification services, such as APNS and GCM (Firebase Cloud Messaging). For more
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
-export const getPlatformApplicationAttributes: (
-  input: GetPlatformApplicationAttributesInput,
-) => effect.Effect<
+export const getPlatformApplicationAttributes: API.OperationMethod<
+  GetPlatformApplicationAttributesInput,
   GetPlatformApplicationAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2230,9 +2216,8 @@ export const getPlatformApplicationAttributes: (
  *
  * These settings are set with the `SetSMSAttributes` action.
  */
-export const getSMSAttributes: (
-  input: GetSMSAttributesInput,
-) => effect.Effect<
+export const getSMSAttributes: API.OperationMethod<
+  GetSMSAttributesInput,
   GetSMSAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2263,9 +2248,8 @@ export const getSMSAttributes: (
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const getSMSSandboxAccountStatus: (
-  input: GetSMSSandboxAccountStatusInput,
-) => effect.Effect<
+export const getSMSSandboxAccountStatus: API.OperationMethod<
+  GetSMSSandboxAccountStatusInput,
   GetSMSSandboxAccountStatusResult,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2284,9 +2268,8 @@ export const getSMSSandboxAccountStatus: (
 /**
  * Returns all of the properties of a subscription.
  */
-export const getSubscriptionAttributes: (
-  input: GetSubscriptionAttributesInput,
-) => effect.Effect<
+export const getSubscriptionAttributes: API.OperationMethod<
+  GetSubscriptionAttributesInput,
   GetSubscriptionAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2308,9 +2291,8 @@ export const getSubscriptionAttributes: (
  * Returns all of the properties of a topic. Topic properties returned might differ based
  * on the authorization of the user.
  */
-export const getTopicAttributes: (
-  input: GetTopicAttributesInput,
-) => effect.Effect<
+export const getTopicAttributes: API.OperationMethod<
+  GetTopicAttributesInput,
   GetTopicAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2347,20 +2329,18 @@ export const getTopicAttributes: (
  *
  * This action is throttled at 30 transactions per second (TPS).
  */
-export const listEndpointsByPlatformApplication: {
-  (
-    input: ListEndpointsByPlatformApplicationInput,
-  ): effect.Effect<
-    ListEndpointsByPlatformApplicationResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | NotFoundException
-    | RequestLimitExceeded
-    | InvalidClientTokenId
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEndpointsByPlatformApplication: API.OperationMethod<
+  ListEndpointsByPlatformApplicationInput,
+  ListEndpointsByPlatformApplicationResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEndpointsByPlatformApplicationInput,
   ) => stream.Stream<
@@ -2409,19 +2389,17 @@ export const listEndpointsByPlatformApplication: {
  * For more information about origination numbers, see Origination numbers in the Amazon SNS Developer
  * Guide.
  */
-export const listOriginationNumbers: {
-  (
-    input: ListOriginationNumbersRequest,
-  ): effect.Effect<
-    ListOriginationNumbersResult,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ThrottledException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOriginationNumbers: API.OperationMethod<
+  ListOriginationNumbersRequest,
+  ListOriginationNumbersResult,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ThrottledException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOriginationNumbersRequest,
   ) => stream.Stream<
@@ -2474,18 +2452,16 @@ export const listOriginationNumbers: {
  * `NextToken` string received from the previous call. When there are no
  * more records to return, `NextToken` will be null.
  */
-export const listPhoneNumbersOptedOut: {
-  (
-    input: ListPhoneNumbersOptedOutInput,
-  ): effect.Effect<
-    ListPhoneNumbersOptedOutResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPhoneNumbersOptedOut: API.OperationMethod<
+  ListPhoneNumbersOptedOutInput,
+  ListPhoneNumbersOptedOutResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPhoneNumbersOptedOutInput,
   ) => stream.Stream<
@@ -2536,17 +2512,15 @@ export const listPhoneNumbersOptedOut: {
  *
  * This action is throttled at 15 transactions per second (TPS).
  */
-export const listPlatformApplications: {
-  (
-    input: ListPlatformApplicationsInput,
-  ): effect.Effect<
-    ListPlatformApplicationsResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPlatformApplications: API.OperationMethod<
+  ListPlatformApplicationsInput,
+  ListPlatformApplicationsResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlatformApplicationsInput,
   ) => stream.Stream<
@@ -2594,19 +2568,17 @@ export const listPlatformApplications: {
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const listSMSSandboxPhoneNumbers: {
-  (
-    input: ListSMSSandboxPhoneNumbersInput,
-  ): effect.Effect<
-    ListSMSSandboxPhoneNumbersResult,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottledException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSMSSandboxPhoneNumbers: API.OperationMethod<
+  ListSMSSandboxPhoneNumbersInput,
+  ListSMSSandboxPhoneNumbersResult,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottledException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSMSSandboxPhoneNumbersInput,
   ) => stream.Stream<
@@ -2656,17 +2628,15 @@ export const listSMSSandboxPhoneNumbers: {
  *
  * This action is throttled at 30 transactions per second (TPS).
  */
-export const listSubscriptions: {
-  (
-    input: ListSubscriptionsInput,
-  ): effect.Effect<
-    ListSubscriptionsResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSubscriptions: API.OperationMethod<
+  ListSubscriptionsInput,
+  ListSubscriptionsResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubscriptionsInput,
   ) => stream.Stream<
@@ -2709,20 +2679,18 @@ export const listSubscriptions: {
  *
  * This action is throttled at 30 transactions per second (TPS).
  */
-export const listSubscriptionsByTopic: {
-  (
-    input: ListSubscriptionsByTopicInput,
-  ): effect.Effect<
-    ListSubscriptionsByTopicResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | NotFoundException
-    | RequestLimitExceeded
-    | InvalidClientTokenId
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSubscriptionsByTopic: API.OperationMethod<
+  ListSubscriptionsByTopicInput,
+  ListSubscriptionsByTopicResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | NotFoundException
+  | RequestLimitExceeded
+  | InvalidClientTokenId
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubscriptionsByTopicInput,
   ) => stream.Stream<
@@ -2770,9 +2738,8 @@ export const listSubscriptionsByTopic: {
  * List all tags added to the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
  * *Amazon Simple Notification Service Developer Guide*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -2804,17 +2771,15 @@ export const listTagsForResource: (
  *
  * This action is throttled at 30 transactions per second (TPS).
  */
-export const listTopics: {
-  (
-    input: ListTopicsInput,
-  ): effect.Effect<
-    ListTopicsResponse,
-    | AuthorizationErrorException
-    | InternalErrorException
-    | InvalidParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTopics: API.OperationMethod<
+  ListTopicsInput,
+  ListTopicsResponse,
+  | AuthorizationErrorException
+  | InternalErrorException
+  | InvalidParameterException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTopicsInput,
   ) => stream.Stream<
@@ -2855,9 +2820,8 @@ export const listTopics: {
  *
  * You can opt in a phone number only once every 30 days.
  */
-export const optInPhoneNumber: (
-  input: OptInPhoneNumberInput,
-) => effect.Effect<
+export const optInPhoneNumber: API.OperationMethod<
+  OptInPhoneNumberInput,
   OptInPhoneNumberResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -2898,9 +2862,8 @@ export const optInPhoneNumber: (
  * You can publish messages only to topics and endpoints in the same
  * Amazon Web Services Region.
  */
-export const publish: (
-  input: PublishInput,
-) => effect.Effect<
+export const publish: API.OperationMethod<
+  PublishInput,
   PublishResponse,
   | AuthorizationErrorException
   | EndpointDisabledException
@@ -2984,9 +2947,8 @@ export const publish: (
  * When a `messageId` is returned, the batch message is saved, and Amazon SNS
  * immediately delivers the message to subscribers.
  */
-export const publishBatch: (
-  input: PublishBatchInput,
-) => effect.Effect<
+export const publishBatch: API.OperationMethod<
+  PublishBatchInput,
   PublishBatchResponse,
   | AuthorizationErrorException
   | BatchEntryIdsNotDistinctException
@@ -3040,9 +3002,8 @@ export const publishBatch: (
  * Adds or updates an inline policy document that is stored in the specified Amazon SNS
  * topic.
  */
-export const putDataProtectionPolicy: (
-  input: PutDataProtectionPolicyInput,
-) => effect.Effect<
+export const putDataProtectionPolicy: API.OperationMethod<
+  PutDataProtectionPolicyInput,
   PutDataProtectionPolicyResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -3073,9 +3034,8 @@ export const putDataProtectionPolicy: (
  * the `AddPermission`, `RemovePermission`, and
  * `SetTopicAttributes` actions in your IAM policy.
  */
-export const removePermission: (
-  input: RemovePermissionInput,
-) => effect.Effect<
+export const removePermission: API.OperationMethod<
+  RemovePermissionInput,
   RemovePermissionResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -3102,9 +3062,8 @@ export const removePermission: (
  * notification services, such as GCM (Firebase Cloud Messaging) and APNS. For more
  * information, see Using Amazon SNS Mobile Push Notifications.
  */
-export const setEndpointAttributes: (
-  input: SetEndpointAttributesInput,
-) => effect.Effect<
+export const setEndpointAttributes: API.OperationMethod<
+  SetEndpointAttributesInput,
   SetEndpointAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -3133,9 +3092,8 @@ export const setEndpointAttributes: (
  * attributes for message delivery status, see Using Amazon SNS Application Attributes for
  * Message Delivery Status.
  */
-export const setPlatformApplicationAttributes: (
-  input: SetPlatformApplicationAttributesInput,
-) => effect.Effect<
+export const setPlatformApplicationAttributes: API.OperationMethod<
+  SetPlatformApplicationAttributesInput,
   SetPlatformApplicationAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -3170,9 +3128,8 @@ export const setPlatformApplicationAttributes: (
  * (`sns.amazonaws.com`) permission to perform the
  * `s3:ListBucket` action.
  */
-export const setSMSAttributes: (
-  input: SetSMSAttributesInput,
-) => effect.Effect<
+export const setSMSAttributes: API.OperationMethod<
+  SetSMSAttributesInput,
   SetSMSAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -3194,9 +3151,8 @@ export const setSMSAttributes: (
  * Allows a subscription owner to set an attribute of the subscription to a new
  * value.
  */
-export const setSubscriptionAttributes: (
-  input: SetSubscriptionAttributesInput,
-) => effect.Effect<
+export const setSubscriptionAttributes: API.OperationMethod<
+  SetSubscriptionAttributesInput,
   SetSubscriptionAttributesResponse,
   | AuthorizationErrorException
   | FilterPolicyLimitExceededException
@@ -3225,9 +3181,8 @@ export const setSubscriptionAttributes: (
  * the `AddPermission`, `RemovePermission`, and
  * `SetTopicAttributes` actions in your IAM policy.
  */
-export const setTopicAttributes: (
-  input: SetTopicAttributesInput,
-) => effect.Effect<
+export const setTopicAttributes: API.OperationMethod<
+  SetTopicAttributesInput,
   SetTopicAttributesResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -3261,9 +3216,8 @@ export const setTopicAttributes: (
  *
  * This action is throttled at 100 transactions per second (TPS).
  */
-export const subscribe: (
-  input: SubscribeInput,
-) => effect.Effect<
+export const subscribe: API.OperationMethod<
+  SubscribeInput,
   SubscribeResponse,
   | AuthorizationErrorException
   | FilterPolicyLimitExceededException
@@ -3312,9 +3266,8 @@ export const subscribe: (
  * - Tagging actions are limited to 10 TPS per Amazon Web Services account, per Amazon Web Services Region. If
  * your application requires a higher throughput, file a technical support request.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -3352,9 +3305,8 @@ export const tagResource: (
  *
  * This action is throttled at 100 transactions per second (TPS).
  */
-export const unsubscribe: (
-  input: UnsubscribeInput,
-) => effect.Effect<
+export const unsubscribe: API.OperationMethod<
+  UnsubscribeInput,
   UnsubscribeResponse,
   | AuthorizationErrorException
   | InternalErrorException
@@ -3378,9 +3330,8 @@ export const unsubscribe: (
  * Remove tags from the specified Amazon SNS topic. For an overview, see Amazon SNS Tags in the
  * *Amazon SNS Developer Guide*.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AuthorizationErrorException
   | ConcurrentAccessException
@@ -3421,9 +3372,8 @@ export const untagResource: (
  * see SMS sandbox in
  * the *Amazon SNS Developer Guide*.
  */
-export const verifySMSSandboxPhoneNumber: (
-  input: VerifySMSSandboxPhoneNumberInput,
-) => effect.Effect<
+export const verifySMSSandboxPhoneNumber: API.OperationMethod<
+  VerifySMSSandboxPhoneNumberInput,
   VerifySMSSandboxPhoneNumberResult,
   | AuthorizationErrorException
   | InternalErrorException

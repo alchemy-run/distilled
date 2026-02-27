@@ -4221,17 +4221,15 @@ export class InternalServiceException extends S.TaggedErrorClass<InternalService
 /**
  * Returns a list of the configured model algorithm associations in a collaboration.
  */
-export const listCollaborationConfiguredModelAlgorithmAssociations: {
-  (
-    input: ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
-  ): effect.Effect<
-    ListCollaborationConfiguredModelAlgorithmAssociationsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationConfiguredModelAlgorithmAssociations: API.OperationMethod<
+  ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
+  ListCollaborationConfiguredModelAlgorithmAssociationsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationConfiguredModelAlgorithmAssociationsRequest,
   ) => stream.Stream<
@@ -4266,17 +4264,15 @@ export const listCollaborationConfiguredModelAlgorithmAssociations: {
 /**
  * Returns a list of the ML input channels in a collaboration.
  */
-export const listCollaborationMLInputChannels: {
-  (
-    input: ListCollaborationMLInputChannelsRequest,
-  ): effect.Effect<
-    ListCollaborationMLInputChannelsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationMLInputChannels: API.OperationMethod<
+  ListCollaborationMLInputChannelsRequest,
+  ListCollaborationMLInputChannelsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationMLInputChannelsRequest,
   ) => stream.Stream<
@@ -4311,17 +4307,15 @@ export const listCollaborationMLInputChannels: {
 /**
  * Returns a list of the export jobs for a trained model in a collaboration.
  */
-export const listCollaborationTrainedModelExportJobs: {
-  (
-    input: ListCollaborationTrainedModelExportJobsRequest,
-  ): effect.Effect<
-    ListCollaborationTrainedModelExportJobsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationTrainedModelExportJobs: API.OperationMethod<
+  ListCollaborationTrainedModelExportJobsRequest,
+  ListCollaborationTrainedModelExportJobsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationTrainedModelExportJobsRequest,
   ) => stream.Stream<
@@ -4356,17 +4350,15 @@ export const listCollaborationTrainedModelExportJobs: {
 /**
  * Returns a list of trained model inference jobs in a specified collaboration.
  */
-export const listCollaborationTrainedModelInferenceJobs: {
-  (
-    input: ListCollaborationTrainedModelInferenceJobsRequest,
-  ): effect.Effect<
-    ListCollaborationTrainedModelInferenceJobsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationTrainedModelInferenceJobs: API.OperationMethod<
+  ListCollaborationTrainedModelInferenceJobsRequest,
+  ListCollaborationTrainedModelInferenceJobsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationTrainedModelInferenceJobsRequest,
   ) => stream.Stream<
@@ -4401,17 +4393,15 @@ export const listCollaborationTrainedModelInferenceJobs: {
 /**
  * Returns a list of the trained models in a collaboration.
  */
-export const listCollaborationTrainedModels: {
-  (
-    input: ListCollaborationTrainedModelsRequest,
-  ): effect.Effect<
-    ListCollaborationTrainedModelsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCollaborationTrainedModels: API.OperationMethod<
+  ListCollaborationTrainedModelsRequest,
+  ListCollaborationTrainedModelsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCollaborationTrainedModelsRequest,
   ) => stream.Stream<
@@ -4446,9 +4436,8 @@ export const listCollaborationTrainedModels: {
 /**
  * Returns a list of tags for a provided resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4467,9 +4456,8 @@ export const listTagsForResource: (
 /**
  * Adds metadata tags to a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4488,9 +4476,8 @@ export const tagResource: (
 /**
  * Removes metadata tags from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4509,9 +4496,8 @@ export const untagResource: (
 /**
  * Export an audience of a specified size after you have generated an audience.
  */
-export const startAudienceExportJob: (
-  input: StartAudienceExportJobRequest,
-) => effect.Effect<
+export const startAudienceExportJob: API.OperationMethod<
+  StartAudienceExportJobRequest,
   StartAudienceExportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -4534,14 +4520,12 @@ export const startAudienceExportJob: (
 /**
  * Returns a list of the audience export jobs.
  */
-export const listAudienceExportJobs: {
-  (
-    input: ListAudienceExportJobsRequest,
-  ): effect.Effect<
-    ListAudienceExportJobsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAudienceExportJobs: API.OperationMethod<
+  ListAudienceExportJobsRequest,
+  ListAudienceExportJobsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAudienceExportJobsRequest,
   ) => stream.Stream<
@@ -4570,9 +4554,8 @@ export const listAudienceExportJobs: {
 /**
  * Information necessary to start the audience generation job.
  */
-export const startAudienceGenerationJob: (
-  input: StartAudienceGenerationJobRequest,
-) => effect.Effect<
+export const startAudienceGenerationJob: API.OperationMethod<
+  StartAudienceGenerationJobRequest,
   StartAudienceGenerationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -4597,9 +4580,8 @@ export const startAudienceGenerationJob: (
 /**
  * Returns information about an audience generation job.
  */
-export const getAudienceGenerationJob: (
-  input: GetAudienceGenerationJobRequest,
-) => effect.Effect<
+export const getAudienceGenerationJob: API.OperationMethod<
+  GetAudienceGenerationJobRequest,
   GetAudienceGenerationJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4618,9 +4600,8 @@ export const getAudienceGenerationJob: (
 /**
  * Deletes the specified audience generation job, and removes all data associated with the job.
  */
-export const deleteAudienceGenerationJob: (
-  input: DeleteAudienceGenerationJobRequest,
-) => effect.Effect<
+export const deleteAudienceGenerationJob: API.OperationMethod<
+  DeleteAudienceGenerationJobRequest,
   DeleteAudienceGenerationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -4641,14 +4622,12 @@ export const deleteAudienceGenerationJob: (
 /**
  * Returns a list of audience generation jobs.
  */
-export const listAudienceGenerationJobs: {
-  (
-    input: ListAudienceGenerationJobsRequest,
-  ): effect.Effect<
-    ListAudienceGenerationJobsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAudienceGenerationJobs: API.OperationMethod<
+  ListAudienceGenerationJobsRequest,
+  ListAudienceGenerationJobsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAudienceGenerationJobsRequest,
   ) => stream.Stream<
@@ -4677,9 +4656,8 @@ export const listAudienceGenerationJobs: {
 /**
  * Defines the information necessary to create an audience model. An audience model is a machine learning model that Clean Rooms ML trains to measure similarity between users. Clean Rooms ML manages training and storing the audience model. The audience model can be used in multiple calls to the StartAudienceGenerationJob API.
  */
-export const createAudienceModel: (
-  input: CreateAudienceModelRequest,
-) => effect.Effect<
+export const createAudienceModel: API.OperationMethod<
+  CreateAudienceModelRequest,
   CreateAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -4702,9 +4680,8 @@ export const createAudienceModel: (
 /**
  * Returns information about an audience model
  */
-export const getAudienceModel: (
-  input: GetAudienceModelRequest,
-) => effect.Effect<
+export const getAudienceModel: API.OperationMethod<
+  GetAudienceModelRequest,
   GetAudienceModelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4723,9 +4700,8 @@ export const getAudienceModel: (
 /**
  * Specifies an audience model that you want to delete. You can't delete an audience model if there are any configured audience models that depend on the audience model.
  */
-export const deleteAudienceModel: (
-  input: DeleteAudienceModelRequest,
-) => effect.Effect<
+export const deleteAudienceModel: API.OperationMethod<
+  DeleteAudienceModelRequest,
   DeleteAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -4746,14 +4722,12 @@ export const deleteAudienceModel: (
 /**
  * Returns a list of audience models.
  */
-export const listAudienceModels: {
-  (
-    input: ListAudienceModelsRequest,
-  ): effect.Effect<
-    ListAudienceModelsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAudienceModels: API.OperationMethod<
+  ListAudienceModelsRequest,
+  ListAudienceModelsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAudienceModelsRequest,
   ) => stream.Stream<
@@ -4782,9 +4756,8 @@ export const listAudienceModels: {
 /**
  * Defines the information necessary to create a configured audience model.
  */
-export const createConfiguredAudienceModel: (
-  input: CreateConfiguredAudienceModelRequest,
-) => effect.Effect<
+export const createConfiguredAudienceModel: API.OperationMethod<
+  CreateConfiguredAudienceModelRequest,
   CreateConfiguredAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -4807,9 +4780,8 @@ export const createConfiguredAudienceModel: (
 /**
  * Returns information about a specified configured audience model.
  */
-export const getConfiguredAudienceModel: (
-  input: GetConfiguredAudienceModelRequest,
-) => effect.Effect<
+export const getConfiguredAudienceModel: API.OperationMethod<
+  GetConfiguredAudienceModelRequest,
   GetConfiguredAudienceModelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4828,9 +4800,8 @@ export const getConfiguredAudienceModel: (
 /**
  * Provides the information necessary to update a configured audience model. Updates that impact audience generation jobs take effect when a new job starts, but do not impact currently running jobs.
  */
-export const updateConfiguredAudienceModel: (
-  input: UpdateConfiguredAudienceModelRequest,
-) => effect.Effect<
+export const updateConfiguredAudienceModel: API.OperationMethod<
+  UpdateConfiguredAudienceModelRequest,
   UpdateConfiguredAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -4851,9 +4822,8 @@ export const updateConfiguredAudienceModel: (
 /**
  * Deletes the specified configured audience model. You can't delete a configured audience model if there are any lookalike models that use the configured audience model. If you delete a configured audience model, it will be removed from any collaborations that it is associated to.
  */
-export const deleteConfiguredAudienceModel: (
-  input: DeleteConfiguredAudienceModelRequest,
-) => effect.Effect<
+export const deleteConfiguredAudienceModel: API.OperationMethod<
+  DeleteConfiguredAudienceModelRequest,
   DeleteConfiguredAudienceModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -4874,14 +4844,12 @@ export const deleteConfiguredAudienceModel: (
 /**
  * Returns a list of the configured audience models.
  */
-export const listConfiguredAudienceModels: {
-  (
-    input: ListConfiguredAudienceModelsRequest,
-  ): effect.Effect<
-    ListConfiguredAudienceModelsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfiguredAudienceModels: API.OperationMethod<
+  ListConfiguredAudienceModelsRequest,
+  ListConfiguredAudienceModelsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfiguredAudienceModelsRequest,
   ) => stream.Stream<
@@ -4910,9 +4878,8 @@ export const listConfiguredAudienceModels: {
 /**
  * Create or update the resource policy for a configured audience model.
  */
-export const putConfiguredAudienceModelPolicy: (
-  input: PutConfiguredAudienceModelPolicyRequest,
-) => effect.Effect<
+export const putConfiguredAudienceModelPolicy: API.OperationMethod<
+  PutConfiguredAudienceModelPolicyRequest,
   PutConfiguredAudienceModelPolicyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4931,9 +4898,8 @@ export const putConfiguredAudienceModelPolicy: (
 /**
  * Returns information about a configured audience model policy.
  */
-export const getConfiguredAudienceModelPolicy: (
-  input: GetConfiguredAudienceModelPolicyRequest,
-) => effect.Effect<
+export const getConfiguredAudienceModelPolicy: API.OperationMethod<
+  GetConfiguredAudienceModelPolicyRequest,
   GetConfiguredAudienceModelPolicyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4952,9 +4918,8 @@ export const getConfiguredAudienceModelPolicy: (
 /**
  * Deletes the specified configured audience model policy.
  */
-export const deleteConfiguredAudienceModelPolicy: (
-  input: DeleteConfiguredAudienceModelPolicyRequest,
-) => effect.Effect<
+export const deleteConfiguredAudienceModelPolicy: API.OperationMethod<
+  DeleteConfiguredAudienceModelPolicyRequest,
   DeleteConfiguredAudienceModelPolicyResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -4973,9 +4938,8 @@ export const deleteConfiguredAudienceModelPolicy: (
 /**
  * Creates a configured model algorithm using a container image stored in an ECR repository.
  */
-export const createConfiguredModelAlgorithm: (
-  input: CreateConfiguredModelAlgorithmRequest,
-) => effect.Effect<
+export const createConfiguredModelAlgorithm: API.OperationMethod<
+  CreateConfiguredModelAlgorithmRequest,
   CreateConfiguredModelAlgorithmResponse,
   | AccessDeniedException
   | ConflictException
@@ -4996,9 +4960,8 @@ export const createConfiguredModelAlgorithm: (
 /**
  * Returns information about a configured model algorithm.
  */
-export const getConfiguredModelAlgorithm: (
-  input: GetConfiguredModelAlgorithmRequest,
-) => effect.Effect<
+export const getConfiguredModelAlgorithm: API.OperationMethod<
+  GetConfiguredModelAlgorithmRequest,
   GetConfiguredModelAlgorithmResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5017,9 +4980,8 @@ export const getConfiguredModelAlgorithm: (
 /**
  * Deletes a configured model algorithm.
  */
-export const deleteConfiguredModelAlgorithm: (
-  input: DeleteConfiguredModelAlgorithmRequest,
-) => effect.Effect<
+export const deleteConfiguredModelAlgorithm: API.OperationMethod<
+  DeleteConfiguredModelAlgorithmRequest,
   DeleteConfiguredModelAlgorithmResponse,
   | AccessDeniedException
   | ConflictException
@@ -5040,14 +5002,12 @@ export const deleteConfiguredModelAlgorithm: (
 /**
  * Returns a list of configured model algorithms.
  */
-export const listConfiguredModelAlgorithms: {
-  (
-    input: ListConfiguredModelAlgorithmsRequest,
-  ): effect.Effect<
-    ListConfiguredModelAlgorithmsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfiguredModelAlgorithms: API.OperationMethod<
+  ListConfiguredModelAlgorithmsRequest,
+  ListConfiguredModelAlgorithmsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfiguredModelAlgorithmsRequest,
   ) => stream.Stream<
@@ -5076,9 +5036,8 @@ export const listConfiguredModelAlgorithms: {
 /**
  * Associates a configured model algorithm to a collaboration for use by any member of the collaboration.
  */
-export const createConfiguredModelAlgorithmAssociation: (
-  input: CreateConfiguredModelAlgorithmAssociationRequest,
-) => effect.Effect<
+export const createConfiguredModelAlgorithmAssociation: API.OperationMethod<
+  CreateConfiguredModelAlgorithmAssociationRequest,
   CreateConfiguredModelAlgorithmAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5103,9 +5062,8 @@ export const createConfiguredModelAlgorithmAssociation: (
 /**
  * Returns information about a configured model algorithm association.
  */
-export const getConfiguredModelAlgorithmAssociation: (
-  input: GetConfiguredModelAlgorithmAssociationRequest,
-) => effect.Effect<
+export const getConfiguredModelAlgorithmAssociation: API.OperationMethod<
+  GetConfiguredModelAlgorithmAssociationRequest,
   GetConfiguredModelAlgorithmAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5126,9 +5084,8 @@ export const getConfiguredModelAlgorithmAssociation: (
 /**
  * Deletes a configured model algorithm association.
  */
-export const deleteConfiguredModelAlgorithmAssociation: (
-  input: DeleteConfiguredModelAlgorithmAssociationRequest,
-) => effect.Effect<
+export const deleteConfiguredModelAlgorithmAssociation: API.OperationMethod<
+  DeleteConfiguredModelAlgorithmAssociationRequest,
   DeleteConfiguredModelAlgorithmAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5151,17 +5108,15 @@ export const deleteConfiguredModelAlgorithmAssociation: (
 /**
  * Returns a list of configured model algorithm associations.
  */
-export const listConfiguredModelAlgorithmAssociations: {
-  (
-    input: ListConfiguredModelAlgorithmAssociationsRequest,
-  ): effect.Effect<
-    ListConfiguredModelAlgorithmAssociationsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfiguredModelAlgorithmAssociations: API.OperationMethod<
+  ListConfiguredModelAlgorithmAssociationsRequest,
+  ListConfiguredModelAlgorithmAssociationsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfiguredModelAlgorithmAssociationsRequest,
   ) => stream.Stream<
@@ -5196,9 +5151,8 @@ export const listConfiguredModelAlgorithmAssociations: {
 /**
  * Returns information about the configured model algorithm association in a collaboration.
  */
-export const getCollaborationConfiguredModelAlgorithmAssociation: (
-  input: GetCollaborationConfiguredModelAlgorithmAssociationRequest,
-) => effect.Effect<
+export const getCollaborationConfiguredModelAlgorithmAssociation: API.OperationMethod<
+  GetCollaborationConfiguredModelAlgorithmAssociationRequest,
   GetCollaborationConfiguredModelAlgorithmAssociationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5219,9 +5173,8 @@ export const getCollaborationConfiguredModelAlgorithmAssociation: (
 /**
  * Assigns information about an ML configuration.
  */
-export const putMLConfiguration: (
-  input: PutMLConfigurationRequest,
-) => effect.Effect<
+export const putMLConfiguration: API.OperationMethod<
+  PutMLConfigurationRequest,
   PutMLConfigurationResponse,
   | AccessDeniedException
   | ThrottlingException
@@ -5236,9 +5189,8 @@ export const putMLConfiguration: (
 /**
  * Returns information about a specific ML configuration.
  */
-export const getMLConfiguration: (
-  input: GetMLConfigurationRequest,
-) => effect.Effect<
+export const getMLConfiguration: API.OperationMethod<
+  GetMLConfigurationRequest,
   GetMLConfigurationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5259,9 +5211,8 @@ export const getMLConfiguration: (
 /**
  * Deletes a ML modeling configuration.
  */
-export const deleteMLConfiguration: (
-  input: DeleteMLConfigurationRequest,
-) => effect.Effect<
+export const deleteMLConfiguration: API.OperationMethod<
+  DeleteMLConfigurationRequest,
   DeleteMLConfigurationResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5282,9 +5233,8 @@ export const deleteMLConfiguration: (
 /**
  * Provides the information to create an ML input channel. An ML input channel is the result of a query that can be used for ML modeling.
  */
-export const createMLInputChannel: (
-  input: CreateMLInputChannelRequest,
-) => effect.Effect<
+export const createMLInputChannel: API.OperationMethod<
+  CreateMLInputChannelRequest,
   CreateMLInputChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -5309,9 +5259,8 @@ export const createMLInputChannel: (
 /**
  * Returns information about an ML input channel.
  */
-export const getMLInputChannel: (
-  input: GetMLInputChannelRequest,
-) => effect.Effect<
+export const getMLInputChannel: API.OperationMethod<
+  GetMLInputChannelRequest,
   GetMLInputChannelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5332,9 +5281,8 @@ export const getMLInputChannel: (
 /**
  * Provides the information necessary to delete an ML input channel.
  */
-export const deleteMLInputChannelData: (
-  input: DeleteMLInputChannelDataRequest,
-) => effect.Effect<
+export const deleteMLInputChannelData: API.OperationMethod<
+  DeleteMLInputChannelDataRequest,
   DeleteMLInputChannelDataResponse,
   | AccessDeniedException
   | ConflictException
@@ -5357,17 +5305,15 @@ export const deleteMLInputChannelData: (
 /**
  * Returns a list of ML input channels.
  */
-export const listMLInputChannels: {
-  (
-    input: ListMLInputChannelsRequest,
-  ): effect.Effect<
-    ListMLInputChannelsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMLInputChannels: API.OperationMethod<
+  ListMLInputChannelsRequest,
+  ListMLInputChannelsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMLInputChannelsRequest,
   ) => stream.Stream<
@@ -5402,9 +5348,8 @@ export const listMLInputChannels: {
 /**
  * Returns information about a specific ML input channel in a collaboration.
  */
-export const getCollaborationMLInputChannel: (
-  input: GetCollaborationMLInputChannelRequest,
-) => effect.Effect<
+export const getCollaborationMLInputChannel: API.OperationMethod<
+  GetCollaborationMLInputChannelRequest,
   GetCollaborationMLInputChannelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5425,9 +5370,8 @@ export const getCollaborationMLInputChannel: (
 /**
  * Creates a trained model from an associated configured model algorithm using data from any member of the collaboration.
  */
-export const createTrainedModel: (
-  input: CreateTrainedModelRequest,
-) => effect.Effect<
+export const createTrainedModel: API.OperationMethod<
+  CreateTrainedModelRequest,
   CreateTrainedModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -5454,9 +5398,8 @@ export const createTrainedModel: (
 /**
  * Returns information about a trained model.
  */
-export const getTrainedModel: (
-  input: GetTrainedModelRequest,
-) => effect.Effect<
+export const getTrainedModel: API.OperationMethod<
+  GetTrainedModelRequest,
   GetTrainedModelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5477,9 +5420,8 @@ export const getTrainedModel: (
 /**
  * Deletes the model artifacts stored by the service.
  */
-export const deleteTrainedModelOutput: (
-  input: DeleteTrainedModelOutputRequest,
-) => effect.Effect<
+export const deleteTrainedModelOutput: API.OperationMethod<
+  DeleteTrainedModelOutputRequest,
   DeleteTrainedModelOutputResponse,
   | AccessDeniedException
   | ConflictException
@@ -5502,17 +5444,15 @@ export const deleteTrainedModelOutput: (
 /**
  * Returns a list of trained models.
  */
-export const listTrainedModels: {
-  (
-    input: ListTrainedModelsRequest,
-  ): effect.Effect<
-    ListTrainedModelsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrainedModels: API.OperationMethod<
+  ListTrainedModelsRequest,
+  ListTrainedModelsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrainedModelsRequest,
   ) => stream.Stream<
@@ -5547,9 +5487,8 @@ export const listTrainedModels: {
 /**
  * Submits a request to cancel the trained model job.
  */
-export const cancelTrainedModel: (
-  input: CancelTrainedModelRequest,
-) => effect.Effect<
+export const cancelTrainedModel: API.OperationMethod<
+  CancelTrainedModelRequest,
   CancelTrainedModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -5572,9 +5511,8 @@ export const cancelTrainedModel: (
 /**
  * Returns information about a trained model in a collaboration.
  */
-export const getCollaborationTrainedModel: (
-  input: GetCollaborationTrainedModelRequest,
-) => effect.Effect<
+export const getCollaborationTrainedModel: API.OperationMethod<
+  GetCollaborationTrainedModelRequest,
   GetCollaborationTrainedModelResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5595,18 +5533,16 @@ export const getCollaborationTrainedModel: (
 /**
  * Returns a list of trained model versions for a specified trained model. This operation allows you to view all versions of a trained model, including information about their status and creation details. You can use this to track the evolution of your trained models and select specific versions for inference or further training.
  */
-export const listTrainedModelVersions: {
-  (
-    input: ListTrainedModelVersionsRequest,
-  ): effect.Effect<
-    ListTrainedModelVersionsResponse,
-    | AccessDeniedException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrainedModelVersions: API.OperationMethod<
+  ListTrainedModelVersionsRequest,
+  ListTrainedModelVersionsResponse,
+  | AccessDeniedException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrainedModelVersionsRequest,
   ) => stream.Stream<
@@ -5648,9 +5584,8 @@ export const listTrainedModelVersions: {
 /**
  * Provides the information necessary to start a trained model export job.
  */
-export const startTrainedModelExportJob: (
-  input: StartTrainedModelExportJobRequest,
-) => effect.Effect<
+export const startTrainedModelExportJob: API.OperationMethod<
+  StartTrainedModelExportJobRequest,
   StartTrainedModelExportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5673,9 +5608,8 @@ export const startTrainedModelExportJob: (
 /**
  * Defines the information necessary to begin a trained model inference job.
  */
-export const startTrainedModelInferenceJob: (
-  input: StartTrainedModelInferenceJobRequest,
-) => effect.Effect<
+export const startTrainedModelInferenceJob: API.OperationMethod<
+  StartTrainedModelInferenceJobRequest,
   StartTrainedModelInferenceJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5700,9 +5634,8 @@ export const startTrainedModelInferenceJob: (
 /**
  * Returns information about a trained model inference job.
  */
-export const getTrainedModelInferenceJob: (
-  input: GetTrainedModelInferenceJobRequest,
-) => effect.Effect<
+export const getTrainedModelInferenceJob: API.OperationMethod<
+  GetTrainedModelInferenceJobRequest,
   GetTrainedModelInferenceJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5723,17 +5656,15 @@ export const getTrainedModelInferenceJob: (
 /**
  * Returns a list of trained model inference jobs that match the request parameters.
  */
-export const listTrainedModelInferenceJobs: {
-  (
-    input: ListTrainedModelInferenceJobsRequest,
-  ): effect.Effect<
-    ListTrainedModelInferenceJobsResponse,
-    | AccessDeniedException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrainedModelInferenceJobs: API.OperationMethod<
+  ListTrainedModelInferenceJobsRequest,
+  ListTrainedModelInferenceJobsResponse,
+  | AccessDeniedException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrainedModelInferenceJobsRequest,
   ) => stream.Stream<
@@ -5768,9 +5699,8 @@ export const listTrainedModelInferenceJobs: {
 /**
  * Submits a request to cancel a trained model inference job.
  */
-export const cancelTrainedModelInferenceJob: (
-  input: CancelTrainedModelInferenceJobRequest,
-) => effect.Effect<
+export const cancelTrainedModelInferenceJob: API.OperationMethod<
+  CancelTrainedModelInferenceJobRequest,
   CancelTrainedModelInferenceJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -5793,9 +5723,8 @@ export const cancelTrainedModelInferenceJob: (
 /**
  * Defines the information necessary to create a training dataset. In Clean Rooms ML, the `TrainingDataset` is metadata that points to a Glue table, which is read only during `AudienceModel` creation.
  */
-export const createTrainingDataset: (
-  input: CreateTrainingDatasetRequest,
-) => effect.Effect<
+export const createTrainingDataset: API.OperationMethod<
+  CreateTrainingDatasetRequest,
   CreateTrainingDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -5810,9 +5739,8 @@ export const createTrainingDataset: (
 /**
  * Returns information about a training dataset.
  */
-export const getTrainingDataset: (
-  input: GetTrainingDatasetRequest,
-) => effect.Effect<
+export const getTrainingDataset: API.OperationMethod<
+  GetTrainingDatasetRequest,
   GetTrainingDatasetResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -5831,9 +5759,8 @@ export const getTrainingDataset: (
 /**
  * Specifies a training dataset that you want to delete. You can't delete a training dataset if there are any audience models that depend on the training dataset. In Clean Rooms ML, the `TrainingDataset` is metadata that points to a Glue table, which is read only during `AudienceModel` creation. This action deletes the metadata.
  */
-export const deleteTrainingDataset: (
-  input: DeleteTrainingDatasetRequest,
-) => effect.Effect<
+export const deleteTrainingDataset: API.OperationMethod<
+  DeleteTrainingDatasetRequest,
   DeleteTrainingDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -5854,14 +5781,12 @@ export const deleteTrainingDataset: (
 /**
  * Returns a list of training datasets.
  */
-export const listTrainingDatasets: {
-  (
-    input: ListTrainingDatasetsRequest,
-  ): effect.Effect<
-    ListTrainingDatasetsResponse,
-    AccessDeniedException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrainingDatasets: API.OperationMethod<
+  ListTrainingDatasetsRequest,
+  ListTrainingDatasetsResponse,
+  AccessDeniedException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrainingDatasetsRequest,
   ) => stream.Stream<

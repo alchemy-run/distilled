@@ -1848,9 +1848,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 /**
  * Displays the tags associated with a pipe.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   InternalException | NotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1875,9 +1874,8 @@ export const listTagsForResource: (
  *
  * You can associate as many as 50 tags with a pipe.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   InternalException | NotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1889,9 +1887,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified pipes.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   InternalException | NotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1904,9 +1901,8 @@ export const untagResource: (
  * Create a pipe. Amazon EventBridge Pipes connect event sources to targets and reduces
  * the need for specialized knowledge and integration code.
  */
-export const createPipe: (
-  input: CreatePipeRequest,
-) => effect.Effect<
+export const createPipe: API.OperationMethod<
+  CreatePipeRequest,
   CreatePipeResponse,
   | ConflictException
   | InternalException
@@ -1931,9 +1927,8 @@ export const createPipe: (
 /**
  * Get the information about an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
-export const describePipe: (
-  input: DescribePipeRequest,
-) => effect.Effect<
+export const describePipe: API.OperationMethod<
+  DescribePipeRequest,
   DescribePipeResponse,
   | InternalException
   | NotFoundException
@@ -1966,9 +1961,8 @@ export const describePipe: (
  * For more information about pipes, see
  * Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
-export const updatePipe: (
-  input: UpdatePipeRequest,
-) => effect.Effect<
+export const updatePipe: API.OperationMethod<
+  UpdatePipeRequest,
   UpdatePipeResponse,
   | ConflictException
   | InternalException
@@ -1991,9 +1985,8 @@ export const updatePipe: (
 /**
  * Delete an existing pipe. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
-export const deletePipe: (
-  input: DeletePipeRequest,
-) => effect.Effect<
+export const deletePipe: API.OperationMethod<
+  DeletePipeRequest,
   DeletePipeResponse,
   | ConflictException
   | InternalException
@@ -2016,17 +2009,12 @@ export const deletePipe: (
 /**
  * Get the pipes associated with this account. For more information about pipes, see Amazon EventBridge Pipes in the Amazon EventBridge User Guide.
  */
-export const listPipes: {
-  (
-    input: ListPipesRequest,
-  ): effect.Effect<
-    ListPipesResponse,
-    | InternalException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPipes: API.OperationMethod<
+  ListPipesRequest,
+  ListPipesResponse,
+  InternalException | ThrottlingException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPipesRequest,
   ) => stream.Stream<
@@ -2061,9 +2049,8 @@ export const listPipes: {
 /**
  * Start an existing pipe.
  */
-export const startPipe: (
-  input: StartPipeRequest,
-) => effect.Effect<
+export const startPipe: API.OperationMethod<
+  StartPipeRequest,
   StartPipeResponse,
   | ConflictException
   | InternalException
@@ -2086,9 +2073,8 @@ export const startPipe: (
 /**
  * Stop an existing pipe.
  */
-export const stopPipe: (
-  input: StopPipeRequest,
-) => effect.Effect<
+export const stopPipe: API.OperationMethod<
+  StopPipeRequest,
   StopPipeResponse,
   | ConflictException
   | InternalException

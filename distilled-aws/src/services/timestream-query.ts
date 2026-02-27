@@ -1221,9 +1221,8 @@ export class QueryExecutionException extends S.TaggedErrorClass<QueryExecutionEx
  * canceled. See code
  * sample for details.
  */
-export const cancelQuery: (
-  input: CancelQueryRequest,
-) => effect.Effect<
+export const cancelQuery: API.OperationMethod<
+  CancelQueryRequest,
   CancelQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1250,9 +1249,8 @@ export const cancelQuery: (
  * the `NotificationConfiguration` parameter to configure notification for your
  * scheduled query operations.
  */
-export const createScheduledQuery: (
-  input: CreateScheduledQueryRequest,
-) => effect.Effect<
+export const createScheduledQuery: API.OperationMethod<
+  CreateScheduledQueryRequest,
   CreateScheduledQueryResponse,
   | AccessDeniedException
   | ConflictException
@@ -1279,9 +1277,8 @@ export const createScheduledQuery: (
 /**
  * Deletes a given scheduled query. This is an irreversible operation.
  */
-export const deleteScheduledQuery: (
-  input: DeleteScheduledQueryRequest,
-) => effect.Effect<
+export const deleteScheduledQuery: API.OperationMethod<
+  DeleteScheduledQueryRequest,
   DeleteScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1308,9 +1305,8 @@ export const deleteScheduledQuery: (
  *
  * You're charged only for the duration of compute units used for your workloads.
  */
-export const describeAccountSettings: (
-  input: DescribeAccountSettingsRequest,
-) => effect.Effect<
+export const describeAccountSettings: API.OperationMethod<
+  DescribeAccountSettingsRequest,
   DescribeAccountSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1346,9 +1342,8 @@ export const describeAccountSettings: (
  * For detailed information on how and when to use and implement DescribeEndpoints, see
  * The Endpoint Discovery Pattern.
  */
-export const describeEndpoints: (
-  input: DescribeEndpointsRequest,
-) => effect.Effect<
+export const describeEndpoints: API.OperationMethod<
+  DescribeEndpointsRequest,
   DescribeEndpointsResponse,
   | InternalServerException
   | ThrottlingException
@@ -1363,9 +1358,8 @@ export const describeEndpoints: (
 /**
  * Provides detailed information about a scheduled query.
  */
-export const describeScheduledQuery: (
-  input: DescribeScheduledQueryRequest,
-) => effect.Effect<
+export const describeScheduledQuery: API.OperationMethod<
+  DescribeScheduledQueryRequest,
   DescribeScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1392,9 +1386,8 @@ export const describeScheduledQuery: (
  *
  * If you enabled `QueryInsights`, this API also returns insights and metrics related to the query that you executed as part of an Amazon SNS notification. `QueryInsights` helps with performance tuning of your query. For more information about `QueryInsights`, see Using query insights to optimize queries in Amazon Timestream.
  */
-export const executeScheduledQuery: (
-  input: ExecuteScheduledQueryRequest,
-) => effect.Effect<
+export const executeScheduledQuery: API.OperationMethod<
+  ExecuteScheduledQueryRequest,
   ExecuteScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1420,19 +1413,17 @@ export const executeScheduledQuery: (
  * Gets a list of all scheduled queries in the caller's Amazon account and Region.
  * `ListScheduledQueries` is eventually consistent.
  */
-export const listScheduledQueries: {
-  (
-    input: ListScheduledQueriesRequest,
-  ): effect.Effect<
-    ListScheduledQueriesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidEndpointException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScheduledQueries: API.OperationMethod<
+  ListScheduledQueriesRequest,
+  ListScheduledQueriesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidEndpointException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScheduledQueriesRequest,
   ) => stream.Stream<
@@ -1477,18 +1468,16 @@ export const listScheduledQueries: {
 /**
  * List all tags on a Timestream query resource.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | InvalidEndpointException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | InvalidEndpointException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -1532,9 +1521,8 @@ export const listTagsForResource: {
  * by Timestream for later running. Timestream only supports using this operation with
  * `ValidateOnly` set to `true`.
  */
-export const prepareQuery: (
-  input: PrepareQueryRequest,
-) => effect.Effect<
+export const prepareQuery: API.OperationMethod<
+  PrepareQueryRequest,
   PrepareQueryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1586,21 +1574,19 @@ export const prepareQuery: (
  * string in the query requests, the query will fail with an Invalid
  * pagination token error.
  */
-export const query: {
-  (
-    input: QueryRequest,
-  ): effect.Effect<
-    QueryResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | InvalidEndpointException
-    | QueryExecutionException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const query: API.OperationMethod<
+  QueryRequest,
+  QueryResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | InvalidEndpointException
+  | QueryExecutionException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: QueryRequest,
   ) => stream.Stream<
@@ -1653,9 +1639,8 @@ export const query: {
  * user-defined tags so that they appear on the Billing and Cost Management console for
  * cost allocation tracking.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidEndpointException
   | ResourceNotFoundException
@@ -1678,9 +1663,8 @@ export const tagResource: (
 /**
  * Removes the association of tags from a Timestream query resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidEndpointException
   | ResourceNotFoundException
@@ -1703,9 +1687,8 @@ export const untagResource: (
  *
  * After you've transitioned your account to use TCUs for query pricing, you can't transition to using bytes scanned for query pricing.
  */
-export const updateAccountSettings: (
-  input: UpdateAccountSettingsRequest,
-) => effect.Effect<
+export const updateAccountSettings: API.OperationMethod<
+  UpdateAccountSettingsRequest,
   UpdateAccountSettingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1728,9 +1711,8 @@ export const updateAccountSettings: (
 /**
  * Update a scheduled query.
  */
-export const updateScheduledQuery: (
-  input: UpdateScheduledQueryRequest,
-) => effect.Effect<
+export const updateScheduledQuery: API.OperationMethod<
+  UpdateScheduledQueryRequest,
   UpdateScheduledQueryResponse,
   | AccessDeniedException
   | InternalServerException

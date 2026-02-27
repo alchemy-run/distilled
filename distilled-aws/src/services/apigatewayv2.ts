@@ -7394,9 +7394,8 @@ export class AccessDeniedException extends S.TaggedErrorClass<AccessDeniedExcept
 /**
  * Creates an Api resource.
  */
-export const createApi: (
-  input: CreateApiRequest,
-) => effect.Effect<
+export const createApi: API.OperationMethod<
+  CreateApiRequest,
   CreateApiResponse,
   | BadRequestException
   | ConflictException
@@ -7417,9 +7416,8 @@ export const createApi: (
 /**
  * Creates an API mapping.
  */
-export const createApiMapping: (
-  input: CreateApiMappingRequest,
-) => effect.Effect<
+export const createApiMapping: API.OperationMethod<
+  CreateApiMappingRequest,
   CreateApiMappingResponse,
   | BadRequestException
   | ConflictException
@@ -7440,9 +7438,8 @@ export const createApiMapping: (
 /**
  * Creates an Authorizer for an API.
  */
-export const createAuthorizer: (
-  input: CreateAuthorizerRequest,
-) => effect.Effect<
+export const createAuthorizer: API.OperationMethod<
+  CreateAuthorizerRequest,
   CreateAuthorizerResponse,
   | BadRequestException
   | ConflictException
@@ -7463,9 +7460,8 @@ export const createAuthorizer: (
 /**
  * Creates a Deployment for an API.
  */
-export const createDeployment: (
-  input: CreateDeploymentRequest,
-) => effect.Effect<
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentRequest,
   CreateDeploymentResponse,
   | BadRequestException
   | ConflictException
@@ -7486,9 +7482,8 @@ export const createDeployment: (
 /**
  * Creates a domain name.
  */
-export const createDomainName: (
-  input: CreateDomainNameRequest,
-) => effect.Effect<
+export const createDomainName: API.OperationMethod<
+  CreateDomainNameRequest,
   CreateDomainNameResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7511,9 +7506,8 @@ export const createDomainName: (
 /**
  * Creates an Integration.
  */
-export const createIntegration: (
-  input: CreateIntegrationRequest,
-) => effect.Effect<
+export const createIntegration: API.OperationMethod<
+  CreateIntegrationRequest,
   CreateIntegrationResult,
   | BadRequestException
   | ConflictException
@@ -7534,9 +7528,8 @@ export const createIntegration: (
 /**
  * Creates an IntegrationResponses.
  */
-export const createIntegrationResponse: (
-  input: CreateIntegrationResponseRequest,
-) => effect.Effect<
+export const createIntegrationResponse: API.OperationMethod<
+  CreateIntegrationResponseRequest,
   CreateIntegrationResponseResponse,
   | BadRequestException
   | ConflictException
@@ -7557,9 +7550,8 @@ export const createIntegrationResponse: (
 /**
  * Creates a Model for an API.
  */
-export const createModel: (
-  input: CreateModelRequest,
-) => effect.Effect<
+export const createModel: API.OperationMethod<
+  CreateModelRequest,
   CreateModelResponse,
   | BadRequestException
   | ConflictException
@@ -7580,9 +7572,8 @@ export const createModel: (
 /**
  * Creates a portal.
  */
-export const createPortal: (
-  input: CreatePortalRequest,
-) => effect.Effect<
+export const createPortal: API.OperationMethod<
+  CreatePortalRequest,
   CreatePortalResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7601,9 +7592,8 @@ export const createPortal: (
 /**
  * Creates a new portal product.
  */
-export const createPortalProduct: (
-  input: CreatePortalProductRequest,
-) => effect.Effect<
+export const createPortalProduct: API.OperationMethod<
+  CreatePortalProductRequest,
   CreatePortalProductResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7622,9 +7612,8 @@ export const createPortalProduct: (
 /**
  * Creates a new product page for a portal product.
  */
-export const createProductPage: (
-  input: CreateProductPageRequest,
-) => effect.Effect<
+export const createProductPage: API.OperationMethod<
+  CreateProductPageRequest,
   CreateProductPageResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7645,9 +7634,8 @@ export const createProductPage: (
 /**
  * Creates a product REST endpoint page for a portal product.
  */
-export const createProductRestEndpointPage: (
-  input: CreateProductRestEndpointPageRequest,
-) => effect.Effect<
+export const createProductRestEndpointPage: API.OperationMethod<
+  CreateProductRestEndpointPageRequest,
   CreateProductRestEndpointPageResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7668,9 +7656,8 @@ export const createProductRestEndpointPage: (
 /**
  * Creates a Route for an API.
  */
-export const createRoute: (
-  input: CreateRouteRequest,
-) => effect.Effect<
+export const createRoute: API.OperationMethod<
+  CreateRouteRequest,
   CreateRouteResult,
   | BadRequestException
   | ConflictException
@@ -7691,9 +7678,8 @@ export const createRoute: (
 /**
  * Creates a RouteResponse for a Route.
  */
-export const createRouteResponse: (
-  input: CreateRouteResponseRequest,
-) => effect.Effect<
+export const createRouteResponse: API.OperationMethod<
+  CreateRouteResponseRequest,
   CreateRouteResponseResponse,
   | BadRequestException
   | ConflictException
@@ -7714,9 +7700,8 @@ export const createRouteResponse: (
 /**
  * Creates a RoutingRule.
  */
-export const createRoutingRule: (
-  input: CreateRoutingRuleRequest,
-) => effect.Effect<
+export const createRoutingRule: API.OperationMethod<
+  CreateRoutingRuleRequest,
   CreateRoutingRuleResponse,
   | BadRequestException
   | ConflictException
@@ -7737,9 +7722,8 @@ export const createRoutingRule: (
 /**
  * Creates a Stage for an API.
  */
-export const createStage: (
-  input: CreateStageRequest,
-) => effect.Effect<
+export const createStage: API.OperationMethod<
+  CreateStageRequest,
   CreateStageResponse,
   | BadRequestException
   | ConflictException
@@ -7760,9 +7744,8 @@ export const createStage: (
 /**
  * Creates a VPC link.
  */
-export const createVpcLink: (
-  input: CreateVpcLinkRequest,
-) => effect.Effect<
+export const createVpcLink: API.OperationMethod<
+  CreateVpcLinkRequest,
   CreateVpcLinkResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7774,9 +7757,8 @@ export const createVpcLink: (
 /**
  * Deletes the AccessLogSettings for a Stage. To disable access logging for a Stage, delete its AccessLogSettings.
  */
-export const deleteAccessLogSettings: (
-  input: DeleteAccessLogSettingsRequest,
-) => effect.Effect<
+export const deleteAccessLogSettings: API.OperationMethod<
+  DeleteAccessLogSettingsRequest,
   DeleteAccessLogSettingsResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7788,9 +7770,8 @@ export const deleteAccessLogSettings: (
 /**
  * Deletes an Api resource.
  */
-export const deleteApi: (
-  input: DeleteApiRequest,
-) => effect.Effect<
+export const deleteApi: API.OperationMethod<
+  DeleteApiRequest,
   DeleteApiResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7802,9 +7783,8 @@ export const deleteApi: (
 /**
  * Deletes an API mapping.
  */
-export const deleteApiMapping: (
-  input: DeleteApiMappingRequest,
-) => effect.Effect<
+export const deleteApiMapping: API.OperationMethod<
+  DeleteApiMappingRequest,
   DeleteApiMappingResponse,
   | BadRequestException
   | NotFoundException
@@ -7819,9 +7799,8 @@ export const deleteApiMapping: (
 /**
  * Deletes an Authorizer.
  */
-export const deleteAuthorizer: (
-  input: DeleteAuthorizerRequest,
-) => effect.Effect<
+export const deleteAuthorizer: API.OperationMethod<
+  DeleteAuthorizerRequest,
   DeleteAuthorizerResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7833,9 +7812,8 @@ export const deleteAuthorizer: (
 /**
  * Deletes a CORS configuration.
  */
-export const deleteCorsConfiguration: (
-  input: DeleteCorsConfigurationRequest,
-) => effect.Effect<
+export const deleteCorsConfiguration: API.OperationMethod<
+  DeleteCorsConfigurationRequest,
   DeleteCorsConfigurationResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7847,9 +7825,8 @@ export const deleteCorsConfiguration: (
 /**
  * Deletes a Deployment.
  */
-export const deleteDeployment: (
-  input: DeleteDeploymentRequest,
-) => effect.Effect<
+export const deleteDeployment: API.OperationMethod<
+  DeleteDeploymentRequest,
   DeleteDeploymentResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7861,9 +7838,8 @@ export const deleteDeployment: (
 /**
  * Deletes a domain name.
  */
-export const deleteDomainName: (
-  input: DeleteDomainNameRequest,
-) => effect.Effect<
+export const deleteDomainName: API.OperationMethod<
+  DeleteDomainNameRequest,
   DeleteDomainNameResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7875,9 +7851,8 @@ export const deleteDomainName: (
 /**
  * Deletes an Integration.
  */
-export const deleteIntegration: (
-  input: DeleteIntegrationRequest,
-) => effect.Effect<
+export const deleteIntegration: API.OperationMethod<
+  DeleteIntegrationRequest,
   DeleteIntegrationResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7889,9 +7864,8 @@ export const deleteIntegration: (
 /**
  * Deletes an IntegrationResponses.
  */
-export const deleteIntegrationResponse: (
-  input: DeleteIntegrationResponseRequest,
-) => effect.Effect<
+export const deleteIntegrationResponse: API.OperationMethod<
+  DeleteIntegrationResponseRequest,
   DeleteIntegrationResponseResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7903,9 +7877,8 @@ export const deleteIntegrationResponse: (
 /**
  * Deletes a Model.
  */
-export const deleteModel: (
-  input: DeleteModelRequest,
-) => effect.Effect<
+export const deleteModel: API.OperationMethod<
+  DeleteModelRequest,
   DeleteModelResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -7917,9 +7890,8 @@ export const deleteModel: (
 /**
  * Deletes a portal.
  */
-export const deletePortal: (
-  input: DeletePortalRequest,
-) => effect.Effect<
+export const deletePortal: API.OperationMethod<
+  DeletePortalRequest,
   DeletePortalResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7938,9 +7910,8 @@ export const deletePortal: (
 /**
  * Deletes a portal product.
  */
-export const deletePortalProduct: (
-  input: DeletePortalProductRequest,
-) => effect.Effect<
+export const deletePortalProduct: API.OperationMethod<
+  DeletePortalProductRequest,
   DeletePortalProductResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7961,9 +7932,8 @@ export const deletePortalProduct: (
 /**
  * Deletes the sharing policy for a portal product.
  */
-export const deletePortalProductSharingPolicy: (
-  input: DeletePortalProductSharingPolicyRequest,
-) => effect.Effect<
+export const deletePortalProductSharingPolicy: API.OperationMethod<
+  DeletePortalProductSharingPolicyRequest,
   DeletePortalProductSharingPolicyResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7984,9 +7954,8 @@ export const deletePortalProductSharingPolicy: (
 /**
  * Deletes a product page of a portal product.
  */
-export const deleteProductPage: (
-  input: DeleteProductPageRequest,
-) => effect.Effect<
+export const deleteProductPage: API.OperationMethod<
+  DeleteProductPageRequest,
   DeleteProductPageResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8007,9 +7976,8 @@ export const deleteProductPage: (
 /**
  * Deletes a product REST endpoint page.
  */
-export const deleteProductRestEndpointPage: (
-  input: DeleteProductRestEndpointPageRequest,
-) => effect.Effect<
+export const deleteProductRestEndpointPage: API.OperationMethod<
+  DeleteProductRestEndpointPageRequest,
   DeleteProductRestEndpointPageResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8030,9 +7998,8 @@ export const deleteProductRestEndpointPage: (
 /**
  * Deletes a Route.
  */
-export const deleteRoute: (
-  input: DeleteRouteRequest,
-) => effect.Effect<
+export const deleteRoute: API.OperationMethod<
+  DeleteRouteRequest,
   DeleteRouteResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8044,9 +8011,8 @@ export const deleteRoute: (
 /**
  * Deletes a route request parameter. Supported only for WebSocket APIs.
  */
-export const deleteRouteRequestParameter: (
-  input: DeleteRouteRequestParameterRequest,
-) => effect.Effect<
+export const deleteRouteRequestParameter: API.OperationMethod<
+  DeleteRouteRequestParameterRequest,
   DeleteRouteRequestParameterResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8058,9 +8024,8 @@ export const deleteRouteRequestParameter: (
 /**
  * Deletes a RouteResponse.
  */
-export const deleteRouteResponse: (
-  input: DeleteRouteResponseRequest,
-) => effect.Effect<
+export const deleteRouteResponse: API.OperationMethod<
+  DeleteRouteResponseRequest,
   DeleteRouteResponseResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8072,9 +8037,8 @@ export const deleteRouteResponse: (
 /**
  * Deletes the RouteSettings for a stage.
  */
-export const deleteRouteSettings: (
-  input: DeleteRouteSettingsRequest,
-) => effect.Effect<
+export const deleteRouteSettings: API.OperationMethod<
+  DeleteRouteSettingsRequest,
   DeleteRouteSettingsResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8086,9 +8050,8 @@ export const deleteRouteSettings: (
 /**
  * Deletes a routing rule.
  */
-export const deleteRoutingRule: (
-  input: DeleteRoutingRuleRequest,
-) => effect.Effect<
+export const deleteRoutingRule: API.OperationMethod<
+  DeleteRoutingRuleRequest,
   DeleteRoutingRuleResponse,
   | BadRequestException
   | NotFoundException
@@ -8103,9 +8066,8 @@ export const deleteRoutingRule: (
 /**
  * Deletes a Stage.
  */
-export const deleteStage: (
-  input: DeleteStageRequest,
-) => effect.Effect<
+export const deleteStage: API.OperationMethod<
+  DeleteStageRequest,
   DeleteStageResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8117,9 +8079,8 @@ export const deleteStage: (
 /**
  * Deletes a VPC link.
  */
-export const deleteVpcLink: (
-  input: DeleteVpcLinkRequest,
-) => effect.Effect<
+export const deleteVpcLink: API.OperationMethod<
+  DeleteVpcLinkRequest,
   DeleteVpcLinkResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8131,9 +8092,8 @@ export const deleteVpcLink: (
 /**
  * Deletes the publication of a portal portal.
  */
-export const disablePortal: (
-  input: DisablePortalRequest,
-) => effect.Effect<
+export const disablePortal: API.OperationMethod<
+  DisablePortalRequest,
   DisablePortalResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8156,9 +8116,8 @@ export const disablePortal: (
 /**
  *
  */
-export const exportApi: (
-  input: ExportApiRequest,
-) => effect.Effect<
+export const exportApi: API.OperationMethod<
+  ExportApiRequest,
   ExportApiResponse,
   | BadRequestException
   | NotFoundException
@@ -8173,9 +8132,8 @@ export const exportApi: (
 /**
  * Gets an Api resource.
  */
-export const getApi: (
-  input: GetApiRequest,
-) => effect.Effect<
+export const getApi: API.OperationMethod<
+  GetApiRequest,
   GetApiResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8187,9 +8145,8 @@ export const getApi: (
 /**
  * Gets an API mapping.
  */
-export const getApiMapping: (
-  input: GetApiMappingRequest,
-) => effect.Effect<
+export const getApiMapping: API.OperationMethod<
+  GetApiMappingRequest,
   GetApiMappingResponse,
   | BadRequestException
   | NotFoundException
@@ -8204,9 +8161,8 @@ export const getApiMapping: (
 /**
  * Gets API mappings.
  */
-export const getApiMappings: (
-  input: GetApiMappingsRequest,
-) => effect.Effect<
+export const getApiMappings: API.OperationMethod<
+  GetApiMappingsRequest,
   GetApiMappingsResponse,
   | BadRequestException
   | NotFoundException
@@ -8221,9 +8177,8 @@ export const getApiMappings: (
 /**
  * Gets a collection of Api resources.
  */
-export const getApis: (
-  input: GetApisRequest,
-) => effect.Effect<
+export const getApis: API.OperationMethod<
+  GetApisRequest,
   GetApisResponse,
   | BadRequestException
   | NotFoundException
@@ -8238,9 +8193,8 @@ export const getApis: (
 /**
  * Gets an Authorizer.
  */
-export const getAuthorizer: (
-  input: GetAuthorizerRequest,
-) => effect.Effect<
+export const getAuthorizer: API.OperationMethod<
+  GetAuthorizerRequest,
   GetAuthorizerResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8252,9 +8206,8 @@ export const getAuthorizer: (
 /**
  * Gets the Authorizers for an API.
  */
-export const getAuthorizers: (
-  input: GetAuthorizersRequest,
-) => effect.Effect<
+export const getAuthorizers: API.OperationMethod<
+  GetAuthorizersRequest,
   GetAuthorizersResponse,
   | BadRequestException
   | NotFoundException
@@ -8269,9 +8222,8 @@ export const getAuthorizers: (
 /**
  * Gets a Deployment.
  */
-export const getDeployment: (
-  input: GetDeploymentRequest,
-) => effect.Effect<
+export const getDeployment: API.OperationMethod<
+  GetDeploymentRequest,
   GetDeploymentResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8283,9 +8235,8 @@ export const getDeployment: (
 /**
  * Gets the Deployments for an API.
  */
-export const getDeployments: (
-  input: GetDeploymentsRequest,
-) => effect.Effect<
+export const getDeployments: API.OperationMethod<
+  GetDeploymentsRequest,
   GetDeploymentsResponse,
   | BadRequestException
   | NotFoundException
@@ -8300,9 +8251,8 @@ export const getDeployments: (
 /**
  * Gets a domain name.
  */
-export const getDomainName: (
-  input: GetDomainNameRequest,
-) => effect.Effect<
+export const getDomainName: API.OperationMethod<
+  GetDomainNameRequest,
   GetDomainNameResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8314,9 +8264,8 @@ export const getDomainName: (
 /**
  * Gets the domain names for an AWS account.
  */
-export const getDomainNames: (
-  input: GetDomainNamesRequest,
-) => effect.Effect<
+export const getDomainNames: API.OperationMethod<
+  GetDomainNamesRequest,
   GetDomainNamesResponse,
   | BadRequestException
   | NotFoundException
@@ -8331,9 +8280,8 @@ export const getDomainNames: (
 /**
  * Gets an Integration.
  */
-export const getIntegration: (
-  input: GetIntegrationRequest,
-) => effect.Effect<
+export const getIntegration: API.OperationMethod<
+  GetIntegrationRequest,
   GetIntegrationResult,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8345,9 +8293,8 @@ export const getIntegration: (
 /**
  * Gets an IntegrationResponses.
  */
-export const getIntegrationResponse: (
-  input: GetIntegrationResponseRequest,
-) => effect.Effect<
+export const getIntegrationResponse: API.OperationMethod<
+  GetIntegrationResponseRequest,
   GetIntegrationResponseResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8359,9 +8306,8 @@ export const getIntegrationResponse: (
 /**
  * Gets the IntegrationResponses for an Integration.
  */
-export const getIntegrationResponses: (
-  input: GetIntegrationResponsesRequest,
-) => effect.Effect<
+export const getIntegrationResponses: API.OperationMethod<
+  GetIntegrationResponsesRequest,
   GetIntegrationResponsesResponse,
   | BadRequestException
   | NotFoundException
@@ -8376,9 +8322,8 @@ export const getIntegrationResponses: (
 /**
  * Gets the Integrations for an API.
  */
-export const getIntegrations: (
-  input: GetIntegrationsRequest,
-) => effect.Effect<
+export const getIntegrations: API.OperationMethod<
+  GetIntegrationsRequest,
   GetIntegrationsResponse,
   | BadRequestException
   | NotFoundException
@@ -8393,9 +8338,8 @@ export const getIntegrations: (
 /**
  * Gets a Model.
  */
-export const getModel: (
-  input: GetModelRequest,
-) => effect.Effect<
+export const getModel: API.OperationMethod<
+  GetModelRequest,
   GetModelResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8407,9 +8351,8 @@ export const getModel: (
 /**
  * Gets the Models for an API.
  */
-export const getModels: (
-  input: GetModelsRequest,
-) => effect.Effect<
+export const getModels: API.OperationMethod<
+  GetModelsRequest,
   GetModelsResponse,
   | BadRequestException
   | NotFoundException
@@ -8424,9 +8367,8 @@ export const getModels: (
 /**
  * Gets a model template.
  */
-export const getModelTemplate: (
-  input: GetModelTemplateRequest,
-) => effect.Effect<
+export const getModelTemplate: API.OperationMethod<
+  GetModelTemplateRequest,
   GetModelTemplateResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8438,9 +8380,8 @@ export const getModelTemplate: (
 /**
  * Gets a portal.
  */
-export const getPortal: (
-  input: GetPortalRequest,
-) => effect.Effect<
+export const getPortal: API.OperationMethod<
+  GetPortalRequest,
   GetPortalResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8461,9 +8402,8 @@ export const getPortal: (
 /**
  * Gets a portal product.
  */
-export const getPortalProduct: (
-  input: GetPortalProductRequest,
-) => effect.Effect<
+export const getPortalProduct: API.OperationMethod<
+  GetPortalProductRequest,
   GetPortalProductResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8484,9 +8424,8 @@ export const getPortalProduct: (
 /**
  * Gets the sharing policy for a portal product.
  */
-export const getPortalProductSharingPolicy: (
-  input: GetPortalProductSharingPolicyRequest,
-) => effect.Effect<
+export const getPortalProductSharingPolicy: API.OperationMethod<
+  GetPortalProductSharingPolicyRequest,
   GetPortalProductSharingPolicyResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8507,9 +8446,8 @@ export const getPortalProductSharingPolicy: (
 /**
  * Gets a product page of a portal product.
  */
-export const getProductPage: (
-  input: GetProductPageRequest,
-) => effect.Effect<
+export const getProductPage: API.OperationMethod<
+  GetProductPageRequest,
   GetProductPageResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8530,9 +8468,8 @@ export const getProductPage: (
 /**
  * Gets a product REST endpoint page.
  */
-export const getProductRestEndpointPage: (
-  input: GetProductRestEndpointPageRequest,
-) => effect.Effect<
+export const getProductRestEndpointPage: API.OperationMethod<
+  GetProductRestEndpointPageRequest,
   GetProductRestEndpointPageResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8553,9 +8490,8 @@ export const getProductRestEndpointPage: (
 /**
  * Gets a Route.
  */
-export const getRoute: (
-  input: GetRouteRequest,
-) => effect.Effect<
+export const getRoute: API.OperationMethod<
+  GetRouteRequest,
   GetRouteResult,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8567,9 +8503,8 @@ export const getRoute: (
 /**
  * Gets a RouteResponse.
  */
-export const getRouteResponse: (
-  input: GetRouteResponseRequest,
-) => effect.Effect<
+export const getRouteResponse: API.OperationMethod<
+  GetRouteResponseRequest,
   GetRouteResponseResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8581,9 +8516,8 @@ export const getRouteResponse: (
 /**
  * Gets the RouteResponses for a Route.
  */
-export const getRouteResponses: (
-  input: GetRouteResponsesRequest,
-) => effect.Effect<
+export const getRouteResponses: API.OperationMethod<
+  GetRouteResponsesRequest,
   GetRouteResponsesResponse,
   | BadRequestException
   | NotFoundException
@@ -8598,9 +8532,8 @@ export const getRouteResponses: (
 /**
  * Gets the Routes for an API.
  */
-export const getRoutes: (
-  input: GetRoutesRequest,
-) => effect.Effect<
+export const getRoutes: API.OperationMethod<
+  GetRoutesRequest,
   GetRoutesResponse,
   | BadRequestException
   | NotFoundException
@@ -8615,9 +8548,8 @@ export const getRoutes: (
 /**
  * Gets a routing rule.
  */
-export const getRoutingRule: (
-  input: GetRoutingRuleRequest,
-) => effect.Effect<
+export const getRoutingRule: API.OperationMethod<
+  GetRoutingRuleRequest,
   GetRoutingRuleResponse,
   | BadRequestException
   | NotFoundException
@@ -8632,9 +8564,8 @@ export const getRoutingRule: (
 /**
  * Gets a Stage.
  */
-export const getStage: (
-  input: GetStageRequest,
-) => effect.Effect<
+export const getStage: API.OperationMethod<
+  GetStageRequest,
   GetStageResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8646,9 +8577,8 @@ export const getStage: (
 /**
  * Gets the Stages for an API.
  */
-export const getStages: (
-  input: GetStagesRequest,
-) => effect.Effect<
+export const getStages: API.OperationMethod<
+  GetStagesRequest,
   GetStagesResponse,
   | BadRequestException
   | NotFoundException
@@ -8663,9 +8593,8 @@ export const getStages: (
 /**
  * Gets a collection of Tag resources.
  */
-export const getTags: (
-  input: GetTagsRequest,
-) => effect.Effect<
+export const getTags: API.OperationMethod<
+  GetTagsRequest,
   GetTagsResponse,
   | BadRequestException
   | ConflictException
@@ -8686,9 +8615,8 @@ export const getTags: (
 /**
  * Gets a VPC link.
  */
-export const getVpcLink: (
-  input: GetVpcLinkRequest,
-) => effect.Effect<
+export const getVpcLink: API.OperationMethod<
+  GetVpcLinkRequest,
   GetVpcLinkResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8700,9 +8628,8 @@ export const getVpcLink: (
 /**
  * Gets a collection of VPC links.
  */
-export const getVpcLinks: (
-  input: GetVpcLinksRequest,
-) => effect.Effect<
+export const getVpcLinks: API.OperationMethod<
+  GetVpcLinksRequest,
   GetVpcLinksResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8714,9 +8641,8 @@ export const getVpcLinks: (
 /**
  * Imports an API.
  */
-export const importApi: (
-  input: ImportApiRequest,
-) => effect.Effect<
+export const importApi: API.OperationMethod<
+  ImportApiRequest,
   ImportApiResponse,
   | BadRequestException
   | ConflictException
@@ -8737,9 +8663,8 @@ export const importApi: (
 /**
  * Lists portal products.
  */
-export const listPortalProducts: (
-  input: ListPortalProductsRequest,
-) => effect.Effect<
+export const listPortalProducts: API.OperationMethod<
+  ListPortalProductsRequest,
   ListPortalProductsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8758,9 +8683,8 @@ export const listPortalProducts: (
 /**
  * Lists portals.
  */
-export const listPortals: (
-  input: ListPortalsRequest,
-) => effect.Effect<
+export const listPortals: API.OperationMethod<
+  ListPortalsRequest,
   ListPortalsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8779,9 +8703,8 @@ export const listPortals: (
 /**
  * Lists the product pages for a portal product.
  */
-export const listProductPages: (
-  input: ListProductPagesRequest,
-) => effect.Effect<
+export const listProductPages: API.OperationMethod<
+  ListProductPagesRequest,
   ListProductPagesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8802,9 +8725,8 @@ export const listProductPages: (
 /**
  * Lists the product REST endpoint pages of a portal product.
  */
-export const listProductRestEndpointPages: (
-  input: ListProductRestEndpointPagesRequest,
-) => effect.Effect<
+export const listProductRestEndpointPages: API.OperationMethod<
+  ListProductRestEndpointPagesRequest,
   ListProductRestEndpointPagesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8825,17 +8747,15 @@ export const listProductRestEndpointPages: (
 /**
  * Lists routing rules.
  */
-export const listRoutingRules: {
-  (
-    input: ListRoutingRulesRequest,
-  ): effect.Effect<
-    ListRoutingRulesResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoutingRules: API.OperationMethod<
+  ListRoutingRulesRequest,
+  ListRoutingRulesResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoutingRulesRequest,
   ) => stream.Stream<
@@ -8870,9 +8790,8 @@ export const listRoutingRules: {
 /**
  * Creates a portal preview.
  */
-export const previewPortal: (
-  input: PreviewPortalRequest,
-) => effect.Effect<
+export const previewPortal: API.OperationMethod<
+  PreviewPortalRequest,
   PreviewPortalResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8895,9 +8814,8 @@ export const previewPortal: (
 /**
  * Publishes a portal.
  */
-export const publishPortal: (
-  input: PublishPortalRequest,
-) => effect.Effect<
+export const publishPortal: API.OperationMethod<
+  PublishPortalRequest,
   PublishPortalResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8920,9 +8838,8 @@ export const publishPortal: (
 /**
  * Updates the sharing policy for a portal product.
  */
-export const putPortalProductSharingPolicy: (
-  input: PutPortalProductSharingPolicyRequest,
-) => effect.Effect<
+export const putPortalProductSharingPolicy: API.OperationMethod<
+  PutPortalProductSharingPolicyRequest,
   PutPortalProductSharingPolicyResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8943,9 +8860,8 @@ export const putPortalProductSharingPolicy: (
 /**
  * Updates a routing rule.
  */
-export const putRoutingRule: (
-  input: PutRoutingRuleRequest,
-) => effect.Effect<
+export const putRoutingRule: API.OperationMethod<
+  PutRoutingRuleRequest,
   PutRoutingRuleResponse,
   | BadRequestException
   | ConflictException
@@ -8966,9 +8882,8 @@ export const putRoutingRule: (
 /**
  * Puts an Api resource.
  */
-export const reimportApi: (
-  input: ReimportApiRequest,
-) => effect.Effect<
+export const reimportApi: API.OperationMethod<
+  ReimportApiRequest,
   ReimportApiResponse,
   | BadRequestException
   | ConflictException
@@ -8989,9 +8904,8 @@ export const reimportApi: (
 /**
  * Resets all authorizer cache entries on a stage. Supported only for HTTP APIs.
  */
-export const resetAuthorizersCache: (
-  input: ResetAuthorizersCacheRequest,
-) => effect.Effect<
+export const resetAuthorizersCache: API.OperationMethod<
+  ResetAuthorizersCacheRequest,
   ResetAuthorizersCacheResponse,
   NotFoundException | TooManyRequestsException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9003,9 +8917,8 @@ export const resetAuthorizersCache: (
 /**
  * Creates a new Tag resource to represent a tag.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -9026,9 +8939,8 @@ export const tagResource: (
 /**
  * Deletes a Tag.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -9049,9 +8961,8 @@ export const untagResource: (
 /**
  * Updates an Api resource.
  */
-export const updateApi: (
-  input: UpdateApiRequest,
-) => effect.Effect<
+export const updateApi: API.OperationMethod<
+  UpdateApiRequest,
   UpdateApiResponse,
   | BadRequestException
   | ConflictException
@@ -9072,9 +8983,8 @@ export const updateApi: (
 /**
  * The API mapping.
  */
-export const updateApiMapping: (
-  input: UpdateApiMappingRequest,
-) => effect.Effect<
+export const updateApiMapping: API.OperationMethod<
+  UpdateApiMappingRequest,
   UpdateApiMappingResponse,
   | BadRequestException
   | ConflictException
@@ -9095,9 +9005,8 @@ export const updateApiMapping: (
 /**
  * Updates an Authorizer.
  */
-export const updateAuthorizer: (
-  input: UpdateAuthorizerRequest,
-) => effect.Effect<
+export const updateAuthorizer: API.OperationMethod<
+  UpdateAuthorizerRequest,
   UpdateAuthorizerResponse,
   | BadRequestException
   | ConflictException
@@ -9118,9 +9027,8 @@ export const updateAuthorizer: (
 /**
  * Updates a Deployment.
  */
-export const updateDeployment: (
-  input: UpdateDeploymentRequest,
-) => effect.Effect<
+export const updateDeployment: API.OperationMethod<
+  UpdateDeploymentRequest,
   UpdateDeploymentResponse,
   | BadRequestException
   | ConflictException
@@ -9141,9 +9049,8 @@ export const updateDeployment: (
 /**
  * Updates a domain name.
  */
-export const updateDomainName: (
-  input: UpdateDomainNameRequest,
-) => effect.Effect<
+export const updateDomainName: API.OperationMethod<
+  UpdateDomainNameRequest,
   UpdateDomainNameResponse,
   | BadRequestException
   | ConflictException
@@ -9164,9 +9071,8 @@ export const updateDomainName: (
 /**
  * Updates an Integration.
  */
-export const updateIntegration: (
-  input: UpdateIntegrationRequest,
-) => effect.Effect<
+export const updateIntegration: API.OperationMethod<
+  UpdateIntegrationRequest,
   UpdateIntegrationResult,
   | BadRequestException
   | ConflictException
@@ -9187,9 +9093,8 @@ export const updateIntegration: (
 /**
  * Updates an IntegrationResponses.
  */
-export const updateIntegrationResponse: (
-  input: UpdateIntegrationResponseRequest,
-) => effect.Effect<
+export const updateIntegrationResponse: API.OperationMethod<
+  UpdateIntegrationResponseRequest,
   UpdateIntegrationResponseResponse,
   | BadRequestException
   | ConflictException
@@ -9210,9 +9115,8 @@ export const updateIntegrationResponse: (
 /**
  * Updates a Model.
  */
-export const updateModel: (
-  input: UpdateModelRequest,
-) => effect.Effect<
+export const updateModel: API.OperationMethod<
+  UpdateModelRequest,
   UpdateModelResponse,
   | BadRequestException
   | ConflictException
@@ -9233,9 +9137,8 @@ export const updateModel: (
 /**
  * Updates a portal.
  */
-export const updatePortal: (
-  input: UpdatePortalRequest,
-) => effect.Effect<
+export const updatePortal: API.OperationMethod<
+  UpdatePortalRequest,
   UpdatePortalResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9258,9 +9161,8 @@ export const updatePortal: (
 /**
  * Updates the portal product.
  */
-export const updatePortalProduct: (
-  input: UpdatePortalProductRequest,
-) => effect.Effect<
+export const updatePortalProduct: API.OperationMethod<
+  UpdatePortalProductRequest,
   UpdatePortalProductResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9281,9 +9183,8 @@ export const updatePortalProduct: (
 /**
  * Updates a product page of a portal product.
  */
-export const updateProductPage: (
-  input: UpdateProductPageRequest,
-) => effect.Effect<
+export const updateProductPage: API.OperationMethod<
+  UpdateProductPageRequest,
   UpdateProductPageResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9304,9 +9205,8 @@ export const updateProductPage: (
 /**
  * Updates a product REST endpoint page.
  */
-export const updateProductRestEndpointPage: (
-  input: UpdateProductRestEndpointPageRequest,
-) => effect.Effect<
+export const updateProductRestEndpointPage: API.OperationMethod<
+  UpdateProductRestEndpointPageRequest,
   UpdateProductRestEndpointPageResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9327,9 +9227,8 @@ export const updateProductRestEndpointPage: (
 /**
  * Updates a Route.
  */
-export const updateRoute: (
-  input: UpdateRouteRequest,
-) => effect.Effect<
+export const updateRoute: API.OperationMethod<
+  UpdateRouteRequest,
   UpdateRouteResult,
   | BadRequestException
   | ConflictException
@@ -9350,9 +9249,8 @@ export const updateRoute: (
 /**
  * Updates a RouteResponse.
  */
-export const updateRouteResponse: (
-  input: UpdateRouteResponseRequest,
-) => effect.Effect<
+export const updateRouteResponse: API.OperationMethod<
+  UpdateRouteResponseRequest,
   UpdateRouteResponseResponse,
   | BadRequestException
   | ConflictException
@@ -9373,9 +9271,8 @@ export const updateRouteResponse: (
 /**
  * Updates a Stage.
  */
-export const updateStage: (
-  input: UpdateStageRequest,
-) => effect.Effect<
+export const updateStage: API.OperationMethod<
+  UpdateStageRequest,
   UpdateStageResponse,
   | BadRequestException
   | ConflictException
@@ -9396,9 +9293,8 @@ export const updateStage: (
 /**
  * Updates a VPC link.
  */
-export const updateVpcLink: (
-  input: UpdateVpcLinkRequest,
-) => effect.Effect<
+export const updateVpcLink: API.OperationMethod<
+  UpdateVpcLinkRequest,
   UpdateVpcLinkResponse,
   | BadRequestException
   | NotFoundException

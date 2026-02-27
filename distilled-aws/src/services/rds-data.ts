@@ -836,9 +836,8 @@ export class UnsupportedResultException extends S.TaggedErrorClass<UnsupportedRe
  *
  * The response size limit is 1 MiB. If the call returns more than 1 MiB of response data, the call is terminated.
  */
-export const batchExecuteStatement: (
-  input: BatchExecuteStatementRequest,
-) => effect.Effect<
+export const batchExecuteStatement: API.OperationMethod<
+  BatchExecuteStatementRequest,
   BatchExecuteStatementResponse,
   | AccessDeniedException
   | BadRequestException
@@ -890,9 +889,8 @@ export const batchExecuteStatement: (
  * For Aurora MySQL, DDL statements inside a transaction cause an implicit commit. We recommend that you run each MySQL DDL statement in a separate
  * `ExecuteStatement` call with `continueAfterTimeout` enabled.
  */
-export const beginTransaction: (
-  input: BeginTransactionRequest,
-) => effect.Effect<
+export const beginTransaction: API.OperationMethod<
+  BeginTransactionRequest,
   BeginTransactionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -936,9 +934,8 @@ export const beginTransaction: (
  * Ends a SQL transaction started with the `BeginTransaction` operation and
  * commits the changes.
  */
-export const commitTransaction: (
-  input: CommitTransactionRequest,
-) => effect.Effect<
+export const commitTransaction: API.OperationMethod<
+  CommitTransactionRequest,
   CommitTransactionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -985,9 +982,8 @@ export const commitTransaction: (
  * For Aurora Serverless v1 DB clusters, the operation is deprecated.
  * Use the `BatchExecuteStatement` or `ExecuteStatement` operation.
  */
-export const executeSql: (
-  input: ExecuteSqlRequest,
-) => effect.Effect<
+export const executeSql: API.OperationMethod<
+  ExecuteSqlRequest,
   ExecuteSqlResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1016,9 +1012,8 @@ export const executeSql: (
  *
  * If the binary response data from the database is more than 1 MB, the call is terminated.
  */
-export const executeStatement: (
-  input: ExecuteStatementRequest,
-) => effect.Effect<
+export const executeStatement: API.OperationMethod<
+  ExecuteStatementRequest,
   ExecuteStatementResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1063,9 +1058,8 @@ export const executeStatement: (
 /**
  * Performs a rollback of a transaction. Rolling back a transaction cancels its changes.
  */
-export const rollbackTransaction: (
-  input: RollbackTransactionRequest,
-) => effect.Effect<
+export const rollbackTransaction: API.OperationMethod<
+  RollbackTransactionRequest,
   RollbackTransactionResponse,
   | AccessDeniedException
   | BadRequestException

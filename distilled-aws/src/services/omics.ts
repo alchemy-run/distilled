@@ -5818,9 +5818,8 @@ export class RangeNotSatisfiableException extends S.TaggedErrorClass<RangeNotSat
 /**
  * Deletes an access policy for the specified store.
  */
-export const deleteS3AccessPolicy: (
-  input: DeleteS3AccessPolicyRequest,
-) => effect.Effect<
+export const deleteS3AccessPolicy: API.OperationMethod<
+  DeleteS3AccessPolicyRequest,
   DeleteS3AccessPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5847,9 +5846,8 @@ export const deleteS3AccessPolicy: (
 /**
  * Retrieves details about an access policy on a given store.
  */
-export const getS3AccessPolicy: (
-  input: GetS3AccessPolicyRequest,
-) => effect.Effect<
+export const getS3AccessPolicy: API.OperationMethod<
+  GetS3AccessPolicyRequest,
   GetS3AccessPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5878,9 +5876,8 @@ export const getS3AccessPolicy: (
 /**
  * Adds an access policy to the specified store.
  */
-export const putS3AccessPolicy: (
-  input: PutS3AccessPolicyRequest,
-) => effect.Effect<
+export const putS3AccessPolicy: API.OperationMethod<
+  PutS3AccessPolicyRequest,
   PutS3AccessPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5909,9 +5906,8 @@ export const putS3AccessPolicy: (
  *
  * Starts an annotation import job.
  */
-export const startAnnotationImportJob: (
-  input: StartAnnotationImportRequest,
-) => effect.Effect<
+export const startAnnotationImportJob: API.OperationMethod<
+  StartAnnotationImportRequest,
   StartAnnotationImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5938,9 +5934,8 @@ export const startAnnotationImportJob: (
  *
  * Gets information about an annotation import job.
  */
-export const getAnnotationImportJob: (
-  input: GetAnnotationImportRequest,
-) => effect.Effect<
+export const getAnnotationImportJob: API.OperationMethod<
+  GetAnnotationImportRequest,
   GetAnnotationImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5965,9 +5960,8 @@ export const getAnnotationImportJob: (
  *
  * Cancels an annotation import job.
  */
-export const cancelAnnotationImportJob: (
-  input: CancelAnnotationImportRequest,
-) => effect.Effect<
+export const cancelAnnotationImportJob: API.OperationMethod<
+  CancelAnnotationImportRequest,
   CancelAnnotationImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5992,19 +5986,17 @@ export const cancelAnnotationImportJob: (
  *
  * Retrieves a list of annotation import jobs.
  */
-export const listAnnotationImportJobs: {
-  (
-    input: ListAnnotationImportJobsRequest,
-  ): effect.Effect<
-    ListAnnotationImportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnnotationImportJobs: API.OperationMethod<
+  ListAnnotationImportJobsRequest,
+  ListAnnotationImportJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnnotationImportJobsRequest,
   ) => stream.Stream<
@@ -6051,9 +6043,8 @@ export const listAnnotationImportJobs: {
  *
  * Creates an annotation store.
  */
-export const createAnnotationStore: (
-  input: CreateAnnotationStoreRequest,
-) => effect.Effect<
+export const createAnnotationStore: API.OperationMethod<
+  CreateAnnotationStoreRequest,
   CreateAnnotationStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -6082,9 +6073,8 @@ export const createAnnotationStore: (
  *
  * Gets information about an annotation store.
  */
-export const getAnnotationStore: (
-  input: GetAnnotationStoreRequest,
-) => effect.Effect<
+export const getAnnotationStore: API.OperationMethod<
+  GetAnnotationStoreRequest,
   GetAnnotationStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6109,9 +6099,8 @@ export const getAnnotationStore: (
  *
  * Updates an annotation store.
  */
-export const updateAnnotationStore: (
-  input: UpdateAnnotationStoreRequest,
-) => effect.Effect<
+export const updateAnnotationStore: API.OperationMethod<
+  UpdateAnnotationStoreRequest,
   UpdateAnnotationStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6136,9 +6125,8 @@ export const updateAnnotationStore: (
  *
  * Deletes an annotation store.
  */
-export const deleteAnnotationStore: (
-  input: DeleteAnnotationStoreRequest,
-) => effect.Effect<
+export const deleteAnnotationStore: API.OperationMethod<
+  DeleteAnnotationStoreRequest,
   DeleteAnnotationStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -6165,19 +6153,17 @@ export const deleteAnnotationStore: (
  *
  * Retrieves a list of annotation stores.
  */
-export const listAnnotationStores: {
-  (
-    input: ListAnnotationStoresRequest,
-  ): effect.Effect<
-    ListAnnotationStoresResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnnotationStores: API.OperationMethod<
+  ListAnnotationStoresRequest,
+  ListAnnotationStoresResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnnotationStoresRequest,
   ) => stream.Stream<
@@ -6222,9 +6208,8 @@ export const listAnnotationStores: {
 /**
  * Creates a new version of an annotation store.
  */
-export const createAnnotationStoreVersion: (
-  input: CreateAnnotationStoreVersionRequest,
-) => effect.Effect<
+export const createAnnotationStoreVersion: API.OperationMethod<
+  CreateAnnotationStoreVersionRequest,
   CreateAnnotationStoreVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6251,9 +6236,8 @@ export const createAnnotationStoreVersion: (
 /**
  * Retrieves the metadata for an annotation store version.
  */
-export const getAnnotationStoreVersion: (
-  input: GetAnnotationStoreVersionRequest,
-) => effect.Effect<
+export const getAnnotationStoreVersion: API.OperationMethod<
+  GetAnnotationStoreVersionRequest,
   GetAnnotationStoreVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6276,9 +6260,8 @@ export const getAnnotationStoreVersion: (
 /**
  * Updates the description of an annotation store version.
  */
-export const updateAnnotationStoreVersion: (
-  input: UpdateAnnotationStoreVersionRequest,
-) => effect.Effect<
+export const updateAnnotationStoreVersion: API.OperationMethod<
+  UpdateAnnotationStoreVersionRequest,
   UpdateAnnotationStoreVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6301,19 +6284,17 @@ export const updateAnnotationStoreVersion: (
 /**
  * Lists the versions of an annotation store.
  */
-export const listAnnotationStoreVersions: {
-  (
-    input: ListAnnotationStoreVersionsRequest,
-  ): effect.Effect<
-    ListAnnotationStoreVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnnotationStoreVersions: API.OperationMethod<
+  ListAnnotationStoreVersionsRequest,
+  ListAnnotationStoreVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnnotationStoreVersionsRequest,
   ) => stream.Stream<
@@ -6358,9 +6339,8 @@ export const listAnnotationStoreVersions: {
 /**
  * Deletes one or multiple versions of an annotation store.
  */
-export const deleteAnnotationStoreVersions: (
-  input: DeleteAnnotationStoreVersionsRequest,
-) => effect.Effect<
+export const deleteAnnotationStoreVersions: API.OperationMethod<
+  DeleteAnnotationStoreVersionsRequest,
   DeleteAnnotationStoreVersionsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6387,9 +6367,8 @@ export const deleteAnnotationStoreVersions: (
  *
  * For more information, see Creating a HealthOmics reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createReferenceStore: (
-  input: CreateReferenceStoreRequest,
-) => effect.Effect<
+export const createReferenceStore: API.OperationMethod<
+  CreateReferenceStoreRequest,
   CreateReferenceStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6414,9 +6393,8 @@ export const createReferenceStore: (
 /**
  * Gets information about a reference store.
  */
-export const getReferenceStore: (
-  input: GetReferenceStoreRequest,
-) => effect.Effect<
+export const getReferenceStore: API.OperationMethod<
+  GetReferenceStoreRequest,
   GetReferenceStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6443,9 +6421,8 @@ export const getReferenceStore: (
  *
  * For more information about your workflow status, see Deleting HealthOmics reference and sequence stores in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteReferenceStore: (
-  input: DeleteReferenceStoreRequest,
-) => effect.Effect<
+export const deleteReferenceStore: API.OperationMethod<
+  DeleteReferenceStoreRequest,
   DeleteReferenceStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -6474,19 +6451,17 @@ export const deleteReferenceStore: (
  *
  * For more information, see Creating a reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listReferenceStores: {
-  (
-    input: ListReferenceStoresRequest,
-  ): effect.Effect<
-    ListReferenceStoresResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestTimeoutException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReferenceStores: API.OperationMethod<
+  ListReferenceStoresRequest,
+  ListReferenceStoresResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReferenceStoresRequest,
   ) => stream.Stream<
@@ -6531,9 +6506,8 @@ export const listReferenceStores: {
 /**
  * Monitors the status of a reference import job. This operation can be called after calling the `StartReferenceImportJob` operation.
  */
-export const getReferenceImportJob: (
-  input: GetReferenceImportJobRequest,
-) => effect.Effect<
+export const getReferenceImportJob: API.OperationMethod<
+  GetReferenceImportJobRequest,
   GetReferenceImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6558,20 +6532,18 @@ export const getReferenceImportJob: (
 /**
  * Retrieves the metadata of one or more reference import jobs for a reference store.
  */
-export const listReferenceImportJobs: {
-  (
-    input: ListReferenceImportJobsRequest,
-  ): effect.Effect<
-    ListReferenceImportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReferenceImportJobs: API.OperationMethod<
+  ListReferenceImportJobsRequest,
+  ListReferenceImportJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReferenceImportJobsRequest,
   ) => stream.Stream<
@@ -6619,9 +6591,8 @@ export const listReferenceImportJobs: {
 /**
  * Imports a reference genome from Amazon S3 into a specified reference store. You can have multiple reference genomes in a reference store. You can only import reference genomes one at a time into each reference store. Monitor the status of your reference import job by using the `GetReferenceImportJob` API operation.
  */
-export const startReferenceImportJob: (
-  input: StartReferenceImportJobRequest,
-) => effect.Effect<
+export const startReferenceImportJob: API.OperationMethod<
+  StartReferenceImportJobRequest,
   StartReferenceImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6648,9 +6619,8 @@ export const startReferenceImportJob: (
 /**
  * Retrieves metadata for a reference genome. This operation returns the number of parts, part size, and MD5 of an entire file. This operation does not return tags. To retrieve the list of tags for a read set, use the `ListTagsForResource` API operation.
  */
-export const getReferenceMetadata: (
-  input: GetReferenceMetadataRequest,
-) => effect.Effect<
+export const getReferenceMetadata: API.OperationMethod<
+  GetReferenceMetadataRequest,
   GetReferenceMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6677,9 +6647,8 @@ export const getReferenceMetadata: (
  *
  * For more information, see Deleting HealthOmics reference and sequence stores in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteReference: (
-  input: DeleteReferenceRequest,
-) => effect.Effect<
+export const deleteReference: API.OperationMethod<
+  DeleteReferenceRequest,
   DeleteReferenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6708,20 +6677,18 @@ export const deleteReference: (
  *
  * For more information, see Creating a reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listReferences: {
-  (
-    input: ListReferencesRequest,
-  ): effect.Effect<
-    ListReferencesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReferences: API.OperationMethod<
+  ListReferencesRequest,
+  ListReferencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReferencesRequest,
   ) => stream.Stream<
@@ -6771,9 +6738,8 @@ export const listReferences: {
  *
  * For more information, see Creating a HealthOmics reference store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getReference: (
-  input: GetReferenceRequest,
-) => effect.Effect<
+export const getReference: API.OperationMethod<
+  GetReferenceRequest,
   GetReferenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6802,9 +6768,8 @@ export const getReference: (
  *
  * For more information, see Call caching and Creating a run cache in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createRunCache: (
-  input: CreateRunCacheRequest,
-) => effect.Effect<
+export const createRunCache: API.OperationMethod<
+  CreateRunCacheRequest,
   CreateRunCacheResponse,
   | AccessDeniedException
   | ConflictException
@@ -6835,9 +6800,8 @@ export const createRunCache: (
  *
  * For more information, see Call caching for Amazon Web Services HealthOmics runs in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getRunCache: (
-  input: GetRunCacheRequest,
-) => effect.Effect<
+export const getRunCache: API.OperationMethod<
+  GetRunCacheRequest,
   GetRunCacheResponse,
   | AccessDeniedException
   | ConflictException
@@ -6868,9 +6832,8 @@ export const getRunCache: (
  *
  * For more information, see How call caching works in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const updateRunCache: (
-  input: UpdateRunCacheRequest,
-) => effect.Effect<
+export const updateRunCache: API.OperationMethod<
+  UpdateRunCacheRequest,
   UpdateRunCacheResponse,
   | AccessDeniedException
   | ConflictException
@@ -6901,9 +6864,8 @@ export const updateRunCache: (
  *
  * For more information, see Deleting a run cache in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteRunCache: (
-  input: DeleteRunCacheRequest,
-) => effect.Effect<
+export const deleteRunCache: API.OperationMethod<
+  DeleteRunCacheRequest,
   DeleteRunCacheResponse,
   | AccessDeniedException
   | ConflictException
@@ -6932,22 +6894,20 @@ export const deleteRunCache: (
 /**
  * Retrieves a list of your run caches and the metadata for each cache.
  */
-export const listRunCaches: {
-  (
-    input: ListRunCachesRequest,
-  ): effect.Effect<
-    ListRunCachesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRunCaches: API.OperationMethod<
+  ListRunCachesRequest,
+  ListRunCachesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRunCachesRequest,
   ) => stream.Stream<
@@ -7001,9 +6961,8 @@ export const listRunCaches: {
 /**
  * Creates a run group to limit the compute resources for the runs that are added to the group. Returns an ARN, ID, and tags for the run group.
  */
-export const createRunGroup: (
-  input: CreateRunGroupRequest,
-) => effect.Effect<
+export const createRunGroup: API.OperationMethod<
+  CreateRunGroupRequest,
   CreateRunGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -7032,9 +6991,8 @@ export const createRunGroup: (
 /**
  * Gets information about a run group and returns its metadata.
  */
-export const getRunGroup: (
-  input: GetRunGroupRequest,
-) => effect.Effect<
+export const getRunGroup: API.OperationMethod<
+  GetRunGroupRequest,
   GetRunGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -7077,9 +7035,8 @@ export const getRunGroup: (
  *
  * To confirm that the settings have been successfully updated, use the `ListRunGroups` or `GetRunGroup` API operations to verify that the desired changes have been made.
  */
-export const updateRunGroup: (
-  input: UpdateRunGroupRequest,
-) => effect.Effect<
+export const updateRunGroup: API.OperationMethod<
+  UpdateRunGroupRequest,
   UpdateRunGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -7114,9 +7071,8 @@ export const updateRunGroup: (
  *
  * - Use `GetRunGroup` to verify the workflow cannot be found.
  */
-export const deleteRunGroup: (
-  input: DeleteRunGroupRequest,
-) => effect.Effect<
+export const deleteRunGroup: API.OperationMethod<
+  DeleteRunGroupRequest,
   DeleteRunGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -7145,22 +7101,20 @@ export const deleteRunGroup: (
 /**
  * Retrieves a list of all run groups and returns the metadata for each run group.
  */
-export const listRunGroups: {
-  (
-    input: ListRunGroupsRequest,
-  ): effect.Effect<
-    ListRunGroupsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRunGroups: API.OperationMethod<
+  ListRunGroupsRequest,
+  ListRunGroupsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRunGroupsRequest,
   ) => stream.Stream<
@@ -7246,9 +7200,8 @@ export const listRunGroups: {
  *
  * You can use Amazon Q CLI to analyze run logs and make performance optimization recommendations. To get started, see the Amazon Web Services HealthOmics MCP server on GitHub.
  */
-export const startRun: (
-  input: StartRunRequest,
-) => effect.Effect<
+export const startRun: API.OperationMethod<
+  StartRunRequest,
   StartRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -7279,9 +7232,8 @@ export const startRun: (
  *
  * Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If `GetRun` does not return the requested run, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getRun: (
-  input: GetRunRequest,
-) => effect.Effect<
+export const getRun: API.OperationMethod<
+  GetRunRequest,
   GetRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -7316,9 +7268,8 @@ export const getRun: (
  *
  * - Use `GetRun` to verify the workflow cannot be found.
  */
-export const deleteRun: (
-  input: DeleteRunRequest,
-) => effect.Effect<
+export const deleteRun: API.OperationMethod<
+  DeleteRunRequest,
   DeleteRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -7349,22 +7300,20 @@ export const deleteRun: (
  *
  * Amazon Web Services HealthOmics stores a configurable number of runs, as determined by service limits, that are available to the console and API. If the `ListRuns` response doesn't include specific runs that you expected, you can find all run logs in the CloudWatch logs. For more information about viewing the run logs, see CloudWatch logs in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listRuns: {
-  (
-    input: ListRunsRequest,
-  ): effect.Effect<
-    ListRunsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRuns: API.OperationMethod<
+  ListRunsRequest,
+  ListRunsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRunsRequest,
   ) => stream.Stream<
@@ -7418,9 +7367,8 @@ export const listRuns: {
 /**
  * Cancels a run using its ID and returns a response with no body if the operation is successful. To confirm that the run has been cancelled, use the `ListRuns` API operation to check that it is no longer listed.
  */
-export const cancelRun: (
-  input: CancelRunRequest,
-) => effect.Effect<
+export const cancelRun: API.OperationMethod<
+  CancelRunRequest,
   CancelRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -7449,9 +7397,8 @@ export const cancelRun: (
 /**
  * Gets detailed information about a run task using its ID.
  */
-export const getRunTask: (
-  input: GetRunTaskRequest,
-) => effect.Effect<
+export const getRunTask: API.OperationMethod<
+  GetRunTaskRequest,
   GetRunTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -7480,22 +7427,20 @@ export const getRunTask: (
 /**
  * Returns a list of tasks and status information within their specified run. Use this operation to monitor runs and to identify which specific tasks have failed.
  */
-export const listRunTasks: {
-  (
-    input: ListRunTasksRequest,
-  ): effect.Effect<
-    ListRunTasksResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRunTasks: API.OperationMethod<
+  ListRunTasksRequest,
+  ListRunTasksResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRunTasksRequest,
   ) => stream.Stream<
@@ -7563,9 +7508,8 @@ export const listRunTasks: {
  *
  * For more information, see Creating a HealthOmics sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createSequenceStore: (
-  input: CreateSequenceStoreRequest,
-) => effect.Effect<
+export const createSequenceStore: API.OperationMethod<
+  CreateSequenceStoreRequest,
   CreateSequenceStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7590,9 +7534,8 @@ export const createSequenceStore: (
 /**
  * Retrieves metadata for a sequence store using its ID and returns it in JSON format.
  */
-export const getSequenceStore: (
-  input: GetSequenceStoreRequest,
-) => effect.Effect<
+export const getSequenceStore: API.OperationMethod<
+  GetSequenceStoreRequest,
   GetSequenceStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7617,9 +7560,8 @@ export const getSequenceStore: (
 /**
  * Update one or more parameters for the sequence store.
  */
-export const updateSequenceStore: (
-  input: UpdateSequenceStoreRequest,
-) => effect.Effect<
+export const updateSequenceStore: API.OperationMethod<
+  UpdateSequenceStoreRequest,
   UpdateSequenceStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -7650,9 +7592,8 @@ export const updateSequenceStore: (
  *
  * For more information, see Deleting HealthOmics reference and sequence stores in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteSequenceStore: (
-  input: DeleteSequenceStoreRequest,
-) => effect.Effect<
+export const deleteSequenceStore: API.OperationMethod<
+  DeleteSequenceStoreRequest,
   DeleteSequenceStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -7681,19 +7622,17 @@ export const deleteSequenceStore: (
  *
  * For more information, see Creating a HealthOmics sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listSequenceStores: {
-  (
-    input: ListSequenceStoresRequest,
-  ): effect.Effect<
-    ListSequenceStoresResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestTimeoutException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSequenceStores: API.OperationMethod<
+  ListSequenceStoresRequest,
+  ListSequenceStoresResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSequenceStoresRequest,
   ) => stream.Stream<
@@ -7738,9 +7677,8 @@ export const listSequenceStores: {
 /**
  * Stops a multipart read set upload into a sequence store and returns a response with no body if the operation is successful. To confirm that a multipart read set upload has been stopped, use the `ListMultipartReadSetUploads` API operation to view all active multipart read set uploads.
  */
-export const abortMultipartReadSetUpload: (
-  input: AbortMultipartReadSetUploadRequest,
-) => effect.Effect<
+export const abortMultipartReadSetUpload: API.OperationMethod<
+  AbortMultipartReadSetUploadRequest,
   AbortMultipartReadSetUploadResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7771,9 +7709,8 @@ export const abortMultipartReadSetUpload: (
  *
  * For more information, see Direct upload to a sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const completeMultipartReadSetUpload: (
-  input: CompleteMultipartReadSetUploadRequest,
-) => effect.Effect<
+export const completeMultipartReadSetUpload: API.OperationMethod<
+  CompleteMultipartReadSetUploadRequest,
   CompleteMultipartReadSetUploadResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7812,9 +7749,8 @@ export const completeMultipartReadSetUpload: (
  *
  * To learn more about creating parts and the `split` operation, see Direct upload to a sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createMultipartReadSetUpload: (
-  input: CreateMultipartReadSetUploadRequest,
-) => effect.Effect<
+export const createMultipartReadSetUpload: API.OperationMethod<
+  CreateMultipartReadSetUploadRequest,
   CreateMultipartReadSetUploadResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7843,9 +7779,8 @@ export const createMultipartReadSetUpload: (
 /**
  * Returns detailed information about the status of a read set activation job in JSON format.
  */
-export const getReadSetActivationJob: (
-  input: GetReadSetActivationJobRequest,
-) => effect.Effect<
+export const getReadSetActivationJob: API.OperationMethod<
+  GetReadSetActivationJobRequest,
   GetReadSetActivationJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7870,9 +7805,8 @@ export const getReadSetActivationJob: (
 /**
  * Retrieves status information about a read set export job and returns the data in JSON format. Use this operation to actively monitor the progress of an export job.
  */
-export const getReadSetExportJob: (
-  input: GetReadSetExportJobRequest,
-) => effect.Effect<
+export const getReadSetExportJob: API.OperationMethod<
+  GetReadSetExportJobRequest,
   GetReadSetExportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7897,9 +7831,8 @@ export const getReadSetExportJob: (
 /**
  * Gets detailed and status information about a read set import job and returns the data in JSON format.
  */
-export const getReadSetImportJob: (
-  input: GetReadSetImportJobRequest,
-) => effect.Effect<
+export const getReadSetImportJob: API.OperationMethod<
+  GetReadSetImportJobRequest,
   GetReadSetImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7924,22 +7857,20 @@ export const getReadSetImportJob: (
 /**
  * Lists in-progress multipart read set uploads for a sequence store and returns it in a JSON formatted output. Multipart read set uploads are initiated by the `CreateMultipartReadSetUploads` API operation. This operation returns a response with no body when the upload is complete.
  */
-export const listMultipartReadSetUploads: {
-  (
-    input: ListMultipartReadSetUploadsRequest,
-  ): effect.Effect<
-    ListMultipartReadSetUploadsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | NotSupportedOperationException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMultipartReadSetUploads: API.OperationMethod<
+  ListMultipartReadSetUploadsRequest,
+  ListMultipartReadSetUploadsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotSupportedOperationException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMultipartReadSetUploadsRequest,
   ) => stream.Stream<
@@ -7993,20 +7924,18 @@ export const listMultipartReadSetUploads: {
 /**
  * Retrieves a list of read set activation jobs and returns the metadata in a JSON formatted output. To extract metadata from a read set activation job, use the `GetReadSetActivationJob` API operation.
  */
-export const listReadSetActivationJobs: {
-  (
-    input: ListReadSetActivationJobsRequest,
-  ): effect.Effect<
-    ListReadSetActivationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReadSetActivationJobs: API.OperationMethod<
+  ListReadSetActivationJobsRequest,
+  ListReadSetActivationJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReadSetActivationJobsRequest,
   ) => stream.Stream<
@@ -8054,20 +7983,18 @@ export const listReadSetActivationJobs: {
 /**
  * Retrieves a list of read set export jobs in a JSON formatted response. This API operation is used to check the status of a read set export job initiated by the `StartReadSetExportJob` API operation.
  */
-export const listReadSetExportJobs: {
-  (
-    input: ListReadSetExportJobsRequest,
-  ): effect.Effect<
-    ListReadSetExportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReadSetExportJobs: API.OperationMethod<
+  ListReadSetExportJobsRequest,
+  ListReadSetExportJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReadSetExportJobsRequest,
   ) => stream.Stream<
@@ -8115,20 +8042,18 @@ export const listReadSetExportJobs: {
 /**
  * Retrieves a list of read set import jobs and returns the data in JSON format.
  */
-export const listReadSetImportJobs: {
-  (
-    input: ListReadSetImportJobsRequest,
-  ): effect.Effect<
-    ListReadSetImportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReadSetImportJobs: API.OperationMethod<
+  ListReadSetImportJobsRequest,
+  ListReadSetImportJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReadSetImportJobsRequest,
   ) => stream.Stream<
@@ -8176,22 +8101,20 @@ export const listReadSetImportJobs: {
 /**
  * Lists all parts in a multipart read set upload for a sequence store and returns the metadata in a JSON formatted output.
  */
-export const listReadSetUploadParts: {
-  (
-    input: ListReadSetUploadPartsRequest,
-  ): effect.Effect<
-    ListReadSetUploadPartsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | NotSupportedOperationException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReadSetUploadParts: API.OperationMethod<
+  ListReadSetUploadPartsRequest,
+  ListReadSetUploadPartsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | NotSupportedOperationException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReadSetUploadPartsRequest,
   ) => stream.Stream<
@@ -8247,9 +8170,8 @@ export const listReadSetUploadParts: {
  *
  * To learn more, see Activating read sets in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const startReadSetActivationJob: (
-  input: StartReadSetActivationJobRequest,
-) => effect.Effect<
+export const startReadSetActivationJob: API.OperationMethod<
+  StartReadSetActivationJobRequest,
   StartReadSetActivationJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8278,9 +8200,8 @@ export const startReadSetActivationJob: (
  *
  * To monitor the status of the export job, use the `ListReadSetExportJobs` API operation.
  */
-export const startReadSetExportJob: (
-  input: StartReadSetExportJobRequest,
-) => effect.Effect<
+export const startReadSetExportJob: API.OperationMethod<
+  StartReadSetExportJobRequest,
   StartReadSetExportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8307,9 +8228,8 @@ export const startReadSetExportJob: (
 /**
  * Imports a read set from the sequence store. Read set import jobs support a maximum of 100 read sets of different types. Monitor the progress of your read set import job by calling the `GetReadSetImportJob` API operation.
  */
-export const startReadSetImportJob: (
-  input: StartReadSetImportJobRequest,
-) => effect.Effect<
+export const startReadSetImportJob: API.OperationMethod<
+  StartReadSetImportJobRequest,
   StartReadSetImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8338,9 +8258,8 @@ export const startReadSetImportJob: (
  *
  * For more information, see Direct upload to a sequence store in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const uploadReadSetPart: (
-  input: UploadReadSetPartRequest,
-) => effect.Effect<
+export const uploadReadSetPart: API.OperationMethod<
+  UploadReadSetPartRequest,
   UploadReadSetPartResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8369,9 +8288,8 @@ export const uploadReadSetPart: (
 /**
  * Retrieves the metadata for a read set from a sequence store in JSON format. This operation does not return tags. To retrieve the list of tags for a read set, use the `ListTagsForResource` API operation.
  */
-export const getReadSetMetadata: (
-  input: GetReadSetMetadataRequest,
-) => effect.Effect<
+export const getReadSetMetadata: API.OperationMethod<
+  GetReadSetMetadataRequest,
   GetReadSetMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8396,20 +8314,18 @@ export const getReadSetMetadata: (
 /**
  * Retrieves a list of read sets from a sequence store ID and returns the metadata in JSON format.
  */
-export const listReadSets: {
-  (
-    input: ListReadSetsRequest,
-  ): effect.Effect<
-    ListReadSetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReadSets: API.OperationMethod<
+  ListReadSetsRequest,
+  ListReadSetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReadSetsRequest,
   ) => stream.Stream<
@@ -8457,9 +8373,8 @@ export const listReadSets: {
 /**
  * Retrieves detailed information from parts of a read set and returns the read set in the same format that it was uploaded. You must have read sets uploaded to your sequence store in order to run this operation.
  */
-export const getReadSet: (
-  input: GetReadSetRequest,
-) => effect.Effect<
+export const getReadSet: API.OperationMethod<
+  GetReadSetRequest,
   GetReadSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -8488,9 +8403,8 @@ export const getReadSet: (
 /**
  * Deletes one or more read sets. If the operation is successful, it returns a response with no body. If there is an error with deleting one of the read sets, the operation returns an error list. If the operation successfully deletes only a subset of files, it will return an error list for the remaining files that fail to be deleted. There is a limit of 100 read sets that can be deleted in each `BatchDeleteReadSet` API call.
  */
-export const batchDeleteReadSet: (
-  input: BatchDeleteReadSetRequest,
-) => effect.Effect<
+export const batchDeleteReadSet: API.OperationMethod<
+  BatchDeleteReadSetRequest,
   BatchDeleteReadSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8523,9 +8437,8 @@ export const batchDeleteReadSet: (
  *
  * - Private workflows
  */
-export const createShare: (
-  input: CreateShareRequest,
-) => effect.Effect<
+export const createShare: API.OperationMethod<
+  CreateShareRequest,
   CreateShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -8552,9 +8465,8 @@ export const createShare: (
 /**
  * Retrieves the metadata for the specified resource share.
  */
-export const getShare: (
-  input: GetShareRequest,
-) => effect.Effect<
+export const getShare: API.OperationMethod<
+  GetShareRequest,
   GetShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -8581,9 +8493,8 @@ export const getShare: (
 /**
  * Accept a resource share request.
  */
-export const acceptShare: (
-  input: AcceptShareRequest,
-) => effect.Effect<
+export const acceptShare: API.OperationMethod<
+  AcceptShareRequest,
   AcceptShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -8610,9 +8521,8 @@ export const acceptShare: (
 /**
  * Deletes a resource share. If you are the resource owner, the subscriber will no longer have access to the shared resource. If you are the subscriber, this operation deletes your access to the share.
  */
-export const deleteShare: (
-  input: DeleteShareRequest,
-) => effect.Effect<
+export const deleteShare: API.OperationMethod<
+  DeleteShareRequest,
   DeleteShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -8639,21 +8549,19 @@ export const deleteShare: (
 /**
  * Retrieves the resource shares associated with an account. Use the filter parameter to retrieve a specific subset of the shares.
  */
-export const listShares: {
-  (
-    input: ListSharesRequest,
-  ): effect.Effect<
-    ListSharesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listShares: API.OperationMethod<
+  ListSharesRequest,
+  ListSharesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSharesRequest,
   ) => stream.Stream<
@@ -8704,9 +8612,8 @@ export const listShares: {
 /**
  * Retrieves a list of tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8735,9 +8642,8 @@ export const listTagsForResource: (
 /**
  * Tags a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8766,9 +8672,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8799,9 +8704,8 @@ export const untagResource: (
  *
  * Starts a variant import job.
  */
-export const startVariantImportJob: (
-  input: StartVariantImportRequest,
-) => effect.Effect<
+export const startVariantImportJob: API.OperationMethod<
+  StartVariantImportRequest,
   StartVariantImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8828,9 +8732,8 @@ export const startVariantImportJob: (
  *
  * Gets information about a variant import job.
  */
-export const getVariantImportJob: (
-  input: GetVariantImportRequest,
-) => effect.Effect<
+export const getVariantImportJob: API.OperationMethod<
+  GetVariantImportRequest,
   GetVariantImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8855,9 +8758,8 @@ export const getVariantImportJob: (
  *
  * Cancels a variant import job.
  */
-export const cancelVariantImportJob: (
-  input: CancelVariantImportRequest,
-) => effect.Effect<
+export const cancelVariantImportJob: API.OperationMethod<
+  CancelVariantImportRequest,
   CancelVariantImportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8882,19 +8784,17 @@ export const cancelVariantImportJob: (
  *
  * Retrieves a list of variant import jobs.
  */
-export const listVariantImportJobs: {
-  (
-    input: ListVariantImportJobsRequest,
-  ): effect.Effect<
-    ListVariantImportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVariantImportJobs: API.OperationMethod<
+  ListVariantImportJobsRequest,
+  ListVariantImportJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVariantImportJobsRequest,
   ) => stream.Stream<
@@ -8941,9 +8841,8 @@ export const listVariantImportJobs: {
  *
  * Creates a variant store.
  */
-export const createVariantStore: (
-  input: CreateVariantStoreRequest,
-) => effect.Effect<
+export const createVariantStore: API.OperationMethod<
+  CreateVariantStoreRequest,
   CreateVariantStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -8972,9 +8871,8 @@ export const createVariantStore: (
  *
  * Gets information about a variant store.
  */
-export const getVariantStore: (
-  input: GetVariantStoreRequest,
-) => effect.Effect<
+export const getVariantStore: API.OperationMethod<
+  GetVariantStoreRequest,
   GetVariantStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8999,9 +8897,8 @@ export const getVariantStore: (
  *
  * Updates a variant store.
  */
-export const updateVariantStore: (
-  input: UpdateVariantStoreRequest,
-) => effect.Effect<
+export const updateVariantStore: API.OperationMethod<
+  UpdateVariantStoreRequest,
   UpdateVariantStoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9026,9 +8923,8 @@ export const updateVariantStore: (
  *
  * Deletes a variant store.
  */
-export const deleteVariantStore: (
-  input: DeleteVariantStoreRequest,
-) => effect.Effect<
+export const deleteVariantStore: API.OperationMethod<
+  DeleteVariantStoreRequest,
   DeleteVariantStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -9055,19 +8951,17 @@ export const deleteVariantStore: (
  *
  * Retrieves a list of variant stores.
  */
-export const listVariantStores: {
-  (
-    input: ListVariantStoresRequest,
-  ): effect.Effect<
-    ListVariantStoresResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVariantStores: API.OperationMethod<
+  ListVariantStoresRequest,
+  ListVariantStoresResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVariantStoresRequest,
   ) => stream.Stream<
@@ -9124,9 +9018,8 @@ export const listVariantStores: {
  *
  * For more information, see Creating or updating a private workflow in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createWorkflow: (
-  input: CreateWorkflowRequest,
-) => effect.Effect<
+export const createWorkflow: API.OperationMethod<
+  CreateWorkflowRequest,
   CreateWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9159,9 +9052,8 @@ export const createWorkflow: (
  *
  * For more information about your workflow status, see Verify the workflow status in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getWorkflow: (
-  input: GetWorkflowRequest,
-) => effect.Effect<
+export const getWorkflow: API.OperationMethod<
+  GetWorkflowRequest,
   GetWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9204,9 +9096,8 @@ export const getWorkflow: (
  *
  * For more information, see Update a private workflow in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const updateWorkflow: (
-  input: UpdateWorkflowRequest,
-) => effect.Effect<
+export const updateWorkflow: API.OperationMethod<
+  UpdateWorkflowRequest,
   UpdateWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9241,9 +9132,8 @@ export const updateWorkflow: (
  *
  * - Use `GetWorkflow` to verify the workflow cannot be found.
  */
-export const deleteWorkflow: (
-  input: DeleteWorkflowRequest,
-) => effect.Effect<
+export const deleteWorkflow: API.OperationMethod<
+  DeleteWorkflowRequest,
   DeleteWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9272,22 +9162,20 @@ export const deleteWorkflow: (
 /**
  * Retrieves a list of existing workflows. You can filter for specific workflows by their name and type. Using the type parameter, specify `PRIVATE` to retrieve a list of private workflows or specify `READY2RUN` for a list of all Ready2Run workflows. If you do not specify the type of workflow, this operation returns a list of existing workflows.
  */
-export const listWorkflows: {
-  (
-    input: ListWorkflowsRequest,
-  ): effect.Effect<
-    ListWorkflowsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflows: API.OperationMethod<
+  ListWorkflowsRequest,
+  ListWorkflowsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowsRequest,
   ) => stream.Stream<
@@ -9349,9 +9237,8 @@ export const listWorkflows: {
  *
  * For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const createWorkflowVersion: (
-  input: CreateWorkflowVersionRequest,
-) => effect.Effect<
+export const createWorkflowVersion: API.OperationMethod<
+  CreateWorkflowVersionRequest,
   CreateWorkflowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9380,9 +9267,8 @@ export const createWorkflowVersion: (
 /**
  * Gets information about a workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const getWorkflowVersion: (
-  input: GetWorkflowVersionRequest,
-) => effect.Effect<
+export const getWorkflowVersion: API.OperationMethod<
+  GetWorkflowVersionRequest,
   GetWorkflowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9411,9 +9297,8 @@ export const getWorkflowVersion: (
 /**
  * Updates information about the workflow version. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const updateWorkflowVersion: (
-  input: UpdateWorkflowVersionRequest,
-) => effect.Effect<
+export const updateWorkflowVersion: API.OperationMethod<
+  UpdateWorkflowVersionRequest,
   UpdateWorkflowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9444,9 +9329,8 @@ export const updateWorkflowVersion: (
  *
  * For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const deleteWorkflowVersion: (
-  input: DeleteWorkflowVersionRequest,
-) => effect.Effect<
+export const deleteWorkflowVersion: API.OperationMethod<
+  DeleteWorkflowVersionRequest,
   DeleteWorkflowVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9475,22 +9359,20 @@ export const deleteWorkflowVersion: (
 /**
  * Lists the workflow versions for the specified workflow. For more information, see Workflow versioning in Amazon Web Services HealthOmics in the *Amazon Web Services HealthOmics User Guide*.
  */
-export const listWorkflowVersions: {
-  (
-    input: ListWorkflowVersionsRequest,
-  ): effect.Effect<
-    ListWorkflowVersionsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | RequestTimeoutException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowVersions: API.OperationMethod<
+  ListWorkflowVersionsRequest,
+  ListWorkflowVersionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | RequestTimeoutException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowVersionsRequest,
   ) => stream.Stream<

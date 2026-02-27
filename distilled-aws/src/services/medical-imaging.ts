@@ -1368,9 +1368,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Copy an image set.
  */
-export const copyImageSet: (
-  input: CopyImageSetRequest,
-) => effect.Effect<
+export const copyImageSet: API.OperationMethod<
+  CopyImageSetRequest,
   CopyImageSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -1397,9 +1396,8 @@ export const copyImageSet: (
 /**
  * Delete an image set.
  */
-export const deleteImageSet: (
-  input: DeleteImageSetRequest,
-) => effect.Effect<
+export const deleteImageSet: API.OperationMethod<
+  DeleteImageSetRequest,
   DeleteImageSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -1426,9 +1424,8 @@ export const deleteImageSet: (
  *
  * The `jobStatus` refers to the execution of the import job. Therefore, an import job can return a `jobStatus` as `COMPLETED` even if validation issues are discovered during the import process. If a `jobStatus` returns as `COMPLETED`, we still recommend you review the output manifests written to S3, as they provide details on the success or failure of individual P10 object imports.
  */
-export const getDICOMImportJob: (
-  input: GetDICOMImportJobRequest,
-) => effect.Effect<
+export const getDICOMImportJob: API.OperationMethod<
+  GetDICOMImportJobRequest,
   GetDICOMImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -1453,9 +1450,8 @@ export const getDICOMImportJob: (
 /**
  * Get an image frame (pixel data) for an image set.
  */
-export const getImageFrame: (
-  input: GetImageFrameRequest,
-) => effect.Effect<
+export const getImageFrame: API.OperationMethod<
+  GetImageFrameRequest,
   GetImageFrameResponse,
   | AccessDeniedException
   | ConflictException
@@ -1480,9 +1476,8 @@ export const getImageFrame: (
 /**
  * Get image set properties.
  */
-export const getImageSet: (
-  input: GetImageSetRequest,
-) => effect.Effect<
+export const getImageSet: API.OperationMethod<
+  GetImageSetRequest,
   GetImageSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -1507,9 +1502,8 @@ export const getImageSet: (
 /**
  * Get metadata attributes for an image set.
  */
-export const getImageSetMetadata: (
-  input: GetImageSetMetadataRequest,
-) => effect.Effect<
+export const getImageSetMetadata: API.OperationMethod<
+  GetImageSetMetadataRequest,
   GetImageSetMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -1534,20 +1528,18 @@ export const getImageSetMetadata: (
 /**
  * List import jobs created for a specific data store.
  */
-export const listDICOMImportJobs: {
-  (
-    input: ListDICOMImportJobsRequest,
-  ): effect.Effect<
-    ListDICOMImportJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDICOMImportJobs: API.OperationMethod<
+  ListDICOMImportJobsRequest,
+  ListDICOMImportJobsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDICOMImportJobsRequest,
   ) => stream.Stream<
@@ -1595,20 +1587,18 @@ export const listDICOMImportJobs: {
 /**
  * List image set versions.
  */
-export const listImageSetVersions: {
-  (
-    input: ListImageSetVersionsRequest,
-  ): effect.Effect<
-    ListImageSetVersionsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImageSetVersions: API.OperationMethod<
+  ListImageSetVersionsRequest,
+  ListImageSetVersionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImageSetVersionsRequest,
   ) => stream.Stream<
@@ -1656,9 +1646,8 @@ export const listImageSetVersions: {
 /**
  * Lists all tags associated with a medical imaging resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1685,20 +1674,18 @@ export const listTagsForResource: (
  *
  * By default, `SearchImageSets` uses the `updatedAt` field for sorting in descending order from newest to oldest.
  */
-export const searchImageSets: {
-  (
-    input: SearchImageSetsRequest,
-  ): effect.Effect<
-    SearchImageSetsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchImageSets: API.OperationMethod<
+  SearchImageSetsRequest,
+  SearchImageSetsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchImageSetsRequest,
   ) => stream.Stream<
@@ -1746,9 +1733,8 @@ export const searchImageSets: {
 /**
  * Start importing bulk data into an `ACTIVE` data store. The import job imports DICOM P10 files found in the S3 prefix specified by the `inputS3Uri` parameter. The import job stores processing results in the file specified by the `outputS3Uri` parameter.
  */
-export const startDICOMImportJob: (
-  input: StartDICOMImportJobRequest,
-) => effect.Effect<
+export const startDICOMImportJob: API.OperationMethod<
+  StartDICOMImportJobRequest,
   StartDICOMImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -1775,9 +1761,8 @@ export const startDICOMImportJob: (
 /**
  * Adds a user-specifed key and value tag to a medical imaging resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1800,9 +1785,8 @@ export const tagResource: (
 /**
  * Removes tags from a medical imaging resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1825,9 +1809,8 @@ export const untagResource: (
 /**
  * Update image set metadata attributes.
  */
-export const updateImageSetMetadata: (
-  input: UpdateImageSetMetadataRequest,
-) => effect.Effect<
+export const updateImageSetMetadata: API.OperationMethod<
+  UpdateImageSetMetadataRequest,
   UpdateImageSetMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -1854,9 +1837,8 @@ export const updateImageSetMetadata: (
 /**
  * Create a data store.
  */
-export const createDatastore: (
-  input: CreateDatastoreRequest,
-) => effect.Effect<
+export const createDatastore: API.OperationMethod<
+  CreateDatastoreRequest,
   CreateDatastoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -1883,9 +1865,8 @@ export const createDatastore: (
 /**
  * Get data store properties.
  */
-export const getDatastore: (
-  input: GetDatastoreRequest,
-) => effect.Effect<
+export const getDatastore: API.OperationMethod<
+  GetDatastoreRequest,
   GetDatastoreResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1910,9 +1891,8 @@ export const getDatastore: (
  *
  * Before a data store can be deleted, you must first delete all image sets within it.
  */
-export const deleteDatastore: (
-  input: DeleteDatastoreRequest,
-) => effect.Effect<
+export const deleteDatastore: API.OperationMethod<
+  DeleteDatastoreRequest,
   DeleteDatastoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -1937,18 +1917,16 @@ export const deleteDatastore: (
 /**
  * List data stores.
  */
-export const listDatastores: {
-  (
-    input: ListDatastoresRequest,
-  ): effect.Effect<
-    ListDatastoresResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatastores: API.OperationMethod<
+  ListDatastoresRequest,
+  ListDatastoresResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatastoresRequest,
   ) => stream.Stream<

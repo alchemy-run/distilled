@@ -2729,9 +2729,8 @@ export class InternalServerException extends S.TaggedErrorClass<InternalServerEx
  * exist (or if they can't be deleted), then `LATEST_WORKING` will be listed as
  * partial failure in the response.
  */
-export const batchDeleteRecipeVersion: (
-  input: BatchDeleteRecipeVersionRequest,
-) => effect.Effect<
+export const batchDeleteRecipeVersion: API.OperationMethod<
+  BatchDeleteRecipeVersionRequest,
   BatchDeleteRecipeVersionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2746,9 +2745,8 @@ export const batchDeleteRecipeVersion: (
 /**
  * Creates a new DataBrew dataset.
  */
-export const createDataset: (
-  input: CreateDatasetRequest,
-) => effect.Effect<
+export const createDataset: API.OperationMethod<
+  CreateDatasetRequest,
   CreateDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2769,9 +2767,8 @@ export const createDataset: (
 /**
  * Creates a new job to analyze a dataset and create its data profile.
  */
-export const createProfileJob: (
-  input: CreateProfileJobRequest,
-) => effect.Effect<
+export const createProfileJob: API.OperationMethod<
+  CreateProfileJobRequest,
   CreateProfileJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2794,9 +2791,8 @@ export const createProfileJob: (
 /**
  * Creates a new DataBrew project.
  */
-export const createProject: (
-  input: CreateProjectRequest,
-) => effect.Effect<
+export const createProject: API.OperationMethod<
+  CreateProjectRequest,
   CreateProjectResponse,
   | ConflictException
   | InternalServerException
@@ -2817,9 +2813,8 @@ export const createProject: (
 /**
  * Creates a new DataBrew recipe.
  */
-export const createRecipe: (
-  input: CreateRecipeRequest,
-) => effect.Effect<
+export const createRecipe: API.OperationMethod<
+  CreateRecipeRequest,
   CreateRecipeResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -2838,9 +2833,8 @@ export const createRecipe: (
 /**
  * Creates a new job to transform input data, using steps defined in an existing Glue DataBrew recipe
  */
-export const createRecipeJob: (
-  input: CreateRecipeJobRequest,
-) => effect.Effect<
+export const createRecipeJob: API.OperationMethod<
+  CreateRecipeJobRequest,
   CreateRecipeJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2864,9 +2858,8 @@ export const createRecipeJob: (
  * Creates a new ruleset that can be used in a profile job to validate
  * the data quality of a dataset.
  */
-export const createRuleset: (
-  input: CreateRulesetRequest,
-) => effect.Effect<
+export const createRuleset: API.OperationMethod<
+  CreateRulesetRequest,
   CreateRulesetResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -2886,9 +2879,8 @@ export const createRuleset: (
  * Creates a new schedule for one or more DataBrew jobs. Jobs can be run at a specific
  * date and time, or at regular intervals.
  */
-export const createSchedule: (
-  input: CreateScheduleRequest,
-) => effect.Effect<
+export const createSchedule: API.OperationMethod<
+  CreateScheduleRequest,
   CreateScheduleResponse,
   | ConflictException
   | ServiceQuotaExceededException
@@ -2907,9 +2899,8 @@ export const createSchedule: (
 /**
  * Deletes a dataset from DataBrew.
  */
-export const deleteDataset: (
-  input: DeleteDatasetRequest,
-) => effect.Effect<
+export const deleteDataset: API.OperationMethod<
+  DeleteDatasetRequest,
   DeleteDatasetResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2924,9 +2915,8 @@ export const deleteDataset: (
 /**
  * Deletes the specified DataBrew job.
  */
-export const deleteJob: (
-  input: DeleteJobRequest,
-) => effect.Effect<
+export const deleteJob: API.OperationMethod<
+  DeleteJobRequest,
   DeleteJobResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2941,9 +2931,8 @@ export const deleteJob: (
 /**
  * Deletes an existing DataBrew project.
  */
-export const deleteProject: (
-  input: DeleteProjectRequest,
-) => effect.Effect<
+export const deleteProject: API.OperationMethod<
+  DeleteProjectRequest,
   DeleteProjectResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2958,9 +2947,8 @@ export const deleteProject: (
 /**
  * Deletes a single version of a DataBrew recipe.
  */
-export const deleteRecipeVersion: (
-  input: DeleteRecipeVersionRequest,
-) => effect.Effect<
+export const deleteRecipeVersion: API.OperationMethod<
+  DeleteRecipeVersionRequest,
   DeleteRecipeVersionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2975,9 +2963,8 @@ export const deleteRecipeVersion: (
 /**
  * Deletes a ruleset.
  */
-export const deleteRuleset: (
-  input: DeleteRulesetRequest,
-) => effect.Effect<
+export const deleteRuleset: API.OperationMethod<
+  DeleteRulesetRequest,
   DeleteRulesetResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -2992,9 +2979,8 @@ export const deleteRuleset: (
 /**
  * Deletes the specified DataBrew schedule.
  */
-export const deleteSchedule: (
-  input: DeleteScheduleRequest,
-) => effect.Effect<
+export const deleteSchedule: API.OperationMethod<
+  DeleteScheduleRequest,
   DeleteScheduleResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3006,9 +2992,8 @@ export const deleteSchedule: (
 /**
  * Returns the definition of a specific DataBrew dataset.
  */
-export const describeDataset: (
-  input: DescribeDatasetRequest,
-) => effect.Effect<
+export const describeDataset: API.OperationMethod<
+  DescribeDatasetRequest,
   DescribeDatasetResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3020,9 +3005,8 @@ export const describeDataset: (
 /**
  * Returns the definition of a specific DataBrew job.
  */
-export const describeJob: (
-  input: DescribeJobRequest,
-) => effect.Effect<
+export const describeJob: API.OperationMethod<
+  DescribeJobRequest,
   DescribeJobResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3034,9 +3018,8 @@ export const describeJob: (
 /**
  * Represents one run of a DataBrew job.
  */
-export const describeJobRun: (
-  input: DescribeJobRunRequest,
-) => effect.Effect<
+export const describeJobRun: API.OperationMethod<
+  DescribeJobRunRequest,
   DescribeJobRunResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3048,9 +3031,8 @@ export const describeJobRun: (
 /**
  * Returns the definition of a specific DataBrew project.
  */
-export const describeProject: (
-  input: DescribeProjectRequest,
-) => effect.Effect<
+export const describeProject: API.OperationMethod<
+  DescribeProjectRequest,
   DescribeProjectResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3063,9 +3045,8 @@ export const describeProject: (
  * Returns the definition of a specific DataBrew recipe corresponding to a particular
  * version.
  */
-export const describeRecipe: (
-  input: DescribeRecipeRequest,
-) => effect.Effect<
+export const describeRecipe: API.OperationMethod<
+  DescribeRecipeRequest,
   DescribeRecipeResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3077,9 +3058,8 @@ export const describeRecipe: (
 /**
  * Retrieves detailed information about the ruleset.
  */
-export const describeRuleset: (
-  input: DescribeRulesetRequest,
-) => effect.Effect<
+export const describeRuleset: API.OperationMethod<
+  DescribeRulesetRequest,
   DescribeRulesetResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3091,9 +3071,8 @@ export const describeRuleset: (
 /**
  * Returns the definition of a specific DataBrew schedule.
  */
-export const describeSchedule: (
-  input: DescribeScheduleRequest,
-) => effect.Effect<
+export const describeSchedule: API.OperationMethod<
+  DescribeScheduleRequest,
   DescribeScheduleResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3105,14 +3084,12 @@ export const describeSchedule: (
 /**
  * Lists all of the DataBrew datasets.
  */
-export const listDatasets: {
-  (
-    input: ListDatasetsRequest,
-  ): effect.Effect<
-    ListDatasetsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasets: API.OperationMethod<
+  ListDatasetsRequest,
+  ListDatasetsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
@@ -3141,14 +3118,12 @@ export const listDatasets: {
 /**
  * Lists all of the previous runs of a particular DataBrew job.
  */
-export const listJobRuns: {
-  (
-    input: ListJobRunsRequest,
-  ): effect.Effect<
-    ListJobRunsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobRuns: API.OperationMethod<
+  ListJobRunsRequest,
+  ListJobRunsResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobRunsRequest,
   ) => stream.Stream<
@@ -3177,14 +3152,12 @@ export const listJobRuns: {
 /**
  * Lists all of the DataBrew jobs that are defined.
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -3213,14 +3186,12 @@ export const listJobs: {
 /**
  * Lists all of the DataBrew projects that are defined.
  */
-export const listProjects: {
-  (
-    input: ListProjectsRequest,
-  ): effect.Effect<
-    ListProjectsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProjects: API.OperationMethod<
+  ListProjectsRequest,
+  ListProjectsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectsRequest,
   ) => stream.Stream<
@@ -3249,14 +3220,12 @@ export const listProjects: {
 /**
  * Lists all of the DataBrew recipes that are defined.
  */
-export const listRecipes: {
-  (
-    input: ListRecipesRequest,
-  ): effect.Effect<
-    ListRecipesResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecipes: API.OperationMethod<
+  ListRecipesRequest,
+  ListRecipesResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecipesRequest,
   ) => stream.Stream<
@@ -3286,14 +3255,12 @@ export const listRecipes: {
  * Lists the versions of a particular DataBrew recipe, except for
  * `LATEST_WORKING`.
  */
-export const listRecipeVersions: {
-  (
-    input: ListRecipeVersionsRequest,
-  ): effect.Effect<
-    ListRecipeVersionsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecipeVersions: API.OperationMethod<
+  ListRecipeVersionsRequest,
+  ListRecipeVersionsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecipeVersionsRequest,
   ) => stream.Stream<
@@ -3323,14 +3290,12 @@ export const listRecipeVersions: {
  * List all rulesets available in the current account or rulesets associated
  * with a specific resource (dataset).
  */
-export const listRulesets: {
-  (
-    input: ListRulesetsRequest,
-  ): effect.Effect<
-    ListRulesetsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRulesets: API.OperationMethod<
+  ListRulesetsRequest,
+  ListRulesetsResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRulesetsRequest,
   ) => stream.Stream<
@@ -3359,14 +3324,12 @@ export const listRulesets: {
 /**
  * Lists the DataBrew schedules that are defined.
  */
-export const listSchedules: {
-  (
-    input: ListSchedulesRequest,
-  ): effect.Effect<
-    ListSchedulesResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchedules: API.OperationMethod<
+  ListSchedulesRequest,
+  ListSchedulesResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchedulesRequest,
   ) => stream.Stream<
@@ -3395,9 +3358,8 @@ export const listSchedules: {
 /**
  * Lists all the tags for a DataBrew resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3416,9 +3378,8 @@ export const listTagsForResource: (
 /**
  * Publishes a new version of a DataBrew recipe.
  */
-export const publishRecipe: (
-  input: PublishRecipeRequest,
-) => effect.Effect<
+export const publishRecipe: API.OperationMethod<
+  PublishRecipeRequest,
   PublishRecipeResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -3438,9 +3399,8 @@ export const publishRecipe: (
  * Performs a recipe step within an interactive DataBrew session that's currently
  * open.
  */
-export const sendProjectSessionAction: (
-  input: SendProjectSessionActionRequest,
-) => effect.Effect<
+export const sendProjectSessionAction: API.OperationMethod<
+  SendProjectSessionActionRequest,
   SendProjectSessionActionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3455,9 +3415,8 @@ export const sendProjectSessionAction: (
 /**
  * Runs a DataBrew job.
  */
-export const startJobRun: (
-  input: StartJobRunRequest,
-) => effect.Effect<
+export const startJobRun: API.OperationMethod<
+  StartJobRunRequest,
   StartJobRunResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3479,9 +3438,8 @@ export const startJobRun: (
  * Creates an interactive session, enabling you to manipulate data in a DataBrew
  * project.
  */
-export const startProjectSession: (
-  input: StartProjectSessionRequest,
-) => effect.Effect<
+export const startProjectSession: API.OperationMethod<
+  StartProjectSessionRequest,
   StartProjectSessionResponse,
   | ConflictException
   | ResourceNotFoundException
@@ -3502,9 +3460,8 @@ export const startProjectSession: (
 /**
  * Stops a particular run of a job.
  */
-export const stopJobRun: (
-  input: StopJobRunRequest,
-) => effect.Effect<
+export const stopJobRun: API.OperationMethod<
+  StopJobRunRequest,
   StopJobRunResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3517,9 +3474,8 @@ export const stopJobRun: (
  * Adds metadata tags to a DataBrew resource, such as a dataset, project, recipe, job, or
  * schedule.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3538,9 +3494,8 @@ export const tagResource: (
 /**
  * Removes metadata tags from a DataBrew resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3559,9 +3514,8 @@ export const untagResource: (
 /**
  * Modifies the definition of an existing DataBrew dataset.
  */
-export const updateDataset: (
-  input: UpdateDatasetRequest,
-) => effect.Effect<
+export const updateDataset: API.OperationMethod<
+  UpdateDatasetRequest,
   UpdateDatasetResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3580,9 +3534,8 @@ export const updateDataset: (
 /**
  * Modifies the definition of an existing profile job.
  */
-export const updateProfileJob: (
-  input: UpdateProfileJobRequest,
-) => effect.Effect<
+export const updateProfileJob: API.OperationMethod<
+  UpdateProfileJobRequest,
   UpdateProfileJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3601,9 +3554,8 @@ export const updateProfileJob: (
 /**
  * Modifies the definition of an existing DataBrew project.
  */
-export const updateProject: (
-  input: UpdateProjectRequest,
-) => effect.Effect<
+export const updateProject: API.OperationMethod<
+  UpdateProjectRequest,
   UpdateProjectResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3616,9 +3568,8 @@ export const updateProject: (
  * Modifies the definition of the `LATEST_WORKING` version of a DataBrew
  * recipe.
  */
-export const updateRecipe: (
-  input: UpdateRecipeRequest,
-) => effect.Effect<
+export const updateRecipe: API.OperationMethod<
+  UpdateRecipeRequest,
   UpdateRecipeResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3630,9 +3581,8 @@ export const updateRecipe: (
 /**
  * Modifies the definition of an existing DataBrew recipe job.
  */
-export const updateRecipeJob: (
-  input: UpdateRecipeJobRequest,
-) => effect.Effect<
+export const updateRecipeJob: API.OperationMethod<
+  UpdateRecipeJobRequest,
   UpdateRecipeJobResponse,
   | AccessDeniedException
   | ResourceNotFoundException
@@ -3651,9 +3601,8 @@ export const updateRecipeJob: (
 /**
  * Updates specified ruleset.
  */
-export const updateRuleset: (
-  input: UpdateRulesetRequest,
-) => effect.Effect<
+export const updateRuleset: API.OperationMethod<
+  UpdateRulesetRequest,
   UpdateRulesetResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3665,9 +3614,8 @@ export const updateRuleset: (
 /**
  * Modifies the definition of an existing DataBrew schedule.
  */
-export const updateSchedule: (
-  input: UpdateScheduleRequest,
-) => effect.Effect<
+export const updateSchedule: API.OperationMethod<
+  UpdateScheduleRequest,
   UpdateScheduleResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException

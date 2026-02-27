@@ -1391,9 +1391,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists the tags assigned to the resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1412,9 +1411,8 @@ export const listTagsForResource: (
 /**
  * Assigns tags to resources. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key and an optional value, both of which you define. Tags enable you to categorize your Amazon Web Services resources by attributes such as purpose, owner, or environment. When you have many resources of the same type, you can quickly identify a specific resource based on the tags you've assigned to it.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1433,9 +1431,8 @@ export const tagResource: (
 /**
  * Removes tags from resources.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1454,9 +1451,8 @@ export const untagResource: (
 /**
  * Creates an application.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | ConflictException
   | InternalServerException
@@ -1477,9 +1473,8 @@ export const createApplication: (
 /**
  * Displays detailed information about a specified application.
  */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
   GetApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1498,9 +1493,8 @@ export const getApplication: (
 /**
  * Updates a specified application. An application has to be in a stopped or created state in order to be updated.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1519,9 +1513,8 @@ export const updateApplication: (
 /**
  * Deletes an application. An application has to be in a stopped or created state in order to be deleted.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1540,14 +1533,12 @@ export const deleteApplication: (
 /**
  * Lists applications based on a set of parameters.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -1576,9 +1567,8 @@ export const listApplications: {
 /**
  * Starts a specified application and initializes initial capacity if configured.
  */
-export const startApplication: (
-  input: StartApplicationRequest,
-) => effect.Effect<
+export const startApplication: API.OperationMethod<
+  StartApplicationRequest,
   StartApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1599,9 +1589,8 @@ export const startApplication: (
 /**
  * Stops a specified application and releases initial capacity if configured. All scheduled and running jobs must be completed or cancelled before stopping an application.
  */
-export const stopApplication: (
-  input: StopApplicationRequest,
-) => effect.Effect<
+export const stopApplication: API.OperationMethod<
+  StopApplicationRequest,
   StopApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1620,9 +1609,8 @@ export const stopApplication: (
 /**
  * Starts a job run.
  */
-export const startJobRun: (
-  input: StartJobRunRequest,
-) => effect.Effect<
+export const startJobRun: API.OperationMethod<
+  StartJobRunRequest,
   StartJobRunResponse,
   | ConflictException
   | InternalServerException
@@ -1643,9 +1631,8 @@ export const startJobRun: (
 /**
  * Displays detailed information about a job run.
  */
-export const getJobRun: (
-  input: GetJobRunRequest,
-) => effect.Effect<
+export const getJobRun: API.OperationMethod<
+  GetJobRunRequest,
   GetJobRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1664,9 +1651,8 @@ export const getJobRun: (
 /**
  * Cancels a job run.
  */
-export const cancelJobRun: (
-  input: CancelJobRunRequest,
-) => effect.Effect<
+export const cancelJobRun: API.OperationMethod<
+  CancelJobRunRequest,
   CancelJobRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1685,14 +1671,12 @@ export const cancelJobRun: (
 /**
  * Lists job runs based on a set of parameters.
  */
-export const listJobRuns: {
-  (
-    input: ListJobRunsRequest,
-  ): effect.Effect<
-    ListJobRunsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobRuns: API.OperationMethod<
+  ListJobRunsRequest,
+  ListJobRunsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobRunsRequest,
   ) => stream.Stream<
@@ -1725,9 +1709,8 @@ export const listJobRuns: {
  *
  * The URL is valid for one hour after you generate it. To access the application UI after that hour elapses, you must invoke the API again to generate a new URL.
  */
-export const getDashboardForJobRun: (
-  input: GetDashboardForJobRunRequest,
-) => effect.Effect<
+export const getDashboardForJobRun: API.OperationMethod<
+  GetDashboardForJobRunRequest,
   GetDashboardForJobRunResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1746,17 +1729,15 @@ export const getDashboardForJobRun: (
 /**
  * Lists all attempt of a job run.
  */
-export const listJobRunAttempts: {
-  (
-    input: ListJobRunAttemptsRequest,
-  ): effect.Effect<
-    ListJobRunAttemptsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobRunAttempts: API.OperationMethod<
+  ListJobRunAttemptsRequest,
+  ListJobRunAttemptsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobRunAttemptsRequest,
   ) => stream.Stream<

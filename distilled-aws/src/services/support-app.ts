@@ -504,9 +504,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * create, update, or resolve support cases for your account. Users require an invitation to
  * join private channels.
  */
-export const createSlackChannelConfiguration: (
-  input: CreateSlackChannelConfigurationRequest,
-) => effect.Effect<
+export const createSlackChannelConfiguration: API.OperationMethod<
+  CreateSlackChannelConfigurationRequest,
   CreateSlackChannelConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -530,9 +529,8 @@ export const createSlackChannelConfiguration: (
  * Deletes an alias for an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of the
  * Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
  */
-export const deleteAccountAlias: (
-  input: DeleteAccountAliasRequest,
-) => effect.Effect<
+export const deleteAccountAlias: API.OperationMethod<
+  DeleteAccountAliasRequest,
   DeleteAccountAliasResult,
   | AccessDeniedException
   | InternalServerException
@@ -552,9 +550,8 @@ export const deleteAccountAlias: (
  * Deletes a Slack channel configuration from your Amazon Web Services account. This operation doesn't
  * delete your Slack channel.
  */
-export const deleteSlackChannelConfiguration: (
-  input: DeleteSlackChannelConfigurationRequest,
-) => effect.Effect<
+export const deleteSlackChannelConfiguration: API.OperationMethod<
+  DeleteSlackChannelConfigurationRequest,
   DeleteSlackChannelConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -578,9 +575,8 @@ export const deleteSlackChannelConfiguration: (
  * Deletes a Slack workspace configuration from your Amazon Web Services account. This operation doesn't
  * delete your Slack workspace.
  */
-export const deleteSlackWorkspaceConfiguration: (
-  input: DeleteSlackWorkspaceConfigurationRequest,
-) => effect.Effect<
+export const deleteSlackWorkspaceConfiguration: API.OperationMethod<
+  DeleteSlackWorkspaceConfigurationRequest,
   DeleteSlackWorkspaceConfigurationResult,
   | AccessDeniedException
   | ConflictException
@@ -604,9 +600,8 @@ export const deleteSlackWorkspaceConfiguration: (
  * Retrieves the alias from an Amazon Web Services account ID. The alias appears in the Amazon Web Services Support App page of
  * the Amazon Web Services Support Center. The alias also appears in Slack messages from the Amazon Web Services Support App.
  */
-export const getAccountAlias: (
-  input: GetAccountAliasRequest,
-) => effect.Effect<
+export const getAccountAlias: API.OperationMethod<
+  GetAccountAliasRequest,
   GetAccountAliasResult,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -618,14 +613,12 @@ export const getAccountAlias: (
 /**
  * Lists the Slack channel configurations for an Amazon Web Services account.
  */
-export const listSlackChannelConfigurations: {
-  (
-    input: ListSlackChannelConfigurationsRequest,
-  ): effect.Effect<
-    ListSlackChannelConfigurationsResult,
-    AccessDeniedException | InternalServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSlackChannelConfigurations: API.OperationMethod<
+  ListSlackChannelConfigurationsRequest,
+  ListSlackChannelConfigurationsResult,
+  AccessDeniedException | InternalServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSlackChannelConfigurationsRequest,
   ) => stream.Stream<
@@ -649,14 +642,12 @@ export const listSlackChannelConfigurations: {
 /**
  * Lists the Slack workspace configurations for an Amazon Web Services account.
  */
-export const listSlackWorkspaceConfigurations: {
-  (
-    input: ListSlackWorkspaceConfigurationsRequest,
-  ): effect.Effect<
-    ListSlackWorkspaceConfigurationsResult,
-    AccessDeniedException | InternalServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSlackWorkspaceConfigurations: API.OperationMethod<
+  ListSlackWorkspaceConfigurationsRequest,
+  ListSlackWorkspaceConfigurationsResult,
+  AccessDeniedException | InternalServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSlackWorkspaceConfigurationsRequest,
   ) => stream.Stream<
@@ -682,9 +673,8 @@ export const listSlackWorkspaceConfigurations: {
  * Amazon Web Services Support App page of the Amazon Web Services Support Center. The alias also appears in Slack messages from the
  * Amazon Web Services Support App.
  */
-export const putAccountAlias: (
-  input: PutAccountAliasRequest,
-) => effect.Effect<
+export const putAccountAlias: API.OperationMethod<
+  PutAccountAliasRequest,
   PutAccountAliasResult,
   | AccessDeniedException
   | InternalServerException
@@ -723,9 +713,8 @@ export const putAccountAlias: (
  * - Configure a Slack channel to use the Amazon Web Services Support App for support cases for that account. For
  * more information, see Configuring a Slack channel.
  */
-export const registerSlackWorkspaceForOrganization: (
-  input: RegisterSlackWorkspaceForOrganizationRequest,
-) => effect.Effect<
+export const registerSlackWorkspaceForOrganization: API.OperationMethod<
+  RegisterSlackWorkspaceForOrganizationRequest,
   RegisterSlackWorkspaceForOrganizationResult,
   | AccessDeniedException
   | ConflictException
@@ -748,9 +737,8 @@ export const registerSlackWorkspaceForOrganization: (
 /**
  * Updates the configuration for a Slack channel, such as case update notifications.
  */
-export const updateSlackChannelConfiguration: (
-  input: UpdateSlackChannelConfigurationRequest,
-) => effect.Effect<
+export const updateSlackChannelConfiguration: API.OperationMethod<
+  UpdateSlackChannelConfigurationRequest,
   UpdateSlackChannelConfigurationResult,
   | AccessDeniedException
   | ConflictException

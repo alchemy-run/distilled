@@ -1450,9 +1450,8 @@ export class DisabledOperationException extends S.TaggedErrorClass<DisabledOpera
 /**
  * Indexes the search suggestions. For more information, see Configuring Suggesters in the *Amazon CloudSearch Developer Guide*.
  */
-export const buildSuggesters: (
-  input: BuildSuggestersRequest,
-) => effect.Effect<
+export const buildSuggesters: API.OperationMethod<
+  BuildSuggestersRequest,
   BuildSuggestersResponse,
   | BaseException
   | InternalException
@@ -1474,9 +1473,8 @@ export const buildSuggesters: (
  * Creates a new search domain. For more information,
  * see Creating a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
-export const createDomain: (
-  input: CreateDomainRequest,
-) => effect.Effect<
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
   CreateDomainResponse,
   | BaseException
   | InternalException
@@ -1499,9 +1497,8 @@ export const createDomain: (
 /**
  * Configures an analysis scheme that can be applied to a `text` or `text-array` field to define language-specific text processing options. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
-export const defineAnalysisScheme: (
-  input: DefineAnalysisSchemeRequest,
-) => effect.Effect<
+export const defineAnalysisScheme: API.OperationMethod<
+  DefineAnalysisSchemeRequest,
   DefineAnalysisSchemeResponse,
   | BaseException
   | InternalException
@@ -1526,9 +1523,8 @@ export const defineAnalysisScheme: (
 /**
  * Configures an `Expression` for the search domain. Used to create new expressions and modify existing ones. If the expression exists, the new configuration replaces the old one. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
-export const defineExpression: (
-  input: DefineExpressionRequest,
-) => effect.Effect<
+export const defineExpression: API.OperationMethod<
+  DefineExpressionRequest,
   DefineExpressionResponse,
   | BaseException
   | InternalException
@@ -1553,9 +1549,8 @@ export const defineExpression: (
 /**
  * Configures an `IndexField` for the search domain. Used to create new fields and modify existing ones. You must specify the name of the domain you are configuring and an index field configuration. The index field configuration specifies a unique name, the index field type, and the options you want to configure for the field. The options you can specify depend on the `IndexFieldType`. If the field exists, the new configuration replaces the old one. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
  */
-export const defineIndexField: (
-  input: DefineIndexFieldRequest,
-) => effect.Effect<
+export const defineIndexField: API.OperationMethod<
+  DefineIndexFieldRequest,
   DefineIndexFieldResponse,
   | BaseException
   | InternalException
@@ -1580,9 +1575,8 @@ export const defineIndexField: (
 /**
  * Configures a suggester for a domain. A suggester enables you to display possible matches before users finish typing their queries. When you configure a suggester, you must specify the name of the text field you want to search for possible matches and a unique name for the suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
-export const defineSuggester: (
-  input: DefineSuggesterRequest,
-) => effect.Effect<
+export const defineSuggester: API.OperationMethod<
+  DefineSuggesterRequest,
   DefineSuggesterResponse,
   | BaseException
   | InternalException
@@ -1607,9 +1601,8 @@ export const defineSuggester: (
 /**
  * Deletes an analysis scheme. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
-export const deleteAnalysisScheme: (
-  input: DeleteAnalysisSchemeRequest,
-) => effect.Effect<
+export const deleteAnalysisScheme: API.OperationMethod<
+  DeleteAnalysisSchemeRequest,
   DeleteAnalysisSchemeResponse,
   | BaseException
   | InternalException
@@ -1633,9 +1626,8 @@ export const deleteAnalysisScheme: (
  * Permanently deletes a search domain and all of its data. Once a domain has been deleted, it cannot be recovered. For more information,
  * see Deleting a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResponse,
   BaseException | InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1647,9 +1639,8 @@ export const deleteDomain: (
 /**
  * Removes an `Expression` from the search domain. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
-export const deleteExpression: (
-  input: DeleteExpressionRequest,
-) => effect.Effect<
+export const deleteExpression: API.OperationMethod<
+  DeleteExpressionRequest,
   DeleteExpressionResponse,
   | BaseException
   | InternalException
@@ -1672,9 +1663,8 @@ export const deleteExpression: (
 /**
  * Removes an `IndexField` from the search domain. For more information, see Configuring Index Fields in the *Amazon CloudSearch Developer Guide*.
  */
-export const deleteIndexField: (
-  input: DeleteIndexFieldRequest,
-) => effect.Effect<
+export const deleteIndexField: API.OperationMethod<
+  DeleteIndexFieldRequest,
   DeleteIndexFieldResponse,
   | BaseException
   | InternalException
@@ -1697,9 +1687,8 @@ export const deleteIndexField: (
 /**
  * Deletes a suggester. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
-export const deleteSuggester: (
-  input: DeleteSuggesterRequest,
-) => effect.Effect<
+export const deleteSuggester: API.OperationMethod<
+  DeleteSuggesterRequest,
   DeleteSuggesterResponse,
   | BaseException
   | InternalException
@@ -1722,9 +1711,8 @@ export const deleteSuggester: (
 /**
  * Gets the analysis schemes configured for a domain. An analysis scheme defines language-specific text processing options for a `text` field. Can be limited to specific analysis schemes by name. By default, shows all analysis schemes and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Analysis Schemes in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeAnalysisSchemes: (
-  input: DescribeAnalysisSchemesRequest,
-) => effect.Effect<
+export const describeAnalysisSchemes: API.OperationMethod<
+  DescribeAnalysisSchemesRequest,
   DescribeAnalysisSchemesResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1736,9 +1724,8 @@ export const describeAnalysisSchemes: (
 /**
  * Gets the availability options configured for a domain. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeAvailabilityOptions: (
-  input: DescribeAvailabilityOptionsRequest,
-) => effect.Effect<
+export const describeAvailabilityOptions: API.OperationMethod<
+  DescribeAvailabilityOptionsRequest,
   DescribeAvailabilityOptionsResponse,
   | BaseException
   | DisabledOperationException
@@ -1763,9 +1750,8 @@ export const describeAvailabilityOptions: (
 /**
  * Returns the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeDomainEndpointOptions: (
-  input: DescribeDomainEndpointOptionsRequest,
-) => effect.Effect<
+export const describeDomainEndpointOptions: API.OperationMethod<
+  DescribeDomainEndpointOptionsRequest,
   DescribeDomainEndpointOptionsResponse,
   | BaseException
   | DisabledOperationException
@@ -1790,9 +1776,8 @@ export const describeDomainEndpointOptions: (
  * all domains by default. To get the number of searchable documents in a domain, use the console or submit a `matchall` request to your domain's search endpoint: `q=matchall&q.parser=structured&size=0`. For more information,
  * see Getting Information about a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeDomains: (
-  input: DescribeDomainsRequest,
-) => effect.Effect<
+export const describeDomains: API.OperationMethod<
+  DescribeDomainsRequest,
   DescribeDomainsResponse,
   BaseException | InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1804,9 +1789,8 @@ export const describeDomains: (
 /**
  * Gets the expressions configured for the search domain. Can be limited to specific expressions by name. By default, shows all expressions and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Configuring Expressions in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeExpressions: (
-  input: DescribeExpressionsRequest,
-) => effect.Effect<
+export const describeExpressions: API.OperationMethod<
+  DescribeExpressionsRequest,
   DescribeExpressionsResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1820,9 +1804,8 @@ export const describeExpressions: (
  * Can be limited to specific fields by name. By default, shows all fields and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
  * see Getting Domain Information in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeIndexFields: (
-  input: DescribeIndexFieldsRequest,
-) => effect.Effect<
+export const describeIndexFields: API.OperationMethod<
+  DescribeIndexFieldsRequest,
   DescribeIndexFieldsResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1834,9 +1817,8 @@ export const describeIndexFields: (
 /**
  * Gets the scaling parameters configured for a domain. A domain's scaling parameters specify the desired search instance type and replication count. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeScalingParameters: (
-  input: DescribeScalingParametersRequest,
-) => effect.Effect<
+export const describeScalingParameters: API.OperationMethod<
+  DescribeScalingParametersRequest,
   DescribeScalingParametersResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1849,9 +1831,8 @@ export const describeScalingParameters: (
  * Gets information about the access policies that control access to the domain's document and search endpoints. By default, shows the configuration with any pending changes. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information,
  * see Configuring Access for a Search Domain in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeServiceAccessPolicies: (
-  input: DescribeServiceAccessPoliciesRequest,
-) => effect.Effect<
+export const describeServiceAccessPolicies: API.OperationMethod<
+  DescribeServiceAccessPoliciesRequest,
   DescribeServiceAccessPoliciesResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1863,9 +1844,8 @@ export const describeServiceAccessPolicies: (
 /**
  * Gets the suggesters configured for a domain. A suggester enables you to display possible matches before users finish typing their queries. Can be limited to specific suggesters by name. By default, shows all suggesters and includes any pending changes to the configuration. Set the `Deployed` option to `true` to show the active configuration and exclude pending changes. For more information, see Getting Search Suggestions in the *Amazon CloudSearch Developer Guide*.
  */
-export const describeSuggesters: (
-  input: DescribeSuggestersRequest,
-) => effect.Effect<
+export const describeSuggesters: API.OperationMethod<
+  DescribeSuggestersRequest,
   DescribeSuggestersResponse,
   BaseException | InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1877,9 +1857,8 @@ export const describeSuggesters: (
 /**
  * Tells the search domain to start indexing its documents using the latest indexing options. This operation must be invoked to activate options whose OptionStatus is `RequiresIndexDocuments`.
  */
-export const indexDocuments: (
-  input: IndexDocumentsRequest,
-) => effect.Effect<
+export const indexDocuments: API.OperationMethod<
+  IndexDocumentsRequest,
   IndexDocumentsResponse,
   | BaseException
   | InternalException
@@ -1900,9 +1879,8 @@ export const indexDocuments: (
 /**
  * Lists all search domains owned by an account.
  */
-export const listDomainNames: (
-  input: ListDomainNamesRequest,
-) => effect.Effect<
+export const listDomainNames: API.OperationMethod<
+  ListDomainNamesRequest,
   ListDomainNamesResponse,
   BaseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1914,9 +1892,8 @@ export const listDomainNames: (
 /**
  * Configures the availability options for a domain. Enabling the Multi-AZ option expands an Amazon CloudSearch domain to an additional Availability Zone in the same Region to increase fault tolerance in the event of a service disruption. Changes to the Multi-AZ option can take about half an hour to become active. For more information, see Configuring Availability Options in the *Amazon CloudSearch Developer Guide*.
  */
-export const updateAvailabilityOptions: (
-  input: UpdateAvailabilityOptionsRequest,
-) => effect.Effect<
+export const updateAvailabilityOptions: API.OperationMethod<
+  UpdateAvailabilityOptionsRequest,
   UpdateAvailabilityOptionsResponse,
   | BaseException
   | DisabledOperationException
@@ -1943,9 +1920,8 @@ export const updateAvailabilityOptions: (
 /**
  * Updates the domain's endpoint options, specifically whether all requests to the domain must arrive over HTTPS. For more information, see Configuring Domain Endpoint Options in the *Amazon CloudSearch Developer Guide*.
  */
-export const updateDomainEndpointOptions: (
-  input: UpdateDomainEndpointOptionsRequest,
-) => effect.Effect<
+export const updateDomainEndpointOptions: API.OperationMethod<
+  UpdateDomainEndpointOptionsRequest,
   UpdateDomainEndpointOptionsResponse,
   | BaseException
   | DisabledOperationException
@@ -1972,9 +1948,8 @@ export const updateDomainEndpointOptions: (
 /**
  * Configures scaling parameters for a domain. A domain's scaling parameters specify the desired search instance type and replication count. Amazon CloudSearch will still automatically scale your domain based on the volume of data and traffic, but not below the desired instance type and replication count. If the Multi-AZ option is enabled, these values control the resources used per Availability Zone. For more information, see Configuring Scaling Options in the *Amazon CloudSearch Developer Guide*.
  */
-export const updateScalingParameters: (
-  input: UpdateScalingParametersRequest,
-) => effect.Effect<
+export const updateScalingParameters: API.OperationMethod<
+  UpdateScalingParametersRequest,
   UpdateScalingParametersResponse,
   | BaseException
   | InternalException
@@ -2001,9 +1976,8 @@ export const updateScalingParameters: (
  * For more information, see
  * Configuring Access for an Amazon CloudSearch Domain.
  */
-export const updateServiceAccessPolicies: (
-  input: UpdateServiceAccessPoliciesRequest,
-) => effect.Effect<
+export const updateServiceAccessPolicies: API.OperationMethod<
+  UpdateServiceAccessPoliciesRequest,
   UpdateServiceAccessPoliciesResponse,
   | BaseException
   | InternalException

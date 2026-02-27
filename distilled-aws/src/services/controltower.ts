@@ -1539,9 +1539,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * This API call turns off a control. It starts an asynchronous operation that deletes Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources will vary according to the control that you specify. For usage examples, see the *Controls Reference Guide* .
  */
-export const disableControl: (
-  input: DisableControlInput,
-) => effect.Effect<
+export const disableControl: API.OperationMethod<
+  DisableControlInput,
   DisableControlOutput,
   | AccessDeniedException
   | ConflictException
@@ -1568,9 +1567,8 @@ export const disableControl: (
 /**
  * Returns the details of an asynchronous baseline operation, as initiated by any of these APIs: `EnableBaseline`, `DisableBaseline`, `UpdateEnabledBaseline`, `ResetEnabledBaseline`. A status message is displayed in case of operation failure. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const getBaselineOperation: (
-  input: GetBaselineOperationInput,
-) => effect.Effect<
+export const getBaselineOperation: API.OperationMethod<
+  GetBaselineOperationInput,
   GetBaselineOperationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1593,9 +1591,8 @@ export const getBaselineOperation: (
 /**
  * Retrieve details about an existing `Baseline` resource by specifying its identifier. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const getBaseline: (
-  input: GetBaselineInput,
-) => effect.Effect<
+export const getBaseline: API.OperationMethod<
+  GetBaselineInput,
   GetBaselineOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1618,18 +1615,16 @@ export const getBaseline: (
 /**
  * Returns a summary list of all available baselines. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const listBaselines: {
-  (
-    input: ListBaselinesInput,
-  ): effect.Effect<
-    ListBaselinesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listBaselines: API.OperationMethod<
+  ListBaselinesInput,
+  ListBaselinesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBaselinesInput,
   ) => stream.Stream<
@@ -1671,9 +1666,8 @@ export const listBaselines: {
 /**
  * Returns the status of a particular `EnableControl` or `DisableControl` operation. Displays a message in case of error. Details for an operation are available for 90 days. For usage examples, see the *Controls Reference Guide* .
  */
-export const getControlOperation: (
-  input: GetControlOperationInput,
-) => effect.Effect<
+export const getControlOperation: API.OperationMethod<
+  GetControlOperationInput,
   GetControlOperationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1696,18 +1690,16 @@ export const getControlOperation: (
 /**
  * Provides a list of operations in progress or queued. For usage examples, see ListControlOperation examples.
  */
-export const listControlOperations: {
-  (
-    input: ListControlOperationsInput,
-  ): effect.Effect<
-    ListControlOperationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listControlOperations: API.OperationMethod<
+  ListControlOperationsInput,
+  ListControlOperationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListControlOperationsInput,
   ) => stream.Stream<
@@ -1749,9 +1741,8 @@ export const listControlOperations: {
 /**
  * Enable (apply) a `Baseline` to a Target. This API starts an asynchronous operation to deploy resources specified by the `Baseline` to the specified Target. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const enableBaseline: (
-  input: EnableBaselineInput,
-) => effect.Effect<
+export const enableBaseline: API.OperationMethod<
+  EnableBaselineInput,
   EnableBaselineOutput,
   | AccessDeniedException
   | ConflictException
@@ -1778,9 +1769,8 @@ export const enableBaseline: (
 /**
  * Retrieve details of an `EnabledBaseline` resource by specifying its identifier.
  */
-export const getEnabledBaseline: (
-  input: GetEnabledBaselineInput,
-) => effect.Effect<
+export const getEnabledBaseline: API.OperationMethod<
+  GetEnabledBaselineInput,
   GetEnabledBaselineOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1803,9 +1793,8 @@ export const getEnabledBaseline: (
 /**
  * Updates an `EnabledBaseline` resource's applied parameters or version. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const updateEnabledBaseline: (
-  input: UpdateEnabledBaselineInput,
-) => effect.Effect<
+export const updateEnabledBaseline: API.OperationMethod<
+  UpdateEnabledBaselineInput,
   UpdateEnabledBaselineOutput,
   | AccessDeniedException
   | ConflictException
@@ -1832,9 +1821,8 @@ export const updateEnabledBaseline: (
 /**
  * Disable an `EnabledBaseline` resource on the specified Target. This API starts an asynchronous operation to remove all resources deployed as part of the baseline enablement. The resource will vary depending on the enabled baseline. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const disableBaseline: (
-  input: DisableBaselineInput,
-) => effect.Effect<
+export const disableBaseline: API.OperationMethod<
+  DisableBaselineInput,
   DisableBaselineOutput,
   | AccessDeniedException
   | ConflictException
@@ -1861,18 +1849,16 @@ export const disableBaseline: (
 /**
  * Returns a list of summaries describing `EnabledBaseline` resources. You can filter the list by the corresponding `Baseline` or `Target` of the `EnabledBaseline` resources. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const listEnabledBaselines: {
-  (
-    input: ListEnabledBaselinesInput,
-  ): effect.Effect<
-    ListEnabledBaselinesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEnabledBaselines: API.OperationMethod<
+  ListEnabledBaselinesInput,
+  ListEnabledBaselinesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnabledBaselinesInput,
   ) => stream.Stream<
@@ -1914,9 +1900,8 @@ export const listEnabledBaselines: {
 /**
  * Re-enables an `EnabledBaseline` resource. For example, this API can re-apply the existing `Baseline` after a new member account is moved to the target OU. For usage examples, see *the Amazon Web Services Control Tower User Guide* .
  */
-export const resetEnabledBaseline: (
-  input: ResetEnabledBaselineInput,
-) => effect.Effect<
+export const resetEnabledBaseline: API.OperationMethod<
+  ResetEnabledBaselineInput,
   ResetEnabledBaselineOutput,
   | AccessDeniedException
   | ConflictException
@@ -1943,9 +1928,8 @@ export const resetEnabledBaseline: (
 /**
  * This API call activates a control. It starts an asynchronous operation that creates Amazon Web Services resources on the specified organizational unit and the accounts it contains. The resources created will vary according to the control that you specify. For usage examples, see the *Controls Reference Guide* .
  */
-export const enableControl: (
-  input: EnableControlInput,
-) => effect.Effect<
+export const enableControl: API.OperationMethod<
+  EnableControlInput,
   EnableControlOutput,
   | AccessDeniedException
   | ConflictException
@@ -1972,9 +1956,8 @@ export const enableControl: (
 /**
  * Retrieves details about an enabled control. For usage examples, see the *Controls Reference Guide* .
  */
-export const getEnabledControl: (
-  input: GetEnabledControlInput,
-) => effect.Effect<
+export const getEnabledControl: API.OperationMethod<
+  GetEnabledControlInput,
   GetEnabledControlOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2003,9 +1986,8 @@ export const getEnabledControl: (
  *
  * If the `DriftSummary` status for the control shows as `DRIFTED`, you cannot call this API. Instead, you can update the control by calling the `ResetEnabledControl` API. Alternatively, you can call `DisableControl` and then call `EnableControl` again. Also, you can run an extending governance operation to repair drift. For usage examples, see the *Controls Reference Guide* .
  */
-export const updateEnabledControl: (
-  input: UpdateEnabledControlInput,
-) => effect.Effect<
+export const updateEnabledControl: API.OperationMethod<
+  UpdateEnabledControlInput,
   UpdateEnabledControlOutput,
   | AccessDeniedException
   | ConflictException
@@ -2032,19 +2014,17 @@ export const updateEnabledControl: (
 /**
  * Lists the controls enabled by Amazon Web Services Control Tower on the specified organizational unit and the accounts it contains. For usage examples, see the *Controls Reference Guide* .
  */
-export const listEnabledControls: {
-  (
-    input: ListEnabledControlsInput,
-  ): effect.Effect<
-    ListEnabledControlsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEnabledControls: API.OperationMethod<
+  ListEnabledControlsInput,
+  ListEnabledControlsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnabledControlsInput,
   ) => stream.Stream<
@@ -2089,9 +2069,8 @@ export const listEnabledControls: {
 /**
  * Resets an enabled control. Does not work for controls implemented with SCPs.
  */
-export const resetEnabledControl: (
-  input: ResetEnabledControlInput,
-) => effect.Effect<
+export const resetEnabledControl: API.OperationMethod<
+  ResetEnabledControlInput,
   ResetEnabledControlOutput,
   | AccessDeniedException
   | ConflictException
@@ -2118,9 +2097,8 @@ export const resetEnabledControl: (
 /**
  * Returns the status of the specified landing zone operation. Details for an operation are available for 90 days.
  */
-export const getLandingZoneOperation: (
-  input: GetLandingZoneOperationInput,
-) => effect.Effect<
+export const getLandingZoneOperation: API.OperationMethod<
+  GetLandingZoneOperationInput,
   GetLandingZoneOperationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2143,18 +2121,16 @@ export const getLandingZoneOperation: (
 /**
  * Lists all landing zone operations from the past 90 days. Results are sorted by time, with the most recent operation first.
  */
-export const listLandingZoneOperations: {
-  (
-    input: ListLandingZoneOperationsInput,
-  ): effect.Effect<
-    ListLandingZoneOperationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listLandingZoneOperations: API.OperationMethod<
+  ListLandingZoneOperationsInput,
+  ListLandingZoneOperationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLandingZoneOperationsInput,
   ) => stream.Stream<
@@ -2196,9 +2172,8 @@ export const listLandingZoneOperations: {
 /**
  * Creates a new landing zone. This API call starts an asynchronous operation that creates and configures a landing zone, based on the parameters specified in the manifest JSON file.
  */
-export const createLandingZone: (
-  input: CreateLandingZoneInput,
-) => effect.Effect<
+export const createLandingZone: API.OperationMethod<
+  CreateLandingZoneInput,
   CreateLandingZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -2221,9 +2196,8 @@ export const createLandingZone: (
 /**
  * Returns details about the landing zone. Displays a message in case of error.
  */
-export const getLandingZone: (
-  input: GetLandingZoneInput,
-) => effect.Effect<
+export const getLandingZone: API.OperationMethod<
+  GetLandingZoneInput,
   GetLandingZoneOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2246,9 +2220,8 @@ export const getLandingZone: (
 /**
  * This API call updates the landing zone. It starts an asynchronous operation that updates the landing zone based on the new landing zone version, or on the changed parameters specified in the updated manifest file.
  */
-export const updateLandingZone: (
-  input: UpdateLandingZoneInput,
-) => effect.Effect<
+export const updateLandingZone: API.OperationMethod<
+  UpdateLandingZoneInput,
   UpdateLandingZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -2275,9 +2248,8 @@ export const updateLandingZone: (
  *
  * Decommissioning a landing zone is a process with significant consequences, and it cannot be undone. We strongly recommend that you perform this decommissioning process only if you intend to stop using your landing zone.
  */
-export const deleteLandingZone: (
-  input: DeleteLandingZoneInput,
-) => effect.Effect<
+export const deleteLandingZone: API.OperationMethod<
+  DeleteLandingZoneInput,
   DeleteLandingZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -2304,18 +2276,16 @@ export const deleteLandingZone: (
  *
  * Returns one landing zone ARN.
  */
-export const listLandingZones: {
-  (
-    input: ListLandingZonesInput,
-  ): effect.Effect<
-    ListLandingZonesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listLandingZones: API.OperationMethod<
+  ListLandingZonesInput,
+  ListLandingZonesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLandingZonesInput,
   ) => stream.Stream<
@@ -2357,9 +2327,8 @@ export const listLandingZones: {
 /**
  * This API call resets a landing zone. It starts an asynchronous operation that resets the landing zone to the parameters specified in the original configuration, which you specified in the manifest file. Nothing in the manifest file's original landing zone configuration is changed during the reset process, by default. This API is not the same as a rollback of a landing zone version, which is not a supported operation.
  */
-export const resetLandingZone: (
-  input: ResetLandingZoneInput,
-) => effect.Effect<
+export const resetLandingZone: API.OperationMethod<
+  ResetLandingZoneInput,
   ResetLandingZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -2384,9 +2353,8 @@ export const resetLandingZone: (
 /**
  * Returns a list of tags associated with the resource. For usage examples, see the *Controls Reference Guide* .
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2405,9 +2373,8 @@ export const listTagsForResource: (
 /**
  * Applies tags to a resource. For usage examples, see the *Controls Reference Guide* .
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -2426,9 +2393,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource. For usage examples, see the *Controls Reference Guide* .
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException

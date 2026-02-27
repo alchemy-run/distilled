@@ -1494,9 +1494,8 @@ export class ServiceAttributesLimitExceededException extends S.TaggedErrorClass<
  * For the current quota on the number of namespaces that you can create using the same Amazon Web Services account, see Cloud Map quotas in the
  * *Cloud Map Developer Guide*.
  */
-export const createHttpNamespace: (
-  input: CreateHttpNamespaceRequest,
-) => effect.Effect<
+export const createHttpNamespace: API.OperationMethod<
+  CreateHttpNamespaceRequest,
   CreateHttpNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -1526,9 +1525,8 @@ export const createHttpNamespace: (
  * Amazon Web Services account, see Cloud Map quotas in the
  * *Cloud Map Developer Guide*.
  */
-export const createPrivateDnsNamespace: (
-  input: CreatePrivateDnsNamespaceRequest,
-) => effect.Effect<
+export const createPrivateDnsNamespace: API.OperationMethod<
+  CreatePrivateDnsNamespaceRequest,
   CreatePrivateDnsNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -1559,9 +1557,8 @@ export const createPrivateDnsNamespace: (
  *
  * The `CreatePublicDnsNamespace` API operation is not supported in the Amazon Web Services GovCloud (US) Regions.
  */
-export const createPublicDnsNamespace: (
-  input: CreatePublicDnsNamespaceRequest,
-) => effect.Effect<
+export const createPublicDnsNamespace: API.OperationMethod<
+  CreatePublicDnsNamespaceRequest,
   CreatePublicDnsNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -1606,9 +1603,8 @@ export const createPublicDnsNamespace: (
  * namespace and using the same service, see Cloud Map quotas in the
  * *Cloud Map Developer Guide*.
  */
-export const createService: (
-  input: CreateServiceRequest,
-) => effect.Effect<
+export const createService: API.OperationMethod<
+  CreateServiceRequest,
   CreateServiceResponse,
   | InvalidInput
   | NamespaceNotFound
@@ -1632,9 +1628,8 @@ export const createService: (
  * Deletes a namespace from the current account. If the namespace still contains one or more
  * services, the request fails.
  */
-export const deleteNamespace: (
-  input: DeleteNamespaceRequest,
-) => effect.Effect<
+export const deleteNamespace: API.OperationMethod<
+  DeleteNamespaceRequest,
   DeleteNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -1651,9 +1646,8 @@ export const deleteNamespace: (
  * Deletes a specified service and all associated service attributes. If the service still
  * contains one or more registered instances, the request fails.
  */
-export const deleteService: (
-  input: DeleteServiceRequest,
-) => effect.Effect<
+export const deleteService: API.OperationMethod<
+  DeleteServiceRequest,
   DeleteServiceResponse,
   InvalidInput | ResourceInUse | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1665,9 +1659,8 @@ export const deleteService: (
 /**
  * Deletes specific attributes associated with a service.
  */
-export const deleteServiceAttributes: (
-  input: DeleteServiceAttributesRequest,
-) => effect.Effect<
+export const deleteServiceAttributes: API.OperationMethod<
+  DeleteServiceAttributesRequest,
   DeleteServiceAttributesResponse,
   InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1680,9 +1673,8 @@ export const deleteServiceAttributes: (
  * Deletes the Amazon Route 53 DNS records and health check, if any, that Cloud Map created for the
  * specified instance.
  */
-export const deregisterInstance: (
-  input: DeregisterInstanceRequest,
-) => effect.Effect<
+export const deregisterInstance: API.OperationMethod<
+  DeregisterInstanceRequest,
   DeregisterInstanceResponse,
   | DuplicateRequest
   | InstanceNotFound
@@ -1709,9 +1701,8 @@ export const deregisterInstance: (
  * distribute traffic evenly across instances. For public and private DNS namespaces, you can also
  * use DNS queries to discover instances.
  */
-export const discoverInstances: (
-  input: DiscoverInstancesRequest,
-) => effect.Effect<
+export const discoverInstances: API.OperationMethod<
+  DiscoverInstancesRequest,
   DiscoverInstancesResponse,
   | InvalidInput
   | NamespaceNotFound
@@ -1732,9 +1723,8 @@ export const discoverInstances: (
 /**
  * Discovers the increasing revision associated with an instance.
  */
-export const discoverInstancesRevision: (
-  input: DiscoverInstancesRevisionRequest,
-) => effect.Effect<
+export const discoverInstancesRevision: API.OperationMethod<
+  DiscoverInstancesRevisionRequest,
   DiscoverInstancesRevisionResponse,
   | InvalidInput
   | NamespaceNotFound
@@ -1755,9 +1745,8 @@ export const discoverInstancesRevision: (
 /**
  * Gets information about a specified instance.
  */
-export const getInstance: (
-  input: GetInstanceRequest,
-) => effect.Effect<
+export const getInstance: API.OperationMethod<
+  GetInstanceRequest,
   GetInstanceResponse,
   InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1774,14 +1763,12 @@ export const getInstance: (
  * There's a brief delay between when you register an instance and when the health status for
  * the instance is available.
  */
-export const getInstancesHealthStatus: {
-  (
-    input: GetInstancesHealthStatusRequest,
-  ): effect.Effect<
-    GetInstancesHealthStatusResponse,
-    InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getInstancesHealthStatus: API.OperationMethod<
+  GetInstancesHealthStatusRequest,
+  GetInstancesHealthStatusResponse,
+  InstanceNotFound | InvalidInput | ServiceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetInstancesHealthStatusRequest,
   ) => stream.Stream<
@@ -1809,9 +1796,8 @@ export const getInstancesHealthStatus: {
 /**
  * Gets information about a namespace.
  */
-export const getNamespace: (
-  input: GetNamespaceRequest,
-) => effect.Effect<
+export const getNamespace: API.OperationMethod<
+  GetNamespaceRequest,
   GetNamespaceResponse,
   InvalidInput | NamespaceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1826,9 +1812,8 @@ export const getNamespace: (
  *
  * To get a list of operations that match specified criteria, see ListOperations.
  */
-export const getOperation: (
-  input: GetOperationRequest,
-) => effect.Effect<
+export const getOperation: API.OperationMethod<
+  GetOperationRequest,
   GetOperationResponse,
   InvalidInput | OperationNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1840,9 +1825,8 @@ export const getOperation: (
 /**
  * Gets the settings for a specified service.
  */
-export const getService: (
-  input: GetServiceRequest,
-) => effect.Effect<
+export const getService: API.OperationMethod<
+  GetServiceRequest,
   GetServiceResponse,
   InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1854,9 +1838,8 @@ export const getService: (
 /**
  * Returns the attributes associated with a specified service.
  */
-export const getServiceAttributes: (
-  input: GetServiceAttributesRequest,
-) => effect.Effect<
+export const getServiceAttributes: API.OperationMethod<
+  GetServiceAttributesRequest,
   GetServiceAttributesResponse,
   InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1869,14 +1852,12 @@ export const getServiceAttributes: (
  * Lists summary information about the instances that you registered by using a specified
  * service.
  */
-export const listInstances: {
-  (
-    input: ListInstancesRequest,
-  ): effect.Effect<
-    ListInstancesResponse,
-    InvalidInput | ServiceNotFound | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInstances: API.OperationMethod<
+  ListInstancesRequest,
+  ListInstancesResponse,
+  InvalidInput | ServiceNotFound | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInstancesRequest,
   ) => stream.Stream<
@@ -1904,14 +1885,12 @@ export const listInstances: {
 /**
  * Lists summary information about the namespaces that were created by the current Amazon Web Services account and shared with the current Amazon Web Services account.
  */
-export const listNamespaces: {
-  (
-    input: ListNamespacesRequest,
-  ): effect.Effect<
-    ListNamespacesResponse,
-    InvalidInput | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNamespaces: API.OperationMethod<
+  ListNamespacesRequest,
+  ListNamespacesResponse,
+  InvalidInput | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNamespacesRequest,
   ) => stream.Stream<
@@ -1939,14 +1918,12 @@ export const listNamespaces: {
 /**
  * Lists operations that match the criteria that you specify.
  */
-export const listOperations: {
-  (
-    input: ListOperationsRequest,
-  ): effect.Effect<
-    ListOperationsResponse,
-    InvalidInput | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOperations: API.OperationMethod<
+  ListOperationsRequest,
+  ListOperationsResponse,
+  InvalidInput | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOperationsRequest,
   ) => stream.Stream<
@@ -1975,14 +1952,12 @@ export const listOperations: {
  * Lists summary information for all the services that are associated with one or more
  * namespaces.
  */
-export const listServices: {
-  (
-    input: ListServicesRequest,
-  ): effect.Effect<
-    ListServicesResponse,
-    InvalidInput | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServices: API.OperationMethod<
+  ListServicesRequest,
+  ListServicesResponse,
+  InvalidInput | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
@@ -2010,9 +1985,8 @@ export const listServices: {
 /**
  * Lists tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   InvalidInput | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2056,9 +2030,8 @@ export const listTagsForResource: (
  * namespace and using the same service, see Cloud Map quotas in the
  * *Cloud Map Developer Guide*.
  */
-export const registerInstance: (
-  input: RegisterInstanceRequest,
-) => effect.Effect<
+export const registerInstance: API.OperationMethod<
+  RegisterInstanceRequest,
   RegisterInstanceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2081,9 +2054,8 @@ export const registerInstance: (
 /**
  * Adds one or more tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidInput
   | ResourceNotFoundException
@@ -2098,9 +2070,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   InvalidInput | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2113,9 +2084,8 @@ export const untagResource: (
  * Updates an HTTP
  * namespace.
  */
-export const updateHttpNamespace: (
-  input: UpdateHttpNamespaceRequest,
-) => effect.Effect<
+export const updateHttpNamespace: API.OperationMethod<
+  UpdateHttpNamespaceRequest,
   UpdateHttpNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2139,9 +2109,8 @@ export const updateHttpNamespace: (
  *
  * For more information, see HealthCheckCustomConfig.
  */
-export const updateInstanceCustomHealthStatus: (
-  input: UpdateInstanceCustomHealthStatusRequest,
-) => effect.Effect<
+export const updateInstanceCustomHealthStatus: API.OperationMethod<
+  UpdateInstanceCustomHealthStatusRequest,
   UpdateInstanceCustomHealthStatusResponse,
   | CustomHealthNotFound
   | InstanceNotFound
@@ -2163,9 +2132,8 @@ export const updateInstanceCustomHealthStatus: (
  * Updates a private DNS
  * namespace.
  */
-export const updatePrivateDnsNamespace: (
-  input: UpdatePrivateDnsNamespaceRequest,
-) => effect.Effect<
+export const updatePrivateDnsNamespace: API.OperationMethod<
+  UpdatePrivateDnsNamespaceRequest,
   UpdatePrivateDnsNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2181,9 +2149,8 @@ export const updatePrivateDnsNamespace: (
 /**
  * Updates a public DNS namespace.
  */
-export const updatePublicDnsNamespace: (
-  input: UpdatePublicDnsNamespaceRequest,
-) => effect.Effect<
+export const updatePublicDnsNamespace: API.OperationMethod<
+  UpdatePublicDnsNamespaceRequest,
   UpdatePublicDnsNamespaceResponse,
   | DuplicateRequest
   | InvalidInput
@@ -2227,9 +2194,8 @@ export const updatePublicDnsNamespace: (
  * When you update settings for a service, Cloud Map also updates the corresponding settings
  * in all the records and health checks that were created by using the specified service.
  */
-export const updateService: (
-  input: UpdateServiceRequest,
-) => effect.Effect<
+export const updateService: API.OperationMethod<
+  UpdateServiceRequest,
   UpdateServiceResponse,
   DuplicateRequest | InvalidInput | ServiceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2241,9 +2207,8 @@ export const updateService: (
 /**
  * Submits a request to update a specified service to add service-level attributes.
  */
-export const updateServiceAttributes: (
-  input: UpdateServiceAttributesRequest,
-) => effect.Effect<
+export const updateServiceAttributes: API.OperationMethod<
+  UpdateServiceAttributesRequest,
   UpdateServiceAttributesResponse,
   | InvalidInput
   | ServiceAttributesLimitExceededException

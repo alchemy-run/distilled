@@ -3202,9 +3202,8 @@ export class ModelStreamErrorException extends S.TaggedErrorClass<ModelStreamErr
 /**
  * Retrieve information about an asynchronous invocation.
  */
-export const getAsyncInvoke: (
-  input: GetAsyncInvokeRequest,
-) => effect.Effect<
+export const getAsyncInvoke: API.OperationMethod<
+  GetAsyncInvokeRequest,
   GetAsyncInvokeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3225,18 +3224,16 @@ export const getAsyncInvoke: (
 /**
  * Lists asynchronous invocations.
  */
-export const listAsyncInvokes: {
-  (
-    input: ListAsyncInvokesRequest,
-  ): effect.Effect<
-    ListAsyncInvokesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAsyncInvokes: API.OperationMethod<
+  ListAsyncInvokesRequest,
+  ListAsyncInvokesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAsyncInvokesRequest,
   ) => stream.Stream<
@@ -3282,9 +3279,8 @@ export const listAsyncInvokes: {
  *
  * To deny all inference access to resources that you specify in the modelId field, you need to deny access to the `bedrock:InvokeModel` and `bedrock:InvokeModelWithResponseStream` actions. Doing this also denies access to the resource through the Converse API actions (Converse and ConverseStream). For more information see Deny access for inference on specific models.
  */
-export const startAsyncInvoke: (
-  input: StartAsyncInvokeRequest,
-) => effect.Effect<
+export const startAsyncInvoke: API.OperationMethod<
+  StartAsyncInvokeRequest,
   StartAsyncInvokeResponse,
   | AccessDeniedException
   | ConflictException
@@ -3315,9 +3311,8 @@ export const startAsyncInvoke: (
  *
  * For troubleshooting some of the common errors you might encounter when using the `ApplyGuardrail` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const applyGuardrail: (
-  input: ApplyGuardrailRequest,
-) => effect.Effect<
+export const applyGuardrail: API.OperationMethod<
+  ApplyGuardrailRequest,
   ApplyGuardrailResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3360,9 +3355,8 @@ export const applyGuardrail: (
  *
  * For troubleshooting some of the common errors you might encounter when using the `Converse` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const converse: (
-  input: ConverseRequest,
-) => effect.Effect<
+export const converse: API.OperationMethod<
+  ConverseRequest,
   ConverseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3413,9 +3407,8 @@ export const converse: (
  *
  * For troubleshooting some of the common errors you might encounter when using the `ConverseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const converseStream: (
-  input: ConverseStreamRequest,
-) => effect.Effect<
+export const converseStream: API.OperationMethod<
+  ConverseStreamRequest,
   ConverseStreamResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3454,9 +3447,8 @@ export const converseStream: (
  *
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModel` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const invokeModel: (
-  input: InvokeModelRequest,
-) => effect.Effect<
+export const invokeModel: API.OperationMethod<
+  InvokeModelRequest,
   InvokeModelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3491,9 +3483,8 @@ export const invokeModel: (
  *
  * It is possible for users to interrupt the model's response with a new prompt, which will halt the response speech. The model will retain contextual awareness of the conversation while pivoting to respond to the new prompt.
  */
-export const invokeModelWithBidirectionalStream: (
-  input: InvokeModelWithBidirectionalStreamRequest,
-) => effect.Effect<
+export const invokeModelWithBidirectionalStream: API.OperationMethod<
+  InvokeModelWithBidirectionalStreamRequest,
   InvokeModelWithBidirectionalStreamResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3540,9 +3531,8 @@ export const invokeModelWithBidirectionalStream: (
  *
  * For troubleshooting some of the common errors you might encounter when using the `InvokeModelWithResponseStream` API, see Troubleshooting Amazon Bedrock API Error Codes in the Amazon Bedrock User Guide
  */
-export const invokeModelWithResponseStream: (
-  input: InvokeModelWithResponseStreamRequest,
-) => effect.Effect<
+export const invokeModelWithResponseStream: API.OperationMethod<
+  InvokeModelWithResponseStreamRequest,
   InvokeModelWithResponseStreamResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3595,9 +3585,8 @@ export const invokeModelWithResponseStream: (
  *
  * - Converse - Sends conversation-based inference requests to foundation models
  */
-export const countTokens: (
-  input: CountTokensRequest,
-) => effect.Effect<
+export const countTokens: API.OperationMethod<
+  CountTokensRequest,
   CountTokensResponse,
   | AccessDeniedException
   | InternalServerException

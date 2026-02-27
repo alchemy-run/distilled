@@ -682,9 +682,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Updates the account name of the specified account. To use this API, IAM principals must have the `account:PutAccountName` IAM permission.
  */
-export const putAccountName: (
-  input: PutAccountNameRequest,
-) => effect.Effect<
+export const putAccountName: API.OperationMethod<
+  PutAccountNameRequest,
   PutAccountNameResponse,
   | AccessDeniedException
   | InternalServerException
@@ -705,9 +704,8 @@ export const putAccountName: (
 /**
  * Retrieves information about the specified account including its account name, account ID, and account creation date and time. To use this API, an IAM user or role must have the `account:GetAccountInformation` IAM permission.
  */
-export const getAccountInformation: (
-  input: GetAccountInformationRequest,
-) => effect.Effect<
+export const getAccountInformation: API.OperationMethod<
+  GetAccountInformationRequest,
   GetAccountInformationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -732,9 +730,8 @@ export const getAccountInformation: (
  *
  * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
-export const putAlternateContact: (
-  input: PutAlternateContactRequest,
-) => effect.Effect<
+export const putAlternateContact: API.OperationMethod<
+  PutAlternateContactRequest,
   PutAlternateContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -759,9 +756,8 @@ export const putAlternateContact: (
  *
  * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
-export const getAlternateContact: (
-  input: GetAlternateContactRequest,
-) => effect.Effect<
+export const getAlternateContact: API.OperationMethod<
+  GetAlternateContactRequest,
   GetAlternateContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -788,9 +784,8 @@ export const getAlternateContact: (
  *
  * Before you can update the alternate contact information for an Amazon Web Services account that is managed by Organizations, you must first enable integration between Amazon Web Services Account Management and Organizations. For more information, see Enable trusted access for Amazon Web Services Account Management.
  */
-export const deleteAlternateContact: (
-  input: DeleteAlternateContactRequest,
-) => effect.Effect<
+export const deleteAlternateContact: API.OperationMethod<
+  DeleteAlternateContactRequest,
   DeleteAlternateContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -813,9 +808,8 @@ export const deleteAlternateContact: (
 /**
  * Retrieves information about the GovCloud account linked to the specified standard account (if it exists) including the GovCloud account ID and state. To use this API, an IAM user or role must have the `account:GetGovCloudAccountInformation` IAM permission.
  */
-export const getGovCloudAccountInformation: (
-  input: GetGovCloudAccountInformationRequest,
-) => effect.Effect<
+export const getGovCloudAccountInformation: API.OperationMethod<
+  GetGovCloudAccountInformationRequest,
   GetGovCloudAccountInformationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -842,9 +836,8 @@ export const getGovCloudAccountInformation: (
  *
  * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
  */
-export const putContactInformation: (
-  input: PutContactInformationRequest,
-) => effect.Effect<
+export const putContactInformation: API.OperationMethod<
+  PutContactInformationRequest,
   PutContactInformationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -867,9 +860,8 @@ export const putContactInformation: (
  *
  * For complete details about how to use the primary contact operations, see Update the primary contact for your Amazon Web Services account.
  */
-export const getContactInformation: (
-  input: GetContactInformationRequest,
-) => effect.Effect<
+export const getContactInformation: API.OperationMethod<
+  GetContactInformationRequest,
   GetContactInformationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -892,9 +884,8 @@ export const getContactInformation: (
 /**
  * Accepts the request that originated from StartPrimaryEmailUpdate to update the primary email address (also known as the root user email address) for the specified account.
  */
-export const acceptPrimaryEmailUpdate: (
-  input: AcceptPrimaryEmailUpdateRequest,
-) => effect.Effect<
+export const acceptPrimaryEmailUpdate: API.OperationMethod<
+  AcceptPrimaryEmailUpdateRequest,
   AcceptPrimaryEmailUpdateResponse,
   | AccessDeniedException
   | ConflictException
@@ -919,9 +910,8 @@ export const acceptPrimaryEmailUpdate: (
 /**
  * Retrieves the primary email address for the specified account.
  */
-export const getPrimaryEmail: (
-  input: GetPrimaryEmailRequest,
-) => effect.Effect<
+export const getPrimaryEmail: API.OperationMethod<
+  GetPrimaryEmailRequest,
   GetPrimaryEmailResponse,
   | AccessDeniedException
   | InternalServerException
@@ -944,9 +934,8 @@ export const getPrimaryEmail: (
 /**
  * Starts the process to update the primary email address for the specified account.
  */
-export const startPrimaryEmailUpdate: (
-  input: StartPrimaryEmailUpdateRequest,
-) => effect.Effect<
+export const startPrimaryEmailUpdate: API.OperationMethod<
+  StartPrimaryEmailUpdateRequest,
   StartPrimaryEmailUpdateResponse,
   | AccessDeniedException
   | ConflictException
@@ -973,9 +962,8 @@ export const startPrimaryEmailUpdate: (
  *
  * The act of disabling a Region will remove all IAM access to any resources that reside in that Region.
  */
-export const disableRegion: (
-  input: DisableRegionRequest,
-) => effect.Effect<
+export const disableRegion: API.OperationMethod<
+  DisableRegionRequest,
   DisableRegionResponse,
   | AccessDeniedException
   | ConflictException
@@ -998,9 +986,8 @@ export const disableRegion: (
 /**
  * Enables (opts-in) a particular Region for an account.
  */
-export const enableRegion: (
-  input: EnableRegionRequest,
-) => effect.Effect<
+export const enableRegion: API.OperationMethod<
+  EnableRegionRequest,
   EnableRegionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1023,9 +1010,8 @@ export const enableRegion: (
 /**
  * Retrieves the opt-in status of a particular Region.
  */
-export const getRegionOptStatus: (
-  input: GetRegionOptStatusRequest,
-) => effect.Effect<
+export const getRegionOptStatus: API.OperationMethod<
+  GetRegionOptStatusRequest,
   GetRegionOptStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1046,18 +1032,16 @@ export const getRegionOptStatus: (
 /**
  * Lists all the Regions for a given account and their respective opt-in statuses. Optionally, this list can be filtered by the `region-opt-status-contains` parameter.
  */
-export const listRegions: {
-  (
-    input: ListRegionsRequest,
-  ): effect.Effect<
-    ListRegionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRegions: API.OperationMethod<
+  ListRegionsRequest,
+  ListRegionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRegionsRequest,
   ) => stream.Stream<

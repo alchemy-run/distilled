@@ -1524,9 +1524,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  *
  * Only the management account or a delegated administrator can perform this action.
  */
-export const associateAccounts: (
-  input: AssociateAccountsRequest,
-) => effect.Effect<
+export const associateAccounts: API.OperationMethod<
+  AssociateAccountsRequest,
   AssociateAccountsResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1559,9 +1558,8 @@ export const associateAccounts: (
 /**
  * Creates a new automation rule to apply recommended actions to resources based on specified criteria.
  */
-export const createAutomationRule: (
-  input: CreateAutomationRuleRequest,
-) => effect.Effect<
+export const createAutomationRule: API.OperationMethod<
+  CreateAutomationRuleRequest,
   CreateAutomationRuleResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1596,9 +1594,8 @@ export const createAutomationRule: (
 /**
  * Deletes an existing automation rule.
  */
-export const deleteAutomationRule: (
-  input: DeleteAutomationRuleRequest,
-) => effect.Effect<
+export const deleteAutomationRule: API.OperationMethod<
+  DeleteAutomationRuleRequest,
   DeleteAutomationRuleResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1633,9 +1630,8 @@ export const deleteAutomationRule: (
  *
  * Only the management account or a delegated administrator can perform this action.
  */
-export const disassociateAccounts: (
-  input: DisassociateAccountsRequest,
-) => effect.Effect<
+export const disassociateAccounts: API.OperationMethod<
+  DisassociateAccountsRequest,
   DisassociateAccountsResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1668,9 +1664,8 @@ export const disassociateAccounts: (
 /**
  * Retrieves details about a specific automation event.
  */
-export const getAutomationEvent: (
-  input: GetAutomationEventRequest,
-) => effect.Effect<
+export const getAutomationEvent: API.OperationMethod<
+  GetAutomationEventRequest,
   GetAutomationEventResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1699,9 +1694,8 @@ export const getAutomationEvent: (
 /**
  * Retrieves details about a specific automation rule.
  */
-export const getAutomationRule: (
-  input: GetAutomationRuleRequest,
-) => effect.Effect<
+export const getAutomationRule: API.OperationMethod<
+  GetAutomationRuleRequest,
   GetAutomationRuleResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1730,9 +1724,8 @@ export const getAutomationRule: (
 /**
  * Retrieves the current enrollment configuration for Compute Optimizer Automation.
  */
-export const getEnrollmentConfiguration: (
-  input: GetEnrollmentConfigurationRequest,
-) => effect.Effect<
+export const getEnrollmentConfiguration: API.OperationMethod<
+  GetEnrollmentConfigurationRequest,
   GetEnrollmentConfigurationResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -1763,22 +1756,20 @@ export const getEnrollmentConfiguration: (
  *
  * Only the management account or a delegated administrator can perform this action.
  */
-export const listAccounts: {
-  (
-    input: ListAccountsRequest,
-  ): effect.Effect<
-    ListAccountsResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | NotManagementAccountException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccounts: API.OperationMethod<
+  ListAccountsRequest,
+  ListAccountsResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | NotManagementAccountException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountsRequest,
   ) => stream.Stream<
@@ -1832,21 +1823,19 @@ export const listAccounts: {
 /**
  * Lists automation events based on specified filters. You can retrieve events that were created within the past year.
  */
-export const listAutomationEvents: {
-  (
-    input: ListAutomationEventsRequest,
-  ): effect.Effect<
-    ListAutomationEventsResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomationEvents: API.OperationMethod<
+  ListAutomationEventsRequest,
+  ListAutomationEventsResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomationEventsRequest,
   ) => stream.Stream<
@@ -1897,22 +1886,20 @@ export const listAutomationEvents: {
 /**
  * Lists the steps for a specific automation event. You can only list steps for events created within the past year.
  */
-export const listAutomationEventSteps: {
-  (
-    input: ListAutomationEventStepsRequest,
-  ): effect.Effect<
-    ListAutomationEventStepsResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomationEventSteps: API.OperationMethod<
+  ListAutomationEventStepsRequest,
+  ListAutomationEventStepsResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomationEventStepsRequest,
   ) => stream.Stream<
@@ -1966,21 +1953,19 @@ export const listAutomationEventSteps: {
 /**
  * Provides a summary of automation events based on specified filters. Only events created within the past year will be included in the summary.
  */
-export const listAutomationEventSummaries: {
-  (
-    input: ListAutomationEventSummariesRequest,
-  ): effect.Effect<
-    ListAutomationEventSummariesResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomationEventSummaries: API.OperationMethod<
+  ListAutomationEventSummariesRequest,
+  ListAutomationEventSummariesResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomationEventSummariesRequest,
   ) => stream.Stream<
@@ -2031,21 +2016,19 @@ export const listAutomationEventSummaries: {
 /**
  * Returns a preview of the recommended actions that match your Automation rule's configuration and criteria.
  */
-export const listAutomationRulePreview: {
-  (
-    input: ListAutomationRulePreviewRequest,
-  ): effect.Effect<
-    ListAutomationRulePreviewResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomationRulePreview: API.OperationMethod<
+  ListAutomationRulePreviewRequest,
+  ListAutomationRulePreviewResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomationRulePreviewRequest,
   ) => stream.Stream<
@@ -2096,21 +2079,19 @@ export const listAutomationRulePreview: {
 /**
  * Returns a summary of the recommended actions that match your rule preview configuration and criteria.
  */
-export const listAutomationRulePreviewSummaries: {
-  (
-    input: ListAutomationRulePreviewSummariesRequest,
-  ): effect.Effect<
-    ListAutomationRulePreviewSummariesResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomationRulePreviewSummaries: API.OperationMethod<
+  ListAutomationRulePreviewSummariesRequest,
+  ListAutomationRulePreviewSummariesResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomationRulePreviewSummariesRequest,
   ) => stream.Stream<
@@ -2161,21 +2142,19 @@ export const listAutomationRulePreviewSummaries: {
 /**
  * Lists the automation rules that match specified filters.
  */
-export const listAutomationRules: {
-  (
-    input: ListAutomationRulesRequest,
-  ): effect.Effect<
-    ListAutomationRulesResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomationRules: API.OperationMethod<
+  ListAutomationRulesRequest,
+  ListAutomationRulesResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomationRulesRequest,
   ) => stream.Stream<
@@ -2228,21 +2207,19 @@ export const listAutomationRules: {
  *
  * Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
-export const listRecommendedActions: {
-  (
-    input: ListRecommendedActionsRequest,
-  ): effect.Effect<
-    ListRecommendedActionsResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendedActions: API.OperationMethod<
+  ListRecommendedActionsRequest,
+  ListRecommendedActionsResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendedActionsRequest,
   ) => stream.Stream<
@@ -2295,21 +2272,19 @@ export const listRecommendedActions: {
  *
  * Management accounts and delegated administrators can retrieve recommended actions that include associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
-export const listRecommendedActionSummaries: {
-  (
-    input: ListRecommendedActionSummariesRequest,
-  ): effect.Effect<
-    ListRecommendedActionSummariesResponse,
-    | AccessDeniedException
-    | ForbiddenException
-    | InternalServerException
-    | InvalidParameterValueException
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendedActionSummaries: API.OperationMethod<
+  ListRecommendedActionSummariesRequest,
+  ListRecommendedActionSummariesResponse,
+  | AccessDeniedException
+  | ForbiddenException
+  | InternalServerException
+  | InvalidParameterValueException
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendedActionSummariesRequest,
   ) => stream.Stream<
@@ -2360,9 +2335,8 @@ export const listRecommendedActionSummaries: {
 /**
  * Lists the tags for a specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -2393,9 +2367,8 @@ export const listTagsForResource: (
  *
  * Management accounts and delegated administrators can only initiate a rollback for events belonging to associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
-export const rollbackAutomationEvent: (
-  input: RollbackAutomationEventRequest,
-) => effect.Effect<
+export const rollbackAutomationEvent: API.OperationMethod<
+  RollbackAutomationEventRequest,
   RollbackAutomationEventResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -2430,9 +2403,8 @@ export const rollbackAutomationEvent: (
  *
  * Management accounts and delegated administrators can only initiate recommended actions for associated member accounts. You can associate a member account using `AssociateAccounts`.
  */
-export const startAutomationEvent: (
-  input: StartAutomationEventRequest,
-) => effect.Effect<
+export const startAutomationEvent: API.OperationMethod<
+  StartAutomationEventRequest,
   StartAutomationEventResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -2467,9 +2439,8 @@ export const startAutomationEvent: (
 /**
  * Adds tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -2502,9 +2473,8 @@ export const tagResource: (
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -2537,9 +2507,8 @@ export const untagResource: (
 /**
  * Updates an existing automation rule.
  */
-export const updateAutomationRule: (
-  input: UpdateAutomationRuleRequest,
-) => effect.Effect<
+export const updateAutomationRule: API.OperationMethod<
+  UpdateAutomationRuleRequest,
   UpdateAutomationRuleResponse,
   | AccessDeniedException
   | ForbiddenException
@@ -2572,9 +2541,8 @@ export const updateAutomationRule: (
 /**
  * Updates your account’s Compute Optimizer Automation enrollment configuration.
  */
-export const updateEnrollmentConfiguration: (
-  input: UpdateEnrollmentConfigurationRequest,
-) => effect.Effect<
+export const updateEnrollmentConfiguration: API.OperationMethod<
+  UpdateEnrollmentConfigurationRequest,
   UpdateEnrollmentConfigurationResponse,
   | AccessDeniedException
   | ForbiddenException

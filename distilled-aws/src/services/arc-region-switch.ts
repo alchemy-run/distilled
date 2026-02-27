@@ -1902,9 +1902,8 @@ export class IllegalStateException extends S.TaggedErrorClass<IllegalStateExcept
  *
  * You must specify the plan ARN, execution ID, step name, and approval status. You can also provide an optional comment explaining the approval decision.
  */
-export const approvePlanExecutionStep: (
-  input: ApprovePlanExecutionStepRequest,
-) => effect.Effect<
+export const approvePlanExecutionStep: API.OperationMethod<
+  ApprovePlanExecutionStepRequest,
   ApprovePlanExecutionStepResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1918,9 +1917,8 @@ export const approvePlanExecutionStep: (
  *
  * You must specify the plan ARN and execution ID. You can also provide an optional comment explaining why the execution was canceled.
  */
-export const cancelPlanExecution: (
-  input: CancelPlanExecutionRequest,
-) => effect.Effect<
+export const cancelPlanExecution: API.OperationMethod<
+  CancelPlanExecutionRequest,
   CancelPlanExecutionResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1932,14 +1930,12 @@ export const cancelPlanExecution: (
 /**
  * Retrieves the evaluation status of a Region switch plan. The evaluation status provides information about the last time the plan was evaluated and any warnings or issues detected.
  */
-export const getPlanEvaluationStatus: {
-  (
-    input: GetPlanEvaluationStatusRequest,
-  ): effect.Effect<
-    GetPlanEvaluationStatusResponse,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getPlanEvaluationStatus: API.OperationMethod<
+  GetPlanEvaluationStatusRequest,
+  GetPlanEvaluationStatusResponse,
+  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetPlanEvaluationStatusRequest,
   ) => stream.Stream<
@@ -1968,14 +1964,12 @@ export const getPlanEvaluationStatus: {
 /**
  * Retrieves detailed information about a specific plan execution. You must specify the plan ARN and execution ID.
  */
-export const getPlanExecution: {
-  (
-    input: GetPlanExecutionRequest,
-  ): effect.Effect<
-    GetPlanExecutionResponse,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getPlanExecution: API.OperationMethod<
+  GetPlanExecutionRequest,
+  GetPlanExecutionResponse,
+  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetPlanExecutionRequest,
   ) => stream.Stream<
@@ -2004,9 +1998,8 @@ export const getPlanExecution: {
 /**
  * Retrieves information about a Region switch plan in a specific Amazon Web Services Region. This operation is useful for getting Region-specific information about a plan.
  */
-export const getPlanInRegion: (
-  input: GetPlanInRegionRequest,
-) => effect.Effect<
+export const getPlanInRegion: API.OperationMethod<
+  GetPlanInRegionRequest,
   GetPlanInRegionResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2018,14 +2011,12 @@ export const getPlanInRegion: (
 /**
  * Lists the events that occurred during a plan execution. These events provide a detailed timeline of the execution process.
  */
-export const listPlanExecutionEvents: {
-  (
-    input: ListPlanExecutionEventsRequest,
-  ): effect.Effect<
-    ListPlanExecutionEventsResponse,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPlanExecutionEvents: API.OperationMethod<
+  ListPlanExecutionEventsRequest,
+  ListPlanExecutionEventsResponse,
+  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlanExecutionEventsRequest,
   ) => stream.Stream<
@@ -2054,14 +2045,12 @@ export const listPlanExecutionEvents: {
 /**
  * Lists the executions of a Region switch plan. This operation returns information about both current and historical executions.
  */
-export const listPlanExecutions: {
-  (
-    input: ListPlanExecutionsRequest,
-  ): effect.Effect<
-    ListPlanExecutionsResponse,
-    AccessDeniedException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPlanExecutions: API.OperationMethod<
+  ListPlanExecutionsRequest,
+  ListPlanExecutionsResponse,
+  AccessDeniedException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlanExecutionsRequest,
   ) => stream.Stream<
@@ -2090,14 +2079,12 @@ export const listPlanExecutions: {
 /**
  * Lists all Region switch plans in your Amazon Web Services account that are available in the current Amazon Web Services Region.
  */
-export const listPlansInRegion: {
-  (
-    input: ListPlansInRegionRequest,
-  ): effect.Effect<
-    ListPlansInRegionResponse,
-    AccessDeniedException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPlansInRegion: API.OperationMethod<
+  ListPlansInRegionRequest,
+  ListPlansInRegionResponse,
+  AccessDeniedException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlansInRegionRequest,
   ) => stream.Stream<
@@ -2126,17 +2113,15 @@ export const listPlansInRegion: {
 /**
  * List the Amazon Route 53 health checks.
  */
-export const listRoute53HealthChecks: {
-  (
-    input: ListRoute53HealthChecksRequest,
-  ): effect.Effect<
-    ListRoute53HealthChecksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRoute53HealthChecks: API.OperationMethod<
+  ListRoute53HealthChecksRequest,
+  ListRoute53HealthChecksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoute53HealthChecksRequest,
   ) => stream.Stream<
@@ -2175,18 +2160,16 @@ export const listRoute53HealthChecks: {
 /**
  * List the Amazon Route 53 health checks in a specific Amazon Web Services Region.
  */
-export const listRoute53HealthChecksInRegion: {
-  (
-    input: ListRoute53HealthChecksInRegionRequest,
-  ): effect.Effect<
-    ListRoute53HealthChecksInRegionResponse,
-    | AccessDeniedException
-    | IllegalArgumentException
-    | InternalServerException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRoute53HealthChecksInRegion: API.OperationMethod<
+  ListRoute53HealthChecksInRegionRequest,
+  ListRoute53HealthChecksInRegionResponse,
+  | AccessDeniedException
+  | IllegalArgumentException
+  | InternalServerException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoute53HealthChecksInRegionRequest,
   ) => stream.Stream<
@@ -2230,9 +2213,8 @@ export const listRoute53HealthChecksInRegion: {
  *
  * Specifing `ungraceful` mode either changes the behavior of the execution blocks in a workflow or skips specific execution blocks.
  */
-export const startPlanExecution: (
-  input: StartPlanExecutionRequest,
-) => effect.Effect<
+export const startPlanExecution: API.OperationMethod<
+  StartPlanExecutionRequest,
   StartPlanExecutionResponse,
   | AccessDeniedException
   | IllegalArgumentException
@@ -2253,9 +2235,8 @@ export const startPlanExecution: (
 /**
  * Updates an in-progress plan execution. This operation allows you to modify certain aspects of the execution, such as adding a comment or changing the action.
  */
-export const updatePlanExecution: (
-  input: UpdatePlanExecutionRequest,
-) => effect.Effect<
+export const updatePlanExecution: API.OperationMethod<
+  UpdatePlanExecutionRequest,
   UpdatePlanExecutionResponse,
   | AccessDeniedException
   | IllegalStateException
@@ -2274,9 +2255,8 @@ export const updatePlanExecution: (
 /**
  * Updates a specific step in an in-progress plan execution. This operation allows you to modify the step's comment or action.
  */
-export const updatePlanExecutionStep: (
-  input: UpdatePlanExecutionStepRequest,
-) => effect.Effect<
+export const updatePlanExecutionStep: API.OperationMethod<
+  UpdatePlanExecutionStepRequest,
   UpdatePlanExecutionStepResponse,
   AccessDeniedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2290,9 +2270,8 @@ export const updatePlanExecutionStep: (
  *
  * You must specify a name for the plan, the primary Region, and at least one additional Region. You can also provide a description, execution role, recovery time objective, associated alarms, triggers, and workflows that define the steps to execute during a Region switch.
  */
-export const createPlan: (
-  input: CreatePlanRequest,
-) => effect.Effect<
+export const createPlan: API.OperationMethod<
+  CreatePlanRequest,
   CreatePlanResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2304,9 +2283,8 @@ export const createPlan: (
 /**
  * Retrieves detailed information about a Region switch plan. You must specify the ARN of the plan.
  */
-export const getPlan: (
-  input: GetPlanRequest,
-) => effect.Effect<
+export const getPlan: API.OperationMethod<
+  GetPlanRequest,
   GetPlanResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2318,9 +2296,8 @@ export const getPlan: (
 /**
  * Updates an existing Region switch plan. You can modify the plan's description, workflows, execution role, recovery time objective, associated alarms, and triggers.
  */
-export const updatePlan: (
-  input: UpdatePlanRequest,
-) => effect.Effect<
+export const updatePlan: API.OperationMethod<
+  UpdatePlanRequest,
   UpdatePlanResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2334,9 +2311,8 @@ export const updatePlan: (
  *
  * You cannot delete a plan that has an active execution in progress.
  */
-export const deletePlan: (
-  input: DeletePlanRequest,
-) => effect.Effect<
+export const deletePlan: API.OperationMethod<
+  DeletePlanRequest,
   DeletePlanResponse,
   IllegalStateException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2348,14 +2324,12 @@ export const deletePlan: (
 /**
  * Lists all Region switch plans in your Amazon Web Services account.
  */
-export const listPlans: {
-  (
-    input: ListPlansRequest,
-  ): effect.Effect<
-    ListPlansResponse,
-    CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPlans: API.OperationMethod<
+  ListPlansRequest,
+  ListPlansResponse,
+  CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlansRequest,
   ) => stream.Stream<
@@ -2384,9 +2358,8 @@ export const listPlans: {
 /**
  * Lists the tags attached to a Region switch resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2398,9 +2371,8 @@ export const listTagsForResource: (
 /**
  * Adds or updates tags for a Region switch resource. You can assign metadata to your resources in the form of tags, which are key-value pairs.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2412,9 +2384,8 @@ export const tagResource: (
 /**
  * Removes tags from a Region switch resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient

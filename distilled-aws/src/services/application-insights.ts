@@ -1499,9 +1499,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 /**
  * Adds a workload to a component. Each component can have at most five workloads.
  */
-export const addWorkload: (
-  input: AddWorkloadRequest,
-) => effect.Effect<
+export const addWorkload: API.OperationMethod<
+  AddWorkloadRequest,
   AddWorkloadResponse,
   | InternalServerException
   | ResourceInUseException
@@ -1522,9 +1521,8 @@ export const addWorkload: (
 /**
  * Adds an application that is created from a resource group.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1549,9 +1547,8 @@ export const createApplication: (
 /**
  * Creates a custom component by grouping similar standalone instances to monitor.
  */
-export const createComponent: (
-  input: CreateComponentRequest,
-) => effect.Effect<
+export const createComponent: API.OperationMethod<
+  CreateComponentRequest,
   CreateComponentResponse,
   | InternalServerException
   | ResourceInUseException
@@ -1572,9 +1569,8 @@ export const createComponent: (
 /**
  * Adds an log pattern to a `LogPatternSet`.
  */
-export const createLogPattern: (
-  input: CreateLogPatternRequest,
-) => effect.Effect<
+export const createLogPattern: API.OperationMethod<
+  CreateLogPatternRequest,
   CreateLogPatternResponse,
   | InternalServerException
   | ResourceInUseException
@@ -1596,9 +1592,8 @@ export const createLogPattern: (
  * Removes the specified application from monitoring. Does not delete the
  * application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | BadRequestException
   | InternalServerException
@@ -1621,9 +1616,8 @@ export const deleteApplication: (
  * that are set up for the component are removed and the instances revert to their standalone
  * status.
  */
-export const deleteComponent: (
-  input: DeleteComponentRequest,
-) => effect.Effect<
+export const deleteComponent: API.OperationMethod<
+  DeleteComponentRequest,
   DeleteComponentResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1642,9 +1636,8 @@ export const deleteComponent: (
 /**
  * Removes the specified log pattern from a `LogPatternSet`.
  */
-export const deleteLogPattern: (
-  input: DeleteLogPatternRequest,
-) => effect.Effect<
+export const deleteLogPattern: API.OperationMethod<
+  DeleteLogPatternRequest,
   DeleteLogPatternResponse,
   | BadRequestException
   | InternalServerException
@@ -1665,9 +1658,8 @@ export const deleteLogPattern: (
 /**
  * Describes the application.
  */
-export const describeApplication: (
-  input: DescribeApplicationRequest,
-) => effect.Effect<
+export const describeApplication: API.OperationMethod<
+  DescribeApplicationRequest,
   DescribeApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1687,9 +1679,8 @@ export const describeApplication: (
  * Describes a component and lists the resources that are grouped together in a
  * component.
  */
-export const describeComponent: (
-  input: DescribeComponentRequest,
-) => effect.Effect<
+export const describeComponent: API.OperationMethod<
+  DescribeComponentRequest,
   DescribeComponentResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1708,9 +1699,8 @@ export const describeComponent: (
 /**
  * Describes the monitoring configuration of the component.
  */
-export const describeComponentConfiguration: (
-  input: DescribeComponentConfigurationRequest,
-) => effect.Effect<
+export const describeComponentConfiguration: API.OperationMethod<
+  DescribeComponentConfigurationRequest,
   DescribeComponentConfigurationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1729,9 +1719,8 @@ export const describeComponentConfiguration: (
 /**
  * Describes the recommended monitoring configuration of the component.
  */
-export const describeComponentConfigurationRecommendation: (
-  input: DescribeComponentConfigurationRecommendationRequest,
-) => effect.Effect<
+export const describeComponentConfigurationRecommendation: API.OperationMethod<
+  DescribeComponentConfigurationRecommendationRequest,
   DescribeComponentConfigurationRecommendationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1750,9 +1739,8 @@ export const describeComponentConfigurationRecommendation: (
 /**
  * Describe a specific log pattern from a `LogPatternSet`.
  */
-export const describeLogPattern: (
-  input: DescribeLogPatternRequest,
-) => effect.Effect<
+export const describeLogPattern: API.OperationMethod<
+  DescribeLogPatternRequest,
   DescribeLogPatternResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1771,9 +1759,8 @@ export const describeLogPattern: (
 /**
  * Describes an anomaly or error with the application.
  */
-export const describeObservation: (
-  input: DescribeObservationRequest,
-) => effect.Effect<
+export const describeObservation: API.OperationMethod<
+  DescribeObservationRequest,
   DescribeObservationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1792,9 +1779,8 @@ export const describeObservation: (
 /**
  * Describes an application problem.
  */
-export const describeProblem: (
-  input: DescribeProblemRequest,
-) => effect.Effect<
+export const describeProblem: API.OperationMethod<
+  DescribeProblemRequest,
   DescribeProblemResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1813,9 +1799,8 @@ export const describeProblem: (
 /**
  * Describes the anomalies or errors associated with the problem.
  */
-export const describeProblemObservations: (
-  input: DescribeProblemObservationsRequest,
-) => effect.Effect<
+export const describeProblemObservations: API.OperationMethod<
+  DescribeProblemObservationsRequest,
   DescribeProblemObservationsResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1834,9 +1819,8 @@ export const describeProblemObservations: (
 /**
  * Describes a workload and its configuration.
  */
-export const describeWorkload: (
-  input: DescribeWorkloadRequest,
-) => effect.Effect<
+export const describeWorkload: API.OperationMethod<
+  DescribeWorkloadRequest,
   DescribeWorkloadResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1855,14 +1839,12 @@ export const describeWorkload: (
 /**
  * Lists the IDs of the applications that you are monitoring.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -1890,17 +1872,15 @@ export const listApplications: {
 /**
  * Lists the auto-grouped, standalone, and custom components of the application.
  */
-export const listComponents: {
-  (
-    input: ListComponentsRequest,
-  ): effect.Effect<
-    ListComponentsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponents: API.OperationMethod<
+  ListComponentsRequest,
+  ListComponentsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentsRequest,
   ) => stream.Stream<
@@ -1946,17 +1926,15 @@ export const listComponents: {
  *
  * - ERROR: alarm not created due to permission errors or exceeding quotas.
  */
-export const listConfigurationHistory: {
-  (
-    input: ListConfigurationHistoryRequest,
-  ): effect.Effect<
-    ListConfigurationHistoryResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationHistory: API.OperationMethod<
+  ListConfigurationHistoryRequest,
+  ListConfigurationHistoryResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationHistoryRequest,
   ) => stream.Stream<
@@ -1994,17 +1972,15 @@ export const listConfigurationHistory: {
 /**
  * Lists the log patterns in the specific log `LogPatternSet`.
  */
-export const listLogPatterns: {
-  (
-    input: ListLogPatternsRequest,
-  ): effect.Effect<
-    ListLogPatternsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLogPatterns: API.OperationMethod<
+  ListLogPatternsRequest,
+  ListLogPatternsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLogPatternsRequest,
   ) => stream.Stream<
@@ -2042,17 +2018,15 @@ export const listLogPatterns: {
 /**
  * Lists the log pattern sets in the specific application.
  */
-export const listLogPatternSets: {
-  (
-    input: ListLogPatternSetsRequest,
-  ): effect.Effect<
-    ListLogPatternSetsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLogPatternSets: API.OperationMethod<
+  ListLogPatternSetsRequest,
+  ListLogPatternSetsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLogPatternSetsRequest,
   ) => stream.Stream<
@@ -2090,17 +2064,15 @@ export const listLogPatternSets: {
 /**
  * Lists the problems with your application.
  */
-export const listProblems: {
-  (
-    input: ListProblemsRequest,
-  ): effect.Effect<
-    ListProblemsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProblems: API.OperationMethod<
+  ListProblemsRequest,
+  ListProblemsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProblemsRequest,
   ) => stream.Stream<
@@ -2143,9 +2115,8 @@ export const listProblems: {
  * as a category for more specific tag values. A tag value acts as a descriptor within a tag
  * key.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2157,17 +2128,15 @@ export const listTagsForResource: (
 /**
  * Lists the workloads that are configured on a given component.
  */
-export const listWorkloads: {
-  (
-    input: ListWorkloadsRequest,
-  ): effect.Effect<
-    ListWorkloadsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkloads: API.OperationMethod<
+  ListWorkloadsRequest,
+  ListWorkloadsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkloadsRequest,
   ) => stream.Stream<
@@ -2205,9 +2174,8 @@ export const listWorkloads: {
 /**
  * Remove workload from a component.
  */
-export const removeWorkload: (
-  input: RemoveWorkloadRequest,
-) => effect.Effect<
+export const removeWorkload: API.OperationMethod<
+  RemoveWorkloadRequest,
   RemoveWorkloadResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2234,9 +2202,8 @@ export const removeWorkload: (
  * that acts as a category for more specific tag values. A tag value acts as a descriptor
  * within a tag key.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -2255,9 +2222,8 @@ export const tagResource: (
 /**
  * Remove one or more tags (keys and values) from a specified application.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2269,9 +2235,8 @@ export const untagResource: (
 /**
  * Updates the application.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2291,9 +2256,8 @@ export const updateApplication: (
  * Updates the custom component name and/or the list of resources that make up the
  * component.
  */
-export const updateComponent: (
-  input: UpdateComponentRequest,
-) => effect.Effect<
+export const updateComponent: API.OperationMethod<
+  UpdateComponentRequest,
   UpdateComponentResponse,
   | InternalServerException
   | ResourceInUseException
@@ -2316,9 +2280,8 @@ export const updateComponent: (
  * parameter is an escaped JSON of the configuration and should match the schema of what is
  * returned by `DescribeComponentConfigurationRecommendation`.
  */
-export const updateComponentConfiguration: (
-  input: UpdateComponentConfigurationRequest,
-) => effect.Effect<
+export const updateComponentConfiguration: API.OperationMethod<
+  UpdateComponentConfigurationRequest,
   UpdateComponentConfigurationResponse,
   | InternalServerException
   | ResourceInUseException
@@ -2339,9 +2302,8 @@ export const updateComponentConfiguration: (
 /**
  * Adds a log pattern to a `LogPatternSet`.
  */
-export const updateLogPattern: (
-  input: UpdateLogPatternRequest,
-) => effect.Effect<
+export const updateLogPattern: API.OperationMethod<
+  UpdateLogPatternRequest,
   UpdateLogPatternResponse,
   | InternalServerException
   | ResourceInUseException
@@ -2363,9 +2325,8 @@ export const updateLogPattern: (
  * Updates the visibility of the problem or specifies the problem as
  * `RESOLVED`.
  */
-export const updateProblem: (
-  input: UpdateProblemRequest,
-) => effect.Effect<
+export const updateProblem: API.OperationMethod<
+  UpdateProblemRequest,
   UpdateProblemResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2384,9 +2345,8 @@ export const updateProblem: (
 /**
  * Adds a workload to a component. Each component can have at most five workloads.
  */
-export const updateWorkload: (
-  input: UpdateWorkloadRequest,
-) => effect.Effect<
+export const updateWorkload: API.OperationMethod<
+  UpdateWorkloadRequest,
   UpdateWorkloadResponse,
   | InternalServerException
   | ResourceNotFoundException

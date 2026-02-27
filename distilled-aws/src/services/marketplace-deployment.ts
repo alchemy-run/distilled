@@ -277,9 +277,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists all tags that have been added to a deployment parameter resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -302,9 +301,8 @@ export const listTagsForResource: (
 /**
  * Tags a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -329,9 +327,8 @@ export const tagResource: (
 /**
  * Removes a tag or list of tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -356,9 +353,8 @@ export const untagResource: (
 /**
  * Creates or updates a deployment parameter and is targeted by `catalog` and `agreementId`.
  */
-export const putDeploymentParameter: (
-  input: PutDeploymentParameterRequest,
-) => effect.Effect<
+export const putDeploymentParameter: API.OperationMethod<
+  PutDeploymentParameterRequest,
   PutDeploymentParameterResponse,
   | AccessDeniedException
   | ConflictException

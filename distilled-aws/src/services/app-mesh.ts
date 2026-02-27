@@ -3450,20 +3450,18 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 /**
  * List the tags for an App Mesh resource.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceInput,
-  ): effect.Effect<
-    ListTagsForResourceOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
+  ListTagsForResourceOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceInput,
   ) => stream.Stream<
@@ -3514,9 +3512,8 @@ export const listTagsForResource: {
  * changed. When a resource is deleted, the tags associated with that resource are also
  * deleted.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | BadRequestException
   | ForbiddenException
@@ -3543,9 +3540,8 @@ export const tagResource: (
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | BadRequestException
   | ForbiddenException
@@ -3577,9 +3573,8 @@ export const untagResource: (
  *
  * For more information about service meshes, see Service meshes.
  */
-export const createMesh: (
-  input: CreateMeshInput,
-) => effect.Effect<
+export const createMesh: API.OperationMethod<
+  CreateMeshInput,
   CreateMeshOutput,
   | BadRequestException
   | ConflictException
@@ -3608,9 +3603,8 @@ export const createMesh: (
 /**
  * Describes an existing service mesh.
  */
-export const describeMesh: (
-  input: DescribeMeshInput,
-) => effect.Effect<
+export const describeMesh: API.OperationMethod<
+  DescribeMeshInput,
   DescribeMeshOutput,
   | BadRequestException
   | ForbiddenException
@@ -3635,9 +3629,8 @@ export const describeMesh: (
 /**
  * Updates an existing service mesh.
  */
-export const updateMesh: (
-  input: UpdateMeshInput,
-) => effect.Effect<
+export const updateMesh: API.OperationMethod<
+  UpdateMeshInput,
   UpdateMeshOutput,
   | BadRequestException
   | ConflictException
@@ -3667,9 +3660,8 @@ export const updateMesh: (
  * You must delete all resources (virtual services, routes, virtual routers, and virtual
  * nodes) in the service mesh before you can delete the mesh itself.
  */
-export const deleteMesh: (
-  input: DeleteMeshInput,
-) => effect.Effect<
+export const deleteMesh: API.OperationMethod<
+  DeleteMeshInput,
   DeleteMeshOutput,
   | BadRequestException
   | ForbiddenException
@@ -3696,20 +3688,18 @@ export const deleteMesh: (
 /**
  * Returns a list of existing service meshes.
  */
-export const listMeshes: {
-  (
-    input: ListMeshesInput,
-  ): effect.Effect<
-    ListMeshesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMeshes: API.OperationMethod<
+  ListMeshesInput,
+  ListMeshesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMeshesInput,
   ) => stream.Stream<
@@ -3764,9 +3754,8 @@ export const listMeshes: {
  *
  * For more information about virtual gateways, see Virtual gateways.
  */
-export const createVirtualGateway: (
-  input: CreateVirtualGatewayInput,
-) => effect.Effect<
+export const createVirtualGateway: API.OperationMethod<
+  CreateVirtualGatewayInput,
   CreateVirtualGatewayOutput,
   | BadRequestException
   | ConflictException
@@ -3795,9 +3784,8 @@ export const createVirtualGateway: (
 /**
  * Describes an existing virtual gateway.
  */
-export const describeVirtualGateway: (
-  input: DescribeVirtualGatewayInput,
-) => effect.Effect<
+export const describeVirtualGateway: API.OperationMethod<
+  DescribeVirtualGatewayInput,
   DescribeVirtualGatewayOutput,
   | BadRequestException
   | ForbiddenException
@@ -3822,9 +3810,8 @@ export const describeVirtualGateway: (
 /**
  * Updates an existing virtual gateway in a specified service mesh.
  */
-export const updateVirtualGateway: (
-  input: UpdateVirtualGatewayInput,
-) => effect.Effect<
+export const updateVirtualGateway: API.OperationMethod<
+  UpdateVirtualGatewayInput,
   UpdateVirtualGatewayOutput,
   | BadRequestException
   | ConflictException
@@ -3854,9 +3841,8 @@ export const updateVirtualGateway: (
  * Deletes an existing virtual gateway. You cannot delete a virtual gateway if any gateway
  * routes are associated to it.
  */
-export const deleteVirtualGateway: (
-  input: DeleteVirtualGatewayInput,
-) => effect.Effect<
+export const deleteVirtualGateway: API.OperationMethod<
+  DeleteVirtualGatewayInput,
   DeleteVirtualGatewayOutput,
   | BadRequestException
   | ForbiddenException
@@ -3883,20 +3869,18 @@ export const deleteVirtualGateway: (
 /**
  * Returns a list of existing virtual gateways in a service mesh.
  */
-export const listVirtualGateways: {
-  (
-    input: ListVirtualGatewaysInput,
-  ): effect.Effect<
-    ListVirtualGatewaysOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVirtualGateways: API.OperationMethod<
+  ListVirtualGatewaysInput,
+  ListVirtualGatewaysOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVirtualGatewaysInput,
   ) => stream.Stream<
@@ -3950,9 +3934,8 @@ export const listVirtualGateways: {
  *
  * For more information about gateway routes, see Gateway routes.
  */
-export const createGatewayRoute: (
-  input: CreateGatewayRouteInput,
-) => effect.Effect<
+export const createGatewayRoute: API.OperationMethod<
+  CreateGatewayRouteInput,
   CreateGatewayRouteOutput,
   | BadRequestException
   | ConflictException
@@ -3981,9 +3964,8 @@ export const createGatewayRoute: (
 /**
  * Describes an existing gateway route.
  */
-export const describeGatewayRoute: (
-  input: DescribeGatewayRouteInput,
-) => effect.Effect<
+export const describeGatewayRoute: API.OperationMethod<
+  DescribeGatewayRouteInput,
   DescribeGatewayRouteOutput,
   | BadRequestException
   | ForbiddenException
@@ -4009,9 +3991,8 @@ export const describeGatewayRoute: (
  * Updates an existing gateway route that is associated to a specified virtual gateway in a
  * service mesh.
  */
-export const updateGatewayRoute: (
-  input: UpdateGatewayRouteInput,
-) => effect.Effect<
+export const updateGatewayRoute: API.OperationMethod<
+  UpdateGatewayRouteInput,
   UpdateGatewayRouteOutput,
   | BadRequestException
   | ConflictException
@@ -4040,9 +4021,8 @@ export const updateGatewayRoute: (
 /**
  * Deletes an existing gateway route.
  */
-export const deleteGatewayRoute: (
-  input: DeleteGatewayRouteInput,
-) => effect.Effect<
+export const deleteGatewayRoute: API.OperationMethod<
+  DeleteGatewayRouteInput,
   DeleteGatewayRouteOutput,
   | BadRequestException
   | ForbiddenException
@@ -4070,20 +4050,18 @@ export const deleteGatewayRoute: (
  * Returns a list of existing gateway routes that are associated to a virtual
  * gateway.
  */
-export const listGatewayRoutes: {
-  (
-    input: ListGatewayRoutesInput,
-  ): effect.Effect<
-    ListGatewayRoutesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGatewayRoutes: API.OperationMethod<
+  ListGatewayRoutesInput,
+  ListGatewayRoutesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGatewayRoutesInput,
   ) => stream.Stream<
@@ -4157,9 +4135,8 @@ export const listGatewayRoutes: {
  * Envoy
  * image in the App Mesh User Guide.
  */
-export const createVirtualNode: (
-  input: CreateVirtualNodeInput,
-) => effect.Effect<
+export const createVirtualNode: API.OperationMethod<
+  CreateVirtualNodeInput,
   CreateVirtualNodeOutput,
   | BadRequestException
   | ConflictException
@@ -4188,9 +4165,8 @@ export const createVirtualNode: (
 /**
  * Describes an existing virtual node.
  */
-export const describeVirtualNode: (
-  input: DescribeVirtualNodeInput,
-) => effect.Effect<
+export const describeVirtualNode: API.OperationMethod<
+  DescribeVirtualNodeInput,
   DescribeVirtualNodeOutput,
   | BadRequestException
   | ForbiddenException
@@ -4215,9 +4191,8 @@ export const describeVirtualNode: (
 /**
  * Updates an existing virtual node in a specified service mesh.
  */
-export const updateVirtualNode: (
-  input: UpdateVirtualNodeInput,
-) => effect.Effect<
+export const updateVirtualNode: API.OperationMethod<
+  UpdateVirtualNodeInput,
   UpdateVirtualNodeOutput,
   | BadRequestException
   | ConflictException
@@ -4249,9 +4224,8 @@ export const updateVirtualNode: (
  * You must delete any virtual services that list a virtual node as a service provider
  * before you can delete the virtual node itself.
  */
-export const deleteVirtualNode: (
-  input: DeleteVirtualNodeInput,
-) => effect.Effect<
+export const deleteVirtualNode: API.OperationMethod<
+  DeleteVirtualNodeInput,
   DeleteVirtualNodeOutput,
   | BadRequestException
   | ForbiddenException
@@ -4278,20 +4252,18 @@ export const deleteVirtualNode: (
 /**
  * Returns a list of existing virtual nodes.
  */
-export const listVirtualNodes: {
-  (
-    input: ListVirtualNodesInput,
-  ): effect.Effect<
-    ListVirtualNodesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVirtualNodes: API.OperationMethod<
+  ListVirtualNodesInput,
+  ListVirtualNodesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVirtualNodesInput,
   ) => stream.Stream<
@@ -4347,9 +4319,8 @@ export const listVirtualNodes: {
  *
  * For more information about virtual routers, see Virtual routers.
  */
-export const createVirtualRouter: (
-  input: CreateVirtualRouterInput,
-) => effect.Effect<
+export const createVirtualRouter: API.OperationMethod<
+  CreateVirtualRouterInput,
   CreateVirtualRouterOutput,
   | BadRequestException
   | ConflictException
@@ -4378,9 +4349,8 @@ export const createVirtualRouter: (
 /**
  * Describes an existing virtual router.
  */
-export const describeVirtualRouter: (
-  input: DescribeVirtualRouterInput,
-) => effect.Effect<
+export const describeVirtualRouter: API.OperationMethod<
+  DescribeVirtualRouterInput,
   DescribeVirtualRouterOutput,
   | BadRequestException
   | ForbiddenException
@@ -4405,9 +4375,8 @@ export const describeVirtualRouter: (
 /**
  * Updates an existing virtual router in a specified service mesh.
  */
-export const updateVirtualRouter: (
-  input: UpdateVirtualRouterInput,
-) => effect.Effect<
+export const updateVirtualRouter: API.OperationMethod<
+  UpdateVirtualRouterInput,
   UpdateVirtualRouterOutput,
   | BadRequestException
   | ConflictException
@@ -4439,9 +4408,8 @@ export const updateVirtualRouter: (
  * You must delete any routes associated with the virtual router before you can delete the
  * router itself.
  */
-export const deleteVirtualRouter: (
-  input: DeleteVirtualRouterInput,
-) => effect.Effect<
+export const deleteVirtualRouter: API.OperationMethod<
+  DeleteVirtualRouterInput,
   DeleteVirtualRouterOutput,
   | BadRequestException
   | ForbiddenException
@@ -4468,20 +4436,18 @@ export const deleteVirtualRouter: (
 /**
  * Returns a list of existing virtual routers in a service mesh.
  */
-export const listVirtualRouters: {
-  (
-    input: ListVirtualRoutersInput,
-  ): effect.Effect<
-    ListVirtualRoutersOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVirtualRouters: API.OperationMethod<
+  ListVirtualRoutersInput,
+  ListVirtualRoutersOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVirtualRoutersInput,
   ) => stream.Stream<
@@ -4534,9 +4500,8 @@ export const listVirtualRouters: {
  *
  * For more information about routes, see Routes.
  */
-export const createRoute: (
-  input: CreateRouteInput,
-) => effect.Effect<
+export const createRoute: API.OperationMethod<
+  CreateRouteInput,
   CreateRouteOutput,
   | BadRequestException
   | ConflictException
@@ -4565,9 +4530,8 @@ export const createRoute: (
 /**
  * Describes an existing route.
  */
-export const describeRoute: (
-  input: DescribeRouteInput,
-) => effect.Effect<
+export const describeRoute: API.OperationMethod<
+  DescribeRouteInput,
   DescribeRouteOutput,
   | BadRequestException
   | ForbiddenException
@@ -4592,9 +4556,8 @@ export const describeRoute: (
 /**
  * Updates an existing route for a specified service mesh and virtual router.
  */
-export const updateRoute: (
-  input: UpdateRouteInput,
-) => effect.Effect<
+export const updateRoute: API.OperationMethod<
+  UpdateRouteInput,
   UpdateRouteOutput,
   | BadRequestException
   | ConflictException
@@ -4623,9 +4586,8 @@ export const updateRoute: (
 /**
  * Deletes an existing route.
  */
-export const deleteRoute: (
-  input: DeleteRouteInput,
-) => effect.Effect<
+export const deleteRoute: API.OperationMethod<
+  DeleteRouteInput,
   DeleteRouteOutput,
   | BadRequestException
   | ForbiddenException
@@ -4652,20 +4614,18 @@ export const deleteRoute: (
 /**
  * Returns a list of existing routes in a service mesh.
  */
-export const listRoutes: {
-  (
-    input: ListRoutesInput,
-  ): effect.Effect<
-    ListRoutesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoutes: API.OperationMethod<
+  ListRoutesInput,
+  ListRoutesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoutesInput,
   ) => stream.Stream<
@@ -4721,9 +4681,8 @@ export const listRoutes: {
  *
  * For more information about virtual services, see Virtual services.
  */
-export const createVirtualService: (
-  input: CreateVirtualServiceInput,
-) => effect.Effect<
+export const createVirtualService: API.OperationMethod<
+  CreateVirtualServiceInput,
   CreateVirtualServiceOutput,
   | BadRequestException
   | ConflictException
@@ -4752,9 +4711,8 @@ export const createVirtualService: (
 /**
  * Describes an existing virtual service.
  */
-export const describeVirtualService: (
-  input: DescribeVirtualServiceInput,
-) => effect.Effect<
+export const describeVirtualService: API.OperationMethod<
+  DescribeVirtualServiceInput,
   DescribeVirtualServiceOutput,
   | BadRequestException
   | ForbiddenException
@@ -4779,9 +4737,8 @@ export const describeVirtualService: (
 /**
  * Updates an existing virtual service in a specified service mesh.
  */
-export const updateVirtualService: (
-  input: UpdateVirtualServiceInput,
-) => effect.Effect<
+export const updateVirtualService: API.OperationMethod<
+  UpdateVirtualServiceInput,
   UpdateVirtualServiceOutput,
   | BadRequestException
   | ConflictException
@@ -4810,9 +4767,8 @@ export const updateVirtualService: (
 /**
  * Deletes an existing virtual service.
  */
-export const deleteVirtualService: (
-  input: DeleteVirtualServiceInput,
-) => effect.Effect<
+export const deleteVirtualService: API.OperationMethod<
+  DeleteVirtualServiceInput,
   DeleteVirtualServiceOutput,
   | BadRequestException
   | ForbiddenException
@@ -4839,20 +4795,18 @@ export const deleteVirtualService: (
 /**
  * Returns a list of existing virtual services in a service mesh.
  */
-export const listVirtualServices: {
-  (
-    input: ListVirtualServicesInput,
-  ): effect.Effect<
-    ListVirtualServicesOutput,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVirtualServices: API.OperationMethod<
+  ListVirtualServicesInput,
+  ListVirtualServicesOutput,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVirtualServicesInput,
   ) => stream.Stream<

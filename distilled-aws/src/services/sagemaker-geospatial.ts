@@ -1706,9 +1706,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists the tags attached to the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1731,9 +1730,8 @@ export const listTagsForResource: (
 /**
  * The resource you want to tag.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1756,9 +1754,8 @@ export const tagResource: (
 /**
  * The resource you want to untag.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1781,9 +1778,8 @@ export const untagResource: (
 /**
  * Use this operation to create an Earth observation job.
  */
-export const startEarthObservationJob: (
-  input: StartEarthObservationJobInput,
-) => effect.Effect<
+export const startEarthObservationJob: API.OperationMethod<
+  StartEarthObservationJobInput,
   StartEarthObservationJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -1810,9 +1806,8 @@ export const startEarthObservationJob: (
 /**
  * Get the details for a previously initiated Earth Observation job.
  */
-export const getEarthObservationJob: (
-  input: GetEarthObservationJobInput,
-) => effect.Effect<
+export const getEarthObservationJob: API.OperationMethod<
+  GetEarthObservationJobInput,
   GetEarthObservationJobOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1835,9 +1830,8 @@ export const getEarthObservationJob: (
 /**
  * Use this operation to delete an Earth Observation job.
  */
-export const deleteEarthObservationJob: (
-  input: DeleteEarthObservationJobInput,
-) => effect.Effect<
+export const deleteEarthObservationJob: API.OperationMethod<
+  DeleteEarthObservationJobInput,
   DeleteEarthObservationJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -1862,19 +1856,17 @@ export const deleteEarthObservationJob: (
 /**
  * Use this operation to get a list of the Earth Observation jobs associated with the calling Amazon Web Services account.
  */
-export const listEarthObservationJobs: {
-  (
-    input: ListEarthObservationJobInput,
-  ): effect.Effect<
-    ListEarthObservationJobOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEarthObservationJobs: API.OperationMethod<
+  ListEarthObservationJobInput,
+  ListEarthObservationJobOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEarthObservationJobInput,
   ) => stream.Stream<
@@ -1918,9 +1910,8 @@ export const listEarthObservationJobs: {
 /**
  * Use this operation to export results of an Earth Observation job and optionally source images used as input to the EOJ to an Amazon S3 location.
  */
-export const exportEarthObservationJob: (
-  input: ExportEarthObservationJobInput,
-) => effect.Effect<
+export const exportEarthObservationJob: API.OperationMethod<
+  ExportEarthObservationJobInput,
   ExportEarthObservationJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -1947,9 +1938,8 @@ export const exportEarthObservationJob: (
 /**
  * Gets a web mercator tile for the given Earth Observation job.
  */
-export const getTile: (
-  input: GetTileInput,
-) => effect.Effect<
+export const getTile: API.OperationMethod<
+  GetTileInput,
   GetTileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1972,9 +1962,8 @@ export const getTile: (
 /**
  * Use this operation to stop an existing earth observation job.
  */
-export const stopEarthObservationJob: (
-  input: StopEarthObservationJobInput,
-) => effect.Effect<
+export const stopEarthObservationJob: API.OperationMethod<
+  StopEarthObservationJobInput,
   StopEarthObservationJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -1999,9 +1988,8 @@ export const stopEarthObservationJob: (
 /**
  * Use this operation to get details of a specific raster data collection.
  */
-export const getRasterDataCollection: (
-  input: GetRasterDataCollectionInput,
-) => effect.Effect<
+export const getRasterDataCollection: API.OperationMethod<
+  GetRasterDataCollectionInput,
   GetRasterDataCollectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2024,19 +2012,17 @@ export const getRasterDataCollection: (
 /**
  * Use this operation to get raster data collections.
  */
-export const listRasterDataCollections: {
-  (
-    input: ListRasterDataCollectionsInput,
-  ): effect.Effect<
-    ListRasterDataCollectionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRasterDataCollections: API.OperationMethod<
+  ListRasterDataCollectionsInput,
+  ListRasterDataCollectionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRasterDataCollectionsInput,
   ) => stream.Stream<
@@ -2080,19 +2066,17 @@ export const listRasterDataCollections: {
 /**
  * Allows you run image query on a specific raster data collection to get a list of the satellite imagery matching the selected filters.
  */
-export const searchRasterDataCollection: {
-  (
-    input: SearchRasterDataCollectionInput,
-  ): effect.Effect<
-    SearchRasterDataCollectionOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchRasterDataCollection: API.OperationMethod<
+  SearchRasterDataCollectionInput,
+  SearchRasterDataCollectionOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchRasterDataCollectionInput,
   ) => stream.Stream<
@@ -2132,9 +2116,8 @@ export const searchRasterDataCollection: {
 /**
  * Creates a Vector Enrichment job for the supplied job type. Currently, there are two supported job types: reverse geocoding and map matching.
  */
-export const startVectorEnrichmentJob: (
-  input: StartVectorEnrichmentJobInput,
-) => effect.Effect<
+export const startVectorEnrichmentJob: API.OperationMethod<
+  StartVectorEnrichmentJobInput,
   StartVectorEnrichmentJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -2161,9 +2144,8 @@ export const startVectorEnrichmentJob: (
 /**
  * Retrieves details of a Vector Enrichment Job for a given job Amazon Resource Name (ARN).
  */
-export const getVectorEnrichmentJob: (
-  input: GetVectorEnrichmentJobInput,
-) => effect.Effect<
+export const getVectorEnrichmentJob: API.OperationMethod<
+  GetVectorEnrichmentJobInput,
   GetVectorEnrichmentJobOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2186,9 +2168,8 @@ export const getVectorEnrichmentJob: (
 /**
  * Use this operation to delete a Vector Enrichment job.
  */
-export const deleteVectorEnrichmentJob: (
-  input: DeleteVectorEnrichmentJobInput,
-) => effect.Effect<
+export const deleteVectorEnrichmentJob: API.OperationMethod<
+  DeleteVectorEnrichmentJobInput,
   DeleteVectorEnrichmentJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -2213,19 +2194,17 @@ export const deleteVectorEnrichmentJob: (
 /**
  * Retrieves a list of vector enrichment jobs.
  */
-export const listVectorEnrichmentJobs: {
-  (
-    input: ListVectorEnrichmentJobInput,
-  ): effect.Effect<
-    ListVectorEnrichmentJobOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVectorEnrichmentJobs: API.OperationMethod<
+  ListVectorEnrichmentJobInput,
+  ListVectorEnrichmentJobOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVectorEnrichmentJobInput,
   ) => stream.Stream<
@@ -2269,9 +2248,8 @@ export const listVectorEnrichmentJobs: {
 /**
  * Use this operation to copy results of a Vector Enrichment job to an Amazon S3 location.
  */
-export const exportVectorEnrichmentJob: (
-  input: ExportVectorEnrichmentJobInput,
-) => effect.Effect<
+export const exportVectorEnrichmentJob: API.OperationMethod<
+  ExportVectorEnrichmentJobInput,
   ExportVectorEnrichmentJobOutput,
   | AccessDeniedException
   | ConflictException
@@ -2298,9 +2276,8 @@ export const exportVectorEnrichmentJob: (
 /**
  * Stops the Vector Enrichment job for a given job ARN.
  */
-export const stopVectorEnrichmentJob: (
-  input: StopVectorEnrichmentJobInput,
-) => effect.Effect<
+export const stopVectorEnrichmentJob: API.OperationMethod<
+  StopVectorEnrichmentJobInput,
   StopVectorEnrichmentJobOutput,
   | AccessDeniedException
   | ConflictException

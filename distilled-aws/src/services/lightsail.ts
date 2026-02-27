@@ -8419,9 +8419,8 @@ export class UnauthenticatedException extends S.TaggedErrorClass<Unauthenticated
 /**
  * Allocates a static IP address.
  */
-export const allocateStaticIp: (
-  input: AllocateStaticIpRequest,
-) => effect.Effect<
+export const allocateStaticIp: API.OperationMethod<
+  AllocateStaticIpRequest,
   AllocateStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8463,9 +8462,8 @@ export const allocateStaticIp: (
  * Region, and distribute its content globally. However, all distributions are located in the
  * `us-east-1` Region.
  */
-export const attachCertificateToDistribution: (
-  input: AttachCertificateToDistributionRequest,
-) => effect.Effect<
+export const attachCertificateToDistribution: API.OperationMethod<
+  AttachCertificateToDistributionRequest,
   AttachCertificateToDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8495,9 +8493,8 @@ export const attachCertificateToDistribution: (
  * applied to the resource identified by `disk name`. For more information, see the
  * Amazon Lightsail Developer Guide.
  */
-export const attachDisk: (
-  input: AttachDiskRequest,
-) => effect.Effect<
+export const attachDisk: API.OperationMethod<
+  AttachDiskRequest,
   AttachDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8533,9 +8530,8 @@ export const attachDisk: (
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Lightsail Developer Guide.
  */
-export const attachInstancesToLoadBalancer: (
-  input: AttachInstancesToLoadBalancerRequest,
-) => effect.Effect<
+export const attachInstancesToLoadBalancer: API.OperationMethod<
+  AttachInstancesToLoadBalancerRequest,
   AttachInstancesToLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8574,9 +8570,8 @@ export const attachInstancesToLoadBalancer: (
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const attachLoadBalancerTlsCertificate: (
-  input: AttachLoadBalancerTlsCertificateRequest,
-) => effect.Effect<
+export const attachLoadBalancerTlsCertificate: API.OperationMethod<
+  AttachLoadBalancerTlsCertificateRequest,
   AttachLoadBalancerTlsCertificateResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8605,9 +8600,8 @@ export const attachLoadBalancerTlsCertificate: (
 /**
  * Attaches a static IP address to a specific Amazon Lightsail instance.
  */
-export const attachStaticIp: (
-  input: AttachStaticIpRequest,
-) => effect.Effect<
+export const attachStaticIp: API.OperationMethod<
+  AttachStaticIpRequest,
   AttachStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8640,9 +8634,8 @@ export const attachStaticIp: (
  * resource tags applied to the resource identified by `instanceName`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const closeInstancePublicPorts: (
-  input: CloseInstancePublicPortsRequest,
-) => effect.Effect<
+export const closeInstancePublicPorts: API.OperationMethod<
+  CloseInstancePublicPortsRequest,
   CloseInstancePublicPortsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8682,9 +8675,8 @@ export const closeInstancePublicPorts: (
  * name, and either the `restore date` or the use latest restorable
  * auto snapshot parameters.
  */
-export const copySnapshot: (
-  input: CopySnapshotRequest,
-) => effect.Effect<
+export const copySnapshot: API.OperationMethod<
+  CopySnapshotRequest,
   CopySnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8718,9 +8710,8 @@ export const copySnapshot: (
  * about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer
  * Guide.
  */
-export const createBucket: (
-  input: CreateBucketRequest,
-) => effect.Effect<
+export const createBucket: API.OperationMethod<
+  CreateBucketRequest,
   CreateBucketResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8754,9 +8745,8 @@ export const createBucket: (
  * first create an access key; you cannot get the secret access key later. If you lose the
  * secret access key, you must create a new access key.
  */
-export const createBucketAccessKey: (
-  input: CreateBucketAccessKeyRequest,
-) => effect.Effect<
+export const createBucketAccessKey: API.OperationMethod<
+  CreateBucketAccessKeyRequest,
   CreateBucketAccessKeyResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8793,9 +8783,8 @@ export const createBucketAccessKey: (
  * Region, and distribute its content globally. However, all distributions are located in the
  * `us-east-1` Region.
  */
-export const createCertificate: (
-  input: CreateCertificateRequest,
-) => effect.Effect<
+export const createCertificate: API.OperationMethod<
+  CreateCertificateRequest,
   CreateCertificateResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8826,9 +8815,8 @@ export const createCertificate: (
  * Wait until after your new Amazon EC2 instance is created before running the create
  * cloud formation stack operation again with the same export snapshot record.
  */
-export const createCloudFormationStack: (
-  input: CreateCloudFormationStackRequest,
-) => effect.Effect<
+export const createCloudFormationStack: API.OperationMethod<
+  CreateCloudFormationStackRequest,
   CreateCloudFormationStackResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -8862,9 +8850,8 @@ export const createCloudFormationStack: (
  * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
  * see Notifications in Amazon Lightsail.
  */
-export const createContactMethod: (
-  input: CreateContactMethodRequest,
-) => effect.Effect<
+export const createContactMethod: API.OperationMethod<
+  CreateContactMethodRequest,
   CreateContactMethodResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8895,9 +8882,8 @@ export const createContactMethod: (
  * For more information, see Container services in Amazon Lightsail in the Lightsail Dev
  * Guide.
  */
-export const createContainerService: (
-  input: CreateContainerServiceRequest,
-) => effect.Effect<
+export const createContainerService: API.OperationMethod<
+  CreateContainerServiceRequest,
   CreateContainerServiceResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8933,9 +8919,8 @@ export const createContainerService: (
  * Creating container images for your Amazon Lightsail container services in the
  * *Amazon Lightsail Developer Guide*.
  */
-export const createContainerServiceDeployment: (
-  input: CreateContainerServiceDeploymentRequest,
-) => effect.Effect<
+export const createContainerServiceDeployment: API.OperationMethod<
+  CreateContainerServiceDeploymentRequest,
   CreateContainerServiceDeploymentResult,
   | AccessDeniedException
   | InvalidInputException
@@ -8978,9 +8963,8 @@ export const createContainerServiceDeployment: (
  * more information, see Pushing and managing container images on your Amazon Lightsail container services
  * in the *Amazon Lightsail Developer Guide*.
  */
-export const createContainerServiceRegistryLogin: (
-  input: CreateContainerServiceRegistryLoginRequest,
-) => effect.Effect<
+export const createContainerServiceRegistryLogin: API.OperationMethod<
+  CreateContainerServiceRegistryLoginRequest,
   CreateContainerServiceRegistryLoginResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9009,9 +8993,8 @@ export const createContainerServiceRegistryLogin: (
  * The `create disk` operation supports tag-based access control via request tags.
  * For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createDisk: (
-  input: CreateDiskRequest,
-) => effect.Effect<
+export const createDisk: API.OperationMethod<
+  CreateDiskRequest,
   CreateDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9046,9 +9029,8 @@ export const createDisk: (
  * request tags and resource tags applied to the resource identified by disk snapshot
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createDiskFromSnapshot: (
-  input: CreateDiskFromSnapshotRequest,
-) => effect.Effect<
+export const createDiskFromSnapshot: API.OperationMethod<
+  CreateDiskFromSnapshotRequest,
   CreateDiskFromSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9098,9 +9080,8 @@ export const createDiskFromSnapshot: (
  * The `create disk snapshot` operation supports tag-based access control via
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createDiskSnapshot: (
-  input: CreateDiskSnapshotRequest,
-) => effect.Effect<
+export const createDiskSnapshot: API.OperationMethod<
+  CreateDiskSnapshotRequest,
   CreateDiskSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9133,9 +9114,8 @@ export const createDiskSnapshot: (
  * performance of your website or web application hosted on a Lightsail instance. For more
  * information, see Content delivery networks in Amazon Lightsail.
  */
-export const createDistribution: (
-  input: CreateDistributionRequest,
-) => effect.Effect<
+export const createDistribution: API.OperationMethod<
+  CreateDistributionRequest,
   CreateDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9163,9 +9143,8 @@ export const createDistribution: (
  * The `create domain` operation supports tag-based access control via request
  * tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createDomain: (
-  input: CreateDomainRequest,
-) => effect.Effect<
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
   CreateDomainResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9200,9 +9179,8 @@ export const createDomain: (
  * resource tags applied to the resource identified by `domain name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const createDomainEntry: (
-  input: CreateDomainEntryRequest,
-) => effect.Effect<
+export const createDomainEntry: API.OperationMethod<
+  CreateDomainEntryRequest,
   CreateDomainEntryResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9236,9 +9214,8 @@ export const createDomainEntry: (
  *
  * Use `StartGUISession` to open the session.
  */
-export const createGUISessionAccessDetails: (
-  input: CreateGUISessionAccessDetailsRequest,
-) => effect.Effect<
+export const createGUISessionAccessDetails: API.OperationMethod<
+  CreateGUISessionAccessDetailsRequest,
   CreateGUISessionAccessDetailsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9266,9 +9243,8 @@ export const createGUISessionAccessDetails: (
  * The `create instances` operation supports tag-based access control via request
  * tags. For more information, see the Lightsail Developer Guide.
  */
-export const createInstances: (
-  input: CreateInstancesRequest,
-) => effect.Effect<
+export const createInstances: API.OperationMethod<
+  CreateInstancesRequest,
   CreateInstancesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9302,9 +9278,8 @@ export const createInstances: (
  * control via request tags and resource tags applied to the resource identified by
  * `instance snapshot name`. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createInstancesFromSnapshot: (
-  input: CreateInstancesFromSnapshotRequest,
-) => effect.Effect<
+export const createInstancesFromSnapshot: API.OperationMethod<
+  CreateInstancesFromSnapshotRequest,
   CreateInstancesFromSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9337,9 +9312,8 @@ export const createInstancesFromSnapshot: (
  * The `create instance snapshot` operation supports tag-based access control via
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createInstanceSnapshot: (
-  input: CreateInstanceSnapshotRequest,
-) => effect.Effect<
+export const createInstanceSnapshot: API.OperationMethod<
+  CreateInstanceSnapshotRequest,
   CreateInstanceSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9376,9 +9350,8 @@ export const createInstanceSnapshot: (
  * The `create key pair` operation supports tag-based access control via request
  * tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createKeyPair: (
-  input: CreateKeyPairRequest,
-) => effect.Effect<
+export const createKeyPair: API.OperationMethod<
+  CreateKeyPairRequest,
   CreateKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9416,9 +9389,8 @@ export const createKeyPair: (
  * The `create load balancer` operation supports tag-based access control via
  * request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createLoadBalancer: (
-  input: CreateLoadBalancerRequest,
-) => effect.Effect<
+export const createLoadBalancer: API.OperationMethod<
+  CreateLoadBalancerRequest,
   CreateLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9453,9 +9425,8 @@ export const createLoadBalancer: (
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createLoadBalancerTlsCertificate: (
-  input: CreateLoadBalancerTlsCertificateRequest,
-) => effect.Effect<
+export const createLoadBalancerTlsCertificate: API.OperationMethod<
+  CreateLoadBalancerTlsCertificateRequest,
   CreateLoadBalancerTlsCertificateResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9487,9 +9458,8 @@ export const createLoadBalancerTlsCertificate: (
  * The `create relational database` operation supports tag-based access control
  * via request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createRelationalDatabase: (
-  input: CreateRelationalDatabaseRequest,
-) => effect.Effect<
+export const createRelationalDatabase: API.OperationMethod<
+  CreateRelationalDatabaseRequest,
   CreateRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9526,9 +9496,8 @@ export const createRelationalDatabase: (
  * access control via request tags and resource tags applied to the resource identified by
  * relationalDatabaseSnapshotName. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createRelationalDatabaseFromSnapshot: (
-  input: CreateRelationalDatabaseFromSnapshotRequest,
-) => effect.Effect<
+export const createRelationalDatabaseFromSnapshot: API.OperationMethod<
+  CreateRelationalDatabaseFromSnapshotRequest,
   CreateRelationalDatabaseFromSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9561,9 +9530,8 @@ export const createRelationalDatabaseFromSnapshot: (
  * The `create relational database snapshot` operation supports tag-based access
  * control via request tags. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const createRelationalDatabaseSnapshot: (
-  input: CreateRelationalDatabaseSnapshotRequest,
-) => effect.Effect<
+export const createRelationalDatabaseSnapshot: API.OperationMethod<
+  CreateRelationalDatabaseSnapshotRequest,
   CreateRelationalDatabaseSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9597,9 +9565,8 @@ export const createRelationalDatabaseSnapshot: (
  * on the Amazon Lightsail console. For more information, see Alarms
  * in Amazon Lightsail.
  */
-export const deleteAlarm: (
-  input: DeleteAlarmRequest,
-) => effect.Effect<
+export const deleteAlarm: API.OperationMethod<
+  DeleteAlarmRequest,
   DeleteAlarmResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9626,9 +9593,8 @@ export const deleteAlarm: (
 /**
  * Deletes an automatic snapshot of an instance or disk. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteAutoSnapshot: (
-  input: DeleteAutoSnapshotRequest,
-) => effect.Effect<
+export const deleteAutoSnapshot: API.OperationMethod<
+  DeleteAutoSnapshotRequest,
   DeleteAutoSnapshotResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9658,9 +9624,8 @@ export const deleteAutoSnapshot: (
  * When you delete your bucket, the bucket name is released and can be reused for a new
  * bucket in your account or another Amazon Web Services account.
  */
-export const deleteBucket: (
-  input: DeleteBucketRequest,
-) => effect.Effect<
+export const deleteBucket: API.OperationMethod<
+  DeleteBucketRequest,
   DeleteBucketResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9690,9 +9655,8 @@ export const deleteBucket: (
  * For more information about access keys, see Creating access keys for a bucket in Amazon Lightsail in the
  * *Amazon Lightsail Developer Guide*.
  */
-export const deleteBucketAccessKey: (
-  input: DeleteBucketAccessKeyRequest,
-) => effect.Effect<
+export const deleteBucketAccessKey: API.OperationMethod<
+  DeleteBucketAccessKeyRequest,
   DeleteBucketAccessKeyResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9722,9 +9686,8 @@ export const deleteBucketAccessKey: (
  * `DetachCertificateFromDistribution` action to detach a certificate from a
  * distribution.
  */
-export const deleteCertificate: (
-  input: DeleteCertificateRequest,
-) => effect.Effect<
+export const deleteCertificate: API.OperationMethod<
+  DeleteCertificateRequest,
   DeleteCertificateResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9754,9 +9717,8 @@ export const deleteCertificate: (
  * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
  * see Notifications in Amazon Lightsail.
  */
-export const deleteContactMethod: (
-  input: DeleteContactMethodRequest,
-) => effect.Effect<
+export const deleteContactMethod: API.OperationMethod<
+  DeleteContactMethodRequest,
   DeleteContactMethodResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9784,9 +9746,8 @@ export const deleteContactMethod: (
  * Deletes a container image that is registered to your Amazon Lightsail container
  * service.
  */
-export const deleteContainerImage: (
-  input: DeleteContainerImageRequest,
-) => effect.Effect<
+export const deleteContainerImage: API.OperationMethod<
+  DeleteContainerImageRequest,
   DeleteContainerImageResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9811,9 +9772,8 @@ export const deleteContainerImage: (
 /**
  * Deletes your Amazon Lightsail container service.
  */
-export const deleteContainerService: (
-  input: DeleteContainerServiceRequest,
-) => effect.Effect<
+export const deleteContainerService: API.OperationMethod<
+  DeleteContainerServiceRequest,
   DeleteContainerServiceResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9845,9 +9805,8 @@ export const deleteContainerService: (
  * applied to the resource identified by `disk name`. For more information, see the
  * Amazon Lightsail Developer Guide.
  */
-export const deleteDisk: (
-  input: DeleteDiskRequest,
-) => effect.Effect<
+export const deleteDisk: API.OperationMethod<
+  DeleteDiskRequest,
   DeleteDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9886,9 +9845,8 @@ export const deleteDisk: (
  * resource tags applied to the resource identified by `disk snapshot name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteDiskSnapshot: (
-  input: DeleteDiskSnapshotRequest,
-) => effect.Effect<
+export const deleteDiskSnapshot: API.OperationMethod<
+  DeleteDiskSnapshotRequest,
   DeleteDiskSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9917,9 +9875,8 @@ export const deleteDiskSnapshot: (
 /**
  * Deletes your Amazon Lightsail content delivery network (CDN) distribution.
  */
-export const deleteDistribution: (
-  input: DeleteDistributionRequest,
-) => effect.Effect<
+export const deleteDistribution: API.OperationMethod<
+  DeleteDistributionRequest,
   DeleteDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -9948,9 +9905,8 @@ export const deleteDistribution: (
  * tags applied to the resource identified by `domain name`. For more information, see
  * the Amazon Lightsail Developer Guide.
  */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -9983,9 +9939,8 @@ export const deleteDomain: (
  * resource tags applied to the resource identified by `domain name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteDomainEntry: (
-  input: DeleteDomainEntryRequest,
-) => effect.Effect<
+export const deleteDomainEntry: API.OperationMethod<
+  DeleteDomainEntryRequest,
   DeleteDomainEntryResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10018,9 +9973,8 @@ export const deleteDomainEntry: (
  * tags applied to the resource identified by `instance name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const deleteInstance: (
-  input: DeleteInstanceRequest,
-) => effect.Effect<
+export const deleteInstance: API.OperationMethod<
+  DeleteInstanceRequest,
   DeleteInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10054,9 +10008,8 @@ export const deleteInstance: (
  * resource tags applied to the resource identified by `instance snapshot name`. For
  * more information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteInstanceSnapshot: (
-  input: DeleteInstanceSnapshotRequest,
-) => effect.Effect<
+export const deleteInstanceSnapshot: API.OperationMethod<
+  DeleteInstanceSnapshotRequest,
   DeleteInstanceSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10094,9 +10047,8 @@ export const deleteInstanceSnapshot: (
  * tags applied to the resource identified by `key pair name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const deleteKeyPair: (
-  input: DeleteKeyPairRequest,
-) => effect.Effect<
+export const deleteKeyPair: API.OperationMethod<
+  DeleteKeyPairRequest,
   DeleteKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10132,9 +10084,8 @@ export const deleteKeyPair: (
  * information, see Troubleshooting connection issues when using the Amazon Lightsail browser-based SSH or RDP
  * client.
  */
-export const deleteKnownHostKeys: (
-  input: DeleteKnownHostKeysRequest,
-) => effect.Effect<
+export const deleteKnownHostKeys: API.OperationMethod<
+  DeleteKnownHostKeysRequest,
   DeleteKnownHostKeysResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10169,9 +10120,8 @@ export const deleteKnownHostKeys: (
  * resource tags applied to the resource identified by `load balancer name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteLoadBalancer: (
-  input: DeleteLoadBalancerRequest,
-) => effect.Effect<
+export const deleteLoadBalancer: API.OperationMethod<
+  DeleteLoadBalancerRequest,
   DeleteLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10204,9 +10154,8 @@ export const deleteLoadBalancer: (
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteLoadBalancerTlsCertificate: (
-  input: DeleteLoadBalancerTlsCertificateRequest,
-) => effect.Effect<
+export const deleteLoadBalancerTlsCertificate: API.OperationMethod<
+  DeleteLoadBalancerTlsCertificateRequest,
   DeleteLoadBalancerTlsCertificateResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10239,9 +10188,8 @@ export const deleteLoadBalancerTlsCertificate: (
  * via resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteRelationalDatabase: (
-  input: DeleteRelationalDatabaseRequest,
-) => effect.Effect<
+export const deleteRelationalDatabase: API.OperationMethod<
+  DeleteRelationalDatabaseRequest,
   DeleteRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10274,9 +10222,8 @@ export const deleteRelationalDatabase: (
  * control via resource tags applied to the resource identified by relationalDatabaseName. For
  * more information, see the Amazon Lightsail Developer Guide.
  */
-export const deleteRelationalDatabaseSnapshot: (
-  input: DeleteRelationalDatabaseSnapshotRequest,
-) => effect.Effect<
+export const deleteRelationalDatabaseSnapshot: API.OperationMethod<
+  DeleteRelationalDatabaseSnapshotRequest,
   DeleteRelationalDatabaseSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10309,9 +10256,8 @@ export const deleteRelationalDatabaseSnapshot: (
  * After the certificate is detached, your distribution stops accepting traffic for all of
  * the domains that are associated with the certificate.
  */
-export const detachCertificateFromDistribution: (
-  input: DetachCertificateFromDistributionRequest,
-) => effect.Effect<
+export const detachCertificateFromDistribution: API.OperationMethod<
+  DetachCertificateFromDistributionRequest,
   DetachCertificateFromDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10342,9 +10288,8 @@ export const detachCertificateFromDistribution: (
  * applied to the resource identified by `disk name`. For more information, see the
  * Amazon Lightsail Developer Guide.
  */
-export const detachDisk: (
-  input: DetachDiskRequest,
-) => effect.Effect<
+export const detachDisk: API.OperationMethod<
+  DetachDiskRequest,
   DetachDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10380,9 +10325,8 @@ export const detachDisk: (
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const detachInstancesFromLoadBalancer: (
-  input: DetachInstancesFromLoadBalancerRequest,
-) => effect.Effect<
+export const detachInstancesFromLoadBalancer: API.OperationMethod<
+  DetachInstancesFromLoadBalancerRequest,
   DetachInstancesFromLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10411,9 +10355,8 @@ export const detachInstancesFromLoadBalancer: (
 /**
  * Detaches a static IP from the Amazon Lightsail instance to which it is attached.
  */
-export const detachStaticIp: (
-  input: DetachStaticIpRequest,
-) => effect.Effect<
+export const detachStaticIp: API.OperationMethod<
+  DetachStaticIpRequest,
   DetachStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10442,9 +10385,8 @@ export const detachStaticIp: (
 /**
  * Disables an add-on for an Amazon Lightsail resource. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const disableAddOn: (
-  input: DisableAddOnRequest,
-) => effect.Effect<
+export const disableAddOn: API.OperationMethod<
+  DisableAddOnRequest,
   DisableAddOnResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10474,9 +10416,8 @@ export const disableAddOn: (
  * This action also creates a Lightsail default key pair if a default key pair
  * does not currently exist in the Amazon Web Services Region.
  */
-export const downloadDefaultKeyPair: (
-  input: DownloadDefaultKeyPairRequest,
-) => effect.Effect<
+export const downloadDefaultKeyPair: API.OperationMethod<
+  DownloadDefaultKeyPairRequest,
   DownloadDefaultKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10506,9 +10447,8 @@ export const downloadDefaultKeyPair: (
  * Enables or modifies an add-on for an Amazon Lightsail resource. For more information, see
  * the Amazon Lightsail Developer Guide.
  */
-export const enableAddOn: (
-  input: EnableAddOnRequest,
-) => effect.Effect<
+export const enableAddOn: API.OperationMethod<
+  EnableAddOnRequest,
   EnableAddOnResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10549,9 +10489,8 @@ export const enableAddOn: (
  * Use the `get instance snapshots` or `get disk snapshots`
  * operations to get a list of snapshots that you can export to Amazon EC2.
  */
-export const exportSnapshot: (
-  input: ExportSnapshotRequest,
-) => effect.Effect<
+export const exportSnapshot: API.OperationMethod<
+  ExportSnapshotRequest,
   ExportSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10580,9 +10519,8 @@ export const exportSnapshot: (
 /**
  * Returns the names of all active (not deleted) resources.
  */
-export const getActiveNames: (
-  input: GetActiveNamesRequest,
-) => effect.Effect<
+export const getActiveNames: API.OperationMethod<
+  GetActiveNamesRequest,
   GetActiveNamesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10618,9 +10556,8 @@ export const getActiveNames: (
  * on the Amazon Lightsail console. For more information, see Alarms
  * in Amazon Lightsail.
  */
-export const getAlarms: (
-  input: GetAlarmsRequest,
-) => effect.Effect<
+export const getAlarms: API.OperationMethod<
+  GetAlarmsRequest,
   GetAlarmsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10648,9 +10585,8 @@ export const getAlarms: (
  * Returns the available automatic snapshots for an instance or disk. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const getAutoSnapshots: (
-  input: GetAutoSnapshotsRequest,
-) => effect.Effect<
+export const getAutoSnapshots: API.OperationMethod<
+  GetAutoSnapshotsRequest,
   GetAutoSnapshotsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10685,9 +10621,8 @@ export const getAutoSnapshots: (
  * instances. Blueprints are marked inactive when they become outdated due to operating system
  * updates or new application releases.
  */
-export const getBlueprints: (
-  input: GetBlueprintsRequest,
-) => effect.Effect<
+export const getBlueprints: API.OperationMethod<
+  GetBlueprintsRequest,
   GetBlueprintsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10720,9 +10655,8 @@ export const getBlueprints: (
  * secret access key only when you create it from the response of the CreateBucketAccessKey action. If you lose the secret access key, you must create
  * a new access key.
  */
-export const getBucketAccessKeys: (
-  input: GetBucketAccessKeysRequest,
-) => effect.Effect<
+export const getBucketAccessKeys: API.OperationMethod<
+  GetBucketAccessKeysRequest,
   GetBucketAccessKeysResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10753,9 +10687,8 @@ export const getBucketAccessKeys: (
  * Use the UpdateBucketBundle action to update the
  * bundle for a bucket.
  */
-export const getBucketBundles: (
-  input: GetBucketBundlesRequest,
-) => effect.Effect<
+export const getBucketBundles: API.OperationMethod<
+  GetBucketBundlesRequest,
   GetBucketBundlesResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10782,9 +10715,8 @@ export const getBucketBundles: (
  * monitor the number of objects stored in a bucket (including object versions) and the storage
  * space used by those objects.
  */
-export const getBucketMetricData: (
-  input: GetBucketMetricDataRequest,
-) => effect.Effect<
+export const getBucketMetricData: API.OperationMethod<
+  GetBucketMetricDataRequest,
   GetBucketMetricDataResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10814,9 +10746,8 @@ export const getBucketMetricData: (
  * For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer
  * Guide.
  */
-export const getBuckets: (
-  input: GetBucketsRequest,
-) => effect.Effect<
+export const getBuckets: API.OperationMethod<
+  GetBucketsRequest,
   GetBucketsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10849,9 +10780,8 @@ export const getBuckets: (
  * Bundles are referred to as *instance plans* in the Lightsail
  * console.
  */
-export const getBundles: (
-  input: GetBundlesRequest,
-) => effect.Effect<
+export const getBundles: API.OperationMethod<
+  GetBundlesRequest,
   GetBundlesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10884,9 +10814,8 @@ export const getBundles: (
  * request. The response will include only the certificate Amazon Resource Name (ARN),
  * certificate name, domain name, and tags.
  */
-export const getCertificates: (
-  input: GetCertificatesRequest,
-) => effect.Effect<
+export const getCertificates: API.OperationMethod<
+  GetCertificatesRequest,
   GetCertificatesResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10915,9 +10844,8 @@ export const getCertificates: (
  * An AWS CloudFormation stack is used to create a new Amazon EC2 instance from an exported Lightsail
  * snapshot.
  */
-export const getCloudFormationStackRecords: (
-  input: GetCloudFormationStackRecordsRequest,
-) => effect.Effect<
+export const getCloudFormationStackRecords: API.OperationMethod<
+  GetCloudFormationStackRecordsRequest,
   GetCloudFormationStackRecordsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -10952,9 +10880,8 @@ export const getCloudFormationStackRecords: (
  * Regions, and SMS text messages cannot be sent to some countries/regions. For more information,
  * see Notifications in Amazon Lightsail.
  */
-export const getContactMethods: (
-  input: GetContactMethodsRequest,
-) => effect.Effect<
+export const getContactMethods: API.OperationMethod<
+  GetContactMethodsRequest,
   GetContactMethodsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -10982,9 +10909,8 @@ export const getContactMethods: (
  * Returns information about Amazon Lightsail containers, such as the current version of the
  * Lightsail Control (lightsailctl) plugin.
  */
-export const getContainerAPIMetadata: (
-  input: GetContainerAPIMetadataRequest,
-) => effect.Effect<
+export const getContainerAPIMetadata: API.OperationMethod<
+  GetContainerAPIMetadataRequest,
   GetContainerAPIMetadataResult,
   | AccessDeniedException
   | RegionSetupInProgressException
@@ -11010,9 +10936,8 @@ export const getContainerAPIMetadata: (
  * images from a public registry like Docker Hub, those images are not returned as part of this
  * action. Those images are not registered to your Lightsail container service.
  */
-export const getContainerImages: (
-  input: GetContainerImagesRequest,
-) => effect.Effect<
+export const getContainerImages: API.OperationMethod<
+  GetContainerImagesRequest,
   GetContainerImagesResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11046,9 +10971,8 @@ export const getContainerImages: (
  * endpoints and quotas in the Amazon Web Services General
  * Reference.
  */
-export const getContainerLog: (
-  input: GetContainerLogRequest,
-) => effect.Effect<
+export const getContainerLog: API.OperationMethod<
+  GetContainerLogRequest,
   GetContainerLogResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11084,9 +11008,8 @@ export const getContainerLog: (
  * endpoints and quotas in the Amazon Web Services General
  * Reference.
  */
-export const getContainerServiceDeployments: (
-  input: GetContainerServiceDeploymentsRequest,
-) => effect.Effect<
+export const getContainerServiceDeployments: API.OperationMethod<
+  GetContainerServiceDeploymentsRequest,
   GetContainerServiceDeploymentsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11115,9 +11038,8 @@ export const getContainerServiceDeployments: (
  * Metrics report the utilization of your resources. Monitor and collect metric data
  * regularly to maintain the reliability, availability, and performance of your resources.
  */
-export const getContainerServiceMetricData: (
-  input: GetContainerServiceMetricDataRequest,
-) => effect.Effect<
+export const getContainerServiceMetricData: API.OperationMethod<
+  GetContainerServiceMetricDataRequest,
   GetContainerServiceMetricDataResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11146,9 +11068,8 @@ export const getContainerServiceMetricData: (
  * The power specifies the amount of memory, the number of vCPUs, and the base price of the
  * container service.
  */
-export const getContainerServicePowers: (
-  input: GetContainerServicePowersRequest,
-) => effect.Effect<
+export const getContainerServicePowers: API.OperationMethod<
+  GetContainerServicePowersRequest,
   GetContainerServicePowersResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11173,9 +11094,8 @@ export const getContainerServicePowers: (
 /**
  * Returns information about one or more of your Amazon Lightsail container services.
  */
-export const getContainerServices: (
-  input: GetContainerServicesRequest,
-) => effect.Effect<
+export const getContainerServices: API.OperationMethod<
+  GetContainerServicesRequest,
   ContainerServicesListResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11201,9 +11121,8 @@ export const getContainerServices: (
  * Retrieves information about the cost estimate for a specified resource. A cost estimate
  * will not generate for a resource that has been deleted.
  */
-export const getCostEstimate: (
-  input: GetCostEstimateRequest,
-) => effect.Effect<
+export const getCostEstimate: API.OperationMethod<
+  GetCostEstimateRequest,
   GetCostEstimateResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11228,9 +11147,8 @@ export const getCostEstimate: (
 /**
  * Returns information about a specific block storage disk.
  */
-export const getDisk: (
-  input: GetDiskRequest,
-) => effect.Effect<
+export const getDisk: API.OperationMethod<
+  GetDiskRequest,
   GetDiskResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11259,9 +11177,8 @@ export const getDisk: (
 /**
  * Returns information about all block storage disks in your AWS account and region.
  */
-export const getDisks: (
-  input: GetDisksRequest,
-) => effect.Effect<
+export const getDisks: API.OperationMethod<
+  GetDisksRequest,
   GetDisksResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11290,9 +11207,8 @@ export const getDisks: (
 /**
  * Returns information about a specific block storage disk snapshot.
  */
-export const getDiskSnapshot: (
-  input: GetDiskSnapshotRequest,
-) => effect.Effect<
+export const getDiskSnapshot: API.OperationMethod<
+  GetDiskSnapshotRequest,
   GetDiskSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11322,9 +11238,8 @@ export const getDiskSnapshot: (
  * Returns information about all block storage disk snapshots in your AWS account and
  * region.
  */
-export const getDiskSnapshots: (
-  input: GetDiskSnapshotsRequest,
-) => effect.Effect<
+export const getDiskSnapshots: API.OperationMethod<
+  GetDiskSnapshotsRequest,
   GetDiskSnapshotsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11357,9 +11272,8 @@ export const getDiskSnapshots: (
  * A distribution bundle specifies the monthly network transfer quota and monthly cost of
  * your distribution.
  */
-export const getDistributionBundles: (
-  input: GetDistributionBundlesRequest,
-) => effect.Effect<
+export const getDistributionBundles: API.OperationMethod<
+  GetDistributionBundlesRequest,
   GetDistributionBundlesResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11385,9 +11299,8 @@ export const getDistributionBundles: (
  * Returns the timestamp and status of the last cache reset of a specific Amazon Lightsail
  * content delivery network (CDN) distribution.
  */
-export const getDistributionLatestCacheReset: (
-  input: GetDistributionLatestCacheResetRequest,
-) => effect.Effect<
+export const getDistributionLatestCacheReset: API.OperationMethod<
+  GetDistributionLatestCacheResetRequest,
   GetDistributionLatestCacheResetResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11417,9 +11330,8 @@ export const getDistributionLatestCacheReset: (
  * Monitor and collect metric data regularly to maintain the reliability, availability, and
  * performance of your resources.
  */
-export const getDistributionMetricData: (
-  input: GetDistributionMetricDataRequest,
-) => effect.Effect<
+export const getDistributionMetricData: API.OperationMethod<
+  GetDistributionMetricDataRequest,
   GetDistributionMetricDataResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11445,9 +11357,8 @@ export const getDistributionMetricData: (
  * Returns information about one or more of your Amazon Lightsail content delivery network
  * (CDN) distributions.
  */
-export const getDistributions: (
-  input: GetDistributionsRequest,
-) => effect.Effect<
+export const getDistributions: API.OperationMethod<
+  GetDistributionsRequest,
   GetDistributionsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -11472,9 +11383,8 @@ export const getDistributions: (
 /**
  * Returns information about a specific domain recordset.
  */
-export const getDomain: (
-  input: GetDomainRequest,
-) => effect.Effect<
+export const getDomain: API.OperationMethod<
+  GetDomainRequest,
   GetDomainResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11503,9 +11413,8 @@ export const getDomain: (
 /**
  * Returns a list of all domains in the user's account.
  */
-export const getDomains: (
-  input: GetDomainsRequest,
-) => effect.Effect<
+export const getDomains: API.OperationMethod<
+  GetDomainsRequest,
   GetDomainsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11539,9 +11448,8 @@ export const getDomains: (
  * resources with the CreateCloudFormationStack
  * action.
  */
-export const getExportSnapshotRecords: (
-  input: GetExportSnapshotRecordsRequest,
-) => effect.Effect<
+export const getExportSnapshotRecords: API.OperationMethod<
+  GetExportSnapshotRecordsRequest,
   GetExportSnapshotRecordsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11571,9 +11479,8 @@ export const getExportSnapshotRecords: (
  * Returns information about a specific Amazon Lightsail instance, which is a virtual private
  * server.
  */
-export const getInstance: (
-  input: GetInstanceRequest,
-) => effect.Effect<
+export const getInstance: API.OperationMethod<
+  GetInstanceRequest,
   GetInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11607,9 +11514,8 @@ export const getInstance: (
  * via resource tags applied to the resource identified by `instance name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const getInstanceAccessDetails: (
-  input: GetInstanceAccessDetailsRequest,
-) => effect.Effect<
+export const getInstanceAccessDetails: API.OperationMethod<
+  GetInstanceAccessDetailsRequest,
   GetInstanceAccessDetailsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11643,9 +11549,8 @@ export const getInstanceAccessDetails: (
  * Monitor and collect metric data regularly to maintain the reliability, availability, and
  * performance of your resources.
  */
-export const getInstanceMetricData: (
-  input: GetInstanceMetricDataRequest,
-) => effect.Effect<
+export const getInstanceMetricData: API.OperationMethod<
+  GetInstanceMetricDataRequest,
   GetInstanceMetricDataResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11675,9 +11580,8 @@ export const getInstanceMetricData: (
  * Returns the firewall port states for a specific Amazon Lightsail instance, the IP addresses
  * allowed to connect to the instance through the ports, and the protocol.
  */
-export const getInstancePortStates: (
-  input: GetInstancePortStatesRequest,
-) => effect.Effect<
+export const getInstancePortStates: API.OperationMethod<
+  GetInstancePortStatesRequest,
   GetInstancePortStatesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11707,9 +11611,8 @@ export const getInstancePortStates: (
  * Returns information about all Amazon Lightsail virtual private servers, or
  * *instances*.
  */
-export const getInstances: (
-  input: GetInstancesRequest,
-) => effect.Effect<
+export const getInstances: API.OperationMethod<
+  GetInstancesRequest,
   GetInstancesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11738,9 +11641,8 @@ export const getInstances: (
 /**
  * Returns information about a specific instance snapshot.
  */
-export const getInstanceSnapshot: (
-  input: GetInstanceSnapshotRequest,
-) => effect.Effect<
+export const getInstanceSnapshot: API.OperationMethod<
+  GetInstanceSnapshotRequest,
   GetInstanceSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11769,9 +11671,8 @@ export const getInstanceSnapshot: (
 /**
  * Returns all instance snapshots for the user's account.
  */
-export const getInstanceSnapshots: (
-  input: GetInstanceSnapshotsRequest,
-) => effect.Effect<
+export const getInstanceSnapshots: API.OperationMethod<
+  GetInstanceSnapshotsRequest,
   GetInstanceSnapshotsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11800,9 +11701,8 @@ export const getInstanceSnapshots: (
 /**
  * Returns the state of a specific instance. Works on one instance at a time.
  */
-export const getInstanceState: (
-  input: GetInstanceStateRequest,
-) => effect.Effect<
+export const getInstanceState: API.OperationMethod<
+  GetInstanceStateRequest,
   GetInstanceStateResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11831,9 +11731,8 @@ export const getInstanceState: (
 /**
  * Returns information about a specific key pair.
  */
-export const getKeyPair: (
-  input: GetKeyPairRequest,
-) => effect.Effect<
+export const getKeyPair: API.OperationMethod<
+  GetKeyPairRequest,
   GetKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11862,9 +11761,8 @@ export const getKeyPair: (
 /**
  * Returns information about all key pairs in the user's account.
  */
-export const getKeyPairs: (
-  input: GetKeyPairsRequest,
-) => effect.Effect<
+export const getKeyPairs: API.OperationMethod<
+  GetKeyPairsRequest,
   GetKeyPairsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11893,9 +11791,8 @@ export const getKeyPairs: (
 /**
  * Returns information about the specified Lightsail load balancer.
  */
-export const getLoadBalancer: (
-  input: GetLoadBalancerRequest,
-) => effect.Effect<
+export const getLoadBalancer: API.OperationMethod<
+  GetLoadBalancerRequest,
   GetLoadBalancerResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11928,9 +11825,8 @@ export const getLoadBalancer: (
  * Monitor and collect metric data regularly to maintain the reliability, availability, and
  * performance of your resources.
  */
-export const getLoadBalancerMetricData: (
-  input: GetLoadBalancerMetricDataRequest,
-) => effect.Effect<
+export const getLoadBalancerMetricData: API.OperationMethod<
+  GetLoadBalancerMetricDataRequest,
   GetLoadBalancerMetricDataResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11959,9 +11855,8 @@ export const getLoadBalancerMetricData: (
 /**
  * Returns information about all load balancers in an account.
  */
-export const getLoadBalancers: (
-  input: GetLoadBalancersRequest,
-) => effect.Effect<
+export const getLoadBalancers: API.OperationMethod<
+  GetLoadBalancersRequest,
   GetLoadBalancersResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -11996,9 +11891,8 @@ export const getLoadBalancers: (
  * You can have a maximum of 2 certificates associated with a Lightsail load balancer. One
  * is active and the other is inactive.
  */
-export const getLoadBalancerTlsCertificates: (
-  input: GetLoadBalancerTlsCertificatesRequest,
-) => effect.Effect<
+export const getLoadBalancerTlsCertificates: API.OperationMethod<
+  GetLoadBalancerTlsCertificatesRequest,
   GetLoadBalancerTlsCertificatesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12031,9 +11925,8 @@ export const getLoadBalancerTlsCertificates: (
  * For more information about load balancer TLS security policies, see Configuring TLS security policies on your Amazon Lightsail load
  * balancers in the *Amazon Lightsail Developer Guide*.
  */
-export const getLoadBalancerTlsPolicies: (
-  input: GetLoadBalancerTlsPoliciesRequest,
-) => effect.Effect<
+export const getLoadBalancerTlsPolicies: API.OperationMethod<
+  GetLoadBalancerTlsPoliciesRequest,
   GetLoadBalancerTlsPoliciesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12059,9 +11952,8 @@ export const getLoadBalancerTlsPolicies: (
  * Returns information about a specific operation. Operations include events such as when you
  * create an instance, allocate a static IP, attach a static IP, and so on.
  */
-export const getOperation: (
-  input: GetOperationRequest,
-) => effect.Effect<
+export const getOperation: API.OperationMethod<
+  GetOperationRequest,
   GetOperationResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12094,9 +11986,8 @@ export const getOperation: (
  * by making each subsequent call to `GetOperations` use the maximum (last)
  * `statusChangedAt` value from the previous request.
  */
-export const getOperations: (
-  input: GetOperationsRequest,
-) => effect.Effect<
+export const getOperations: API.OperationMethod<
+  GetOperationsRequest,
   GetOperationsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12125,9 +12016,8 @@ export const getOperations: (
 /**
  * Gets operations for a specific resource (an instance or a static IP).
  */
-export const getOperationsForResource: (
-  input: GetOperationsForResourceRequest,
-) => effect.Effect<
+export const getOperationsForResource: API.OperationMethod<
+  GetOperationsForResourceRequest,
   GetOperationsForResourceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12158,9 +12048,8 @@ export const getOperationsForResource: (
  * availability zones parameter to also return the Availability Zones in a
  * region.
  */
-export const getRegions: (
-  input: GetRegionsRequest,
-) => effect.Effect<
+export const getRegions: API.OperationMethod<
+  GetRegionsRequest,
   GetRegionsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12189,9 +12078,8 @@ export const getRegions: (
 /**
  * Returns information about a specific database in Amazon Lightsail.
  */
-export const getRelationalDatabase: (
-  input: GetRelationalDatabaseRequest,
-) => effect.Effect<
+export const getRelationalDatabase: API.OperationMethod<
+  GetRelationalDatabaseRequest,
   GetRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12224,9 +12112,8 @@ export const getRelationalDatabase: (
  * You can use a blueprint ID to create a new database that runs a specific database
  * engine.
  */
-export const getRelationalDatabaseBlueprints: (
-  input: GetRelationalDatabaseBlueprintsRequest,
-) => effect.Effect<
+export const getRelationalDatabaseBlueprints: API.OperationMethod<
+  GetRelationalDatabaseBlueprintsRequest,
   GetRelationalDatabaseBlueprintsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12259,9 +12146,8 @@ export const getRelationalDatabaseBlueprints: (
  * You can use a bundle ID to create a new database with explicit performance
  * specifications.
  */
-export const getRelationalDatabaseBundles: (
-  input: GetRelationalDatabaseBundlesRequest,
-) => effect.Effect<
+export const getRelationalDatabaseBundles: API.OperationMethod<
+  GetRelationalDatabaseBundlesRequest,
   GetRelationalDatabaseBundlesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12290,9 +12176,8 @@ export const getRelationalDatabaseBundles: (
 /**
  * Returns a list of events for a specific database in Amazon Lightsail.
  */
-export const getRelationalDatabaseEvents: (
-  input: GetRelationalDatabaseEventsRequest,
-) => effect.Effect<
+export const getRelationalDatabaseEvents: API.OperationMethod<
+  GetRelationalDatabaseEventsRequest,
   GetRelationalDatabaseEventsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12321,9 +12206,8 @@ export const getRelationalDatabaseEvents: (
 /**
  * Returns a list of log events for a database in Amazon Lightsail.
  */
-export const getRelationalDatabaseLogEvents: (
-  input: GetRelationalDatabaseLogEventsRequest,
-) => effect.Effect<
+export const getRelationalDatabaseLogEvents: API.OperationMethod<
+  GetRelationalDatabaseLogEventsRequest,
   GetRelationalDatabaseLogEventsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12352,9 +12236,8 @@ export const getRelationalDatabaseLogEvents: (
 /**
  * Returns a list of available log streams for a specific database in Amazon Lightsail.
  */
-export const getRelationalDatabaseLogStreams: (
-  input: GetRelationalDatabaseLogStreamsRequest,
-) => effect.Effect<
+export const getRelationalDatabaseLogStreams: API.OperationMethod<
+  GetRelationalDatabaseLogStreamsRequest,
   GetRelationalDatabaseLogStreamsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12388,9 +12271,8 @@ export const getRelationalDatabaseLogStreams: (
  * access control via resource tags applied to the resource identified by
  * relationalDatabaseName.
  */
-export const getRelationalDatabaseMasterUserPassword: (
-  input: GetRelationalDatabaseMasterUserPasswordRequest,
-) => effect.Effect<
+export const getRelationalDatabaseMasterUserPassword: API.OperationMethod<
+  GetRelationalDatabaseMasterUserPasswordRequest,
   GetRelationalDatabaseMasterUserPasswordResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12423,9 +12305,8 @@ export const getRelationalDatabaseMasterUserPassword: (
  * Monitor and collect metric data regularly to maintain the reliability, availability, and
  * performance of your resources.
  */
-export const getRelationalDatabaseMetricData: (
-  input: GetRelationalDatabaseMetricDataRequest,
-) => effect.Effect<
+export const getRelationalDatabaseMetricData: API.OperationMethod<
+  GetRelationalDatabaseMetricDataRequest,
   GetRelationalDatabaseMetricDataResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12459,9 +12340,8 @@ export const getRelationalDatabaseMetricData: (
  * about each parameter. This information includes whether changes require a reboot, whether the
  * parameter is modifiable, the allowed values, and the data types.
  */
-export const getRelationalDatabaseParameters: (
-  input: GetRelationalDatabaseParametersRequest,
-) => effect.Effect<
+export const getRelationalDatabaseParameters: API.OperationMethod<
+  GetRelationalDatabaseParametersRequest,
   GetRelationalDatabaseParametersResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12490,9 +12370,8 @@ export const getRelationalDatabaseParameters: (
 /**
  * Returns information about all of your databases in Amazon Lightsail.
  */
-export const getRelationalDatabases: (
-  input: GetRelationalDatabasesRequest,
-) => effect.Effect<
+export const getRelationalDatabases: API.OperationMethod<
+  GetRelationalDatabasesRequest,
   GetRelationalDatabasesResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12521,9 +12400,8 @@ export const getRelationalDatabases: (
 /**
  * Returns information about a specific database snapshot in Amazon Lightsail.
  */
-export const getRelationalDatabaseSnapshot: (
-  input: GetRelationalDatabaseSnapshotRequest,
-) => effect.Effect<
+export const getRelationalDatabaseSnapshot: API.OperationMethod<
+  GetRelationalDatabaseSnapshotRequest,
   GetRelationalDatabaseSnapshotResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12552,9 +12430,8 @@ export const getRelationalDatabaseSnapshot: (
 /**
  * Returns information about all of your database snapshots in Amazon Lightsail.
  */
-export const getRelationalDatabaseSnapshots: (
-  input: GetRelationalDatabaseSnapshotsRequest,
-) => effect.Effect<
+export const getRelationalDatabaseSnapshots: API.OperationMethod<
+  GetRelationalDatabaseSnapshotsRequest,
   GetRelationalDatabaseSnapshotsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12584,9 +12461,8 @@ export const getRelationalDatabaseSnapshots: (
  * Returns detailed information for five of the most recent `SetupInstanceHttps`
  * requests that were ran on the target instance.
  */
-export const getSetupHistory: (
-  input: GetSetupHistoryRequest,
-) => effect.Effect<
+export const getSetupHistory: API.OperationMethod<
+  GetSetupHistoryRequest,
   GetSetupHistoryResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12611,9 +12487,8 @@ export const getSetupHistory: (
 /**
  * Returns information about an Amazon Lightsail static IP.
  */
-export const getStaticIp: (
-  input: GetStaticIpRequest,
-) => effect.Effect<
+export const getStaticIp: API.OperationMethod<
+  GetStaticIpRequest,
   GetStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12642,9 +12517,8 @@ export const getStaticIp: (
 /**
  * Returns information about all static IPs in the user's account.
  */
-export const getStaticIps: (
-  input: GetStaticIpsRequest,
-) => effect.Effect<
+export const getStaticIps: API.OperationMethod<
+  GetStaticIpsRequest,
   GetStaticIpsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12673,9 +12547,8 @@ export const getStaticIps: (
 /**
  * Imports a public SSH key from a specific key pair.
  */
-export const importKeyPair: (
-  input: ImportKeyPairRequest,
-) => effect.Effect<
+export const importKeyPair: API.OperationMethod<
+  ImportKeyPairRequest,
   ImportKeyPairResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12704,9 +12577,8 @@ export const importKeyPair: (
 /**
  * Returns a Boolean value indicating whether your Lightsail VPC is peered.
  */
-export const isVpcPeered: (
-  input: IsVpcPeeredRequest,
-) => effect.Effect<
+export const isVpcPeered: API.OperationMethod<
+  IsVpcPeeredRequest,
   IsVpcPeeredResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12740,9 +12612,8 @@ export const isVpcPeered: (
  * resource tags applied to the resource identified by `instanceName`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const openInstancePublicPorts: (
-  input: OpenInstancePublicPortsRequest,
-) => effect.Effect<
+export const openInstancePublicPorts: API.OperationMethod<
+  OpenInstancePublicPortsRequest,
   OpenInstancePublicPortsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12771,9 +12642,8 @@ export const openInstancePublicPorts: (
 /**
  * Peers the Lightsail VPC with the user's default VPC.
  */
-export const peerVpc: (
-  input: PeerVpcRequest,
-) => effect.Effect<
+export const peerVpc: API.OperationMethod<
+  PeerVpcRequest,
   PeerVpcResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12815,9 +12685,8 @@ export const peerVpc: (
  * overwrites the previous configuration of the alarm. The alarm is then evaluated with the
  * updated configuration.
  */
-export const putAlarm: (
-  input: PutAlarmRequest,
-) => effect.Effect<
+export const putAlarm: API.OperationMethod<
+  PutAlarmRequest,
   PutAlarmResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12853,9 +12722,8 @@ export const putAlarm: (
  * resource tags applied to the resource identified by `instanceName`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const putInstancePublicPorts: (
-  input: PutInstancePublicPortsRequest,
-) => effect.Effect<
+export const putInstancePublicPorts: API.OperationMethod<
+  PutInstancePublicPortsRequest,
   PutInstancePublicPortsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12888,9 +12756,8 @@ export const putInstancePublicPorts: (
  * tags applied to the resource identified by `instance name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const rebootInstance: (
-  input: RebootInstanceRequest,
-) => effect.Effect<
+export const rebootInstance: API.OperationMethod<
+  RebootInstanceRequest,
   RebootInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12923,9 +12790,8 @@ export const rebootInstance: (
  * via resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const rebootRelationalDatabase: (
-  input: RebootRelationalDatabaseRequest,
-) => effect.Effect<
+export const rebootRelationalDatabase: API.OperationMethod<
+  RebootRelationalDatabaseRequest,
   RebootRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -12959,9 +12825,8 @@ export const rebootRelationalDatabase: (
  * more information, see Pushing and managing container images on your Amazon Lightsail container services
  * in the *Amazon Lightsail Developer Guide*.
  */
-export const registerContainerImage: (
-  input: RegisterContainerImageRequest,
-) => effect.Effect<
+export const registerContainerImage: API.OperationMethod<
+  RegisterContainerImageRequest,
   RegisterContainerImageResult,
   | AccessDeniedException
   | InvalidInputException
@@ -12986,9 +12851,8 @@ export const registerContainerImage: (
 /**
  * Deletes a specific static IP from your account.
  */
-export const releaseStaticIp: (
-  input: ReleaseStaticIpRequest,
-) => effect.Effect<
+export const releaseStaticIp: API.OperationMethod<
+  ReleaseStaticIpRequest,
   ReleaseStaticIpResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13021,9 +12885,8 @@ export const releaseStaticIp: (
  * After resetting the cache, the next time a content request is made, your distribution
  * pulls, serves, and caches it from the origin.
  */
-export const resetDistributionCache: (
-  input: ResetDistributionCacheRequest,
-) => effect.Effect<
+export const resetDistributionCache: API.OperationMethod<
+  ResetDistributionCacheRequest,
   ResetDistributionCacheResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13061,9 +12924,8 @@ export const resetDistributionCache: (
  * Notifications are not sent to an email contact method until after it is verified, and
  * confirmed as valid.
  */
-export const sendContactMethodVerification: (
-  input: SendContactMethodVerificationRequest,
-) => effect.Effect<
+export const sendContactMethodVerification: API.OperationMethod<
+  SendContactMethodVerificationRequest,
   SendContactMethodVerificationResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13094,9 +12956,8 @@ export const sendContactMethodVerification: (
  * specified resource. Alternately, you can use this action to disable dual-stack, and enable
  * IPv4 only.
  */
-export const setIpAddressType: (
-  input: SetIpAddressTypeRequest,
-) => effect.Effect<
+export const setIpAddressType: API.OperationMethod<
+  SetIpAddressTypeRequest,
   SetIpAddressTypeResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13129,9 +12990,8 @@ export const setIpAddressType: (
  * Lightsail buckets currently support setting access for Lightsail instances in the same
  * Amazon Web Services Region.
  */
-export const setResourceAccessForBucket: (
-  input: SetResourceAccessForBucketRequest,
-) => effect.Effect<
+export const setResourceAccessForBucket: API.OperationMethod<
+  SetResourceAccessForBucketRequest,
   SetResourceAccessForBucketResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13160,9 +13020,8 @@ export const setResourceAccessForBucket: (
  * If you provide more than one domain name in the request, at least one name must be less
  * than or equal to 63 characters in length.
  */
-export const setupInstanceHttps: (
-  input: SetupInstanceHttpsRequest,
-) => effect.Effect<
+export const setupInstanceHttps: API.OperationMethod<
+  SetupInstanceHttpsRequest,
   SetupInstanceHttpsResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13189,9 +13048,8 @@ export const setupInstanceHttps: (
  * computer’s operating system and application. The session will be active for 1 hour. Use this
  * action to resume the session after it expires.
  */
-export const startGUISession: (
-  input: StartGUISessionRequest,
-) => effect.Effect<
+export const startGUISession: API.OperationMethod<
+  StartGUISessionRequest,
   StartGUISessionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13225,9 +13083,8 @@ export const startGUISession: (
  * tags applied to the resource identified by `instance name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const startInstance: (
-  input: StartInstanceRequest,
-) => effect.Effect<
+export const startInstance: API.OperationMethod<
+  StartInstanceRequest,
   StartInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13261,9 +13118,8 @@ export const startInstance: (
  * resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const startRelationalDatabase: (
-  input: StartRelationalDatabaseRequest,
-) => effect.Effect<
+export const startRelationalDatabase: API.OperationMethod<
+  StartRelationalDatabaseRequest,
   StartRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13294,9 +13150,8 @@ export const startRelationalDatabase: (
  * operating system or application. The session will close and any unsaved data will be
  * lost.
  */
-export const stopGUISession: (
-  input: StopGUISessionRequest,
-) => effect.Effect<
+export const stopGUISession: API.OperationMethod<
+  StopGUISessionRequest,
   StopGUISessionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13329,9 +13184,8 @@ export const stopGUISession: (
  * tags applied to the resource identified by `instance name`. For more information,
  * see the Amazon Lightsail Developer Guide.
  */
-export const stopInstance: (
-  input: StopInstanceRequest,
-) => effect.Effect<
+export const stopInstance: API.OperationMethod<
+  StopInstanceRequest,
   StopInstanceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13368,9 +13222,8 @@ export const stopInstance: (
  * resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const stopRelationalDatabase: (
-  input: StopRelationalDatabaseRequest,
-) => effect.Effect<
+export const stopRelationalDatabase: API.OperationMethod<
+  StopRelationalDatabaseRequest,
   StopRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13405,9 +13258,8 @@ export const stopRelationalDatabase: (
  * and resource tags applied to the resource identified by `resource name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13444,9 +13296,8 @@ export const tagResource: (
  * on the Amazon Lightsail console. For more information, see Alarms
  * in Amazon Lightsail.
  */
-export const testAlarm: (
-  input: TestAlarmRequest,
-) => effect.Effect<
+export const testAlarm: API.OperationMethod<
+  TestAlarmRequest,
   TestAlarmResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13473,9 +13324,8 @@ export const testAlarm: (
 /**
  * Unpeers the Lightsail VPC from the user's default VPC.
  */
-export const unpeerVpc: (
-  input: UnpeerVpcRequest,
-) => effect.Effect<
+export const unpeerVpc: API.OperationMethod<
+  UnpeerVpcRequest,
   UnpeerVpcResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13509,9 +13359,8 @@ export const unpeerVpc: (
  * tags and resource tags applied to the resource identified by `resource name`. For
  * more information, see the Amazon Lightsail Developer Guide.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13543,9 +13392,8 @@ export const untagResource: (
  * Use this action to update the configuration of an existing bucket, such as versioning,
  * public accessibility, and the Amazon Web Services accounts that can access the bucket.
  */
-export const updateBucket: (
-  input: UpdateBucketRequest,
-) => effect.Effect<
+export const updateBucket: API.OperationMethod<
+  UpdateBucketRequest,
   UpdateBucketResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13584,9 +13432,8 @@ export const updateBucket: (
  * that will provide the bucket with ample storage space and data transfer for a long time to
  * come.
  */
-export const updateBucketBundle: (
-  input: UpdateBucketBundleRequest,
-) => effect.Effect<
+export const updateBucketBundle: API.OperationMethod<
+  UpdateBucketBundleRequest,
   UpdateBucketBundleResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13612,9 +13459,8 @@ export const updateBucketBundle: (
  * Updates the configuration of your Amazon Lightsail container service, such as its power,
  * scale, and public domain names.
  */
-export const updateContainerService: (
-  input: UpdateContainerServiceRequest,
-) => effect.Effect<
+export const updateContainerService: API.OperationMethod<
+  UpdateContainerServiceRequest,
   UpdateContainerServiceResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13641,9 +13487,8 @@ export const updateContainerService: (
  *
  * Use this action to update the configuration of your existing distribution.
  */
-export const updateDistribution: (
-  input: UpdateDistributionRequest,
-) => effect.Effect<
+export const updateDistribution: API.OperationMethod<
+  UpdateDistributionRequest,
   UpdateDistributionResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13679,9 +13524,8 @@ export const updateDistribution: (
  * `GetDistributions` action. The `ableToUpdateBundle` parameter in the
  * result will indicate whether you can currently update your distribution's bundle.
  */
-export const updateDistributionBundle: (
-  input: UpdateDistributionBundleRequest,
-) => effect.Effect<
+export const updateDistributionBundle: API.OperationMethod<
+  UpdateDistributionBundleRequest,
   UpdateDistributionBundleResult,
   | AccessDeniedException
   | InvalidInputException
@@ -13710,9 +13554,8 @@ export const updateDistributionBundle: (
  * resource tags applied to the resource identified by `domain name`. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const updateDomainEntry: (
-  input: UpdateDomainEntryRequest,
-) => effect.Effect<
+export const updateDomainEntry: API.OperationMethod<
+  UpdateDomainEntryRequest,
   UpdateDomainEntryResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13746,9 +13589,8 @@ export const updateDomainEntry: (
  * changes to `applied` in subsequent `GetInstance` or
  * `GetInstances` API calls. For more information, see Use IMDSv2 with an Amazon Lightsail instance in the *Amazon Lightsail Developer Guide*.
  */
-export const updateInstanceMetadataOptions: (
-  input: UpdateInstanceMetadataOptionsRequest,
-) => effect.Effect<
+export const updateInstanceMetadataOptions: API.OperationMethod<
+  UpdateInstanceMetadataOptionsRequest,
   UpdateInstanceMetadataOptionsResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13782,9 +13624,8 @@ export const updateInstanceMetadataOptions: (
  * control via resource tags applied to the resource identified by load balancer
  * name. For more information, see the Amazon Lightsail Developer Guide.
  */
-export const updateLoadBalancerAttribute: (
-  input: UpdateLoadBalancerAttributeRequest,
-) => effect.Effect<
+export const updateLoadBalancerAttribute: API.OperationMethod<
+  UpdateLoadBalancerAttributeRequest,
   UpdateLoadBalancerAttributeResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13820,9 +13661,8 @@ export const updateLoadBalancerAttribute: (
  * via resource tags applied to the resource identified by relationalDatabaseName. For more
  * information, see the Amazon Lightsail Developer Guide.
  */
-export const updateRelationalDatabase: (
-  input: UpdateRelationalDatabaseRequest,
-) => effect.Effect<
+export const updateRelationalDatabase: API.OperationMethod<
+  UpdateRelationalDatabaseRequest,
   UpdateRelationalDatabaseResult,
   | AccessDeniedException
   | AccountSetupInProgressException
@@ -13862,9 +13702,8 @@ export const updateRelationalDatabase: (
  * control via resource tags applied to the resource identified by relationalDatabaseName. For
  * more information, see the Amazon Lightsail Developer Guide.
  */
-export const updateRelationalDatabaseParameters: (
-  input: UpdateRelationalDatabaseParametersRequest,
-) => effect.Effect<
+export const updateRelationalDatabaseParameters: API.OperationMethod<
+  UpdateRelationalDatabaseParametersRequest,
   UpdateRelationalDatabaseParametersResult,
   | AccessDeniedException
   | AccountSetupInProgressException

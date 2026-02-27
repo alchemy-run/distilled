@@ -541,9 +541,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const completeSnapshot: (
-  input: CompleteSnapshotRequest,
-) => effect.Effect<
+export const completeSnapshot: API.OperationMethod<
+  CompleteSnapshotRequest,
   CompleteSnapshotResponse,
   | AccessDeniedException
   | InternalServerException
@@ -575,9 +574,8 @@ export const completeSnapshot: (
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const getSnapshotBlock: (
-  input: GetSnapshotBlockRequest,
-) => effect.Effect<
+export const getSnapshotBlock: API.OperationMethod<
+  GetSnapshotBlockRequest,
   GetSnapshotBlockResponse,
   | AccessDeniedException
   | InternalServerException
@@ -608,20 +606,18 @@ export const getSnapshotBlock: (
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const listChangedBlocks: {
-  (
-    input: ListChangedBlocksRequest,
-  ): effect.Effect<
-    ListChangedBlocksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestThrottledException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChangedBlocks: API.OperationMethod<
+  ListChangedBlocksRequest,
+  ListChangedBlocksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChangedBlocksRequest,
   ) => stream.Stream<
@@ -673,20 +669,18 @@ export const listChangedBlocks: {
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const listSnapshotBlocks: {
-  (
-    input: ListSnapshotBlocksRequest,
-  ): effect.Effect<
-    ListSnapshotBlocksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | RequestThrottledException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSnapshotBlocks: API.OperationMethod<
+  ListSnapshotBlocksRequest,
+  ListSnapshotBlocksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | RequestThrottledException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSnapshotBlocksRequest,
   ) => stream.Stream<
@@ -742,9 +736,8 @@ export const listSnapshotBlocks: {
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const putSnapshotBlock: (
-  input: PutSnapshotBlockRequest,
-) => effect.Effect<
+export const putSnapshotBlock: API.OperationMethod<
+  PutSnapshotBlockRequest,
   PutSnapshotBlockResponse,
   | AccessDeniedException
   | InternalServerException
@@ -780,9 +773,8 @@ export const putSnapshotBlock: (
  * client error responses. For more information see Error retries in the
  * *Amazon Elastic Compute Cloud User Guide*.
  */
-export const startSnapshot: (
-  input: StartSnapshotRequest,
-) => effect.Effect<
+export const startSnapshot: API.OperationMethod<
+  StartSnapshotRequest,
   StartSnapshotResponse,
   | AccessDeniedException
   | ConcurrentLimitExceededException

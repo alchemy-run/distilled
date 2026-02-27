@@ -2236,9 +2236,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * The `GetDefaultScraperConfiguration` operation returns the default scraper configuration used when Amazon EKS creates a scraper for you.
  */
-export const getDefaultScraperConfiguration: (
-  input: GetDefaultScraperConfigurationRequest,
-) => effect.Effect<
+export const getDefaultScraperConfiguration: API.OperationMethod<
+  GetDefaultScraperConfigurationRequest,
   GetDefaultScraperConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2253,9 +2252,8 @@ export const getDefaultScraperConfiguration: (
 /**
  * The `ListTagsForResource` operation returns the tags that are associated with an Amazon Managed Service for Prometheus resource. Currently, the only resources that can be tagged are scrapers, workspaces, and rule groups namespaces.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2280,9 +2278,8 @@ export const listTagsForResource: (
  *
  * If you specify a new tag key for the resource, this tag is appended to the list of tags associated with the resource. If you specify a tag key that is already associated with the resource, the new tag value that you specify replaces the previous value for that tag. To remove a tag, use `UntagResource`.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2305,9 +2302,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from an Amazon Managed Service for Prometheus resource. The only resources that can be tagged are rule groups namespaces, scrapers, and workspaces.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2338,9 +2334,8 @@ export const untagResource: (
  *
  * For more information about collectors, including what metrics are collected, and how to configure the scraper, see Using an Amazon Web Services managed collector in the *Amazon Managed Service for Prometheus User Guide*.
  */
-export const createScraper: (
-  input: CreateScraperRequest,
-) => effect.Effect<
+export const createScraper: API.OperationMethod<
+  CreateScraperRequest,
   CreateScraperResponse,
   | AccessDeniedException
   | ConflictException
@@ -2367,9 +2362,8 @@ export const createScraper: (
 /**
  * The `DescribeScraper` operation displays information about an existing scraper.
  */
-export const describeScraper: (
-  input: DescribeScraperRequest,
-) => effect.Effect<
+export const describeScraper: API.OperationMethod<
+  DescribeScraperRequest,
   DescribeScraperResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2394,9 +2388,8 @@ export const describeScraper: (
  *
  * You can't use this function to update the source from which the scraper is collecting metrics. To change the source, delete the scraper and create a new one.
  */
-export const updateScraper: (
-  input: UpdateScraperRequest,
-) => effect.Effect<
+export const updateScraper: API.OperationMethod<
+  UpdateScraperRequest,
   UpdateScraperResponse,
   | AccessDeniedException
   | ConflictException
@@ -2423,9 +2416,8 @@ export const updateScraper: (
 /**
  * The `DeleteScraper` operation deletes one scraper, and stops any metrics collection that the scraper performs.
  */
-export const deleteScraper: (
-  input: DeleteScraperRequest,
-) => effect.Effect<
+export const deleteScraper: API.OperationMethod<
+  DeleteScraperRequest,
   DeleteScraperResponse,
   | AccessDeniedException
   | ConflictException
@@ -2450,18 +2442,16 @@ export const deleteScraper: (
 /**
  * The `ListScrapers` operation lists all of the scrapers in your account. This includes scrapers being created or deleted. You can optionally filter the returned list.
  */
-export const listScrapers: {
-  (
-    input: ListScrapersRequest,
-  ): effect.Effect<
-    ListScrapersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScrapers: API.OperationMethod<
+  ListScrapersRequest,
+  ListScrapersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScrapersRequest,
   ) => stream.Stream<
@@ -2503,9 +2493,8 @@ export const listScrapers: {
 /**
  * Updates the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
-export const updateScraperLoggingConfiguration: (
-  input: UpdateScraperLoggingConfigurationRequest,
-) => effect.Effect<
+export const updateScraperLoggingConfiguration: API.OperationMethod<
+  UpdateScraperLoggingConfigurationRequest,
   UpdateScraperLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2528,9 +2517,8 @@ export const updateScraperLoggingConfiguration: (
 /**
  * Describes the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
-export const describeScraperLoggingConfiguration: (
-  input: DescribeScraperLoggingConfigurationRequest,
-) => effect.Effect<
+export const describeScraperLoggingConfiguration: API.OperationMethod<
+  DescribeScraperLoggingConfigurationRequest,
   DescribeScraperLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2551,9 +2539,8 @@ export const describeScraperLoggingConfiguration: (
 /**
  * Deletes the logging configuration for a Amazon Managed Service for Prometheus scraper.
  */
-export const deleteScraperLoggingConfiguration: (
-  input: DeleteScraperLoggingConfigurationRequest,
-) => effect.Effect<
+export const deleteScraperLoggingConfiguration: API.OperationMethod<
+  DeleteScraperLoggingConfigurationRequest,
   DeleteScraperLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2576,9 +2563,8 @@ export const deleteScraperLoggingConfiguration: (
 /**
  * Creates a Prometheus workspace. A workspace is a logical space dedicated to the storage and querying of Prometheus metrics. You can have one or more workspaces in each Region in your account.
  */
-export const createWorkspace: (
-  input: CreateWorkspaceRequest,
-) => effect.Effect<
+export const createWorkspace: API.OperationMethod<
+  CreateWorkspaceRequest,
   CreateWorkspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2603,9 +2589,8 @@ export const createWorkspace: (
 /**
  * Returns information about an existing workspace.
  */
-export const describeWorkspace: (
-  input: DescribeWorkspaceRequest,
-) => effect.Effect<
+export const describeWorkspace: API.OperationMethod<
+  DescribeWorkspaceRequest,
   DescribeWorkspaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2628,9 +2613,8 @@ export const describeWorkspace: (
 /**
  * Updates the alias of an existing workspace.
  */
-export const updateWorkspaceAlias: (
-  input: UpdateWorkspaceAliasRequest,
-) => effect.Effect<
+export const updateWorkspaceAlias: API.OperationMethod<
+  UpdateWorkspaceAliasRequest,
   UpdateWorkspaceAliasResponse,
   | AccessDeniedException
   | ConflictException
@@ -2659,9 +2643,8 @@ export const updateWorkspaceAlias: (
  *
  * When you delete a workspace, the data that has been ingested into it is not immediately deleted. It will be permanently deleted within one month.
  */
-export const deleteWorkspace: (
-  input: DeleteWorkspaceRequest,
-) => effect.Effect<
+export const deleteWorkspace: API.OperationMethod<
+  DeleteWorkspaceRequest,
   DeleteWorkspaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2686,18 +2669,16 @@ export const deleteWorkspace: (
 /**
  * Lists all of the Amazon Managed Service for Prometheus workspaces in your account. This includes workspaces being created or deleted.
  */
-export const listWorkspaces: {
-  (
-    input: ListWorkspacesRequest,
-  ): effect.Effect<
-    ListWorkspacesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkspaces: API.OperationMethod<
+  ListWorkspacesRequest,
+  ListWorkspacesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkspacesRequest,
   ) => stream.Stream<
@@ -2739,9 +2720,8 @@ export const listWorkspaces: {
 /**
  * The `CreateAlertManagerDefinition` operation creates the alert manager definition in a workspace. If a workspace already has an alert manager definition, don't use this operation to update it. Instead, use `PutAlertManagerDefinition`.
  */
-export const createAlertManagerDefinition: (
-  input: CreateAlertManagerDefinitionRequest,
-) => effect.Effect<
+export const createAlertManagerDefinition: API.OperationMethod<
+  CreateAlertManagerDefinitionRequest,
   CreateAlertManagerDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2768,9 +2748,8 @@ export const createAlertManagerDefinition: (
 /**
  * Retrieves the full information about the alert manager definition for a workspace.
  */
-export const describeAlertManagerDefinition: (
-  input: DescribeAlertManagerDefinitionRequest,
-) => effect.Effect<
+export const describeAlertManagerDefinition: API.OperationMethod<
+  DescribeAlertManagerDefinitionRequest,
   DescribeAlertManagerDefinitionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2793,9 +2772,8 @@ export const describeAlertManagerDefinition: (
 /**
  * Updates an existing alert manager definition in a workspace. If the workspace does not already have an alert manager definition, don't use this operation to create it. Instead, use `CreateAlertManagerDefinition`.
  */
-export const putAlertManagerDefinition: (
-  input: PutAlertManagerDefinitionRequest,
-) => effect.Effect<
+export const putAlertManagerDefinition: API.OperationMethod<
+  PutAlertManagerDefinitionRequest,
   PutAlertManagerDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2822,9 +2800,8 @@ export const putAlertManagerDefinition: (
 /**
  * Deletes the alert manager definition from a workspace.
  */
-export const deleteAlertManagerDefinition: (
-  input: DeleteAlertManagerDefinitionRequest,
-) => effect.Effect<
+export const deleteAlertManagerDefinition: API.OperationMethod<
+  DeleteAlertManagerDefinitionRequest,
   DeleteAlertManagerDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2849,9 +2826,8 @@ export const deleteAlertManagerDefinition: (
 /**
  * Creates an anomaly detector within a workspace using the Random Cut Forest algorithm for time-series analysis. The anomaly detector analyzes Amazon Managed Service for Prometheus metrics to identify unusual patterns and behaviors.
  */
-export const createAnomalyDetector: (
-  input: CreateAnomalyDetectorRequest,
-) => effect.Effect<
+export const createAnomalyDetector: API.OperationMethod<
+  CreateAnomalyDetectorRequest,
   CreateAnomalyDetectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -2876,9 +2852,8 @@ export const createAnomalyDetector: (
 /**
  * When you call `PutAnomalyDetector`, the operation creates a new anomaly detector if one doesn't exist, or updates an existing one. Each call to this operation triggers a complete retraining of the detector, which includes querying the minimum required samples and backfilling the detector with historical data. This process occurs regardless of whether you're making a minor change like updating the evaluation interval or making more substantial modifications. The operation serves as the single method for creating, updating, and retraining anomaly detectors.
  */
-export const putAnomalyDetector: (
-  input: PutAnomalyDetectorRequest,
-) => effect.Effect<
+export const putAnomalyDetector: API.OperationMethod<
+  PutAnomalyDetectorRequest,
   PutAnomalyDetectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -2903,9 +2878,8 @@ export const putAnomalyDetector: (
 /**
  * Retrieves detailed information about a specific anomaly detector, including its status and configuration.
  */
-export const describeAnomalyDetector: (
-  input: DescribeAnomalyDetectorRequest,
-) => effect.Effect<
+export const describeAnomalyDetector: API.OperationMethod<
+  DescribeAnomalyDetectorRequest,
   DescribeAnomalyDetectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2928,9 +2902,8 @@ export const describeAnomalyDetector: (
 /**
  * Removes an anomaly detector from a workspace. This operation is idempotent.
  */
-export const deleteAnomalyDetector: (
-  input: DeleteAnomalyDetectorRequest,
-) => effect.Effect<
+export const deleteAnomalyDetector: API.OperationMethod<
+  DeleteAnomalyDetectorRequest,
   DeleteAnomalyDetectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -2955,19 +2928,17 @@ export const deleteAnomalyDetector: (
 /**
  * Returns a paginated list of anomaly detectors for a workspace with optional filtering by alias.
  */
-export const listAnomalyDetectors: {
-  (
-    input: ListAnomalyDetectorsRequest,
-  ): effect.Effect<
-    ListAnomalyDetectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnomalyDetectors: API.OperationMethod<
+  ListAnomalyDetectorsRequest,
+  ListAnomalyDetectorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnomalyDetectorsRequest,
   ) => stream.Stream<
@@ -3014,9 +2985,8 @@ export const listAnomalyDetectors: {
  *
  * These logging configurations are only for rules and alerting logs.
  */
-export const createLoggingConfiguration: (
-  input: CreateLoggingConfigurationRequest,
-) => effect.Effect<
+export const createLoggingConfiguration: API.OperationMethod<
+  CreateLoggingConfigurationRequest,
   CreateLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3039,9 +3009,8 @@ export const createLoggingConfiguration: (
  *
  * These logging configurations are only for rules and alerting logs.
  */
-export const describeLoggingConfiguration: (
-  input: DescribeLoggingConfigurationRequest,
-) => effect.Effect<
+export const describeLoggingConfiguration: API.OperationMethod<
+  DescribeLoggingConfigurationRequest,
   DescribeLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3064,9 +3033,8 @@ export const describeLoggingConfiguration: (
  *
  * These logging configurations are only for rules and alerting logs.
  */
-export const updateLoggingConfiguration: (
-  input: UpdateLoggingConfigurationRequest,
-) => effect.Effect<
+export const updateLoggingConfiguration: API.OperationMethod<
+  UpdateLoggingConfigurationRequest,
   UpdateLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3091,9 +3059,8 @@ export const updateLoggingConfiguration: (
  *
  * These logging configurations are only for rules and alerting logs.
  */
-export const deleteLoggingConfiguration: (
-  input: DeleteLoggingConfigurationRequest,
-) => effect.Effect<
+export const deleteLoggingConfiguration: API.OperationMethod<
+  DeleteLoggingConfigurationRequest,
   DeleteLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3116,9 +3083,8 @@ export const deleteLoggingConfiguration: (
 /**
  * Creates a query logging configuration for the specified workspace. This operation enables logging of queries that exceed the specified QSP threshold.
  */
-export const createQueryLoggingConfiguration: (
-  input: CreateQueryLoggingConfigurationRequest,
-) => effect.Effect<
+export const createQueryLoggingConfiguration: API.OperationMethod<
+  CreateQueryLoggingConfigurationRequest,
   CreateQueryLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3139,9 +3105,8 @@ export const createQueryLoggingConfiguration: (
 /**
  * Retrieves the details of the query logging configuration for the specified workspace.
  */
-export const describeQueryLoggingConfiguration: (
-  input: DescribeQueryLoggingConfigurationRequest,
-) => effect.Effect<
+export const describeQueryLoggingConfiguration: API.OperationMethod<
+  DescribeQueryLoggingConfigurationRequest,
   DescribeQueryLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3162,9 +3127,8 @@ export const describeQueryLoggingConfiguration: (
 /**
  * Updates the query logging configuration for the specified workspace.
  */
-export const updateQueryLoggingConfiguration: (
-  input: UpdateQueryLoggingConfigurationRequest,
-) => effect.Effect<
+export const updateQueryLoggingConfiguration: API.OperationMethod<
+  UpdateQueryLoggingConfigurationRequest,
   UpdateQueryLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3187,9 +3151,8 @@ export const updateQueryLoggingConfiguration: (
 /**
  * Deletes the query logging configuration for the specified workspace.
  */
-export const deleteQueryLoggingConfiguration: (
-  input: DeleteQueryLoggingConfigurationRequest,
-) => effect.Effect<
+export const deleteQueryLoggingConfiguration: API.OperationMethod<
+  DeleteQueryLoggingConfigurationRequest,
   DeleteQueryLoggingConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3216,9 +3179,8 @@ export const deleteQueryLoggingConfiguration: (
  *
  * Use this operation only to create new rule groups namespaces. To update an existing rule groups namespace, use `PutRuleGroupsNamespace`.
  */
-export const createRuleGroupsNamespace: (
-  input: CreateRuleGroupsNamespaceRequest,
-) => effect.Effect<
+export const createRuleGroupsNamespace: API.OperationMethod<
+  CreateRuleGroupsNamespaceRequest,
   CreateRuleGroupsNamespaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3245,9 +3207,8 @@ export const createRuleGroupsNamespace: (
 /**
  * Returns complete information about one rule groups namespace. To retrieve a list of rule groups namespaces, use `ListRuleGroupsNamespaces`.
  */
-export const describeRuleGroupsNamespace: (
-  input: DescribeRuleGroupsNamespaceRequest,
-) => effect.Effect<
+export const describeRuleGroupsNamespace: API.OperationMethod<
+  DescribeRuleGroupsNamespaceRequest,
   DescribeRuleGroupsNamespaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3276,9 +3237,8 @@ export const describeRuleGroupsNamespace: (
  *
  * You can't use this operation to add tags to an existing rule groups namespace. Instead, use `TagResource`.
  */
-export const putRuleGroupsNamespace: (
-  input: PutRuleGroupsNamespaceRequest,
-) => effect.Effect<
+export const putRuleGroupsNamespace: API.OperationMethod<
+  PutRuleGroupsNamespaceRequest,
   PutRuleGroupsNamespaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3305,9 +3265,8 @@ export const putRuleGroupsNamespace: (
 /**
  * Deletes one rule groups namespace and its associated rule groups definition.
  */
-export const deleteRuleGroupsNamespace: (
-  input: DeleteRuleGroupsNamespaceRequest,
-) => effect.Effect<
+export const deleteRuleGroupsNamespace: API.OperationMethod<
+  DeleteRuleGroupsNamespaceRequest,
   DeleteRuleGroupsNamespaceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3332,19 +3291,17 @@ export const deleteRuleGroupsNamespace: (
 /**
  * Returns a list of rule groups namespaces in a workspace.
  */
-export const listRuleGroupsNamespaces: {
-  (
-    input: ListRuleGroupsNamespacesRequest,
-  ): effect.Effect<
-    ListRuleGroupsNamespacesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRuleGroupsNamespaces: API.OperationMethod<
+  ListRuleGroupsNamespacesRequest,
+  ListRuleGroupsNamespacesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRuleGroupsNamespacesRequest,
   ) => stream.Stream<
@@ -3389,9 +3346,8 @@ export const listRuleGroupsNamespaces: {
 /**
  * Use this operation to return information about the configuration of a workspace. The configuration details returned include workspace configuration status, label set limits, and retention period.
  */
-export const describeWorkspaceConfiguration: (
-  input: DescribeWorkspaceConfigurationRequest,
-) => effect.Effect<
+export const describeWorkspaceConfiguration: API.OperationMethod<
+  DescribeWorkspaceConfigurationRequest,
   DescribeWorkspaceConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3416,9 +3372,8 @@ export const describeWorkspaceConfiguration: (
  *
  * You must specify at least one of `limitsPerLabelSet` or `retentionPeriodInDays` for the request to be valid.
  */
-export const updateWorkspaceConfiguration: (
-  input: UpdateWorkspaceConfigurationRequest,
-) => effect.Effect<
+export const updateWorkspaceConfiguration: API.OperationMethod<
+  UpdateWorkspaceConfigurationRequest,
   UpdateWorkspaceConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3451,9 +3406,8 @@ export const updateWorkspaceConfiguration: (
  *
  * For more information about working with IAM, see Using Amazon Managed Service for Prometheus with IAM in the *Amazon Managed Service for Prometheus User Guide*.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -3478,9 +3432,8 @@ export const putResourcePolicy: (
 /**
  * Returns information about the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
  */
-export const describeResourcePolicy: (
-  input: DescribeResourcePolicyRequest,
-) => effect.Effect<
+export const describeResourcePolicy: API.OperationMethod<
+  DescribeResourcePolicyRequest,
   DescribeResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3503,9 +3456,8 @@ export const describeResourcePolicy: (
 /**
  * Deletes the resource-based policy attached to an Amazon Managed Service for Prometheus workspace.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException

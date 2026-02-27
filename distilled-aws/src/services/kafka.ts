@@ -4926,9 +4926,8 @@ export class UnknownTopicOrPartitionException extends S.TaggedErrorClass<Unknown
 /**
  * Associates one or more Scram Secrets with an Amazon MSK cluster.
  */
-export const batchAssociateScramSecret: (
-  input: BatchAssociateScramSecretRequest,
-) => effect.Effect<
+export const batchAssociateScramSecret: API.OperationMethod<
+  BatchAssociateScramSecretRequest,
   BatchAssociateScramSecretResponse,
   | BadRequestException
   | ForbiddenException
@@ -4955,9 +4954,8 @@ export const batchAssociateScramSecret: (
 /**
  * Disassociates one or more Scram Secrets from an Amazon MSK cluster.
  */
-export const batchDisassociateScramSecret: (
-  input: BatchDisassociateScramSecretRequest,
-) => effect.Effect<
+export const batchDisassociateScramSecret: API.OperationMethod<
+  BatchDisassociateScramSecretRequest,
   BatchDisassociateScramSecretResponse,
   | BadRequestException
   | ForbiddenException
@@ -4984,9 +4982,8 @@ export const batchDisassociateScramSecret: (
 /**
  * Creates a new MSK cluster.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   | BadRequestException
   | ConflictException
@@ -5013,9 +5010,8 @@ export const createCluster: (
 /**
  * Creates a new MSK cluster.
  */
-export const createClusterV2: (
-  input: CreateClusterV2Request,
-) => effect.Effect<
+export const createClusterV2: API.OperationMethod<
+  CreateClusterV2Request,
   CreateClusterV2Response,
   | BadRequestException
   | ConflictException
@@ -5042,9 +5038,8 @@ export const createClusterV2: (
 /**
  * Creates a new MSK configuration.
  */
-export const createConfiguration: (
-  input: CreateConfigurationRequest,
-) => effect.Effect<
+export const createConfiguration: API.OperationMethod<
+  CreateConfigurationRequest,
   CreateConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -5071,9 +5066,8 @@ export const createConfiguration: (
 /**
  * Creates the replicator.
  */
-export const createReplicator: (
-  input: CreateReplicatorRequest,
-) => effect.Effect<
+export const createReplicator: API.OperationMethod<
+  CreateReplicatorRequest,
   CreateReplicatorResponse,
   | BadRequestException
   | ConflictException
@@ -5102,9 +5096,8 @@ export const createReplicator: (
 /**
  * Creates a topic in the specified MSK cluster.
  */
-export const createTopic: (
-  input: CreateTopicRequest,
-) => effect.Effect<
+export const createTopic: API.OperationMethod<
+  CreateTopicRequest,
   CreateTopicResponse,
   | BadRequestException
   | ClusterConnectivityException
@@ -5149,9 +5142,8 @@ export const createTopic: (
 /**
  * Creates a new MSK VPC connection.
  */
-export const createVpcConnection: (
-  input: CreateVpcConnectionRequest,
-) => effect.Effect<
+export const createVpcConnection: API.OperationMethod<
+  CreateVpcConnectionRequest,
   CreateVpcConnectionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5176,9 +5168,8 @@ export const createVpcConnection: (
 /**
  * Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the request.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   | BadRequestException
   | ForbiddenException
@@ -5199,9 +5190,8 @@ export const deleteCluster: (
 /**
  * Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
  */
-export const deleteClusterPolicy: (
-  input: DeleteClusterPolicyRequest,
-) => effect.Effect<
+export const deleteClusterPolicy: API.OperationMethod<
+  DeleteClusterPolicyRequest,
   DeleteClusterPolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -5222,9 +5212,8 @@ export const deleteClusterPolicy: (
 /**
  * Deletes an MSK Configuration.
  */
-export const deleteConfiguration: (
-  input: DeleteConfigurationRequest,
-) => effect.Effect<
+export const deleteConfiguration: API.OperationMethod<
+  DeleteConfigurationRequest,
   DeleteConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5245,9 +5234,8 @@ export const deleteConfiguration: (
 /**
  * Deletes a replicator.
  */
-export const deleteReplicator: (
-  input: DeleteReplicatorRequest,
-) => effect.Effect<
+export const deleteReplicator: API.OperationMethod<
+  DeleteReplicatorRequest,
   DeleteReplicatorResponse,
   | BadRequestException
   | ForbiddenException
@@ -5274,9 +5262,8 @@ export const deleteReplicator: (
 /**
  * Deletes a topic in the specified MSK cluster.
  */
-export const deleteTopic: (
-  input: DeleteTopicRequest,
-) => effect.Effect<
+export const deleteTopic: API.OperationMethod<
+  DeleteTopicRequest,
   DeleteTopicResponse,
   | BadRequestException
   | ClusterConnectivityException
@@ -5313,9 +5300,8 @@ export const deleteTopic: (
 /**
  * Deletes a MSK VPC connection.
  */
-export const deleteVpcConnection: (
-  input: DeleteVpcConnectionRequest,
-) => effect.Effect<
+export const deleteVpcConnection: API.OperationMethod<
+  DeleteVpcConnectionRequest,
   DeleteVpcConnectionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5336,9 +5322,8 @@ export const deleteVpcConnection: (
 /**
  * Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
  */
-export const describeCluster: (
-  input: DescribeClusterRequest,
-) => effect.Effect<
+export const describeCluster: API.OperationMethod<
+  DescribeClusterRequest,
   DescribeClusterResponse,
   | BadRequestException
   | ForbiddenException
@@ -5361,9 +5346,8 @@ export const describeCluster: (
 /**
  * Returns a description of the cluster operation specified by the ARN.
  */
-export const describeClusterOperation: (
-  input: DescribeClusterOperationRequest,
-) => effect.Effect<
+export const describeClusterOperation: API.OperationMethod<
+  DescribeClusterOperationRequest,
   DescribeClusterOperationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5386,9 +5370,8 @@ export const describeClusterOperation: (
 /**
  * Returns a description of the cluster operation specified by the ARN.
  */
-export const describeClusterOperationV2: (
-  input: DescribeClusterOperationV2Request,
-) => effect.Effect<
+export const describeClusterOperationV2: API.OperationMethod<
+  DescribeClusterOperationV2Request,
   DescribeClusterOperationV2Response,
   | BadRequestException
   | ForbiddenException
@@ -5415,9 +5398,8 @@ export const describeClusterOperationV2: (
 /**
  * Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is specified in the request.
  */
-export const describeClusterV2: (
-  input: DescribeClusterV2Request,
-) => effect.Effect<
+export const describeClusterV2: API.OperationMethod<
+  DescribeClusterV2Request,
   DescribeClusterV2Response,
   | BadRequestException
   | ForbiddenException
@@ -5440,9 +5422,8 @@ export const describeClusterV2: (
 /**
  * Returns a description of this MSK configuration.
  */
-export const describeConfiguration: (
-  input: DescribeConfigurationRequest,
-) => effect.Effect<
+export const describeConfiguration: API.OperationMethod<
+  DescribeConfigurationRequest,
   DescribeConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -5467,9 +5448,8 @@ export const describeConfiguration: (
 /**
  * Returns a description of this revision of the configuration.
  */
-export const describeConfigurationRevision: (
-  input: DescribeConfigurationRevisionRequest,
-) => effect.Effect<
+export const describeConfigurationRevision: API.OperationMethod<
+  DescribeConfigurationRevisionRequest,
   DescribeConfigurationRevisionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5494,9 +5474,8 @@ export const describeConfigurationRevision: (
 /**
  * Describes a replicator.
  */
-export const describeReplicator: (
-  input: DescribeReplicatorRequest,
-) => effect.Effect<
+export const describeReplicator: API.OperationMethod<
+  DescribeReplicatorRequest,
   DescribeReplicatorResponse,
   | BadRequestException
   | ForbiddenException
@@ -5523,9 +5502,8 @@ export const describeReplicator: (
 /**
  * Returns topic details of this topic on a MSK cluster.
  */
-export const describeTopic: (
-  input: DescribeTopicRequest,
-) => effect.Effect<
+export const describeTopic: API.OperationMethod<
+  DescribeTopicRequest,
   DescribeTopicResponse,
   | BadRequestException
   | ForbiddenException
@@ -5548,19 +5526,17 @@ export const describeTopic: (
 /**
  * Returns partition details of this topic on a MSK cluster.
  */
-export const describeTopicPartitions: {
-  (
-    input: DescribeTopicPartitionsRequest,
-  ): effect.Effect<
-    DescribeTopicPartitionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTopicPartitions: API.OperationMethod<
+  DescribeTopicPartitionsRequest,
+  DescribeTopicPartitionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTopicPartitionsRequest,
   ) => stream.Stream<
@@ -5605,9 +5581,8 @@ export const describeTopicPartitions: {
 /**
  * Returns a description of this MSK VPC connection.
  */
-export const describeVpcConnection: (
-  input: DescribeVpcConnectionRequest,
-) => effect.Effect<
+export const describeVpcConnection: API.OperationMethod<
+  DescribeVpcConnectionRequest,
   DescribeVpcConnectionResponse,
   | BadRequestException
   | ForbiddenException
@@ -5632,9 +5607,8 @@ export const describeVpcConnection: (
 /**
  * A list of brokers that a client application can use to bootstrap. This list doesn't necessarily include all of the brokers in the cluster. The following Python 3.6 example shows how you can use the Amazon Resource Name (ARN) of a cluster to get its bootstrap brokers. If you don't know the ARN of your cluster, you can use the `ListClusters` operation to get the ARNs of all the clusters in this account and Region.
  */
-export const getBootstrapBrokers: (
-  input: GetBootstrapBrokersRequest,
-) => effect.Effect<
+export const getBootstrapBrokers: API.OperationMethod<
+  GetBootstrapBrokersRequest,
   GetBootstrapBrokersResponse,
   | BadRequestException
   | ConflictException
@@ -5657,9 +5631,8 @@ export const getBootstrapBrokers: (
 /**
  * Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the request.
  */
-export const getClusterPolicy: (
-  input: GetClusterPolicyRequest,
-) => effect.Effect<
+export const getClusterPolicy: API.OperationMethod<
+  GetClusterPolicyRequest,
   GetClusterPolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -5680,9 +5653,8 @@ export const getClusterPolicy: (
 /**
  * Gets the Apache Kafka versions to which you can update the MSK cluster.
  */
-export const getCompatibleKafkaVersions: (
-  input: GetCompatibleKafkaVersionsRequest,
-) => effect.Effect<
+export const getCompatibleKafkaVersions: API.OperationMethod<
+  GetCompatibleKafkaVersionsRequest,
   GetCompatibleKafkaVersionsResponse,
   | BadRequestException
   | ForbiddenException
@@ -5709,19 +5681,17 @@ export const getCompatibleKafkaVersions: (
 /**
  * Returns a list of all the VPC connections in this Region.
  */
-export const listClientVpcConnections: {
-  (
-    input: ListClientVpcConnectionsRequest,
-  ): effect.Effect<
-    ListClientVpcConnectionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClientVpcConnections: API.OperationMethod<
+  ListClientVpcConnectionsRequest,
+  ListClientVpcConnectionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClientVpcConnectionsRequest,
   ) => stream.Stream<
@@ -5766,18 +5736,16 @@ export const listClientVpcConnections: {
 /**
  * Returns a list of all the operations that have been performed on the specified MSK cluster.
  */
-export const listClusterOperations: {
-  (
-    input: ListClusterOperationsRequest,
-  ): effect.Effect<
-    ListClusterOperationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusterOperations: API.OperationMethod<
+  ListClusterOperationsRequest,
+  ListClusterOperationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClusterOperationsRequest,
   ) => stream.Stream<
@@ -5819,21 +5787,19 @@ export const listClusterOperations: {
 /**
  * Returns a list of all the operations that have been performed on the specified MSK cluster.
  */
-export const listClusterOperationsV2: {
-  (
-    input: ListClusterOperationsV2Request,
-  ): effect.Effect<
-    ListClusterOperationsV2Response,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusterOperationsV2: API.OperationMethod<
+  ListClusterOperationsV2Request,
+  ListClusterOperationsV2Response,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClusterOperationsV2Request,
   ) => stream.Stream<
@@ -5884,18 +5850,16 @@ export const listClusterOperationsV2: {
 /**
  * Returns a list of all the MSK clusters in the current Region.
  */
-export const listClusters: {
-  (
-    input: ListClustersRequest,
-  ): effect.Effect<
-    ListClustersResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
@@ -5937,18 +5901,16 @@ export const listClusters: {
 /**
  * Returns a list of all the MSK clusters in the current Region.
  */
-export const listClustersV2: {
-  (
-    input: ListClustersV2Request,
-  ): effect.Effect<
-    ListClustersV2Response,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClustersV2: API.OperationMethod<
+  ListClustersV2Request,
+  ListClustersV2Response,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersV2Request,
   ) => stream.Stream<
@@ -5990,20 +5952,18 @@ export const listClustersV2: {
 /**
  * Returns a list of all the MSK configurations in this Region.
  */
-export const listConfigurationRevisions: {
-  (
-    input: ListConfigurationRevisionsRequest,
-  ): effect.Effect<
-    ListConfigurationRevisionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurationRevisions: API.OperationMethod<
+  ListConfigurationRevisionsRequest,
+  ListConfigurationRevisionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationRevisionsRequest,
   ) => stream.Stream<
@@ -6051,19 +6011,17 @@ export const listConfigurationRevisions: {
 /**
  * Returns a list of all the MSK configurations in this Region.
  */
-export const listConfigurations: {
-  (
-    input: ListConfigurationsRequest,
-  ): effect.Effect<
-    ListConfigurationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurations: API.OperationMethod<
+  ListConfigurationsRequest,
+  ListConfigurationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationsRequest,
   ) => stream.Stream<
@@ -6108,18 +6066,16 @@ export const listConfigurations: {
 /**
  * Returns a list of Apache Kafka versions.
  */
-export const listKafkaVersions: {
-  (
-    input: ListKafkaVersionsRequest,
-  ): effect.Effect<
-    ListKafkaVersionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKafkaVersions: API.OperationMethod<
+  ListKafkaVersionsRequest,
+  ListKafkaVersionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKafkaVersionsRequest,
   ) => stream.Stream<
@@ -6161,18 +6117,16 @@ export const listKafkaVersions: {
 /**
  * Returns a list of the broker nodes in the cluster.
  */
-export const listNodes: {
-  (
-    input: ListNodesRequest,
-  ): effect.Effect<
-    ListNodesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNodes: API.OperationMethod<
+  ListNodesRequest,
+  ListNodesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNodesRequest,
   ) => stream.Stream<
@@ -6214,21 +6168,19 @@ export const listNodes: {
 /**
  * Lists the replicators.
  */
-export const listReplicators: {
-  (
-    input: ListReplicatorsRequest,
-  ): effect.Effect<
-    ListReplicatorsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReplicators: API.OperationMethod<
+  ListReplicatorsRequest,
+  ListReplicatorsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReplicatorsRequest,
   ) => stream.Stream<
@@ -6279,21 +6231,19 @@ export const listReplicators: {
 /**
  * Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
  */
-export const listScramSecrets: {
-  (
-    input: ListScramSecretsRequest,
-  ): effect.Effect<
-    ListScramSecretsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScramSecrets: API.OperationMethod<
+  ListScramSecretsRequest,
+  ListScramSecretsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScramSecretsRequest,
   ) => stream.Stream<
@@ -6344,9 +6294,8 @@ export const listScramSecrets: {
 /**
  * Returns a list of the tags associated with the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -6365,19 +6314,17 @@ export const listTagsForResource: (
 /**
  * List topics in a MSK cluster.
  */
-export const listTopics: {
-  (
-    input: ListTopicsRequest,
-  ): effect.Effect<
-    ListTopicsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTopics: API.OperationMethod<
+  ListTopicsRequest,
+  ListTopicsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTopicsRequest,
   ) => stream.Stream<
@@ -6422,19 +6369,17 @@ export const listTopics: {
 /**
  * Returns a list of all the VPC connections in this Region.
  */
-export const listVpcConnections: {
-  (
-    input: ListVpcConnectionsRequest,
-  ): effect.Effect<
-    ListVpcConnectionsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVpcConnections: API.OperationMethod<
+  ListVpcConnectionsRequest,
+  ListVpcConnectionsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVpcConnectionsRequest,
   ) => stream.Stream<
@@ -6479,9 +6424,8 @@ export const listVpcConnections: {
 /**
  * Creates or updates the MSK cluster policy specified by the cluster Amazon Resource Name (ARN) in the request.
  */
-export const putClusterPolicy: (
-  input: PutClusterPolicyRequest,
-) => effect.Effect<
+export const putClusterPolicy: API.OperationMethod<
+  PutClusterPolicyRequest,
   PutClusterPolicyResponse,
   | BadRequestException
   | ForbiddenException
@@ -6500,9 +6444,8 @@ export const putClusterPolicy: (
 /**
  * Reboots brokers.
  */
-export const rebootBroker: (
-  input: RebootBrokerRequest,
-) => effect.Effect<
+export const rebootBroker: API.OperationMethod<
+  RebootBrokerRequest,
   RebootBrokerResponse,
   | BadRequestException
   | ForbiddenException
@@ -6529,9 +6472,8 @@ export const rebootBroker: (
 /**
  * Returns empty response.
  */
-export const rejectClientVpcConnection: (
-  input: RejectClientVpcConnectionRequest,
-) => effect.Effect<
+export const rejectClientVpcConnection: API.OperationMethod<
+  RejectClientVpcConnectionRequest,
   RejectClientVpcConnectionResponse,
   | BadRequestException
   | ForbiddenException
@@ -6554,9 +6496,8 @@ export const rejectClientVpcConnection: (
 /**
  * Adds tags to the specified MSK resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -6575,9 +6516,8 @@ export const tagResource: (
 /**
  * Removes the tags associated with the keys that are provided in the query.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -6596,9 +6536,8 @@ export const untagResource: (
 /**
  * Updates the number of broker nodes in the cluster.
  */
-export const updateBrokerCount: (
-  input: UpdateBrokerCountRequest,
-) => effect.Effect<
+export const updateBrokerCount: API.OperationMethod<
+  UpdateBrokerCountRequest,
   UpdateBrokerCountResponse,
   | BadRequestException
   | ForbiddenException
@@ -6621,9 +6560,8 @@ export const updateBrokerCount: (
 /**
  * Updates the EBS storage associated with MSK brokers.
  */
-export const updateBrokerStorage: (
-  input: UpdateBrokerStorageRequest,
-) => effect.Effect<
+export const updateBrokerStorage: API.OperationMethod<
+  UpdateBrokerStorageRequest,
   UpdateBrokerStorageResponse,
   | BadRequestException
   | ForbiddenException
@@ -6646,9 +6584,8 @@ export const updateBrokerStorage: (
 /**
  * Updates EC2 instance type.
  */
-export const updateBrokerType: (
-  input: UpdateBrokerTypeRequest,
-) => effect.Effect<
+export const updateBrokerType: API.OperationMethod<
+  UpdateBrokerTypeRequest,
   UpdateBrokerTypeResponse,
   | BadRequestException
   | ForbiddenException
@@ -6675,9 +6612,8 @@ export const updateBrokerType: (
 /**
  * Updates the cluster with the configuration that is specified in the request body.
  */
-export const updateClusterConfiguration: (
-  input: UpdateClusterConfigurationRequest,
-) => effect.Effect<
+export const updateClusterConfiguration: API.OperationMethod<
+  UpdateClusterConfigurationRequest,
   UpdateClusterConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -6702,9 +6638,8 @@ export const updateClusterConfiguration: (
 /**
  * Updates the Apache Kafka version for the cluster.
  */
-export const updateClusterKafkaVersion: (
-  input: UpdateClusterKafkaVersionRequest,
-) => effect.Effect<
+export const updateClusterKafkaVersion: API.OperationMethod<
+  UpdateClusterKafkaVersionRequest,
   UpdateClusterKafkaVersionResponse,
   | BadRequestException
   | ForbiddenException
@@ -6731,9 +6666,8 @@ export const updateClusterKafkaVersion: (
 /**
  * Updates an MSK configuration.
  */
-export const updateConfiguration: (
-  input: UpdateConfigurationRequest,
-) => effect.Effect<
+export const updateConfiguration: API.OperationMethod<
+  UpdateConfigurationRequest,
   UpdateConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -6758,9 +6692,8 @@ export const updateConfiguration: (
 /**
  * Updates the cluster's connectivity configuration.
  */
-export const updateConnectivity: (
-  input: UpdateConnectivityRequest,
-) => effect.Effect<
+export const updateConnectivity: API.OperationMethod<
+  UpdateConnectivityRequest,
   UpdateConnectivityResponse,
   | BadRequestException
   | ForbiddenException
@@ -6785,9 +6718,8 @@ export const updateConnectivity: (
 /**
  * Updates the monitoring settings for the cluster. You can use this operation to specify which Apache Kafka metrics you want Amazon MSK to send to Amazon CloudWatch. You can also specify settings for open monitoring with Prometheus.
  */
-export const updateMonitoring: (
-  input: UpdateMonitoringRequest,
-) => effect.Effect<
+export const updateMonitoring: API.OperationMethod<
+  UpdateMonitoringRequest,
   UpdateMonitoringResponse,
   | BadRequestException
   | ForbiddenException
@@ -6810,9 +6742,8 @@ export const updateMonitoring: (
 /**
  * Use this resource to update the intelligent rebalancing status of an Amazon MSK Provisioned cluster with Express brokers.
  */
-export const updateRebalancing: (
-  input: UpdateRebalancingRequest,
-) => effect.Effect<
+export const updateRebalancing: API.OperationMethod<
+  UpdateRebalancingRequest,
   UpdateRebalancingResponse,
   | BadRequestException
   | ForbiddenException
@@ -6839,9 +6770,8 @@ export const updateRebalancing: (
 /**
  * Updates replication info of a replicator.
  */
-export const updateReplicationInfo: (
-  input: UpdateReplicationInfoRequest,
-) => effect.Effect<
+export const updateReplicationInfo: API.OperationMethod<
+  UpdateReplicationInfoRequest,
   UpdateReplicationInfoResponse,
   | BadRequestException
   | ForbiddenException
@@ -6868,9 +6798,8 @@ export const updateReplicationInfo: (
 /**
  * Updates the security settings for the cluster. You can use this operation to specify encryption and authentication on existing clusters.
  */
-export const updateSecurity: (
-  input: UpdateSecurityRequest,
-) => effect.Effect<
+export const updateSecurity: API.OperationMethod<
+  UpdateSecurityRequest,
   UpdateSecurityResponse,
   | BadRequestException
   | ForbiddenException
@@ -6897,9 +6826,8 @@ export const updateSecurity: (
 /**
  * Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
  */
-export const updateStorage: (
-  input: UpdateStorageRequest,
-) => effect.Effect<
+export const updateStorage: API.OperationMethod<
+  UpdateStorageRequest,
   UpdateStorageResponse,
   | BadRequestException
   | ForbiddenException
@@ -6926,9 +6854,8 @@ export const updateStorage: (
 /**
  * Updates the configuration of the specified topic.
  */
-export const updateTopic: (
-  input: UpdateTopicRequest,
-) => effect.Effect<
+export const updateTopic: API.OperationMethod<
+  UpdateTopicRequest,
   UpdateTopicResponse,
   | BadRequestException
   | ClusterConnectivityException

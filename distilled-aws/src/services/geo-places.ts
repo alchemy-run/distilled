@@ -1731,9 +1731,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  *
  * For more information, see Autocomplete in the *Amazon Location Service Developer Guide*.
  */
-export const autocomplete: (
-  input: AutocompleteRequest,
-) => effect.Effect<
+export const autocomplete: API.OperationMethod<
+  AutocompleteRequest,
   AutocompleteResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1756,9 +1755,8 @@ export const autocomplete: (
  *
  * For more information, see Geocode in the *Amazon Location Service Developer Guide*.
  */
-export const geocode: (
-  input: GeocodeRequest,
-) => effect.Effect<
+export const geocode: API.OperationMethod<
+  GeocodeRequest,
   GeocodeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1781,9 +1779,8 @@ export const geocode: (
  *
  * For more information, see GetPlace in the *Amazon Location Service Developer Guide*.
  */
-export const getPlace: (
-  input: GetPlaceRequest,
-) => effect.Effect<
+export const getPlace: API.OperationMethod<
+  GetPlaceRequest,
   GetPlaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1806,9 +1803,8 @@ export const getPlace: (
  *
  * For more information, see Reverse Geocode in the *Amazon Location Service Developer Guide*.
  */
-export const reverseGeocode: (
-  input: ReverseGeocodeRequest,
-) => effect.Effect<
+export const reverseGeocode: API.OperationMethod<
+  ReverseGeocodeRequest,
   ReverseGeocodeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1831,9 +1827,8 @@ export const reverseGeocode: (
  *
  * For more information, see Search Nearby in the *Amazon Location Service Developer Guide*.
  */
-export const searchNearby: (
-  input: SearchNearbyRequest,
-) => effect.Effect<
+export const searchNearby: API.OperationMethod<
+  SearchNearbyRequest,
   SearchNearbyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1856,9 +1851,8 @@ export const searchNearby: (
  *
  * For more information, see Search Text in the *Amazon Location Service Developer Guide*.
  */
-export const searchText: (
-  input: SearchTextRequest,
-) => effect.Effect<
+export const searchText: API.OperationMethod<
+  SearchTextRequest,
   SearchTextResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1881,9 +1875,8 @@ export const searchText: (
  *
  * For more information, see Suggest in the *Amazon Location Service Developer Guide*.
  */
-export const suggest: (
-  input: SuggestRequest,
-) => effect.Effect<
+export const suggest: API.OperationMethod<
+  SuggestRequest,
   SuggestResponse,
   | AccessDeniedException
   | InternalServerException

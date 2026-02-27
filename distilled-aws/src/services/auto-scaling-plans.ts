@@ -653,9 +653,8 @@ export class InvalidNextTokenException extends S.TaggedErrorClass<InvalidNextTok
 /**
  * Creates a scaling plan.
  */
-export const createScalingPlan: (
-  input: CreateScalingPlanRequest,
-) => effect.Effect<
+export const createScalingPlan: API.OperationMethod<
+  CreateScalingPlanRequest,
   CreateScalingPlanResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -682,9 +681,8 @@ export const createScalingPlan: (
  * If the plan has launched resources or has scaling activities in progress, you must
  * delete those resources separately.
  */
-export const deleteScalingPlan: (
-  input: DeleteScalingPlanRequest,
-) => effect.Effect<
+export const deleteScalingPlan: API.OperationMethod<
+  DeleteScalingPlanRequest,
   DeleteScalingPlanResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -705,9 +703,8 @@ export const deleteScalingPlan: (
 /**
  * Describes the scalable resources in the specified scaling plan.
  */
-export const describeScalingPlanResources: (
-  input: DescribeScalingPlanResourcesRequest,
-) => effect.Effect<
+export const describeScalingPlanResources: API.OperationMethod<
+  DescribeScalingPlanResourcesRequest,
   DescribeScalingPlanResourcesResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -728,9 +725,8 @@ export const describeScalingPlanResources: (
 /**
  * Describes one or more of your scaling plans.
  */
-export const describeScalingPlans: (
-  input: DescribeScalingPlansRequest,
-) => effect.Effect<
+export const describeScalingPlans: API.OperationMethod<
+  DescribeScalingPlansRequest,
   DescribeScalingPlansResponse,
   | ConcurrentUpdateException
   | InternalServiceException
@@ -755,9 +751,8 @@ export const describeScalingPlans: (
  * calculated using historical data points from a specified CloudWatch load metric. Data points are
  * available for up to 56 days.
  */
-export const getScalingPlanResourceForecastData: (
-  input: GetScalingPlanResourceForecastDataRequest,
-) => effect.Effect<
+export const getScalingPlanResourceForecastData: API.OperationMethod<
+  GetScalingPlanResourceForecastDataRequest,
   GetScalingPlanResourceForecastDataResponse,
   InternalServiceException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -772,9 +767,8 @@ export const getScalingPlanResourceForecastData: (
  * You cannot update a scaling plan if it is in the process of being created, updated, or
  * deleted.
  */
-export const updateScalingPlan: (
-  input: UpdateScalingPlanRequest,
-) => effect.Effect<
+export const updateScalingPlan: API.OperationMethod<
+  UpdateScalingPlanRequest,
   UpdateScalingPlanResponse,
   | ConcurrentUpdateException
   | InternalServiceException

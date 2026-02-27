@@ -1721,9 +1721,8 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 /**
  * Associates one or more configuration items with an application.
  */
-export const associateConfigurationItemsToApplication: (
-  input: AssociateConfigurationItemsToApplicationRequest,
-) => effect.Effect<
+export const associateConfigurationItemsToApplication: API.OperationMethod<
+  AssociateConfigurationItemsToApplicationRequest,
   AssociateConfigurationItemsToApplicationResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1748,9 +1747,8 @@ export const associateConfigurationItemsToApplication: (
  * delete the previously discovered data.
  * To delete the data collected, use `StartBatchDeleteConfigurationTask`.
  */
-export const batchDeleteAgents: (
-  input: BatchDeleteAgentsRequest,
-) => effect.Effect<
+export const batchDeleteAgents: API.OperationMethod<
+  BatchDeleteAgentsRequest,
   BatchDeleteAgentsResponse,
   | AuthorizationErrorException
   | InvalidParameterException
@@ -1778,9 +1776,8 @@ export const batchDeleteAgents: (
  * contains records that were used to match, the information in those matched records that comes
  * from the deleted records will also be deleted.
  */
-export const batchDeleteImportData: (
-  input: BatchDeleteImportDataRequest,
-) => effect.Effect<
+export const batchDeleteImportData: API.OperationMethod<
+  BatchDeleteImportDataRequest,
   BatchDeleteImportDataResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1803,9 +1800,8 @@ export const batchDeleteImportData: (
 /**
  * Creates an application with the given name and description.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1831,9 +1827,8 @@ export const createApplication: (
  *
  * Do not store sensitive information (like personal data) in tags.
  */
-export const createTags: (
-  input: CreateTagsRequest,
-) => effect.Effect<
+export const createTags: API.OperationMethod<
+  CreateTagsRequest,
   CreateTagsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1859,9 +1854,8 @@ export const createTags: (
  * Deletes a list of applications and their associations with configuration
  * items.
  */
-export const deleteApplications: (
-  input: DeleteApplicationsRequest,
-) => effect.Effect<
+export const deleteApplications: API.OperationMethod<
+  DeleteApplicationsRequest,
   DeleteApplicationsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1885,9 +1879,8 @@ export const deleteApplications: (
  * Deletes the association between configuration items and one or more tags. This API
  * accepts a list of multiple configuration items.
  */
-export const deleteTags: (
-  input: DeleteTagsRequest,
-) => effect.Effect<
+export const deleteTags: API.OperationMethod<
+  DeleteTagsRequest,
   DeleteTagsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -1914,19 +1907,17 @@ export const deleteTags: (
  * associated with your user can be listed if you call `DescribeAgents` as is
  * without passing any parameters.
  */
-export const describeAgents: {
-  (
-    input: DescribeAgentsRequest,
-  ): effect.Effect<
-    DescribeAgentsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ServerInternalErrorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAgents: API.OperationMethod<
+  DescribeAgentsRequest,
+  DescribeAgentsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAgentsRequest,
   ) => stream.Stream<
@@ -1971,9 +1962,8 @@ export const describeAgents: {
 /**
  * Takes a unique deletion task identifier as input and returns metadata about a configuration deletion task.
  */
-export const describeBatchDeleteConfigurationTask: (
-  input: DescribeBatchDeleteConfigurationTaskRequest,
-) => effect.Effect<
+export const describeBatchDeleteConfigurationTask: API.OperationMethod<
+  DescribeBatchDeleteConfigurationTaskRequest,
   DescribeBatchDeleteConfigurationTaskResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2012,9 +2002,8 @@ export const describeBatchDeleteConfigurationTask: (
  * For a complete list of outputs for each asset type, see Using the DescribeConfigurations Action in the Amazon Web Services Application
  * Discovery Service User Guide.
  */
-export const describeConfigurations: (
-  input: DescribeConfigurationsRequest,
-) => effect.Effect<
+export const describeConfigurations: API.OperationMethod<
+  DescribeConfigurationsRequest,
   DescribeConfigurationsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2039,21 +2028,19 @@ export const describeConfigurations: (
  * can be listed if you call `DescribeContinuousExports` as is without passing
  * any parameters.
  */
-export const describeContinuousExports: {
-  (
-    input: DescribeContinuousExportsRequest,
-  ): effect.Effect<
-    DescribeContinuousExportsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | OperationNotPermittedException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeContinuousExports: API.OperationMethod<
+  DescribeContinuousExportsRequest,
+  DescribeContinuousExportsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | OperationNotPermittedException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeContinuousExportsRequest,
   ) => stream.Stream<
@@ -2104,20 +2091,18 @@ export const describeContinuousExports: {
 /**
  * `DescribeExportConfigurations` is deprecated. Use DescribeExportTasks, instead.
  */
-export const describeExportConfigurations: {
-  (
-    input: DescribeExportConfigurationsRequest,
-  ): effect.Effect<
-    DescribeExportConfigurationsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeExportConfigurations: API.OperationMethod<
+  DescribeExportConfigurationsRequest,
+  DescribeExportConfigurationsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeExportConfigurationsRequest,
   ) => stream.Stream<
@@ -2166,19 +2151,17 @@ export const describeExportConfigurations: {
  * Retrieve status of one or more export tasks. You can retrieve the status of up to 100
  * export tasks.
  */
-export const describeExportTasks: {
-  (
-    input: DescribeExportTasksRequest,
-  ): effect.Effect<
-    DescribeExportTasksResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ServerInternalErrorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeExportTasks: API.OperationMethod<
+  DescribeExportTasksRequest,
+  DescribeExportTasksResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeExportTasksRequest,
   ) => stream.Stream<
@@ -2224,19 +2207,17 @@ export const describeExportTasks: {
  * Returns an array of import tasks for your account, including status information, times,
  * IDs, the Amazon S3 Object URL for the import file, and more.
  */
-export const describeImportTasks: {
-  (
-    input: DescribeImportTasksRequest,
-  ): effect.Effect<
-    DescribeImportTasksResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ServerInternalErrorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeImportTasks: API.OperationMethod<
+  DescribeImportTasksRequest,
+  DescribeImportTasksResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ServerInternalErrorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImportTasksRequest,
   ) => stream.Stream<
@@ -2293,20 +2274,18 @@ export const describeImportTasks: {
  * Also, all configuration items associated with your user that have tags can be
  * listed if you call `DescribeTags` as is without passing any parameters.
  */
-export const describeTags: {
-  (
-    input: DescribeTagsRequest,
-  ): effect.Effect<
-    DescribeTagsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTags: API.OperationMethod<
+  DescribeTagsRequest,
+  DescribeTagsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTagsRequest,
   ) => stream.Stream<
@@ -2354,9 +2333,8 @@ export const describeTags: {
 /**
  * Disassociates one or more configuration items from an application.
  */
-export const disassociateConfigurationItemsFromApplication: (
-  input: DisassociateConfigurationItemsFromApplicationRequest,
-) => effect.Effect<
+export const disassociateConfigurationItemsFromApplication: API.OperationMethod<
+  DisassociateConfigurationItemsFromApplicationRequest,
   DisassociateConfigurationItemsFromApplicationResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2385,9 +2363,8 @@ export const disassociateConfigurationItemsFromApplication: (
  * using the *DescribeExportConfigurations* API. The system imposes a limit of
  * two configuration exports in six hours.
  */
-export const exportConfigurations: (
-  input: ExportConfigurationsRequest,
-) => effect.Effect<
+export const exportConfigurations: API.OperationMethod<
+  ExportConfigurationsRequest,
   ExportConfigurationsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2415,9 +2392,8 @@ export const exportConfigurations: (
  * This API operation takes no request parameters and is called as is at the command
  * prompt as shown in the example.
  */
-export const getDiscoverySummary: (
-  input: GetDiscoverySummaryRequest,
-) => effect.Effect<
+export const getDiscoverySummary: API.OperationMethod<
+  GetDiscoverySummaryRequest,
   GetDiscoverySummaryResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2442,20 +2418,18 @@ export const getDiscoverySummary: (
  * required parameter `configurationType`. Optional filtering may be applied to refine
  * search results.
  */
-export const listConfigurations: {
-  (
-    input: ListConfigurationsRequest,
-  ): effect.Effect<
-    ListConfigurationsResponse,
-    | AuthorizationErrorException
-    | HomeRegionNotSetException
-    | InvalidParameterException
-    | InvalidParameterValueException
-    | ResourceNotFoundException
-    | ServerInternalErrorException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConfigurations: API.OperationMethod<
+  ListConfigurationsRequest,
+  ListConfigurationsResponse,
+  | AuthorizationErrorException
+  | HomeRegionNotSetException
+  | InvalidParameterException
+  | InvalidParameterValueException
+  | ResourceNotFoundException
+  | ServerInternalErrorException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationsRequest,
   ) => stream.Stream<
@@ -2504,9 +2478,8 @@ export const listConfigurations: {
  * Retrieves a list of servers that are one network hop away from a specified
  * server.
  */
-export const listServerNeighbors: (
-  input: ListServerNeighborsRequest,
-) => effect.Effect<
+export const listServerNeighbors: API.OperationMethod<
+  ListServerNeighborsRequest,
   ListServerNeighborsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2530,9 +2503,8 @@ export const listServerNeighbors: (
  * Takes a list of configurationId as input and starts an asynchronous deletion
  * task to remove the configurationItems. Returns a unique deletion task identifier.
  */
-export const startBatchDeleteConfigurationTask: (
-  input: StartBatchDeleteConfigurationTaskRequest,
-) => effect.Effect<
+export const startBatchDeleteConfigurationTask: API.OperationMethod<
+  StartBatchDeleteConfigurationTaskRequest,
   StartBatchDeleteConfigurationTaskResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2559,9 +2531,8 @@ export const startBatchDeleteConfigurationTask: (
 /**
  * Start the continuous flow of agent's discovered data into Amazon Athena.
  */
-export const startContinuousExport: (
-  input: StartContinuousExportRequest,
-) => effect.Effect<
+export const startContinuousExport: API.OperationMethod<
+  StartContinuousExportRequest,
   StartContinuousExportResponse,
   | AuthorizationErrorException
   | ConflictErrorException
@@ -2590,9 +2561,8 @@ export const startContinuousExport: (
 /**
  * Instructs the specified agents to start collecting data.
  */
-export const startDataCollectionByAgentIds: (
-  input: StartDataCollectionByAgentIdsRequest,
-) => effect.Effect<
+export const startDataCollectionByAgentIds: API.OperationMethod<
+  StartDataCollectionByAgentIdsRequest,
   StartDataCollectionByAgentIdsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2638,9 +2608,8 @@ export const startDataCollectionByAgentIds: (
  * Changing the attributes of the `ec2RecommendationsPreferences` changes the
  * criteria of the recommendation.
  */
-export const startExportTask: (
-  input: StartExportTaskRequest,
-) => effect.Effect<
+export const startExportTask: API.OperationMethod<
+  StartExportTaskRequest,
   StartExportTaskResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2692,9 +2661,8 @@ export const startExportTask: (
  * Discovery Service Limits in the Amazon Web Services Application Discovery Service User
  * Guide.
  */
-export const startImportTask: (
-  input: StartImportTaskRequest,
-) => effect.Effect<
+export const startImportTask: API.OperationMethod<
+  StartImportTaskRequest,
   StartImportTaskResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2719,9 +2687,8 @@ export const startImportTask: (
 /**
  * Stop the continuous flow of agent's discovered data into Amazon Athena.
  */
-export const stopContinuousExport: (
-  input: StopContinuousExportRequest,
-) => effect.Effect<
+export const stopContinuousExport: API.OperationMethod<
+  StopContinuousExportRequest,
   StopContinuousExportResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2750,9 +2717,8 @@ export const stopContinuousExport: (
 /**
  * Instructs the specified agents to stop collecting data.
  */
-export const stopDataCollectionByAgentIds: (
-  input: StopDataCollectionByAgentIdsRequest,
-) => effect.Effect<
+export const stopDataCollectionByAgentIds: API.OperationMethod<
+  StopDataCollectionByAgentIdsRequest,
   StopDataCollectionByAgentIdsResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException
@@ -2775,9 +2741,8 @@ export const stopDataCollectionByAgentIds: (
 /**
  * Updates metadata about an application.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | AuthorizationErrorException
   | HomeRegionNotSetException

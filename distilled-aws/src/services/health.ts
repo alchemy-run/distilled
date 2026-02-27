@@ -1082,14 +1082,12 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeAffectedAccountsForOrganization: {
-  (
-    input: DescribeAffectedAccountsForOrganizationRequest,
-  ): effect.Effect<
-    DescribeAffectedAccountsForOrganizationResponse,
-    InvalidPaginationToken | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeAffectedAccountsForOrganization: API.OperationMethod<
+  DescribeAffectedAccountsForOrganizationRequest,
+  DescribeAffectedAccountsForOrganizationResponse,
+  InvalidPaginationToken | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAffectedAccountsForOrganizationRequest,
   ) => stream.Stream<
@@ -1129,14 +1127,12 @@ export const describeAffectedAccountsForOrganization: {
  * - This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
-export const describeAffectedEntities: {
-  (
-    input: DescribeAffectedEntitiesRequest,
-  ): effect.Effect<
-    DescribeAffectedEntitiesResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeAffectedEntities: API.OperationMethod<
+  DescribeAffectedEntitiesRequest,
+  DescribeAffectedEntitiesResponse,
+  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAffectedEntitiesRequest,
   ) => stream.Stream<
@@ -1179,14 +1175,12 @@ export const describeAffectedEntities: {
  * - This operation doesn't support resource-level permissions. You can't use this operation to allow or deny access to specific Health events. For more
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
-export const describeAffectedEntitiesForOrganization: {
-  (
-    input: DescribeAffectedEntitiesForOrganizationRequest,
-  ): effect.Effect<
-    DescribeAffectedEntitiesForOrganizationResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeAffectedEntitiesForOrganization: API.OperationMethod<
+  DescribeAffectedEntitiesForOrganizationRequest,
+  DescribeAffectedEntitiesForOrganizationResponse,
+  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAffectedEntitiesForOrganizationRequest,
   ) => stream.Stream<
@@ -1215,9 +1209,8 @@ export const describeAffectedEntitiesForOrganization: {
 /**
  * Returns the number of entities that are affected by each of the specified events.
  */
-export const describeEntityAggregates: (
-  input: DescribeEntityAggregatesRequest,
-) => effect.Effect<
+export const describeEntityAggregates: API.OperationMethod<
+  DescribeEntityAggregatesRequest,
   DescribeEntityAggregatesResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1229,9 +1222,8 @@ export const describeEntityAggregates: (
 /**
  * Returns a list of entity aggregates for your Organizations that are affected by each of the specified events.
  */
-export const describeEntityAggregatesForOrganization: (
-  input: DescribeEntityAggregatesForOrganizationRequest,
-) => effect.Effect<
+export const describeEntityAggregatesForOrganization: API.OperationMethod<
+  DescribeEntityAggregatesForOrganizationRequest,
   DescribeEntityAggregatesForOrganizationResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1247,14 +1239,12 @@ export const describeEntityAggregatesForOrganization: (
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeEventAggregates: {
-  (
-    input: DescribeEventAggregatesRequest,
-  ): effect.Effect<
-    DescribeEventAggregatesResponse,
-    InvalidPaginationToken | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeEventAggregates: API.OperationMethod<
+  DescribeEventAggregatesRequest,
+  DescribeEventAggregatesResponse,
+  InvalidPaginationToken | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventAggregatesRequest,
   ) => stream.Stream<
@@ -1292,9 +1282,8 @@ export const describeEventAggregates: {
  * This operation supports resource-level permissions. You can use this operation to allow or deny access to specific Health events. For more
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
-export const describeEventDetails: (
-  input: DescribeEventDetailsRequest,
-) => effect.Effect<
+export const describeEventDetails: API.OperationMethod<
+  DescribeEventDetailsRequest,
   DescribeEventDetailsResponse,
   UnsupportedLocale | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1333,9 +1322,8 @@ export const describeEventDetails: (
  * This operation doesn't support resource-level permissions. You can't use this operation to allow or deny access to specific Health events. For more
  * information, see Resource- and action-based conditions in the *Health User Guide*.
  */
-export const describeEventDetailsForOrganization: (
-  input: DescribeEventDetailsForOrganizationRequest,
-) => effect.Effect<
+export const describeEventDetailsForOrganization: API.OperationMethod<
+  DescribeEventDetailsForOrganizationRequest,
   DescribeEventDetailsForOrganizationResponse,
   UnsupportedLocale | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1364,14 +1352,12 @@ export const describeEventDetailsForOrganization: (
  *
  * - This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsRequest,
-  ): effect.Effect<
-    DescribeEventsResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsRequest,
+  DescribeEventsResponse,
+  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsRequest,
   ) => stream.Stream<
@@ -1422,14 +1408,12 @@ export const describeEvents: {
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeEventsForOrganization: {
-  (
-    input: DescribeEventsForOrganizationRequest,
-  ): effect.Effect<
-    DescribeEventsForOrganizationResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeEventsForOrganization: API.OperationMethod<
+  DescribeEventsForOrganizationRequest,
+  DescribeEventsForOrganizationResponse,
+  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsForOrganizationRequest,
   ) => stream.Stream<
@@ -1464,14 +1448,12 @@ export const describeEventsForOrganization: {
  *
  * This API operation uses pagination. Specify the `nextToken` parameter in the next request to return more results.
  */
-export const describeEventTypes: {
-  (
-    input: DescribeEventTypesRequest,
-  ): effect.Effect<
-    DescribeEventTypesResponse,
-    InvalidPaginationToken | UnsupportedLocale | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describeEventTypes: API.OperationMethod<
+  DescribeEventTypesRequest,
+  DescribeEventTypesResponse,
+  InvalidPaginationToken | UnsupportedLocale | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventTypesRequest,
   ) => stream.Stream<
@@ -1502,9 +1484,8 @@ export const describeEventTypes: {
  * with your organization. To call this operation, you must use the organization's
  * management account.
  */
-export const describeHealthServiceStatusForOrganization: (
-  input: DescribeHealthServiceStatusForOrganizationRequest,
-) => effect.Effect<
+export const describeHealthServiceStatusForOrganization: API.OperationMethod<
+  DescribeHealthServiceStatusForOrganizationRequest,
   DescribeHealthServiceStatusForOrganizationResponse,
   CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1529,9 +1510,8 @@ export const describeHealthServiceStatusForOrganization: (
  * an error. Health continues to aggregate health events for your
  * Amazon Web Services account.
  */
-export const disableHealthServiceAccessForOrganization: (
-  input: DisableHealthServiceAccessForOrganizationRequest,
-) => effect.Effect<
+export const disableHealthServiceAccessForOrganization: API.OperationMethod<
+  DisableHealthServiceAccessForOrganizationRequest,
   DisableHealthServiceAccessForOrganizationResponse,
   ConcurrentModificationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -1562,9 +1542,8 @@ export const disableHealthServiceAccessForOrganization: (
  * to enable the organizational view feature. For more information, see Aggregating
  * Health events in the *Health User Guide*.
  */
-export const enableHealthServiceAccessForOrganization: (
-  input: EnableHealthServiceAccessForOrganizationRequest,
-) => effect.Effect<
+export const enableHealthServiceAccessForOrganization: API.OperationMethod<
+  EnableHealthServiceAccessForOrganizationRequest,
   EnableHealthServiceAccessForOrganizationResponse,
   ConcurrentModificationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient

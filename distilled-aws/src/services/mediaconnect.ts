@@ -8043,18 +8043,16 @@ export class RouterOutputServiceQuotaExceededException extends S.TaggedErrorClas
 /**
  * Displays a list of all entitlements that have been granted to this account. This request returns 20 results per page.
  */
-export const listEntitlements: {
-  (
-    input: ListEntitlementsRequest,
-  ): effect.Effect<
-    ListEntitlementsResponse,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntitlements: API.OperationMethod<
+  ListEntitlementsRequest,
+  ListEntitlementsResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntitlementsRequest,
   ) => stream.Stream<
@@ -8096,9 +8094,8 @@ export const listEntitlements: {
 /**
  * Lists the tags associated with a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
-export const listTagsForGlobalResource: (
-  input: ListTagsForGlobalResourceRequest,
-) => effect.Effect<
+export const listTagsForGlobalResource: API.OperationMethod<
+  ListTagsForGlobalResourceRequest,
   ListTagsForGlobalResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -8117,9 +8114,8 @@ export const listTagsForGlobalResource: (
 /**
  * List all tags on a MediaConnect resource in the current region.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -8138,9 +8134,8 @@ export const listTagsForResource: (
 /**
  * Adds tags to a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
-export const tagGlobalResource: (
-  input: TagGlobalResourceRequest,
-) => effect.Effect<
+export const tagGlobalResource: API.OperationMethod<
+  TagGlobalResourceRequest,
   TagGlobalResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -8159,9 +8154,8 @@ export const tagGlobalResource: (
 /**
  * Associates the specified tags to a resource with the specified `resourceArn` in the current region. If existing tags on a resource are not specified in the request parameters, they are not changed. When a resource is deleted, the tags associated with that resource are deleted as well.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -8180,9 +8174,8 @@ export const tagResource: (
 /**
  * Removes tags from a global resource in AWS Elemental MediaConnect. The API supports the following global resources: router inputs, router outputs and router network interfaces.
  */
-export const untagGlobalResource: (
-  input: UntagGlobalResourceRequest,
-) => effect.Effect<
+export const untagGlobalResource: API.OperationMethod<
+  UntagGlobalResourceRequest,
   UntagGlobalResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -8201,9 +8194,8 @@ export const untagGlobalResource: (
 /**
  * Deletes specified tags from a resource in the current region.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -8222,9 +8214,8 @@ export const untagResource: (
 /**
  * Creates a new bridge. The request must include one source.
  */
-export const createBridge: (
-  input: CreateBridgeRequest,
-) => effect.Effect<
+export const createBridge: API.OperationMethod<
+  CreateBridgeRequest,
   CreateBridgeResponse,
   | BadRequestException
   | ConflictException
@@ -8251,9 +8242,8 @@ export const createBridge: (
 /**
  * Displays the details of a bridge.
  */
-export const describeBridge: (
-  input: DescribeBridgeRequest,
-) => effect.Effect<
+export const describeBridge: API.OperationMethod<
+  DescribeBridgeRequest,
   DescribeBridgeResponse,
   | BadRequestException
   | ConflictException
@@ -8280,9 +8270,8 @@ export const describeBridge: (
 /**
  * Updates the bridge.
  */
-export const updateBridge: (
-  input: UpdateBridgeRequest,
-) => effect.Effect<
+export const updateBridge: API.OperationMethod<
+  UpdateBridgeRequest,
   UpdateBridgeResponse,
   | BadRequestException
   | ConflictException
@@ -8309,9 +8298,8 @@ export const updateBridge: (
 /**
  * Deletes a bridge. Before you can delete a bridge, you must stop the bridge.
  */
-export const deleteBridge: (
-  input: DeleteBridgeRequest,
-) => effect.Effect<
+export const deleteBridge: API.OperationMethod<
+  DeleteBridgeRequest,
   DeleteBridgeResponse,
   | BadRequestException
   | ConflictException
@@ -8338,19 +8326,17 @@ export const deleteBridge: (
 /**
  * Displays a list of bridges that are associated with this account and an optionally specified Amazon Resource Name (ARN). This request returns a paginated result.
  */
-export const listBridges: {
-  (
-    input: ListBridgesRequest,
-  ): effect.Effect<
-    ListBridgesResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBridges: API.OperationMethod<
+  ListBridgesRequest,
+  ListBridgesResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBridgesRequest,
   ) => stream.Stream<
@@ -8395,9 +8381,8 @@ export const listBridges: {
 /**
  * Adds outputs to an existing bridge.
  */
-export const addBridgeOutputs: (
-  input: AddBridgeOutputsRequest,
-) => effect.Effect<
+export const addBridgeOutputs: API.OperationMethod<
+  AddBridgeOutputsRequest,
   AddBridgeOutputsResponse,
   | BadRequestException
   | ConflictException
@@ -8424,9 +8409,8 @@ export const addBridgeOutputs: (
 /**
  * Adds sources to an existing bridge.
  */
-export const addBridgeSources: (
-  input: AddBridgeSourcesRequest,
-) => effect.Effect<
+export const addBridgeSources: API.OperationMethod<
+  AddBridgeSourcesRequest,
   AddBridgeSourcesResponse,
   | BadRequestException
   | ConflictException
@@ -8453,9 +8437,8 @@ export const addBridgeSources: (
 /**
  * Removes an output from a bridge.
  */
-export const removeBridgeOutput: (
-  input: RemoveBridgeOutputRequest,
-) => effect.Effect<
+export const removeBridgeOutput: API.OperationMethod<
+  RemoveBridgeOutputRequest,
   RemoveBridgeOutputResponse,
   | BadRequestException
   | ConflictException
@@ -8482,9 +8465,8 @@ export const removeBridgeOutput: (
 /**
  * Removes a source from a bridge.
  */
-export const removeBridgeSource: (
-  input: RemoveBridgeSourceRequest,
-) => effect.Effect<
+export const removeBridgeSource: API.OperationMethod<
+  RemoveBridgeSourceRequest,
   RemoveBridgeSourceResponse,
   | BadRequestException
   | ConflictException
@@ -8511,9 +8493,8 @@ export const removeBridgeSource: (
 /**
  * Updates an existing bridge output.
  */
-export const updateBridgeOutput: (
-  input: UpdateBridgeOutputRequest,
-) => effect.Effect<
+export const updateBridgeOutput: API.OperationMethod<
+  UpdateBridgeOutputRequest,
   UpdateBridgeOutputResponse,
   | BadRequestException
   | ConflictException
@@ -8540,9 +8521,8 @@ export const updateBridgeOutput: (
 /**
  * Updates an existing bridge source.
  */
-export const updateBridgeSource: (
-  input: UpdateBridgeSourceRequest,
-) => effect.Effect<
+export const updateBridgeSource: API.OperationMethod<
+  UpdateBridgeSourceRequest,
   UpdateBridgeSourceResponse,
   | BadRequestException
   | ConflictException
@@ -8569,9 +8549,8 @@ export const updateBridgeSource: (
 /**
  * Updates the bridge state.
  */
-export const updateBridgeState: (
-  input: UpdateBridgeStateRequest,
-) => effect.Effect<
+export const updateBridgeState: API.OperationMethod<
+  UpdateBridgeStateRequest,
   UpdateBridgeStateResponse,
   | BadRequestException
   | ConflictException
@@ -8598,9 +8577,8 @@ export const updateBridgeState: (
 /**
  * Creates a new flow. The request must include one source. The request optionally can include outputs (up to 50) and entitlements (up to 50).
  */
-export const createFlow: (
-  input: CreateFlowRequest,
-) => effect.Effect<
+export const createFlow: API.OperationMethod<
+  CreateFlowRequest,
   CreateFlowResponse,
   | BadRequestException
   | CreateFlow420Exception
@@ -8625,9 +8603,8 @@ export const createFlow: (
 /**
  * Displays the details of a flow. The response includes the flow Amazon Resource Name (ARN), name, and Availability Zone, as well as details about the source, outputs, and entitlements.
  */
-export const describeFlow: (
-  input: DescribeFlowRequest,
-) => effect.Effect<
+export const describeFlow: API.OperationMethod<
+  DescribeFlowRequest,
   DescribeFlowResponse,
   | BadRequestException
   | ForbiddenException
@@ -8666,9 +8643,8 @@ export const describeFlow: (
  *
  * - After that, you can then use the `UpdateFlow` operation to downgrade the flow size to `MEDIUM`.
  */
-export const updateFlow: (
-  input: UpdateFlowRequest,
-) => effect.Effect<
+export const updateFlow: API.OperationMethod<
+  UpdateFlowRequest,
   UpdateFlowResponse,
   | BadRequestException
   | ForbiddenException
@@ -8693,9 +8669,8 @@ export const updateFlow: (
 /**
  * Deletes a flow. Before you can delete a flow, you must stop the flow.
  */
-export const deleteFlow: (
-  input: DeleteFlowRequest,
-) => effect.Effect<
+export const deleteFlow: API.OperationMethod<
+  DeleteFlowRequest,
   DeleteFlowResponse,
   | BadRequestException
   | ForbiddenException
@@ -8720,18 +8695,16 @@ export const deleteFlow: (
 /**
  * Displays a list of flows that are associated with this account. This request returns a paginated result.
  */
-export const listFlows: {
-  (
-    input: ListFlowsRequest,
-  ): effect.Effect<
-    ListFlowsResponse,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFlows: API.OperationMethod<
+  ListFlowsRequest,
+  ListFlowsResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFlowsRequest,
   ) => stream.Stream<
@@ -8773,9 +8746,8 @@ export const listFlows: {
 /**
  * Adds media streams to an existing flow. After you add a media stream to a flow, you can associate it with a source and/or an output that uses the ST 2110 JPEG XS or CDI protocol.
  */
-export const addFlowMediaStreams: (
-  input: AddFlowMediaStreamsRequest,
-) => effect.Effect<
+export const addFlowMediaStreams: API.OperationMethod<
+  AddFlowMediaStreamsRequest,
   AddFlowMediaStreamsResponse,
   | BadRequestException
   | ForbiddenException
@@ -8800,9 +8772,8 @@ export const addFlowMediaStreams: (
 /**
  * Adds outputs to an existing flow. You can create up to 50 outputs per flow.
  */
-export const addFlowOutputs: (
-  input: AddFlowOutputsRequest,
-) => effect.Effect<
+export const addFlowOutputs: API.OperationMethod<
+  AddFlowOutputsRequest,
   AddFlowOutputsResponse,
   | AddFlowOutputs420Exception
   | BadRequestException
@@ -8829,9 +8800,8 @@ export const addFlowOutputs: (
 /**
  * Adds sources to a flow.
  */
-export const addFlowSources: (
-  input: AddFlowSourcesRequest,
-) => effect.Effect<
+export const addFlowSources: API.OperationMethod<
+  AddFlowSourcesRequest,
   AddFlowSourcesResponse,
   | BadRequestException
   | ForbiddenException
@@ -8856,9 +8826,8 @@ export const addFlowSources: (
 /**
  * Adds VPC interfaces to a flow.
  */
-export const addFlowVpcInterfaces: (
-  input: AddFlowVpcInterfacesRequest,
-) => effect.Effect<
+export const addFlowVpcInterfaces: API.OperationMethod<
+  AddFlowVpcInterfacesRequest,
   AddFlowVpcInterfacesResponse,
   | BadRequestException
   | ForbiddenException
@@ -8883,9 +8852,8 @@ export const addFlowVpcInterfaces: (
 /**
  * The `DescribeFlowSourceMetadata` API is used to view information about the flow's source transport stream and programs. This API displays status messages about the flow's source as well as details about the program's video, audio, and other data.
  */
-export const describeFlowSourceMetadata: (
-  input: DescribeFlowSourceMetadataRequest,
-) => effect.Effect<
+export const describeFlowSourceMetadata: API.OperationMethod<
+  DescribeFlowSourceMetadataRequest,
   DescribeFlowSourceMetadataResponse,
   | BadRequestException
   | ForbiddenException
@@ -8910,9 +8878,8 @@ export const describeFlowSourceMetadata: (
 /**
  * Describes the thumbnail for the flow source.
  */
-export const describeFlowSourceThumbnail: (
-  input: DescribeFlowSourceThumbnailRequest,
-) => effect.Effect<
+export const describeFlowSourceThumbnail: API.OperationMethod<
+  DescribeFlowSourceThumbnailRequest,
   DescribeFlowSourceThumbnailResponse,
   | BadRequestException
   | ForbiddenException
@@ -8937,9 +8904,8 @@ export const describeFlowSourceThumbnail: (
 /**
  * Grants entitlements to an existing flow.
  */
-export const grantFlowEntitlements: (
-  input: GrantFlowEntitlementsRequest,
-) => effect.Effect<
+export const grantFlowEntitlements: API.OperationMethod<
+  GrantFlowEntitlementsRequest,
   GrantFlowEntitlementsResponse,
   | BadRequestException
   | ForbiddenException
@@ -8966,9 +8932,8 @@ export const grantFlowEntitlements: (
 /**
  * Removes a media stream from a flow. This action is only available if the media stream is not associated with a source or output.
  */
-export const removeFlowMediaStream: (
-  input: RemoveFlowMediaStreamRequest,
-) => effect.Effect<
+export const removeFlowMediaStream: API.OperationMethod<
+  RemoveFlowMediaStreamRequest,
   RemoveFlowMediaStreamResponse,
   | BadRequestException
   | ForbiddenException
@@ -8993,9 +8958,8 @@ export const removeFlowMediaStream: (
 /**
  * Removes an output from an existing flow. This request can be made only on an output that does not have an entitlement associated with it. If the output has an entitlement, you must revoke the entitlement instead. When an entitlement is revoked from a flow, the service automatically removes the associated output.
  */
-export const removeFlowOutput: (
-  input: RemoveFlowOutputRequest,
-) => effect.Effect<
+export const removeFlowOutput: API.OperationMethod<
+  RemoveFlowOutputRequest,
   RemoveFlowOutputResponse,
   | BadRequestException
   | ForbiddenException
@@ -9020,9 +8984,8 @@ export const removeFlowOutput: (
 /**
  * Removes a source from an existing flow. This request can be made only if there is more than one source on the flow.
  */
-export const removeFlowSource: (
-  input: RemoveFlowSourceRequest,
-) => effect.Effect<
+export const removeFlowSource: API.OperationMethod<
+  RemoveFlowSourceRequest,
   RemoveFlowSourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -9047,9 +9010,8 @@ export const removeFlowSource: (
 /**
  * Removes a VPC Interface from an existing flow. This request can be made only on a VPC interface that does not have a Source or Output associated with it. If the VPC interface is referenced by a Source or Output, you must first delete or update the Source or Output to no longer reference the VPC interface.
  */
-export const removeFlowVpcInterface: (
-  input: RemoveFlowVpcInterfaceRequest,
-) => effect.Effect<
+export const removeFlowVpcInterface: API.OperationMethod<
+  RemoveFlowVpcInterfaceRequest,
   RemoveFlowVpcInterfaceResponse,
   | BadRequestException
   | ForbiddenException
@@ -9074,9 +9036,8 @@ export const removeFlowVpcInterface: (
 /**
  * Revokes an entitlement from a flow. Once an entitlement is revoked, the content becomes unavailable to the subscriber and the associated output is removed.
  */
-export const revokeFlowEntitlement: (
-  input: RevokeFlowEntitlementRequest,
-) => effect.Effect<
+export const revokeFlowEntitlement: API.OperationMethod<
+  RevokeFlowEntitlementRequest,
   RevokeFlowEntitlementResponse,
   | BadRequestException
   | ForbiddenException
@@ -9101,9 +9062,8 @@ export const revokeFlowEntitlement: (
 /**
  * Starts a flow.
  */
-export const startFlow: (
-  input: StartFlowRequest,
-) => effect.Effect<
+export const startFlow: API.OperationMethod<
+  StartFlowRequest,
   StartFlowResponse,
   | BadRequestException
   | ForbiddenException
@@ -9128,9 +9088,8 @@ export const startFlow: (
 /**
  * Stops a flow.
  */
-export const stopFlow: (
-  input: StopFlowRequest,
-) => effect.Effect<
+export const stopFlow: API.OperationMethod<
+  StopFlowRequest,
   StopFlowResponse,
   | BadRequestException
   | ForbiddenException
@@ -9155,9 +9114,8 @@ export const stopFlow: (
 /**
  * Updates an entitlement. You can change an entitlement's description, subscribers, and encryption. If you change the subscribers, the service will remove the outputs that are are used by the subscribers that are removed.
  */
-export const updateFlowEntitlement: (
-  input: UpdateFlowEntitlementRequest,
-) => effect.Effect<
+export const updateFlowEntitlement: API.OperationMethod<
+  UpdateFlowEntitlementRequest,
   UpdateFlowEntitlementResponse,
   | BadRequestException
   | ForbiddenException
@@ -9182,9 +9140,8 @@ export const updateFlowEntitlement: (
 /**
  * Updates an existing media stream.
  */
-export const updateFlowMediaStream: (
-  input: UpdateFlowMediaStreamRequest,
-) => effect.Effect<
+export const updateFlowMediaStream: API.OperationMethod<
+  UpdateFlowMediaStreamRequest,
   UpdateFlowMediaStreamResponse,
   | BadRequestException
   | ForbiddenException
@@ -9209,9 +9166,8 @@ export const updateFlowMediaStream: (
 /**
  * Updates an existing flow output.
  */
-export const updateFlowOutput: (
-  input: UpdateFlowOutputRequest,
-) => effect.Effect<
+export const updateFlowOutput: API.OperationMethod<
+  UpdateFlowOutputRequest,
   UpdateFlowOutputResponse,
   | BadRequestException
   | ForbiddenException
@@ -9250,9 +9206,8 @@ export const updateFlowOutput: (
  *
  * - After that, you can then use the `UpdateFlow` operation to downgrade the flow size to `MEDIUM`.
  */
-export const updateFlowSource: (
-  input: UpdateFlowSourceRequest,
-) => effect.Effect<
+export const updateFlowSource: API.OperationMethod<
+  UpdateFlowSourceRequest,
   UpdateFlowSourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -9277,9 +9232,8 @@ export const updateFlowSource: (
 /**
  * Displays the details of an instance.
  */
-export const describeGatewayInstance: (
-  input: DescribeGatewayInstanceRequest,
-) => effect.Effect<
+export const describeGatewayInstance: API.OperationMethod<
+  DescribeGatewayInstanceRequest,
   DescribeGatewayInstanceResponse,
   | BadRequestException
   | ConflictException
@@ -9306,9 +9260,8 @@ export const describeGatewayInstance: (
 /**
  * Updates an existing gateway instance.
  */
-export const updateGatewayInstance: (
-  input: UpdateGatewayInstanceRequest,
-) => effect.Effect<
+export const updateGatewayInstance: API.OperationMethod<
+  UpdateGatewayInstanceRequest,
   UpdateGatewayInstanceResponse,
   | BadRequestException
   | ConflictException
@@ -9335,9 +9288,8 @@ export const updateGatewayInstance: (
 /**
  * Deregisters an instance. Before you deregister an instance, all bridges running on the instance must be stopped. If you want to deregister an instance without stopping the bridges, you must use the --force option.
  */
-export const deregisterGatewayInstance: (
-  input: DeregisterGatewayInstanceRequest,
-) => effect.Effect<
+export const deregisterGatewayInstance: API.OperationMethod<
+  DeregisterGatewayInstanceRequest,
   DeregisterGatewayInstanceResponse,
   | BadRequestException
   | ConflictException
@@ -9364,19 +9316,17 @@ export const deregisterGatewayInstance: (
 /**
  * Displays a list of instances associated with the Amazon Web Services account. This request returns a paginated result. You can use the filterArn property to display only the instances associated with the selected Gateway Amazon Resource Name (ARN).
  */
-export const listGatewayInstances: {
-  (
-    input: ListGatewayInstancesRequest,
-  ): effect.Effect<
-    ListGatewayInstancesResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGatewayInstances: API.OperationMethod<
+  ListGatewayInstancesRequest,
+  ListGatewayInstancesResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGatewayInstancesRequest,
   ) => stream.Stream<
@@ -9421,9 +9371,8 @@ export const listGatewayInstances: {
 /**
  * Creates a new gateway. The request must include at least one network (up to four).
  */
-export const createGateway: (
-  input: CreateGatewayRequest,
-) => effect.Effect<
+export const createGateway: API.OperationMethod<
+  CreateGatewayRequest,
   CreateGatewayResponse,
   | BadRequestException
   | ConflictException
@@ -9450,9 +9399,8 @@ export const createGateway: (
 /**
  * Displays the details of a gateway. The response includes the gateway Amazon Resource Name (ARN), name, and CIDR blocks, as well as details about the networks.
  */
-export const describeGateway: (
-  input: DescribeGatewayRequest,
-) => effect.Effect<
+export const describeGateway: API.OperationMethod<
+  DescribeGatewayRequest,
   DescribeGatewayResponse,
   | BadRequestException
   | ConflictException
@@ -9479,9 +9427,8 @@ export const describeGateway: (
 /**
  * Deletes a gateway. Before you can delete a gateway, you must deregister its instances and delete its bridges.
  */
-export const deleteGateway: (
-  input: DeleteGatewayRequest,
-) => effect.Effect<
+export const deleteGateway: API.OperationMethod<
+  DeleteGatewayRequest,
   DeleteGatewayResponse,
   | BadRequestException
   | ConflictException
@@ -9508,19 +9455,17 @@ export const deleteGateway: (
 /**
  * Displays a list of gateways that are associated with this account. This request returns a paginated result.
  */
-export const listGateways: {
-  (
-    input: ListGatewaysRequest,
-  ): effect.Effect<
-    ListGatewaysResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGateways: API.OperationMethod<
+  ListGatewaysRequest,
+  ListGatewaysResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGatewaysRequest,
   ) => stream.Stream<
@@ -9565,9 +9510,8 @@ export const listGateways: {
 /**
  * Displays the details of an offering. The response includes the offering description, duration, outbound bandwidth, price, and Amazon Resource Name (ARN).
  */
-export const describeOffering: (
-  input: DescribeOfferingRequest,
-) => effect.Effect<
+export const describeOffering: API.OperationMethod<
+  DescribeOfferingRequest,
   DescribeOfferingResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -9590,18 +9534,16 @@ export const describeOffering: (
 /**
  * Displays a list of all offerings that are available to this account in the current Amazon Web Services Region. If you have an active reservation (which means you've purchased an offering that has already started and hasn't expired yet), your account isn't eligible for other offerings.
  */
-export const listOfferings: {
-  (
-    input: ListOfferingsRequest,
-  ): effect.Effect<
-    ListOfferingsResponse,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOfferings: API.OperationMethod<
+  ListOfferingsRequest,
+  ListOfferingsResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOfferingsRequest,
   ) => stream.Stream<
@@ -9643,9 +9585,8 @@ export const listOfferings: {
 /**
  * Submits a request to purchase an offering. If you already have an active reservation, you can't purchase another offering.
  */
-export const purchaseOffering: (
-  input: PurchaseOfferingRequest,
-) => effect.Effect<
+export const purchaseOffering: API.OperationMethod<
+  PurchaseOfferingRequest,
   PurchaseOfferingResponse,
   | BadRequestException
   | ForbiddenException
@@ -9670,9 +9611,8 @@ export const purchaseOffering: (
 /**
  * Displays the details of a reservation. The response includes the reservation name, state, start date and time, and the details of the offering that make up the rest of the reservation (such as price, duration, and outbound bandwidth).
  */
-export const describeReservation: (
-  input: DescribeReservationRequest,
-) => effect.Effect<
+export const describeReservation: API.OperationMethod<
+  DescribeReservationRequest,
   DescribeReservationResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -9695,18 +9635,16 @@ export const describeReservation: (
 /**
  * Displays a list of all reservations that have been purchased by this account in the current Amazon Web Services Region. This list includes all reservations in all states (such as active and expired).
  */
-export const listReservations: {
-  (
-    input: ListReservationsRequest,
-  ): effect.Effect<
-    ListReservationsResponse,
-    | BadRequestException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReservations: API.OperationMethod<
+  ListReservationsRequest,
+  ListReservationsResponse,
+  | BadRequestException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReservationsRequest,
   ) => stream.Stream<
@@ -9748,9 +9686,8 @@ export const listReservations: {
 /**
  * Creates a new router input in AWS Elemental MediaConnect.
  */
-export const createRouterInput: (
-  input: CreateRouterInputRequest,
-) => effect.Effect<
+export const createRouterInput: API.OperationMethod<
+  CreateRouterInputRequest,
   CreateRouterInputResponse,
   | BadRequestException
   | ConflictException
@@ -9777,9 +9714,8 @@ export const createRouterInput: (
 /**
  * Retrieves information about a specific router input in AWS Elemental MediaConnect.
  */
-export const getRouterInput: (
-  input: GetRouterInputRequest,
-) => effect.Effect<
+export const getRouterInput: API.OperationMethod<
+  GetRouterInputRequest,
   GetRouterInputResponse,
   | BadRequestException
   | ConflictException
@@ -9806,9 +9742,8 @@ export const getRouterInput: (
 /**
  * Updates the configuration of an existing router input in AWS Elemental MediaConnect.
  */
-export const updateRouterInput: (
-  input: UpdateRouterInputRequest,
-) => effect.Effect<
+export const updateRouterInput: API.OperationMethod<
+  UpdateRouterInputRequest,
   UpdateRouterInputResponse,
   | BadRequestException
   | ConflictException
@@ -9835,9 +9770,8 @@ export const updateRouterInput: (
 /**
  * Deletes a router input from AWS Elemental MediaConnect.
  */
-export const deleteRouterInput: (
-  input: DeleteRouterInputRequest,
-) => effect.Effect<
+export const deleteRouterInput: API.OperationMethod<
+  DeleteRouterInputRequest,
   DeleteRouterInputResponse,
   | BadRequestException
   | ConflictException
@@ -9864,19 +9798,17 @@ export const deleteRouterInput: (
 /**
  * Retrieves a list of router inputs in AWS Elemental MediaConnect.
  */
-export const listRouterInputs: {
-  (
-    input: ListRouterInputsRequest,
-  ): effect.Effect<
-    ListRouterInputsResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRouterInputs: API.OperationMethod<
+  ListRouterInputsRequest,
+  ListRouterInputsResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRouterInputsRequest,
   ) => stream.Stream<
@@ -9921,9 +9853,8 @@ export const listRouterInputs: {
 /**
  * Retrieves detailed metadata information about a specific router input source, including stream details and connection state.
  */
-export const getRouterInputSourceMetadata: (
-  input: GetRouterInputSourceMetadataRequest,
-) => effect.Effect<
+export const getRouterInputSourceMetadata: API.OperationMethod<
+  GetRouterInputSourceMetadataRequest,
   GetRouterInputSourceMetadataResponse,
   | BadRequestException
   | ForbiddenException
@@ -9948,9 +9879,8 @@ export const getRouterInputSourceMetadata: (
 /**
  * Retrieves the thumbnail for a router input in AWS Elemental MediaConnect.
  */
-export const getRouterInputThumbnail: (
-  input: GetRouterInputThumbnailRequest,
-) => effect.Effect<
+export const getRouterInputThumbnail: API.OperationMethod<
+  GetRouterInputThumbnailRequest,
   GetRouterInputThumbnailResponse,
   | BadRequestException
   | ForbiddenException
@@ -9975,9 +9905,8 @@ export const getRouterInputThumbnail: (
 /**
  * Restarts a router input. This operation can be used to recover from errors or refresh the input state.
  */
-export const restartRouterInput: (
-  input: RestartRouterInputRequest,
-) => effect.Effect<
+export const restartRouterInput: API.OperationMethod<
+  RestartRouterInputRequest,
   RestartRouterInputResponse,
   | BadRequestException
   | ConflictException
@@ -10004,9 +9933,8 @@ export const restartRouterInput: (
 /**
  * Starts a router input in AWS Elemental MediaConnect.
  */
-export const startRouterInput: (
-  input: StartRouterInputRequest,
-) => effect.Effect<
+export const startRouterInput: API.OperationMethod<
+  StartRouterInputRequest,
   StartRouterInputResponse,
   | BadRequestException
   | ConflictException
@@ -10033,9 +9961,8 @@ export const startRouterInput: (
 /**
  * Stops a router input in AWS Elemental MediaConnect.
  */
-export const stopRouterInput: (
-  input: StopRouterInputRequest,
-) => effect.Effect<
+export const stopRouterInput: API.OperationMethod<
+  StopRouterInputRequest,
   StopRouterInputResponse,
   | BadRequestException
   | ConflictException
@@ -10062,9 +9989,8 @@ export const stopRouterInput: (
 /**
  * Retrieves information about multiple router inputs in AWS Elemental MediaConnect.
  */
-export const batchGetRouterInput: (
-  input: BatchGetRouterInputRequest,
-) => effect.Effect<
+export const batchGetRouterInput: API.OperationMethod<
+  BatchGetRouterInputRequest,
   BatchGetRouterInputResponse,
   | BadRequestException
   | ConflictException
@@ -10087,9 +10013,8 @@ export const batchGetRouterInput: (
 /**
  * Creates a new router network interface in AWS Elemental MediaConnect.
  */
-export const createRouterNetworkInterface: (
-  input: CreateRouterNetworkInterfaceRequest,
-) => effect.Effect<
+export const createRouterNetworkInterface: API.OperationMethod<
+  CreateRouterNetworkInterfaceRequest,
   CreateRouterNetworkInterfaceResponse,
   | BadRequestException
   | ConflictException
@@ -10116,9 +10041,8 @@ export const createRouterNetworkInterface: (
 /**
  * Retrieves information about a specific router network interface in AWS Elemental MediaConnect.
  */
-export const getRouterNetworkInterface: (
-  input: GetRouterNetworkInterfaceRequest,
-) => effect.Effect<
+export const getRouterNetworkInterface: API.OperationMethod<
+  GetRouterNetworkInterfaceRequest,
   GetRouterNetworkInterfaceResponse,
   | BadRequestException
   | ConflictException
@@ -10145,9 +10069,8 @@ export const getRouterNetworkInterface: (
 /**
  * Updates the configuration of an existing router network interface in AWS Elemental MediaConnect.
  */
-export const updateRouterNetworkInterface: (
-  input: UpdateRouterNetworkInterfaceRequest,
-) => effect.Effect<
+export const updateRouterNetworkInterface: API.OperationMethod<
+  UpdateRouterNetworkInterfaceRequest,
   UpdateRouterNetworkInterfaceResponse,
   | BadRequestException
   | ConflictException
@@ -10172,9 +10095,8 @@ export const updateRouterNetworkInterface: (
 /**
  * Deletes a router network interface from AWS Elemental MediaConnect.
  */
-export const deleteRouterNetworkInterface: (
-  input: DeleteRouterNetworkInterfaceRequest,
-) => effect.Effect<
+export const deleteRouterNetworkInterface: API.OperationMethod<
+  DeleteRouterNetworkInterfaceRequest,
   DeleteRouterNetworkInterfaceResponse,
   | BadRequestException
   | ConflictException
@@ -10201,19 +10123,17 @@ export const deleteRouterNetworkInterface: (
 /**
  * Retrieves a list of router network interfaces in AWS Elemental MediaConnect.
  */
-export const listRouterNetworkInterfaces: {
-  (
-    input: ListRouterNetworkInterfacesRequest,
-  ): effect.Effect<
-    ListRouterNetworkInterfacesResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRouterNetworkInterfaces: API.OperationMethod<
+  ListRouterNetworkInterfacesRequest,
+  ListRouterNetworkInterfacesResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRouterNetworkInterfacesRequest,
   ) => stream.Stream<
@@ -10258,9 +10178,8 @@ export const listRouterNetworkInterfaces: {
 /**
  * Retrieves information about multiple router network interfaces in AWS Elemental MediaConnect.
  */
-export const batchGetRouterNetworkInterface: (
-  input: BatchGetRouterNetworkInterfaceRequest,
-) => effect.Effect<
+export const batchGetRouterNetworkInterface: API.OperationMethod<
+  BatchGetRouterNetworkInterfaceRequest,
   BatchGetRouterNetworkInterfaceResponse,
   | BadRequestException
   | ConflictException
@@ -10283,9 +10202,8 @@ export const batchGetRouterNetworkInterface: (
 /**
  * Creates a new router output in AWS Elemental MediaConnect.
  */
-export const createRouterOutput: (
-  input: CreateRouterOutputRequest,
-) => effect.Effect<
+export const createRouterOutput: API.OperationMethod<
+  CreateRouterOutputRequest,
   CreateRouterOutputResponse,
   | BadRequestException
   | ConflictException
@@ -10312,9 +10230,8 @@ export const createRouterOutput: (
 /**
  * Retrieves information about a specific router output in AWS Elemental MediaConnect.
  */
-export const getRouterOutput: (
-  input: GetRouterOutputRequest,
-) => effect.Effect<
+export const getRouterOutput: API.OperationMethod<
+  GetRouterOutputRequest,
   GetRouterOutputResponse,
   | BadRequestException
   | ConflictException
@@ -10341,9 +10258,8 @@ export const getRouterOutput: (
 /**
  * Updates the configuration of an existing router output in AWS Elemental MediaConnect.
  */
-export const updateRouterOutput: (
-  input: UpdateRouterOutputRequest,
-) => effect.Effect<
+export const updateRouterOutput: API.OperationMethod<
+  UpdateRouterOutputRequest,
   UpdateRouterOutputResponse,
   | BadRequestException
   | ConflictException
@@ -10370,9 +10286,8 @@ export const updateRouterOutput: (
 /**
  * Deletes a router output from AWS Elemental MediaConnect.
  */
-export const deleteRouterOutput: (
-  input: DeleteRouterOutputRequest,
-) => effect.Effect<
+export const deleteRouterOutput: API.OperationMethod<
+  DeleteRouterOutputRequest,
   DeleteRouterOutputResponse,
   | BadRequestException
   | ConflictException
@@ -10399,19 +10314,17 @@ export const deleteRouterOutput: (
 /**
  * Retrieves a list of router outputs in AWS Elemental MediaConnect.
  */
-export const listRouterOutputs: {
-  (
-    input: ListRouterOutputsRequest,
-  ): effect.Effect<
-    ListRouterOutputsResponse,
-    | BadRequestException
-    | ConflictException
-    | InternalServerErrorException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRouterOutputs: API.OperationMethod<
+  ListRouterOutputsRequest,
+  ListRouterOutputsResponse,
+  | BadRequestException
+  | ConflictException
+  | InternalServerErrorException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRouterOutputsRequest,
   ) => stream.Stream<
@@ -10456,9 +10369,8 @@ export const listRouterOutputs: {
 /**
  * Restarts a router output. This operation can be used to recover from errors or refresh the output state.
  */
-export const restartRouterOutput: (
-  input: RestartRouterOutputRequest,
-) => effect.Effect<
+export const restartRouterOutput: API.OperationMethod<
+  RestartRouterOutputRequest,
   RestartRouterOutputResponse,
   | BadRequestException
   | ConflictException
@@ -10485,9 +10397,8 @@ export const restartRouterOutput: (
 /**
  * Starts a router output in AWS Elemental MediaConnect.
  */
-export const startRouterOutput: (
-  input: StartRouterOutputRequest,
-) => effect.Effect<
+export const startRouterOutput: API.OperationMethod<
+  StartRouterOutputRequest,
   StartRouterOutputResponse,
   | BadRequestException
   | ConflictException
@@ -10514,9 +10425,8 @@ export const startRouterOutput: (
 /**
  * Stops a router output in AWS Elemental MediaConnect.
  */
-export const stopRouterOutput: (
-  input: StopRouterOutputRequest,
-) => effect.Effect<
+export const stopRouterOutput: API.OperationMethod<
+  StopRouterOutputRequest,
   StopRouterOutputResponse,
   | BadRequestException
   | ConflictException
@@ -10543,9 +10453,8 @@ export const stopRouterOutput: (
 /**
  * Associates a router input with a router output in AWS Elemental MediaConnect.
  */
-export const takeRouterInput: (
-  input: TakeRouterInputRequest,
-) => effect.Effect<
+export const takeRouterInput: API.OperationMethod<
+  TakeRouterInputRequest,
   TakeRouterInputResponse,
   | BadRequestException
   | ConflictException
@@ -10572,9 +10481,8 @@ export const takeRouterInput: (
 /**
  * Retrieves information about multiple router outputs in AWS Elemental MediaConnect.
  */
-export const batchGetRouterOutput: (
-  input: BatchGetRouterOutputRequest,
-) => effect.Effect<
+export const batchGetRouterOutput: API.OperationMethod<
+  BatchGetRouterOutputRequest,
   BatchGetRouterOutputResponse,
   | BadRequestException
   | ConflictException

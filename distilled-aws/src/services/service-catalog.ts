@@ -4127,9 +4127,8 @@ export class ResourceInUseException extends S.TaggedErrorClass<ResourceInUseExce
 /**
  * Accepts an offer to share the specified portfolio.
  */
-export const acceptPortfolioShare: (
-  input: AcceptPortfolioShareInput,
-) => effect.Effect<
+export const acceptPortfolioShare: API.OperationMethod<
+  AcceptPortfolioShareInput,
   AcceptPortfolioShareOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -4148,9 +4147,8 @@ export const acceptPortfolioShare: (
 /**
  * Associates the specified budget with the specified resource.
  */
-export const associateBudgetWithResource: (
-  input: AssociateBudgetWithResourceInput,
-) => effect.Effect<
+export const associateBudgetWithResource: API.OperationMethod<
+  AssociateBudgetWithResourceInput,
   AssociateBudgetWithResourceOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -4187,9 +4185,8 @@ export const associateBudgetWithResource: (
  * Service Catalog recommends using `PrincipalType` as `IAM`. With this configuration,
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
-export const associatePrincipalWithPortfolio: (
-  input: AssociatePrincipalWithPortfolioInput,
-) => effect.Effect<
+export const associatePrincipalWithPortfolio: API.OperationMethod<
+  AssociatePrincipalWithPortfolioInput,
   AssociatePrincipalWithPortfolioOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -4210,9 +4207,8 @@ export const associatePrincipalWithPortfolio: (
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const associateProductWithPortfolio: (
-  input: AssociateProductWithPortfolioInput,
-) => effect.Effect<
+export const associateProductWithPortfolio: API.OperationMethod<
+  AssociateProductWithPortfolioInput,
   AssociateProductWithPortfolioOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -4231,9 +4227,8 @@ export const associateProductWithPortfolio: (
 /**
  * Associates a self-service action with a provisioning artifact.
  */
-export const associateServiceActionWithProvisioningArtifact: (
-  input: AssociateServiceActionWithProvisioningArtifactInput,
-) => effect.Effect<
+export const associateServiceActionWithProvisioningArtifact: API.OperationMethod<
+  AssociateServiceActionWithProvisioningArtifactInput,
   AssociateServiceActionWithProvisioningArtifactOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -4254,9 +4249,8 @@ export const associateServiceActionWithProvisioningArtifact: (
 /**
  * Associate the specified TagOption with the specified portfolio or product.
  */
-export const associateTagOptionWithResource: (
-  input: AssociateTagOptionWithResourceInput,
-) => effect.Effect<
+export const associateTagOptionWithResource: API.OperationMethod<
+  AssociateTagOptionWithResourceInput,
   AssociateTagOptionWithResourceOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -4281,9 +4275,8 @@ export const associateTagOptionWithResource: (
 /**
  * Associates multiple self-service actions with provisioning artifacts.
  */
-export const batchAssociateServiceActionWithProvisioningArtifact: (
-  input: BatchAssociateServiceActionWithProvisioningArtifactInput,
-) => effect.Effect<
+export const batchAssociateServiceActionWithProvisioningArtifact: API.OperationMethod<
+  BatchAssociateServiceActionWithProvisioningArtifactInput,
   BatchAssociateServiceActionWithProvisioningArtifactOutput,
   InvalidParametersException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4295,9 +4288,8 @@ export const batchAssociateServiceActionWithProvisioningArtifact: (
 /**
  * Disassociates a batch of self-service actions from the specified provisioning artifact.
  */
-export const batchDisassociateServiceActionFromProvisioningArtifact: (
-  input: BatchDisassociateServiceActionFromProvisioningArtifactInput,
-) => effect.Effect<
+export const batchDisassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
+  BatchDisassociateServiceActionFromProvisioningArtifactInput,
   BatchDisassociateServiceActionFromProvisioningArtifactOutput,
   InvalidParametersException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4317,9 +4309,8 @@ export const batchDisassociateServiceActionFromProvisioningArtifact: (
  * This operation is performed asynchronously. To track the progress of the
  * operation, use DescribeCopyProductStatus.
  */
-export const copyProduct: (
-  input: CopyProductInput,
-) => effect.Effect<
+export const copyProduct: API.OperationMethod<
+  CopyProductInput,
   CopyProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4333,9 +4324,8 @@ export const copyProduct: (
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const createConstraint: (
-  input: CreateConstraintInput,
-) => effect.Effect<
+export const createConstraint: API.OperationMethod<
+  CreateConstraintInput,
   CreateConstraintOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -4358,9 +4348,8 @@ export const createConstraint: (
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const createPortfolio: (
-  input: CreatePortfolioInput,
-) => effect.Effect<
+export const createPortfolio: API.OperationMethod<
+  CreatePortfolioInput,
   CreatePortfolioOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -4399,9 +4388,8 @@ export const createPortfolio: (
  * Service Catalog recommends using `PrincipalType` as `IAM`. With this configuration,
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
-export const createPortfolioShare: (
-  input: CreatePortfolioShareInput,
-) => effect.Effect<
+export const createPortfolioShare: API.OperationMethod<
+  CreatePortfolioShareInput,
   CreatePortfolioShareOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -4431,9 +4419,8 @@ export const createPortfolioShare: (
  * required when using the `ImportFromPhysicalId` template source in the
  * information data section.
  */
-export const createProduct: (
-  input: CreateProductInput,
-) => effect.Effect<
+export const createProduct: API.OperationMethod<
+  CreateProductInput,
   CreateProductOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -4462,9 +4449,8 @@ export const createProduct: (
  * To view the resource changes in the change set, use DescribeProvisionedProductPlan.
  * To create or modify the provisioned product, use ExecuteProvisionedProductPlan.
  */
-export const createProvisionedProductPlan: (
-  input: CreateProvisionedProductPlanInput,
-) => effect.Effect<
+export const createProvisionedProductPlan: API.OperationMethod<
+  CreateProvisionedProductPlanInput,
   CreateProvisionedProductPlanOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -4489,9 +4475,8 @@ export const createProvisionedProductPlan: (
  * IAM policy permission. This policy permission is required when using the
  * `ImportFromPhysicalId` template source in the information data section.
  */
-export const createProvisioningArtifact: (
-  input: CreateProvisioningArtifactInput,
-) => effect.Effect<
+export const createProvisioningArtifact: API.OperationMethod<
+  CreateProvisioningArtifactInput,
   CreateProvisioningArtifactOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -4510,9 +4495,8 @@ export const createProvisioningArtifact: (
 /**
  * Creates a self-service action.
  */
-export const createServiceAction: (
-  input: CreateServiceActionInput,
-) => effect.Effect<
+export const createServiceAction: API.OperationMethod<
+  CreateServiceActionInput,
   CreateServiceActionOutput,
   InvalidParametersException | LimitExceededException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4524,9 +4508,8 @@ export const createServiceAction: (
 /**
  * Creates a TagOption.
  */
-export const createTagOption: (
-  input: CreateTagOptionInput,
-) => effect.Effect<
+export const createTagOption: API.OperationMethod<
+  CreateTagOptionInput,
   CreateTagOptionOutput,
   | DuplicateResourceException
   | LimitExceededException
@@ -4547,9 +4530,8 @@ export const createTagOption: (
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const deleteConstraint: (
-  input: DeleteConstraintInput,
-) => effect.Effect<
+export const deleteConstraint: API.OperationMethod<
+  DeleteConstraintInput,
   DeleteConstraintOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4566,9 +4548,8 @@ export const deleteConstraint: (
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const deletePortfolio: (
-  input: DeletePortfolioInput,
-) => effect.Effect<
+export const deletePortfolio: API.OperationMethod<
+  DeletePortfolioInput,
   DeletePortfolioOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -4593,9 +4574,8 @@ export const deletePortfolio: (
  *
  * Note that if a delegated admin is de-registered, portfolio shares created from that account are removed.
  */
-export const deletePortfolioShare: (
-  input: DeletePortfolioShareInput,
-) => effect.Effect<
+export const deletePortfolioShare: API.OperationMethod<
+  DeletePortfolioShareInput,
   DeletePortfolioShareOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -4620,9 +4600,8 @@ export const deletePortfolioShare: (
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const deleteProduct: (
-  input: DeleteProductInput,
-) => effect.Effect<
+export const deleteProduct: API.OperationMethod<
+  DeleteProductInput,
   DeleteProductOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -4643,9 +4622,8 @@ export const deleteProduct: (
 /**
  * Deletes the specified plan.
  */
-export const deleteProvisionedProductPlan: (
-  input: DeleteProvisionedProductPlanInput,
-) => effect.Effect<
+export const deleteProvisionedProductPlan: API.OperationMethod<
+  DeleteProvisionedProductPlanInput,
   DeleteProvisionedProductPlanOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4661,9 +4639,8 @@ export const deleteProvisionedProductPlan: (
  * You cannot delete the last provisioning artifact for a product, because a product must have at
  * least one provisioning artifact.
  */
-export const deleteProvisioningArtifact: (
-  input: DeleteProvisioningArtifactInput,
-) => effect.Effect<
+export const deleteProvisioningArtifact: API.OperationMethod<
+  DeleteProvisioningArtifactInput,
   DeleteProvisioningArtifactOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -4682,9 +4659,8 @@ export const deleteProvisioningArtifact: (
 /**
  * Deletes a self-service action.
  */
-export const deleteServiceAction: (
-  input: DeleteServiceActionInput,
-) => effect.Effect<
+export const deleteServiceAction: API.OperationMethod<
+  DeleteServiceActionInput,
   DeleteServiceActionOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -4705,9 +4681,8 @@ export const deleteServiceAction: (
  *
  * You cannot delete a TagOption if it is associated with a product or portfolio.
  */
-export const deleteTagOption: (
-  input: DeleteTagOptionInput,
-) => effect.Effect<
+export const deleteTagOption: API.OperationMethod<
+  DeleteTagOptionInput,
   DeleteTagOptionOutput,
   | ResourceInUseException
   | ResourceNotFoundException
@@ -4726,9 +4701,8 @@ export const deleteTagOption: (
 /**
  * Gets information about the specified constraint.
  */
-export const describeConstraint: (
-  input: DescribeConstraintInput,
-) => effect.Effect<
+export const describeConstraint: API.OperationMethod<
+  DescribeConstraintInput,
   DescribeConstraintOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4740,9 +4714,8 @@ export const describeConstraint: (
 /**
  * Gets the status of the specified copy product operation.
  */
-export const describeCopyProductStatus: (
-  input: DescribeCopyProductStatusInput,
-) => effect.Effect<
+export const describeCopyProductStatus: API.OperationMethod<
+  DescribeCopyProductStatusInput,
   DescribeCopyProductStatusOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4756,9 +4729,8 @@ export const describeCopyProductStatus: (
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const describePortfolio: (
-  input: DescribePortfolioInput,
-) => effect.Effect<
+export const describePortfolio: API.OperationMethod<
+  DescribePortfolioInput,
   DescribePortfolioOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4776,14 +4748,12 @@ export const describePortfolio: (
  *
  * The `PortfolioId` and `Type` parameters are both required.
  */
-export const describePortfolioShares: {
-  (
-    input: DescribePortfolioSharesInput,
-  ): effect.Effect<
-    DescribePortfolioSharesOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const describePortfolioShares: API.OperationMethod<
+  DescribePortfolioSharesInput,
+  DescribePortfolioSharesOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePortfolioSharesInput,
   ) => stream.Stream<
@@ -4812,9 +4782,8 @@ export const describePortfolioShares: {
  * Gets the status of the specified portfolio share operation. This API can only be called
  * by the management account in the organization or by a delegated admin.
  */
-export const describePortfolioShareStatus: (
-  input: DescribePortfolioShareStatusInput,
-) => effect.Effect<
+export const describePortfolioShareStatus: API.OperationMethod<
+  DescribePortfolioShareStatusInput,
   DescribePortfolioShareStatusOutput,
   | InvalidParametersException
   | OperationNotSupportedException
@@ -4839,9 +4808,8 @@ export const describePortfolioShareStatus: (
  * in a failure.
  * DescribeProductAsAdmin should be used instead.
  */
-export const describeProduct: (
-  input: DescribeProductInput,
-) => effect.Effect<
+export const describeProduct: API.OperationMethod<
+  DescribeProductInput,
   DescribeProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4853,9 +4821,8 @@ export const describeProduct: (
 /**
  * Gets information about the specified product. This operation is run with administrator access.
  */
-export const describeProductAsAdmin: (
-  input: DescribeProductAsAdminInput,
-) => effect.Effect<
+export const describeProductAsAdmin: API.OperationMethod<
+  DescribeProductAsAdminInput,
   DescribeProductAsAdminOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4867,9 +4834,8 @@ export const describeProductAsAdmin: (
 /**
  * Gets information about the specified product.
  */
-export const describeProductView: (
-  input: DescribeProductViewInput,
-) => effect.Effect<
+export const describeProductView: API.OperationMethod<
+  DescribeProductViewInput,
   DescribeProductViewOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4881,9 +4847,8 @@ export const describeProductView: (
 /**
  * Gets information about the specified provisioned product.
  */
-export const describeProvisionedProduct: (
-  input: DescribeProvisionedProductInput,
-) => effect.Effect<
+export const describeProvisionedProduct: API.OperationMethod<
+  DescribeProvisionedProductInput,
   DescribeProvisionedProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4895,9 +4860,8 @@ export const describeProvisionedProduct: (
 /**
  * Gets information about the resource changes for the specified plan.
  */
-export const describeProvisionedProductPlan: (
-  input: DescribeProvisionedProductPlanInput,
-) => effect.Effect<
+export const describeProvisionedProductPlan: API.OperationMethod<
+  DescribeProvisionedProductPlanInput,
   DescribeProvisionedProductPlanOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4909,9 +4873,8 @@ export const describeProvisionedProductPlan: (
 /**
  * Gets information about the specified provisioning artifact (also known as a version) for the specified product.
  */
-export const describeProvisioningArtifact: (
-  input: DescribeProvisioningArtifactInput,
-) => effect.Effect<
+export const describeProvisioningArtifact: API.OperationMethod<
+  DescribeProvisioningArtifactInput,
   DescribeProvisioningArtifactOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4931,9 +4894,8 @@ export const describeProvisioningArtifact: (
  * "Parameter validation failed: Missing required parameter in Tags[*N*]:*Value*".
  * Tag the provisioned product with the value `sc-tagoption-conflict-portfolioId-productId`.
  */
-export const describeProvisioningParameters: (
-  input: DescribeProvisioningParametersInput,
-) => effect.Effect<
+export const describeProvisioningParameters: API.OperationMethod<
+  DescribeProvisioningParametersInput,
   DescribeProvisioningParametersOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4952,9 +4914,8 @@ export const describeProvisioningParameters: (
  * will be able to describe all past records for that product. The previous owner will no longer be able to describe the records, but will be able to
  * use ListRecordHistory to see the product's history from when he was the owner.
  */
-export const describeRecord: (
-  input: DescribeRecordInput,
-) => effect.Effect<
+export const describeRecord: API.OperationMethod<
+  DescribeRecordInput,
   DescribeRecordOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4966,9 +4927,8 @@ export const describeRecord: (
 /**
  * Describes a self-service action.
  */
-export const describeServiceAction: (
-  input: DescribeServiceActionInput,
-) => effect.Effect<
+export const describeServiceAction: API.OperationMethod<
+  DescribeServiceActionInput,
   DescribeServiceActionOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4980,9 +4940,8 @@ export const describeServiceAction: (
 /**
  * Finds the default parameters for a specific self-service action on a specific provisioned product and returns a map of the results to the user.
  */
-export const describeServiceActionExecutionParameters: (
-  input: DescribeServiceActionExecutionParametersInput,
-) => effect.Effect<
+export const describeServiceActionExecutionParameters: API.OperationMethod<
+  DescribeServiceActionExecutionParametersInput,
   DescribeServiceActionExecutionParametersOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -4994,9 +4953,8 @@ export const describeServiceActionExecutionParameters: (
 /**
  * Gets information about the specified TagOption.
  */
-export const describeTagOption: (
-  input: DescribeTagOptionInput,
-) => effect.Effect<
+export const describeTagOption: API.OperationMethod<
+  DescribeTagOptionInput,
   DescribeTagOptionOutput,
   ResourceNotFoundException | TagOptionNotMigratedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5021,9 +4979,8 @@ export const describeTagOption: (
  * structure. Specifically, accounts that you removed from the organization after
  * disabling Service Catalog access will retain access to the previously shared portfolio.
  */
-export const disableAWSOrganizationsAccess: (
-  input: DisableAWSOrganizationsAccessInput,
-) => effect.Effect<
+export const disableAWSOrganizationsAccess: API.OperationMethod<
+  DisableAWSOrganizationsAccessInput,
   DisableAWSOrganizationsAccessOutput,
   | InvalidStateException
   | OperationNotSupportedException
@@ -5042,9 +4999,8 @@ export const disableAWSOrganizationsAccess: (
 /**
  * Disassociates the specified budget from the specified resource.
  */
-export const disassociateBudgetFromResource: (
-  input: DisassociateBudgetFromResourceInput,
-) => effect.Effect<
+export const disassociateBudgetFromResource: API.OperationMethod<
+  DisassociateBudgetFromResourceInput,
   DisassociateBudgetFromResourceOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5075,9 +5031,8 @@ export const disassociateBudgetFromResource: (
  * and then ensure you disassociate any `IAM_PATTERN` principals that match the principal
  * whose access you are removing.
  */
-export const disassociatePrincipalFromPortfolio: (
-  input: DisassociatePrincipalFromPortfolioInput,
-) => effect.Effect<
+export const disassociatePrincipalFromPortfolio: API.OperationMethod<
+  DisassociatePrincipalFromPortfolioInput,
   DisassociatePrincipalFromPortfolioOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5091,9 +5046,8 @@ export const disassociatePrincipalFromPortfolio: (
  *
  * A delegated admin is authorized to invoke this command.
  */
-export const disassociateProductFromPortfolio: (
-  input: DisassociateProductFromPortfolioInput,
-) => effect.Effect<
+export const disassociateProductFromPortfolio: API.OperationMethod<
+  DisassociateProductFromPortfolioInput,
   DisassociateProductFromPortfolioOutput,
   | InvalidParametersException
   | ResourceInUseException
@@ -5112,9 +5066,8 @@ export const disassociateProductFromPortfolio: (
 /**
  * Disassociates the specified self-service action association from the specified provisioning artifact.
  */
-export const disassociateServiceActionFromProvisioningArtifact: (
-  input: DisassociateServiceActionFromProvisioningArtifactInput,
-) => effect.Effect<
+export const disassociateServiceActionFromProvisioningArtifact: API.OperationMethod<
+  DisassociateServiceActionFromProvisioningArtifactInput,
   DisassociateServiceActionFromProvisioningArtifactOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5126,9 +5079,8 @@ export const disassociateServiceActionFromProvisioningArtifact: (
 /**
  * Disassociates the specified TagOption from the specified resource.
  */
-export const disassociateTagOptionFromResource: (
-  input: DisassociateTagOptionFromResourceInput,
-) => effect.Effect<
+export const disassociateTagOptionFromResource: API.OperationMethod<
+  DisassociateTagOptionFromResourceInput,
   DisassociateTagOptionFromResourceOutput,
   ResourceNotFoundException | TagOptionNotMigratedException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5153,9 +5105,8 @@ export const disassociateTagOptionFromResource: (
  * might still be able to create or manage Amazon Web Services resources when it is no longer
  * authorized to do so. Amazon Web Services is working to resolve this issue.
  */
-export const enableAWSOrganizationsAccess: (
-  input: EnableAWSOrganizationsAccessInput,
-) => effect.Effect<
+export const enableAWSOrganizationsAccess: API.OperationMethod<
+  EnableAWSOrganizationsAccessInput,
   EnableAWSOrganizationsAccessOutput,
   | InvalidStateException
   | OperationNotSupportedException
@@ -5174,9 +5125,8 @@ export const enableAWSOrganizationsAccess: (
 /**
  * Provisions or modifies a product based on the resource changes for the specified plan.
  */
-export const executeProvisionedProductPlan: (
-  input: ExecuteProvisionedProductPlanInput,
-) => effect.Effect<
+export const executeProvisionedProductPlan: API.OperationMethod<
+  ExecuteProvisionedProductPlanInput,
   ExecuteProvisionedProductPlanOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -5195,9 +5145,8 @@ export const executeProvisionedProductPlan: (
 /**
  * Executes a self-service action against a provisioned product.
  */
-export const executeProvisionedProductServiceAction: (
-  input: ExecuteProvisionedProductServiceActionInput,
-) => effect.Effect<
+export const executeProvisionedProductServiceAction: API.OperationMethod<
+  ExecuteProvisionedProductServiceActionInput,
   ExecuteProvisionedProductServiceActionOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -5217,9 +5166,8 @@ export const executeProvisionedProductServiceAction: (
  * Get the Access Status for Organizations portfolio share feature. This API can only be
  * called by the management account in the organization or by a delegated admin.
  */
-export const getAWSOrganizationsAccessStatus: (
-  input: GetAWSOrganizationsAccessStatusInput,
-) => effect.Effect<
+export const getAWSOrganizationsAccessStatus: API.OperationMethod<
+  GetAWSOrganizationsAccessStatusInput,
   GetAWSOrganizationsAccessStatusOutput,
   OperationNotSupportedException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5231,14 +5179,12 @@ export const getAWSOrganizationsAccessStatus: (
 /**
  * This API takes either a `ProvisonedProductId` or a `ProvisionedProductName`, along with a list of one or more output keys, and responds with the key/value pairs of those outputs.
  */
-export const getProvisionedProductOutputs: {
-  (
-    input: GetProvisionedProductOutputsInput,
-  ): effect.Effect<
-    GetProvisionedProductOutputsOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getProvisionedProductOutputs: API.OperationMethod<
+  GetProvisionedProductOutputsInput,
+  GetProvisionedProductOutputsOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetProvisionedProductOutputsInput,
   ) => stream.Stream<
@@ -5291,9 +5237,8 @@ export const getProvisionedProductOutputs: {
  * You can only import one provisioned product at a time. The product's CloudFormation stack must have the
  * `IMPORT_COMPLETE` status before you import another.
  */
-export const importAsProvisionedProduct: (
-  input: ImportAsProvisionedProductInput,
-) => effect.Effect<
+export const importAsProvisionedProduct: API.OperationMethod<
+  ImportAsProvisionedProductInput,
   ImportAsProvisionedProductOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -5316,14 +5261,12 @@ export const importAsProvisionedProduct: (
  * this account. By specifying the `PortfolioShareType`, you can list portfolios for which
  * organizational shares were accepted by this account.
  */
-export const listAcceptedPortfolioShares: {
-  (
-    input: ListAcceptedPortfolioSharesInput,
-  ): effect.Effect<
-    ListAcceptedPortfolioSharesOutput,
-    InvalidParametersException | OperationNotSupportedException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAcceptedPortfolioShares: API.OperationMethod<
+  ListAcceptedPortfolioSharesInput,
+  ListAcceptedPortfolioSharesOutput,
+  InvalidParametersException | OperationNotSupportedException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAcceptedPortfolioSharesInput,
   ) => stream.Stream<
@@ -5351,14 +5294,12 @@ export const listAcceptedPortfolioShares: {
 /**
  * Lists all the budgets associated to the specified resource.
  */
-export const listBudgetsForResource: {
-  (
-    input: ListBudgetsForResourceInput,
-  ): effect.Effect<
-    ListBudgetsForResourceOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listBudgetsForResource: API.OperationMethod<
+  ListBudgetsForResourceInput,
+  ListBudgetsForResourceOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBudgetsForResourceInput,
   ) => stream.Stream<
@@ -5386,14 +5327,12 @@ export const listBudgetsForResource: {
 /**
  * Lists the constraints for the specified portfolio and product.
  */
-export const listConstraintsForPortfolio: {
-  (
-    input: ListConstraintsForPortfolioInput,
-  ): effect.Effect<
-    ListConstraintsForPortfolioOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listConstraintsForPortfolio: API.OperationMethod<
+  ListConstraintsForPortfolioInput,
+  ListConstraintsForPortfolioOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConstraintsForPortfolioInput,
   ) => stream.Stream<
@@ -5441,14 +5380,12 @@ export const listConstraintsForPortfolio: {
  * see Granting users access
  * in the *Service Catalog User Guide*.
  */
-export const listLaunchPaths: {
-  (
-    input: ListLaunchPathsInput,
-  ): effect.Effect<
-    ListLaunchPathsOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listLaunchPaths: API.OperationMethod<
+  ListLaunchPathsInput,
+  ListLaunchPathsOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLaunchPathsInput,
   ) => stream.Stream<
@@ -5480,17 +5417,15 @@ export const listLaunchPaths: {
  *
  * If a delegated admin is de-registered, they can no longer perform this operation.
  */
-export const listOrganizationPortfolioAccess: {
-  (
-    input: ListOrganizationPortfolioAccessInput,
-  ): effect.Effect<
-    ListOrganizationPortfolioAccessOutput,
-    | InvalidParametersException
-    | OperationNotSupportedException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listOrganizationPortfolioAccess: API.OperationMethod<
+  ListOrganizationPortfolioAccessInput,
+  ListOrganizationPortfolioAccessOutput,
+  | InvalidParametersException
+  | OperationNotSupportedException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrganizationPortfolioAccessInput,
   ) => stream.Stream<
@@ -5530,14 +5465,12 @@ export const listOrganizationPortfolioAccess: {
  *
  * A delegated admin can list the accounts that have access to the shared portfolio. Note that if a delegated admin is de-registered, they can no longer perform this operation.
  */
-export const listPortfolioAccess: {
-  (
-    input: ListPortfolioAccessInput,
-  ): effect.Effect<
-    ListPortfolioAccessOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPortfolioAccess: API.OperationMethod<
+  ListPortfolioAccessInput,
+  ListPortfolioAccessOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPortfolioAccessInput,
   ) => stream.Stream<
@@ -5565,14 +5498,12 @@ export const listPortfolioAccess: {
 /**
  * Lists all portfolios in the catalog.
  */
-export const listPortfolios: {
-  (
-    input: ListPortfoliosInput,
-  ): effect.Effect<
-    ListPortfoliosOutput,
-    InvalidParametersException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPortfolios: API.OperationMethod<
+  ListPortfoliosInput,
+  ListPortfoliosOutput,
+  InvalidParametersException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPortfoliosInput,
   ) => stream.Stream<
@@ -5600,14 +5531,12 @@ export const listPortfolios: {
 /**
  * Lists all portfolios that the specified product is associated with.
  */
-export const listPortfoliosForProduct: {
-  (
-    input: ListPortfoliosForProductInput,
-  ): effect.Effect<
-    ListPortfoliosForProductOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPortfoliosForProduct: API.OperationMethod<
+  ListPortfoliosForProductInput,
+  ListPortfoliosForProductOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPortfoliosForProductInput,
   ) => stream.Stream<
@@ -5635,14 +5564,12 @@ export const listPortfoliosForProduct: {
 /**
  * Lists all `PrincipalARN`s and corresponding `PrincipalType`s associated with the specified portfolio.
  */
-export const listPrincipalsForPortfolio: {
-  (
-    input: ListPrincipalsForPortfolioInput,
-  ): effect.Effect<
-    ListPrincipalsForPortfolioOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPrincipalsForPortfolio: API.OperationMethod<
+  ListPrincipalsForPortfolioInput,
+  ListPrincipalsForPortfolioOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPrincipalsForPortfolioInput,
   ) => stream.Stream<
@@ -5670,9 +5597,8 @@ export const listPrincipalsForPortfolio: {
 /**
  * Lists the plans for the specified provisioned product or all plans to which the user has access.
  */
-export const listProvisionedProductPlans: (
-  input: ListProvisionedProductPlansInput,
-) => effect.Effect<
+export const listProvisionedProductPlans: API.OperationMethod<
+  ListProvisionedProductPlansInput,
   ListProvisionedProductPlansOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5684,9 +5610,8 @@ export const listProvisionedProductPlans: (
 /**
  * Lists all provisioning artifacts (also known as versions) for the specified product.
  */
-export const listProvisioningArtifacts: (
-  input: ListProvisioningArtifactsInput,
-) => effect.Effect<
+export const listProvisioningArtifacts: API.OperationMethod<
+  ListProvisioningArtifactsInput,
   ListProvisioningArtifactsOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5698,14 +5623,12 @@ export const listProvisioningArtifacts: (
 /**
  * Lists all provisioning artifacts (also known as versions) for the specified self-service action.
  */
-export const listProvisioningArtifactsForServiceAction: {
-  (
-    input: ListProvisioningArtifactsForServiceActionInput,
-  ): effect.Effect<
-    ListProvisioningArtifactsForServiceActionOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listProvisioningArtifactsForServiceAction: API.OperationMethod<
+  ListProvisioningArtifactsForServiceActionInput,
+  ListProvisioningArtifactsForServiceActionOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProvisioningArtifactsForServiceActionInput,
   ) => stream.Stream<
@@ -5733,9 +5656,8 @@ export const listProvisioningArtifactsForServiceAction: {
 /**
  * Lists the specified requests or all performed requests.
  */
-export const listRecordHistory: (
-  input: ListRecordHistoryInput,
-) => effect.Effect<
+export const listRecordHistory: API.OperationMethod<
+  ListRecordHistoryInput,
   ListRecordHistoryOutput,
   InvalidParametersException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5747,17 +5669,15 @@ export const listRecordHistory: (
 /**
  * Lists the resources associated with the specified TagOption.
  */
-export const listResourcesForTagOption: {
-  (
-    input: ListResourcesForTagOptionInput,
-  ): effect.Effect<
-    ListResourcesForTagOptionOutput,
-    | InvalidParametersException
-    | ResourceNotFoundException
-    | TagOptionNotMigratedException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listResourcesForTagOption: API.OperationMethod<
+  ListResourcesForTagOptionInput,
+  ListResourcesForTagOptionOutput,
+  | InvalidParametersException
+  | ResourceNotFoundException
+  | TagOptionNotMigratedException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourcesForTagOptionInput,
   ) => stream.Stream<
@@ -5795,14 +5715,12 @@ export const listResourcesForTagOption: {
 /**
  * Lists all self-service actions.
  */
-export const listServiceActions: {
-  (
-    input: ListServiceActionsInput,
-  ): effect.Effect<
-    ListServiceActionsOutput,
-    InvalidParametersException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listServiceActions: API.OperationMethod<
+  ListServiceActionsInput,
+  ListServiceActionsOutput,
+  InvalidParametersException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceActionsInput,
   ) => stream.Stream<
@@ -5830,14 +5748,12 @@ export const listServiceActions: {
 /**
  * Returns a paginated list of self-service actions associated with the specified Product ID and Provisioning Artifact ID.
  */
-export const listServiceActionsForProvisioningArtifact: {
-  (
-    input: ListServiceActionsForProvisioningArtifactInput,
-  ): effect.Effect<
-    ListServiceActionsForProvisioningArtifactOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listServiceActionsForProvisioningArtifact: API.OperationMethod<
+  ListServiceActionsForProvisioningArtifactInput,
+  ListServiceActionsForProvisioningArtifactOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceActionsForProvisioningArtifactInput,
   ) => stream.Stream<
@@ -5865,9 +5781,8 @@ export const listServiceActionsForProvisioningArtifact: {
 /**
  * Returns summary information about stack instances that are associated with the specified `CFN_STACKSET` type provisioned product. You can filter for stack instances that are associated with a specific Amazon Web Services account name or Region.
  */
-export const listStackInstancesForProvisionedProduct: (
-  input: ListStackInstancesForProvisionedProductInput,
-) => effect.Effect<
+export const listStackInstancesForProvisionedProduct: API.OperationMethod<
+  ListStackInstancesForProvisionedProductInput,
   ListStackInstancesForProvisionedProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5879,14 +5794,12 @@ export const listStackInstancesForProvisionedProduct: (
 /**
  * Lists the specified TagOptions or all TagOptions.
  */
-export const listTagOptions: {
-  (
-    input: ListTagOptionsInput,
-  ): effect.Effect<
-    ListTagOptionsOutput,
-    InvalidParametersException | TagOptionNotMigratedException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTagOptions: API.OperationMethod<
+  ListTagOptionsInput,
+  ListTagOptionsOutput,
+  InvalidParametersException | TagOptionNotMigratedException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagOptionsInput,
   ) => stream.Stream<
@@ -5915,9 +5828,8 @@ export const listTagOptions: {
  * Notifies the result
  * of the provisioning engine execution.
  */
-export const notifyProvisionProductEngineWorkflowResult: (
-  input: NotifyProvisionProductEngineWorkflowResultInput,
-) => effect.Effect<
+export const notifyProvisionProductEngineWorkflowResult: API.OperationMethod<
+  NotifyProvisionProductEngineWorkflowResultInput,
   NotifyProvisionProductEngineWorkflowResultOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5930,9 +5842,8 @@ export const notifyProvisionProductEngineWorkflowResult: (
  * Notifies the result
  * of the terminate engine execution.
  */
-export const notifyTerminateProvisionedProductEngineWorkflowResult: (
-  input: NotifyTerminateProvisionedProductEngineWorkflowResultInput,
-) => effect.Effect<
+export const notifyTerminateProvisionedProductEngineWorkflowResult: API.OperationMethod<
+  NotifyTerminateProvisionedProductEngineWorkflowResultInput,
   NotifyTerminateProvisionedProductEngineWorkflowResultOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5945,9 +5856,8 @@ export const notifyTerminateProvisionedProductEngineWorkflowResult: (
  * Notifies the result
  * of the update engine execution.
  */
-export const notifyUpdateProvisionedProductEngineWorkflowResult: (
-  input: NotifyUpdateProvisionedProductEngineWorkflowResultInput,
-) => effect.Effect<
+export const notifyUpdateProvisionedProductEngineWorkflowResult: API.OperationMethod<
+  NotifyUpdateProvisionedProductEngineWorkflowResultInput,
   NotifyUpdateProvisionedProductEngineWorkflowResultOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -5988,9 +5898,8 @@ export const notifyUpdateProvisionedProductEngineWorkflowResult: (
  * see Granting users access
  * in the *Service Catalog User Guide*.
  */
-export const provisionProduct: (
-  input: ProvisionProductInput,
-) => effect.Effect<
+export const provisionProduct: API.OperationMethod<
+  ProvisionProductInput,
   ProvisionProductOutput,
   | DuplicateResourceException
   | InvalidParametersException
@@ -6009,9 +5918,8 @@ export const provisionProduct: (
 /**
  * Rejects an offer to share the specified portfolio.
  */
-export const rejectPortfolioShare: (
-  input: RejectPortfolioShareInput,
-) => effect.Effect<
+export const rejectPortfolioShare: API.OperationMethod<
+  RejectPortfolioShareInput,
   RejectPortfolioShareOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6025,9 +5933,8 @@ export const rejectPortfolioShare: (
  *
  * To use additional filtering, see SearchProvisionedProducts.
  */
-export const scanProvisionedProducts: (
-  input: ScanProvisionedProductsInput,
-) => effect.Effect<
+export const scanProvisionedProducts: API.OperationMethod<
+  ScanProvisionedProductsInput,
   ScanProvisionedProductsOutput,
   InvalidParametersException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6039,14 +5946,12 @@ export const scanProvisionedProducts: (
 /**
  * Gets information about the products to which the caller has access.
  */
-export const searchProducts: {
-  (
-    input: SearchProductsInput,
-  ): effect.Effect<
-    SearchProductsOutput,
-    InvalidParametersException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchProducts: API.OperationMethod<
+  SearchProductsInput,
+  SearchProductsOutput,
+  InvalidParametersException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchProductsInput,
   ) => stream.Stream<
@@ -6074,14 +5979,12 @@ export const searchProducts: {
 /**
  * Gets information about the products for the specified portfolio or all products.
  */
-export const searchProductsAsAdmin: {
-  (
-    input: SearchProductsAsAdminInput,
-  ): effect.Effect<
-    SearchProductsAsAdminOutput,
-    InvalidParametersException | ResourceNotFoundException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchProductsAsAdmin: API.OperationMethod<
+  SearchProductsAsAdminInput,
+  SearchProductsAsAdminOutput,
+  InvalidParametersException | ResourceNotFoundException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchProductsAsAdminInput,
   ) => stream.Stream<
@@ -6109,14 +6012,12 @@ export const searchProductsAsAdmin: {
 /**
  * Gets information about the provisioned products that meet the specified criteria.
  */
-export const searchProvisionedProducts: {
-  (
-    input: SearchProvisionedProductsInput,
-  ): effect.Effect<
-    SearchProvisionedProductsOutput,
-    InvalidParametersException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchProvisionedProducts: API.OperationMethod<
+  SearchProvisionedProductsInput,
+  SearchProvisionedProductsOutput,
+  InvalidParametersException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchProvisionedProductsInput,
   ) => stream.Stream<
@@ -6148,9 +6049,8 @@ export const searchProvisionedProducts: {
  *
  * You can check the status of this request using DescribeRecord.
  */
-export const terminateProvisionedProduct: (
-  input: TerminateProvisionedProductInput,
-) => effect.Effect<
+export const terminateProvisionedProduct: API.OperationMethod<
+  TerminateProvisionedProductInput,
   TerminateProvisionedProductOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6162,9 +6062,8 @@ export const terminateProvisionedProduct: (
 /**
  * Updates the specified constraint.
  */
-export const updateConstraint: (
-  input: UpdateConstraintInput,
-) => effect.Effect<
+export const updateConstraint: API.OperationMethod<
+  UpdateConstraintInput,
   UpdateConstraintOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6178,9 +6077,8 @@ export const updateConstraint: (
  *
  * You cannot update a product that was shared with you.
  */
-export const updatePortfolio: (
-  input: UpdatePortfolioInput,
-) => effect.Effect<
+export const updatePortfolio: API.OperationMethod<
+  UpdatePortfolioInput,
   UpdatePortfolioOutput,
   | InvalidParametersException
   | LimitExceededException
@@ -6219,9 +6117,8 @@ export const updatePortfolio: (
  * Service Catalog recommends using `PrincipalType` as `IAM`. With this configuration,
  * the `PrincipalARN` must already exist in the recipient account before it can be associated.
  */
-export const updatePortfolioShare: (
-  input: UpdatePortfolioShareInput,
-) => effect.Effect<
+export const updatePortfolioShare: API.OperationMethod<
+  UpdatePortfolioShareInput,
   UpdatePortfolioShareOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -6242,9 +6139,8 @@ export const updatePortfolioShare: (
 /**
  * Updates the specified product.
  */
-export const updateProduct: (
-  input: UpdateProductInput,
-) => effect.Effect<
+export const updateProduct: API.OperationMethod<
+  UpdateProductInput,
   UpdateProductOutput,
   | InvalidParametersException
   | ResourceNotFoundException
@@ -6269,9 +6165,8 @@ export const updateProduct: (
  *
  * You can check the status of this request using DescribeRecord.
  */
-export const updateProvisionedProduct: (
-  input: UpdateProvisionedProductInput,
-) => effect.Effect<
+export const updateProvisionedProduct: API.OperationMethod<
+  UpdateProvisionedProductInput,
   UpdateProvisionedProductOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6283,9 +6178,8 @@ export const updateProvisionedProduct: (
 /**
  * Requests updates to the properties of the specified provisioned product.
  */
-export const updateProvisionedProductProperties: (
-  input: UpdateProvisionedProductPropertiesInput,
-) => effect.Effect<
+export const updateProvisionedProductProperties: API.OperationMethod<
+  UpdateProvisionedProductPropertiesInput,
   UpdateProvisionedProductPropertiesOutput,
   | InvalidParametersException
   | InvalidStateException
@@ -6306,9 +6200,8 @@ export const updateProvisionedProductProperties: (
  *
  * You cannot update a provisioning artifact for a product that was shared with you.
  */
-export const updateProvisioningArtifact: (
-  input: UpdateProvisioningArtifactInput,
-) => effect.Effect<
+export const updateProvisioningArtifact: API.OperationMethod<
+  UpdateProvisioningArtifactInput,
   UpdateProvisioningArtifactOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6320,9 +6213,8 @@ export const updateProvisioningArtifact: (
 /**
  * Updates a self-service action.
  */
-export const updateServiceAction: (
-  input: UpdateServiceActionInput,
-) => effect.Effect<
+export const updateServiceAction: API.OperationMethod<
+  UpdateServiceActionInput,
   UpdateServiceActionOutput,
   InvalidParametersException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6334,9 +6226,8 @@ export const updateServiceAction: (
 /**
  * Updates the specified TagOption.
  */
-export const updateTagOption: (
-  input: UpdateTagOptionInput,
-) => effect.Effect<
+export const updateTagOption: API.OperationMethod<
+  UpdateTagOptionInput,
   UpdateTagOptionOutput,
   | DuplicateResourceException
   | InvalidParametersException

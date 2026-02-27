@@ -3884,9 +3884,8 @@ export class GraphQLSchemaException extends S.TaggedErrorClass<GraphQLSchemaExce
 /**
  * Maps an endpoint to your custom domain.
  */
-export const associateApi: (
-  input: AssociateApiRequest,
-) => effect.Effect<
+export const associateApi: API.OperationMethod<
+  AssociateApiRequest,
   AssociateApiResponse,
   | AccessDeniedException
   | BadRequestException
@@ -3908,9 +3907,8 @@ export const associateApi: (
  * Creates an association between a Merged API and source API using the source API's
  * identifier.
  */
-export const associateMergedGraphqlApi: (
-  input: AssociateMergedGraphqlApiRequest,
-) => effect.Effect<
+export const associateMergedGraphqlApi: API.OperationMethod<
+  AssociateMergedGraphqlApiRequest,
   AssociateMergedGraphqlApiResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -3936,9 +3934,8 @@ export const associateMergedGraphqlApi: (
  * Creates an association between a Merged API and source API using the Merged API's
  * identifier.
  */
-export const associateSourceGraphqlApi: (
-  input: AssociateSourceGraphqlApiRequest,
-) => effect.Effect<
+export const associateSourceGraphqlApi: API.OperationMethod<
+  AssociateSourceGraphqlApiRequest,
   AssociateSourceGraphqlApiResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -3965,9 +3962,8 @@ export const associateSourceGraphqlApi: (
  * API with your preferred configuration, such as an Event API that provides real-time message
  * publishing and message subscriptions over WebSockets.
  */
-export const createApi: (
-  input: CreateApiRequest,
-) => effect.Effect<
+export const createApi: API.OperationMethod<
+  CreateApiRequest,
   CreateApiResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -3990,9 +3986,8 @@ export const createApi: (
 /**
  * Creates a cache for the GraphQL API.
  */
-export const createApiCache: (
-  input: CreateApiCacheRequest,
-) => effect.Effect<
+export const createApiCache: API.OperationMethod<
+  CreateApiCacheRequest,
   CreateApiCacheResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4015,9 +4010,8 @@ export const createApiCache: (
 /**
  * Creates a unique key that you can distribute to clients who invoke your API.
  */
-export const createApiKey: (
-  input: CreateApiKeyRequest,
-) => effect.Effect<
+export const createApiKey: API.OperationMethod<
+  CreateApiKeyRequest,
   CreateApiKeyResponse,
   | ApiKeyLimitExceededException
   | ApiKeyValidityOutOfBoundsException
@@ -4044,9 +4038,8 @@ export const createApiKey: (
 /**
  * Creates a `ChannelNamespace` for an `Api`.
  */
-export const createChannelNamespace: (
-  input: CreateChannelNamespaceRequest,
-) => effect.Effect<
+export const createChannelNamespace: API.OperationMethod<
+  CreateChannelNamespaceRequest,
   CreateChannelNamespaceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4073,9 +4066,8 @@ export const createChannelNamespace: (
 /**
  * Creates a `DataSource` object.
  */
-export const createDataSource: (
-  input: CreateDataSourceRequest,
-) => effect.Effect<
+export const createDataSource: API.OperationMethod<
+  CreateDataSourceRequest,
   CreateDataSourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4098,9 +4090,8 @@ export const createDataSource: (
 /**
  * Creates a custom `DomainName` object.
  */
-export const createDomainName: (
-  input: CreateDomainNameRequest,
-) => effect.Effect<
+export const createDomainName: API.OperationMethod<
+  CreateDomainNameRequest,
   CreateDomainNameResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4122,9 +4113,8 @@ export const createDomainName: (
  * A function is a reusable entity. You can use multiple functions to compose the resolver
  * logic.
  */
-export const createFunction: (
-  input: CreateFunctionRequest,
-) => effect.Effect<
+export const createFunction: API.OperationMethod<
+  CreateFunctionRequest,
   CreateFunctionResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4147,9 +4137,8 @@ export const createFunction: (
 /**
  * Creates a `GraphqlApi` object.
  */
-export const createGraphqlApi: (
-  input: CreateGraphqlApiRequest,
-) => effect.Effect<
+export const createGraphqlApi: API.OperationMethod<
+  CreateGraphqlApiRequest,
   CreateGraphqlApiResponse,
   | ApiLimitExceededException
   | BadRequestException
@@ -4177,9 +4166,8 @@ export const createGraphqlApi: (
  * A resolver converts incoming requests into a format that a data source can understand,
  * and converts the data source's responses into GraphQL.
  */
-export const createResolver: (
-  input: CreateResolverRequest,
-) => effect.Effect<
+export const createResolver: API.OperationMethod<
+  CreateResolverRequest,
   CreateResolverResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4202,9 +4190,8 @@ export const createResolver: (
 /**
  * Creates a `Type` object.
  */
-export const createType: (
-  input: CreateTypeRequest,
-) => effect.Effect<
+export const createType: API.OperationMethod<
+  CreateTypeRequest,
   CreateTypeResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4227,9 +4214,8 @@ export const createType: (
 /**
  * Deletes an `Api` object
  */
-export const deleteApi: (
-  input: DeleteApiRequest,
-) => effect.Effect<
+export const deleteApi: API.OperationMethod<
+  DeleteApiRequest,
   DeleteApiResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4254,9 +4240,8 @@ export const deleteApi: (
 /**
  * Deletes an `ApiCache` object.
  */
-export const deleteApiCache: (
-  input: DeleteApiCacheRequest,
-) => effect.Effect<
+export const deleteApiCache: API.OperationMethod<
+  DeleteApiCacheRequest,
   DeleteApiCacheResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4279,9 +4264,8 @@ export const deleteApiCache: (
 /**
  * Deletes an API key.
  */
-export const deleteApiKey: (
-  input: DeleteApiKeyRequest,
-) => effect.Effect<
+export const deleteApiKey: API.OperationMethod<
+  DeleteApiKeyRequest,
   DeleteApiKeyResponse,
   | BadRequestException
   | InternalFailureException
@@ -4302,9 +4286,8 @@ export const deleteApiKey: (
 /**
  * Deletes a `ChannelNamespace`.
  */
-export const deleteChannelNamespace: (
-  input: DeleteChannelNamespaceRequest,
-) => effect.Effect<
+export const deleteChannelNamespace: API.OperationMethod<
+  DeleteChannelNamespaceRequest,
   DeleteChannelNamespaceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4329,9 +4312,8 @@ export const deleteChannelNamespace: (
 /**
  * Deletes a `DataSource` object.
  */
-export const deleteDataSource: (
-  input: DeleteDataSourceRequest,
-) => effect.Effect<
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceRequest,
   DeleteDataSourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4354,9 +4336,8 @@ export const deleteDataSource: (
 /**
  * Deletes a custom `DomainName` object.
  */
-export const deleteDomainName: (
-  input: DeleteDomainNameRequest,
-) => effect.Effect<
+export const deleteDomainName: API.OperationMethod<
+  DeleteDomainNameRequest,
   DeleteDomainNameResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4379,9 +4360,8 @@ export const deleteDomainName: (
 /**
  * Deletes a `Function`.
  */
-export const deleteFunction: (
-  input: DeleteFunctionRequest,
-) => effect.Effect<
+export const deleteFunction: API.OperationMethod<
+  DeleteFunctionRequest,
   DeleteFunctionResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4404,9 +4384,8 @@ export const deleteFunction: (
 /**
  * Deletes a `GraphqlApi` object.
  */
-export const deleteGraphqlApi: (
-  input: DeleteGraphqlApiRequest,
-) => effect.Effect<
+export const deleteGraphqlApi: API.OperationMethod<
+  DeleteGraphqlApiRequest,
   DeleteGraphqlApiResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4431,9 +4410,8 @@ export const deleteGraphqlApi: (
 /**
  * Deletes a `Resolver` object.
  */
-export const deleteResolver: (
-  input: DeleteResolverRequest,
-) => effect.Effect<
+export const deleteResolver: API.OperationMethod<
+  DeleteResolverRequest,
   DeleteResolverResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4456,9 +4434,8 @@ export const deleteResolver: (
 /**
  * Deletes a `Type` object.
  */
-export const deleteType: (
-  input: DeleteTypeRequest,
-) => effect.Effect<
+export const deleteType: API.OperationMethod<
+  DeleteTypeRequest,
   DeleteTypeResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4481,9 +4458,8 @@ export const deleteType: (
 /**
  * Removes an `ApiAssociation` object from a custom domain.
  */
-export const disassociateApi: (
-  input: DisassociateApiRequest,
-) => effect.Effect<
+export const disassociateApi: API.OperationMethod<
+  DisassociateApiRequest,
   DisassociateApiResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4507,9 +4483,8 @@ export const disassociateApi: (
  * Deletes an association between a Merged API and source API using the source API's
  * identifier and the association ID.
  */
-export const disassociateMergedGraphqlApi: (
-  input: DisassociateMergedGraphqlApiRequest,
-) => effect.Effect<
+export const disassociateMergedGraphqlApi: API.OperationMethod<
+  DisassociateMergedGraphqlApiRequest,
   DisassociateMergedGraphqlApiResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4533,9 +4508,8 @@ export const disassociateMergedGraphqlApi: (
  * Deletes an association between a Merged API and source API using the Merged API's
  * identifier and the association ID.
  */
-export const disassociateSourceGraphqlApi: (
-  input: DisassociateSourceGraphqlApiRequest,
-) => effect.Effect<
+export const disassociateSourceGraphqlApi: API.OperationMethod<
+  DisassociateSourceGraphqlApiRequest,
   DisassociateSourceGraphqlApiResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4563,9 +4537,8 @@ export const disassociateSourceGraphqlApi: (
  * data source operation. The response function interprets responses from the data source and
  * maps it to the shape of the GraphQL field output type.
  */
-export const evaluateCode: (
-  input: EvaluateCodeRequest,
-) => effect.Effect<
+export const evaluateCode: API.OperationMethod<
+  EvaluateCodeRequest,
   EvaluateCodeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4592,9 +4565,8 @@ export const evaluateCode: (
  *
  * Mapping templates are written in the Apache Velocity Template Language (VTL).
  */
-export const evaluateMappingTemplate: (
-  input: EvaluateMappingTemplateRequest,
-) => effect.Effect<
+export const evaluateMappingTemplate: API.OperationMethod<
+  EvaluateMappingTemplateRequest,
   EvaluateMappingTemplateResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4613,9 +4585,8 @@ export const evaluateMappingTemplate: (
 /**
  * Flushes an `ApiCache` object.
  */
-export const flushApiCache: (
-  input: FlushApiCacheRequest,
-) => effect.Effect<
+export const flushApiCache: API.OperationMethod<
+  FlushApiCacheRequest,
   FlushApiCacheResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4638,9 +4609,8 @@ export const flushApiCache: (
 /**
  * Retrieves an `Api` object.
  */
-export const getApi: (
-  input: GetApiRequest,
-) => effect.Effect<
+export const getApi: API.OperationMethod<
+  GetApiRequest,
   GetApiResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4663,9 +4633,8 @@ export const getApi: (
 /**
  * Retrieves an `ApiAssociation` object.
  */
-export const getApiAssociation: (
-  input: GetApiAssociationRequest,
-) => effect.Effect<
+export const getApiAssociation: API.OperationMethod<
+  GetApiAssociationRequest,
   GetApiAssociationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4686,9 +4655,8 @@ export const getApiAssociation: (
 /**
  * Retrieves an `ApiCache` object.
  */
-export const getApiCache: (
-  input: GetApiCacheRequest,
-) => effect.Effect<
+export const getApiCache: API.OperationMethod<
+  GetApiCacheRequest,
   GetApiCacheResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4711,9 +4679,8 @@ export const getApiCache: (
 /**
  * Retrieves the channel namespace for a specified `Api`.
  */
-export const getChannelNamespace: (
-  input: GetChannelNamespaceRequest,
-) => effect.Effect<
+export const getChannelNamespace: API.OperationMethod<
+  GetChannelNamespaceRequest,
   GetChannelNamespaceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4736,9 +4703,8 @@ export const getChannelNamespace: (
 /**
  * Retrieves a `DataSource` object.
  */
-export const getDataSource: (
-  input: GetDataSourceRequest,
-) => effect.Effect<
+export const getDataSource: API.OperationMethod<
+  GetDataSourceRequest,
   GetDataSourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4763,9 +4729,8 @@ export const getDataSource: (
  * result of the instrospection will also be returned. If the retrieval fails the operation,
  * an error message will be returned instead.
  */
-export const getDataSourceIntrospection: (
-  input: GetDataSourceIntrospectionRequest,
-) => effect.Effect<
+export const getDataSourceIntrospection: API.OperationMethod<
+  GetDataSourceIntrospectionRequest,
   GetDataSourceIntrospectionResponse,
   | BadRequestException
   | InternalFailureException
@@ -4780,9 +4745,8 @@ export const getDataSourceIntrospection: (
 /**
  * Retrieves a custom `DomainName` object.
  */
-export const getDomainName: (
-  input: GetDomainNameRequest,
-) => effect.Effect<
+export const getDomainName: API.OperationMethod<
+  GetDomainNameRequest,
   GetDomainNameResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4803,9 +4767,8 @@ export const getDomainName: (
 /**
  * Get a `Function`.
  */
-export const getFunction: (
-  input: GetFunctionRequest,
-) => effect.Effect<
+export const getFunction: API.OperationMethod<
+  GetFunctionRequest,
   GetFunctionResponse,
   | ConcurrentModificationException
   | NotFoundException
@@ -4824,9 +4787,8 @@ export const getFunction: (
 /**
  * Retrieves a `GraphqlApi` object.
  */
-export const getGraphqlApi: (
-  input: GetGraphqlApiRequest,
-) => effect.Effect<
+export const getGraphqlApi: API.OperationMethod<
+  GetGraphqlApiRequest,
   GetGraphqlApiResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4850,9 +4812,8 @@ export const getGraphqlApi: (
  * Retrieves the list of environmental variable key-value pairs associated with an API by
  * its ID value.
  */
-export const getGraphqlApiEnvironmentVariables: (
-  input: GetGraphqlApiEnvironmentVariablesRequest,
-) => effect.Effect<
+export const getGraphqlApiEnvironmentVariables: API.OperationMethod<
+  GetGraphqlApiEnvironmentVariablesRequest,
   GetGraphqlApiEnvironmentVariablesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -4875,9 +4836,8 @@ export const getGraphqlApiEnvironmentVariables: (
 /**
  * Retrieves the introspection schema for a GraphQL API.
  */
-export const getIntrospectionSchema: (
-  input: GetIntrospectionSchemaRequest,
-) => effect.Effect<
+export const getIntrospectionSchema: API.OperationMethod<
+  GetIntrospectionSchemaRequest,
   GetIntrospectionSchemaResponse,
   | GraphQLSchemaException
   | InternalFailureException
@@ -4898,9 +4858,8 @@ export const getIntrospectionSchema: (
 /**
  * Retrieves a `Resolver` object.
  */
-export const getResolver: (
-  input: GetResolverRequest,
-) => effect.Effect<
+export const getResolver: API.OperationMethod<
+  GetResolverRequest,
   GetResolverResponse,
   | ConcurrentModificationException
   | NotFoundException
@@ -4919,9 +4878,8 @@ export const getResolver: (
 /**
  * Retrieves the current status of a schema creation operation.
  */
-export const getSchemaCreationStatus: (
-  input: GetSchemaCreationStatusRequest,
-) => effect.Effect<
+export const getSchemaCreationStatus: API.OperationMethod<
+  GetSchemaCreationStatusRequest,
   GetSchemaCreationStatusResponse,
   | BadRequestException
   | InternalFailureException
@@ -4942,9 +4900,8 @@ export const getSchemaCreationStatus: (
 /**
  * Retrieves a `SourceApiAssociation` object.
  */
-export const getSourceApiAssociation: (
-  input: GetSourceApiAssociationRequest,
-) => effect.Effect<
+export const getSourceApiAssociation: API.OperationMethod<
+  GetSourceApiAssociationRequest,
   GetSourceApiAssociationResponse,
   | BadRequestException
   | InternalFailureException
@@ -4965,9 +4922,8 @@ export const getSourceApiAssociation: (
 /**
  * Retrieves a `Type` object.
  */
-export const getType: (
-  input: GetTypeRequest,
-) => effect.Effect<
+export const getType: API.OperationMethod<
+  GetTypeRequest,
   GetTypeResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -4995,18 +4951,16 @@ export const getType: (
  * `DeleteApiKey` to manually delete a key before it's automatically
  * deleted.
  */
-export const listApiKeys: {
-  (
-    input: ListApiKeysRequest,
-  ): effect.Effect<
-    ListApiKeysResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApiKeys: API.OperationMethod<
+  ListApiKeysRequest,
+  ListApiKeysResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApiKeysRequest,
   ) => stream.Stream<
@@ -5051,17 +5005,15 @@ export const listApiKeys: {
  * `ListApis` returns only the high level API details. For more detailed
  * information about an API, use `GetApi`.
  */
-export const listApis: {
-  (
-    input: ListApisRequest,
-  ): effect.Effect<
-    ListApisResponse,
-    | BadRequestException
-    | InternalFailureException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApis: API.OperationMethod<
+  ListApisRequest,
+  ListApisResponse,
+  | BadRequestException
+  | InternalFailureException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApisRequest,
   ) => stream.Stream<
@@ -5103,18 +5055,16 @@ export const listApis: {
  * `ListChannelNamespaces` returns only high level details for the channel
  * namespace. To retrieve code handlers, use `GetChannelNamespace`.
  */
-export const listChannelNamespaces: {
-  (
-    input: ListChannelNamespacesRequest,
-  ): effect.Effect<
-    ListChannelNamespacesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelNamespaces: API.OperationMethod<
+  ListChannelNamespacesRequest,
+  ListChannelNamespacesResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelNamespacesRequest,
   ) => stream.Stream<
@@ -5156,18 +5106,16 @@ export const listChannelNamespaces: {
 /**
  * Lists the data sources for a given API.
  */
-export const listDataSources: {
-  (
-    input: ListDataSourcesRequest,
-  ): effect.Effect<
-    ListDataSourcesResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSources: API.OperationMethod<
+  ListDataSourcesRequest,
+  ListDataSourcesResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourcesRequest,
   ) => stream.Stream<
@@ -5209,17 +5157,15 @@ export const listDataSources: {
 /**
  * Lists multiple custom domain names.
  */
-export const listDomainNames: {
-  (
-    input: ListDomainNamesRequest,
-  ): effect.Effect<
-    ListDomainNamesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalFailureException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomainNames: API.OperationMethod<
+  ListDomainNamesRequest,
+  ListDomainNamesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalFailureException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainNamesRequest,
   ) => stream.Stream<
@@ -5258,18 +5204,16 @@ export const listDomainNames: {
 /**
  * List multiple functions.
  */
-export const listFunctions: {
-  (
-    input: ListFunctionsRequest,
-  ): effect.Effect<
-    ListFunctionsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFunctions: API.OperationMethod<
+  ListFunctionsRequest,
+  ListFunctionsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFunctionsRequest,
   ) => stream.Stream<
@@ -5311,17 +5255,15 @@ export const listFunctions: {
 /**
  * Lists your GraphQL APIs.
  */
-export const listGraphqlApis: {
-  (
-    input: ListGraphqlApisRequest,
-  ): effect.Effect<
-    ListGraphqlApisResponse,
-    | BadRequestException
-    | InternalFailureException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGraphqlApis: API.OperationMethod<
+  ListGraphqlApisRequest,
+  ListGraphqlApisResponse,
+  | BadRequestException
+  | InternalFailureException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGraphqlApisRequest,
   ) => stream.Stream<
@@ -5360,18 +5302,16 @@ export const listGraphqlApis: {
 /**
  * Lists the resolvers for a given API and type.
  */
-export const listResolvers: {
-  (
-    input: ListResolversRequest,
-  ): effect.Effect<
-    ListResolversResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolvers: API.OperationMethod<
+  ListResolversRequest,
+  ListResolversResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolversRequest,
   ) => stream.Stream<
@@ -5413,18 +5353,16 @@ export const listResolvers: {
 /**
  * List the resolvers that are associated with a specific function.
  */
-export const listResolversByFunction: {
-  (
-    input: ListResolversByFunctionRequest,
-  ): effect.Effect<
-    ListResolversByFunctionResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolversByFunction: API.OperationMethod<
+  ListResolversByFunctionRequest,
+  ListResolversByFunctionResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolversByFunctionRequest,
   ) => stream.Stream<
@@ -5466,18 +5404,16 @@ export const listResolversByFunction: {
 /**
  * Lists the `SourceApiAssociationSummary` data.
  */
-export const listSourceApiAssociations: {
-  (
-    input: ListSourceApiAssociationsRequest,
-  ): effect.Effect<
-    ListSourceApiAssociationsResponse,
-    | BadRequestException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSourceApiAssociations: API.OperationMethod<
+  ListSourceApiAssociationsRequest,
+  ListSourceApiAssociationsResponse,
+  | BadRequestException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSourceApiAssociationsRequest,
   ) => stream.Stream<
@@ -5519,9 +5455,8 @@ export const listSourceApiAssociations: {
 /**
  * Lists the tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5546,19 +5481,17 @@ export const listTagsForResource: (
 /**
  * Lists the types for a given API.
  */
-export const listTypes: {
-  (
-    input: ListTypesRequest,
-  ): effect.Effect<
-    ListTypesResponse,
-    | BadRequestException
-    | ConcurrentModificationException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTypes: API.OperationMethod<
+  ListTypesRequest,
+  ListTypesResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTypesRequest,
   ) => stream.Stream<
@@ -5603,19 +5536,17 @@ export const listTypes: {
 /**
  * Lists `Type` objects by the source API association ID.
  */
-export const listTypesByAssociation: {
-  (
-    input: ListTypesByAssociationRequest,
-  ): effect.Effect<
-    ListTypesByAssociationResponse,
-    | BadRequestException
-    | ConcurrentModificationException
-    | InternalFailureException
-    | NotFoundException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTypesByAssociation: API.OperationMethod<
+  ListTypesByAssociationRequest,
+  ListTypesByAssociationResponse,
+  | BadRequestException
+  | ConcurrentModificationException
+  | InternalFailureException
+  | NotFoundException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTypesByAssociationRequest,
   ) => stream.Stream<
@@ -5696,9 +5627,8 @@ export const listTypesByAssociation: {
  * variables will be lost. To avoid this, you must include all existing and new environmental
  * variables in the list each time you call this action.
  */
-export const putGraphqlApiEnvironmentVariables: (
-  input: PutGraphqlApiEnvironmentVariablesRequest,
-) => effect.Effect<
+export const putGraphqlApiEnvironmentVariables: API.OperationMethod<
+  PutGraphqlApiEnvironmentVariablesRequest,
   PutGraphqlApiEnvironmentVariablesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5724,9 +5654,8 @@ export const putGraphqlApiEnvironmentVariables: (
  * Creates a new introspection. Returns the `introspectionId` of the new
  * introspection after its creation.
  */
-export const startDataSourceIntrospection: (
-  input: StartDataSourceIntrospectionRequest,
-) => effect.Effect<
+export const startDataSourceIntrospection: API.OperationMethod<
+  StartDataSourceIntrospectionRequest,
   StartDataSourceIntrospectionResponse,
   | BadRequestException
   | InternalFailureException
@@ -5750,9 +5679,8 @@ export const startDataSourceIntrospection: (
  * This operation is asynchronous. Use to
  * determine when it has completed.
  */
-export const startSchemaCreation: (
-  input: StartSchemaCreationRequest,
-) => effect.Effect<
+export const startSchemaCreation: API.OperationMethod<
+  StartSchemaCreationRequest,
   StartSchemaCreationResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -5776,9 +5704,8 @@ export const startSchemaCreation: (
  * Initiates a merge operation. Returns a status that shows the result of the merge
  * operation.
  */
-export const startSchemaMerge: (
-  input: StartSchemaMergeRequest,
-) => effect.Effect<
+export const startSchemaMerge: API.OperationMethod<
+  StartSchemaMergeRequest,
   StartSchemaMergeResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -5801,9 +5728,8 @@ export const startSchemaMerge: (
 /**
  * Tags a resource with user-supplied tags.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5828,9 +5754,8 @@ export const tagResource: (
 /**
  * Untags a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5855,9 +5780,8 @@ export const untagResource: (
 /**
  * Updates an `Api`.
  */
-export const updateApi: (
-  input: UpdateApiRequest,
-) => effect.Effect<
+export const updateApi: API.OperationMethod<
+  UpdateApiRequest,
   UpdateApiResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5882,9 +5806,8 @@ export const updateApi: (
 /**
  * Updates the cache for the GraphQL API.
  */
-export const updateApiCache: (
-  input: UpdateApiCacheRequest,
-) => effect.Effect<
+export const updateApiCache: API.OperationMethod<
+  UpdateApiCacheRequest,
   UpdateApiCacheResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -5907,9 +5830,8 @@ export const updateApiCache: (
 /**
  * Updates an API key. You can update the key as long as it's not deleted.
  */
-export const updateApiKey: (
-  input: UpdateApiKeyRequest,
-) => effect.Effect<
+export const updateApiKey: API.OperationMethod<
+  UpdateApiKeyRequest,
   UpdateApiKeyResponse,
   | ApiKeyValidityOutOfBoundsException
   | BadRequestException
@@ -5934,9 +5856,8 @@ export const updateApiKey: (
 /**
  * Updates a `ChannelNamespace` associated with an `Api`.
  */
-export const updateChannelNamespace: (
-  input: UpdateChannelNamespaceRequest,
-) => effect.Effect<
+export const updateChannelNamespace: API.OperationMethod<
+  UpdateChannelNamespaceRequest,
   UpdateChannelNamespaceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -5961,9 +5882,8 @@ export const updateChannelNamespace: (
 /**
  * Updates a `DataSource` object.
  */
-export const updateDataSource: (
-  input: UpdateDataSourceRequest,
-) => effect.Effect<
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceRequest,
   UpdateDataSourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -5986,9 +5906,8 @@ export const updateDataSource: (
 /**
  * Updates a custom `DomainName` object.
  */
-export const updateDomainName: (
-  input: UpdateDomainNameRequest,
-) => effect.Effect<
+export const updateDomainName: API.OperationMethod<
+  UpdateDomainNameRequest,
   UpdateDomainNameResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6011,9 +5930,8 @@ export const updateDomainName: (
 /**
  * Updates a `Function` object.
  */
-export const updateFunction: (
-  input: UpdateFunctionRequest,
-) => effect.Effect<
+export const updateFunction: API.OperationMethod<
+  UpdateFunctionRequest,
   UpdateFunctionResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -6036,9 +5954,8 @@ export const updateFunction: (
 /**
  * Updates a `GraphqlApi` object.
  */
-export const updateGraphqlApi: (
-  input: UpdateGraphqlApiRequest,
-) => effect.Effect<
+export const updateGraphqlApi: API.OperationMethod<
+  UpdateGraphqlApiRequest,
   UpdateGraphqlApiResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6063,9 +5980,8 @@ export const updateGraphqlApi: (
 /**
  * Updates a `Resolver` object.
  */
-export const updateResolver: (
-  input: UpdateResolverRequest,
-) => effect.Effect<
+export const updateResolver: API.OperationMethod<
+  UpdateResolverRequest,
   UpdateResolverResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -6088,9 +6004,8 @@ export const updateResolver: (
 /**
  * Updates some of the configuration choices of a particular source API association.
  */
-export const updateSourceApiAssociation: (
-  input: UpdateSourceApiAssociationRequest,
-) => effect.Effect<
+export const updateSourceApiAssociation: API.OperationMethod<
+  UpdateSourceApiAssociationRequest,
   UpdateSourceApiAssociationResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -6113,9 +6028,8 @@ export const updateSourceApiAssociation: (
 /**
  * Updates a `Type` object.
  */
-export const updateType: (
-  input: UpdateTypeRequest,
-) => effect.Effect<
+export const updateType: API.OperationMethod<
+  UpdateTypeRequest,
   UpdateTypeResponse,
   | BadRequestException
   | ConcurrentModificationException

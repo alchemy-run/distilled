@@ -203,9 +203,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  *
  * - **Concurrent calls** - Concurrent calls are allowed. An offer is sent once per each call.
  */
-export const joinStorageSession: (
-  input: JoinStorageSessionInput,
-) => effect.Effect<
+export const joinStorageSession: API.OperationMethod<
+  JoinStorageSessionInput,
   JoinStorageSessionResponse,
   | AccessDeniedException
   | ClientLimitExceededException
@@ -242,9 +241,8 @@ export const joinStorageSession: (
  * with ingested WebRTC media. If there’s an existing session with the same
  * `clientId` that's found in the join session request, the new request takes precedence.
  */
-export const joinStorageSessionAsViewer: (
-  input: JoinStorageSessionAsViewerInput,
-) => effect.Effect<
+export const joinStorageSessionAsViewer: API.OperationMethod<
+  JoinStorageSessionAsViewerInput,
   JoinStorageSessionAsViewerResponse,
   | AccessDeniedException
   | ClientLimitExceededException

@@ -2876,9 +2876,8 @@ export class KMSInvalidMacException extends S.TaggedErrorClass<KMSInvalidMacExce
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const cancelKeyDeletion: (
-  input: CancelKeyDeletionRequest,
-) => effect.Effect<
+export const cancelKeyDeletion: API.OperationMethod<
+  CancelKeyDeletionRequest,
   CancelKeyDeletionResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -2982,9 +2981,8 @@ export const cancelKeyDeletion: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const connectCustomKeyStore: (
-  input: ConnectCustomKeyStoreRequest,
-) => effect.Effect<
+export const connectCustomKeyStore: API.OperationMethod<
+  ConnectCustomKeyStoreRequest,
   ConnectCustomKeyStoreResponse,
   | CloudHsmClusterInvalidConfigurationException
   | CloudHsmClusterNotActiveException
@@ -3051,9 +3049,8 @@ export const connectCustomKeyStore: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createAlias: (
-  input: CreateAliasRequest,
-) => effect.Effect<
+export const createAlias: API.OperationMethod<
+  CreateAliasRequest,
   CreateAliasResponse,
   | AlreadyExistsException
   | DependencyTimeoutException
@@ -3152,9 +3149,8 @@ export const createAlias: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createCustomKeyStore: (
-  input: CreateCustomKeyStoreRequest,
-) => effect.Effect<
+export const createCustomKeyStore: API.OperationMethod<
+  CreateCustomKeyStoreRequest,
   CreateCustomKeyStoreResponse,
   | CloudHsmClusterInUseException
   | CloudHsmClusterInvalidConfigurationException
@@ -3251,9 +3247,8 @@ export const createCustomKeyStore: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createGrant: (
-  input: CreateGrantRequest,
-) => effect.Effect<
+export const createGrant: API.OperationMethod<
+  CreateGrantRequest,
   CreateGrantResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -3448,9 +3443,8 @@ export const createGrant: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const createKey: (
-  input: CreateKeyRequest,
-) => effect.Effect<
+export const createKey: API.OperationMethod<
+  CreateKeyRequest,
   CreateKeyResponse,
   | CloudHsmClusterInvalidConfigurationException
   | CustomKeyStoreInvalidStateException
@@ -3558,9 +3552,8 @@ export const createKey: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const decrypt: (
-  input: DecryptRequest,
-) => effect.Effect<
+export const decrypt: API.OperationMethod<
+  DecryptRequest,
   DecryptResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -3628,9 +3621,8 @@ export const decrypt: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const deleteAlias: (
-  input: DeleteAliasRequest,
-) => effect.Effect<
+export const deleteAlias: API.OperationMethod<
+  DeleteAliasRequest,
   DeleteAliasResponse,
   | DependencyTimeoutException
   | KMSInternalException
@@ -3699,9 +3691,8 @@ export const deleteAlias: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const deleteCustomKeyStore: (
-  input: DeleteCustomKeyStoreRequest,
-) => effect.Effect<
+export const deleteCustomKeyStore: API.OperationMethod<
+  DeleteCustomKeyStoreRequest,
   DeleteCustomKeyStoreResponse,
   | CustomKeyStoreHasCMKsException
   | CustomKeyStoreInvalidStateException
@@ -3756,9 +3747,8 @@ export const deleteCustomKeyStore: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const deleteImportedKeyMaterial: (
-  input: DeleteImportedKeyMaterialRequest,
-) => effect.Effect<
+export const deleteImportedKeyMaterial: API.OperationMethod<
+  DeleteImportedKeyMaterialRequest,
   DeleteImportedKeyMaterialResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -3856,9 +3846,8 @@ export const deleteImportedKeyMaterial: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const deriveSharedSecret: (
-  input: DeriveSharedSecretRequest,
-) => effect.Effect<
+export const deriveSharedSecret: API.OperationMethod<
+  DeriveSharedSecretRequest,
   DeriveSharedSecretResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -3937,17 +3926,15 @@ export const deriveSharedSecret: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const describeCustomKeyStores: {
-  (
-    input: DescribeCustomKeyStoresRequest,
-  ): effect.Effect<
-    DescribeCustomKeyStoresResponse,
-    | CustomKeyStoreNotFoundException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCustomKeyStores: API.OperationMethod<
+  DescribeCustomKeyStoresRequest,
+  DescribeCustomKeyStoresResponse,
+  | CustomKeyStoreNotFoundException
+  | InvalidMarkerException
+  | KMSInternalException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCustomKeyStoresRequest,
   ) => stream.Stream<
@@ -4042,9 +4029,8 @@ export const describeCustomKeyStores: {
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const describeKey: (
-  input: DescribeKeyRequest,
-) => effect.Effect<
+export const describeKey: API.OperationMethod<
+  DescribeKeyRequest,
   DescribeKeyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -4081,9 +4067,8 @@ export const describeKey: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const disableKey: (
-  input: DisableKeyRequest,
-) => effect.Effect<
+export const disableKey: API.OperationMethod<
+  DisableKeyRequest,
   DisableKeyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -4138,9 +4123,8 @@ export const disableKey: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const disableKeyRotation: (
-  input: DisableKeyRotationRequest,
-) => effect.Effect<
+export const disableKeyRotation: API.OperationMethod<
+  DisableKeyRotationRequest,
   DisableKeyRotationResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4206,9 +4190,8 @@ export const disableKeyRotation: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const disconnectCustomKeyStore: (
-  input: DisconnectCustomKeyStoreRequest,
-) => effect.Effect<
+export const disconnectCustomKeyStore: API.OperationMethod<
+  DisconnectCustomKeyStoreRequest,
   DisconnectCustomKeyStoreResponse,
   | CustomKeyStoreInvalidStateException
   | CustomKeyStoreNotFoundException
@@ -4240,9 +4223,8 @@ export const disconnectCustomKeyStore: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const enableKey: (
-  input: EnableKeyRequest,
-) => effect.Effect<
+export const enableKey: API.OperationMethod<
+  EnableKeyRequest,
   EnableKeyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -4319,9 +4301,8 @@ export const enableKey: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const enableKeyRotation: (
-  input: EnableKeyRotationRequest,
-) => effect.Effect<
+export const enableKeyRotation: API.OperationMethod<
+  EnableKeyRotationRequest,
   EnableKeyRotationResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4416,9 +4397,8 @@ export const enableKeyRotation: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const encrypt: (
-  input: EncryptRequest,
-) => effect.Effect<
+export const encrypt: API.OperationMethod<
+  EncryptRequest,
   EncryptResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4535,9 +4515,8 @@ export const encrypt: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateDataKey: (
-  input: GenerateDataKeyRequest,
-) => effect.Effect<
+export const generateDataKey: API.OperationMethod<
+  GenerateDataKeyRequest,
   GenerateDataKeyResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4640,9 +4619,8 @@ export const generateDataKey: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateDataKeyPair: (
-  input: GenerateDataKeyPairRequest,
-) => effect.Effect<
+export const generateDataKeyPair: API.OperationMethod<
+  GenerateDataKeyPairRequest,
   GenerateDataKeyPairResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4728,9 +4706,8 @@ export const generateDataKeyPair: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateDataKeyPairWithoutPlaintext: (
-  input: GenerateDataKeyPairWithoutPlaintextRequest,
-) => effect.Effect<
+export const generateDataKeyPairWithoutPlaintext: API.OperationMethod<
+  GenerateDataKeyPairWithoutPlaintextRequest,
   GenerateDataKeyPairWithoutPlaintextResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4829,9 +4806,8 @@ export const generateDataKeyPairWithoutPlaintext: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateDataKeyWithoutPlaintext: (
-  input: GenerateDataKeyWithoutPlaintextRequest,
-) => effect.Effect<
+export const generateDataKeyWithoutPlaintext: API.OperationMethod<
+  GenerateDataKeyWithoutPlaintextRequest,
   GenerateDataKeyWithoutPlaintextResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -4893,9 +4869,8 @@ export const generateDataKeyWithoutPlaintext: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateMac: (
-  input: GenerateMacRequest,
-) => effect.Effect<
+export const generateMac: API.OperationMethod<
+  GenerateMacRequest,
   GenerateMacResponse,
   | DisabledException
   | DryRunOperationException
@@ -4949,9 +4924,8 @@ export const generateMac: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const generateRandom: (
-  input: GenerateRandomRequest,
-) => effect.Effect<
+export const generateRandom: API.OperationMethod<
+  GenerateRandomRequest,
   GenerateRandomResponse,
   | CustomKeyStoreInvalidStateException
   | CustomKeyStoreNotFoundException
@@ -4983,9 +4957,8 @@ export const generateRandom: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const getKeyPolicy: (
-  input: GetKeyPolicyRequest,
-) => effect.Effect<
+export const getKeyPolicy: API.OperationMethod<
+  GetKeyPolicyRequest,
   GetKeyPolicyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -5060,9 +5033,8 @@ export const getKeyPolicy: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const getKeyRotationStatus: (
-  input: GetKeyRotationStatusRequest,
-) => effect.Effect<
+export const getKeyRotationStatus: API.OperationMethod<
+  GetKeyRotationStatusRequest,
   GetKeyRotationStatusResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -5151,9 +5123,8 @@ export const getKeyRotationStatus: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const getParametersForImport: (
-  input: GetParametersForImportRequest,
-) => effect.Effect<
+export const getParametersForImport: API.OperationMethod<
+  GetParametersForImportRequest,
   GetParametersForImportResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -5225,9 +5196,8 @@ export const getParametersForImport: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const getPublicKey: (
-  input: GetPublicKeyRequest,
-) => effect.Effect<
+export const getPublicKey: API.OperationMethod<
+  GetPublicKeyRequest,
   GetPublicKeyResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -5373,9 +5343,8 @@ export const getPublicKey: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const importKeyMaterial: (
-  input: ImportKeyMaterialRequest,
-) => effect.Effect<
+export const importKeyMaterial: API.OperationMethod<
+  ImportKeyMaterialRequest,
   ImportKeyMaterialResponse,
   | DependencyTimeoutException
   | ExpiredImportTokenException
@@ -5442,19 +5411,17 @@ export const importKeyMaterial: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listAliases: {
-  (
-    input: ListAliasesRequest,
-  ): effect.Effect<
-    ListAliasesResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAliases: API.OperationMethod<
+  ListAliasesRequest,
+  ListAliasesResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | InvalidMarkerException
+  | KMSInternalException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAliasesRequest,
   ) => stream.Stream<
@@ -5532,21 +5499,19 @@ export const listAliases: {
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listGrants: {
-  (
-    input: ListGrantsRequest,
-  ): effect.Effect<
-    ListGrantsResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidGrantIdException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGrants: API.OperationMethod<
+  ListGrantsRequest,
+  ListGrantsResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | InvalidGrantIdException
+  | InvalidMarkerException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGrantsRequest,
   ) => stream.Stream<
@@ -5612,19 +5577,17 @@ export const listGrants: {
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listKeyPolicies: {
-  (
-    input: ListKeyPoliciesRequest,
-  ): effect.Effect<
-    ListKeyPoliciesResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKeyPolicies: API.OperationMethod<
+  ListKeyPoliciesRequest,
+  ListKeyPoliciesResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeyPoliciesRequest,
   ) => stream.Stream<
@@ -5698,20 +5661,18 @@ export const listKeyPolicies: {
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listKeyRotations: {
-  (
-    input: ListKeyRotationsRequest,
-  ): effect.Effect<
-    ListKeyRotationsResponse,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | KMSInvalidStateException
-    | NotFoundException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKeyRotations: API.OperationMethod<
+  ListKeyRotationsRequest,
+  ListKeyRotationsResponse,
+  | InvalidArnException
+  | InvalidMarkerException
+  | KMSInternalException
+  | KMSInvalidStateException
+  | NotFoundException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeyRotationsRequest,
   ) => stream.Stream<
@@ -5776,17 +5737,15 @@ export const listKeyRotations: {
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listKeys: {
-  (
-    input: ListKeysRequest,
-  ): effect.Effect<
-    ListKeysResponse,
-    | DependencyTimeoutException
-    | InvalidMarkerException
-    | KMSInternalException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKeys: API.OperationMethod<
+  ListKeysRequest,
+  ListKeysResponse,
+  | DependencyTimeoutException
+  | InvalidMarkerException
+  | KMSInternalException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeysRequest,
   ) => stream.Stream<
@@ -5847,18 +5806,16 @@ export const listKeys: {
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listResourceTags: {
-  (
-    input: ListResourceTagsRequest,
-  ): effect.Effect<
-    ListResourceTagsResponse,
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceTags: API.OperationMethod<
+  ListResourceTagsRequest,
+  ListResourceTagsResponse,
+  | InvalidArnException
+  | InvalidMarkerException
+  | KMSInternalException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceTagsRequest,
   ) => stream.Stream<
@@ -5940,19 +5897,17 @@ export const listResourceTags: {
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const listRetirableGrants: {
-  (
-    input: ListRetirableGrantsRequest,
-  ): effect.Effect<
-    ListGrantsResponse,
-    | DependencyTimeoutException
-    | InvalidArnException
-    | InvalidMarkerException
-    | KMSInternalException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRetirableGrants: API.OperationMethod<
+  ListRetirableGrantsRequest,
+  ListGrantsResponse,
+  | DependencyTimeoutException
+  | InvalidArnException
+  | InvalidMarkerException
+  | KMSInternalException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRetirableGrantsRequest,
   ) => stream.Stream<
@@ -6013,9 +5968,8 @@ export const listRetirableGrants: {
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const putKeyPolicy: (
-  input: PutKeyPolicyRequest,
-) => effect.Effect<
+export const putKeyPolicy: API.OperationMethod<
+  PutKeyPolicyRequest,
   PutKeyPolicyResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -6116,9 +6070,8 @@ export const putKeyPolicy: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const reEncrypt: (
-  input: ReEncryptRequest,
-) => effect.Effect<
+export const reEncrypt: API.OperationMethod<
+  ReEncryptRequest,
   ReEncryptResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -6223,9 +6176,8 @@ export const reEncrypt: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const replicateKey: (
-  input: ReplicateKeyRequest,
-) => effect.Effect<
+export const replicateKey: API.OperationMethod<
+  ReplicateKeyRequest,
   ReplicateKeyResponse,
   | AlreadyExistsException
   | DisabledException
@@ -6292,9 +6244,8 @@ export const replicateKey: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const retireGrant: (
-  input: RetireGrantRequest,
-) => effect.Effect<
+export const retireGrant: API.OperationMethod<
+  RetireGrantRequest,
   RetireGrantResponse,
   | DependencyTimeoutException
   | DryRunOperationException
@@ -6356,9 +6307,8 @@ export const retireGrant: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const revokeGrant: (
-  input: RevokeGrantRequest,
-) => effect.Effect<
+export const revokeGrant: API.OperationMethod<
+  RevokeGrantRequest,
   RevokeGrantResponse,
   | DependencyTimeoutException
   | DryRunOperationException
@@ -6439,9 +6389,8 @@ export const revokeGrant: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const rotateKeyOnDemand: (
-  input: RotateKeyOnDemandRequest,
-) => effect.Effect<
+export const rotateKeyOnDemand: API.OperationMethod<
+  RotateKeyOnDemandRequest,
   RotateKeyOnDemandResponse,
   | ConflictException
   | DependencyTimeoutException
@@ -6525,9 +6474,8 @@ export const rotateKeyOnDemand: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const scheduleKeyDeletion: (
-  input: ScheduleKeyDeletionRequest,
-) => effect.Effect<
+export const scheduleKeyDeletion: API.OperationMethod<
+  ScheduleKeyDeletionRequest,
   ScheduleKeyDeletionResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -6600,9 +6548,8 @@ export const scheduleKeyDeletion: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const sign: (
-  input: SignRequest,
-) => effect.Effect<
+export const sign: API.OperationMethod<
+  SignRequest,
   SignResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -6670,9 +6617,8 @@ export const sign: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidArnException
   | KMSInternalException
@@ -6728,9 +6674,8 @@ export const tagResource: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidArnException
   | KMSInternalException
@@ -6801,9 +6746,8 @@ export const untagResource: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updateAlias: (
-  input: UpdateAliasRequest,
-) => effect.Effect<
+export const updateAlias: API.OperationMethod<
+  UpdateAliasRequest,
   UpdateAliasResponse,
   | DependencyTimeoutException
   | KMSInternalException
@@ -6908,9 +6852,8 @@ export const updateAlias: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updateCustomKeyStore: (
-  input: UpdateCustomKeyStoreRequest,
-) => effect.Effect<
+export const updateCustomKeyStore: API.OperationMethod<
+  UpdateCustomKeyStoreRequest,
   UpdateCustomKeyStoreResponse,
   | CloudHsmClusterInvalidConfigurationException
   | CloudHsmClusterNotActiveException
@@ -6973,9 +6916,8 @@ export const updateCustomKeyStore: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updateKeyDescription: (
-  input: UpdateKeyDescriptionRequest,
-) => effect.Effect<
+export const updateKeyDescription: API.OperationMethod<
+  UpdateKeyDescriptionRequest,
   UpdateKeyDescriptionResponse,
   | DependencyTimeoutException
   | InvalidArnException
@@ -7058,9 +7000,8 @@ export const updateKeyDescription: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const updatePrimaryRegion: (
-  input: UpdatePrimaryRegionRequest,
-) => effect.Effect<
+export const updatePrimaryRegion: API.OperationMethod<
+  UpdatePrimaryRegionRequest,
   UpdatePrimaryRegionResponse,
   | DisabledException
   | InvalidArnException
@@ -7126,9 +7067,8 @@ export const updatePrimaryRegion: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const verify: (
-  input: VerifyRequest,
-) => effect.Effect<
+export const verify: API.OperationMethod<
+  VerifyRequest,
   VerifyResponse,
   | DependencyTimeoutException
   | DisabledException
@@ -7186,9 +7126,8 @@ export const verify: (
  * **Eventual consistency**: The KMS API follows an eventual consistency model.
  * For more information, see KMS eventual consistency.
  */
-export const verifyMac: (
-  input: VerifyMacRequest,
-) => effect.Effect<
+export const verifyMac: API.OperationMethod<
+  VerifyMacRequest,
   VerifyMacResponse,
   | DisabledException
   | DryRunOperationException

@@ -214,9 +214,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * For more information, see the **Errors** section at the
  * bottom of this topic, as well as Common Errors.
  */
-export const getMedia: (
-  input: GetMediaInput,
-) => effect.Effect<
+export const getMedia: API.OperationMethod<
+  GetMediaInput,
   GetMediaOutput,
   | ClientLimitExceededException
   | ConnectionLimitExceededException

@@ -2266,19 +2266,17 @@ export class ServiceLimitExceededException extends S.TaggedErrorClass<ServiceLim
 /**
  * Retrieves the margin summary report, which includes the Amazon Web Services cost and charged amount (pro forma cost) by Amazon Web Services service for a specific billing group.
  */
-export const getBillingGroupCostReport: {
-  (
-    input: GetBillingGroupCostReportInput,
-  ): effect.Effect<
-    GetBillingGroupCostReportOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBillingGroupCostReport: API.OperationMethod<
+  GetBillingGroupCostReportInput,
+  GetBillingGroupCostReportOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBillingGroupCostReportInput,
   ) => stream.Stream<
@@ -2323,19 +2321,17 @@ export const getBillingGroupCostReport: {
 /**
  * This is a paginated call to list linked accounts that are linked to the payer account for the specified time period. If no information is provided, the current billing period is used. The response will optionally include the billing group that's associated with the linked account.
  */
-export const listAccountAssociations: {
-  (
-    input: ListAccountAssociationsInput,
-  ): effect.Effect<
-    ListAccountAssociationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountAssociations: API.OperationMethod<
+  ListAccountAssociationsInput,
+  ListAccountAssociationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountAssociationsInput,
   ) => stream.Stream<
@@ -2379,19 +2375,17 @@ export const listAccountAssociations: {
 /**
  * A paginated call to retrieve a summary report of actual Amazon Web Services charges and the calculated Amazon Web Services charges based on the associated pricing plan of a billing group.
  */
-export const listBillingGroupCostReports: {
-  (
-    input: ListBillingGroupCostReportsInput,
-  ): effect.Effect<
-    ListBillingGroupCostReportsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillingGroupCostReports: API.OperationMethod<
+  ListBillingGroupCostReportsInput,
+  ListBillingGroupCostReportsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillingGroupCostReportsInput,
   ) => stream.Stream<
@@ -2436,9 +2430,8 @@ export const listBillingGroupCostReports: {
 /**
  * A list the tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2461,9 +2454,8 @@ export const listTagsForResource: (
 /**
  * Associates the specified tags to a resource with the specified `resourceArn`. If existing tags on a resource are not specified in the request parameters, they are not changed.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2486,9 +2478,8 @@ export const tagResource: (
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2511,9 +2502,8 @@ export const untagResource: (
 /**
  * Creates a billing group that resembles a consolidated billing family that Amazon Web Services charges, based off of the predefined pricing plan computation.
  */
-export const createBillingGroup: (
-  input: CreateBillingGroupInput,
-) => effect.Effect<
+export const createBillingGroup: API.OperationMethod<
+  CreateBillingGroupInput,
   CreateBillingGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -2538,9 +2528,8 @@ export const createBillingGroup: (
 /**
  * This updates an existing billing group.
  */
-export const updateBillingGroup: (
-  input: UpdateBillingGroupInput,
-) => effect.Effect<
+export const updateBillingGroup: API.OperationMethod<
+  UpdateBillingGroupInput,
   UpdateBillingGroupOutput,
   | AccessDeniedException
   | ConflictException
@@ -2565,9 +2554,8 @@ export const updateBillingGroup: (
 /**
  * Deletes a billing group.
  */
-export const deleteBillingGroup: (
-  input: DeleteBillingGroupInput,
-) => effect.Effect<
+export const deleteBillingGroup: API.OperationMethod<
+  DeleteBillingGroupInput,
   DeleteBillingGroupOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2588,19 +2576,17 @@ export const deleteBillingGroup: (
 /**
  * A paginated call to retrieve a list of billing groups for the given billing period. If you don't provide a billing group, the current billing period is used.
  */
-export const listBillingGroups: {
-  (
-    input: ListBillingGroupsInput,
-  ): effect.Effect<
-    ListBillingGroupsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillingGroups: API.OperationMethod<
+  ListBillingGroupsInput,
+  ListBillingGroupsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillingGroupsInput,
   ) => stream.Stream<
@@ -2645,9 +2631,8 @@ export const listBillingGroups: {
 /**
  * Connects an array of account IDs in a consolidated billing family to a predefined billing group. The account IDs must be a part of the consolidated billing family during the current month, and not already associated with another billing group. The maximum number of accounts that can be associated in one call is 30.
  */
-export const associateAccounts: (
-  input: AssociateAccountsInput,
-) => effect.Effect<
+export const associateAccounts: API.OperationMethod<
+  AssociateAccountsInput,
   AssociateAccountsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2674,9 +2659,8 @@ export const associateAccounts: (
 /**
  * Removes the specified list of account IDs from the given billing group.
  */
-export const disassociateAccounts: (
-  input: DisassociateAccountsInput,
-) => effect.Effect<
+export const disassociateAccounts: API.OperationMethod<
+  DisassociateAccountsInput,
   DisassociateAccountsOutput,
   | AccessDeniedException
   | ConflictException
@@ -2701,9 +2685,8 @@ export const disassociateAccounts: (
 /**
  * Creates a custom line item that can be used to create a one-time fixed charge that can be applied to a single billing group for the current or previous billing period. The one-time fixed charge is either a fee or discount.
  */
-export const createCustomLineItem: (
-  input: CreateCustomLineItemInput,
-) => effect.Effect<
+export const createCustomLineItem: API.OperationMethod<
+  CreateCustomLineItemInput,
   CreateCustomLineItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -2728,9 +2711,8 @@ export const createCustomLineItem: (
 /**
  * Update an existing custom line item in the current or previous billing period.
  */
-export const updateCustomLineItem: (
-  input: UpdateCustomLineItemInput,
-) => effect.Effect<
+export const updateCustomLineItem: API.OperationMethod<
+  UpdateCustomLineItemInput,
   UpdateCustomLineItemOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2753,9 +2735,8 @@ export const updateCustomLineItem: (
 /**
  * Deletes the custom line item identified by the given ARN in the current, or previous billing period.
  */
-export const deleteCustomLineItem: (
-  input: DeleteCustomLineItemInput,
-) => effect.Effect<
+export const deleteCustomLineItem: API.OperationMethod<
+  DeleteCustomLineItemInput,
   DeleteCustomLineItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -2778,19 +2759,17 @@ export const deleteCustomLineItem: (
 /**
  * A paginated call to get a list of all custom line items (FFLIs) for the given billing period. If you don't provide a billing period, the current billing period is used.
  */
-export const listCustomLineItems: {
-  (
-    input: ListCustomLineItemsInput,
-  ): effect.Effect<
-    ListCustomLineItemsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomLineItems: API.OperationMethod<
+  ListCustomLineItemsInput,
+  ListCustomLineItemsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomLineItemsInput,
   ) => stream.Stream<
@@ -2835,9 +2814,8 @@ export const listCustomLineItems: {
 /**
  * Associates a batch of resources to a percentage custom line item.
  */
-export const batchAssociateResourcesToCustomLineItem: (
-  input: BatchAssociateResourcesToCustomLineItemInput,
-) => effect.Effect<
+export const batchAssociateResourcesToCustomLineItem: API.OperationMethod<
+  BatchAssociateResourcesToCustomLineItemInput,
   BatchAssociateResourcesToCustomLineItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -2864,9 +2842,8 @@ export const batchAssociateResourcesToCustomLineItem: (
 /**
  * Disassociates a batch of resources from a percentage custom line item.
  */
-export const batchDisassociateResourcesFromCustomLineItem: (
-  input: BatchDisassociateResourcesFromCustomLineItemInput,
-) => effect.Effect<
+export const batchDisassociateResourcesFromCustomLineItem: API.OperationMethod<
+  BatchDisassociateResourcesFromCustomLineItemInput,
   BatchDisassociateResourcesFromCustomLineItemOutput,
   | AccessDeniedException
   | ConflictException
@@ -2891,18 +2868,16 @@ export const batchDisassociateResourcesFromCustomLineItem: (
 /**
  * A paginated call to get a list of all custom line item versions.
  */
-export const listCustomLineItemVersions: {
-  (
-    input: ListCustomLineItemVersionsInput,
-  ): effect.Effect<
-    ListCustomLineItemVersionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomLineItemVersions: API.OperationMethod<
+  ListCustomLineItemVersionsInput,
+  ListCustomLineItemVersionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomLineItemVersionsInput,
   ) => stream.Stream<
@@ -2944,19 +2919,17 @@ export const listCustomLineItemVersions: {
 /**
  * List the resources that are associated to a custom line item.
  */
-export const listResourcesAssociatedToCustomLineItem: {
-  (
-    input: ListResourcesAssociatedToCustomLineItemInput,
-  ): effect.Effect<
-    ListResourcesAssociatedToCustomLineItemOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourcesAssociatedToCustomLineItem: API.OperationMethod<
+  ListResourcesAssociatedToCustomLineItemInput,
+  ListResourcesAssociatedToCustomLineItemOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourcesAssociatedToCustomLineItemInput,
   ) => stream.Stream<
@@ -3001,9 +2974,8 @@ export const listResourcesAssociatedToCustomLineItem: {
 /**
  * Creates a pricing plan that is used for computing Amazon Web Services charges for billing groups.
  */
-export const createPricingPlan: (
-  input: CreatePricingPlanInput,
-) => effect.Effect<
+export const createPricingPlan: API.OperationMethod<
+  CreatePricingPlanInput,
   CreatePricingPlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -3030,9 +3002,8 @@ export const createPricingPlan: (
 /**
  * This updates an existing pricing plan.
  */
-export const updatePricingPlan: (
-  input: UpdatePricingPlanInput,
-) => effect.Effect<
+export const updatePricingPlan: API.OperationMethod<
+  UpdatePricingPlanInput,
   UpdatePricingPlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -3057,9 +3028,8 @@ export const updatePricingPlan: (
 /**
  * Deletes a pricing plan. The pricing plan must not be associated with any billing groups to delete successfully.
  */
-export const deletePricingPlan: (
-  input: DeletePricingPlanInput,
-) => effect.Effect<
+export const deletePricingPlan: API.OperationMethod<
+  DeletePricingPlanInput,
   DeletePricingPlanOutput,
   | AccessDeniedException
   | ConflictException
@@ -3082,18 +3052,16 @@ export const deletePricingPlan: (
 /**
  * A paginated call to get pricing plans for the given billing period. If you don't provide a billing period, the current billing period is used.
  */
-export const listPricingPlans: {
-  (
-    input: ListPricingPlansInput,
-  ): effect.Effect<
-    ListPricingPlansOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPricingPlans: API.OperationMethod<
+  ListPricingPlansInput,
+  ListPricingPlansOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPricingPlansInput,
   ) => stream.Stream<
@@ -3135,9 +3103,8 @@ export const listPricingPlans: {
 /**
  * Connects an array of `PricingRuleArns` to a defined `PricingPlan`. The maximum number `PricingRuleArn` that can be associated in one call is 30.
  */
-export const associatePricingRules: (
-  input: AssociatePricingRulesInput,
-) => effect.Effect<
+export const associatePricingRules: API.OperationMethod<
+  AssociatePricingRulesInput,
   AssociatePricingRulesOutput,
   | AccessDeniedException
   | ConflictException
@@ -3164,9 +3131,8 @@ export const associatePricingRules: (
 /**
  * Disassociates a list of pricing rules from a pricing plan.
  */
-export const disassociatePricingRules: (
-  input: DisassociatePricingRulesInput,
-) => effect.Effect<
+export const disassociatePricingRules: API.OperationMethod<
+  DisassociatePricingRulesInput,
   DisassociatePricingRulesOutput,
   | AccessDeniedException
   | ConflictException
@@ -3191,19 +3157,17 @@ export const disassociatePricingRules: (
 /**
  * A list of the pricing plans that are associated with a pricing rule.
  */
-export const listPricingPlansAssociatedWithPricingRule: {
-  (
-    input: ListPricingPlansAssociatedWithPricingRuleInput,
-  ): effect.Effect<
-    ListPricingPlansAssociatedWithPricingRuleOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPricingPlansAssociatedWithPricingRule: API.OperationMethod<
+  ListPricingPlansAssociatedWithPricingRuleInput,
+  ListPricingPlansAssociatedWithPricingRuleOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPricingPlansAssociatedWithPricingRuleInput,
   ) => stream.Stream<
@@ -3248,9 +3212,8 @@ export const listPricingPlansAssociatedWithPricingRule: {
 /**
  * Creates a pricing rule can be associated to a pricing plan, or a set of pricing plans.
  */
-export const createPricingRule: (
-  input: CreatePricingRuleInput,
-) => effect.Effect<
+export const createPricingRule: API.OperationMethod<
+  CreatePricingRuleInput,
   CreatePricingRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -3275,9 +3238,8 @@ export const createPricingRule: (
 /**
  * Updates an existing pricing rule.
  */
-export const updatePricingRule: (
-  input: UpdatePricingRuleInput,
-) => effect.Effect<
+export const updatePricingRule: API.OperationMethod<
+  UpdatePricingRuleInput,
   UpdatePricingRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -3302,9 +3264,8 @@ export const updatePricingRule: (
 /**
  * Deletes the pricing rule that's identified by the input Amazon Resource Name (ARN).
  */
-export const deletePricingRule: (
-  input: DeletePricingRuleInput,
-) => effect.Effect<
+export const deletePricingRule: API.OperationMethod<
+  DeletePricingRuleInput,
   DeletePricingRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -3327,18 +3288,16 @@ export const deletePricingRule: (
 /**
  * Describes a pricing rule that can be associated to a pricing plan, or set of pricing plans.
  */
-export const listPricingRules: {
-  (
-    input: ListPricingRulesInput,
-  ): effect.Effect<
-    ListPricingRulesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPricingRules: API.OperationMethod<
+  ListPricingRulesInput,
+  ListPricingRulesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPricingRulesInput,
   ) => stream.Stream<
@@ -3380,19 +3339,17 @@ export const listPricingRules: {
 /**
  * Lists the pricing rules that are associated with a pricing plan.
  */
-export const listPricingRulesAssociatedToPricingPlan: {
-  (
-    input: ListPricingRulesAssociatedToPricingPlanInput,
-  ): effect.Effect<
-    ListPricingRulesAssociatedToPricingPlanOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPricingRulesAssociatedToPricingPlan: API.OperationMethod<
+  ListPricingRulesAssociatedToPricingPlanInput,
+  ListPricingRulesAssociatedToPricingPlanOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPricingRulesAssociatedToPricingPlanInput,
   ) => stream.Stream<

@@ -291,9 +291,8 @@ export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedExcept
  * Returns the STS short-term credentials for a given role name that is assigned to the
  * user.
  */
-export const getRoleCredentials: (
-  input: GetRoleCredentialsRequest,
-) => effect.Effect<
+export const getRoleCredentials: API.OperationMethod<
+  GetRoleCredentialsRequest,
   GetRoleCredentialsResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -314,18 +313,16 @@ export const getRoleCredentials: (
 /**
  * Lists all roles that are assigned to the user for a given AWS account.
  */
-export const listAccountRoles: {
-  (
-    input: ListAccountRolesRequest,
-  ): effect.Effect<
-    ListAccountRolesResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountRoles: API.OperationMethod<
+  ListAccountRolesRequest,
+  ListAccountRolesResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountRolesRequest,
   ) => stream.Stream<
@@ -369,18 +366,16 @@ export const listAccountRoles: {
  * administrator of the account. For more information, see Assign User Access in the *IAM Identity Center User Guide*. This operation
  * returns a paginated response.
  */
-export const listAccounts: {
-  (
-    input: ListAccountsRequest,
-  ): effect.Effect<
-    ListAccountsResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccounts: API.OperationMethod<
+  ListAccountsRequest,
+  ListAccountsResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountsRequest,
   ) => stream.Stream<
@@ -435,9 +430,8 @@ export const listAccounts: {
  * authentications in the IAM Identity Center User
  * Guide.
  */
-export const logout: (
-  input: LogoutRequest,
-) => effect.Effect<
+export const logout: API.OperationMethod<
+  LogoutRequest,
   LogoutResponse,
   | InvalidRequestException
   | TooManyRequestsException

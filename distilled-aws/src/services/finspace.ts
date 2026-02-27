@@ -3413,9 +3413,8 @@ export class InvalidRequestException extends S.TaggedErrorClass<InvalidRequestEx
 /**
  * Create a new FinSpace environment.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentRequest,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentRequest,
   CreateEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3440,9 +3439,8 @@ export const createEnvironment: (
 /**
  * Creates a changeset for a kdb database. A changeset allows you to add and delete existing files by using an ordered list of change requests.
  */
-export const createKxChangeset: (
-  input: CreateKxChangesetRequest,
-) => effect.Effect<
+export const createKxChangeset: API.OperationMethod<
+  CreateKxChangesetRequest,
   CreateKxChangesetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3469,9 +3467,8 @@ export const createKxChangeset: (
 /**
  * Creates a new kdb cluster.
  */
-export const createKxCluster: (
-  input: CreateKxClusterRequest,
-) => effect.Effect<
+export const createKxCluster: API.OperationMethod<
+  CreateKxClusterRequest,
   CreateKxClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -3498,9 +3495,8 @@ export const createKxCluster: (
 /**
  * Creates a new kdb database in the environment.
  */
-export const createKxDatabase: (
-  input: CreateKxDatabaseRequest,
-) => effect.Effect<
+export const createKxDatabase: API.OperationMethod<
+  CreateKxDatabaseRequest,
   CreateKxDatabaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -3529,9 +3525,8 @@ export const createKxDatabase: (
 /**
  * Creates a snapshot of kdb database with tiered storage capabilities and a pre-warmed cache, ready for mounting on kdb clusters. Dataviews are only available for clusters running on a scaling group. They are not supported on dedicated clusters.
  */
-export const createKxDataview: (
-  input: CreateKxDataviewRequest,
-) => effect.Effect<
+export const createKxDataview: API.OperationMethod<
+  CreateKxDataviewRequest,
   CreateKxDataviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -3560,9 +3555,8 @@ export const createKxDataview: (
 /**
  * Creates a managed kdb environment for the account.
  */
-export const createKxEnvironment: (
-  input: CreateKxEnvironmentRequest,
-) => effect.Effect<
+export const createKxEnvironment: API.OperationMethod<
+  CreateKxEnvironmentRequest,
   CreateKxEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3589,9 +3583,8 @@ export const createKxEnvironment: (
 /**
  * Creates a new scaling group.
  */
-export const createKxScalingGroup: (
-  input: CreateKxScalingGroupRequest,
-) => effect.Effect<
+export const createKxScalingGroup: API.OperationMethod<
+  CreateKxScalingGroupRequest,
   CreateKxScalingGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -3618,9 +3611,8 @@ export const createKxScalingGroup: (
 /**
  * Creates a user in FinSpace kdb environment with an associated IAM role.
  */
-export const createKxUser: (
-  input: CreateKxUserRequest,
-) => effect.Effect<
+export const createKxUser: API.OperationMethod<
+  CreateKxUserRequest,
   CreateKxUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -3649,9 +3641,8 @@ export const createKxUser: (
 /**
  * Creates a new volume with a specific amount of throughput and storage capacity.
  */
-export const createKxVolume: (
-  input: CreateKxVolumeRequest,
-) => effect.Effect<
+export const createKxVolume: API.OperationMethod<
+  CreateKxVolumeRequest,
   CreateKxVolumeResponse,
   | AccessDeniedException
   | ConflictException
@@ -3680,9 +3671,8 @@ export const createKxVolume: (
 /**
  * Delete an FinSpace environment.
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentRequest,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3705,9 +3695,8 @@ export const deleteEnvironment: (
 /**
  * Deletes a kdb cluster.
  */
-export const deleteKxCluster: (
-  input: DeleteKxClusterRequest,
-) => effect.Effect<
+export const deleteKxCluster: API.OperationMethod<
+  DeleteKxClusterRequest,
   DeleteKxClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -3734,9 +3723,8 @@ export const deleteKxCluster: (
 /**
  * Deletes the specified nodes from a cluster.
  */
-export const deleteKxClusterNode: (
-  input: DeleteKxClusterNodeRequest,
-) => effect.Effect<
+export const deleteKxClusterNode: API.OperationMethod<
+  DeleteKxClusterNodeRequest,
   DeleteKxClusterNodeResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3759,9 +3747,8 @@ export const deleteKxClusterNode: (
 /**
  * Deletes the specified database and all of its associated data. This action is irreversible. You must copy any data out of the database before deleting it if the data is to be retained.
  */
-export const deleteKxDatabase: (
-  input: DeleteKxDatabaseRequest,
-) => effect.Effect<
+export const deleteKxDatabase: API.OperationMethod<
+  DeleteKxDatabaseRequest,
   DeleteKxDatabaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -3786,9 +3773,8 @@ export const deleteKxDatabase: (
 /**
  * Deletes the specified dataview. Before deleting a dataview, make sure that it is not in use by any cluster.
  */
-export const deleteKxDataview: (
-  input: DeleteKxDataviewRequest,
-) => effect.Effect<
+export const deleteKxDataview: API.OperationMethod<
+  DeleteKxDataviewRequest,
   DeleteKxDataviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -3813,9 +3799,8 @@ export const deleteKxDataview: (
 /**
  * Deletes the kdb environment. This action is irreversible. Deleting a kdb environment will remove all the associated data and any services running in it.
  */
-export const deleteKxEnvironment: (
-  input: DeleteKxEnvironmentRequest,
-) => effect.Effect<
+export const deleteKxEnvironment: API.OperationMethod<
+  DeleteKxEnvironmentRequest,
   DeleteKxEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -3840,9 +3825,8 @@ export const deleteKxEnvironment: (
 /**
  * Deletes the specified scaling group. This action is irreversible. You cannot delete a scaling group until all the clusters running on it have been deleted.
  */
-export const deleteKxScalingGroup: (
-  input: DeleteKxScalingGroupRequest,
-) => effect.Effect<
+export const deleteKxScalingGroup: API.OperationMethod<
+  DeleteKxScalingGroupRequest,
   DeleteKxScalingGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -3869,9 +3853,8 @@ export const deleteKxScalingGroup: (
 /**
  * Deletes a user in the specified kdb environment.
  */
-export const deleteKxUser: (
-  input: DeleteKxUserRequest,
-) => effect.Effect<
+export const deleteKxUser: API.OperationMethod<
+  DeleteKxUserRequest,
   DeleteKxUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -3896,9 +3879,8 @@ export const deleteKxUser: (
 /**
  * Deletes a volume. You can only delete a volume if it's not attached to a cluster or a dataview. When a volume is deleted, any data on the volume is lost. This action is irreversible.
  */
-export const deleteKxVolume: (
-  input: DeleteKxVolumeRequest,
-) => effect.Effect<
+export const deleteKxVolume: API.OperationMethod<
+  DeleteKxVolumeRequest,
   DeleteKxVolumeResponse,
   | AccessDeniedException
   | ConflictException
@@ -3925,9 +3907,8 @@ export const deleteKxVolume: (
 /**
  * Returns the FinSpace environment object.
  */
-export const getEnvironment: (
-  input: GetEnvironmentRequest,
-) => effect.Effect<
+export const getEnvironment: API.OperationMethod<
+  GetEnvironmentRequest,
   GetEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3948,9 +3929,8 @@ export const getEnvironment: (
 /**
  * Returns information about a kdb changeset.
  */
-export const getKxChangeset: (
-  input: GetKxChangesetRequest,
-) => effect.Effect<
+export const getKxChangeset: API.OperationMethod<
+  GetKxChangesetRequest,
   GetKxChangesetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3973,9 +3953,8 @@ export const getKxChangeset: (
 /**
  * Retrieves information about a kdb cluster.
  */
-export const getKxCluster: (
-  input: GetKxClusterRequest,
-) => effect.Effect<
+export const getKxCluster: API.OperationMethod<
+  GetKxClusterRequest,
   GetKxClusterResponse,
   | AccessDeniedException
   | ConflictException
@@ -4002,9 +3981,8 @@ export const getKxCluster: (
 /**
  * Retrieves a connection string for a user to connect to a kdb cluster. You must call this API using the same role that you have defined while creating a user.
  */
-export const getKxConnectionString: (
-  input: GetKxConnectionStringRequest,
-) => effect.Effect<
+export const getKxConnectionString: API.OperationMethod<
+  GetKxConnectionStringRequest,
   GetKxConnectionStringResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4027,9 +4005,8 @@ export const getKxConnectionString: (
 /**
  * Returns database information for the specified environment ID.
  */
-export const getKxDatabase: (
-  input: GetKxDatabaseRequest,
-) => effect.Effect<
+export const getKxDatabase: API.OperationMethod<
+  GetKxDatabaseRequest,
   GetKxDatabaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4052,9 +4029,8 @@ export const getKxDatabase: (
 /**
  * Retrieves details of the dataview.
  */
-export const getKxDataview: (
-  input: GetKxDataviewRequest,
-) => effect.Effect<
+export const getKxDataview: API.OperationMethod<
+  GetKxDataviewRequest,
   GetKxDataviewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4077,9 +4053,8 @@ export const getKxDataview: (
 /**
  * Retrieves all the information for the specified kdb environment.
  */
-export const getKxEnvironment: (
-  input: GetKxEnvironmentRequest,
-) => effect.Effect<
+export const getKxEnvironment: API.OperationMethod<
+  GetKxEnvironmentRequest,
   GetKxEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -4102,9 +4077,8 @@ export const getKxEnvironment: (
 /**
  * Retrieves details of a scaling group.
  */
-export const getKxScalingGroup: (
-  input: GetKxScalingGroupRequest,
-) => effect.Effect<
+export const getKxScalingGroup: API.OperationMethod<
+  GetKxScalingGroupRequest,
   GetKxScalingGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -4131,9 +4105,8 @@ export const getKxScalingGroup: (
 /**
  * Retrieves information about the specified kdb user.
  */
-export const getKxUser: (
-  input: GetKxUserRequest,
-) => effect.Effect<
+export const getKxUser: API.OperationMethod<
+  GetKxUserRequest,
   GetKxUserResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4156,9 +4129,8 @@ export const getKxUser: (
 /**
  * Retrieves the information about the volume.
  */
-export const getKxVolume: (
-  input: GetKxVolumeRequest,
-) => effect.Effect<
+export const getKxVolume: API.OperationMethod<
+  GetKxVolumeRequest,
   GetKxVolumeResponse,
   | AccessDeniedException
   | ConflictException
@@ -4185,9 +4157,8 @@ export const getKxVolume: (
 /**
  * A list of all of your FinSpace environments.
  */
-export const listEnvironments: (
-  input: ListEnvironmentsRequest,
-) => effect.Effect<
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsRequest,
   ListEnvironmentsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4202,19 +4173,17 @@ export const listEnvironments: (
 /**
  * Returns a list of all the changesets for a database.
  */
-export const listKxChangesets: {
-  (
-    input: ListKxChangesetsRequest,
-  ): effect.Effect<
-    ListKxChangesetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKxChangesets: API.OperationMethod<
+  ListKxChangesetsRequest,
+  ListKxChangesetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKxChangesetsRequest,
   ) => stream.Stream<
@@ -4258,20 +4227,18 @@ export const listKxChangesets: {
 /**
  * Lists all the nodes in a kdb cluster.
  */
-export const listKxClusterNodes: {
-  (
-    input: ListKxClusterNodesRequest,
-  ): effect.Effect<
-    ListKxClusterNodesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKxClusterNodes: API.OperationMethod<
+  ListKxClusterNodesRequest,
+  ListKxClusterNodesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKxClusterNodesRequest,
   ) => stream.Stream<
@@ -4318,9 +4285,8 @@ export const listKxClusterNodes: {
 /**
  * Returns a list of clusters.
  */
-export const listKxClusters: (
-  input: ListKxClustersRequest,
-) => effect.Effect<
+export const listKxClusters: API.OperationMethod<
+  ListKxClustersRequest,
   ListKxClustersResponse,
   | AccessDeniedException
   | ConflictException
@@ -4347,19 +4313,17 @@ export const listKxClusters: (
 /**
  * Returns a list of all the databases in the kdb environment.
  */
-export const listKxDatabases: {
-  (
-    input: ListKxDatabasesRequest,
-  ): effect.Effect<
-    ListKxDatabasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKxDatabases: API.OperationMethod<
+  ListKxDatabasesRequest,
+  ListKxDatabasesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKxDatabasesRequest,
   ) => stream.Stream<
@@ -4403,19 +4367,17 @@ export const listKxDatabases: {
 /**
  * Returns a list of all the dataviews in the database.
  */
-export const listKxDataviews: {
-  (
-    input: ListKxDataviewsRequest,
-  ): effect.Effect<
-    ListKxDataviewsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKxDataviews: API.OperationMethod<
+  ListKxDataviewsRequest,
+  ListKxDataviewsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKxDataviewsRequest,
   ) => stream.Stream<
@@ -4459,17 +4421,15 @@ export const listKxDataviews: {
 /**
  * Returns a list of kdb environments created in an account.
  */
-export const listKxEnvironments: {
-  (
-    input: ListKxEnvironmentsRequest,
-  ): effect.Effect<
-    ListKxEnvironmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKxEnvironments: API.OperationMethod<
+  ListKxEnvironmentsRequest,
+  ListKxEnvironmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKxEnvironmentsRequest,
   ) => stream.Stream<
@@ -4504,21 +4464,19 @@ export const listKxEnvironments: {
 /**
  * Returns a list of scaling groups in a kdb environment.
  */
-export const listKxScalingGroups: {
-  (
-    input: ListKxScalingGroupsRequest,
-  ): effect.Effect<
-    ListKxScalingGroupsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKxScalingGroups: API.OperationMethod<
+  ListKxScalingGroupsRequest,
+  ListKxScalingGroupsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKxScalingGroupsRequest,
   ) => stream.Stream<
@@ -4568,9 +4526,8 @@ export const listKxScalingGroups: {
 /**
  * Lists all the users in a kdb environment.
  */
-export const listKxUsers: (
-  input: ListKxUsersRequest,
-) => effect.Effect<
+export const listKxUsers: API.OperationMethod<
+  ListKxUsersRequest,
   ListKxUsersResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4593,9 +4550,8 @@ export const listKxUsers: (
 /**
  * Lists all the volumes in a kdb environment.
  */
-export const listKxVolumes: (
-  input: ListKxVolumesRequest,
-) => effect.Effect<
+export const listKxVolumes: API.OperationMethod<
+  ListKxVolumesRequest,
   ListKxVolumesResponse,
   | AccessDeniedException
   | ConflictException
@@ -4622,9 +4578,8 @@ export const listKxVolumes: (
 /**
  * A list of all tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4643,9 +4598,8 @@ export const listTagsForResource: (
 /**
  * Adds metadata tags to a FinSpace resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4664,9 +4618,8 @@ export const tagResource: (
 /**
  * Removes metadata tags from a FinSpace resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | InvalidRequestException
@@ -4685,9 +4638,8 @@ export const untagResource: (
 /**
  * Update your FinSpace environment.
  */
-export const updateEnvironment: (
-  input: UpdateEnvironmentRequest,
-) => effect.Effect<
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentRequest,
   UpdateEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4711,9 +4663,8 @@ export const updateEnvironment: (
  * Allows you to update code configuration on a running cluster. By using this API you can update the code, the initialization script path, and the command line arguments for a specific cluster.
  * The configuration that you want to update will override any existing configurations on the cluster.
  */
-export const updateKxClusterCodeConfiguration: (
-  input: UpdateKxClusterCodeConfigurationRequest,
-) => effect.Effect<
+export const updateKxClusterCodeConfiguration: API.OperationMethod<
+  UpdateKxClusterCodeConfigurationRequest,
   UpdateKxClusterCodeConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4742,9 +4693,8 @@ export const updateKxClusterCodeConfiguration: (
  *
  * Using this API you can point a cluster to a different changeset and modify a list of partitions being cached.
  */
-export const updateKxClusterDatabases: (
-  input: UpdateKxClusterDatabasesRequest,
-) => effect.Effect<
+export const updateKxClusterDatabases: API.OperationMethod<
+  UpdateKxClusterDatabasesRequest,
   UpdateKxClusterDatabasesResponse,
   | AccessDeniedException
   | ConflictException
@@ -4771,9 +4721,8 @@ export const updateKxClusterDatabases: (
 /**
  * Updates information for the given kdb database.
  */
-export const updateKxDatabase: (
-  input: UpdateKxDatabaseRequest,
-) => effect.Effect<
+export const updateKxDatabase: API.OperationMethod<
+  UpdateKxDatabaseRequest,
   UpdateKxDatabaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -4798,9 +4747,8 @@ export const updateKxDatabase: (
 /**
  * Updates the specified dataview. The dataviews get automatically updated when any new changesets are ingested. Each update of the dataview creates a new version, including changeset details and cache configurations
  */
-export const updateKxDataview: (
-  input: UpdateKxDataviewRequest,
-) => effect.Effect<
+export const updateKxDataview: API.OperationMethod<
+  UpdateKxDataviewRequest,
   UpdateKxDataviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -4827,9 +4775,8 @@ export const updateKxDataview: (
 /**
  * Updates information for the given kdb environment.
  */
-export const updateKxEnvironment: (
-  input: UpdateKxEnvironmentRequest,
-) => effect.Effect<
+export const updateKxEnvironment: API.OperationMethod<
+  UpdateKxEnvironmentRequest,
   UpdateKxEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -4856,9 +4803,8 @@ export const updateKxEnvironment: (
  *
  * Once you send a request to update a network, you cannot change it again. Network update might require termination of any clusters that are running in the existing network.
  */
-export const updateKxEnvironmentNetwork: (
-  input: UpdateKxEnvironmentNetworkRequest,
-) => effect.Effect<
+export const updateKxEnvironmentNetwork: API.OperationMethod<
+  UpdateKxEnvironmentNetworkRequest,
   UpdateKxEnvironmentNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -4883,9 +4829,8 @@ export const updateKxEnvironmentNetwork: (
 /**
  * Updates the user details. You can only update the IAM role associated with a user.
  */
-export const updateKxUser: (
-  input: UpdateKxUserRequest,
-) => effect.Effect<
+export const updateKxUser: API.OperationMethod<
+  UpdateKxUserRequest,
   UpdateKxUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -4913,9 +4858,8 @@ export const updateKxUser: (
  * Updates the throughput or capacity of a volume. During the update process, the filesystem
  * might be unavailable for a few minutes. You can retry any operations after the update is complete.
  */
-export const updateKxVolume: (
-  input: UpdateKxVolumeRequest,
-) => effect.Effect<
+export const updateKxVolume: API.OperationMethod<
+  UpdateKxVolumeRequest,
   UpdateKxVolumeResponse,
   | AccessDeniedException
   | ConflictException

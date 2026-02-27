@@ -2095,9 +2095,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 /**
  * Creates a new Amplify app.
  */
-export const createApp: (
-  input: CreateAppRequest,
-) => effect.Effect<
+export const createApp: API.OperationMethod<
+  CreateAppRequest,
   CreateAppResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2126,9 +2125,8 @@ export const createApp: (
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
-export const createBackendEnvironment: (
-  input: CreateBackendEnvironmentRequest,
-) => effect.Effect<
+export const createBackendEnvironment: API.OperationMethod<
+  CreateBackendEnvironmentRequest,
   CreateBackendEnvironmentResult,
   | BadRequestException
   | InternalFailureException
@@ -2151,9 +2149,8 @@ export const createBackendEnvironment: (
 /**
  * Creates a new branch for an Amplify app.
  */
-export const createBranch: (
-  input: CreateBranchRequest,
-) => effect.Effect<
+export const createBranch: API.OperationMethod<
+  CreateBranchRequest,
   CreateBranchResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2184,9 +2181,8 @@ export const createBranch: (
  * hours, the `StartDeployment` call and the associated `Job` will
  * fail.
  */
-export const createDeployment: (
-  input: CreateDeploymentRequest,
-) => effect.Effect<
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentRequest,
   CreateDeploymentResult,
   | BadRequestException
   | InternalFailureException
@@ -2208,9 +2204,8 @@ export const createDeployment: (
  * Creates a new domain association for an Amplify app. This action associates a custom
  * domain with the Amplify app
  */
-export const createDomainAssociation: (
-  input: CreateDomainAssociationRequest,
-) => effect.Effect<
+export const createDomainAssociation: API.OperationMethod<
+  CreateDomainAssociationRequest,
   CreateDomainAssociationResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2235,9 +2230,8 @@ export const createDomainAssociation: (
 /**
  * Creates a new webhook on an Amplify app.
  */
-export const createWebhook: (
-  input: CreateWebhookRequest,
-) => effect.Effect<
+export const createWebhook: API.OperationMethod<
+  CreateWebhookRequest,
   CreateWebhookResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2262,9 +2256,8 @@ export const createWebhook: (
 /**
  * Deletes an existing Amplify app specified by an app ID.
  */
-export const deleteApp: (
-  input: DeleteAppRequest,
-) => effect.Effect<
+export const deleteApp: API.OperationMethod<
+  DeleteAppRequest,
   DeleteAppResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2293,9 +2286,8 @@ export const deleteApp: (
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
-export const deleteBackendEnvironment: (
-  input: DeleteBackendEnvironmentRequest,
-) => effect.Effect<
+export const deleteBackendEnvironment: API.OperationMethod<
+  DeleteBackendEnvironmentRequest,
   DeleteBackendEnvironmentResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2318,9 +2310,8 @@ export const deleteBackendEnvironment: (
 /**
  * Deletes a branch for an Amplify app.
  */
-export const deleteBranch: (
-  input: DeleteBranchRequest,
-) => effect.Effect<
+export const deleteBranch: API.OperationMethod<
+  DeleteBranchRequest,
   DeleteBranchResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2343,9 +2334,8 @@ export const deleteBranch: (
 /**
  * Deletes a domain association for an Amplify app.
  */
-export const deleteDomainAssociation: (
-  input: DeleteDomainAssociationRequest,
-) => effect.Effect<
+export const deleteDomainAssociation: API.OperationMethod<
+  DeleteDomainAssociationRequest,
   DeleteDomainAssociationResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -2368,9 +2358,8 @@ export const deleteDomainAssociation: (
 /**
  * Deletes a job for a branch of an Amplify app.
  */
-export const deleteJob: (
-  input: DeleteJobRequest,
-) => effect.Effect<
+export const deleteJob: API.OperationMethod<
+  DeleteJobRequest,
   DeleteJobResult,
   | BadRequestException
   | InternalFailureException
@@ -2393,9 +2382,8 @@ export const deleteJob: (
 /**
  * Deletes a webhook.
  */
-export const deleteWebhook: (
-  input: DeleteWebhookRequest,
-) => effect.Effect<
+export const deleteWebhook: API.OperationMethod<
+  DeleteWebhookRequest,
   DeleteWebhookResult,
   | BadRequestException
   | InternalFailureException
@@ -2418,9 +2406,8 @@ export const deleteWebhook: (
 /**
  * Returns the website access logs for a specific time range using a presigned URL.
  */
-export const generateAccessLogs: (
-  input: GenerateAccessLogsRequest,
-) => effect.Effect<
+export const generateAccessLogs: API.OperationMethod<
+  GenerateAccessLogsRequest,
   GenerateAccessLogsResult,
   | BadRequestException
   | InternalFailureException
@@ -2441,9 +2428,8 @@ export const generateAccessLogs: (
 /**
  * Returns an existing Amplify app specified by an app ID.
  */
-export const getApp: (
-  input: GetAppRequest,
-) => effect.Effect<
+export const getApp: API.OperationMethod<
+  GetAppRequest,
   GetAppResult,
   | BadRequestException
   | InternalFailureException
@@ -2464,9 +2450,8 @@ export const getApp: (
 /**
  * Returns the artifact info that corresponds to an artifact id.
  */
-export const getArtifactUrl: (
-  input: GetArtifactUrlRequest,
-) => effect.Effect<
+export const getArtifactUrl: API.OperationMethod<
+  GetArtifactUrlRequest,
   GetArtifactUrlResult,
   | BadRequestException
   | InternalFailureException
@@ -2495,9 +2480,8 @@ export const getArtifactUrl: (
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
-export const getBackendEnvironment: (
-  input: GetBackendEnvironmentRequest,
-) => effect.Effect<
+export const getBackendEnvironment: API.OperationMethod<
+  GetBackendEnvironmentRequest,
   GetBackendEnvironmentResult,
   | BadRequestException
   | InternalFailureException
@@ -2518,9 +2502,8 @@ export const getBackendEnvironment: (
 /**
  * Returns a branch for an Amplify app.
  */
-export const getBranch: (
-  input: GetBranchRequest,
-) => effect.Effect<
+export const getBranch: API.OperationMethod<
+  GetBranchRequest,
   GetBranchResult,
   | BadRequestException
   | InternalFailureException
@@ -2541,9 +2524,8 @@ export const getBranch: (
 /**
  * Returns the domain information for an Amplify app.
  */
-export const getDomainAssociation: (
-  input: GetDomainAssociationRequest,
-) => effect.Effect<
+export const getDomainAssociation: API.OperationMethod<
+  GetDomainAssociationRequest,
   GetDomainAssociationResult,
   | BadRequestException
   | InternalFailureException
@@ -2564,9 +2546,8 @@ export const getDomainAssociation: (
 /**
  * Returns a job for a branch of an Amplify app.
  */
-export const getJob: (
-  input: GetJobRequest,
-) => effect.Effect<
+export const getJob: API.OperationMethod<
+  GetJobRequest,
   GetJobResult,
   | BadRequestException
   | InternalFailureException
@@ -2589,9 +2570,8 @@ export const getJob: (
 /**
  * Returns the webhook information that corresponds to a specified webhook ID.
  */
-export const getWebhook: (
-  input: GetWebhookRequest,
-) => effect.Effect<
+export const getWebhook: API.OperationMethod<
+  GetWebhookRequest,
   GetWebhookResult,
   | BadRequestException
   | InternalFailureException
@@ -2614,17 +2594,15 @@ export const getWebhook: (
 /**
  * Returns a list of the existing Amplify apps.
  */
-export const listApps: {
-  (
-    input: ListAppsRequest,
-  ): effect.Effect<
-    ListAppsResult,
-    | BadRequestException
-    | InternalFailureException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApps: API.OperationMethod<
+  ListAppsRequest,
+  ListAppsResult,
+  | BadRequestException
+  | InternalFailureException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppsRequest,
   ) => stream.Stream<
@@ -2670,9 +2648,8 @@ export const listApps: {
  * end-to-end Cypress tests for your Amplify application in the
  * *Amplify Hosting User Guide*.
  */
-export const listArtifacts: (
-  input: ListArtifactsRequest,
-) => effect.Effect<
+export const listArtifacts: API.OperationMethod<
+  ListArtifactsRequest,
   ListArtifactsResult,
   | BadRequestException
   | InternalFailureException
@@ -2699,9 +2676,8 @@ export const listArtifacts: (
  * applications. When you deploy an application with Amplify Gen 2, you provision the app's
  * backend infrastructure using Typescript code.
  */
-export const listBackendEnvironments: (
-  input: ListBackendEnvironmentsRequest,
-) => effect.Effect<
+export const listBackendEnvironments: API.OperationMethod<
+  ListBackendEnvironmentsRequest,
   ListBackendEnvironmentsResult,
   | BadRequestException
   | InternalFailureException
@@ -2720,17 +2696,15 @@ export const listBackendEnvironments: (
 /**
  * Lists the branches of an Amplify app.
  */
-export const listBranches: {
-  (
-    input: ListBranchesRequest,
-  ): effect.Effect<
-    ListBranchesResult,
-    | BadRequestException
-    | InternalFailureException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBranches: API.OperationMethod<
+  ListBranchesRequest,
+  ListBranchesResult,
+  | BadRequestException
+  | InternalFailureException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBranchesRequest,
   ) => stream.Stream<
@@ -2769,17 +2743,15 @@ export const listBranches: {
 /**
  * Returns the domain associations for an Amplify app.
  */
-export const listDomainAssociations: {
-  (
-    input: ListDomainAssociationsRequest,
-  ): effect.Effect<
-    ListDomainAssociationsResult,
-    | BadRequestException
-    | InternalFailureException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomainAssociations: API.OperationMethod<
+  ListDomainAssociationsRequest,
+  ListDomainAssociationsResult,
+  | BadRequestException
+  | InternalFailureException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainAssociationsRequest,
   ) => stream.Stream<
@@ -2818,18 +2790,16 @@ export const listDomainAssociations: {
 /**
  * Lists the jobs for a branch of an Amplify app.
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResult,
-    | BadRequestException
-    | InternalFailureException
-    | LimitExceededException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResult,
+  | BadRequestException
+  | InternalFailureException
+  | LimitExceededException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -2871,9 +2841,8 @@ export const listJobs: {
 /**
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalFailureException
@@ -2892,9 +2861,8 @@ export const listTagsForResource: (
 /**
  * Returns a list of webhooks for an Amplify app.
  */
-export const listWebhooks: (
-  input: ListWebhooksRequest,
-) => effect.Effect<
+export const listWebhooks: API.OperationMethod<
+  ListWebhooksRequest,
   ListWebhooksResult,
   | BadRequestException
   | InternalFailureException
@@ -2921,9 +2889,8 @@ export const listWebhooks: (
  * hours, the `StartDeployment` call and the associated `Job` will
  * fail.
  */
-export const startDeployment: (
-  input: StartDeploymentRequest,
-) => effect.Effect<
+export const startDeployment: API.OperationMethod<
+  StartDeploymentRequest,
   StartDeploymentResult,
   | BadRequestException
   | InternalFailureException
@@ -2946,9 +2913,8 @@ export const startDeployment: (
 /**
  * Starts a new job for a branch of an Amplify app.
  */
-export const startJob: (
-  input: StartJobRequest,
-) => effect.Effect<
+export const startJob: API.OperationMethod<
+  StartJobRequest,
   StartJobResult,
   | BadRequestException
   | InternalFailureException
@@ -2971,9 +2937,8 @@ export const startJob: (
 /**
  * Stops a job that is in progress for a branch of an Amplify app.
  */
-export const stopJob: (
-  input: StopJobRequest,
-) => effect.Effect<
+export const stopJob: API.OperationMethod<
+  StopJobRequest,
   StopJobResult,
   | BadRequestException
   | InternalFailureException
@@ -2996,9 +2961,8 @@ export const stopJob: (
 /**
  * Tags the resource with a tag key and value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | InternalFailureException
@@ -3017,9 +2981,8 @@ export const tagResource: (
 /**
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | InternalFailureException
@@ -3038,9 +3001,8 @@ export const untagResource: (
 /**
  * Updates an existing Amplify app.
  */
-export const updateApp: (
-  input: UpdateAppRequest,
-) => effect.Effect<
+export const updateApp: API.OperationMethod<
+  UpdateAppRequest,
   UpdateAppResult,
   | BadRequestException
   | InternalFailureException
@@ -3061,9 +3023,8 @@ export const updateApp: (
 /**
  * Updates a branch for an Amplify app.
  */
-export const updateBranch: (
-  input: UpdateBranchRequest,
-) => effect.Effect<
+export const updateBranch: API.OperationMethod<
+  UpdateBranchRequest,
   UpdateBranchResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -3086,9 +3047,8 @@ export const updateBranch: (
 /**
  * Creates a new domain association for an Amplify app.
  */
-export const updateDomainAssociation: (
-  input: UpdateDomainAssociationRequest,
-) => effect.Effect<
+export const updateDomainAssociation: API.OperationMethod<
+  UpdateDomainAssociationRequest,
   UpdateDomainAssociationResult,
   | BadRequestException
   | DependentServiceFailureException
@@ -3111,9 +3071,8 @@ export const updateDomainAssociation: (
 /**
  * Updates a webhook.
  */
-export const updateWebhook: (
-  input: UpdateWebhookRequest,
-) => effect.Effect<
+export const updateWebhook: API.OperationMethod<
+  UpdateWebhookRequest,
   UpdateWebhookResult,
   | BadRequestException
   | DependentServiceFailureException

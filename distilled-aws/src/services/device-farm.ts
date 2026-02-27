@@ -3866,9 +3866,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 /**
  * Creates a device pool.
  */
-export const createDevicePool: (
-  input: CreateDevicePoolRequest,
-) => effect.Effect<
+export const createDevicePool: API.OperationMethod<
+  CreateDevicePoolRequest,
   CreateDevicePoolResult,
   | ArgumentException
   | LimitExceededException
@@ -3890,9 +3889,8 @@ export const createDevicePool: (
  * Creates a profile that can be applied to one or more private fleet device
  * instances.
  */
-export const createInstanceProfile: (
-  input: CreateInstanceProfileRequest,
-) => effect.Effect<
+export const createInstanceProfile: API.OperationMethod<
+  CreateInstanceProfileRequest,
   CreateInstanceProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -3913,9 +3911,8 @@ export const createInstanceProfile: (
 /**
  * Creates a network profile.
  */
-export const createNetworkProfile: (
-  input: CreateNetworkProfileRequest,
-) => effect.Effect<
+export const createNetworkProfile: API.OperationMethod<
+  CreateNetworkProfileRequest,
   CreateNetworkProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -3936,9 +3933,8 @@ export const createNetworkProfile: (
 /**
  * Creates a project.
  */
-export const createProject: (
-  input: CreateProjectRequest,
-) => effect.Effect<
+export const createProject: API.OperationMethod<
+  CreateProjectRequest,
   CreateProjectResult,
   | ArgumentException
   | LimitExceededException
@@ -3961,9 +3957,8 @@ export const createProject: (
 /**
  * Specifies and starts a remote access session.
  */
-export const createRemoteAccessSession: (
-  input: CreateRemoteAccessSessionRequest,
-) => effect.Effect<
+export const createRemoteAccessSession: API.OperationMethod<
+  CreateRemoteAccessSessionRequest,
   CreateRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -3985,9 +3980,8 @@ export const createRemoteAccessSession: (
  * Creates a Selenium testing project. Projects are used to track TestGridSession
  * instances.
  */
-export const createTestGridProject: (
-  input: CreateTestGridProjectRequest,
-) => effect.Effect<
+export const createTestGridProject: API.OperationMethod<
+  CreateTestGridProjectRequest,
   CreateTestGridProjectResult,
   | ArgumentException
   | InternalServiceException
@@ -4003,9 +3997,8 @@ export const createTestGridProject: (
  * Creates a signed, short-term URL that can be passed to a Selenium `RemoteWebDriver`
  * constructor.
  */
-export const createTestGridUrl: (
-  input: CreateTestGridUrlRequest,
-) => effect.Effect<
+export const createTestGridUrl: API.OperationMethod<
+  CreateTestGridUrlRequest,
   CreateTestGridUrlResult,
   | ArgumentException
   | InternalServiceException
@@ -4020,9 +4013,8 @@ export const createTestGridUrl: (
 /**
  * Uploads an app or test scripts.
  */
-export const createUpload: (
-  input: CreateUploadRequest,
-) => effect.Effect<
+export const createUpload: API.OperationMethod<
+  CreateUploadRequest,
   CreateUploadResult,
   | ArgumentException
   | LimitExceededException
@@ -4044,9 +4036,8 @@ export const createUpload: (
  * Creates a configuration record in Device Farm for your Amazon Virtual Private Cloud
  * (VPC) endpoint.
  */
-export const createVPCEConfiguration: (
-  input: CreateVPCEConfigurationRequest,
-) => effect.Effect<
+export const createVPCEConfiguration: API.OperationMethod<
+  CreateVPCEConfigurationRequest,
   CreateVPCEConfigurationResult,
   | ArgumentException
   | LimitExceededException
@@ -4062,9 +4053,8 @@ export const createVPCEConfiguration: (
  * Deletes a device pool given the pool ARN. Does not allow deletion of curated pools
  * owned by the system.
  */
-export const deleteDevicePool: (
-  input: DeleteDevicePoolRequest,
-) => effect.Effect<
+export const deleteDevicePool: API.OperationMethod<
+  DeleteDevicePoolRequest,
   DeleteDevicePoolResult,
   | ArgumentException
   | LimitExceededException
@@ -4085,9 +4075,8 @@ export const deleteDevicePool: (
 /**
  * Deletes a profile that can be applied to one or more private device instances.
  */
-export const deleteInstanceProfile: (
-  input: DeleteInstanceProfileRequest,
-) => effect.Effect<
+export const deleteInstanceProfile: API.OperationMethod<
+  DeleteInstanceProfileRequest,
   DeleteInstanceProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4108,9 +4097,8 @@ export const deleteInstanceProfile: (
 /**
  * Deletes a network profile.
  */
-export const deleteNetworkProfile: (
-  input: DeleteNetworkProfileRequest,
-) => effect.Effect<
+export const deleteNetworkProfile: API.OperationMethod<
+  DeleteNetworkProfileRequest,
   DeleteNetworkProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4133,9 +4121,8 @@ export const deleteNetworkProfile: (
  *
  * You cannot undo this operation.
  */
-export const deleteProject: (
-  input: DeleteProjectRequest,
-) => effect.Effect<
+export const deleteProject: API.OperationMethod<
+  DeleteProjectRequest,
   DeleteProjectResult,
   | ArgumentException
   | LimitExceededException
@@ -4158,9 +4145,8 @@ export const deleteProject: (
  *
  * You cannot undo this operation.
  */
-export const deleteRemoteAccessSession: (
-  input: DeleteRemoteAccessSessionRequest,
-) => effect.Effect<
+export const deleteRemoteAccessSession: API.OperationMethod<
+  DeleteRemoteAccessSessionRequest,
   DeleteRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -4183,9 +4169,8 @@ export const deleteRemoteAccessSession: (
  *
  * You cannot undo this operation.
  */
-export const deleteRun: (
-  input: DeleteRunRequest,
-) => effect.Effect<
+export const deleteRun: API.OperationMethod<
+  DeleteRunRequest,
   DeleteRunResult,
   | ArgumentException
   | LimitExceededException
@@ -4208,9 +4193,8 @@ export const deleteRun: (
  *
  * You cannot undo this operation.
  */
-export const deleteTestGridProject: (
-  input: DeleteTestGridProjectRequest,
-) => effect.Effect<
+export const deleteTestGridProject: API.OperationMethod<
+  DeleteTestGridProjectRequest,
   DeleteTestGridProjectResult,
   | ArgumentException
   | CannotDeleteException
@@ -4231,9 +4215,8 @@ export const deleteTestGridProject: (
 /**
  * Deletes an upload given the upload ARN.
  */
-export const deleteUpload: (
-  input: DeleteUploadRequest,
-) => effect.Effect<
+export const deleteUpload: API.OperationMethod<
+  DeleteUploadRequest,
   DeleteUploadResult,
   | ArgumentException
   | LimitExceededException
@@ -4254,9 +4237,8 @@ export const deleteUpload: (
 /**
  * Deletes a configuration for your Amazon Virtual Private Cloud (VPC) endpoint.
  */
-export const deleteVPCEConfiguration: (
-  input: DeleteVPCEConfigurationRequest,
-) => effect.Effect<
+export const deleteVPCEConfiguration: API.OperationMethod<
+  DeleteVPCEConfigurationRequest,
   DeleteVPCEConfigurationResult,
   | ArgumentException
   | InvalidOperationException
@@ -4278,9 +4260,8 @@ export const deleteVPCEConfiguration: (
  * Returns the number of unmetered iOS or unmetered Android devices that have been purchased by the
  * account.
  */
-export const getAccountSettings: (
-  input: GetAccountSettingsRequest,
-) => effect.Effect<
+export const getAccountSettings: API.OperationMethod<
+  GetAccountSettingsRequest,
   GetAccountSettingsResult,
   | ArgumentException
   | LimitExceededException
@@ -4301,9 +4282,8 @@ export const getAccountSettings: (
 /**
  * Gets information about a unique device type.
  */
-export const getDevice: (
-  input: GetDeviceRequest,
-) => effect.Effect<
+export const getDevice: API.OperationMethod<
+  GetDeviceRequest,
   GetDeviceResult,
   | ArgumentException
   | LimitExceededException
@@ -4324,9 +4304,8 @@ export const getDevice: (
 /**
  * Returns information about a device instance that belongs to a private device fleet.
  */
-export const getDeviceInstance: (
-  input: GetDeviceInstanceRequest,
-) => effect.Effect<
+export const getDeviceInstance: API.OperationMethod<
+  GetDeviceInstanceRequest,
   GetDeviceInstanceResult,
   | ArgumentException
   | LimitExceededException
@@ -4347,9 +4326,8 @@ export const getDeviceInstance: (
 /**
  * Gets information about a device pool.
  */
-export const getDevicePool: (
-  input: GetDevicePoolRequest,
-) => effect.Effect<
+export const getDevicePool: API.OperationMethod<
+  GetDevicePoolRequest,
   GetDevicePoolResult,
   | ArgumentException
   | LimitExceededException
@@ -4370,9 +4348,8 @@ export const getDevicePool: (
 /**
  * Gets information about compatibility with a device pool.
  */
-export const getDevicePoolCompatibility: (
-  input: GetDevicePoolCompatibilityRequest,
-) => effect.Effect<
+export const getDevicePoolCompatibility: API.OperationMethod<
+  GetDevicePoolCompatibilityRequest,
   GetDevicePoolCompatibilityResult,
   | ArgumentException
   | LimitExceededException
@@ -4393,9 +4370,8 @@ export const getDevicePoolCompatibility: (
 /**
  * Returns information about the specified instance profile.
  */
-export const getInstanceProfile: (
-  input: GetInstanceProfileRequest,
-) => effect.Effect<
+export const getInstanceProfile: API.OperationMethod<
+  GetInstanceProfileRequest,
   GetInstanceProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4416,9 +4392,8 @@ export const getInstanceProfile: (
 /**
  * Gets information about a job.
  */
-export const getJob: (
-  input: GetJobRequest,
-) => effect.Effect<
+export const getJob: API.OperationMethod<
+  GetJobRequest,
   GetJobResult,
   | ArgumentException
   | LimitExceededException
@@ -4439,9 +4414,8 @@ export const getJob: (
 /**
  * Returns information about a network profile.
  */
-export const getNetworkProfile: (
-  input: GetNetworkProfileRequest,
-) => effect.Effect<
+export const getNetworkProfile: API.OperationMethod<
+  GetNetworkProfileRequest,
   GetNetworkProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -4465,19 +4439,17 @@ export const getNetworkProfile: (
  * period. The API returns a `NotEligible` error if the user is not permitted to invoke the
  * operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
-export const getOfferingStatus: {
-  (
-    input: GetOfferingStatusRequest,
-  ): effect.Effect<
-    GetOfferingStatusResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotEligibleException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getOfferingStatus: API.OperationMethod<
+  GetOfferingStatusRequest,
+  GetOfferingStatusResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetOfferingStatusRequest,
   ) => stream.Stream<
@@ -4517,9 +4489,8 @@ export const getOfferingStatus: {
 /**
  * Gets information about a project.
  */
-export const getProject: (
-  input: GetProjectRequest,
-) => effect.Effect<
+export const getProject: API.OperationMethod<
+  GetProjectRequest,
   GetProjectResult,
   | ArgumentException
   | LimitExceededException
@@ -4540,9 +4511,8 @@ export const getProject: (
 /**
  * Returns a link to a currently running remote access session.
  */
-export const getRemoteAccessSession: (
-  input: GetRemoteAccessSessionRequest,
-) => effect.Effect<
+export const getRemoteAccessSession: API.OperationMethod<
+  GetRemoteAccessSessionRequest,
   GetRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -4563,9 +4533,8 @@ export const getRemoteAccessSession: (
 /**
  * Gets information about a run.
  */
-export const getRun: (
-  input: GetRunRequest,
-) => effect.Effect<
+export const getRun: API.OperationMethod<
+  GetRunRequest,
   GetRunResult,
   | ArgumentException
   | LimitExceededException
@@ -4586,9 +4555,8 @@ export const getRun: (
 /**
  * Gets information about a suite.
  */
-export const getSuite: (
-  input: GetSuiteRequest,
-) => effect.Effect<
+export const getSuite: API.OperationMethod<
+  GetSuiteRequest,
   GetSuiteResult,
   | ArgumentException
   | LimitExceededException
@@ -4609,9 +4577,8 @@ export const getSuite: (
 /**
  * Gets information about a test.
  */
-export const getTest: (
-  input: GetTestRequest,
-) => effect.Effect<
+export const getTest: API.OperationMethod<
+  GetTestRequest,
   GetTestResult,
   | ArgumentException
   | LimitExceededException
@@ -4632,9 +4599,8 @@ export const getTest: (
 /**
  * Retrieves information about a Selenium testing project.
  */
-export const getTestGridProject: (
-  input: GetTestGridProjectRequest,
-) => effect.Effect<
+export const getTestGridProject: API.OperationMethod<
+  GetTestGridProjectRequest,
   GetTestGridProjectResult,
   | ArgumentException
   | InternalServiceException
@@ -4653,9 +4619,8 @@ export const getTestGridProject: (
  *
  * - The project ARN and a session ID (GetTestGridSessionRequest$projectArn and GetTestGridSessionRequest$sessionId).
  */
-export const getTestGridSession: (
-  input: GetTestGridSessionRequest,
-) => effect.Effect<
+export const getTestGridSession: API.OperationMethod<
+  GetTestGridSessionRequest,
   GetTestGridSessionResult,
   | ArgumentException
   | InternalServiceException
@@ -4670,9 +4635,8 @@ export const getTestGridSession: (
 /**
  * Gets information about an upload.
  */
-export const getUpload: (
-  input: GetUploadRequest,
-) => effect.Effect<
+export const getUpload: API.OperationMethod<
+  GetUploadRequest,
   GetUploadResult,
   | ArgumentException
   | LimitExceededException
@@ -4694,9 +4658,8 @@ export const getUpload: (
  * Returns information about the configuration settings for your Amazon Virtual Private
  * Cloud (VPC) endpoint.
  */
-export const getVPCEConfiguration: (
-  input: GetVPCEConfigurationRequest,
-) => effect.Effect<
+export const getVPCEConfiguration: API.OperationMethod<
+  GetVPCEConfigurationRequest,
   GetVPCEConfigurationResult,
   | ArgumentException
   | NotFoundException
@@ -4713,9 +4676,8 @@ export const getVPCEConfiguration: (
  * applications, the file must be in .apk format. For iOS applications, the file must be in
  * .ipa format.
  */
-export const installToRemoteAccessSession: (
-  input: InstallToRemoteAccessSessionRequest,
-) => effect.Effect<
+export const installToRemoteAccessSession: API.OperationMethod<
+  InstallToRemoteAccessSessionRequest,
   InstallToRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -4736,18 +4698,16 @@ export const installToRemoteAccessSession: (
 /**
  * Gets information about artifacts.
  */
-export const listArtifacts: {
-  (
-    input: ListArtifactsRequest,
-  ): effect.Effect<
-    ListArtifactsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listArtifacts: API.OperationMethod<
+  ListArtifactsRequest,
+  ListArtifactsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListArtifactsRequest,
   ) => stream.Stream<
@@ -4789,9 +4749,8 @@ export const listArtifacts: {
  * Returns information about the private device instances associated with one or more AWS
  * accounts.
  */
-export const listDeviceInstances: (
-  input: ListDeviceInstancesRequest,
-) => effect.Effect<
+export const listDeviceInstances: API.OperationMethod<
+  ListDeviceInstancesRequest,
   ListDeviceInstancesResult,
   | ArgumentException
   | LimitExceededException
@@ -4812,18 +4771,16 @@ export const listDeviceInstances: (
 /**
  * Gets information about device pools.
  */
-export const listDevicePools: {
-  (
-    input: ListDevicePoolsRequest,
-  ): effect.Effect<
-    ListDevicePoolsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevicePools: API.OperationMethod<
+  ListDevicePoolsRequest,
+  ListDevicePoolsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevicePoolsRequest,
   ) => stream.Stream<
@@ -4864,18 +4821,16 @@ export const listDevicePools: {
 /**
  * Gets information about unique device types.
  */
-export const listDevices: {
-  (
-    input: ListDevicesRequest,
-  ): effect.Effect<
-    ListDevicesResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevices: API.OperationMethod<
+  ListDevicesRequest,
+  ListDevicesResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevicesRequest,
   ) => stream.Stream<
@@ -4916,9 +4871,8 @@ export const listDevices: {
 /**
  * Returns information about all the instance profiles in an AWS account.
  */
-export const listInstanceProfiles: (
-  input: ListInstanceProfilesRequest,
-) => effect.Effect<
+export const listInstanceProfiles: API.OperationMethod<
+  ListInstanceProfilesRequest,
   ListInstanceProfilesResult,
   | ArgumentException
   | LimitExceededException
@@ -4939,18 +4893,16 @@ export const listInstanceProfiles: (
 /**
  * Gets information about jobs for a given test run.
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -4991,9 +4943,8 @@ export const listJobs: {
 /**
  * Returns the list of available network profiles.
  */
-export const listNetworkProfiles: (
-  input: ListNetworkProfilesRequest,
-) => effect.Effect<
+export const listNetworkProfiles: API.OperationMethod<
+  ListNetworkProfilesRequest,
   ListNetworkProfilesResult,
   | ArgumentException
   | LimitExceededException
@@ -5016,9 +4967,8 @@ export const listNetworkProfiles: (
  * of the promotion. The API returns a `NotEligible` error if the caller is not permitted to invoke
  * the operation. Contact aws-devicefarm-support@amazon.com if you must be able to invoke this operation.
  */
-export const listOfferingPromotions: (
-  input: ListOfferingPromotionsRequest,
-) => effect.Effect<
+export const listOfferingPromotions: API.OperationMethod<
+  ListOfferingPromotionsRequest,
   ListOfferingPromotionsResult,
   | ArgumentException
   | LimitExceededException
@@ -5044,19 +4994,17 @@ export const listOfferingPromotions: (
  * `NotEligible` error if the user is not permitted to invoke the operation. If you must be
  * able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
-export const listOfferings: {
-  (
-    input: ListOfferingsRequest,
-  ): effect.Effect<
-    ListOfferingsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotEligibleException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOfferings: API.OperationMethod<
+  ListOfferingsRequest,
+  ListOfferingsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOfferingsRequest,
   ) => stream.Stream<
@@ -5103,19 +5051,17 @@ export const listOfferings: {
  * The API returns a `NotEligible` error if the user is not permitted to invoke the operation. If
  * you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
-export const listOfferingTransactions: {
-  (
-    input: ListOfferingTransactionsRequest,
-  ): effect.Effect<
-    ListOfferingTransactionsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotEligibleException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOfferingTransactions: API.OperationMethod<
+  ListOfferingTransactionsRequest,
+  ListOfferingTransactionsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotEligibleException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOfferingTransactionsRequest,
   ) => stream.Stream<
@@ -5159,18 +5105,16 @@ export const listOfferingTransactions: {
 /**
  * Gets information about projects.
  */
-export const listProjects: {
-  (
-    input: ListProjectsRequest,
-  ): effect.Effect<
-    ListProjectsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProjects: API.OperationMethod<
+  ListProjectsRequest,
+  ListProjectsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectsRequest,
   ) => stream.Stream<
@@ -5211,9 +5155,8 @@ export const listProjects: {
 /**
  * Returns a list of all currently running remote access sessions.
  */
-export const listRemoteAccessSessions: (
-  input: ListRemoteAccessSessionsRequest,
-) => effect.Effect<
+export const listRemoteAccessSessions: API.OperationMethod<
+  ListRemoteAccessSessionsRequest,
   ListRemoteAccessSessionsResult,
   | ArgumentException
   | LimitExceededException
@@ -5234,18 +5177,16 @@ export const listRemoteAccessSessions: (
 /**
  * Gets information about runs, given an AWS Device Farm project ARN.
  */
-export const listRuns: {
-  (
-    input: ListRunsRequest,
-  ): effect.Effect<
-    ListRunsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRuns: API.OperationMethod<
+  ListRunsRequest,
+  ListRunsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRunsRequest,
   ) => stream.Stream<
@@ -5286,18 +5227,16 @@ export const listRuns: {
 /**
  * Gets information about samples, given an AWS Device Farm job ARN.
  */
-export const listSamples: {
-  (
-    input: ListSamplesRequest,
-  ): effect.Effect<
-    ListSamplesResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSamples: API.OperationMethod<
+  ListSamplesRequest,
+  ListSamplesResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSamplesRequest,
   ) => stream.Stream<
@@ -5338,18 +5277,16 @@ export const listSamples: {
 /**
  * Gets information about test suites for a given job.
  */
-export const listSuites: {
-  (
-    input: ListSuitesRequest,
-  ): effect.Effect<
-    ListSuitesResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSuites: API.OperationMethod<
+  ListSuitesRequest,
+  ListSuitesResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSuitesRequest,
   ) => stream.Stream<
@@ -5390,9 +5327,8 @@ export const listSuites: {
 /**
  * List the tags for an AWS Device Farm resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ArgumentException | NotFoundException | TagOperationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5404,14 +5340,12 @@ export const listTagsForResource: (
 /**
  * Gets a list of all Selenium testing projects in your account.
  */
-export const listTestGridProjects: {
-  (
-    input: ListTestGridProjectsRequest,
-  ): effect.Effect<
-    ListTestGridProjectsResult,
-    ArgumentException | InternalServiceException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTestGridProjects: API.OperationMethod<
+  ListTestGridProjectsRequest,
+  ListTestGridProjectsResult,
+  ArgumentException | InternalServiceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestGridProjectsRequest,
   ) => stream.Stream<
@@ -5439,17 +5373,15 @@ export const listTestGridProjects: {
 /**
  * Returns a list of the actions taken in a TestGridSession.
  */
-export const listTestGridSessionActions: {
-  (
-    input: ListTestGridSessionActionsRequest,
-  ): effect.Effect<
-    ListTestGridSessionActionsResult,
-    | ArgumentException
-    | InternalServiceException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTestGridSessionActions: API.OperationMethod<
+  ListTestGridSessionActionsRequest,
+  ListTestGridSessionActionsResult,
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestGridSessionActionsRequest,
   ) => stream.Stream<
@@ -5483,17 +5415,15 @@ export const listTestGridSessionActions: {
 /**
  * Retrieves a list of artifacts created during the session.
  */
-export const listTestGridSessionArtifacts: {
-  (
-    input: ListTestGridSessionArtifactsRequest,
-  ): effect.Effect<
-    ListTestGridSessionArtifactsResult,
-    | ArgumentException
-    | InternalServiceException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTestGridSessionArtifacts: API.OperationMethod<
+  ListTestGridSessionArtifactsRequest,
+  ListTestGridSessionArtifactsResult,
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestGridSessionArtifactsRequest,
   ) => stream.Stream<
@@ -5527,17 +5457,15 @@ export const listTestGridSessionArtifacts: {
 /**
  * Retrieves a list of sessions for a TestGridProject.
  */
-export const listTestGridSessions: {
-  (
-    input: ListTestGridSessionsRequest,
-  ): effect.Effect<
-    ListTestGridSessionsResult,
-    | ArgumentException
-    | InternalServiceException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTestGridSessions: API.OperationMethod<
+  ListTestGridSessionsRequest,
+  ListTestGridSessionsResult,
+  | ArgumentException
+  | InternalServiceException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestGridSessionsRequest,
   ) => stream.Stream<
@@ -5571,18 +5499,16 @@ export const listTestGridSessions: {
 /**
  * Gets information about tests in a given test suite.
  */
-export const listTests: {
-  (
-    input: ListTestsRequest,
-  ): effect.Effect<
-    ListTestsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTests: API.OperationMethod<
+  ListTestsRequest,
+  ListTestsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestsRequest,
   ) => stream.Stream<
@@ -5628,18 +5554,16 @@ export const listTests: {
  * MyActivity.java:386), `ListUniqueProblems` returns a single entry instead of many
  * individual entries for that exception.
  */
-export const listUniqueProblems: {
-  (
-    input: ListUniqueProblemsRequest,
-  ): effect.Effect<
-    ListUniqueProblemsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUniqueProblems: API.OperationMethod<
+  ListUniqueProblemsRequest,
+  ListUniqueProblemsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUniqueProblemsRequest,
   ) => stream.Stream<
@@ -5680,18 +5604,16 @@ export const listUniqueProblems: {
 /**
  * Gets information about uploads, given an AWS Device Farm project ARN.
  */
-export const listUploads: {
-  (
-    input: ListUploadsRequest,
-  ): effect.Effect<
-    ListUploadsResult,
-    | ArgumentException
-    | LimitExceededException
-    | NotFoundException
-    | ServiceAccountException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUploads: API.OperationMethod<
+  ListUploadsRequest,
+  ListUploadsResult,
+  | ArgumentException
+  | LimitExceededException
+  | NotFoundException
+  | ServiceAccountException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUploadsRequest,
   ) => stream.Stream<
@@ -5733,9 +5655,8 @@ export const listUploads: {
  * Returns information about all Amazon Virtual Private Cloud (VPC) endpoint
  * configurations in the AWS account.
  */
-export const listVPCEConfigurations: (
-  input: ListVPCEConfigurationsRequest,
-) => effect.Effect<
+export const listVPCEConfigurations: API.OperationMethod<
+  ListVPCEConfigurationsRequest,
   ListVPCEConfigurationsResult,
   ArgumentException | ServiceAccountException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5750,9 +5671,8 @@ export const listVPCEConfigurations: (
  * error if the user is not permitted to invoke the operation. If you must be able to invoke this operation,
  * contact aws-devicefarm-support@amazon.com.
  */
-export const purchaseOffering: (
-  input: PurchaseOfferingRequest,
-) => effect.Effect<
+export const purchaseOffering: API.OperationMethod<
+  PurchaseOfferingRequest,
   PurchaseOfferingResult,
   | ArgumentException
   | LimitExceededException
@@ -5777,9 +5697,8 @@ export const purchaseOffering: (
  * `effectiveDate` of the next period. The API returns a `NotEligible` error if the
  * user is not permitted to invoke the operation. If you must be able to invoke this operation, contact aws-devicefarm-support@amazon.com.
  */
-export const renewOffering: (
-  input: RenewOfferingRequest,
-) => effect.Effect<
+export const renewOffering: API.OperationMethod<
+  RenewOfferingRequest,
   RenewOfferingResult,
   | ArgumentException
   | LimitExceededException
@@ -5802,9 +5721,8 @@ export const renewOffering: (
 /**
  * Schedules a run.
  */
-export const scheduleRun: (
-  input: ScheduleRunRequest,
-) => effect.Effect<
+export const scheduleRun: API.OperationMethod<
+  ScheduleRunRequest,
   ScheduleRunResult,
   | ArgumentException
   | IdempotencyException
@@ -5830,9 +5748,8 @@ export const scheduleRun: (
  * setup suite and teardown suite tests run to completion on the device. You are billed for setup, teardown,
  * and any tests that were in progress or already completed.
  */
-export const stopJob: (
-  input: StopJobRequest,
-) => effect.Effect<
+export const stopJob: API.OperationMethod<
+  StopJobRequest,
   StopJobResult,
   | ArgumentException
   | LimitExceededException
@@ -5853,9 +5770,8 @@ export const stopJob: (
 /**
  * Ends a specified remote access session.
  */
-export const stopRemoteAccessSession: (
-  input: StopRemoteAccessSessionRequest,
-) => effect.Effect<
+export const stopRemoteAccessSession: API.OperationMethod<
+  StopRemoteAccessSessionRequest,
   StopRemoteAccessSessionResult,
   | ArgumentException
   | LimitExceededException
@@ -5879,9 +5795,8 @@ export const stopRemoteAccessSession: (
  * executing, setup suite and teardown suite tests run to completion on those devices. You are billed for
  * setup, teardown, and any tests that were in progress or already completed.
  */
-export const stopRun: (
-  input: StopRunRequest,
-) => effect.Effect<
+export const stopRun: API.OperationMethod<
+  StopRunRequest,
   StopRunResult,
   | ArgumentException
   | LimitExceededException
@@ -5904,9 +5819,8 @@ export const stopRun: (
  * on a resource are not specified in the request parameters, they are not changed. When a resource is deleted,
  * the tags associated with that resource are also deleted.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ArgumentException
   | NotFoundException
@@ -5929,9 +5843,8 @@ export const tagResource: (
 /**
  * Deletes the specified tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ArgumentException | NotFoundException | TagOperationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5943,9 +5856,8 @@ export const untagResource: (
 /**
  * Updates information about a private device instance.
  */
-export const updateDeviceInstance: (
-  input: UpdateDeviceInstanceRequest,
-) => effect.Effect<
+export const updateDeviceInstance: API.OperationMethod<
+  UpdateDeviceInstanceRequest,
   UpdateDeviceInstanceResult,
   | ArgumentException
   | LimitExceededException
@@ -5968,9 +5880,8 @@ export const updateDeviceInstance: (
  * the pool ARN. Rule updates are all-or-nothing, meaning they can only be updated as a
  * whole (or not at all).
  */
-export const updateDevicePool: (
-  input: UpdateDevicePoolRequest,
-) => effect.Effect<
+export const updateDevicePool: API.OperationMethod<
+  UpdateDevicePoolRequest,
   UpdateDevicePoolResult,
   | ArgumentException
   | LimitExceededException
@@ -5991,9 +5902,8 @@ export const updateDevicePool: (
 /**
  * Updates information about an existing private device instance profile.
  */
-export const updateInstanceProfile: (
-  input: UpdateInstanceProfileRequest,
-) => effect.Effect<
+export const updateInstanceProfile: API.OperationMethod<
+  UpdateInstanceProfileRequest,
   UpdateInstanceProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -6014,9 +5924,8 @@ export const updateInstanceProfile: (
 /**
  * Updates the network profile.
  */
-export const updateNetworkProfile: (
-  input: UpdateNetworkProfileRequest,
-) => effect.Effect<
+export const updateNetworkProfile: API.OperationMethod<
+  UpdateNetworkProfileRequest,
   UpdateNetworkProfileResult,
   | ArgumentException
   | LimitExceededException
@@ -6038,9 +5947,8 @@ export const updateNetworkProfile: (
  * Modifies the specified project name, given the project ARN and a new
  * name.
  */
-export const updateProject: (
-  input: UpdateProjectRequest,
-) => effect.Effect<
+export const updateProject: API.OperationMethod<
+  UpdateProjectRequest,
   UpdateProjectResult,
   | ArgumentException
   | LimitExceededException
@@ -6061,9 +5969,8 @@ export const updateProject: (
 /**
  * Change details of a project.
  */
-export const updateTestGridProject: (
-  input: UpdateTestGridProjectRequest,
-) => effect.Effect<
+export const updateTestGridProject: API.OperationMethod<
+  UpdateTestGridProjectRequest,
   UpdateTestGridProjectResult,
   | ArgumentException
   | InternalServiceException
@@ -6084,9 +5991,8 @@ export const updateTestGridProject: (
 /**
  * Updates an uploaded test spec.
  */
-export const updateUpload: (
-  input: UpdateUploadRequest,
-) => effect.Effect<
+export const updateUpload: API.OperationMethod<
+  UpdateUploadRequest,
   UpdateUploadResult,
   | ArgumentException
   | LimitExceededException
@@ -6107,9 +6013,8 @@ export const updateUpload: (
 /**
  * Updates information about an Amazon Virtual Private Cloud (VPC) endpoint configuration.
  */
-export const updateVPCEConfiguration: (
-  input: UpdateVPCEConfigurationRequest,
-) => effect.Effect<
+export const updateVPCEConfiguration: API.OperationMethod<
+  UpdateVPCEConfigurationRequest,
   UpdateVPCEConfigurationResult,
   | ArgumentException
   | InvalidOperationException

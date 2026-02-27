@@ -15154,9 +15154,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Accepts automatically generated business-friendly metadata for your Amazon DataZone assets.
  */
-export const acceptPredictions: (
-  input: AcceptPredictionsInput,
-) => effect.Effect<
+export const acceptPredictions: API.OperationMethod<
+  AcceptPredictionsInput,
   AcceptPredictionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -15181,9 +15180,8 @@ export const acceptPredictions: (
 /**
  * Accepts a subscription request to a specific asset.
  */
-export const acceptSubscriptionRequest: (
-  input: AcceptSubscriptionRequestInput,
-) => effect.Effect<
+export const acceptSubscriptionRequest: API.OperationMethod<
+  AcceptSubscriptionRequestInput,
   AcceptSubscriptionRequestOutput,
   | AccessDeniedException
   | ConflictException
@@ -15210,9 +15208,8 @@ export const acceptSubscriptionRequest: (
 /**
  * Adds the owner of an entity (a domain unit).
  */
-export const addEntityOwner: (
-  input: AddEntityOwnerInput,
-) => effect.Effect<
+export const addEntityOwner: API.OperationMethod<
+  AddEntityOwnerInput,
   AddEntityOwnerOutput,
   | AccessDeniedException
   | ConflictException
@@ -15239,9 +15236,8 @@ export const addEntityOwner: (
 /**
  * Adds a policy grant (an authorization policy) to a specified entity, including domain units, environment blueprint configurations, or environment profiles.
  */
-export const addPolicyGrant: (
-  input: AddPolicyGrantInput,
-) => effect.Effect<
+export const addPolicyGrant: API.OperationMethod<
+  AddPolicyGrantInput,
   AddPolicyGrantOutput,
   | AccessDeniedException
   | ConflictException
@@ -15266,9 +15262,8 @@ export const addPolicyGrant: (
 /**
  * Associates the environment role in Amazon DataZone.
  */
-export const associateEnvironmentRole: (
-  input: AssociateEnvironmentRoleInput,
-) => effect.Effect<
+export const associateEnvironmentRole: API.OperationMethod<
+  AssociateEnvironmentRoleInput,
   AssociateEnvironmentRoleOutput,
   | AccessDeniedException
   | ConflictException
@@ -15293,9 +15288,8 @@ export const associateEnvironmentRole: (
 /**
  * Associates governed terms with an asset.
  */
-export const associateGovernedTerms: (
-  input: AssociateGovernedTermsInput,
-) => effect.Effect<
+export const associateGovernedTerms: API.OperationMethod<
+  AssociateGovernedTermsInput,
   AssociateGovernedTermsOutput,
   | AccessDeniedException
   | ConflictException
@@ -15320,9 +15314,8 @@ export const associateGovernedTerms: (
 /**
  * Gets the attribute metadata.
  */
-export const batchGetAttributesMetadata: (
-  input: BatchGetAttributesMetadataInput,
-) => effect.Effect<
+export const batchGetAttributesMetadata: API.OperationMethod<
+  BatchGetAttributesMetadataInput,
   BatchGetAttributesMetadataOutput,
   | AccessDeniedException
   | InternalServerException
@@ -15345,9 +15338,8 @@ export const batchGetAttributesMetadata: (
 /**
  * Writes the attribute metadata.
  */
-export const batchPutAttributesMetadata: (
-  input: BatchPutAttributesMetadataInput,
-) => effect.Effect<
+export const batchPutAttributesMetadata: API.OperationMethod<
+  BatchPutAttributesMetadataInput,
   BatchPutAttributesMetadataOutput,
   | AccessDeniedException
   | ConflictException
@@ -15372,9 +15364,8 @@ export const batchPutAttributesMetadata: (
 /**
  * Cancels the subscription to the specified asset.
  */
-export const cancelSubscription: (
-  input: CancelSubscriptionInput,
-) => effect.Effect<
+export const cancelSubscription: API.OperationMethod<
+  CancelSubscriptionInput,
   CancelSubscriptionOutput,
   | AccessDeniedException
   | ConflictException
@@ -15399,9 +15390,8 @@ export const cancelSubscription: (
 /**
  * Creates an account pool.
  */
-export const createAccountPool: (
-  input: CreateAccountPoolInput,
-) => effect.Effect<
+export const createAccountPool: API.OperationMethod<
+  CreateAccountPoolInput,
   CreateAccountPoolOutput,
   | AccessDeniedException
   | ConflictException
@@ -15440,9 +15430,8 @@ export const createAccountPool: (
  *
  * - You cannot specify both (`columnConfiguration`, `rowConfiguration`)at the same time.
  */
-export const createAssetFilter: (
-  input: CreateAssetFilterInput,
-) => effect.Effect<
+export const createAssetFilter: API.OperationMethod<
+  CreateAssetFilterInput,
   CreateAssetFilterOutput,
   | AccessDeniedException
   | ConflictException
@@ -15469,9 +15458,8 @@ export const createAssetFilter: (
 /**
  * Creates a new connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
-export const createConnection: (
-  input: CreateConnectionInput,
-) => effect.Effect<
+export const createConnection: API.OperationMethod<
+  CreateConnectionInput,
   CreateConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -15498,9 +15486,8 @@ export const createConnection: (
 /**
  * Create an Amazon DataZone environment.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentInput,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentInput,
   CreateEnvironmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -15525,9 +15512,8 @@ export const createEnvironment: (
 /**
  * Creates an action for the environment, for example, creates a console link for an analytics tool that is available in this environment.
  */
-export const createEnvironmentAction: (
-  input: CreateEnvironmentActionInput,
-) => effect.Effect<
+export const createEnvironmentAction: API.OperationMethod<
+  CreateEnvironmentActionInput,
   CreateEnvironmentActionOutput,
   | AccessDeniedException
   | ConflictException
@@ -15552,9 +15538,8 @@ export const createEnvironmentAction: (
 /**
  * Creates a Amazon DataZone blueprint.
  */
-export const createEnvironmentBlueprint: (
-  input: CreateEnvironmentBlueprintInput,
-) => effect.Effect<
+export const createEnvironmentBlueprint: API.OperationMethod<
+  CreateEnvironmentBlueprintInput,
   CreateEnvironmentBlueprintOutput,
   | AccessDeniedException
   | ConflictException
@@ -15581,9 +15566,8 @@ export const createEnvironmentBlueprint: (
 /**
  * Creates an Amazon DataZone environment profile.
  */
-export const createEnvironmentProfile: (
-  input: CreateEnvironmentProfileInput,
-) => effect.Effect<
+export const createEnvironmentProfile: API.OperationMethod<
+  CreateEnvironmentProfileInput,
   CreateEnvironmentProfileOutput,
   | AccessDeniedException
   | ConflictException
@@ -15610,9 +15594,8 @@ export const createEnvironmentProfile: (
 /**
  * Creates a group profile in Amazon DataZone.
  */
-export const createGroupProfile: (
-  input: CreateGroupProfileInput,
-) => effect.Effect<
+export const createGroupProfile: API.OperationMethod<
+  CreateGroupProfileInput,
   CreateGroupProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -15633,9 +15616,8 @@ export const createGroupProfile: (
 /**
  * Publishes a listing (a record of an asset at a given time) or removes a listing from the catalog.
  */
-export const createListingChangeSet: (
-  input: CreateListingChangeSetInput,
-) => effect.Effect<
+export const createListingChangeSet: API.OperationMethod<
+  CreateListingChangeSetInput,
   CreateListingChangeSetOutput,
   | AccessDeniedException
   | ConflictException
@@ -15662,9 +15644,8 @@ export const createListingChangeSet: (
 /**
  * Creates an Amazon DataZone project.
  */
-export const createProject: (
-  input: CreateProjectInput,
-) => effect.Effect<
+export const createProject: API.OperationMethod<
+  CreateProjectInput,
   CreateProjectOutput,
   | AccessDeniedException
   | ConflictException
@@ -15691,9 +15672,8 @@ export const createProject: (
 /**
  * Creates a project membership in Amazon DataZone.
  */
-export const createProjectMembership: (
-  input: CreateProjectMembershipInput,
-) => effect.Effect<
+export const createProjectMembership: API.OperationMethod<
+  CreateProjectMembershipInput,
   CreateProjectMembershipOutput,
   | AccessDeniedException
   | InternalServerException
@@ -15714,9 +15694,8 @@ export const createProjectMembership: (
 /**
  * Creates a project profile.
  */
-export const createProjectProfile: (
-  input: CreateProjectProfileInput,
-) => effect.Effect<
+export const createProjectProfile: API.OperationMethod<
+  CreateProjectProfileInput,
   CreateProjectProfileOutput,
   | AccessDeniedException
   | ConflictException
@@ -15743,9 +15722,8 @@ export const createProjectProfile: (
 /**
  * Creates a subsscription grant in Amazon DataZone.
  */
-export const createSubscriptionGrant: (
-  input: CreateSubscriptionGrantInput,
-) => effect.Effect<
+export const createSubscriptionGrant: API.OperationMethod<
+  CreateSubscriptionGrantInput,
   CreateSubscriptionGrantOutput,
   | AccessDeniedException
   | ConflictException
@@ -15770,9 +15748,8 @@ export const createSubscriptionGrant: (
 /**
  * Creates a subscription request in Amazon DataZone.
  */
-export const createSubscriptionRequest: (
-  input: CreateSubscriptionRequestInput,
-) => effect.Effect<
+export const createSubscriptionRequest: API.OperationMethod<
+  CreateSubscriptionRequestInput,
   CreateSubscriptionRequestOutput,
   | AccessDeniedException
   | ConflictException
@@ -15799,9 +15776,8 @@ export const createSubscriptionRequest: (
 /**
  * Creates a subscription target in Amazon DataZone.
  */
-export const createSubscriptionTarget: (
-  input: CreateSubscriptionTargetInput,
-) => effect.Effect<
+export const createSubscriptionTarget: API.OperationMethod<
+  CreateSubscriptionTargetInput,
   CreateSubscriptionTargetOutput,
   | AccessDeniedException
   | ConflictException
@@ -15826,9 +15802,8 @@ export const createSubscriptionTarget: (
 /**
  * Creates a user profile in Amazon DataZone.
  */
-export const createUserProfile: (
-  input: CreateUserProfileInput,
-) => effect.Effect<
+export const createUserProfile: API.OperationMethod<
+  CreateUserProfileInput,
   CreateUserProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -15849,9 +15824,8 @@ export const createUserProfile: (
 /**
  * Deletes an account pool.
  */
-export const deleteAccountPool: (
-  input: DeleteAccountPoolInput,
-) => effect.Effect<
+export const deleteAccountPool: API.OperationMethod<
+  DeleteAccountPoolInput,
   DeleteAccountPoolOutput,
   | AccessDeniedException
   | InternalServerException
@@ -15882,9 +15856,8 @@ export const deleteAccountPool: (
  *
  * - Ensure the --identifier refers to a valid filter ID.
  */
-export const deleteAssetFilter: (
-  input: DeleteAssetFilterInput,
-) => effect.Effect<
+export const deleteAssetFilter: API.OperationMethod<
+  DeleteAssetFilterInput,
   DeleteAssetFilterResponse,
   | AccessDeniedException
   | ConflictException
@@ -15909,9 +15882,8 @@ export const deleteAssetFilter: (
 /**
  * Deletes and connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
-export const deleteConnection: (
-  input: DeleteConnectionInput,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionInput,
   DeleteConnectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -15938,9 +15910,8 @@ export const deleteConnection: (
  *
  * To temporarily disable export without deleting the configuration, use the PutDataExportConfiguration operation with the `--no-enable-export` flag instead. This allows you to re-enable export for the same domain using the `--enable-export` flag without deleting S3 table.
  */
-export const deleteDataExportConfiguration: (
-  input: DeleteDataExportConfigurationInput,
-) => effect.Effect<
+export const deleteDataExportConfiguration: API.OperationMethod<
+  DeleteDataExportConfigurationInput,
   DeleteDataExportConfigurationOutput,
   | AccessDeniedException
   | ConflictException
@@ -15965,9 +15936,8 @@ export const deleteDataExportConfiguration: (
 /**
  * Deletes an environment in Amazon DataZone.
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentInput,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentInput,
   DeleteEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -15990,9 +15960,8 @@ export const deleteEnvironment: (
 /**
  * Deletes an action for the environment, for example, deletes a console link for an analytics tool that is available in this environment.
  */
-export const deleteEnvironmentAction: (
-  input: DeleteEnvironmentActionInput,
-) => effect.Effect<
+export const deleteEnvironmentAction: API.OperationMethod<
+  DeleteEnvironmentActionInput,
   DeleteEnvironmentActionResponse,
   | AccessDeniedException
   | ConflictException
@@ -16017,9 +15986,8 @@ export const deleteEnvironmentAction: (
 /**
  * Deletes a blueprint in Amazon DataZone.
  */
-export const deleteEnvironmentBlueprint: (
-  input: DeleteEnvironmentBlueprintInput,
-) => effect.Effect<
+export const deleteEnvironmentBlueprint: API.OperationMethod<
+  DeleteEnvironmentBlueprintInput,
   DeleteEnvironmentBlueprintResponse,
   | AccessDeniedException
   | ConflictException
@@ -16044,9 +16012,8 @@ export const deleteEnvironmentBlueprint: (
 /**
  * Deletes an environment profile in Amazon DataZone.
  */
-export const deleteEnvironmentProfile: (
-  input: DeleteEnvironmentProfileInput,
-) => effect.Effect<
+export const deleteEnvironmentProfile: API.OperationMethod<
+  DeleteEnvironmentProfileInput,
   DeleteEnvironmentProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -16069,9 +16036,8 @@ export const deleteEnvironmentProfile: (
 /**
  * Deletes a project in Amazon DataZone.
  */
-export const deleteProject: (
-  input: DeleteProjectInput,
-) => effect.Effect<
+export const deleteProject: API.OperationMethod<
+  DeleteProjectInput,
   DeleteProjectOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16094,9 +16060,8 @@ export const deleteProject: (
 /**
  * Deletes project membership in Amazon DataZone.
  */
-export const deleteProjectMembership: (
-  input: DeleteProjectMembershipInput,
-) => effect.Effect<
+export const deleteProjectMembership: API.OperationMethod<
+  DeleteProjectMembershipInput,
   DeleteProjectMembershipOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16121,9 +16086,8 @@ export const deleteProjectMembership: (
 /**
  * Deletes a project profile.
  */
-export const deleteProjectProfile: (
-  input: DeleteProjectProfileInput,
-) => effect.Effect<
+export const deleteProjectProfile: API.OperationMethod<
+  DeleteProjectProfileInput,
   DeleteProjectProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16146,9 +16110,8 @@ export const deleteProjectProfile: (
 /**
  * Deletes and subscription grant in Amazon DataZone.
  */
-export const deleteSubscriptionGrant: (
-  input: DeleteSubscriptionGrantInput,
-) => effect.Effect<
+export const deleteSubscriptionGrant: API.OperationMethod<
+  DeleteSubscriptionGrantInput,
   DeleteSubscriptionGrantOutput,
   | AccessDeniedException
   | ConflictException
@@ -16173,9 +16136,8 @@ export const deleteSubscriptionGrant: (
 /**
  * Deletes a subscription request in Amazon DataZone.
  */
-export const deleteSubscriptionRequest: (
-  input: DeleteSubscriptionRequestInput,
-) => effect.Effect<
+export const deleteSubscriptionRequest: API.OperationMethod<
+  DeleteSubscriptionRequestInput,
   DeleteSubscriptionRequestResponse,
   | AccessDeniedException
   | ConflictException
@@ -16200,9 +16162,8 @@ export const deleteSubscriptionRequest: (
 /**
  * Deletes a subscription target in Amazon DataZone.
  */
-export const deleteSubscriptionTarget: (
-  input: DeleteSubscriptionTargetInput,
-) => effect.Effect<
+export const deleteSubscriptionTarget: API.OperationMethod<
+  DeleteSubscriptionTargetInput,
   DeleteSubscriptionTargetResponse,
   | AccessDeniedException
   | ConflictException
@@ -16227,9 +16188,8 @@ export const deleteSubscriptionTarget: (
 /**
  * Deletes the specified time series form for the specified asset.
  */
-export const deleteTimeSeriesDataPoints: (
-  input: DeleteTimeSeriesDataPointsInput,
-) => effect.Effect<
+export const deleteTimeSeriesDataPoints: API.OperationMethod<
+  DeleteTimeSeriesDataPointsInput,
   DeleteTimeSeriesDataPointsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16252,9 +16212,8 @@ export const deleteTimeSeriesDataPoints: (
 /**
  * Disassociates the environment role in Amazon DataZone.
  */
-export const disassociateEnvironmentRole: (
-  input: DisassociateEnvironmentRoleInput,
-) => effect.Effect<
+export const disassociateEnvironmentRole: API.OperationMethod<
+  DisassociateEnvironmentRoleInput,
   DisassociateEnvironmentRoleOutput,
   | AccessDeniedException
   | ConflictException
@@ -16279,9 +16238,8 @@ export const disassociateEnvironmentRole: (
 /**
  * Disassociates restricted terms from an asset.
  */
-export const disassociateGovernedTerms: (
-  input: DisassociateGovernedTermsInput,
-) => effect.Effect<
+export const disassociateGovernedTerms: API.OperationMethod<
+  DisassociateGovernedTermsInput,
   DisassociateGovernedTermsOutput,
   | AccessDeniedException
   | ConflictException
@@ -16306,9 +16264,8 @@ export const disassociateGovernedTerms: (
 /**
  * Gets the details of the account pool.
  */
-export const getAccountPool: (
-  input: GetAccountPoolInput,
-) => effect.Effect<
+export const getAccountPool: API.OperationMethod<
+  GetAccountPoolInput,
   GetAccountPoolOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16339,9 +16296,8 @@ export const getAccountPool: (
  *
  * - The asset must still exist (since the filter is linked to it).
  */
-export const getAssetFilter: (
-  input: GetAssetFilterInput,
-) => effect.Effect<
+export const getAssetFilter: API.OperationMethod<
+  GetAssetFilterInput,
   GetAssetFilterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16364,9 +16320,8 @@ export const getAssetFilter: (
 /**
  * Gets a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
-export const getConnection: (
-  input: GetConnectionInput,
-) => effect.Effect<
+export const getConnection: API.OperationMethod<
+  GetConnectionInput,
   GetConnectionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16389,9 +16344,8 @@ export const getConnection: (
 /**
  * Gets data export configuration details.
  */
-export const getDataExportConfiguration: (
-  input: GetDataExportConfigurationInput,
-) => effect.Effect<
+export const getDataExportConfiguration: API.OperationMethod<
+  GetDataExportConfigurationInput,
   GetDataExportConfigurationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16414,9 +16368,8 @@ export const getDataExportConfiguration: (
 /**
  * Gets an Amazon DataZone environment.
  */
-export const getEnvironment: (
-  input: GetEnvironmentInput,
-) => effect.Effect<
+export const getEnvironment: API.OperationMethod<
+  GetEnvironmentInput,
   GetEnvironmentOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16439,9 +16392,8 @@ export const getEnvironment: (
 /**
  * Gets the specified environment action.
  */
-export const getEnvironmentAction: (
-  input: GetEnvironmentActionInput,
-) => effect.Effect<
+export const getEnvironmentAction: API.OperationMethod<
+  GetEnvironmentActionInput,
   GetEnvironmentActionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16464,9 +16416,8 @@ export const getEnvironmentAction: (
 /**
  * Gets an Amazon DataZone blueprint.
  */
-export const getEnvironmentBlueprint: (
-  input: GetEnvironmentBlueprintInput,
-) => effect.Effect<
+export const getEnvironmentBlueprint: API.OperationMethod<
+  GetEnvironmentBlueprintInput,
   GetEnvironmentBlueprintOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16489,9 +16440,8 @@ export const getEnvironmentBlueprint: (
 /**
  * Gets the credentials of an environment in Amazon DataZone.
  */
-export const getEnvironmentCredentials: (
-  input: GetEnvironmentCredentialsInput,
-) => effect.Effect<
+export const getEnvironmentCredentials: API.OperationMethod<
+  GetEnvironmentCredentialsInput,
   GetEnvironmentCredentialsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16514,9 +16464,8 @@ export const getEnvironmentCredentials: (
 /**
  * Gets an evinronment profile in Amazon DataZone.
  */
-export const getEnvironmentProfile: (
-  input: GetEnvironmentProfileInput,
-) => effect.Effect<
+export const getEnvironmentProfile: API.OperationMethod<
+  GetEnvironmentProfileInput,
   GetEnvironmentProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16539,9 +16488,8 @@ export const getEnvironmentProfile: (
 /**
  * Gets a group profile in Amazon DataZone.
  */
-export const getGroupProfile: (
-  input: GetGroupProfileInput,
-) => effect.Effect<
+export const getGroupProfile: API.OperationMethod<
+  GetGroupProfileInput,
   GetGroupProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16562,9 +16510,8 @@ export const getGroupProfile: (
 /**
  * Gets the data portal URL for the specified Amazon DataZone domain.
  */
-export const getIamPortalLoginUrl: (
-  input: GetIamPortalLoginUrlInput,
-) => effect.Effect<
+export const getIamPortalLoginUrl: API.OperationMethod<
+  GetIamPortalLoginUrlInput,
   GetIamPortalLoginUrlOutput,
   | AccessDeniedException
   | ConflictException
@@ -16589,9 +16536,8 @@ export const getIamPortalLoginUrl: (
 /**
  * The details of the job run.
  */
-export const getJobRun: (
-  input: GetJobRunInput,
-) => effect.Effect<
+export const getJobRun: API.OperationMethod<
+  GetJobRunInput,
   GetJobRunOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16614,9 +16560,8 @@ export const getJobRun: (
 /**
  * Describes the lineage event.
  */
-export const getLineageEvent: (
-  input: GetLineageEventInput,
-) => effect.Effect<
+export const getLineageEvent: API.OperationMethod<
+  GetLineageEventInput,
   GetLineageEventOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16639,9 +16584,8 @@ export const getLineageEvent: (
 /**
  * Gets the data lineage node.
  */
-export const getLineageNode: (
-  input: GetLineageNodeInput,
-) => effect.Effect<
+export const getLineageNode: API.OperationMethod<
+  GetLineageNodeInput,
   GetLineageNodeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16664,9 +16608,8 @@ export const getLineageNode: (
 /**
  * Gets a project in Amazon DataZone.
  */
-export const getProject: (
-  input: GetProjectInput,
-) => effect.Effect<
+export const getProject: API.OperationMethod<
+  GetProjectInput,
   GetProjectOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16689,9 +16632,8 @@ export const getProject: (
 /**
  * The details of the project profile.
  */
-export const getProjectProfile: (
-  input: GetProjectProfileInput,
-) => effect.Effect<
+export const getProjectProfile: API.OperationMethod<
+  GetProjectProfileInput,
   GetProjectProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16714,9 +16656,8 @@ export const getProjectProfile: (
 /**
  * Gets a subscription in Amazon DataZone.
  */
-export const getSubscription: (
-  input: GetSubscriptionInput,
-) => effect.Effect<
+export const getSubscription: API.OperationMethod<
+  GetSubscriptionInput,
   GetSubscriptionOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16739,9 +16680,8 @@ export const getSubscription: (
 /**
  * Gets the subscription grant in Amazon DataZone.
  */
-export const getSubscriptionGrant: (
-  input: GetSubscriptionGrantInput,
-) => effect.Effect<
+export const getSubscriptionGrant: API.OperationMethod<
+  GetSubscriptionGrantInput,
   GetSubscriptionGrantOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16764,9 +16704,8 @@ export const getSubscriptionGrant: (
 /**
  * Gets the details of the specified subscription request.
  */
-export const getSubscriptionRequestDetails: (
-  input: GetSubscriptionRequestDetailsInput,
-) => effect.Effect<
+export const getSubscriptionRequestDetails: API.OperationMethod<
+  GetSubscriptionRequestDetailsInput,
   GetSubscriptionRequestDetailsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16789,9 +16728,8 @@ export const getSubscriptionRequestDetails: (
 /**
  * Gets the subscription target in Amazon DataZone.
  */
-export const getSubscriptionTarget: (
-  input: GetSubscriptionTargetInput,
-) => effect.Effect<
+export const getSubscriptionTarget: API.OperationMethod<
+  GetSubscriptionTargetInput,
   GetSubscriptionTargetOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16814,9 +16752,8 @@ export const getSubscriptionTarget: (
 /**
  * Gets the existing data point for the asset.
  */
-export const getTimeSeriesDataPoint: (
-  input: GetTimeSeriesDataPointInput,
-) => effect.Effect<
+export const getTimeSeriesDataPoint: API.OperationMethod<
+  GetTimeSeriesDataPointInput,
   GetTimeSeriesDataPointOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16839,9 +16776,8 @@ export const getTimeSeriesDataPoint: (
 /**
  * Gets a user profile in Amazon DataZone.
  */
-export const getUserProfile: (
-  input: GetUserProfileInput,
-) => effect.Effect<
+export const getUserProfile: API.OperationMethod<
+  GetUserProfileInput,
   GetUserProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -16862,18 +16798,16 @@ export const getUserProfile: (
 /**
  * Lists existing account pools.
  */
-export const listAccountPools: {
-  (
-    input: ListAccountPoolsInput,
-  ): effect.Effect<
-    ListAccountPoolsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAccountPools: API.OperationMethod<
+  ListAccountPoolsInput,
+  ListAccountPoolsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountPoolsInput,
   ) => stream.Stream<
@@ -16915,19 +16849,17 @@ export const listAccountPools: {
 /**
  * Lists the accounts in the specified account pool.
  */
-export const listAccountsInAccountPool: {
-  (
-    input: ListAccountsInAccountPoolInput,
-  ): effect.Effect<
-    ListAccountsInAccountPoolOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAccountsInAccountPool: API.OperationMethod<
+  ListAccountsInAccountPoolInput,
+  ListAccountsInAccountPoolOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountsInAccountPoolInput,
   ) => stream.Stream<
@@ -16978,19 +16910,17 @@ export const listAccountsInAccountPool: {
  *
  * - The asset must have at least one filter created to return results.
  */
-export const listAssetFilters: {
-  (
-    input: ListAssetFiltersInput,
-  ): effect.Effect<
-    ListAssetFiltersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAssetFilters: API.OperationMethod<
+  ListAssetFiltersInput,
+  ListAssetFiltersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetFiltersInput,
   ) => stream.Stream<
@@ -17045,19 +16975,17 @@ export const listAssetFilters: {
  *
  * - User must have permissions on the asset and domain.
  */
-export const listAssetRevisions: {
-  (
-    input: ListAssetRevisionsInput,
-  ): effect.Effect<
-    ListAssetRevisionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAssetRevisions: API.OperationMethod<
+  ListAssetRevisionsInput,
+  ListAssetRevisionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetRevisionsInput,
   ) => stream.Stream<
@@ -17101,18 +17029,16 @@ export const listAssetRevisions: {
 /**
  * Lists connections. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
-export const listConnections: {
-  (
-    input: ListConnectionsInput,
-  ): effect.Effect<
-    ListConnectionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listConnections: API.OperationMethod<
+  ListConnectionsInput,
+  ListConnectionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectionsInput,
   ) => stream.Stream<
@@ -17162,19 +17088,17 @@ export const listConnections: {
  *
  * - The domain must be in a valid and accessible state.
  */
-export const listDataProductRevisions: {
-  (
-    input: ListDataProductRevisionsInput,
-  ): effect.Effect<
-    ListDataProductRevisionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDataProductRevisions: API.OperationMethod<
+  ListDataProductRevisionsInput,
+  ListDataProductRevisionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataProductRevisionsInput,
   ) => stream.Stream<
@@ -17219,21 +17143,19 @@ export const listDataProductRevisions: {
 /**
  * Lists data source run activities.
  */
-export const listDataSourceRunActivities: {
-  (
-    input: ListDataSourceRunActivitiesInput,
-  ): effect.Effect<
-    ListDataSourceRunActivitiesOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDataSourceRunActivities: API.OperationMethod<
+  ListDataSourceRunActivitiesInput,
+  ListDataSourceRunActivitiesOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourceRunActivitiesInput,
   ) => stream.Stream<
@@ -17284,18 +17206,16 @@ export const listDataSourceRunActivities: {
 /**
  * Lists the entity (domain units) owners.
  */
-export const listEntityOwners: {
-  (
-    input: ListEntityOwnersInput,
-  ): effect.Effect<
-    ListEntityOwnersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEntityOwners: API.OperationMethod<
+  ListEntityOwnersInput,
+  ListEntityOwnersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntityOwnersInput,
   ) => stream.Stream<
@@ -17337,18 +17257,16 @@ export const listEntityOwners: {
 /**
  * Lists existing environment actions.
  */
-export const listEnvironmentActions: {
-  (
-    input: ListEnvironmentActionsInput,
-  ): effect.Effect<
-    ListEnvironmentActionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEnvironmentActions: API.OperationMethod<
+  ListEnvironmentActionsInput,
+  ListEnvironmentActionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentActionsInput,
   ) => stream.Stream<
@@ -17390,19 +17308,17 @@ export const listEnvironmentActions: {
 /**
  * Lists blueprints in an Amazon DataZone environment.
  */
-export const listEnvironmentBlueprints: {
-  (
-    input: ListEnvironmentBlueprintsInput,
-  ): effect.Effect<
-    ListEnvironmentBlueprintsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEnvironmentBlueprints: API.OperationMethod<
+  ListEnvironmentBlueprintsInput,
+  ListEnvironmentBlueprintsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentBlueprintsInput,
   ) => stream.Stream<
@@ -17447,18 +17363,16 @@ export const listEnvironmentBlueprints: {
 /**
  * Lists Amazon DataZone environment profiles.
  */
-export const listEnvironmentProfiles: {
-  (
-    input: ListEnvironmentProfilesInput,
-  ): effect.Effect<
-    ListEnvironmentProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEnvironmentProfiles: API.OperationMethod<
+  ListEnvironmentProfilesInput,
+  ListEnvironmentProfilesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentProfilesInput,
   ) => stream.Stream<
@@ -17500,18 +17414,16 @@ export const listEnvironmentProfiles: {
 /**
  * Lists Amazon DataZone environments.
  */
-export const listEnvironments: {
-  (
-    input: ListEnvironmentsInput,
-  ): effect.Effect<
-    ListEnvironmentsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsInput,
+  ListEnvironmentsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentsInput,
   ) => stream.Stream<
@@ -17553,19 +17465,17 @@ export const listEnvironments: {
 /**
  * Lists job runs.
  */
-export const listJobRuns: {
-  (
-    input: ListJobRunsInput,
-  ): effect.Effect<
-    ListJobRunsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listJobRuns: API.OperationMethod<
+  ListJobRunsInput,
+  ListJobRunsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobRunsInput,
   ) => stream.Stream<
@@ -17610,18 +17520,16 @@ export const listJobRuns: {
 /**
  * Lists lineage events.
  */
-export const listLineageEvents: {
-  (
-    input: ListLineageEventsInput,
-  ): effect.Effect<
-    ListLineageEventsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listLineageEvents: API.OperationMethod<
+  ListLineageEventsInput,
+  ListLineageEventsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLineageEventsInput,
   ) => stream.Stream<
@@ -17663,19 +17571,17 @@ export const listLineageEvents: {
 /**
  * Lists the history of the specified data lineage node.
  */
-export const listLineageNodeHistory: {
-  (
-    input: ListLineageNodeHistoryInput,
-  ): effect.Effect<
-    ListLineageNodeHistoryOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listLineageNodeHistory: API.OperationMethod<
+  ListLineageNodeHistoryInput,
+  ListLineageNodeHistoryOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLineageNodeHistoryInput,
   ) => stream.Stream<
@@ -17720,18 +17626,16 @@ export const listLineageNodeHistory: {
 /**
  * Lists all Amazon DataZone notifications.
  */
-export const listNotifications: {
-  (
-    input: ListNotificationsInput,
-  ): effect.Effect<
-    ListNotificationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listNotifications: API.OperationMethod<
+  ListNotificationsInput,
+  ListNotificationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotificationsInput,
   ) => stream.Stream<
@@ -17773,18 +17677,16 @@ export const listNotifications: {
 /**
  * Lists policy grants.
  */
-export const listPolicyGrants: {
-  (
-    input: ListPolicyGrantsInput,
-  ): effect.Effect<
-    ListPolicyGrantsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPolicyGrants: API.OperationMethod<
+  ListPolicyGrantsInput,
+  ListPolicyGrantsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyGrantsInput,
   ) => stream.Stream<
@@ -17826,19 +17728,17 @@ export const listPolicyGrants: {
 /**
  * Lists all members of the specified project.
  */
-export const listProjectMemberships: {
-  (
-    input: ListProjectMembershipsInput,
-  ): effect.Effect<
-    ListProjectMembershipsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listProjectMemberships: API.OperationMethod<
+  ListProjectMembershipsInput,
+  ListProjectMembershipsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectMembershipsInput,
   ) => stream.Stream<
@@ -17883,18 +17783,16 @@ export const listProjectMemberships: {
 /**
  * Lists project profiles.
  */
-export const listProjectProfiles: {
-  (
-    input: ListProjectProfilesInput,
-  ): effect.Effect<
-    ListProjectProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listProjectProfiles: API.OperationMethod<
+  ListProjectProfilesInput,
+  ListProjectProfilesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectProfilesInput,
   ) => stream.Stream<
@@ -17936,18 +17834,16 @@ export const listProjectProfiles: {
 /**
  * Lists Amazon DataZone projects.
  */
-export const listProjects: {
-  (
-    input: ListProjectsInput,
-  ): effect.Effect<
-    ListProjectsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listProjects: API.OperationMethod<
+  ListProjectsInput,
+  ListProjectsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectsInput,
   ) => stream.Stream<
@@ -17989,19 +17885,17 @@ export const listProjects: {
 /**
  * Lists subscription grants.
  */
-export const listSubscriptionGrants: {
-  (
-    input: ListSubscriptionGrantsInput,
-  ): effect.Effect<
-    ListSubscriptionGrantsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listSubscriptionGrants: API.OperationMethod<
+  ListSubscriptionGrantsInput,
+  ListSubscriptionGrantsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubscriptionGrantsInput,
   ) => stream.Stream<
@@ -18046,19 +17940,17 @@ export const listSubscriptionGrants: {
 /**
  * Lists Amazon DataZone subscription requests.
  */
-export const listSubscriptionRequests: {
-  (
-    input: ListSubscriptionRequestsInput,
-  ): effect.Effect<
-    ListSubscriptionRequestsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listSubscriptionRequests: API.OperationMethod<
+  ListSubscriptionRequestsInput,
+  ListSubscriptionRequestsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubscriptionRequestsInput,
   ) => stream.Stream<
@@ -18103,19 +17995,17 @@ export const listSubscriptionRequests: {
 /**
  * Lists subscriptions in Amazon DataZone.
  */
-export const listSubscriptions: {
-  (
-    input: ListSubscriptionsInput,
-  ): effect.Effect<
-    ListSubscriptionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listSubscriptions: API.OperationMethod<
+  ListSubscriptionsInput,
+  ListSubscriptionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubscriptionsInput,
   ) => stream.Stream<
@@ -18160,19 +18050,17 @@ export const listSubscriptions: {
 /**
  * Lists subscription targets in Amazon DataZone.
  */
-export const listSubscriptionTargets: {
-  (
-    input: ListSubscriptionTargetsInput,
-  ): effect.Effect<
-    ListSubscriptionTargetsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listSubscriptionTargets: API.OperationMethod<
+  ListSubscriptionTargetsInput,
+  ListSubscriptionTargetsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubscriptionTargetsInput,
   ) => stream.Stream<
@@ -18217,9 +18105,8 @@ export const listSubscriptionTargets: {
 /**
  * Lists tags for the specified resource in Amazon DataZone.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -18238,19 +18125,17 @@ export const listTagsForResource: (
 /**
  * Lists time series data points.
  */
-export const listTimeSeriesDataPoints: {
-  (
-    input: ListTimeSeriesDataPointsInput,
-  ): effect.Effect<
-    ListTimeSeriesDataPointsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTimeSeriesDataPoints: API.OperationMethod<
+  ListTimeSeriesDataPointsInput,
+  ListTimeSeriesDataPointsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTimeSeriesDataPointsInput,
   ) => stream.Stream<
@@ -18295,9 +18180,8 @@ export const listTimeSeriesDataPoints: {
 /**
  * Posts a data lineage event.
  */
-export const postLineageEvent: (
-  input: PostLineageEventInput,
-) => effect.Effect<
+export const postLineageEvent: API.OperationMethod<
+  PostLineageEventInput,
   PostLineageEventOutput,
   | AccessDeniedException
   | ConflictException
@@ -18324,9 +18208,8 @@ export const postLineageEvent: (
 /**
  * Posts time series data points to Amazon DataZone for the specified asset.
  */
-export const postTimeSeriesDataPoints: (
-  input: PostTimeSeriesDataPointsInput,
-) => effect.Effect<
+export const postTimeSeriesDataPoints: API.OperationMethod<
+  PostTimeSeriesDataPointsInput,
   PostTimeSeriesDataPointsOutput,
   | AccessDeniedException
   | ConflictException
@@ -18363,9 +18246,8 @@ export const postTimeSeriesDataPoints: (
  *
  * - Call the PutDataExportConfiguration API to enable export for the new domain.
  */
-export const putDataExportConfiguration: (
-  input: PutDataExportConfigurationInput,
-) => effect.Effect<
+export const putDataExportConfiguration: API.OperationMethod<
+  PutDataExportConfigurationInput,
   PutDataExportConfigurationOutput,
   | AccessDeniedException
   | ConflictException
@@ -18392,9 +18274,8 @@ export const putDataExportConfiguration: (
 /**
  * Rejects automatically generated business-friendly metadata for your Amazon DataZone assets.
  */
-export const rejectPredictions: (
-  input: RejectPredictionsInput,
-) => effect.Effect<
+export const rejectPredictions: API.OperationMethod<
+  RejectPredictionsInput,
   RejectPredictionsOutput,
   | AccessDeniedException
   | ConflictException
@@ -18419,9 +18300,8 @@ export const rejectPredictions: (
 /**
  * Rejects the specified subscription request.
  */
-export const rejectSubscriptionRequest: (
-  input: RejectSubscriptionRequestInput,
-) => effect.Effect<
+export const rejectSubscriptionRequest: API.OperationMethod<
+  RejectSubscriptionRequestInput,
   RejectSubscriptionRequestOutput,
   | AccessDeniedException
   | ConflictException
@@ -18446,9 +18326,8 @@ export const rejectSubscriptionRequest: (
 /**
  * Removes an owner from an entity.
  */
-export const removeEntityOwner: (
-  input: RemoveEntityOwnerInput,
-) => effect.Effect<
+export const removeEntityOwner: API.OperationMethod<
+  RemoveEntityOwnerInput,
   RemoveEntityOwnerOutput,
   | AccessDeniedException
   | InternalServerException
@@ -18471,9 +18350,8 @@ export const removeEntityOwner: (
 /**
  * Removes a policy grant.
  */
-export const removePolicyGrant: (
-  input: RemovePolicyGrantInput,
-) => effect.Effect<
+export const removePolicyGrant: API.OperationMethod<
+  RemovePolicyGrantInput,
   RemovePolicyGrantOutput,
   | AccessDeniedException
   | InternalServerException
@@ -18494,9 +18372,8 @@ export const removePolicyGrant: (
 /**
  * Revokes a specified subscription in Amazon DataZone.
  */
-export const revokeSubscription: (
-  input: RevokeSubscriptionInput,
-) => effect.Effect<
+export const revokeSubscription: API.OperationMethod<
+  RevokeSubscriptionInput,
   RevokeSubscriptionOutput,
   | AccessDeniedException
   | ConflictException
@@ -18543,18 +18420,16 @@ export const revokeSubscription: (
  *
  * To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
  */
-export const search: {
-  (
-    input: SearchInput,
-  ): effect.Effect<
-    SearchOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const search: API.OperationMethod<
+  SearchInput,
+  SearchOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchInput,
   ) => stream.Stream<
@@ -18596,18 +18471,16 @@ export const search: {
 /**
  * Searches group profiles in Amazon DataZone.
  */
-export const searchGroupProfiles: {
-  (
-    input: SearchGroupProfilesInput,
-  ): effect.Effect<
-    SearchGroupProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchGroupProfiles: API.OperationMethod<
+  SearchGroupProfilesInput,
+  SearchGroupProfilesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchGroupProfilesInput,
   ) => stream.Stream<
@@ -18661,18 +18534,16 @@ export const searchGroupProfiles: {
  *
  * To find out whether an attribute has been annotated and indexed for a given search type, use the GetFormType API to retrieve the form containing the attribute.
  */
-export const searchListings: {
-  (
-    input: SearchListingsInput,
-  ): effect.Effect<
-    SearchListingsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchListings: API.OperationMethod<
+  SearchListingsInput,
+  SearchListingsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchListingsInput,
   ) => stream.Stream<
@@ -18728,18 +18599,16 @@ export const searchListings: {
  *
  * - Filters contain correct structure (attribute, value, operator).
  */
-export const searchTypes: {
-  (
-    input: SearchTypesInput,
-  ): effect.Effect<
-    SearchTypesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchTypes: API.OperationMethod<
+  SearchTypesInput,
+  SearchTypesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchTypesInput,
   ) => stream.Stream<
@@ -18781,18 +18650,16 @@ export const searchTypes: {
 /**
  * Searches user profiles in Amazon DataZone.
  */
-export const searchUserProfiles: {
-  (
-    input: SearchUserProfilesInput,
-  ): effect.Effect<
-    SearchUserProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const searchUserProfiles: API.OperationMethod<
+  SearchUserProfilesInput,
+  SearchUserProfilesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchUserProfilesInput,
   ) => stream.Stream<
@@ -18834,9 +18701,8 @@ export const searchUserProfiles: {
 /**
  * Tags a resource in Amazon DataZone.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -18855,9 +18721,8 @@ export const tagResource: (
 /**
  * Untags a resource in Amazon DataZone.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -18869,9 +18734,8 @@ export const untagResource: (
 /**
  * Updates the account pool.
  */
-export const updateAccountPool: (
-  input: UpdateAccountPoolInput,
-) => effect.Effect<
+export const updateAccountPool: API.OperationMethod<
+  UpdateAccountPoolInput,
   UpdateAccountPoolOutput,
   | AccessDeniedException
   | ConflictException
@@ -18906,9 +18770,8 @@ export const updateAccountPool: (
  *
  * - If applying a row filter, ensure the column referenced in the expression exists in the asset schema.
  */
-export const updateAssetFilter: (
-  input: UpdateAssetFilterInput,
-) => effect.Effect<
+export const updateAssetFilter: API.OperationMethod<
+  UpdateAssetFilterInput,
   UpdateAssetFilterOutput,
   | AccessDeniedException
   | ConflictException
@@ -18933,9 +18796,8 @@ export const updateAssetFilter: (
 /**
  * Updates a connection. In Amazon DataZone, a connection enables you to connect your resources (domains, projects, and environments) to external resources and services.
  */
-export const updateConnection: (
-  input: UpdateConnectionInput,
-) => effect.Effect<
+export const updateConnection: API.OperationMethod<
+  UpdateConnectionInput,
   UpdateConnectionOutput,
   | AccessDeniedException
   | ConflictException
@@ -18962,9 +18824,8 @@ export const updateConnection: (
 /**
  * Updates the specified environment in Amazon DataZone.
  */
-export const updateEnvironment: (
-  input: UpdateEnvironmentInput,
-) => effect.Effect<
+export const updateEnvironment: API.OperationMethod<
+  UpdateEnvironmentInput,
   UpdateEnvironmentOutput,
   | AccessDeniedException
   | ConflictException
@@ -18989,9 +18850,8 @@ export const updateEnvironment: (
 /**
  * Updates an environment action.
  */
-export const updateEnvironmentAction: (
-  input: UpdateEnvironmentActionInput,
-) => effect.Effect<
+export const updateEnvironmentAction: API.OperationMethod<
+  UpdateEnvironmentActionInput,
   UpdateEnvironmentActionOutput,
   | AccessDeniedException
   | ConflictException
@@ -19016,9 +18876,8 @@ export const updateEnvironmentAction: (
 /**
  * Updates an environment blueprint in Amazon DataZone.
  */
-export const updateEnvironmentBlueprint: (
-  input: UpdateEnvironmentBlueprintInput,
-) => effect.Effect<
+export const updateEnvironmentBlueprint: API.OperationMethod<
+  UpdateEnvironmentBlueprintInput,
   UpdateEnvironmentBlueprintOutput,
   | AccessDeniedException
   | ConflictException
@@ -19045,9 +18904,8 @@ export const updateEnvironmentBlueprint: (
 /**
  * Updates the specified environment profile in Amazon DataZone.
  */
-export const updateEnvironmentProfile: (
-  input: UpdateEnvironmentProfileInput,
-) => effect.Effect<
+export const updateEnvironmentProfile: API.OperationMethod<
+  UpdateEnvironmentProfileInput,
   UpdateEnvironmentProfileOutput,
   | AccessDeniedException
   | ConflictException
@@ -19074,9 +18932,8 @@ export const updateEnvironmentProfile: (
 /**
  * Updates the specified group profile in Amazon DataZone.
  */
-export const updateGroupProfile: (
-  input: UpdateGroupProfileInput,
-) => effect.Effect<
+export const updateGroupProfile: API.OperationMethod<
+  UpdateGroupProfileInput,
   UpdateGroupProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -19097,9 +18954,8 @@ export const updateGroupProfile: (
 /**
  * Updates the specified project in Amazon DataZone.
  */
-export const updateProject: (
-  input: UpdateProjectInput,
-) => effect.Effect<
+export const updateProject: API.OperationMethod<
+  UpdateProjectInput,
   UpdateProjectOutput,
   | AccessDeniedException
   | ConflictException
@@ -19126,9 +18982,8 @@ export const updateProject: (
 /**
  * Updates a project profile.
  */
-export const updateProjectProfile: (
-  input: UpdateProjectProfileInput,
-) => effect.Effect<
+export const updateProjectProfile: API.OperationMethod<
+  UpdateProjectProfileInput,
   UpdateProjectProfileOutput,
   | AccessDeniedException
   | ConflictException
@@ -19155,9 +19010,8 @@ export const updateProjectProfile: (
 /**
  * Updates the owner of the root domain unit.
  */
-export const updateRootDomainUnitOwner: (
-  input: UpdateRootDomainUnitOwnerInput,
-) => effect.Effect<
+export const updateRootDomainUnitOwner: API.OperationMethod<
+  UpdateRootDomainUnitOwnerInput,
   UpdateRootDomainUnitOwnerOutput,
   | AccessDeniedException
   | ConflictException
@@ -19182,9 +19036,8 @@ export const updateRootDomainUnitOwner: (
 /**
  * Updates the status of the specified subscription grant status in Amazon DataZone.
  */
-export const updateSubscriptionGrantStatus: (
-  input: UpdateSubscriptionGrantStatusInput,
-) => effect.Effect<
+export const updateSubscriptionGrantStatus: API.OperationMethod<
+  UpdateSubscriptionGrantStatusInput,
   UpdateSubscriptionGrantStatusOutput,
   | AccessDeniedException
   | ConflictException
@@ -19209,9 +19062,8 @@ export const updateSubscriptionGrantStatus: (
 /**
  * Updates a specified subscription request in Amazon DataZone.
  */
-export const updateSubscriptionRequest: (
-  input: UpdateSubscriptionRequestInput,
-) => effect.Effect<
+export const updateSubscriptionRequest: API.OperationMethod<
+  UpdateSubscriptionRequestInput,
   UpdateSubscriptionRequestOutput,
   | AccessDeniedException
   | ConflictException
@@ -19236,9 +19088,8 @@ export const updateSubscriptionRequest: (
 /**
  * Updates the specified subscription target in Amazon DataZone.
  */
-export const updateSubscriptionTarget: (
-  input: UpdateSubscriptionTargetInput,
-) => effect.Effect<
+export const updateSubscriptionTarget: API.OperationMethod<
+  UpdateSubscriptionTargetInput,
   UpdateSubscriptionTargetOutput,
   | AccessDeniedException
   | ConflictException
@@ -19263,9 +19114,8 @@ export const updateSubscriptionTarget: (
 /**
  * Updates the specified user profile in Amazon DataZone.
  */
-export const updateUserProfile: (
-  input: UpdateUserProfileInput,
-) => effect.Effect<
+export const updateUserProfile: API.OperationMethod<
+  UpdateUserProfileInput,
   UpdateUserProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -19306,9 +19156,8 @@ export const updateUserProfile: (
  *
  * - CreateAssetType
  */
-export const createAsset: (
-  input: CreateAssetInput,
-) => effect.Effect<
+export const createAsset: API.OperationMethod<
+  CreateAssetInput,
   CreateAssetOutput,
   | AccessDeniedException
   | ConflictException
@@ -19345,9 +19194,8 @@ export const createAsset: (
  *
  * - User must have the required permissions to perform the action
  */
-export const getAsset: (
-  input: GetAssetInput,
-) => effect.Effect<
+export const getAsset: API.OperationMethod<
+  GetAssetInput,
   GetAssetOutput,
   | AccessDeniedException
   | InternalServerException
@@ -19380,9 +19228,8 @@ export const getAsset: (
  *
  * - User must have delete permissions for the domain and project.
  */
-export const deleteAsset: (
-  input: DeleteAssetInput,
-) => effect.Effect<
+export const deleteAsset: API.OperationMethod<
+  DeleteAssetInput,
   DeleteAssetOutput,
   | AccessDeniedException
   | ConflictException
@@ -19421,9 +19268,8 @@ export const deleteAsset: (
  *
  * - User must have write access to the project and domain.
  */
-export const createAssetRevision: (
-  input: CreateAssetRevisionInput,
-) => effect.Effect<
+export const createAssetRevision: API.OperationMethod<
+  CreateAssetRevisionInput,
   CreateAssetRevisionOutput,
   | AccessDeniedException
   | ConflictException
@@ -19460,9 +19306,8 @@ export const createAssetRevision: (
  *
  * - JSON input must be valid — incorrect formatting causes Invalid JSON errors.
  */
-export const createAssetType: (
-  input: CreateAssetTypeInput,
-) => effect.Effect<
+export const createAssetType: API.OperationMethod<
+  CreateAssetTypeInput,
   CreateAssetTypeOutput,
   | AccessDeniedException
   | ConflictException
@@ -19497,9 +19342,8 @@ export const createAssetType: (
  *
  * - You should retrieve the asset type using get-asset-type to confirm its presence before deletion.
  */
-export const deleteAssetType: (
-  input: DeleteAssetTypeInput,
-) => effect.Effect<
+export const deleteAssetType: API.OperationMethod<
+  DeleteAssetTypeInput,
   DeleteAssetTypeOutput,
   | AccessDeniedException
   | ConflictException
@@ -19534,9 +19378,8 @@ export const deleteAssetType: (
  *
  * - Ensure the domain-identifier value is correct and accessible.
  */
-export const getAssetType: (
-  input: GetAssetTypeInput,
-) => effect.Effect<
+export const getAssetType: API.OperationMethod<
+  GetAssetTypeInput,
   GetAssetTypeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -19571,9 +19414,8 @@ export const getAssetType: (
  *
  * - User must have create permissions for data products in the project.
  */
-export const createDataProduct: (
-  input: CreateDataProductInput,
-) => effect.Effect<
+export const createDataProduct: API.OperationMethod<
+  CreateDataProductInput,
   CreateDataProductOutput,
   | AccessDeniedException
   | ConflictException
@@ -19608,9 +19450,8 @@ export const createDataProduct: (
  *
  * - User must have read or discovery permissions for the data product.
  */
-export const getDataProduct: (
-  input: GetDataProductInput,
-) => effect.Effect<
+export const getDataProduct: API.OperationMethod<
+  GetDataProductInput,
   GetDataProductOutput,
   | AccessDeniedException
   | InternalServerException
@@ -19641,9 +19482,8 @@ export const getDataProduct: (
  *
  * - Domain and project must be active.
  */
-export const deleteDataProduct: (
-  input: DeleteDataProductInput,
-) => effect.Effect<
+export const deleteDataProduct: API.OperationMethod<
+  DeleteDataProductInput,
   DeleteDataProductOutput,
   | AccessDeniedException
   | ConflictException
@@ -19678,9 +19518,8 @@ export const deleteDataProduct: (
  *
  * - The new revision name must comply with naming constraints (if required).
  */
-export const createDataProductRevision: (
-  input: CreateDataProductRevisionInput,
-) => effect.Effect<
+export const createDataProductRevision: API.OperationMethod<
+  CreateDataProductRevisionInput,
   CreateDataProductRevisionOutput,
   | AccessDeniedException
   | ConflictException
@@ -19705,9 +19544,8 @@ export const createDataProductRevision: (
 /**
  * Creates an Amazon DataZone data source.
  */
-export const createDataSource: (
-  input: CreateDataSourceInput,
-) => effect.Effect<
+export const createDataSource: API.OperationMethod<
+  CreateDataSourceInput,
   CreateDataSourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -19734,9 +19572,8 @@ export const createDataSource: (
 /**
  * Gets an Amazon DataZone data source.
  */
-export const getDataSource: (
-  input: GetDataSourceInput,
-) => effect.Effect<
+export const getDataSource: API.OperationMethod<
+  GetDataSourceInput,
   GetDataSourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -19763,9 +19600,8 @@ export const getDataSource: (
 /**
  * Updates the specified data source in Amazon DataZone.
  */
-export const updateDataSource: (
-  input: UpdateDataSourceInput,
-) => effect.Effect<
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceInput,
   UpdateDataSourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -19792,9 +19628,8 @@ export const updateDataSource: (
 /**
  * Deletes a data source in Amazon DataZone.
  */
-export const deleteDataSource: (
-  input: DeleteDataSourceInput,
-) => effect.Effect<
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceInput,
   DeleteDataSourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -19821,21 +19656,19 @@ export const deleteDataSource: (
 /**
  * Lists data sources in Amazon DataZone.
  */
-export const listDataSources: {
-  (
-    input: ListDataSourcesInput,
-  ): effect.Effect<
-    ListDataSourcesOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDataSources: API.OperationMethod<
+  ListDataSourcesInput,
+  ListDataSourcesOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourcesInput,
   ) => stream.Stream<
@@ -19886,9 +19719,8 @@ export const listDataSources: {
 /**
  * Start the run of the specified data source in Amazon DataZone.
  */
-export const startDataSourceRun: (
-  input: StartDataSourceRunInput,
-) => effect.Effect<
+export const startDataSourceRun: API.OperationMethod<
+  StartDataSourceRunInput,
   StartDataSourceRunOutput,
   | AccessDeniedException
   | ConflictException
@@ -19915,9 +19747,8 @@ export const startDataSourceRun: (
 /**
  * Gets an Amazon DataZone data source run.
  */
-export const getDataSourceRun: (
-  input: GetDataSourceRunInput,
-) => effect.Effect<
+export const getDataSourceRun: API.OperationMethod<
+  GetDataSourceRunInput,
   GetDataSourceRunOutput,
   | AccessDeniedException
   | ConflictException
@@ -19944,21 +19775,19 @@ export const getDataSourceRun: (
 /**
  * Lists data source runs in Amazon DataZone.
  */
-export const listDataSourceRuns: {
-  (
-    input: ListDataSourceRunsInput,
-  ): effect.Effect<
-    ListDataSourceRunsOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDataSourceRuns: API.OperationMethod<
+  ListDataSourceRunsInput,
+  ListDataSourceRunsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourceRunsInput,
   ) => stream.Stream<
@@ -20009,9 +19838,8 @@ export const listDataSourceRuns: {
 /**
  * Creates an Amazon DataZone domain.
  */
-export const createDomain: (
-  input: CreateDomainInput,
-) => effect.Effect<
+export const createDomain: API.OperationMethod<
+  CreateDomainInput,
   CreateDomainOutput,
   | AccessDeniedException
   | ConflictException
@@ -20038,9 +19866,8 @@ export const createDomain: (
 /**
  * Gets an Amazon DataZone domain.
  */
-export const getDomain: (
-  input: GetDomainInput,
-) => effect.Effect<
+export const getDomain: API.OperationMethod<
+  GetDomainInput,
   GetDomainOutput,
   | AccessDeniedException
   | InternalServerException
@@ -20065,9 +19892,8 @@ export const getDomain: (
 /**
  * Updates a Amazon DataZone domain.
  */
-export const updateDomain: (
-  input: UpdateDomainInput,
-) => effect.Effect<
+export const updateDomain: API.OperationMethod<
+  UpdateDomainInput,
   UpdateDomainOutput,
   | AccessDeniedException
   | ConflictException
@@ -20094,9 +19920,8 @@ export const updateDomain: (
 /**
  * Deletes a Amazon DataZone domain.
  */
-export const deleteDomain: (
-  input: DeleteDomainInput,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainInput,
   DeleteDomainOutput,
   | AccessDeniedException
   | ConflictException
@@ -20121,21 +19946,19 @@ export const deleteDomain: (
 /**
  * Lists Amazon DataZone domains.
  */
-export const listDomains: {
-  (
-    input: ListDomainsInput,
-  ): effect.Effect<
-    ListDomainsOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDomains: API.OperationMethod<
+  ListDomainsInput,
+  ListDomainsOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainsInput,
   ) => stream.Stream<
@@ -20186,9 +20009,8 @@ export const listDomains: {
 /**
  * Creates a domain unit in Amazon DataZone.
  */
-export const createDomainUnit: (
-  input: CreateDomainUnitInput,
-) => effect.Effect<
+export const createDomainUnit: API.OperationMethod<
+  CreateDomainUnitInput,
   CreateDomainUnitOutput,
   | AccessDeniedException
   | ConflictException
@@ -20213,9 +20035,8 @@ export const createDomainUnit: (
 /**
  * Gets the details of the specified domain unit.
  */
-export const getDomainUnit: (
-  input: GetDomainUnitInput,
-) => effect.Effect<
+export const getDomainUnit: API.OperationMethod<
+  GetDomainUnitInput,
   GetDomainUnitOutput,
   | AccessDeniedException
   | InternalServerException
@@ -20238,9 +20059,8 @@ export const getDomainUnit: (
 /**
  * Updates the domain unit.
  */
-export const updateDomainUnit: (
-  input: UpdateDomainUnitInput,
-) => effect.Effect<
+export const updateDomainUnit: API.OperationMethod<
+  UpdateDomainUnitInput,
   UpdateDomainUnitOutput,
   | AccessDeniedException
   | ConflictException
@@ -20265,9 +20085,8 @@ export const updateDomainUnit: (
 /**
  * Deletes a domain unit.
  */
-export const deleteDomainUnit: (
-  input: DeleteDomainUnitInput,
-) => effect.Effect<
+export const deleteDomainUnit: API.OperationMethod<
+  DeleteDomainUnitInput,
   DeleteDomainUnitOutput,
   | AccessDeniedException
   | ConflictException
@@ -20292,18 +20111,16 @@ export const deleteDomainUnit: (
 /**
  * Lists child domain units for the specified parent domain unit.
  */
-export const listDomainUnitsForParent: {
-  (
-    input: ListDomainUnitsForParentInput,
-  ): effect.Effect<
-    ListDomainUnitsForParentOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDomainUnitsForParent: API.OperationMethod<
+  ListDomainUnitsForParentInput,
+  ListDomainUnitsForParentOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainUnitsForParentInput,
   ) => stream.Stream<
@@ -20345,9 +20162,8 @@ export const listDomainUnitsForParent: {
 /**
  * Writes the configuration for the specified environment blueprint in Amazon DataZone.
  */
-export const putEnvironmentBlueprintConfiguration: (
-  input: PutEnvironmentBlueprintConfigurationInput,
-) => effect.Effect<
+export const putEnvironmentBlueprintConfiguration: API.OperationMethod<
+  PutEnvironmentBlueprintConfigurationInput,
   PutEnvironmentBlueprintConfigurationOutput,
   | AccessDeniedException
   | ConflictException
@@ -20370,9 +20186,8 @@ export const putEnvironmentBlueprintConfiguration: (
 /**
  * Gets the blueprint configuration in Amazon DataZone.
  */
-export const getEnvironmentBlueprintConfiguration: (
-  input: GetEnvironmentBlueprintConfigurationInput,
-) => effect.Effect<
+export const getEnvironmentBlueprintConfiguration: API.OperationMethod<
+  GetEnvironmentBlueprintConfigurationInput,
   GetEnvironmentBlueprintConfigurationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -20393,9 +20208,8 @@ export const getEnvironmentBlueprintConfiguration: (
 /**
  * Deletes the blueprint configuration in Amazon DataZone.
  */
-export const deleteEnvironmentBlueprintConfiguration: (
-  input: DeleteEnvironmentBlueprintConfigurationInput,
-) => effect.Effect<
+export const deleteEnvironmentBlueprintConfiguration: API.OperationMethod<
+  DeleteEnvironmentBlueprintConfigurationInput,
   DeleteEnvironmentBlueprintConfigurationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -20410,18 +20224,16 @@ export const deleteEnvironmentBlueprintConfiguration: (
 /**
  * Lists blueprint configurations for a Amazon DataZone environment.
  */
-export const listEnvironmentBlueprintConfigurations: {
-  (
-    input: ListEnvironmentBlueprintConfigurationsInput,
-  ): effect.Effect<
-    ListEnvironmentBlueprintConfigurationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEnvironmentBlueprintConfigurations: API.OperationMethod<
+  ListEnvironmentBlueprintConfigurationsInput,
+  ListEnvironmentBlueprintConfigurationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentBlueprintConfigurationsInput,
   ) => stream.Stream<
@@ -20475,9 +20287,8 @@ export const listEnvironmentBlueprintConfigurations: {
  *
  * To denote that a field will store glossary term ids (which are filterable via the Search/SearchListings APIs), annotate it with `@amazon.datazone#glossaryterm("${GLOSSARY_ID}")`, where `${GLOSSARY_ID}` is the id of the glossary that the glossary terms stored in the field belong to.
  */
-export const createFormType: (
-  input: CreateFormTypeInput,
-) => effect.Effect<
+export const createFormType: API.OperationMethod<
+  CreateFormTypeInput,
   CreateFormTypeOutput,
   | AccessDeniedException
   | ConflictException
@@ -20514,9 +20325,8 @@ export const createFormType: (
  *
  * - Any dependencies (such as linked asset types) must be removed first.
  */
-export const deleteFormType: (
-  input: DeleteFormTypeInput,
-) => effect.Effect<
+export const deleteFormType: API.OperationMethod<
+  DeleteFormTypeInput,
   DeleteFormTypeOutput,
   | AccessDeniedException
   | ConflictException
@@ -20557,9 +20367,8 @@ export const deleteFormType: (
  *
  * A field storing glossary term IDs (which is filterable) will be annotated with `@amazon.datazone#glossaryterm("${glossaryId}")`.
  */
-export const getFormType: (
-  input: GetFormTypeInput,
-) => effect.Effect<
+export const getFormType: API.OperationMethod<
+  GetFormTypeInput,
   GetFormTypeOutput,
   | AccessDeniedException
   | InternalServerException
@@ -20594,9 +20403,8 @@ export const getFormType: (
  *
  * - The glossary name must be unique within the domain.
  */
-export const createGlossary: (
-  input: CreateGlossaryInput,
-) => effect.Effect<
+export const createGlossary: API.OperationMethod<
+  CreateGlossaryInput,
   CreateGlossaryOutput,
   | AccessDeniedException
   | ConflictException
@@ -20627,9 +20435,8 @@ export const createGlossary: (
  *
  * - The caller must have the `datazone:GetGlossary` permission on the domain.
  */
-export const getGlossary: (
-  input: GetGlossaryInput,
-) => effect.Effect<
+export const getGlossary: API.OperationMethod<
+  GetGlossaryInput,
   GetGlossaryOutput,
   | AccessDeniedException
   | InternalServerException
@@ -20662,9 +20469,8 @@ export const getGlossary: (
  *
  * - The glossary must not be deleted or in a terminal state.
  */
-export const updateGlossary: (
-  input: UpdateGlossaryInput,
-) => effect.Effect<
+export const updateGlossary: API.OperationMethod<
+  UpdateGlossaryInput,
   UpdateGlossaryOutput,
   | AccessDeniedException
   | ConflictException
@@ -20701,9 +20507,8 @@ export const updateGlossary: (
  *
  * - Glossary should not be linked to any active metadata forms.
  */
-export const deleteGlossary: (
-  input: DeleteGlossaryInput,
-) => effect.Effect<
+export const deleteGlossary: API.OperationMethod<
+  DeleteGlossaryInput,
   DeleteGlossaryOutput,
   | AccessDeniedException
   | ConflictException
@@ -20740,9 +20545,8 @@ export const deleteGlossary: (
  *
  * - Ensure term does not conflict with existing terms in hierarchy.
  */
-export const createGlossaryTerm: (
-  input: CreateGlossaryTermInput,
-) => effect.Effect<
+export const createGlossaryTerm: API.OperationMethod<
+  CreateGlossaryTermInput,
   CreateGlossaryTermOutput,
   | AccessDeniedException
   | ConflictException
@@ -20777,9 +20581,8 @@ export const createGlossaryTerm: (
  *
  * - Domain must be accessible and active.
  */
-export const getGlossaryTerm: (
-  input: GetGlossaryTermInput,
-) => effect.Effect<
+export const getGlossaryTerm: API.OperationMethod<
+  GetGlossaryTermInput,
   GetGlossaryTermOutput,
   | AccessDeniedException
   | InternalServerException
@@ -20812,9 +20615,8 @@ export const getGlossaryTerm: (
  *
  * - The term must not be in DELETED status.
  */
-export const updateGlossaryTerm: (
-  input: UpdateGlossaryTermInput,
-) => effect.Effect<
+export const updateGlossaryTerm: API.OperationMethod<
+  UpdateGlossaryTermInput,
   UpdateGlossaryTermOutput,
   | AccessDeniedException
   | ConflictException
@@ -20849,9 +20651,8 @@ export const updateGlossaryTerm: (
  *
  * - Ensure all associations (such as to assets or parent terms) are removed before deletion.
  */
-export const deleteGlossaryTerm: (
-  input: DeleteGlossaryTermInput,
-) => effect.Effect<
+export const deleteGlossaryTerm: API.OperationMethod<
+  DeleteGlossaryTermInput,
   DeleteGlossaryTermOutput,
   | AccessDeniedException
   | ConflictException
@@ -20876,9 +20677,8 @@ export const deleteGlossaryTerm: (
 /**
  * Gets a listing (a record of an asset at a given time). If you specify a listing version, only details that are specific to that version are returned.
  */
-export const getListing: (
-  input: GetListingInput,
-) => effect.Effect<
+export const getListing: API.OperationMethod<
+  GetListingInput,
   GetListingOutput,
   | AccessDeniedException
   | InternalServerException
@@ -20901,9 +20701,8 @@ export const getListing: (
 /**
  * Deletes a listing (a record of an asset at a given time).
  */
-export const deleteListing: (
-  input: DeleteListingInput,
-) => effect.Effect<
+export const deleteListing: API.OperationMethod<
+  DeleteListingInput,
   DeleteListingOutput,
   | AccessDeniedException
   | ConflictException
@@ -20940,9 +20739,8 @@ export const deleteListing: (
  *
  * - The user must have permission to run metadata generation in the domain/project.
  */
-export const startMetadataGenerationRun: (
-  input: StartMetadataGenerationRunInput,
-) => effect.Effect<
+export const startMetadataGenerationRun: API.OperationMethod<
+  StartMetadataGenerationRunInput,
   StartMetadataGenerationRunOutput,
   | AccessDeniedException
   | ConflictException
@@ -20977,9 +20775,8 @@ export const startMetadataGenerationRun: (
  *
  * - User must have read access to the metadata run.
  */
-export const getMetadataGenerationRun: (
-  input: GetMetadataGenerationRunInput,
-) => effect.Effect<
+export const getMetadataGenerationRun: API.OperationMethod<
+  GetMetadataGenerationRunInput,
   GetMetadataGenerationRunOutput,
   | AccessDeniedException
   | InternalServerException
@@ -21010,9 +20807,8 @@ export const getMetadataGenerationRun: (
  *
  * - User must have access to the run and cancel permissions.
  */
-export const cancelMetadataGenerationRun: (
-  input: CancelMetadataGenerationRunInput,
-) => effect.Effect<
+export const cancelMetadataGenerationRun: API.OperationMethod<
+  CancelMetadataGenerationRunInput,
   CancelMetadataGenerationRunOutput,
   | AccessDeniedException
   | ConflictException
@@ -21045,19 +20841,17 @@ export const cancelMetadataGenerationRun: (
  *
  * - User must have access to metadata generation runs in the domain.
  */
-export const listMetadataGenerationRuns: {
-  (
-    input: ListMetadataGenerationRunsInput,
-  ): effect.Effect<
-    ListMetadataGenerationRunsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listMetadataGenerationRuns: API.OperationMethod<
+  ListMetadataGenerationRunsInput,
+  ListMetadataGenerationRunsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMetadataGenerationRunsInput,
   ) => stream.Stream<
@@ -21102,9 +20896,8 @@ export const listMetadataGenerationRuns: {
 /**
  * Creates a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
-export const createRule: (
-  input: CreateRuleInput,
-) => effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleInput,
   CreateRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -21131,9 +20924,8 @@ export const createRule: (
 /**
  * Gets the details of a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
-export const getRule: (
-  input: GetRuleInput,
-) => effect.Effect<
+export const getRule: API.OperationMethod<
+  GetRuleInput,
   GetRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -21156,9 +20948,8 @@ export const getRule: (
 /**
  * Updates a rule. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
-export const updateRule: (
-  input: UpdateRuleInput,
-) => effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleInput,
   UpdateRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -21185,9 +20976,8 @@ export const updateRule: (
 /**
  * Deletes a rule in Amazon DataZone. A rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
-export const deleteRule: (
-  input: DeleteRuleInput,
-) => effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleInput,
   DeleteRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -21212,19 +21002,17 @@ export const deleteRule: (
 /**
  * Lists existing rules. In Amazon DataZone, a rule is a formal agreement that enforces specific requirements across user workflows (e.g., publishing assets to the catalog, requesting subscriptions, creating projects) within the Amazon DataZone data portal. These rules help maintain consistency, ensure compliance, and uphold governance standards in data management processes. For instance, a metadata enforcement rule can specify the required information for creating a subscription request or publishing a data asset to the catalog, ensuring alignment with organizational standards.
  */
-export const listRules: {
-  (
-    input: ListRulesInput,
-  ): effect.Effect<
-    ListRulesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRules: API.OperationMethod<
+  ListRulesInput,
+  ListRulesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRulesInput,
   ) => stream.Stream<

@@ -3971,9 +3971,8 @@ export class IncompatibleSchemaException extends S.TaggedErrorClass<Incompatible
 /**
  * Adds a new Facet to an object. An object can have more than one facet applied on it.
  */
-export const addFacetToObject: (
-  input: AddFacetToObjectRequest,
-) => effect.Effect<
+export const addFacetToObject: API.OperationMethod<
+  AddFacetToObjectRequest,
   AddFacetToObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4005,9 +4004,8 @@ export const addFacetToObject: (
  * Copies the input published schema, at the specified version, into the Directory with the same
  * name and version as that of the published schema.
  */
-export const applySchema: (
-  input: ApplySchemaRequest,
-) => effect.Effect<
+export const applySchema: API.OperationMethod<
+  ApplySchemaRequest,
   ApplySchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4043,9 +4041,8 @@ export const applySchema: (
  *
  * - Using `ObjectIdentifier`
  */
-export const attachObject: (
-  input: AttachObjectRequest,
-) => effect.Effect<
+export const attachObject: API.OperationMethod<
+  AttachObjectRequest,
   AttachObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4081,9 +4078,8 @@ export const attachObject: (
  * Attaches a policy object to a regular object. An object can have a limited number of attached
  * policies.
  */
-export const attachPolicy: (
-  input: AttachPolicyRequest,
-) => effect.Effect<
+export const attachPolicy: API.OperationMethod<
+  AttachPolicyRequest,
   AttachPolicyResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4114,9 +4110,8 @@ export const attachPolicy: (
 /**
  * Attaches the specified object to the specified index.
  */
-export const attachToIndex: (
-  input: AttachToIndexRequest,
-) => effect.Effect<
+export const attachToIndex: API.OperationMethod<
+  AttachToIndexRequest,
   AttachToIndexResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4153,9 +4148,8 @@ export const attachToIndex: (
 /**
  * Attaches a typed link to a specified source and target object. For more information, see Typed Links.
  */
-export const attachTypedLink: (
-  input: AttachTypedLinkRequest,
-) => effect.Effect<
+export const attachTypedLink: API.OperationMethod<
+  AttachTypedLinkRequest,
   AttachTypedLinkResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4188,9 +4182,8 @@ export const attachTypedLink: (
 /**
  * Performs all the read operations in a batch.
  */
-export const batchRead: (
-  input: BatchReadRequest,
-) => effect.Effect<
+export const batchRead: API.OperationMethod<
+  BatchReadRequest,
   BatchReadResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4218,9 +4211,8 @@ export const batchRead: (
  * Performs all the write operations in a batch. Either all the operations succeed or
  * none.
  */
-export const batchWrite: (
-  input: BatchWriteRequest,
-) => effect.Effect<
+export const batchWrite: API.OperationMethod<
+  BatchWriteRequest,
   BatchWriteResponse,
   | AccessDeniedException
   | BatchWriteException
@@ -4253,9 +4245,8 @@ export const batchWrite: (
  * You can also quickly create a directory using a managed schema, called the
  * `QuickStartSchema`. For more information, see Managed Schema in the *Amazon Cloud Directory Developer Guide*.
  */
-export const createDirectory: (
-  input: CreateDirectoryRequest,
-) => effect.Effect<
+export const createDirectory: API.OperationMethod<
+  CreateDirectoryRequest,
   CreateDirectoryResponse,
   | AccessDeniedException
   | DirectoryAlreadyExistsException
@@ -4285,9 +4276,8 @@ export const createDirectory: (
  * Creates a new Facet in a schema. Facet creation is allowed only
  * in development or applied schemas.
  */
-export const createFacet: (
-  input: CreateFacetRequest,
-) => effect.Effect<
+export const createFacet: API.OperationMethod<
+  CreateFacetRequest,
   CreateFacetResponse,
   | AccessDeniedException
   | FacetAlreadyExistsException
@@ -4320,9 +4310,8 @@ export const createFacet: (
 /**
  * Creates an index object. See Indexing and search for more information.
  */
-export const createIndex: (
-  input: CreateIndexRequest,
-) => effect.Effect<
+export const createIndex: API.OperationMethod<
+  CreateIndexRequest,
   CreateIndexResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4360,9 +4349,8 @@ export const createIndex: (
  * collection of Facet attributes. You can also use this API call to create a
  * policy object, if the facet from which you create the object is a policy facet.
  */
-export const createObject: (
-  input: CreateObjectRequest,
-) => effect.Effect<
+export const createObject: API.OperationMethod<
+  CreateObjectRequest,
   CreateObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4409,9 +4397,8 @@ export const createObject: (
  * to add new schema facets. You can also add new, nonrequired attributes to existing schema
  * facets. You can apply only published schemas to directories.
  */
-export const createSchema: (
-  input: CreateSchemaRequest,
-) => effect.Effect<
+export const createSchema: API.OperationMethod<
+  CreateSchemaRequest,
   CreateSchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4438,9 +4425,8 @@ export const createSchema: (
 /**
  * Creates a TypedLinkFacet. For more information, see Typed Links.
  */
-export const createTypedLinkFacet: (
-  input: CreateTypedLinkFacetRequest,
-) => effect.Effect<
+export const createTypedLinkFacet: API.OperationMethod<
+  CreateTypedLinkFacetRequest,
   CreateTypedLinkFacetResponse,
   | AccessDeniedException
   | FacetAlreadyExistsException
@@ -4475,9 +4461,8 @@ export const createTypedLinkFacet: (
  * caution
  * when deleting directories.
  */
-export const deleteDirectory: (
-  input: DeleteDirectoryRequest,
-) => effect.Effect<
+export const deleteDirectory: API.OperationMethod<
+  DeleteDirectoryRequest,
   DeleteDirectoryResponse,
   | AccessDeniedException
   | DirectoryDeletedException
@@ -4510,9 +4495,8 @@ export const deleteDirectory: (
  * that are associated with the facet will be deleted. Only development schema facets are allowed
  * deletion.
  */
-export const deleteFacet: (
-  input: DeleteFacetRequest,
-) => effect.Effect<
+export const deleteFacet: API.OperationMethod<
+  DeleteFacetRequest,
   DeleteFacetResponse,
   | AccessDeniedException
   | FacetInUseException
@@ -4544,9 +4528,8 @@ export const deleteFacet: (
  * Deletes an object and its associated attributes. Only objects with no children and no
  * parents can be deleted. The maximum number of attributes that can be deleted during an object deletion is 30. For more information, see Amazon Cloud Directory Limits.
  */
-export const deleteObject: (
-  input: DeleteObjectRequest,
-) => effect.Effect<
+export const deleteObject: API.OperationMethod<
+  DeleteObjectRequest,
   DeleteObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4577,9 +4560,8 @@ export const deleteObject: (
 /**
  * Deletes a given schema. Schemas in a development and published state can only be deleted.
  */
-export const deleteSchema: (
-  input: DeleteSchemaRequest,
-) => effect.Effect<
+export const deleteSchema: API.OperationMethod<
+  DeleteSchemaRequest,
   DeleteSchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4608,9 +4590,8 @@ export const deleteSchema: (
 /**
  * Deletes a TypedLinkFacet. For more information, see Typed Links.
  */
-export const deleteTypedLinkFacet: (
-  input: DeleteTypedLinkFacetRequest,
-) => effect.Effect<
+export const deleteTypedLinkFacet: API.OperationMethod<
+  DeleteTypedLinkFacetRequest,
   DeleteTypedLinkFacetResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -4639,9 +4620,8 @@ export const deleteTypedLinkFacet: (
 /**
  * Detaches the specified object from the specified index.
  */
-export const detachFromIndex: (
-  input: DetachFromIndexRequest,
-) => effect.Effect<
+export const detachFromIndex: API.OperationMethod<
+  DetachFromIndexRequest,
   DetachFromIndexResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4675,9 +4655,8 @@ export const detachFromIndex: (
  * Detaches a given object from the parent object. The object that is to be detached from the
  * parent is specified by the link name.
  */
-export const detachObject: (
-  input: DetachObjectRequest,
-) => effect.Effect<
+export const detachObject: API.OperationMethod<
+  DetachObjectRequest,
   DetachObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4708,9 +4687,8 @@ export const detachObject: (
 /**
  * Detaches a policy from an object.
  */
-export const detachPolicy: (
-  input: DetachPolicyRequest,
-) => effect.Effect<
+export const detachPolicy: API.OperationMethod<
+  DetachPolicyRequest,
   DetachPolicyResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4741,9 +4719,8 @@ export const detachPolicy: (
 /**
  * Detaches a typed link from a specified source and target object. For more information, see Typed Links.
  */
-export const detachTypedLink: (
-  input: DetachTypedLinkRequest,
-) => effect.Effect<
+export const detachTypedLink: API.OperationMethod<
+  DetachTypedLinkRequest,
   DetachTypedLinkResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4775,9 +4752,8 @@ export const detachTypedLink: (
  * Disables the specified directory. Disabled directories cannot be read or written to.
  * Only enabled directories can be disabled. Disabled directories may be reenabled.
  */
-export const disableDirectory: (
-  input: DisableDirectoryRequest,
-) => effect.Effect<
+export const disableDirectory: API.OperationMethod<
+  DisableDirectoryRequest,
   DisableDirectoryResponse,
   | AccessDeniedException
   | DirectoryDeletedException
@@ -4807,9 +4783,8 @@ export const disableDirectory: (
  * Enables the specified directory. Only disabled directories can be enabled. Once
  * enabled, the directory can then be read and written to.
  */
-export const enableDirectory: (
-  input: EnableDirectoryRequest,
-) => effect.Effect<
+export const enableDirectory: API.OperationMethod<
+  EnableDirectoryRequest,
   EnableDirectoryResponse,
   | AccessDeniedException
   | DirectoryDeletedException
@@ -4838,9 +4813,8 @@ export const enableDirectory: (
 /**
  * Returns current applied schema version ARN, including the minor version in use.
  */
-export const getAppliedSchemaVersion: (
-  input: GetAppliedSchemaVersionRequest,
-) => effect.Effect<
+export const getAppliedSchemaVersion: API.OperationMethod<
+  GetAppliedSchemaVersionRequest,
   GetAppliedSchemaVersionResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4867,9 +4841,8 @@ export const getAppliedSchemaVersion: (
 /**
  * Retrieves metadata about a directory.
  */
-export const getDirectory: (
-  input: GetDirectoryRequest,
-) => effect.Effect<
+export const getDirectory: API.OperationMethod<
+  GetDirectoryRequest,
   GetDirectoryResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -4895,9 +4868,8 @@ export const getDirectory: (
  * Gets details of the Facet, such as facet name, attributes, Rules, or `ObjectType`. You can call this on all kinds of schema
  * facets -- published, development, or applied.
  */
-export const getFacet: (
-  input: GetFacetRequest,
-) => effect.Effect<
+export const getFacet: API.OperationMethod<
+  GetFacetRequest,
   GetFacetResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -4926,9 +4898,8 @@ export const getFacet: (
 /**
  * Retrieves attributes that are associated with a typed link.
  */
-export const getLinkAttributes: (
-  input: GetLinkAttributesRequest,
-) => effect.Effect<
+export const getLinkAttributes: API.OperationMethod<
+  GetLinkAttributesRequest,
   GetLinkAttributesResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4959,9 +4930,8 @@ export const getLinkAttributes: (
 /**
  * Retrieves attributes within a facet that are associated with an object.
  */
-export const getObjectAttributes: (
-  input: GetObjectAttributesRequest,
-) => effect.Effect<
+export const getObjectAttributes: API.OperationMethod<
+  GetObjectAttributesRequest,
   GetObjectAttributesResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -4992,9 +4962,8 @@ export const getObjectAttributes: (
 /**
  * Retrieves metadata about an object.
  */
-export const getObjectInformation: (
-  input: GetObjectInformationRequest,
-) => effect.Effect<
+export const getObjectInformation: API.OperationMethod<
+  GetObjectInformationRequest,
   GetObjectInformationResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -5023,9 +4992,8 @@ export const getObjectInformation: (
 /**
  * Retrieves a JSON representation of the schema. See JSON Schema Format for more information.
  */
-export const getSchemaAsJson: (
-  input: GetSchemaAsJsonRequest,
-) => effect.Effect<
+export const getSchemaAsJson: API.OperationMethod<
+  GetSchemaAsJsonRequest,
   GetSchemaAsJsonResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -5052,9 +5020,8 @@ export const getSchemaAsJson: (
 /**
  * Returns the identity attribute order for a specific TypedLinkFacet. For more information, see Typed Links.
  */
-export const getTypedLinkFacetInformation: (
-  input: GetTypedLinkFacetInformationRequest,
-) => effect.Effect<
+export const getTypedLinkFacetInformation: API.OperationMethod<
+  GetTypedLinkFacetInformationRequest,
   GetTypedLinkFacetInformationResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -5085,22 +5052,20 @@ export const getTypedLinkFacetInformation: (
 /**
  * Lists schema major versions applied to a directory. If `SchemaArn` is provided, lists the minor version.
  */
-export const listAppliedSchemaArns: {
-  (
-    input: ListAppliedSchemaArnsRequest,
-  ): effect.Effect<
-    ListAppliedSchemaArnsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppliedSchemaArns: API.OperationMethod<
+  ListAppliedSchemaArnsRequest,
+  ListAppliedSchemaArnsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppliedSchemaArnsRequest,
   ) => stream.Stream<
@@ -5153,22 +5118,20 @@ export const listAppliedSchemaArns: {
 /**
  * Lists indices attached to the specified object.
  */
-export const listAttachedIndices: {
-  (
-    input: ListAttachedIndicesRequest,
-  ): effect.Effect<
-    ListAttachedIndicesResponse,
-    | AccessDeniedException
-    | DirectoryNotEnabledException
-    | InternalServiceException
-    | InvalidArnException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttachedIndices: API.OperationMethod<
+  ListAttachedIndicesRequest,
+  ListAttachedIndicesResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttachedIndicesRequest,
   ) => stream.Stream<
@@ -5222,22 +5185,20 @@ export const listAttachedIndices: {
  * Retrieves each Amazon Resource Name (ARN) of schemas in the development
  * state.
  */
-export const listDevelopmentSchemaArns: {
-  (
-    input: ListDevelopmentSchemaArnsRequest,
-  ): effect.Effect<
-    ListDevelopmentSchemaArnsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevelopmentSchemaArns: API.OperationMethod<
+  ListDevelopmentSchemaArnsRequest,
+  ListDevelopmentSchemaArnsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevelopmentSchemaArnsRequest,
   ) => stream.Stream<
@@ -5290,21 +5251,19 @@ export const listDevelopmentSchemaArns: {
 /**
  * Lists directories created within an account.
  */
-export const listDirectories: {
-  (
-    input: ListDirectoriesRequest,
-  ): effect.Effect<
-    ListDirectoriesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDirectories: API.OperationMethod<
+  ListDirectoriesRequest,
+  ListDirectoriesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDirectoriesRequest,
   ) => stream.Stream<
@@ -5354,23 +5313,21 @@ export const listDirectories: {
 /**
  * Retrieves attributes attached to the facet.
  */
-export const listFacetAttributes: {
-  (
-    input: ListFacetAttributesRequest,
-  ): effect.Effect<
-    ListFacetAttributesResponse,
-    | AccessDeniedException
-    | FacetNotFoundException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFacetAttributes: API.OperationMethod<
+  ListFacetAttributesRequest,
+  ListFacetAttributesResponse,
+  | AccessDeniedException
+  | FacetNotFoundException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFacetAttributesRequest,
   ) => stream.Stream<
@@ -5426,22 +5383,20 @@ export const listFacetAttributes: {
 /**
  * Retrieves the names of facets that exist in a schema.
  */
-export const listFacetNames: {
-  (
-    input: ListFacetNamesRequest,
-  ): effect.Effect<
-    ListFacetNamesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFacetNames: API.OperationMethod<
+  ListFacetNamesRequest,
+  ListFacetNamesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFacetNamesRequest,
   ) => stream.Stream<
@@ -5496,9 +5451,8 @@ export const listFacetNames: {
  * information for an object. It also supports filtering by typed link facet and identity
  * attributes. For more information, see Typed Links.
  */
-export const listIncomingTypedLinks: (
-  input: ListIncomingTypedLinksRequest,
-) => effect.Effect<
+export const listIncomingTypedLinks: API.OperationMethod<
+  ListIncomingTypedLinksRequest,
   ListIncomingTypedLinksResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -5531,25 +5485,23 @@ export const listIncomingTypedLinks: (
 /**
  * Lists objects attached to the specified index.
  */
-export const listIndex: {
-  (
-    input: ListIndexRequest,
-  ): effect.Effect<
-    ListIndexResponse,
-    | AccessDeniedException
-    | DirectoryNotEnabledException
-    | FacetValidationException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | NotIndexException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIndex: API.OperationMethod<
+  ListIndexRequest,
+  ListIndexResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | NotIndexException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIndexRequest,
   ) => stream.Stream<
@@ -5611,20 +5563,18 @@ export const listIndex: {
 /**
  * Lists the major version families of each managed schema. If a major version ARN is provided as SchemaArn, the minor version revisions in that family are listed instead.
  */
-export const listManagedSchemaArns: {
-  (
-    input: ListManagedSchemaArnsRequest,
-  ): effect.Effect<
-    ListManagedSchemaArnsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedSchemaArns: API.OperationMethod<
+  ListManagedSchemaArnsRequest,
+  ListManagedSchemaArnsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedSchemaArnsRequest,
   ) => stream.Stream<
@@ -5671,24 +5621,22 @@ export const listManagedSchemaArns: {
 /**
  * Lists all attributes that are associated with an object.
  */
-export const listObjectAttributes: {
-  (
-    input: ListObjectAttributesRequest,
-  ): effect.Effect<
-    ListObjectAttributesResponse,
-    | AccessDeniedException
-    | DirectoryNotEnabledException
-    | FacetValidationException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listObjectAttributes: API.OperationMethod<
+  ListObjectAttributesRequest,
+  ListObjectAttributesResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | FacetValidationException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListObjectAttributesRequest,
   ) => stream.Stream<
@@ -5748,24 +5696,22 @@ export const listObjectAttributes: {
  * Returns a paginated list of child objects that are associated with a given
  * object.
  */
-export const listObjectChildren: {
-  (
-    input: ListObjectChildrenRequest,
-  ): effect.Effect<
-    ListObjectChildrenResponse,
-    | AccessDeniedException
-    | DirectoryNotEnabledException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | NotNodeException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listObjectChildren: API.OperationMethod<
+  ListObjectChildrenRequest,
+  ListObjectChildrenResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | NotNodeException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListObjectChildrenRequest,
   ) => stream.Stream<
@@ -5832,23 +5778,21 @@ export const listObjectChildren: {
  * objects are deleted or moved. Paths not leading to the directory root are ignored from the
  * target object.
  */
-export const listObjectParentPaths: {
-  (
-    input: ListObjectParentPathsRequest,
-  ): effect.Effect<
-    ListObjectParentPathsResponse,
-    | AccessDeniedException
-    | DirectoryNotEnabledException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listObjectParentPaths: API.OperationMethod<
+  ListObjectParentPathsRequest,
+  ListObjectParentPathsResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListObjectParentPathsRequest,
   ) => stream.Stream<
@@ -5905,24 +5849,22 @@ export const listObjectParentPaths: {
  * Lists parent objects that are associated with a given object in pagination
  * fashion.
  */
-export const listObjectParents: {
-  (
-    input: ListObjectParentsRequest,
-  ): effect.Effect<
-    ListObjectParentsResponse,
-    | AccessDeniedException
-    | CannotListParentOfRootException
-    | DirectoryNotEnabledException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listObjectParents: API.OperationMethod<
+  ListObjectParentsRequest,
+  ListObjectParentsResponse,
+  | AccessDeniedException
+  | CannotListParentOfRootException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListObjectParentsRequest,
   ) => stream.Stream<
@@ -5981,23 +5923,21 @@ export const listObjectParents: {
 /**
  * Returns policies attached to an object in pagination fashion.
  */
-export const listObjectPolicies: {
-  (
-    input: ListObjectPoliciesRequest,
-  ): effect.Effect<
-    ListObjectPoliciesResponse,
-    | AccessDeniedException
-    | DirectoryNotEnabledException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listObjectPolicies: API.OperationMethod<
+  ListObjectPoliciesRequest,
+  ListObjectPoliciesResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListObjectPoliciesRequest,
   ) => stream.Stream<
@@ -6055,9 +5995,8 @@ export const listObjectPolicies: {
  * information for an object. It also supports filtering by typed link facet and identity
  * attributes. For more information, see Typed Links.
  */
-export const listOutgoingTypedLinks: (
-  input: ListOutgoingTypedLinksRequest,
-) => effect.Effect<
+export const listOutgoingTypedLinks: API.OperationMethod<
+  ListOutgoingTypedLinksRequest,
   ListOutgoingTypedLinksResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6090,24 +6029,22 @@ export const listOutgoingTypedLinks: (
 /**
  * Returns all of the `ObjectIdentifiers` to which a given policy is attached.
  */
-export const listPolicyAttachments: {
-  (
-    input: ListPolicyAttachmentsRequest,
-  ): effect.Effect<
-    ListPolicyAttachmentsResponse,
-    | AccessDeniedException
-    | DirectoryNotEnabledException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | NotPolicyException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyAttachments: API.OperationMethod<
+  ListPolicyAttachmentsRequest,
+  ListPolicyAttachmentsResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | NotPolicyException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyAttachmentsRequest,
   ) => stream.Stream<
@@ -6166,22 +6103,20 @@ export const listPolicyAttachments: {
 /**
  * Lists the major version families of each published schema. If a major version ARN is provided as `SchemaArn`, the minor version revisions in that family are listed instead.
  */
-export const listPublishedSchemaArns: {
-  (
-    input: ListPublishedSchemaArnsRequest,
-  ): effect.Effect<
-    ListPublishedSchemaArnsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPublishedSchemaArns: API.OperationMethod<
+  ListPublishedSchemaArnsRequest,
+  ListPublishedSchemaArnsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPublishedSchemaArnsRequest,
   ) => stream.Stream<
@@ -6236,22 +6171,20 @@ export const listPublishedSchemaArns: {
  * limit of 50 tags per directory. All 50 tags are returned for a given directory with this API
  * call.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidTaggingRequestException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidTaggingRequestException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -6304,23 +6237,21 @@ export const listTagsForResource: {
 /**
  * Returns a paginated list of all attribute definitions for a particular TypedLinkFacet. For more information, see Typed Links.
  */
-export const listTypedLinkFacetAttributes: {
-  (
-    input: ListTypedLinkFacetAttributesRequest,
-  ): effect.Effect<
-    ListTypedLinkFacetAttributesResponse,
-    | AccessDeniedException
-    | FacetNotFoundException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTypedLinkFacetAttributes: API.OperationMethod<
+  ListTypedLinkFacetAttributesRequest,
+  ListTypedLinkFacetAttributesResponse,
+  | AccessDeniedException
+  | FacetNotFoundException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTypedLinkFacetAttributesRequest,
   ) => stream.Stream<
@@ -6377,22 +6308,20 @@ export const listTypedLinkFacetAttributes: {
  * Returns a paginated list of `TypedLink` facet names for a particular schema.
  * For more information, see Typed Links.
  */
-export const listTypedLinkFacetNames: {
-  (
-    input: ListTypedLinkFacetNamesRequest,
-  ): effect.Effect<
-    ListTypedLinkFacetNamesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTypedLinkFacetNames: API.OperationMethod<
+  ListTypedLinkFacetNamesRequest,
+  ListTypedLinkFacetNamesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTypedLinkFacetNamesRequest,
   ) => stream.Stream<
@@ -6450,23 +6379,21 @@ export const listTypedLinkFacetNames: {
  * `policyType`. Paths that don't lead to the root from the target object are ignored. For more
  * information, see Policies.
  */
-export const lookupPolicy: {
-  (
-    input: LookupPolicyRequest,
-  ): effect.Effect<
-    LookupPolicyResponse,
-    | AccessDeniedException
-    | DirectoryNotEnabledException
-    | InternalServiceException
-    | InvalidArnException
-    | InvalidNextTokenException
-    | LimitExceededException
-    | ResourceNotFoundException
-    | RetryableConflictException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const lookupPolicy: API.OperationMethod<
+  LookupPolicyRequest,
+  LookupPolicyResponse,
+  | AccessDeniedException
+  | DirectoryNotEnabledException
+  | InternalServiceException
+  | InvalidArnException
+  | InvalidNextTokenException
+  | LimitExceededException
+  | ResourceNotFoundException
+  | RetryableConflictException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: LookupPolicyRequest,
   ) => stream.Stream<
@@ -6522,9 +6449,8 @@ export const lookupPolicy: {
 /**
  * Publishes a development schema with a major version and a recommended minor version.
  */
-export const publishSchema: (
-  input: PublishSchemaRequest,
-) => effect.Effect<
+export const publishSchema: API.OperationMethod<
+  PublishSchemaRequest,
   PublishSchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -6553,9 +6479,8 @@ export const publishSchema: (
 /**
  * Allows a schema to be updated using JSON upload. Only available for development schemas. See JSON Schema Format for more information.
  */
-export const putSchemaFromJson: (
-  input: PutSchemaFromJsonRequest,
-) => effect.Effect<
+export const putSchemaFromJson: API.OperationMethod<
+  PutSchemaFromJsonRequest,
   PutSchemaFromJsonResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -6584,9 +6509,8 @@ export const putSchemaFromJson: (
 /**
  * Removes the specified facet from the specified object.
  */
-export const removeFacetFromObject: (
-  input: RemoveFacetFromObjectRequest,
-) => effect.Effect<
+export const removeFacetFromObject: API.OperationMethod<
+  RemoveFacetFromObjectRequest,
   RemoveFacetFromObjectResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6617,9 +6541,8 @@ export const removeFacetFromObject: (
 /**
  * An API operation for adding tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -6648,9 +6571,8 @@ export const tagResource: (
 /**
  * An API operation for removing tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -6685,9 +6607,8 @@ export const untagResource: (
  *
  * - Deletes existing `Attributes`, `Rules`, or `ObjectTypes`.
  */
-export const updateFacet: (
-  input: UpdateFacetRequest,
-) => effect.Effect<
+export const updateFacet: API.OperationMethod<
+  UpdateFacetRequest,
   UpdateFacetResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -6722,9 +6643,8 @@ export const updateFacet: (
 /**
  * Updates a given typed link’s attributes. Attributes to be updated must not contribute to the typed link’s identity, as defined by its `IdentityAttributeOrder`.
  */
-export const updateLinkAttributes: (
-  input: UpdateLinkAttributesRequest,
-) => effect.Effect<
+export const updateLinkAttributes: API.OperationMethod<
+  UpdateLinkAttributesRequest,
   UpdateLinkAttributesResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6755,9 +6675,8 @@ export const updateLinkAttributes: (
 /**
  * Updates a given object's attributes.
  */
-export const updateObjectAttributes: (
-  input: UpdateObjectAttributesRequest,
-) => effect.Effect<
+export const updateObjectAttributes: API.OperationMethod<
+  UpdateObjectAttributesRequest,
   UpdateObjectAttributesResponse,
   | AccessDeniedException
   | DirectoryNotEnabledException
@@ -6791,9 +6710,8 @@ export const updateObjectAttributes: (
  * Updates the schema name with a new name. Only development schema names can be
  * updated.
  */
-export const updateSchema: (
-  input: UpdateSchemaRequest,
-) => effect.Effect<
+export const updateSchema: API.OperationMethod<
+  UpdateSchemaRequest,
   UpdateSchemaResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -6820,9 +6738,8 @@ export const updateSchema: (
 /**
  * Updates a TypedLinkFacet. For more information, see Typed Links.
  */
-export const updateTypedLinkFacet: (
-  input: UpdateTypedLinkFacetRequest,
-) => effect.Effect<
+export const updateTypedLinkFacet: API.OperationMethod<
+  UpdateTypedLinkFacetRequest,
   UpdateTypedLinkFacetResponse,
   | AccessDeniedException
   | FacetNotFoundException
@@ -6857,9 +6774,8 @@ export const updateTypedLinkFacet: (
 /**
  * Upgrades a single directory in-place using the `PublishedSchemaArn` with schema updates found in `MinorVersion`. Backwards-compatible minor version upgrades are instantaneously available for readers on all objects in the directory. Note: This is a synchronous API call and upgrades only one schema on a given directory per call. To upgrade multiple directories from one schema, you would need to call this API on each directory.
  */
-export const upgradeAppliedSchema: (
-  input: UpgradeAppliedSchemaRequest,
-) => effect.Effect<
+export const upgradeAppliedSchema: API.OperationMethod<
+  UpgradeAppliedSchemaRequest,
   UpgradeAppliedSchemaResponse,
   | AccessDeniedException
   | IncompatibleSchemaException
@@ -6890,9 +6806,8 @@ export const upgradeAppliedSchema: (
 /**
  * Upgrades a published schema under a new minor version revision using the current contents of `DevelopmentSchemaArn`.
  */
-export const upgradePublishedSchema: (
-  input: UpgradePublishedSchemaRequest,
-) => effect.Effect<
+export const upgradePublishedSchema: API.OperationMethod<
+  UpgradePublishedSchemaRequest,
   UpgradePublishedSchemaResponse,
   | AccessDeniedException
   | IncompatibleSchemaException

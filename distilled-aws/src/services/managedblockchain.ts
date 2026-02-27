@@ -1676,9 +1676,8 @@ export class IllegalActionException extends S.TaggedErrorClass<IllegalActionExce
  * Creates a new accessor for use with Amazon Managed Blockchain service that supports token based access.
  * The accessor contains information required for token based access.
  */
-export const createAccessor: (
-  input: CreateAccessorInput,
-) => effect.Effect<
+export const createAccessor: API.OperationMethod<
+  CreateAccessorInput,
   CreateAccessorOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1707,9 +1706,8 @@ export const createAccessor: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const createMember: (
-  input: CreateMemberInput,
-) => effect.Effect<
+export const createMember: API.OperationMethod<
+  CreateMemberInput,
   CreateMemberOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1742,9 +1740,8 @@ export const createMember: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const createNetwork: (
-  input: CreateNetworkInput,
-) => effect.Effect<
+export const createNetwork: API.OperationMethod<
+  CreateNetworkInput,
   CreateNetworkOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1773,9 +1770,8 @@ export const createNetwork: (
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const createNode: (
-  input: CreateNodeInput,
-) => effect.Effect<
+export const createNode: API.OperationMethod<
+  CreateNodeInput,
   CreateNodeOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1808,9 +1804,8 @@ export const createNode: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const createProposal: (
-  input: CreateProposalInput,
-) => effect.Effect<
+export const createProposal: API.OperationMethod<
+  CreateProposalInput,
   CreateProposalOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1843,9 +1838,8 @@ export const createProposal: (
  * HTTP requests. However, WebSocket connections that were initiated while the accessor was in the
  * `AVAILABLE` state remain open until they expire (up to 2 hours).
  */
-export const deleteAccessor: (
-  input: DeleteAccessorInput,
-) => effect.Effect<
+export const deleteAccessor: API.OperationMethod<
+  DeleteAccessorInput,
   DeleteAccessorOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1870,9 +1864,8 @@ export const deleteAccessor: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const deleteMember: (
-  input: DeleteMemberInput,
-) => effect.Effect<
+export const deleteMember: API.OperationMethod<
+  DeleteMemberInput,
   DeleteMemberOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1899,9 +1892,8 @@ export const deleteMember: (
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const deleteNode: (
-  input: DeleteNodeInput,
-) => effect.Effect<
+export const deleteNode: API.OperationMethod<
+  DeleteNodeInput,
   DeleteNodeOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1927,9 +1919,8 @@ export const deleteNode: (
  * Returns detailed information about an accessor. An accessor object is a container that has the
  * information required for token based access to your Ethereum nodes.
  */
-export const getAccessor: (
-  input: GetAccessorInput,
-) => effect.Effect<
+export const getAccessor: API.OperationMethod<
+  GetAccessorInput,
   GetAccessorOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1954,9 +1945,8 @@ export const getAccessor: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const getMember: (
-  input: GetMemberInput,
-) => effect.Effect<
+export const getMember: API.OperationMethod<
+  GetMemberInput,
   GetMemberOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1981,9 +1971,8 @@ export const getMember: (
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const getNetwork: (
-  input: GetNetworkInput,
-) => effect.Effect<
+export const getNetwork: API.OperationMethod<
+  GetNetworkInput,
   GetNetworkOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2008,9 +1997,8 @@ export const getNetwork: (
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const getNode: (
-  input: GetNodeInput,
-) => effect.Effect<
+export const getNode: API.OperationMethod<
+  GetNodeInput,
   GetNodeOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2035,9 +2023,8 @@ export const getNode: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const getProposal: (
-  input: GetProposalInput,
-) => effect.Effect<
+export const getProposal: API.OperationMethod<
+  GetProposalInput,
   GetProposalOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2061,18 +2048,16 @@ export const getProposal: (
  * Returns a list of the accessors and their properties. Accessor objects are containers that have the
  * information required for token based access to your Ethereum nodes.
  */
-export const listAccessors: {
-  (
-    input: ListAccessorsInput,
-  ): effect.Effect<
-    ListAccessorsOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessors: API.OperationMethod<
+  ListAccessorsInput,
+  ListAccessorsOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessorsInput,
   ) => stream.Stream<
@@ -2116,20 +2101,18 @@ export const listAccessors: {
  *
  * Applies only to Hyperledger Fabric.
  */
-export const listInvitations: {
-  (
-    input: ListInvitationsInput,
-  ): effect.Effect<
-    ListInvitationsOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceLimitExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvitations: API.OperationMethod<
+  ListInvitationsInput,
+  ListInvitationsOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceLimitExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvitationsInput,
   ) => stream.Stream<
@@ -2178,18 +2161,16 @@ export const listInvitations: {
  *
  * Applies only to Hyperledger Fabric.
  */
-export const listMembers: {
-  (
-    input: ListMembersInput,
-  ): effect.Effect<
-    ListMembersOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMembers: API.OperationMethod<
+  ListMembersInput,
+  ListMembersOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembersInput,
   ) => stream.Stream<
@@ -2232,18 +2213,16 @@ export const listMembers: {
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const listNetworks: {
-  (
-    input: ListNetworksInput,
-  ): effect.Effect<
-    ListNetworksOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNetworks: API.OperationMethod<
+  ListNetworksInput,
+  ListNetworksOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNetworksInput,
   ) => stream.Stream<
@@ -2286,18 +2265,16 @@ export const listNetworks: {
  *
  * Applies to Hyperledger Fabric and Ethereum.
  */
-export const listNodes: {
-  (
-    input: ListNodesInput,
-  ): effect.Effect<
-    ListNodesOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNodes: API.OperationMethod<
+  ListNodesInput,
+  ListNodesOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNodesInput,
   ) => stream.Stream<
@@ -2340,19 +2317,17 @@ export const listNodes: {
  *
  * Applies only to Hyperledger Fabric.
  */
-export const listProposals: {
-  (
-    input: ListProposalsInput,
-  ): effect.Effect<
-    ListProposalsOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProposals: API.OperationMethod<
+  ListProposalsInput,
+  ListProposalsOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProposalsInput,
   ) => stream.Stream<
@@ -2398,18 +2373,16 @@ export const listProposals: {
  *
  * Applies only to Hyperledger Fabric.
  */
-export const listProposalVotes: {
-  (
-    input: ListProposalVotesInput,
-  ): effect.Effect<
-    ListProposalVotesOutput,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProposalVotes: API.OperationMethod<
+  ListProposalVotesInput,
+  ListProposalVotesOutput,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProposalVotesInput,
   ) => stream.Stream<
@@ -2452,9 +2425,8 @@ export const listProposalVotes: {
  *
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2477,9 +2449,8 @@ export const listTagsForResource: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const rejectInvitation: (
-  input: RejectInvitationInput,
-) => effect.Effect<
+export const rejectInvitation: API.OperationMethod<
+  RejectInvitationInput,
   RejectInvitationOutput,
   | AccessDeniedException
   | IllegalActionException
@@ -2510,9 +2481,8 @@ export const rejectInvitation: (
  *
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2537,9 +2507,8 @@ export const tagResource: (
  *
  * For more information about tags, see Tagging Resources in the *Amazon Managed Blockchain Ethereum Developer Guide*, or Tagging Resources in the *Amazon Managed Blockchain Hyperledger Fabric Developer Guide*.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceErrorException
   | InvalidRequestException
@@ -2562,9 +2531,8 @@ export const untagResource: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const updateMember: (
-  input: UpdateMemberInput,
-) => effect.Effect<
+export const updateMember: API.OperationMethod<
+  UpdateMemberInput,
   UpdateMemberOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2589,9 +2557,8 @@ export const updateMember: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const updateNode: (
-  input: UpdateNodeInput,
-) => effect.Effect<
+export const updateNode: API.OperationMethod<
+  UpdateNodeInput,
   UpdateNodeOutput,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2616,9 +2583,8 @@ export const updateNode: (
  *
  * Applies only to Hyperledger Fabric.
  */
-export const voteOnProposal: (
-  input: VoteOnProposalInput,
-) => effect.Effect<
+export const voteOnProposal: API.OperationMethod<
+  VoteOnProposalInput,
   VoteOnProposalOutput,
   | AccessDeniedException
   | IllegalActionException

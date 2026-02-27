@@ -415,9 +415,8 @@ export class InvalidTokenException extends S.TaggedErrorClass<InvalidTokenExcept
  * For an example of `BatchMeterUsage`, see BatchMeterUsage code example in the Amazon Web Services Marketplace Seller
  * Guide.
  */
-export const batchMeterUsage: (
-  input: BatchMeterUsageRequest,
-) => effect.Effect<
+export const batchMeterUsage: API.OperationMethod<
+  BatchMeterUsageRequest,
   BatchMeterUsageResult,
   | DisabledApiException
   | InternalServiceErrorException
@@ -486,9 +485,8 @@ export const batchMeterUsage: (
  *
  * For Amazon Web Services Regions that support `MeterUsage`, see MeterUsage Region support for Amazon EC2 and MeterUsage Region support for Amazon ECS and Amazon EKS.
  */
-export const meterUsage: (
-  input: MeterUsageRequest,
-) => effect.Effect<
+export const meterUsage: API.OperationMethod<
+  MeterUsageRequest,
   MeterUsageResult,
   | CustomerNotEntitledException
   | DuplicateRequestException
@@ -561,9 +559,8 @@ export const meterUsage: (
  *
  * For Amazon Web Services Regions that support `RegisterUsage`, see RegisterUsage Region support.
  */
-export const registerUsage: (
-  input: RegisterUsageRequest,
-) => effect.Effect<
+export const registerUsage: API.OperationMethod<
+  RegisterUsageRequest,
   RegisterUsageResult,
   | CustomerNotEntitledException
   | DisabledApiException
@@ -607,9 +604,8 @@ export const registerUsage: (
  *
  * For Amazon Web Services Regions that support `ResolveCustomer`, see ResolveCustomer Region support.
  */
-export const resolveCustomer: (
-  input: ResolveCustomerRequest,
-) => effect.Effect<
+export const resolveCustomer: API.OperationMethod<
+  ResolveCustomerRequest,
   ResolveCustomerResult,
   | DisabledApiException
   | ExpiredTokenException

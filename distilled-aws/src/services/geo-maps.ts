@@ -503,9 +503,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  *
  * For more information, see Style labels with glyphs in the *Amazon Location Service Developer Guide*.
  */
-export const getGlyphs: (
-  input: GetGlyphsRequest,
-) => effect.Effect<
+export const getGlyphs: API.OperationMethod<
+  GetGlyphsRequest,
   GetGlyphsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -519,9 +518,8 @@ export const getGlyphs: (
  *
  * For more information, see Style iconography with sprites in the *Amazon Location Service Developer Guide*.
  */
-export const getSprites: (
-  input: GetSpritesRequest,
-) => effect.Effect<
+export const getSprites: API.OperationMethod<
+  GetSpritesRequest,
   GetSpritesResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -541,9 +539,8 @@ export const getSprites: (
  *
  * - Overlay on the static map
  */
-export const getStaticMap: (
-  input: GetStaticMapRequest,
-) => effect.Effect<
+export const getStaticMap: API.OperationMethod<
+  GetStaticMapRequest,
   GetStaticMapResponse,
   | AccessDeniedException
   | InternalServerException
@@ -566,9 +563,8 @@ export const getStaticMap: (
  *
  * For more information, see Style dynamic maps in the *Amazon Location Service Developer Guide*.
  */
-export const getStyleDescriptor: (
-  input: GetStyleDescriptorRequest,
-) => effect.Effect<
+export const getStyleDescriptor: API.OperationMethod<
+  GetStyleDescriptorRequest,
   GetStyleDescriptorResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -582,9 +578,8 @@ export const getStyleDescriptor: (
  *
  * For more information, see Tiles in the *Amazon Location Service Developer Guide*.
  */
-export const getTile: (
-  input: GetTileRequest,
-) => effect.Effect<
+export const getTile: API.OperationMethod<
+  GetTileRequest,
   GetTileResponse,
   | AccessDeniedException
   | InternalServerException

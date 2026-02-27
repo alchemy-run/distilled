@@ -3113,9 +3113,8 @@ export class BadRequestException extends S.TaggedErrorClass<BadRequestException>
 /**
  * Defines where AWS Elemental MediaTailor sends logs for the playback configuration.
  */
-export const configureLogsForPlaybackConfiguration: (
-  input: ConfigureLogsForPlaybackConfigurationRequest,
-) => effect.Effect<
+export const configureLogsForPlaybackConfiguration: API.OperationMethod<
+  ConfigureLogsForPlaybackConfigurationRequest,
   ConfigureLogsForPlaybackConfigurationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3127,14 +3126,12 @@ export const configureLogsForPlaybackConfiguration: (
 /**
  * Lists the alerts that are associated with a MediaTailor channel assembly resource.
  */
-export const listAlerts: {
-  (
-    input: ListAlertsRequest,
-  ): effect.Effect<
-    ListAlertsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAlerts: API.OperationMethod<
+  ListAlertsRequest,
+  ListAlertsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAlertsRequest,
   ) => stream.Stream<
@@ -3163,9 +3160,8 @@ export const listAlerts: {
 /**
  * A list of tags that are associated with this resource. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3177,9 +3173,8 @@ export const listTagsForResource: (
 /**
  * The resource to tag. Tags are key-value pairs that you can associate with Amazon resources to help with organization, access control, and cost tracking. For more information, see Tagging AWS Elemental MediaTailor Resources.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3191,9 +3186,8 @@ export const tagResource: (
 /**
  * The resource to untag.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   BadRequestException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3205,9 +3199,8 @@ export const untagResource: (
 /**
  * Creates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const createChannel: (
-  input: CreateChannelRequest,
-) => effect.Effect<
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
   CreateChannelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3219,9 +3212,8 @@ export const createChannel: (
 /**
  * Describes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const describeChannel: (
-  input: DescribeChannelRequest,
-) => effect.Effect<
+export const describeChannel: API.OperationMethod<
+  DescribeChannelRequest,
   DescribeChannelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3233,9 +3225,8 @@ export const describeChannel: (
 /**
  * Updates a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const updateChannel: (
-  input: UpdateChannelRequest,
-) => effect.Effect<
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
   UpdateChannelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3247,9 +3238,8 @@ export const updateChannel: (
 /**
  * Deletes a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const deleteChannel: (
-  input: DeleteChannelRequest,
-) => effect.Effect<
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelRequest,
   DeleteChannelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3261,14 +3251,12 @@ export const deleteChannel: (
 /**
  * Retrieves information about the channels that are associated with the current AWS account.
  */
-export const listChannels: {
-  (
-    input: ListChannelsRequest,
-  ): effect.Effect<
-    ListChannelsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
@@ -3297,9 +3285,8 @@ export const listChannels: {
 /**
  * Configures Amazon CloudWatch log settings for a channel.
  */
-export const configureLogsForChannel: (
-  input: ConfigureLogsForChannelRequest,
-) => effect.Effect<
+export const configureLogsForChannel: API.OperationMethod<
+  ConfigureLogsForChannelRequest,
   ConfigureLogsForChannelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3311,14 +3298,12 @@ export const configureLogsForChannel: (
 /**
  * Retrieves information about your channel's schedule.
  */
-export const getChannelSchedule: {
-  (
-    input: GetChannelScheduleRequest,
-  ): effect.Effect<
-    GetChannelScheduleResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getChannelSchedule: API.OperationMethod<
+  GetChannelScheduleRequest,
+  GetChannelScheduleResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetChannelScheduleRequest,
   ) => stream.Stream<
@@ -3347,9 +3332,8 @@ export const getChannelSchedule: {
 /**
  * Starts a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const startChannel: (
-  input: StartChannelRequest,
-) => effect.Effect<
+export const startChannel: API.OperationMethod<
+  StartChannelRequest,
   StartChannelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3361,9 +3345,8 @@ export const startChannel: (
 /**
  * Stops a channel. For information about MediaTailor channels, see Working with channels in the *MediaTailor User Guide*.
  */
-export const stopChannel: (
-  input: StopChannelRequest,
-) => effect.Effect<
+export const stopChannel: API.OperationMethod<
+  StopChannelRequest,
   StopChannelResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3375,9 +3358,8 @@ export const stopChannel: (
 /**
  * Creates an IAM policy for the channel. IAM policies are used to control access to your channel.
  */
-export const putChannelPolicy: (
-  input: PutChannelPolicyRequest,
-) => effect.Effect<
+export const putChannelPolicy: API.OperationMethod<
+  PutChannelPolicyRequest,
   PutChannelPolicyResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3389,9 +3371,8 @@ export const putChannelPolicy: (
 /**
  * Returns the channel's IAM policy. IAM policies are used to control access to your channel.
  */
-export const getChannelPolicy: (
-  input: GetChannelPolicyRequest,
-) => effect.Effect<
+export const getChannelPolicy: API.OperationMethod<
+  GetChannelPolicyRequest,
   GetChannelPolicyResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3403,9 +3384,8 @@ export const getChannelPolicy: (
 /**
  * The channel policy to delete.
  */
-export const deleteChannelPolicy: (
-  input: DeleteChannelPolicyRequest,
-) => effect.Effect<
+export const deleteChannelPolicy: API.OperationMethod<
+  DeleteChannelPolicyRequest,
   DeleteChannelPolicyResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3417,9 +3397,8 @@ export const deleteChannelPolicy: (
 /**
  * Creates a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
-export const createProgram: (
-  input: CreateProgramRequest,
-) => effect.Effect<
+export const createProgram: API.OperationMethod<
+  CreateProgramRequest,
   CreateProgramResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3431,9 +3410,8 @@ export const createProgram: (
 /**
  * Describes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
-export const describeProgram: (
-  input: DescribeProgramRequest,
-) => effect.Effect<
+export const describeProgram: API.OperationMethod<
+  DescribeProgramRequest,
   DescribeProgramResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3445,9 +3423,8 @@ export const describeProgram: (
 /**
  * Updates a program within a channel.
  */
-export const updateProgram: (
-  input: UpdateProgramRequest,
-) => effect.Effect<
+export const updateProgram: API.OperationMethod<
+  UpdateProgramRequest,
   UpdateProgramResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3459,9 +3436,8 @@ export const updateProgram: (
 /**
  * Deletes a program within a channel. For information about programs, see Working with programs in the *MediaTailor User Guide*.
  */
-export const deleteProgram: (
-  input: DeleteProgramRequest,
-) => effect.Effect<
+export const deleteProgram: API.OperationMethod<
+  DeleteProgramRequest,
   DeleteProgramResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3473,9 +3449,8 @@ export const deleteProgram: (
 /**
  * The live source configuration.
  */
-export const createLiveSource: (
-  input: CreateLiveSourceRequest,
-) => effect.Effect<
+export const createLiveSource: API.OperationMethod<
+  CreateLiveSourceRequest,
   CreateLiveSourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3487,9 +3462,8 @@ export const createLiveSource: (
 /**
  * The live source to describe.
  */
-export const describeLiveSource: (
-  input: DescribeLiveSourceRequest,
-) => effect.Effect<
+export const describeLiveSource: API.OperationMethod<
+  DescribeLiveSourceRequest,
   DescribeLiveSourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3501,9 +3475,8 @@ export const describeLiveSource: (
 /**
  * Updates a live source's configuration.
  */
-export const updateLiveSource: (
-  input: UpdateLiveSourceRequest,
-) => effect.Effect<
+export const updateLiveSource: API.OperationMethod<
+  UpdateLiveSourceRequest,
   UpdateLiveSourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3515,9 +3488,8 @@ export const updateLiveSource: (
 /**
  * The live source to delete.
  */
-export const deleteLiveSource: (
-  input: DeleteLiveSourceRequest,
-) => effect.Effect<
+export const deleteLiveSource: API.OperationMethod<
+  DeleteLiveSourceRequest,
   DeleteLiveSourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3529,14 +3501,12 @@ export const deleteLiveSource: (
 /**
  * Lists the live sources contained in a source location. A source represents a piece of content.
  */
-export const listLiveSources: {
-  (
-    input: ListLiveSourcesRequest,
-  ): effect.Effect<
-    ListLiveSourcesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLiveSources: API.OperationMethod<
+  ListLiveSourcesRequest,
+  ListLiveSourcesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLiveSourcesRequest,
   ) => stream.Stream<
@@ -3565,9 +3535,8 @@ export const listLiveSources: {
 /**
  * Creates a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
-export const putPlaybackConfiguration: (
-  input: PutPlaybackConfigurationRequest,
-) => effect.Effect<
+export const putPlaybackConfiguration: API.OperationMethod<
+  PutPlaybackConfigurationRequest,
   PutPlaybackConfigurationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3579,9 +3548,8 @@ export const putPlaybackConfiguration: (
 /**
  * Retrieves a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
-export const getPlaybackConfiguration: (
-  input: GetPlaybackConfigurationRequest,
-) => effect.Effect<
+export const getPlaybackConfiguration: API.OperationMethod<
+  GetPlaybackConfigurationRequest,
   GetPlaybackConfigurationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3593,9 +3561,8 @@ export const getPlaybackConfiguration: (
 /**
  * Deletes a playback configuration. For information about MediaTailor configurations, see Working with configurations in AWS Elemental MediaTailor.
  */
-export const deletePlaybackConfiguration: (
-  input: DeletePlaybackConfigurationRequest,
-) => effect.Effect<
+export const deletePlaybackConfiguration: API.OperationMethod<
+  DeletePlaybackConfigurationRequest,
   DeletePlaybackConfigurationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3607,14 +3574,12 @@ export const deletePlaybackConfiguration: (
 /**
  * Retrieves existing playback configurations. For information about MediaTailor configurations, see Working with Configurations in AWS Elemental MediaTailor.
  */
-export const listPlaybackConfigurations: {
-  (
-    input: ListPlaybackConfigurationsRequest,
-  ): effect.Effect<
-    ListPlaybackConfigurationsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPlaybackConfigurations: API.OperationMethod<
+  ListPlaybackConfigurationsRequest,
+  ListPlaybackConfigurationsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlaybackConfigurationsRequest,
   ) => stream.Stream<
@@ -3643,9 +3608,8 @@ export const listPlaybackConfigurations: {
 /**
  * Creates a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
-export const createPrefetchSchedule: (
-  input: CreatePrefetchScheduleRequest,
-) => effect.Effect<
+export const createPrefetchSchedule: API.OperationMethod<
+  CreatePrefetchScheduleRequest,
   CreatePrefetchScheduleResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3657,9 +3621,8 @@ export const createPrefetchSchedule: (
 /**
  * Retrieves a prefetch schedule for a playback configuration. A prefetch schedule allows you to tell MediaTailor to fetch and prepare certain ads before an ad break happens. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
-export const getPrefetchSchedule: (
-  input: GetPrefetchScheduleRequest,
-) => effect.Effect<
+export const getPrefetchSchedule: API.OperationMethod<
+  GetPrefetchScheduleRequest,
   GetPrefetchScheduleResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3671,9 +3634,8 @@ export const getPrefetchSchedule: (
 /**
  * Deletes a prefetch schedule for a specific playback configuration. If you call `DeletePrefetchSchedule` on an expired prefetch schedule, MediaTailor returns an HTTP 404 status code. For more information about ad prefetching, see Using ad prefetching in the *MediaTailor User Guide*.
  */
-export const deletePrefetchSchedule: (
-  input: DeletePrefetchScheduleRequest,
-) => effect.Effect<
+export const deletePrefetchSchedule: API.OperationMethod<
+  DeletePrefetchScheduleRequest,
   DeletePrefetchScheduleResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3685,14 +3647,12 @@ export const deletePrefetchSchedule: (
 /**
  * Lists the prefetch schedules for a playback configuration.
  */
-export const listPrefetchSchedules: {
-  (
-    input: ListPrefetchSchedulesRequest,
-  ): effect.Effect<
-    ListPrefetchSchedulesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrefetchSchedules: API.OperationMethod<
+  ListPrefetchSchedulesRequest,
+  ListPrefetchSchedulesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPrefetchSchedulesRequest,
   ) => stream.Stream<
@@ -3721,9 +3681,8 @@ export const listPrefetchSchedules: {
 /**
  * Creates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
-export const createSourceLocation: (
-  input: CreateSourceLocationRequest,
-) => effect.Effect<
+export const createSourceLocation: API.OperationMethod<
+  CreateSourceLocationRequest,
   CreateSourceLocationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3735,9 +3694,8 @@ export const createSourceLocation: (
 /**
  * Describes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
-export const describeSourceLocation: (
-  input: DescribeSourceLocationRequest,
-) => effect.Effect<
+export const describeSourceLocation: API.OperationMethod<
+  DescribeSourceLocationRequest,
   DescribeSourceLocationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3749,9 +3707,8 @@ export const describeSourceLocation: (
 /**
  * Updates a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
-export const updateSourceLocation: (
-  input: UpdateSourceLocationRequest,
-) => effect.Effect<
+export const updateSourceLocation: API.OperationMethod<
+  UpdateSourceLocationRequest,
   UpdateSourceLocationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3763,9 +3720,8 @@ export const updateSourceLocation: (
 /**
  * Deletes a source location. A source location is a container for sources. For more information about source locations, see Working with source locations in the *MediaTailor User Guide*.
  */
-export const deleteSourceLocation: (
-  input: DeleteSourceLocationRequest,
-) => effect.Effect<
+export const deleteSourceLocation: API.OperationMethod<
+  DeleteSourceLocationRequest,
   DeleteSourceLocationResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3777,14 +3733,12 @@ export const deleteSourceLocation: (
 /**
  * Lists the source locations for a channel. A source location defines the host server URL, and contains a list of sources.
  */
-export const listSourceLocations: {
-  (
-    input: ListSourceLocationsRequest,
-  ): effect.Effect<
-    ListSourceLocationsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSourceLocations: API.OperationMethod<
+  ListSourceLocationsRequest,
+  ListSourceLocationsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSourceLocationsRequest,
   ) => stream.Stream<
@@ -3813,9 +3767,8 @@ export const listSourceLocations: {
 /**
  * The VOD source configuration parameters.
  */
-export const createVodSource: (
-  input: CreateVodSourceRequest,
-) => effect.Effect<
+export const createVodSource: API.OperationMethod<
+  CreateVodSourceRequest,
   CreateVodSourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3827,9 +3780,8 @@ export const createVodSource: (
 /**
  * Provides details about a specific video on demand (VOD) source in a specific source location.
  */
-export const describeVodSource: (
-  input: DescribeVodSourceRequest,
-) => effect.Effect<
+export const describeVodSource: API.OperationMethod<
+  DescribeVodSourceRequest,
   DescribeVodSourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3841,9 +3793,8 @@ export const describeVodSource: (
 /**
  * Updates a VOD source's configuration.
  */
-export const updateVodSource: (
-  input: UpdateVodSourceRequest,
-) => effect.Effect<
+export const updateVodSource: API.OperationMethod<
+  UpdateVodSourceRequest,
   UpdateVodSourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3855,9 +3806,8 @@ export const updateVodSource: (
 /**
  * The video on demand (VOD) source to delete.
  */
-export const deleteVodSource: (
-  input: DeleteVodSourceRequest,
-) => effect.Effect<
+export const deleteVodSource: API.OperationMethod<
+  DeleteVodSourceRequest,
   DeleteVodSourceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3869,14 +3819,12 @@ export const deleteVodSource: (
 /**
  * Lists the VOD sources contained in a source location. A source represents a piece of content.
  */
-export const listVodSources: {
-  (
-    input: ListVodSourcesRequest,
-  ): effect.Effect<
-    ListVodSourcesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listVodSources: API.OperationMethod<
+  ListVodSourcesRequest,
+  ListVodSourcesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListVodSourcesRequest,
   ) => stream.Stream<

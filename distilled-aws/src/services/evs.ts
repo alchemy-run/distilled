@@ -899,9 +899,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Returns information about VCF versions, ESX versions and EC2 instance types provided by Amazon EVS. For each VCF version, the response also includes the default ESX version and provided EC2 instance types.
  */
-export const getVersions: (
-  input: GetVersionsRequest,
-) => effect.Effect<
+export const getVersions: API.OperationMethod<
+  GetVersionsRequest,
   GetVersionsResponse,
   InternalServerException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -913,9 +912,8 @@ export const getVersions: (
 /**
  * Lists the tags for an Amazon EVS resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -927,9 +925,8 @@ export const listTagsForResource: (
 /**
  * Associates the specified tags to an Amazon EVS resource with the specified `resourceArn`. If existing tags on a resource are not specified in the request parameters, they aren't changed. When a resource is deleted, the tags associated with that resource are also deleted. Tags that you create for Amazon EVS resources don't propagate to any other resources associated with the environment. For example, if you tag an environment with this operation, that tag doesn't automatically propagate to the VLAN subnets and hosts associated with the environment.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -950,9 +947,8 @@ export const tagResource: (
 /**
  * Deletes specified tags from an Amazon EVS resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | TagPolicyException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -972,9 +968,8 @@ export const untagResource: (
  *
  * You cannot use the `dedicatedHostId` and `placementGroupId` parameters together in the same `CreateEnvironment` action. This results in a `ValidationException` response.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentRequest,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentRequest,
   CreateEnvironmentResponse,
   ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -986,9 +981,8 @@ export const createEnvironment: (
 /**
  * Returns a description of the specified environment.
  */
-export const getEnvironment: (
-  input: GetEnvironmentRequest,
-) => effect.Effect<
+export const getEnvironment: API.OperationMethod<
+  GetEnvironmentRequest,
   GetEnvironmentResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1004,9 +998,8 @@ export const getEnvironment: (
  *
  * Environment deletion also deletes the associated Amazon EVS VLAN subnets and Amazon Web Services Secrets Manager secrets that Amazon EVS created. Amazon Web Services resources that you create are not deleted. These resources may continue to incur costs.
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentRequest,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1018,14 +1011,12 @@ export const deleteEnvironment: (
 /**
  * Lists the Amazon EVS environments in your Amazon Web Services account in the specified Amazon Web Services Region.
  */
-export const listEnvironments: {
-  (
-    input: ListEnvironmentsRequest,
-  ): effect.Effect<
-    ListEnvironmentsResponse,
-    ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsRequest,
+  ListEnvironmentsResponse,
+  ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
@@ -1054,9 +1045,8 @@ export const listEnvironments: {
 /**
  * Associates an Elastic IP address with a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
  */
-export const associateEipToVlan: (
-  input: AssociateEipToVlanRequest,
-) => effect.Effect<
+export const associateEipToVlan: API.OperationMethod<
+  AssociateEipToVlanRequest,
   AssociateEipToVlanResponse,
   | ResourceNotFoundException
   | ThrottlingException
@@ -1081,9 +1071,8 @@ export const associateEipToVlan: (
  *
  * You cannot use the `dedicatedHostId` and `placementGroupId` parameters together in the same `CreateEnvironmentHost` action. This results in a `ValidationException` response.
  */
-export const createEnvironmentHost: (
-  input: CreateEnvironmentHostRequest,
-) => effect.Effect<
+export const createEnvironmentHost: API.OperationMethod<
+  CreateEnvironmentHostRequest,
   CreateEnvironmentHostResponse,
   ThrottlingException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1097,9 +1086,8 @@ export const createEnvironmentHost: (
  *
  * Before deleting a host, you must unassign and decommission the host from within the SDDC Manager user interface. Not doing so could impact the availability of your virtual machines or result in data loss.
  */
-export const deleteEnvironmentHost: (
-  input: DeleteEnvironmentHostRequest,
-) => effect.Effect<
+export const deleteEnvironmentHost: API.OperationMethod<
+  DeleteEnvironmentHostRequest,
   DeleteEnvironmentHostResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1111,9 +1099,8 @@ export const deleteEnvironmentHost: (
 /**
  * Disassociates an Elastic IP address from a public HCX VLAN. This operation is only allowed for public HCX VLANs at this time.
  */
-export const disassociateEipFromVlan: (
-  input: DisassociateEipFromVlanRequest,
-) => effect.Effect<
+export const disassociateEipFromVlan: API.OperationMethod<
+  DisassociateEipFromVlanRequest,
   DisassociateEipFromVlanResponse,
   | ResourceNotFoundException
   | ThrottlingException
@@ -1128,14 +1115,12 @@ export const disassociateEipFromVlan: (
 /**
  * List the hosts within an environment.
  */
-export const listEnvironmentHosts: {
-  (
-    input: ListEnvironmentHostsRequest,
-  ): effect.Effect<
-    ListEnvironmentHostsResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironmentHosts: API.OperationMethod<
+  ListEnvironmentHostsRequest,
+  ListEnvironmentHostsResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentHostsRequest,
   ) => stream.Stream<
@@ -1164,14 +1149,12 @@ export const listEnvironmentHosts: {
 /**
  * Lists environment VLANs that are associated with the specified environment.
  */
-export const listEnvironmentVlans: {
-  (
-    input: ListEnvironmentVlansRequest,
-  ): effect.Effect<
-    ListEnvironmentVlansResponse,
-    ResourceNotFoundException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironmentVlans: API.OperationMethod<
+  ListEnvironmentVlansRequest,
+  ListEnvironmentVlansResponse,
+  ResourceNotFoundException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentVlansRequest,
   ) => stream.Stream<

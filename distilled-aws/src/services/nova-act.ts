@@ -1032,9 +1032,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Creates a new AI task (act) within a session that can interact with tools and perform specific actions.
  */
-export const createAct: (
-  input: CreateActRequest,
-) => effect.Effect<
+export const createAct: API.OperationMethod<
+  CreateActRequest,
   CreateActResponse,
   | AccessDeniedException
   | ConflictException
@@ -1061,20 +1060,18 @@ export const createAct: (
 /**
  * Lists all acts within a specific session with their current status and execution details.
  */
-export const listActs: {
-  (
-    input: ListActsRequest,
-  ): effect.Effect<
-    ListActsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listActs: API.OperationMethod<
+  ListActsRequest,
+  ListActsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListActsRequest,
   ) => stream.Stream<
@@ -1122,9 +1119,8 @@ export const listActs: {
 /**
  * Executes the next step of an act, processing tool call results and returning new tool calls if needed.
  */
-export const invokeActStep: (
-  input: InvokeActStepRequest,
-) => effect.Effect<
+export const invokeActStep: API.OperationMethod<
+  InvokeActStepRequest,
   InvokeActStepResponse,
   | AccessDeniedException
   | ConflictException
@@ -1151,9 +1147,8 @@ export const invokeActStep: (
 /**
  * Updates an existing act's configuration, status, or error information.
  */
-export const updateAct: (
-  input: UpdateActRequest,
-) => effect.Effect<
+export const updateAct: API.OperationMethod<
+  UpdateActRequest,
   UpdateActResponse,
   | AccessDeniedException
   | ConflictException
@@ -1178,9 +1173,8 @@ export const updateAct: (
 /**
  * Lists all available AI models that can be used for workflow execution, including their status and compatibility information.
  */
-export const listModels: (
-  input: ListModelsRequest,
-) => effect.Effect<
+export const listModels: API.OperationMethod<
+  ListModelsRequest,
   ListModelsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1195,9 +1189,8 @@ export const listModels: (
 /**
  * Creates a new session context within a workflow run to manage conversation state and acts.
  */
-export const createSession: (
-  input: CreateSessionRequest,
-) => effect.Effect<
+export const createSession: API.OperationMethod<
+  CreateSessionRequest,
   CreateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1224,20 +1217,18 @@ export const createSession: (
 /**
  * Lists all sessions within a specific workflow run.
  */
-export const listSessions: {
-  (
-    input: ListSessionsRequest,
-  ): effect.Effect<
-    ListSessionsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessions: API.OperationMethod<
+  ListSessionsRequest,
+  ListSessionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
@@ -1285,9 +1276,8 @@ export const listSessions: {
 /**
  * Creates a new workflow definition template that can be used to execute multiple workflow runs.
  */
-export const createWorkflowDefinition: (
-  input: CreateWorkflowDefinitionRequest,
-) => effect.Effect<
+export const createWorkflowDefinition: API.OperationMethod<
+  CreateWorkflowDefinitionRequest,
   CreateWorkflowDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1312,9 +1302,8 @@ export const createWorkflowDefinition: (
 /**
  * Retrieves the details and configuration of a specific workflow definition.
  */
-export const getWorkflowDefinition: (
-  input: GetWorkflowDefinitionRequest,
-) => effect.Effect<
+export const getWorkflowDefinition: API.OperationMethod<
+  GetWorkflowDefinitionRequest,
   GetWorkflowDefinitionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1337,9 +1326,8 @@ export const getWorkflowDefinition: (
 /**
  * Deletes a workflow definition and all associated resources. This operation cannot be undone.
  */
-export const deleteWorkflowDefinition: (
-  input: DeleteWorkflowDefinitionRequest,
-) => effect.Effect<
+export const deleteWorkflowDefinition: API.OperationMethod<
+  DeleteWorkflowDefinitionRequest,
   DeleteWorkflowDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1364,18 +1352,16 @@ export const deleteWorkflowDefinition: (
 /**
  * Lists all workflow definitions in your account with optional filtering and pagination.
  */
-export const listWorkflowDefinitions: {
-  (
-    input: ListWorkflowDefinitionsRequest,
-  ): effect.Effect<
-    ListWorkflowDefinitionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowDefinitions: API.OperationMethod<
+  ListWorkflowDefinitionsRequest,
+  ListWorkflowDefinitionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowDefinitionsRequest,
   ) => stream.Stream<
@@ -1417,9 +1403,8 @@ export const listWorkflowDefinitions: {
 /**
  * Creates a new execution instance of a workflow definition with specified parameters.
  */
-export const createWorkflowRun: (
-  input: CreateWorkflowRunRequest,
-) => effect.Effect<
+export const createWorkflowRun: API.OperationMethod<
+  CreateWorkflowRunRequest,
   CreateWorkflowRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1444,9 +1429,8 @@ export const createWorkflowRun: (
 /**
  * Retrieves the current state, configuration, and execution details of a workflow run.
  */
-export const getWorkflowRun: (
-  input: GetWorkflowRunRequest,
-) => effect.Effect<
+export const getWorkflowRun: API.OperationMethod<
+  GetWorkflowRunRequest,
   GetWorkflowRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1471,9 +1455,8 @@ export const getWorkflowRun: (
 /**
  * Updates the configuration or state of an active workflow run.
  */
-export const updateWorkflowRun: (
-  input: UpdateWorkflowRunRequest,
-) => effect.Effect<
+export const updateWorkflowRun: API.OperationMethod<
+  UpdateWorkflowRunRequest,
   UpdateWorkflowRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1498,9 +1481,8 @@ export const updateWorkflowRun: (
 /**
  * Terminates and cleans up a workflow run, stopping all associated acts and sessions.
  */
-export const deleteWorkflowRun: (
-  input: DeleteWorkflowRunRequest,
-) => effect.Effect<
+export const deleteWorkflowRun: API.OperationMethod<
+  DeleteWorkflowRunRequest,
   DeleteWorkflowRunResponse,
   | AccessDeniedException
   | ConflictException
@@ -1525,20 +1507,18 @@ export const deleteWorkflowRun: (
 /**
  * Lists all workflow runs for a specific workflow definition with optional filtering and pagination.
  */
-export const listWorkflowRuns: {
-  (
-    input: ListWorkflowRunsRequest,
-  ): effect.Effect<
-    ListWorkflowRunsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowRuns: API.OperationMethod<
+  ListWorkflowRunsRequest,
+  ListWorkflowRunsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowRunsRequest,
   ) => stream.Stream<

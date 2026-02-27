@@ -731,9 +731,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
  *
  * Each source account can be linked to as many as five monitoring accounts.
  */
-export const createLink: (
-  input: CreateLinkInput,
-) => effect.Effect<
+export const createLink: API.OperationMethod<
+  CreateLinkInput,
   CreateLinkOutput,
   | ConflictException
   | InternalServiceFault
@@ -760,9 +759,8 @@ export const createLink: (
  *
  * Each account can contain one sink per Region. If you delete a sink, you can then create a new one in that Region.
  */
-export const createSink: (
-  input: CreateSinkInput,
-) => effect.Effect<
+export const createSink: API.OperationMethod<
+  CreateSinkInput,
   CreateSinkOutput,
   | ConflictException
   | InternalServiceFault
@@ -785,9 +783,8 @@ export const createSink: (
 /**
  * Deletes a link between a monitoring account sink and a source account. You must run this operation in the source account.
  */
-export const deleteLink: (
-  input: DeleteLinkInput,
-) => effect.Effect<
+export const deleteLink: API.OperationMethod<
+  DeleteLinkInput,
   DeleteLinkOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -808,9 +805,8 @@ export const deleteLink: (
 /**
  * Deletes a sink. You must delete all links to a sink before you can delete that sink.
  */
-export const deleteSink: (
-  input: DeleteSinkInput,
-) => effect.Effect<
+export const deleteSink: API.OperationMethod<
+  DeleteSinkInput,
   DeleteSinkOutput,
   | ConflictException
   | InternalServiceFault
@@ -835,9 +831,8 @@ export const deleteSink: (
  *
  * To use this operation, provide the link ARN. To retrieve a list of link ARNs, use ListLinks.
  */
-export const getLink: (
-  input: GetLinkInput,
-) => effect.Effect<
+export const getLink: API.OperationMethod<
+  GetLinkInput,
   GetLinkOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -860,9 +855,8 @@ export const getLink: (
  *
  * To use this operation, provide the sink ARN. To retrieve a list of sink ARNs, use ListSinks.
  */
-export const getSink: (
-  input: GetSinkInput,
-) => effect.Effect<
+export const getSink: API.OperationMethod<
+  GetSinkInput,
   GetSinkOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -883,9 +877,8 @@ export const getSink: (
 /**
  * Returns the current sink policy attached to this sink. The sink policy specifies what accounts can attach to this sink as source accounts, and what types of data they can share.
  */
-export const getSinkPolicy: (
-  input: GetSinkPolicyInput,
-) => effect.Effect<
+export const getSinkPolicy: API.OperationMethod<
+  GetSinkPolicyInput,
   GetSinkPolicyOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -910,18 +903,16 @@ export const getSinkPolicy: (
  *
  * To find a list of links for one source account, use ListLinks.
  */
-export const listAttachedLinks: {
-  (
-    input: ListAttachedLinksInput,
-  ): effect.Effect<
-    ListAttachedLinksOutput,
-    | InternalServiceFault
-    | InvalidParameterException
-    | MissingRequiredParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttachedLinks: API.OperationMethod<
+  ListAttachedLinksInput,
+  ListAttachedLinksOutput,
+  | InternalServiceFault
+  | InvalidParameterException
+  | MissingRequiredParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttachedLinksInput,
   ) => stream.Stream<
@@ -965,17 +956,15 @@ export const listAttachedLinks: {
  *
  * To find a list of links for one monitoring account sink, use ListAttachedLinks from within the monitoring account.
  */
-export const listLinks: {
-  (
-    input: ListLinksInput,
-  ): effect.Effect<
-    ListLinksOutput,
-    | InternalServiceFault
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLinks: API.OperationMethod<
+  ListLinksInput,
+  ListLinksOutput,
+  | InternalServiceFault
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLinksInput,
   ) => stream.Stream<
@@ -1014,17 +1003,15 @@ export const listLinks: {
 /**
  * Use this operation in a monitoring account to return the list of sinks created in that account.
  */
-export const listSinks: {
-  (
-    input: ListSinksInput,
-  ): effect.Effect<
-    ListSinksOutput,
-    | InternalServiceFault
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSinks: API.OperationMethod<
+  ListSinksInput,
+  ListSinksOutput,
+  | InternalServiceFault
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSinksInput,
   ) => stream.Stream<
@@ -1063,9 +1050,8 @@ export const listSinks: {
 /**
  * Displays the tags associated with a resource. Both sinks and links support tagging.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1093,9 +1079,8 @@ export const listTagsForResource: (
  *
  * See the examples in this section to see how to specify permitted source accounts and data types.
  */
-export const putSinkPolicy: (
-  input: PutSinkPolicyInput,
-) => effect.Effect<
+export const putSinkPolicy: API.OperationMethod<
+  PutSinkPolicyInput,
   PutSinkPolicyOutput,
   | InternalServiceFault
   | InvalidParameterException
@@ -1126,9 +1111,8 @@ export const putSinkPolicy: (
  *
  * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:ResourceTag` permission does not allow you to tag and untag links and sinks.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -1149,9 +1133,8 @@ export const tagResource: (
  *
  * Unlike tagging permissions in other Amazon Web Services services, to tag or untag links and sinks you must have the `oam:ResourceTag` permission. The `iam:TagResource` permission does not allow you to tag and untag links and sinks.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1167,9 +1150,8 @@ export const untagResource: (
  *
  * To update the list of tags associated with the sink, use TagResource.
  */
-export const updateLink: (
-  input: UpdateLinkInput,
-) => effect.Effect<
+export const updateLink: API.OperationMethod<
+  UpdateLinkInput,
   UpdateLinkOutput,
   | InternalServiceFault
   | InvalidParameterException

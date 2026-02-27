@@ -4264,9 +4264,8 @@ export class ServerException extends S.TaggedErrorClass<ServerException>()(
  * if no job is canceled. These jobs must be terminated with the TerminateJob
  * operation.
  */
-export const cancelJob: (
-  input: CancelJobRequest,
-) => effect.Effect<
+export const cancelJob: API.OperationMethod<
+  CancelJobRequest,
   CancelJobResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4303,9 +4302,8 @@ export const cancelJob: (
  * Batch doesn't automatically upgrade the AMIs in a compute environment after it's
  * created. For more information on how to update a compute environment's AMI, see Updating compute environments in the *Batch User Guide*.
  */
-export const createComputeEnvironment: (
-  input: CreateComputeEnvironmentRequest,
-) => effect.Effect<
+export const createComputeEnvironment: API.OperationMethod<
+  CreateComputeEnvironmentRequest,
   CreateComputeEnvironmentResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4317,9 +4315,8 @@ export const createComputeEnvironment: (
 /**
  * Creates an Batch consumable resource.
  */
-export const createConsumableResource: (
-  input: CreateConsumableResourceRequest,
-) => effect.Effect<
+export const createConsumableResource: API.OperationMethod<
+  CreateConsumableResourceRequest,
   CreateConsumableResourceResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4338,9 +4335,8 @@ export const createConsumableResource: (
  * environment is associated with more than one job queue, the job queue with a higher priority
  * is given preference for scheduling jobs to that compute environment.
  */
-export const createJobQueue: (
-  input: CreateJobQueueRequest,
-) => effect.Effect<
+export const createJobQueue: API.OperationMethod<
+  CreateJobQueueRequest,
   CreateJobQueueResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4352,9 +4348,8 @@ export const createJobQueue: (
 /**
  * Creates an Batch scheduling policy.
  */
-export const createSchedulingPolicy: (
-  input: CreateSchedulingPolicyRequest,
-) => effect.Effect<
+export const createSchedulingPolicy: API.OperationMethod<
+  CreateSchedulingPolicyRequest,
   CreateSchedulingPolicyResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4366,9 +4361,8 @@ export const createSchedulingPolicy: (
 /**
  * Creates a service environment for running service jobs. Service environments define capacity limits for specific service types such as SageMaker Training jobs.
  */
-export const createServiceEnvironment: (
-  input: CreateServiceEnvironmentRequest,
-) => effect.Effect<
+export const createServiceEnvironment: API.OperationMethod<
+  CreateServiceEnvironmentRequest,
   CreateServiceEnvironmentResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4387,9 +4381,8 @@ export const createServiceEnvironment: (
  * compute environment before deleting the compute environment. If this isn't done, the compute
  * environment enters an invalid state.
  */
-export const deleteComputeEnvironment: (
-  input: DeleteComputeEnvironmentRequest,
-) => effect.Effect<
+export const deleteComputeEnvironment: API.OperationMethod<
+  DeleteComputeEnvironmentRequest,
   DeleteComputeEnvironmentResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4401,9 +4394,8 @@ export const deleteComputeEnvironment: (
 /**
  * Deletes the specified consumable resource.
  */
-export const deleteConsumableResource: (
-  input: DeleteConsumableResourceRequest,
-) => effect.Effect<
+export const deleteConsumableResource: API.OperationMethod<
+  DeleteConsumableResourceRequest,
   DeleteConsumableResourceResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4421,9 +4413,8 @@ export const deleteConsumableResource: (
  * It's not necessary to disassociate compute environments from a queue before submitting a
  * `DeleteJobQueue` request.
  */
-export const deleteJobQueue: (
-  input: DeleteJobQueueRequest,
-) => effect.Effect<
+export const deleteJobQueue: API.OperationMethod<
+  DeleteJobQueueRequest,
   DeleteJobQueueResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4437,9 +4428,8 @@ export const deleteJobQueue: (
  *
  * You can't delete a scheduling policy that's used in any job queues.
  */
-export const deleteSchedulingPolicy: (
-  input: DeleteSchedulingPolicyRequest,
-) => effect.Effect<
+export const deleteSchedulingPolicy: API.OperationMethod<
+  DeleteSchedulingPolicyRequest,
   DeleteSchedulingPolicyResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4451,9 +4441,8 @@ export const deleteSchedulingPolicy: (
 /**
  * Deletes a Service environment. Before you can delete a service environment, you must first set its state to `DISABLED` with the `UpdateServiceEnvironment` API operation and disassociate it from any job queues with the `UpdateJobQueue` API operation.
  */
-export const deleteServiceEnvironment: (
-  input: DeleteServiceEnvironmentRequest,
-) => effect.Effect<
+export const deleteServiceEnvironment: API.OperationMethod<
+  DeleteServiceEnvironmentRequest,
   DeleteServiceEnvironmentResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4466,9 +4455,8 @@ export const deleteServiceEnvironment: (
  * Deregisters an Batch job definition. Job definitions are permanently deleted after 180
  * days.
  */
-export const deregisterJobDefinition: (
-  input: DeregisterJobDefinitionRequest,
-) => effect.Effect<
+export const deregisterJobDefinition: API.OperationMethod<
+  DeregisterJobDefinitionRequest,
   DeregisterJobDefinitionResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4484,14 +4472,12 @@ export const deregisterJobDefinition: (
  * `DescribeComputeEnvironment` operation to determine the
  * `ecsClusterArn` that you launch your Amazon ECS container instances into.
  */
-export const describeComputeEnvironments: {
-  (
-    input: DescribeComputeEnvironmentsRequest,
-  ): effect.Effect<
-    DescribeComputeEnvironmentsResponse,
-    ClientException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeComputeEnvironments: API.OperationMethod<
+  DescribeComputeEnvironmentsRequest,
+  DescribeComputeEnvironmentsResponse,
+  ClientException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeComputeEnvironmentsRequest,
   ) => stream.Stream<
@@ -4520,9 +4506,8 @@ export const describeComputeEnvironments: {
 /**
  * Returns a description of the specified consumable resource.
  */
-export const describeConsumableResource: (
-  input: DescribeConsumableResourceRequest,
-) => effect.Effect<
+export const describeConsumableResource: API.OperationMethod<
+  DescribeConsumableResourceRequest,
   DescribeConsumableResourceResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4535,14 +4520,12 @@ export const describeConsumableResource: (
  * Describes a list of job definitions. You can specify a `status` (such as
  * `ACTIVE`) to only return job definitions that match that status.
  */
-export const describeJobDefinitions: {
-  (
-    input: DescribeJobDefinitionsRequest,
-  ): effect.Effect<
-    DescribeJobDefinitionsResponse,
-    ClientException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeJobDefinitions: API.OperationMethod<
+  DescribeJobDefinitionsRequest,
+  DescribeJobDefinitionsResponse,
+  ClientException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeJobDefinitionsRequest,
   ) => stream.Stream<
@@ -4571,14 +4554,12 @@ export const describeJobDefinitions: {
 /**
  * Describes one or more of your job queues.
  */
-export const describeJobQueues: {
-  (
-    input: DescribeJobQueuesRequest,
-  ): effect.Effect<
-    DescribeJobQueuesResponse,
-    ClientException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeJobQueues: API.OperationMethod<
+  DescribeJobQueuesRequest,
+  DescribeJobQueuesResponse,
+  ClientException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeJobQueuesRequest,
   ) => stream.Stream<
@@ -4607,9 +4588,8 @@ export const describeJobQueues: {
 /**
  * Describes a list of Batch jobs.
  */
-export const describeJobs: (
-  input: DescribeJobsRequest,
-) => effect.Effect<
+export const describeJobs: API.OperationMethod<
+  DescribeJobsRequest,
   DescribeJobsResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4621,9 +4601,8 @@ export const describeJobs: (
 /**
  * Describes one or more of your scheduling policies.
  */
-export const describeSchedulingPolicies: (
-  input: DescribeSchedulingPoliciesRequest,
-) => effect.Effect<
+export const describeSchedulingPolicies: API.OperationMethod<
+  DescribeSchedulingPoliciesRequest,
   DescribeSchedulingPoliciesResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4635,14 +4614,12 @@ export const describeSchedulingPolicies: (
 /**
  * Describes one or more of your service environments.
  */
-export const describeServiceEnvironments: {
-  (
-    input: DescribeServiceEnvironmentsRequest,
-  ): effect.Effect<
-    DescribeServiceEnvironmentsResponse,
-    ClientException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeServiceEnvironments: API.OperationMethod<
+  DescribeServiceEnvironmentsRequest,
+  DescribeServiceEnvironmentsResponse,
+  ClientException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeServiceEnvironmentsRequest,
   ) => stream.Stream<
@@ -4671,9 +4648,8 @@ export const describeServiceEnvironments: {
 /**
  * The details of a service job.
  */
-export const describeServiceJob: (
-  input: DescribeServiceJobRequest,
-) => effect.Effect<
+export const describeServiceJob: API.OperationMethod<
+  DescribeServiceJobRequest,
   DescribeServiceJobResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4686,9 +4662,8 @@ export const describeServiceJob: (
  * Provides a list of the first 100 `RUNNABLE` jobs associated to a single job
  * queue and includes capacity utilization, including total usage and breakdown by share for fairshare scheduling job queues.
  */
-export const getJobQueueSnapshot: (
-  input: GetJobQueueSnapshotRequest,
-) => effect.Effect<
+export const getJobQueueSnapshot: API.OperationMethod<
+  GetJobQueueSnapshotRequest,
   GetJobQueueSnapshotResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4700,14 +4675,12 @@ export const getJobQueueSnapshot: (
 /**
  * Returns a list of Batch consumable resources.
  */
-export const listConsumableResources: {
-  (
-    input: ListConsumableResourcesRequest,
-  ): effect.Effect<
-    ListConsumableResourcesResponse,
-    ClientException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConsumableResources: API.OperationMethod<
+  ListConsumableResourcesRequest,
+  ListConsumableResourcesResponse,
+  ClientException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConsumableResourcesRequest,
   ) => stream.Stream<
@@ -4744,14 +4717,12 @@ export const listConsumableResources: {
  *
  * - An array job ID to return a list of the children for that job
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResponse,
-    ClientException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResponse,
+  ClientException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -4780,14 +4751,12 @@ export const listJobs: {
 /**
  * Returns a list of Batch jobs that require a specific consumable resource.
  */
-export const listJobsByConsumableResource: {
-  (
-    input: ListJobsByConsumableResourceRequest,
-  ): effect.Effect<
-    ListJobsByConsumableResourceResponse,
-    ClientException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobsByConsumableResource: API.OperationMethod<
+  ListJobsByConsumableResourceRequest,
+  ListJobsByConsumableResourceResponse,
+  ClientException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsByConsumableResourceRequest,
   ) => stream.Stream<
@@ -4816,14 +4785,12 @@ export const listJobsByConsumableResource: {
 /**
  * Returns a list of Batch scheduling policies.
  */
-export const listSchedulingPolicies: {
-  (
-    input: ListSchedulingPoliciesRequest,
-  ): effect.Effect<
-    ListSchedulingPoliciesResponse,
-    ClientException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchedulingPolicies: API.OperationMethod<
+  ListSchedulingPoliciesRequest,
+  ListSchedulingPoliciesResponse,
+  ClientException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchedulingPoliciesRequest,
   ) => stream.Stream<
@@ -4852,14 +4819,12 @@ export const listSchedulingPolicies: {
 /**
  * Returns a list of service jobs for a specified job queue.
  */
-export const listServiceJobs: {
-  (
-    input: ListServiceJobsRequest,
-  ): effect.Effect<
-    ListServiceJobsResponse,
-    ClientException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceJobs: API.OperationMethod<
+  ListServiceJobsRequest,
+  ListServiceJobsResponse,
+  ClientException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceJobsRequest,
   ) => stream.Stream<
@@ -4889,9 +4854,8 @@ export const listServiceJobs: {
  * Lists the tags for an Batch resource. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
  * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4903,9 +4867,8 @@ export const listTagsForResource: (
 /**
  * Registers an Batch job definition.
  */
-export const registerJobDefinition: (
-  input: RegisterJobDefinitionRequest,
-) => effect.Effect<
+export const registerJobDefinition: API.OperationMethod<
+  RegisterJobDefinitionRequest,
   RegisterJobDefinitionResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4929,9 +4892,8 @@ export const registerJobDefinition: (
  * This is because, after 14 days, Fargate resources might become unavailable and job might be
  * terminated.
  */
-export const submitJob: (
-  input: SubmitJobRequest,
-) => effect.Effect<
+export const submitJob: API.OperationMethod<
+  SubmitJobRequest,
   SubmitJobResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4943,9 +4905,8 @@ export const submitJob: (
 /**
  * Submits a service job to a specified job queue to run on SageMaker AI. A service job is a unit of work that you submit to Batch for execution on SageMaker AI.
  */
-export const submitServiceJob: (
-  input: SubmitServiceJobRequest,
-) => effect.Effect<
+export const submitServiceJob: API.OperationMethod<
+  SubmitServiceJobRequest,
   SubmitServiceJobResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4961,9 +4922,8 @@ export const submitServiceJob: (
  * deleted as well. Batch resources that support tags are compute environments, jobs, job definitions, job queues,
  * and scheduling policies. ARNs for child jobs of array and multi-node parallel (MNP) jobs aren't supported.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4978,9 +4938,8 @@ export const tagResource: (
  * `FAILED`. Jobs that have not progressed to the `STARTING` state are
  * cancelled.
  */
-export const terminateJob: (
-  input: TerminateJobRequest,
-) => effect.Effect<
+export const terminateJob: API.OperationMethod<
+  TerminateJobRequest,
   TerminateJobResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4992,9 +4951,8 @@ export const terminateJob: (
 /**
  * Terminates a service job in a job queue.
  */
-export const terminateServiceJob: (
-  input: TerminateServiceJobRequest,
-) => effect.Effect<
+export const terminateServiceJob: API.OperationMethod<
+  TerminateServiceJobRequest,
   TerminateServiceJobResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5006,9 +4964,8 @@ export const terminateServiceJob: (
 /**
  * Deletes specified tags from an Batch resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5020,9 +4977,8 @@ export const untagResource: (
 /**
  * Updates an Batch compute environment.
  */
-export const updateComputeEnvironment: (
-  input: UpdateComputeEnvironmentRequest,
-) => effect.Effect<
+export const updateComputeEnvironment: API.OperationMethod<
+  UpdateComputeEnvironmentRequest,
   UpdateComputeEnvironmentResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5034,9 +4990,8 @@ export const updateComputeEnvironment: (
 /**
  * Updates a consumable resource.
  */
-export const updateConsumableResource: (
-  input: UpdateConsumableResourceRequest,
-) => effect.Effect<
+export const updateConsumableResource: API.OperationMethod<
+  UpdateConsumableResourceRequest,
   UpdateConsumableResourceResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5048,9 +5003,8 @@ export const updateConsumableResource: (
 /**
  * Updates a job queue.
  */
-export const updateJobQueue: (
-  input: UpdateJobQueueRequest,
-) => effect.Effect<
+export const updateJobQueue: API.OperationMethod<
+  UpdateJobQueueRequest,
   UpdateJobQueueResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5062,9 +5016,8 @@ export const updateJobQueue: (
 /**
  * Updates a scheduling policy.
  */
-export const updateSchedulingPolicy: (
-  input: UpdateSchedulingPolicyRequest,
-) => effect.Effect<
+export const updateSchedulingPolicy: API.OperationMethod<
+  UpdateSchedulingPolicyRequest,
   UpdateSchedulingPolicyResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -5076,9 +5029,8 @@ export const updateSchedulingPolicy: (
 /**
  * Updates a service environment. You can update the state of a service environment from `ENABLED` to `DISABLED` to prevent new service jobs from being placed in the service environment.
  */
-export const updateServiceEnvironment: (
-  input: UpdateServiceEnvironmentRequest,
-) => effect.Effect<
+export const updateServiceEnvironment: API.OperationMethod<
+  UpdateServiceEnvironmentRequest,
   UpdateServiceEnvironmentResponse,
   ClientException | ServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

@@ -636,9 +636,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Retrieves the tags associated with the specified resource. Tags are key-value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -661,9 +660,8 @@ export const listTagsForResource: (
 /**
  * Adds one or more tags to your resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -686,9 +684,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from your resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -713,9 +710,8 @@ export const untagResource: (
  *
  * To create additional challenge passwords for the connector, call `CreateChallenge` again. We recommend frequently rotating your challenge passwords.
  */
-export const createChallenge: (
-  input: CreateChallengeRequest,
-) => effect.Effect<
+export const createChallenge: API.OperationMethod<
+  CreateChallengeRequest,
   CreateChallengeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -744,9 +740,8 @@ export const createChallenge: (
 /**
  * Retrieves the metadata for the specified Challenge.
  */
-export const getChallengeMetadata: (
-  input: GetChallengeMetadataRequest,
-) => effect.Effect<
+export const getChallengeMetadata: API.OperationMethod<
+  GetChallengeMetadataRequest,
   GetChallengeMetadataResponse,
   | AccessDeniedException
   | InternalServerException
@@ -769,9 +764,8 @@ export const getChallengeMetadata: (
 /**
  * Deletes the specified Challenge.
  */
-export const deleteChallenge: (
-  input: DeleteChallengeRequest,
-) => effect.Effect<
+export const deleteChallenge: API.OperationMethod<
+  DeleteChallengeRequest,
   DeleteChallengeResponse,
   | AccessDeniedException
   | ConflictException
@@ -796,19 +790,17 @@ export const deleteChallenge: (
 /**
  * Retrieves the challenge metadata for the specified ARN.
  */
-export const listChallengeMetadata: {
-  (
-    input: ListChallengeMetadataRequest,
-  ): effect.Effect<
-    ListChallengeMetadataResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChallengeMetadata: API.OperationMethod<
+  ListChallengeMetadataRequest,
+  ListChallengeMetadataResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChallengeMetadataRequest,
   ) => stream.Stream<
@@ -853,9 +845,8 @@ export const listChallengeMetadata: {
 /**
  * Retrieves the challenge password for the specified Challenge.
  */
-export const getChallengePassword: (
-  input: GetChallengePasswordRequest,
-) => effect.Effect<
+export const getChallengePassword: API.OperationMethod<
+  GetChallengePasswordRequest,
   GetChallengePasswordResponse,
   | AccessDeniedException
   | InternalServerException
@@ -878,9 +869,8 @@ export const getChallengePassword: (
 /**
  * Creates a SCEP connector. A SCEP connector links Amazon Web Services Private Certificate Authority to your SCEP-compatible devices and mobile device management (MDM) systems. Before you create a connector, you must complete a set of prerequisites, including creation of a private certificate authority (CA) to use with this connector. For more information, see Connector for SCEP prerequisites.
  */
-export const createConnector: (
-  input: CreateConnectorRequest,
-) => effect.Effect<
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
   CreateConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -907,9 +897,8 @@ export const createConnector: (
 /**
  * Retrieves details about the specified Connector. Calling this action returns important details about the connector, such as the public SCEP URL where your clients can request certificates.
  */
-export const getConnector: (
-  input: GetConnectorRequest,
-) => effect.Effect<
+export const getConnector: API.OperationMethod<
+  GetConnectorRequest,
   GetConnectorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -932,9 +921,8 @@ export const getConnector: (
 /**
  * Deletes the specified Connector. This operation also deletes any challenges associated with the connector.
  */
-export const deleteConnector: (
-  input: DeleteConnectorRequest,
-) => effect.Effect<
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
   DeleteConnectorResponse,
   | AccessDeniedException
   | ConflictException
@@ -959,18 +947,16 @@ export const deleteConnector: (
 /**
  * Lists the connectors belonging to your Amazon Web Services account.
  */
-export const listConnectors: {
-  (
-    input: ListConnectorsRequest,
-  ): effect.Effect<
-    ListConnectorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectors: API.OperationMethod<
+  ListConnectorsRequest,
+  ListConnectorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<

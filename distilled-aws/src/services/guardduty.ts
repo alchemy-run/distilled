@@ -9587,9 +9587,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * Accepts the invitation to be a member account and get monitored by a GuardDuty
  * administrator account that sent the invitation.
  */
-export const acceptAdministratorInvitation: (
-  input: AcceptAdministratorInvitationRequest,
-) => effect.Effect<
+export const acceptAdministratorInvitation: API.OperationMethod<
+  AcceptAdministratorInvitationRequest,
   AcceptAdministratorInvitationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9601,9 +9600,8 @@ export const acceptAdministratorInvitation: (
 /**
  * Accepts the invitation to be monitored by a GuardDuty administrator account.
  */
-export const acceptInvitation: (
-  input: AcceptInvitationRequest,
-) => effect.Effect<
+export const acceptInvitation: API.OperationMethod<
+  AcceptInvitationRequest,
   AcceptInvitationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9618,9 +9616,8 @@ export const acceptInvitation: (
  * Only the administrator account can archive findings. Member accounts don't have
  * permission to archive findings from their accounts.
  */
-export const archiveFindings: (
-  input: ArchiveFindingsRequest,
-) => effect.Effect<
+export const archiveFindings: API.OperationMethod<
+  ArchiveFindingsRequest,
   ArchiveFindingsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9652,9 +9649,8 @@ export const archiveFindings: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const createDetector: (
-  input: CreateDetectorRequest,
-) => effect.Effect<
+export const createDetector: API.OperationMethod<
+  CreateDetectorRequest,
   CreateDetectorResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9667,9 +9663,8 @@ export const createDetector: (
  * Creates a filter using the specified finding criteria. The maximum number of saved filters
  * per Amazon Web Services account per Region is 100. For more information, see Quotas for GuardDuty.
  */
-export const createFilter: (
-  input: CreateFilterRequest,
-) => effect.Effect<
+export const createFilter: API.OperationMethod<
+  CreateFilterRequest,
   CreateFilterResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9684,9 +9679,8 @@ export const createFilter: (
  * infrastructure and applications. GuardDuty doesn't generate findings for IP addresses that are
  * included in IPSets. Only users from the administrator account can use this operation.
  */
-export const createIPSet: (
-  input: CreateIPSetRequest,
-) => effect.Effect<
+export const createIPSet: API.OperationMethod<
+  CreateIPSetRequest,
   CreateIPSetResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9708,9 +9702,8 @@ export const createIPSet: (
  * When you create a Malware Protection plan, the Amazon Web Services service terms for GuardDuty Malware
  * Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
  */
-export const createMalwareProtectionPlan: (
-  input: CreateMalwareProtectionPlanRequest,
-) => effect.Effect<
+export const createMalwareProtectionPlan: API.OperationMethod<
+  CreateMalwareProtectionPlanRequest,
   CreateMalwareProtectionPlanResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9754,9 +9747,8 @@ export const createMalwareProtectionPlan: (
  * can't invite them by calling the InviteMembers API. You can create an association with these
  * member accounts again only by calling the CreateMembers API.
  */
-export const createMembers: (
-  input: CreateMembersRequest,
-) => effect.Effect<
+export const createMembers: API.OperationMethod<
+  CreateMembersRequest,
   CreateMembersResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9769,9 +9761,8 @@ export const createMembers: (
  * Creates a publishing destination where you can export your GuardDuty findings. Before you start exporting the
  * findings, the destination resource must exist.
  */
-export const createPublishingDestination: (
-  input: CreatePublishingDestinationRequest,
-) => effect.Effect<
+export const createPublishingDestination: API.OperationMethod<
+  CreatePublishingDestinationRequest,
   CreatePublishingDestinationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9785,9 +9776,8 @@ export const createPublishingDestination: (
  * specified for `findingTypes`, the API generates sample findings of all supported
  * finding types.
  */
-export const createSampleFindings: (
-  input: CreateSampleFindingsRequest,
-) => effect.Effect<
+export const createSampleFindings: API.OperationMethod<
+  CreateSampleFindingsRequest,
   CreateSampleFindingsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9803,9 +9793,8 @@ export const createSampleFindings: (
  * Only users of the administrator account can manage entity sets, which automatically apply
  * to member accounts.
  */
-export const createThreatEntitySet: (
-  input: CreateThreatEntitySetRequest,
-) => effect.Effect<
+export const createThreatEntitySet: API.OperationMethod<
+  CreateThreatEntitySetRequest,
   CreateThreatEntitySetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9819,9 +9808,8 @@ export const createThreatEntitySet: (
  * GuardDuty generates findings based on ThreatIntelSets. Only users of the administrator
  * account can use this operation.
  */
-export const createThreatIntelSet: (
-  input: CreateThreatIntelSetRequest,
-) => effect.Effect<
+export const createThreatIntelSet: API.OperationMethod<
+  CreateThreatIntelSetRequest,
   CreateThreatIntelSetResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9846,9 +9834,8 @@ export const createThreatIntelSet: (
  * Only users of the administrator account can manage the entity sets, which automatically
  * apply to member accounts.
  */
-export const createTrustedEntitySet: (
-  input: CreateTrustedEntitySetRequest,
-) => effect.Effect<
+export const createTrustedEntitySet: API.OperationMethod<
+  CreateTrustedEntitySetRequest,
   CreateTrustedEntitySetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9861,9 +9848,8 @@ export const createTrustedEntitySet: (
  * Declines invitations sent to the current member account by Amazon Web Services accounts specified by
  * their account IDs.
  */
-export const declineInvitations: (
-  input: DeclineInvitationsRequest,
-) => effect.Effect<
+export const declineInvitations: API.OperationMethod<
+  DeclineInvitationsRequest,
   DeclineInvitationsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9875,9 +9861,8 @@ export const declineInvitations: (
 /**
  * Deletes an Amazon GuardDuty detector that is specified by the detector ID.
  */
-export const deleteDetector: (
-  input: DeleteDetectorRequest,
-) => effect.Effect<
+export const deleteDetector: API.OperationMethod<
+  DeleteDetectorRequest,
   DeleteDetectorResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9889,9 +9874,8 @@ export const deleteDetector: (
 /**
  * Deletes the filter specified by the filter name.
  */
-export const deleteFilter: (
-  input: DeleteFilterRequest,
-) => effect.Effect<
+export const deleteFilter: API.OperationMethod<
+  DeleteFilterRequest,
   DeleteFilterResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9904,9 +9888,8 @@ export const deleteFilter: (
  * Deletes invitations sent to the current member account by Amazon Web Services accounts specified by
  * their account IDs.
  */
-export const deleteInvitations: (
-  input: DeleteInvitationsRequest,
-) => effect.Effect<
+export const deleteInvitations: API.OperationMethod<
+  DeleteInvitationsRequest,
   DeleteInvitationsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9919,9 +9902,8 @@ export const deleteInvitations: (
  * Deletes the IPSet specified by the `ipSetId`. IPSets are called trusted IP
  * lists in the console user interface.
  */
-export const deleteIPSet: (
-  input: DeleteIPSetRequest,
-) => effect.Effect<
+export const deleteIPSet: API.OperationMethod<
+  DeleteIPSetRequest,
   DeleteIPSetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9935,9 +9917,8 @@ export const deleteIPSet: (
  * Use this API only when you no longer want to protect the resource associated with this
  * Malware Protection plan ID.
  */
-export const deleteMalwareProtectionPlan: (
-  input: DeleteMalwareProtectionPlanRequest,
-) => effect.Effect<
+export const deleteMalwareProtectionPlan: API.OperationMethod<
+  DeleteMalwareProtectionPlanRequest,
   DeleteMalwareProtectionPlanResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9963,9 +9944,8 @@ export const deleteMalwareProtectionPlan: (
  * `ALL`, you'll receive an error if you attempt to disable GuardDuty for a member
  * account in your organization.
  */
-export const deleteMembers: (
-  input: DeleteMembersRequest,
-) => effect.Effect<
+export const deleteMembers: API.OperationMethod<
+  DeleteMembersRequest,
   DeleteMembersResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9977,9 +9957,8 @@ export const deleteMembers: (
 /**
  * Deletes the publishing definition with the specified `destinationId`.
  */
-export const deletePublishingDestination: (
-  input: DeletePublishingDestinationRequest,
-) => effect.Effect<
+export const deletePublishingDestination: API.OperationMethod<
+  DeletePublishingDestinationRequest,
   DeletePublishingDestinationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -9992,9 +9971,8 @@ export const deletePublishingDestination: (
  * Deletes the threat entity set that is associated with the specified
  * `threatEntitySetId`.
  */
-export const deleteThreatEntitySet: (
-  input: DeleteThreatEntitySetRequest,
-) => effect.Effect<
+export const deleteThreatEntitySet: API.OperationMethod<
+  DeleteThreatEntitySetRequest,
   DeleteThreatEntitySetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10006,9 +9984,8 @@ export const deleteThreatEntitySet: (
 /**
  * Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
  */
-export const deleteThreatIntelSet: (
-  input: DeleteThreatIntelSetRequest,
-) => effect.Effect<
+export const deleteThreatIntelSet: API.OperationMethod<
+  DeleteThreatIntelSetRequest,
   DeleteThreatIntelSetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10021,9 +9998,8 @@ export const deleteThreatIntelSet: (
  * Deletes the trusted entity set that is associated with the specified
  * `trustedEntitySetId`.
  */
-export const deleteTrustedEntitySet: (
-  input: DeleteTrustedEntitySetRequest,
-) => effect.Effect<
+export const deleteTrustedEntitySet: API.OperationMethod<
+  DeleteTrustedEntitySetRequest,
   DeleteTrustedEntitySetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10040,14 +10016,12 @@ export const deleteTrustedEntitySet: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const describeMalwareScans: {
-  (
-    input: DescribeMalwareScansRequest,
-  ): effect.Effect<
-    DescribeMalwareScansResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeMalwareScans: API.OperationMethod<
+  DescribeMalwareScansRequest,
+  DescribeMalwareScansResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeMalwareScansRequest,
   ) => stream.Stream<
@@ -10081,14 +10055,12 @@ export const describeMalwareScans: {
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const describeOrganizationConfiguration: {
-  (
-    input: DescribeOrganizationConfigurationRequest,
-  ): effect.Effect<
-    DescribeOrganizationConfigurationResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrganizationConfiguration: API.OperationMethod<
+  DescribeOrganizationConfigurationRequest,
+  DescribeOrganizationConfigurationResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrganizationConfigurationRequest,
   ) => stream.Stream<
@@ -10117,9 +10089,8 @@ export const describeOrganizationConfiguration: {
  * Returns information about the publishing destination specified by the provided
  * `destinationId`.
  */
-export const describePublishingDestination: (
-  input: DescribePublishingDestinationRequest,
-) => effect.Effect<
+export const describePublishingDestination: API.OperationMethod<
+  DescribePublishingDestinationRequest,
   DescribePublishingDestinationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10133,9 +10104,8 @@ export const describePublishingDestination: (
  * administrator of the organization. Only the organization's management account can run this
  * API operation.
  */
-export const disableOrganizationAdminAccount: (
-  input: DisableOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const disableOrganizationAdminAccount: API.OperationMethod<
+  DisableOrganizationAdminAccountRequest,
   DisableOrganizationAdminAccountResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10158,9 +10128,8 @@ export const disableOrganizationAdminAccount: (
  * `ALL`, you'll receive an error if you attempt to disable GuardDuty in a member
  * account.
  */
-export const disassociateFromAdministratorAccount: (
-  input: DisassociateFromAdministratorAccountRequest,
-) => effect.Effect<
+export const disassociateFromAdministratorAccount: API.OperationMethod<
+  DisassociateFromAdministratorAccountRequest,
   DisassociateFromAdministratorAccountResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10179,9 +10148,8 @@ export const disassociateFromAdministratorAccount: (
  * remove the details associated with a member account, the delegated administrator must invoke the
  * DeleteMembers API.
  */
-export const disassociateFromMasterAccount: (
-  input: DisassociateFromMasterAccountRequest,
-) => effect.Effect<
+export const disassociateFromMasterAccount: API.OperationMethod<
+  DisassociateFromMasterAccountRequest,
   DisassociateFromMasterAccountResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10215,9 +10183,8 @@ export const disassociateFromMasterAccount: (
  * can't invite them by calling the InviteMembers API. You can create an association with these
  * member accounts again only by calling the CreateMembers API.
  */
-export const disassociateMembers: (
-  input: DisassociateMembersRequest,
-) => effect.Effect<
+export const disassociateMembers: API.OperationMethod<
+  DisassociateMembersRequest,
   DisassociateMembersResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10231,9 +10198,8 @@ export const disassociateMembers: (
  * administrator. Only the organization's management account can run this
  * API operation.
  */
-export const enableOrganizationAdminAccount: (
-  input: EnableOrganizationAdminAccountRequest,
-) => effect.Effect<
+export const enableOrganizationAdminAccount: API.OperationMethod<
+  EnableOrganizationAdminAccountRequest,
   EnableOrganizationAdminAccountResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10256,9 +10222,8 @@ export const enableOrganizationAdminAccount: (
  * - When an individual account (not associated with an organization) runs this API, it will return success (`HTTP 200`)
  * but no content.
  */
-export const getAdministratorAccount: (
-  input: GetAdministratorAccountRequest,
-) => effect.Effect<
+export const getAdministratorAccount: API.OperationMethod<
+  GetAdministratorAccountRequest,
   GetAdministratorAccountResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10273,9 +10238,8 @@ export const getAdministratorAccount: (
  * in your organization who have enabled Runtime Monitoring and have the GuardDuty security agent running
  * on their resources.
  */
-export const getCoverageStatistics: (
-  input: GetCoverageStatisticsRequest,
-) => effect.Effect<
+export const getCoverageStatistics: API.OperationMethod<
+  GetCoverageStatisticsRequest,
   GetCoverageStatisticsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10291,9 +10255,8 @@ export const getCoverageStatistics: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const getDetector: (
-  input: GetDetectorRequest,
-) => effect.Effect<
+export const getDetector: API.OperationMethod<
+  GetDetectorRequest,
   GetDetectorResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10305,9 +10268,8 @@ export const getDetector: (
 /**
  * Returns the details of the filter specified by the filter name.
  */
-export const getFilter: (
-  input: GetFilterRequest,
-) => effect.Effect<
+export const getFilter: API.OperationMethod<
+  GetFilterRequest,
   GetFilterResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10319,9 +10281,8 @@ export const getFilter: (
 /**
  * Describes Amazon GuardDuty findings specified by finding IDs.
  */
-export const getFindings: (
-  input: GetFindingsRequest,
-) => effect.Effect<
+export const getFindings: API.OperationMethod<
+  GetFindingsRequest,
   GetFindingsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10340,9 +10301,8 @@ export const getFindings: (
  * There might be regional differences because some flags might not be available in all the Regions where GuardDuty
  * is currently supported. For more information, see Regions and endpoints.
  */
-export const getFindingsStatistics: (
-  input: GetFindingsStatisticsRequest,
-) => effect.Effect<
+export const getFindingsStatistics: API.OperationMethod<
+  GetFindingsStatisticsRequest,
   GetFindingsStatisticsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10355,9 +10315,8 @@ export const getFindingsStatistics: (
  * Returns the count of all GuardDuty membership invitations that were sent to the current
  * member account except the currently accepted invitation.
  */
-export const getInvitationsCount: (
-  input: GetInvitationsCountRequest,
-) => effect.Effect<
+export const getInvitationsCount: API.OperationMethod<
+  GetInvitationsCountRequest,
   GetInvitationsCountResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10369,9 +10328,8 @@ export const getInvitationsCount: (
 /**
  * Retrieves the IPSet specified by the `ipSetId`.
  */
-export const getIPSet: (
-  input: GetIPSetRequest,
-) => effect.Effect<
+export const getIPSet: API.OperationMethod<
+  GetIPSetRequest,
   GetIPSetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10384,9 +10342,8 @@ export const getIPSet: (
  * Retrieves the Malware Protection plan details associated with a Malware Protection
  * plan ID.
  */
-export const getMalwareProtectionPlan: (
-  input: GetMalwareProtectionPlanRequest,
-) => effect.Effect<
+export const getMalwareProtectionPlan: API.OperationMethod<
+  GetMalwareProtectionPlanRequest,
   GetMalwareProtectionPlanResponse,
   | AccessDeniedException
   | BadRequestException
@@ -10412,9 +10369,8 @@ export const getMalwareProtectionPlan: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const getMalwareScan: (
-  input: GetMalwareScanRequest,
-) => effect.Effect<
+export const getMalwareScan: API.OperationMethod<
+  GetMalwareScanRequest,
   GetMalwareScanResponse,
   | BadRequestException
   | InternalServerErrorException
@@ -10437,9 +10393,8 @@ export const getMalwareScan: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const getMalwareScanSettings: (
-  input: GetMalwareScanSettingsRequest,
-) => effect.Effect<
+export const getMalwareScanSettings: API.OperationMethod<
+  GetMalwareScanSettingsRequest,
   GetMalwareScanSettingsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10452,9 +10407,8 @@ export const getMalwareScanSettings: (
  * Provides the details for the GuardDuty administrator account associated with the current
  * GuardDuty member account.
  */
-export const getMasterAccount: (
-  input: GetMasterAccountRequest,
-) => effect.Effect<
+export const getMasterAccount: API.OperationMethod<
+  GetMasterAccountRequest,
   GetMasterAccountResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10470,9 +10424,8 @@ export const getMasterAccount: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const getMemberDetectors: (
-  input: GetMemberDetectorsRequest,
-) => effect.Effect<
+export const getMemberDetectors: API.OperationMethod<
+  GetMemberDetectorsRequest,
   GetMemberDetectorsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10485,9 +10438,8 @@ export const getMemberDetectors: (
  * Retrieves GuardDuty member accounts (of the current GuardDuty administrator account)
  * specified by the account IDs.
  */
-export const getMembers: (
-  input: GetMembersRequest,
-) => effect.Effect<
+export const getMembers: API.OperationMethod<
+  GetMembersRequest,
   GetMembersResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10503,9 +10455,8 @@ export const getMembers: (
  * When you create a new organization, it might take up to 24
  * hours to generate the statistics for the entire organization.
  */
-export const getOrganizationStatistics: (
-  input: GetOrganizationStatisticsRequest,
-) => effect.Effect<
+export const getOrganizationStatistics: API.OperationMethod<
+  GetOrganizationStatisticsRequest,
   GetOrganizationStatisticsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10518,9 +10469,8 @@ export const getOrganizationStatistics: (
  * Provides the number of days left for each data source used in the free trial
  * period.
  */
-export const getRemainingFreeTrialDays: (
-  input: GetRemainingFreeTrialDaysRequest,
-) => effect.Effect<
+export const getRemainingFreeTrialDays: API.OperationMethod<
+  GetRemainingFreeTrialDaysRequest,
   GetRemainingFreeTrialDaysResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10532,9 +10482,8 @@ export const getRemainingFreeTrialDays: (
 /**
  * Retrieves the threat entity set associated with the specified `threatEntitySetId`.
  */
-export const getThreatEntitySet: (
-  input: GetThreatEntitySetRequest,
-) => effect.Effect<
+export const getThreatEntitySet: API.OperationMethod<
+  GetThreatEntitySetRequest,
   GetThreatEntitySetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10546,9 +10495,8 @@ export const getThreatEntitySet: (
 /**
  * Retrieves the ThreatIntelSet that is specified by the ThreatIntelSet ID.
  */
-export const getThreatIntelSet: (
-  input: GetThreatIntelSetRequest,
-) => effect.Effect<
+export const getThreatIntelSet: API.OperationMethod<
+  GetThreatIntelSetRequest,
   GetThreatIntelSetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10560,9 +10508,8 @@ export const getThreatIntelSet: (
 /**
  * Retrieves the trusted entity set associated with the specified `trustedEntitySetId`.
  */
-export const getTrustedEntitySet: (
-  input: GetTrustedEntitySetRequest,
-) => effect.Effect<
+export const getTrustedEntitySet: API.OperationMethod<
+  GetTrustedEntitySetRequest,
   GetTrustedEntitySetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10577,14 +10524,12 @@ export const getTrustedEntitySet: (
  * so far under 30 days. This may differ from the cost metrics in the console, which project
  * usage over 30 days to provide a monthly cost estimate. For more information, see Understanding How Usage Costs are Calculated.
  */
-export const getUsageStatistics: {
-  (
-    input: GetUsageStatisticsRequest,
-  ): effect.Effect<
-    GetUsageStatisticsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getUsageStatistics: API.OperationMethod<
+  GetUsageStatisticsRequest,
+  GetUsageStatisticsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetUsageStatisticsRequest,
   ) => stream.Stream<
@@ -10641,9 +10586,8 @@ export const getUsageStatistics: {
  * can't invite them by calling the InviteMembers API. You can create an association with these
  * member accounts again only by calling the CreateMembers API.
  */
-export const inviteMembers: (
-  input: InviteMembersRequest,
-) => effect.Effect<
+export const inviteMembers: API.OperationMethod<
+  InviteMembersRequest,
   InviteMembersResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -10659,14 +10603,12 @@ export const inviteMembers: (
  * Make sure the accounts have Runtime Monitoring enabled and GuardDuty agent running on
  * their resources.
  */
-export const listCoverage: {
-  (
-    input: ListCoverageRequest,
-  ): effect.Effect<
-    ListCoverageResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCoverage: API.OperationMethod<
+  ListCoverageRequest,
+  ListCoverageResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCoverageRequest,
   ) => stream.Stream<
@@ -10695,14 +10637,12 @@ export const listCoverage: {
 /**
  * Lists detectorIds of all the existing Amazon GuardDuty detector resources.
  */
-export const listDetectors: {
-  (
-    input: ListDetectorsRequest,
-  ): effect.Effect<
-    ListDetectorsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDetectors: API.OperationMethod<
+  ListDetectorsRequest,
+  ListDetectorsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDetectorsRequest,
   ) => stream.Stream<
@@ -10731,14 +10671,12 @@ export const listDetectors: {
 /**
  * Returns a paginated list of the current filters.
  */
-export const listFilters: {
-  (
-    input: ListFiltersRequest,
-  ): effect.Effect<
-    ListFiltersResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFilters: API.OperationMethod<
+  ListFiltersRequest,
+  ListFiltersResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFiltersRequest,
   ) => stream.Stream<
@@ -10770,14 +10708,12 @@ export const listFilters: {
  * There might be regional differences because some flags might not be available in all the Regions where GuardDuty
  * is currently supported. For more information, see Regions and endpoints.
  */
-export const listFindings: {
-  (
-    input: ListFindingsRequest,
-  ): effect.Effect<
-    ListFindingsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindings: API.OperationMethod<
+  ListFindingsRequest,
+  ListFindingsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingsRequest,
   ) => stream.Stream<
@@ -10807,14 +10743,12 @@ export const listFindings: {
  * Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services
  * account.
  */
-export const listInvitations: {
-  (
-    input: ListInvitationsRequest,
-  ): effect.Effect<
-    ListInvitationsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvitations: API.OperationMethod<
+  ListInvitationsRequest,
+  ListInvitationsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvitationsRequest,
   ) => stream.Stream<
@@ -10845,14 +10779,12 @@ export const listInvitations: {
  * operation from a member account, the IPSets returned are the IPSets from the associated
  * administrator account.
  */
-export const listIPSets: {
-  (
-    input: ListIPSetsRequest,
-  ): effect.Effect<
-    ListIPSetsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIPSets: API.OperationMethod<
+  ListIPSetsRequest,
+  ListIPSetsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIPSetsRequest,
   ) => stream.Stream<
@@ -10882,9 +10814,8 @@ export const listIPSets: {
  * Lists the Malware Protection plan IDs associated with the protected
  * resources in your Amazon Web Services account.
  */
-export const listMalwareProtectionPlans: (
-  input: ListMalwareProtectionPlansRequest,
-) => effect.Effect<
+export const listMalwareProtectionPlans: API.OperationMethod<
+  ListMalwareProtectionPlansRequest,
   ListMalwareProtectionPlansResponse,
   | AccessDeniedException
   | BadRequestException
@@ -10904,14 +10835,12 @@ export const listMalwareProtectionPlans: (
  * Returns a list of malware scans. Each member account can view the malware scans for their
  * own accounts. An administrator can view the malware scans for all of its members' accounts.
  */
-export const listMalwareScans: {
-  (
-    input: ListMalwareScansRequest,
-  ): effect.Effect<
-    ListMalwareScansResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMalwareScans: API.OperationMethod<
+  ListMalwareScansRequest,
+  ListMalwareScansResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMalwareScansRequest,
   ) => stream.Stream<
@@ -10941,14 +10870,12 @@ export const listMalwareScans: {
  * Lists details about all member accounts for the current GuardDuty administrator
  * account.
  */
-export const listMembers: {
-  (
-    input: ListMembersRequest,
-  ): effect.Effect<
-    ListMembersResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMembers: API.OperationMethod<
+  ListMembersRequest,
+  ListMembersResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMembersRequest,
   ) => stream.Stream<
@@ -10979,14 +10906,12 @@ export const listMembers: {
  * Only the organization's management account can run this
  * API operation.
  */
-export const listOrganizationAdminAccounts: {
-  (
-    input: ListOrganizationAdminAccountsRequest,
-  ): effect.Effect<
-    ListOrganizationAdminAccountsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOrganizationAdminAccounts: API.OperationMethod<
+  ListOrganizationAdminAccountsRequest,
+  ListOrganizationAdminAccountsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrganizationAdminAccountsRequest,
   ) => stream.Stream<
@@ -11016,14 +10941,12 @@ export const listOrganizationAdminAccounts: {
  * Returns a list of publishing destinations associated with the specified
  * `detectorId`.
  */
-export const listPublishingDestinations: {
-  (
-    input: ListPublishingDestinationsRequest,
-  ): effect.Effect<
-    ListPublishingDestinationsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPublishingDestinations: API.OperationMethod<
+  ListPublishingDestinationsRequest,
+  ListPublishingDestinationsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPublishingDestinationsRequest,
   ) => stream.Stream<
@@ -11054,9 +10977,8 @@ export const listPublishingDestinations: {
  * When invoked, this
  * operation returns all assigned tags for a given resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -11077,14 +10999,12 @@ export const listTagsForResource: (
  * operation from a member account, the threat entity sets that are returned as a response, belong to the
  * administrator account.
  */
-export const listThreatEntitySets: {
-  (
-    input: ListThreatEntitySetsRequest,
-  ): effect.Effect<
-    ListThreatEntitySetsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThreatEntitySets: API.OperationMethod<
+  ListThreatEntitySetsRequest,
+  ListThreatEntitySetsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThreatEntitySetsRequest,
   ) => stream.Stream<
@@ -11115,14 +11035,12 @@ export const listThreatEntitySets: {
  * use this operation from a member account, the ThreatIntelSets associated with the
  * administrator account are returned.
  */
-export const listThreatIntelSets: {
-  (
-    input: ListThreatIntelSetsRequest,
-  ): effect.Effect<
-    ListThreatIntelSetsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThreatIntelSets: API.OperationMethod<
+  ListThreatIntelSetsRequest,
+  ListThreatIntelSetsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThreatIntelSetsRequest,
   ) => stream.Stream<
@@ -11153,14 +11071,12 @@ export const listThreatIntelSets: {
  * operation from a member account, the trusted entity sets that are returned as a response, belong to the
  * administrator account.
  */
-export const listTrustedEntitySets: {
-  (
-    input: ListTrustedEntitySetsRequest,
-  ): effect.Effect<
-    ListTrustedEntitySetsResponse,
-    BadRequestException | InternalServerErrorException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrustedEntitySets: API.OperationMethod<
+  ListTrustedEntitySetsRequest,
+  ListTrustedEntitySetsResponse,
+  BadRequestException | InternalServerErrorException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrustedEntitySetsRequest,
   ) => stream.Stream<
@@ -11192,9 +11108,8 @@ export const listTrustedEntitySets: {
  * When you use this API, the Amazon Web Services service terms for GuardDuty Malware
  * Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
  */
-export const sendObjectMalwareScan: (
-  input: SendObjectMalwareScanRequest,
-) => effect.Effect<
+export const sendObjectMalwareScan: API.OperationMethod<
+  SendObjectMalwareScanRequest,
   SendObjectMalwareScanResponse,
   | AccessDeniedException
   | BadRequestException
@@ -11220,9 +11135,8 @@ export const sendObjectMalwareScan: (
  * When you use this API, the Amazon Web Services service terms for GuardDuty Malware
  * Protection apply. For more information, see Amazon Web Services service terms for GuardDuty Malware Protection.
  */
-export const startMalwareScan: (
-  input: StartMalwareScanRequest,
-) => effect.Effect<
+export const startMalwareScan: API.OperationMethod<
+  StartMalwareScanRequest,
   StartMalwareScanResponse,
   | BadRequestException
   | ConflictException
@@ -11242,9 +11156,8 @@ export const startMalwareScan: (
  * Turns on GuardDuty monitoring of the specified member accounts. Use this operation to
  * restart monitoring of accounts that you stopped monitoring with the StopMonitoringMembers operation.
  */
-export const startMonitoringMembers: (
-  input: StartMonitoringMembersRequest,
-) => effect.Effect<
+export const startMonitoringMembers: API.OperationMethod<
+  StartMonitoringMembersRequest,
   StartMonitoringMembersResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11262,9 +11175,8 @@ export const startMonitoringMembers: (
  * `ALL`, you'll receive an error if you attempt to stop monitoring the member
  * accounts in your organization.
  */
-export const stopMonitoringMembers: (
-  input: StopMonitoringMembersRequest,
-) => effect.Effect<
+export const stopMonitoringMembers: API.OperationMethod<
+  StopMonitoringMembersRequest,
   StopMonitoringMembersResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11276,9 +11188,8 @@ export const stopMonitoringMembers: (
 /**
  * Adds tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -11297,9 +11208,8 @@ export const tagResource: (
 /**
  * Unarchives GuardDuty findings specified by the `findingIds`.
  */
-export const unarchiveFindings: (
-  input: UnarchiveFindingsRequest,
-) => effect.Effect<
+export const unarchiveFindings: API.OperationMethod<
+  UnarchiveFindingsRequest,
   UnarchiveFindingsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11311,9 +11221,8 @@ export const unarchiveFindings: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -11342,9 +11251,8 @@ export const untagResource: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const updateDetector: (
-  input: UpdateDetectorRequest,
-) => effect.Effect<
+export const updateDetector: API.OperationMethod<
+  UpdateDetectorRequest,
   UpdateDetectorResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11356,9 +11264,8 @@ export const updateDetector: (
 /**
  * Updates the filter specified by the filter name.
  */
-export const updateFilter: (
-  input: UpdateFilterRequest,
-) => effect.Effect<
+export const updateFilter: API.OperationMethod<
+  UpdateFilterRequest,
   UpdateFilterResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11370,9 +11277,8 @@ export const updateFilter: (
 /**
  * Marks the specified GuardDuty findings as useful or not useful.
  */
-export const updateFindingsFeedback: (
-  input: UpdateFindingsFeedbackRequest,
-) => effect.Effect<
+export const updateFindingsFeedback: API.OperationMethod<
+  UpdateFindingsFeedbackRequest,
   UpdateFindingsFeedbackResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11384,9 +11290,8 @@ export const updateFindingsFeedback: (
 /**
  * Updates the IPSet specified by the IPSet ID.
  */
-export const updateIPSet: (
-  input: UpdateIPSetRequest,
-) => effect.Effect<
+export const updateIPSet: API.OperationMethod<
+  UpdateIPSetRequest,
   UpdateIPSetResponse,
   | AccessDeniedException
   | BadRequestException
@@ -11405,9 +11310,8 @@ export const updateIPSet: (
 /**
  * Updates an existing Malware Protection plan resource.
  */
-export const updateMalwareProtectionPlan: (
-  input: UpdateMalwareProtectionPlanRequest,
-) => effect.Effect<
+export const updateMalwareProtectionPlan: API.OperationMethod<
+  UpdateMalwareProtectionPlanRequest,
   UpdateMalwareProtectionPlanResponse,
   | AccessDeniedException
   | BadRequestException
@@ -11432,9 +11336,8 @@ export const updateMalwareProtectionPlan: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const updateMalwareScanSettings: (
-  input: UpdateMalwareScanSettingsRequest,
-) => effect.Effect<
+export const updateMalwareScanSettings: API.OperationMethod<
+  UpdateMalwareScanSettingsRequest,
   UpdateMalwareScanSettingsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11456,9 +11359,8 @@ export const updateMalwareScanSettings: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const updateMemberDetectors: (
-  input: UpdateMemberDetectorsRequest,
-) => effect.Effect<
+export const updateMemberDetectors: API.OperationMethod<
+  UpdateMemberDetectorsRequest,
   UpdateMemberDetectorsResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11481,9 +11383,8 @@ export const updateMemberDetectors: (
  * available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more
  * information, see Regions and endpoints.
  */
-export const updateOrganizationConfiguration: (
-  input: UpdateOrganizationConfigurationRequest,
-) => effect.Effect<
+export const updateOrganizationConfiguration: API.OperationMethod<
+  UpdateOrganizationConfigurationRequest,
   UpdateOrganizationConfigurationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11496,9 +11397,8 @@ export const updateOrganizationConfiguration: (
  * Updates information about the publishing destination specified by the
  * `destinationId`.
  */
-export const updatePublishingDestination: (
-  input: UpdatePublishingDestinationRequest,
-) => effect.Effect<
+export const updatePublishingDestination: API.OperationMethod<
+  UpdatePublishingDestinationRequest,
   UpdatePublishingDestinationResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11510,9 +11410,8 @@ export const updatePublishingDestination: (
 /**
  * Updates the threat entity set associated with the specified `threatEntitySetId`.
  */
-export const updateThreatEntitySet: (
-  input: UpdateThreatEntitySetRequest,
-) => effect.Effect<
+export const updateThreatEntitySet: API.OperationMethod<
+  UpdateThreatEntitySetRequest,
   UpdateThreatEntitySetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11524,9 +11423,8 @@ export const updateThreatEntitySet: (
 /**
  * Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
  */
-export const updateThreatIntelSet: (
-  input: UpdateThreatIntelSetRequest,
-) => effect.Effect<
+export const updateThreatIntelSet: API.OperationMethod<
+  UpdateThreatIntelSetRequest,
   UpdateThreatIntelSetResponse,
   | AccessDeniedException
   | BadRequestException
@@ -11545,9 +11443,8 @@ export const updateThreatIntelSet: (
 /**
  * Updates the trusted entity set associated with the specified `trustedEntitySetId`.
  */
-export const updateTrustedEntitySet: (
-  input: UpdateTrustedEntitySetRequest,
-) => effect.Effect<
+export const updateTrustedEntitySet: API.OperationMethod<
+  UpdateTrustedEntitySetRequest,
   UpdateTrustedEntitySetResponse,
   BadRequestException | InternalServerErrorException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

@@ -189,9 +189,8 @@ export class MessageRejected extends S.TaggedErrorClass<MessageRejected>()(
 /**
  * Retrieves the raw content of an in-transit email message, in MIME format.
  */
-export const getRawMessageContent: (
-  input: GetRawMessageContentRequest,
-) => effect.Effect<
+export const getRawMessageContent: API.OperationMethod<
+  GetRawMessageContentRequest,
   GetRawMessageContentResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -213,9 +212,8 @@ export const getRawMessageContent: (
  * even though GetRawMessageContent returns an updated
  * message.
  */
-export const putRawMessageContent: (
-  input: PutRawMessageContentRequest,
-) => effect.Effect<
+export const putRawMessageContent: API.OperationMethod<
+  PutRawMessageContentRequest,
   PutRawMessageContentResponse,
   | InvalidContentLocation
   | MessageFrozen

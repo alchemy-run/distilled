@@ -2317,9 +2317,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Returns metadata and content for multiple entities. This is the Batch version of the `DescribeEntity` API and uses the same IAM permission action as `DescribeEntity` API.
  */
-export const batchDescribeEntities: (
-  input: BatchDescribeEntitiesRequest,
-) => effect.Effect<
+export const batchDescribeEntities: API.OperationMethod<
+  BatchDescribeEntitiesRequest,
   BatchDescribeEntitiesResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2343,9 +2342,8 @@ export const batchDescribeEntities: (
  * can describe a change during the 60-day request history retention period for API
  * calls.
  */
-export const cancelChangeSet: (
-  input: CancelChangeSetRequest,
-) => effect.Effect<
+export const cancelChangeSet: API.OperationMethod<
+  CancelChangeSetRequest,
   CancelChangeSetResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2371,9 +2369,8 @@ export const cancelChangeSet: (
  * Deletes a resource-based policy on an entity that is identified by its resource
  * ARN.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2396,9 +2393,8 @@ export const deleteResourcePolicy: (
 /**
  * Provides information about a given change set.
  */
-export const describeChangeSet: (
-  input: DescribeChangeSetRequest,
-) => effect.Effect<
+export const describeChangeSet: API.OperationMethod<
+  DescribeChangeSetRequest,
   DescribeChangeSetResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2421,9 +2417,8 @@ export const describeChangeSet: (
 /**
  * Returns the metadata and content of the entity.
  */
-export const describeEntity: (
-  input: DescribeEntityRequest,
-) => effect.Effect<
+export const describeEntity: API.OperationMethod<
+  DescribeEntityRequest,
   DescribeEntityResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2449,9 +2444,8 @@ export const describeEntity: (
  * Gets a resource-based policy of an entity that is identified by its resource
  * ARN.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2480,18 +2474,16 @@ export const getResourcePolicy: (
  * You can describe a change during the 60-day request history retention period for API
  * calls.
  */
-export const listChangeSets: {
-  (
-    input: ListChangeSetsRequest,
-  ): effect.Effect<
-    ListChangeSetsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChangeSets: API.OperationMethod<
+  ListChangeSetsRequest,
+  ListChangeSetsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChangeSetsRequest,
   ) => stream.Stream<
@@ -2533,19 +2525,17 @@ export const listChangeSets: {
 /**
  * Provides the list of entities of a given type.
  */
-export const listEntities: {
-  (
-    input: ListEntitiesRequest,
-  ): effect.Effect<
-    ListEntitiesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntities: API.OperationMethod<
+  ListEntitiesRequest,
+  ListEntitiesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntitiesRequest,
   ) => stream.Stream<
@@ -2590,9 +2580,8 @@ export const listEntities: {
 /**
  * Lists all tags that have been added to a resource (either an entity or change set).
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2616,9 +2605,8 @@ export const listTagsForResource: (
  * Attaches a resource-based policy to an entity. Examples of an entity include:
  * `AmiProduct` and `ContainerProduct`.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2658,9 +2646,8 @@ export const putResourcePolicy: (
  * To download "DetailsDocument" shapes, see Python
  * and Java shapes on GitHub.
  */
-export const startChangeSet: (
-  input: StartChangeSetRequest,
-) => effect.Effect<
+export const startChangeSet: API.OperationMethod<
+  StartChangeSetRequest,
   StartChangeSetResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2687,9 +2674,8 @@ export const startChangeSet: (
 /**
  * Tags a resource (either an entity or change set).
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -2712,9 +2698,8 @@ export const tagResource: (
 /**
  * Removes a tag or list of tags from a resource (either an entity or change set).
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServiceException

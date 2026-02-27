@@ -349,9 +349,8 @@ export class RequestedRangeNotSatisfiableException extends S.TaggedErrorClass<Re
 /**
  * Deletes an object at the specified path.
  */
-export const deleteObject: (
-  input: DeleteObjectRequest,
-) => effect.Effect<
+export const deleteObject: API.OperationMethod<
+  DeleteObjectRequest,
   DeleteObjectResponse,
   | ContainerNotFoundException
   | InternalServerError
@@ -370,9 +369,8 @@ export const deleteObject: (
 /**
  * Gets the headers for an object at the specified path.
  */
-export const describeObject: (
-  input: DescribeObjectRequest,
-) => effect.Effect<
+export const describeObject: API.OperationMethod<
+  DescribeObjectRequest,
   DescribeObjectResponse,
   | ContainerNotFoundException
   | InternalServerError
@@ -391,9 +389,8 @@ export const describeObject: (
 /**
  * Downloads the object at the specified path. If the object’s upload availability is set to `streaming`, AWS Elemental MediaStore downloads the object even if it’s still uploading the object.
  */
-export const getObject: (
-  input: GetObjectRequest,
-) => effect.Effect<
+export const getObject: API.OperationMethod<
+  GetObjectRequest,
   GetObjectResponse,
   | ContainerNotFoundException
   | InternalServerError
@@ -415,14 +412,12 @@ export const getObject: (
  * Provides a list of metadata entries about folders and objects in the specified
  * folder.
  */
-export const listItems: {
-  (
-    input: ListItemsRequest,
-  ): effect.Effect<
-    ListItemsResponse,
-    ContainerNotFoundException | InternalServerError | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listItems: API.OperationMethod<
+  ListItemsRequest,
+  ListItemsResponse,
+  ContainerNotFoundException | InternalServerError | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListItemsRequest,
   ) => stream.Stream<
@@ -450,9 +445,8 @@ export const listItems: {
 /**
  * Uploads an object to the specified path. Object sizes are limited to 25 MB for standard upload availability and 10 MB for streaming upload availability.
  */
-export const putObject: (
-  input: PutObjectRequest,
-) => effect.Effect<
+export const putObject: API.OperationMethod<
+  PutObjectRequest,
   PutObjectResponse,
   ContainerNotFoundException | InternalServerError | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

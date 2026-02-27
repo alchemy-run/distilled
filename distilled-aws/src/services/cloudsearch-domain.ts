@@ -413,9 +413,8 @@ export class DocumentServiceException extends S.TaggedErrorClass<DocumentService
  *
  * The endpoint for submitting `Search` requests is domain-specific. You submit search requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
  */
-export const search: (
-  input: SearchRequest,
-) => effect.Effect<
+export const search: API.OperationMethod<
+  SearchRequest,
   SearchResponse,
   SearchException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -431,9 +430,8 @@ export const search: (
  *
  * The endpoint for submitting `Suggest` requests is domain-specific. You submit suggest requests to a domain's search endpoint. To get the search endpoint for your domain, use the Amazon CloudSearch configuration service `DescribeDomains` action. A domain's endpoints are also displayed on the domain dashboard in the Amazon CloudSearch console.
  */
-export const suggest: (
-  input: SuggestRequest,
-) => effect.Effect<
+export const suggest: API.OperationMethod<
+  SuggestRequest,
   SuggestResponse,
   SearchException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -450,9 +448,8 @@ export const suggest: (
  * For more information about formatting your data for Amazon CloudSearch, see Preparing Your Data in the *Amazon CloudSearch Developer Guide*.
  * For more information about uploading data for indexing, see Uploading Data in the *Amazon CloudSearch Developer Guide*.
  */
-export const uploadDocuments: (
-  input: UploadDocumentsRequest,
-) => effect.Effect<
+export const uploadDocuments: API.OperationMethod<
+  UploadDocumentsRequest,
   UploadDocumentsResponse,
   DocumentServiceException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

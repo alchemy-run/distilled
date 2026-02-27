@@ -3462,9 +3462,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Used by administrators to choose which groups in the directory should have access to upload and download files over the enabled protocols using Transfer Family. For example, a Microsoft Active Directory might contain 50,000 users, but only a small fraction might need the ability to transfer files to the server. An administrator can use `CreateAccess` to limit the access to the correct set of users who need this ability.
  */
-export const createAccess: (
-  input: CreateAccessRequest,
-) => effect.Effect<
+export const createAccess: API.OperationMethod<
+  CreateAccessRequest,
   CreateAccessResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3487,9 +3486,8 @@ export const createAccess: (
 /**
  * Allows you to delete the access specified in the `ServerID` and `ExternalID` parameters.
  */
-export const deleteAccess: (
-  input: DeleteAccessRequest,
-) => effect.Effect<
+export const deleteAccess: API.OperationMethod<
+  DeleteAccessRequest,
   DeleteAccessResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3510,9 +3508,8 @@ export const deleteAccess: (
 /**
  * Deletes the host key that's specified in the `HostKeyId` parameter.
  */
-export const deleteHostKey: (
-  input: DeleteHostKeyRequest,
-) => effect.Effect<
+export const deleteHostKey: API.OperationMethod<
+  DeleteHostKeyRequest,
   DeleteHostKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3535,9 +3532,8 @@ export const deleteHostKey: (
 /**
  * Deletes a user's Secure Shell (SSH) public key.
  */
-export const deleteSshPublicKey: (
-  input: DeleteSshPublicKeyRequest,
-) => effect.Effect<
+export const deleteSshPublicKey: API.OperationMethod<
+  DeleteSshPublicKeyRequest,
   DeleteSshPublicKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3562,9 +3558,8 @@ export const deleteSshPublicKey: (
  *
  * The response from this call returns the properties of the access that is associated with the `ServerId` value that was specified.
  */
-export const describeAccess: (
-  input: DescribeAccessRequest,
-) => effect.Effect<
+export const describeAccess: API.OperationMethod<
+  DescribeAccessRequest,
   DescribeAccessResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3589,9 +3584,8 @@ export const describeAccess: (
  *
  * If you provide an ID for an execution that is not in progress, or if the execution doesn't match the specified workflow ID, you receive a `ResourceNotFound` exception.
  */
-export const describeExecution: (
-  input: DescribeExecutionRequest,
-) => effect.Effect<
+export const describeExecution: API.OperationMethod<
+  DescribeExecutionRequest,
   DescribeExecutionResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3612,9 +3606,8 @@ export const describeExecution: (
 /**
  * Returns the details of the host key that's specified by the `HostKeyId` and `ServerId`.
  */
-export const describeHostKey: (
-  input: DescribeHostKeyRequest,
-) => effect.Effect<
+export const describeHostKey: API.OperationMethod<
+  DescribeHostKeyRequest,
   DescribeHostKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3635,9 +3628,8 @@ export const describeHostKey: (
 /**
  * Describes the security policy that is attached to your server or SFTP connector. The response contains a description of the security policy's properties. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
  */
-export const describeSecurityPolicy: (
-  input: DescribeSecurityPolicyRequest,
-) => effect.Effect<
+export const describeSecurityPolicy: API.OperationMethod<
+  DescribeSecurityPolicyRequest,
   DescribeSecurityPolicyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3658,9 +3650,8 @@ export const describeSecurityPolicy: (
 /**
  * Adds a host key to the server that's specified by the `ServerId` parameter.
  */
-export const importHostKey: (
-  input: ImportHostKeyRequest,
-) => effect.Effect<
+export const importHostKey: API.OperationMethod<
+  ImportHostKeyRequest,
   ImportHostKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3687,9 +3678,8 @@ export const importHostKey: (
  *
  * The response returns the `UserName` value, the `ServerId` value, and the name of the `SshPublicKeyId`.
  */
-export const importSshPublicKey: (
-  input: ImportSshPublicKeyRequest,
-) => effect.Effect<
+export const importSshPublicKey: API.OperationMethod<
+  ImportSshPublicKeyRequest,
   ImportSshPublicKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -3714,19 +3704,17 @@ export const importSshPublicKey: (
 /**
  * Lists the details for all the accesses you have on your server.
  */
-export const listAccesses: {
-  (
-    input: ListAccessesRequest,
-  ): effect.Effect<
-    ListAccessesResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccesses: API.OperationMethod<
+  ListAccessesRequest,
+  ListAccessesResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessesRequest,
   ) => stream.Stream<
@@ -3773,19 +3761,17 @@ export const listAccesses: {
  *
  * If the specified workflow ID cannot be found, `ListExecutions` returns a `ResourceNotFound` exception.
  */
-export const listExecutions: {
-  (
-    input: ListExecutionsRequest,
-  ): effect.Effect<
-    ListExecutionsResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExecutions: API.OperationMethod<
+  ListExecutionsRequest,
+  ListExecutionsResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExecutionsRequest,
   ) => stream.Stream<
@@ -3832,18 +3818,16 @@ export const listExecutions: {
  *
  * File transfer results are available up to 7 days after an operation has been requested.
  */
-export const listFileTransferResults: {
-  (
-    input: ListFileTransferResultsRequest,
-  ): effect.Effect<
-    ListFileTransferResultsResponse,
-    | InternalServiceError
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFileTransferResults: API.OperationMethod<
+  ListFileTransferResultsRequest,
+  ListFileTransferResultsResponse,
+  | InternalServiceError
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFileTransferResultsRequest,
   ) => stream.Stream<
@@ -3885,9 +3869,8 @@ export const listFileTransferResults: {
 /**
  * Returns a list of host keys for the server that's specified by the `ServerId` parameter.
  */
-export const listHostKeys: (
-  input: ListHostKeysRequest,
-) => effect.Effect<
+export const listHostKeys: API.OperationMethod<
+  ListHostKeysRequest,
   ListHostKeysResponse,
   | InternalServiceError
   | InvalidNextTokenException
@@ -3910,18 +3893,16 @@ export const listHostKeys: (
 /**
  * Lists the security policies that are attached to your servers and SFTP connectors. For more information about security policies, see Working with security policies for servers or Working with security policies for SFTP connectors.
  */
-export const listSecurityPolicies: {
-  (
-    input: ListSecurityPoliciesRequest,
-  ): effect.Effect<
-    ListSecurityPoliciesResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSecurityPolicies: API.OperationMethod<
+  ListSecurityPoliciesRequest,
+  ListSecurityPoliciesResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSecurityPoliciesRequest,
   ) => stream.Stream<
@@ -3963,18 +3944,16 @@ export const listSecurityPolicies: {
 /**
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -4018,9 +3997,8 @@ export const listTagsForResource: {
  *
  * The `ExecutionId`, `WorkflowId`, and `Token` are passed to the target resource during execution of a custom step of a workflow. You must include those with their callback as well as providing a status.
  */
-export const sendWorkflowStepState: (
-  input: SendWorkflowStepStateRequest,
-) => effect.Effect<
+export const sendWorkflowStepState: API.OperationMethod<
+  SendWorkflowStepStateRequest,
   SendWorkflowStepStateResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -4059,9 +4037,8 @@ export const sendWorkflowStepState: (
  *
  * - `truncated`: a flag indicating whether the list output contains all of the items contained in the remote directory or not. If your `Truncated` output value is true, you can increase the value provided in the optional `max-items` input attribute to be able to list more items (up to the maximum allowed list size of 10,000 items).
  */
-export const startDirectoryListing: (
-  input: StartDirectoryListingRequest,
-) => effect.Effect<
+export const startDirectoryListing: API.OperationMethod<
+  StartDirectoryListingRequest,
   StartDirectoryListingResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4092,9 +4069,8 @@ export const startDirectoryListing: (
  *
  * - If you are transferring file to a partner's SFTP server from Amazon Web Services storage, you specify one or more `SendFilePaths` to identify the files you want to transfer, and a `RemoteDirectoryPath` to specify the destination folder.
  */
-export const startFileTransfer: (
-  input: StartFileTransferRequest,
-) => effect.Effect<
+export const startFileTransfer: API.OperationMethod<
+  StartFileTransferRequest,
   StartFileTransferResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4117,9 +4093,8 @@ export const startFileTransfer: (
 /**
  * Deletes a file or directory on the remote SFTP server.
  */
-export const startRemoteDelete: (
-  input: StartRemoteDeleteRequest,
-) => effect.Effect<
+export const startRemoteDelete: API.OperationMethod<
+  StartRemoteDeleteRequest,
   StartRemoteDeleteResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4142,9 +4117,8 @@ export const startRemoteDelete: (
 /**
  * Moves or renames a file or directory on the remote SFTP server.
  */
-export const startRemoteMove: (
-  input: StartRemoteMoveRequest,
-) => effect.Effect<
+export const startRemoteMove: API.OperationMethod<
+  StartRemoteMoveRequest,
   StartRemoteMoveResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4171,9 +4145,8 @@ export const startRemoteMove: (
  *
  * No response is returned from this call.
  */
-export const startServer: (
-  input: StartServerRequest,
-) => effect.Effect<
+export const startServer: API.OperationMethod<
+  StartServerRequest,
   StartServerResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4202,9 +4175,8 @@ export const startServer: (
  *
  * No response is returned from this call.
  */
-export const stopServer: (
-  input: StopServerRequest,
-) => effect.Effect<
+export const stopServer: API.OperationMethod<
+  StopServerRequest,
   StopServerResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4229,9 +4201,8 @@ export const stopServer: (
  *
  * There is no response returned from this call.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4252,9 +4223,8 @@ export const tagResource: (
 /**
  * Tests whether your SFTP connector is set up successfully. We highly recommend that you call this operation to test your ability to transfer files between local Amazon Web Services storage and a trading partner's SFTP server.
  */
-export const testConnection: (
-  input: TestConnectionRequest,
-) => effect.Effect<
+export const testConnection: API.OperationMethod<
+  TestConnectionRequest,
   TestConnectionResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4297,9 +4267,8 @@ export const testConnection: (
  *
  * It is possible your sever is in a different region. You can specify a region by adding the following: `--region region-code`, such as `--region us-east-2` to specify a server in **US East (Ohio)**.
  */
-export const testIdentityProvider: (
-  input: TestIdentityProviderRequest,
-) => effect.Effect<
+export const testIdentityProvider: API.OperationMethod<
+  TestIdentityProviderRequest,
   TestIdentityProviderResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4322,9 +4291,8 @@ export const testIdentityProvider: (
  *
  * No response is returned from this call.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4345,9 +4313,8 @@ export const untagResource: (
 /**
  * Allows you to update parameters for the access specified in the `ServerID` and `ExternalID` parameters.
  */
-export const updateAccess: (
-  input: UpdateAccessRequest,
-) => effect.Effect<
+export const updateAccess: API.OperationMethod<
+  UpdateAccessRequest,
   UpdateAccessResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4372,9 +4339,8 @@ export const updateAccess: (
 /**
  * Updates the description for the host key that's specified by the `ServerId` and `HostKeyId` parameters.
  */
-export const updateHostKey: (
-  input: UpdateHostKeyRequest,
-) => effect.Effect<
+export const updateHostKey: API.OperationMethod<
+  UpdateHostKeyRequest,
   UpdateHostKeyResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4401,9 +4367,8 @@ export const updateHostKey: (
  *
  * Specify *either* `BaseDirectory` or `CustomDirectories`, but not both. Specifying both causes the command to fail.
  */
-export const createAgreement: (
-  input: CreateAgreementRequest,
-) => effect.Effect<
+export const createAgreement: API.OperationMethod<
+  CreateAgreementRequest,
   CreateAgreementResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4428,9 +4393,8 @@ export const createAgreement: (
 /**
  * Describes the agreement that's identified by the `AgreementId`.
  */
-export const describeAgreement: (
-  input: DescribeAgreementRequest,
-) => effect.Effect<
+export const describeAgreement: API.OperationMethod<
+  DescribeAgreementRequest,
   DescribeAgreementResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4455,9 +4419,8 @@ export const describeAgreement: (
  *
  * If you update an agreement from using base directory to custom directories, the base directory is no longer used. Similarly, if you change from custom directories to a base directory, the custom directories are no longer used.
  */
-export const updateAgreement: (
-  input: UpdateAgreementRequest,
-) => effect.Effect<
+export const updateAgreement: API.OperationMethod<
+  UpdateAgreementRequest,
   UpdateAgreementResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4482,9 +4445,8 @@ export const updateAgreement: (
 /**
  * Delete the agreement that's specified in the provided `AgreementId`.
  */
-export const deleteAgreement: (
-  input: DeleteAgreementRequest,
-) => effect.Effect<
+export const deleteAgreement: API.OperationMethod<
+  DeleteAgreementRequest,
   DeleteAgreementResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4505,19 +4467,17 @@ export const deleteAgreement: (
 /**
  * Returns a list of the agreements for the server that's identified by the `ServerId` that you supply. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for `NextToken`, you can supply that value to continue listing agreements from where you left off.
  */
-export const listAgreements: {
-  (
-    input: ListAgreementsRequest,
-  ): effect.Effect<
-    ListAgreementsResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAgreements: API.OperationMethod<
+  ListAgreementsRequest,
+  ListAgreementsResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAgreementsRequest,
   ) => stream.Stream<
@@ -4582,9 +4542,8 @@ export const listAgreements: {
  *
  * - **Frequency:** Published daily
  */
-export const importCertificate: (
-  input: ImportCertificateRequest,
-) => effect.Effect<
+export const importCertificate: API.OperationMethod<
+  ImportCertificateRequest,
   ImportCertificateResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4607,9 +4566,8 @@ export const importCertificate: (
  *
  * Transfer Family automatically publishes a Amazon CloudWatch metric called `DaysUntilExpiry` for imported certificates. This metric tracks the number of days until the certificate expires based on the `InactiveDate`. The metric is available in the `AWS/Transfer` namespace and includes the `CertificateId` as a dimension.
  */
-export const describeCertificate: (
-  input: DescribeCertificateRequest,
-) => effect.Effect<
+export const describeCertificate: API.OperationMethod<
+  DescribeCertificateRequest,
   DescribeCertificateResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4630,9 +4588,8 @@ export const describeCertificate: (
 /**
  * Updates the active and inactive dates for a certificate.
  */
-export const updateCertificate: (
-  input: UpdateCertificateRequest,
-) => effect.Effect<
+export const updateCertificate: API.OperationMethod<
+  UpdateCertificateRequest,
   UpdateCertificateResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4655,9 +4612,8 @@ export const updateCertificate: (
 /**
  * Deletes the certificate that's specified in the `CertificateId` parameter.
  */
-export const deleteCertificate: (
-  input: DeleteCertificateRequest,
-) => effect.Effect<
+export const deleteCertificate: API.OperationMethod<
+  DeleteCertificateRequest,
   DeleteCertificateResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4678,19 +4634,17 @@ export const deleteCertificate: (
 /**
  * Returns a list of the current certificates that have been imported into Transfer Family. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for the `NextToken` parameter, you can supply that value to continue listing certificates from where you left off.
  */
-export const listCertificates: {
-  (
-    input: ListCertificatesRequest,
-  ): effect.Effect<
-    ListCertificatesResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCertificates: API.OperationMethod<
+  ListCertificatesRequest,
+  ListCertificatesResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCertificatesRequest,
   ) => stream.Stream<
@@ -4737,9 +4691,8 @@ export const listCertificates: {
  *
  * You must specify exactly one configuration object: either for AS2 (`As2Config`) or SFTP (`SftpConfig`).
  */
-export const createConnector: (
-  input: CreateConnectorRequest,
-) => effect.Effect<
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
   CreateConnectorResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4764,9 +4717,8 @@ export const createConnector: (
 /**
  * Describes the connector that's identified by the `ConnectorId.`
  */
-export const describeConnector: (
-  input: DescribeConnectorRequest,
-) => effect.Effect<
+export const describeConnector: API.OperationMethod<
+  DescribeConnectorRequest,
   DescribeConnectorResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4787,9 +4739,8 @@ export const describeConnector: (
 /**
  * Updates some of the parameters for an existing connector. Provide the `ConnectorId` for the connector that you want to update, along with the new values for the parameters to update.
  */
-export const updateConnector: (
-  input: UpdateConnectorRequest,
-) => effect.Effect<
+export const updateConnector: API.OperationMethod<
+  UpdateConnectorRequest,
   UpdateConnectorResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4814,9 +4765,8 @@ export const updateConnector: (
 /**
  * Deletes the connector that's specified in the provided `ConnectorId`.
  */
-export const deleteConnector: (
-  input: DeleteConnectorRequest,
-) => effect.Effect<
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
   DeleteConnectorResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4837,19 +4787,17 @@ export const deleteConnector: (
 /**
  * Lists the connectors for the specified Region.
  */
-export const listConnectors: {
-  (
-    input: ListConnectorsRequest,
-  ): effect.Effect<
-    ListConnectorsResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectors: API.OperationMethod<
+  ListConnectorsRequest,
+  ListConnectorsResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
@@ -4894,9 +4842,8 @@ export const listConnectors: {
 /**
  * Creates the local or partner profile to use for AS2 transfers.
  */
-export const createProfile: (
-  input: CreateProfileRequest,
-) => effect.Effect<
+export const createProfile: API.OperationMethod<
+  CreateProfileRequest,
   CreateProfileResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4919,9 +4866,8 @@ export const createProfile: (
 /**
  * Returns the details of the profile that's specified by the `ProfileId`.
  */
-export const describeProfile: (
-  input: DescribeProfileRequest,
-) => effect.Effect<
+export const describeProfile: API.OperationMethod<
+  DescribeProfileRequest,
   DescribeProfileResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4942,9 +4888,8 @@ export const describeProfile: (
 /**
  * Updates some of the parameters for an existing profile. Provide the `ProfileId` for the profile that you want to update, along with the new values for the parameters to update.
  */
-export const updateProfile: (
-  input: UpdateProfileRequest,
-) => effect.Effect<
+export const updateProfile: API.OperationMethod<
+  UpdateProfileRequest,
   UpdateProfileResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4967,9 +4912,8 @@ export const updateProfile: (
 /**
  * Deletes the profile that's specified in the `ProfileId` parameter.
  */
-export const deleteProfile: (
-  input: DeleteProfileRequest,
-) => effect.Effect<
+export const deleteProfile: API.OperationMethod<
+  DeleteProfileRequest,
   DeleteProfileResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -4990,19 +4934,17 @@ export const deleteProfile: (
 /**
  * Returns a list of the profiles for your system. If you want to limit the results to a certain number, supply a value for the `MaxResults` parameter. If you ran the command previously and received a value for `NextToken`, you can supply that value to continue listing profiles from where you left off.
  */
-export const listProfiles: {
-  (
-    input: ListProfilesRequest,
-  ): effect.Effect<
-    ListProfilesResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfiles: API.OperationMethod<
+  ListProfilesRequest,
+  ListProfilesResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfilesRequest,
   ) => stream.Stream<
@@ -5047,9 +4989,8 @@ export const listProfiles: {
 /**
  * Instantiates an auto-scaling virtual server based on the selected file transfer protocol in Amazon Web Services. When you make updates to your file transfer protocol-enabled server or when you work with users, use the service-generated `ServerId` property that is assigned to the newly created server.
  */
-export const createServer: (
-  input: CreateServerRequest,
-) => effect.Effect<
+export const createServer: API.OperationMethod<
+  CreateServerRequest,
   CreateServerResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5078,9 +5019,8 @@ export const createServer: (
  *
  * The response contains a description of a server's properties. When you set `EndpointType` to VPC, the response will contain the `EndpointDetails`.
  */
-export const describeServer: (
-  input: DescribeServerRequest,
-) => effect.Effect<
+export const describeServer: API.OperationMethod<
+  DescribeServerRequest,
   DescribeServerResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5103,9 +5043,8 @@ export const describeServer: (
  *
  * The `UpdateServer` call returns the `ServerId` of the server you updated.
  */
-export const updateServer: (
-  input: UpdateServerRequest,
-) => effect.Effect<
+export const updateServer: API.OperationMethod<
+  UpdateServerRequest,
   UpdateServerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5136,9 +5075,8 @@ export const updateServer: (
  *
  * No response returns from this operation.
  */
-export const deleteServer: (
-  input: DeleteServerRequest,
-) => effect.Effect<
+export const deleteServer: API.OperationMethod<
+  DeleteServerRequest,
   DeleteServerResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5161,18 +5099,16 @@ export const deleteServer: (
 /**
  * Lists the file transfer protocol-enabled servers that are associated with your Amazon Web Services account.
  */
-export const listServers: {
-  (
-    input: ListServersRequest,
-  ): effect.Effect<
-    ListServersResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServers: API.OperationMethod<
+  ListServersRequest,
+  ListServersResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServersRequest,
   ) => stream.Stream<
@@ -5214,9 +5150,8 @@ export const listServers: {
 /**
  * Creates a user and associates them with an existing file transfer protocol-enabled server. You can only create and associate users with servers that have the `IdentityProviderType` set to `SERVICE_MANAGED`. Using parameters for `CreateUser`, you can specify the user name, set the home directory, store the user's public key, and assign the user's Identity and Access Management (IAM) role. You can also optionally add a session policy, and assign metadata with tags that can be used to group and search for users.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5241,9 +5176,8 @@ export const createUser: (
  *
  * The response from this call returns the properties of the user associated with the `ServerId` value that was specified.
  */
-export const describeUser: (
-  input: DescribeUserRequest,
-) => effect.Effect<
+export const describeUser: API.OperationMethod<
+  DescribeUserRequest,
   DescribeUserResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5272,9 +5206,8 @@ export const describeUser: (
  *
  * ` aws transfer update-user --server-id <server-id> --user-name admin-user --home-directory-type LOGICAL --home-directory-mappings "[{\"Entry\":\"/\", \"Target\":\"/test/admin-user\"}]"`
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5301,9 +5234,8 @@ export const updateUser: (
  *
  * When you delete a user from a server, the user's information is lost.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5324,19 +5256,17 @@ export const deleteUser: (
 /**
  * Lists the users for a file transfer protocol-enabled server that you specify by passing the `ServerId` parameter.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -5381,9 +5311,8 @@ export const listUsers: {
 /**
  * Describes the web app customization object that's identified by `WebAppId`.
  */
-export const describeWebAppCustomization: (
-  input: DescribeWebAppCustomizationRequest,
-) => effect.Effect<
+export const describeWebAppCustomization: API.OperationMethod<
+  DescribeWebAppCustomizationRequest,
   DescribeWebAppCustomizationResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5406,9 +5335,8 @@ export const describeWebAppCustomization: (
 /**
  * Assigns new customization properties to a web app. You can modify the icon file, logo file, and title.
  */
-export const updateWebAppCustomization: (
-  input: UpdateWebAppCustomizationRequest,
-) => effect.Effect<
+export const updateWebAppCustomization: API.OperationMethod<
+  UpdateWebAppCustomizationRequest,
   UpdateWebAppCustomizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5433,9 +5361,8 @@ export const updateWebAppCustomization: (
 /**
  * Deletes the `WebAppCustomization` object that corresponds to the web app ID specified.
  */
-export const deleteWebAppCustomization: (
-  input: DeleteWebAppCustomizationRequest,
-) => effect.Effect<
+export const deleteWebAppCustomization: API.OperationMethod<
+  DeleteWebAppCustomizationRequest,
   DeleteWebAppCustomizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5462,9 +5389,8 @@ export const deleteWebAppCustomization: (
  *
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
-export const createWebApp: (
-  input: CreateWebAppRequest,
-) => effect.Effect<
+export const createWebApp: API.OperationMethod<
+  CreateWebAppRequest,
   CreateWebAppResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5489,9 +5415,8 @@ export const createWebApp: (
  *
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
-export const describeWebApp: (
-  input: DescribeWebAppRequest,
-) => effect.Effect<
+export const describeWebApp: API.OperationMethod<
+  DescribeWebAppRequest,
   DescribeWebAppResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5516,9 +5441,8 @@ export const describeWebApp: (
  *
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
-export const updateWebApp: (
-  input: UpdateWebAppRequest,
-) => effect.Effect<
+export const updateWebApp: API.OperationMethod<
+  UpdateWebAppRequest,
   UpdateWebAppResponse,
   | AccessDeniedException
   | ConflictException
@@ -5543,9 +5467,8 @@ export const updateWebApp: (
 /**
  * Deletes the specified web app.
  */
-export const deleteWebApp: (
-  input: DeleteWebAppRequest,
-) => effect.Effect<
+export const deleteWebApp: API.OperationMethod<
+  DeleteWebAppRequest,
   DeleteWebAppResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5570,18 +5493,16 @@ export const deleteWebApp: (
  *
  * For more information about using VPC endpoints with Transfer Family, see Create a Transfer Family web app in a VPC.
  */
-export const listWebApps: {
-  (
-    input: ListWebAppsRequest,
-  ): effect.Effect<
-    ListWebAppsResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWebApps: API.OperationMethod<
+  ListWebAppsRequest,
+  ListWebAppsResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWebAppsRequest,
   ) => stream.Stream<
@@ -5623,9 +5544,8 @@ export const listWebApps: {
 /**
  * Allows you to create a workflow with specified steps and step details the workflow invokes after file transfer completes. After creating a workflow, you can associate the workflow created with any transfer servers by specifying the `workflow-details` field in `CreateServer` and `UpdateServer` operations.
  */
-export const createWorkflow: (
-  input: CreateWorkflowRequest,
-) => effect.Effect<
+export const createWorkflow: API.OperationMethod<
+  CreateWorkflowRequest,
   CreateWorkflowResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5650,9 +5570,8 @@ export const createWorkflow: (
 /**
  * Describes the specified workflow.
  */
-export const describeWorkflow: (
-  input: DescribeWorkflowRequest,
-) => effect.Effect<
+export const describeWorkflow: API.OperationMethod<
+  DescribeWorkflowRequest,
   DescribeWorkflowResponse,
   | InternalServiceError
   | InvalidRequestException
@@ -5673,9 +5592,8 @@ export const describeWorkflow: (
 /**
  * Deletes the specified workflow.
  */
-export const deleteWorkflow: (
-  input: DeleteWorkflowRequest,
-) => effect.Effect<
+export const deleteWorkflow: API.OperationMethod<
+  DeleteWorkflowRequest,
   DeleteWorkflowResponse,
   | AccessDeniedException
   | InternalServiceError
@@ -5698,18 +5616,16 @@ export const deleteWorkflow: (
 /**
  * Lists all workflows associated with your Amazon Web Services account for your current region.
  */
-export const listWorkflows: {
-  (
-    input: ListWorkflowsRequest,
-  ): effect.Effect<
-    ListWorkflowsResponse,
-    | InternalServiceError
-    | InvalidNextTokenException
-    | InvalidRequestException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflows: API.OperationMethod<
+  ListWorkflowsRequest,
+  ListWorkflowsResponse,
+  | InternalServiceError
+  | InvalidNextTokenException
+  | InvalidRequestException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowsRequest,
   ) => stream.Stream<

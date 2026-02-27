@@ -2228,9 +2228,8 @@ export class S3Exception extends S.TaggedErrorClass<S3Exception>()(
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
-export const cancelGremlinQuery: (
-  input: CancelGremlinQueryInput,
-) => effect.Effect<
+export const cancelGremlinQuery: API.OperationMethod<
+  CancelGremlinQueryInput,
   CancelGremlinQueryOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2273,9 +2272,8 @@ export const cancelGremlinQuery: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelLoaderJob IAM action in that cluster..
  */
-export const cancelLoaderJob: (
-  input: CancelLoaderJobInput,
-) => effect.Effect<
+export const cancelLoaderJob: API.OperationMethod<
+  CancelLoaderJobInput,
   CancelLoaderJobOutput,
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -2316,9 +2314,8 @@ export const cancelLoaderJob: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLDataProcessingJob IAM action in that cluster.
  */
-export const cancelMLDataProcessingJob: (
-  input: CancelMLDataProcessingJobInput,
-) => effect.Effect<
+export const cancelMLDataProcessingJob: API.OperationMethod<
+  CancelMLDataProcessingJobInput,
   CancelMLDataProcessingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2355,9 +2352,8 @@ export const cancelMLDataProcessingJob: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTrainingJob IAM action in that cluster.
  */
-export const cancelMLModelTrainingJob: (
-  input: CancelMLModelTrainingJobInput,
-) => effect.Effect<
+export const cancelMLModelTrainingJob: API.OperationMethod<
+  CancelMLModelTrainingJobInput,
   CancelMLModelTrainingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2394,9 +2390,8 @@ export const cancelMLModelTrainingJob: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelMLModelTransformJob IAM action in that cluster.
  */
-export const cancelMLModelTransformJob: (
-  input: CancelMLModelTransformJobInput,
-) => effect.Effect<
+export const cancelMLModelTransformJob: API.OperationMethod<
+  CancelMLModelTransformJobInput,
   CancelMLModelTransformJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2433,9 +2428,8 @@ export const cancelMLModelTransformJob: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CancelQuery IAM action in that cluster.
  */
-export const cancelOpenCypherQuery: (
-  input: CancelOpenCypherQueryInput,
-) => effect.Effect<
+export const cancelOpenCypherQuery: API.OperationMethod<
+  CancelOpenCypherQueryInput,
   CancelOpenCypherQueryOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2480,9 +2474,8 @@ export const cancelOpenCypherQuery: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:CreateMLEndpoint IAM action in that cluster.
  */
-export const createMLEndpoint: (
-  input: CreateMLEndpointInput,
-) => effect.Effect<
+export const createMLEndpoint: API.OperationMethod<
+  CreateMLEndpointInput,
   CreateMLEndpointOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2519,9 +2512,8 @@ export const createMLEndpoint: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteMLEndpoint IAM action in that cluster.
  */
-export const deleteMLEndpoint: (
-  input: DeleteMLEndpointInput,
-) => effect.Effect<
+export const deleteMLEndpoint: API.OperationMethod<
+  DeleteMLEndpointInput,
   DeleteMLEndpointOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -2558,9 +2550,8 @@ export const deleteMLEndpoint: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
-export const deletePropertygraphStatistics: (
-  input: DeletePropertygraphStatisticsRequest,
-) => effect.Effect<
+export const deletePropertygraphStatistics: API.OperationMethod<
+  DeletePropertygraphStatisticsRequest,
   DeletePropertygraphStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -2601,9 +2592,8 @@ export const deletePropertygraphStatistics: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:DeleteStatistics IAM action in that cluster.
  */
-export const deleteSparqlStatistics: (
-  input: DeleteSparqlStatisticsRequest,
-) => effect.Effect<
+export const deleteSparqlStatistics: API.OperationMethod<
+  DeleteSparqlStatisticsRequest,
   DeleteSparqlStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -2646,9 +2636,8 @@ export const deleteSparqlStatistics: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ResetDatabase IAM action in that cluster.
  */
-export const executeFastReset: (
-  input: ExecuteFastResetInput,
-) => effect.Effect<
+export const executeFastReset: API.OperationMethod<
+  ExecuteFastResetInput,
   ExecuteFastResetOutput,
   | AccessDeniedException
   | ClientTimeoutException
@@ -2701,9 +2690,8 @@ export const executeFastReset: (
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeGremlinExplainQuery: (
-  input: ExecuteGremlinExplainQueryInput,
-) => effect.Effect<
+export const executeGremlinExplainQuery: API.OperationMethod<
+  ExecuteGremlinExplainQueryInput,
   ExecuteGremlinExplainQueryOutput,
   | BadRequestException
   | CancelledByUserException
@@ -2760,9 +2748,8 @@ export const executeGremlinExplainQuery: (
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeGremlinProfileQuery: (
-  input: ExecuteGremlinProfileQueryInput,
-) => effect.Effect<
+export const executeGremlinProfileQuery: API.OperationMethod<
+  ExecuteGremlinProfileQueryInput,
   ExecuteGremlinProfileQueryOutput,
   | BadRequestException
   | CancelledByUserException
@@ -2825,9 +2812,8 @@ export const executeGremlinProfileQuery: (
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeGremlinQuery: (
-  input: ExecuteGremlinQueryInput,
-) => effect.Effect<
+export const executeGremlinQuery: API.OperationMethod<
+  ExecuteGremlinQueryInput,
   ExecuteGremlinQueryOutput,
   | BadRequestException
   | CancelledByUserException
@@ -2884,9 +2870,8 @@ export const executeGremlinQuery: (
  *
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeOpenCypherExplainQuery: (
-  input: ExecuteOpenCypherExplainQueryInput,
-) => effect.Effect<
+export const executeOpenCypherExplainQuery: API.OperationMethod<
+  ExecuteOpenCypherExplainQueryInput,
   ExecuteOpenCypherExplainQueryOutput,
   | BadRequestException
   | CancelledByUserException
@@ -2955,9 +2940,8 @@ export const executeOpenCypherExplainQuery: (
  *
  * Note also that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const executeOpenCypherQuery: (
-  input: ExecuteOpenCypherQueryInput,
-) => effect.Effect<
+export const executeOpenCypherQuery: API.OperationMethod<
+  ExecuteOpenCypherQueryInput,
   ExecuteOpenCypherQueryOutput,
   | BadRequestException
   | CancelledByUserException
@@ -3014,9 +2998,8 @@ export const executeOpenCypherQuery: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetEngineStatus IAM action in that cluster.
  */
-export const getEngineStatus: (
-  input: GetEngineStatusRequest,
-) => effect.Effect<
+export const getEngineStatus: API.OperationMethod<
+  GetEngineStatusRequest,
   GetEngineStatusOutput,
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3049,9 +3032,8 @@ export const getEngineStatus: (
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const getGremlinQueryStatus: (
-  input: GetGremlinQueryStatusInput,
-) => effect.Effect<
+export const getGremlinQueryStatus: API.OperationMethod<
+  GetGremlinQueryStatusInput,
   GetGremlinQueryStatusOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3100,9 +3082,8 @@ export const getGremlinQueryStatus: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetLoaderJobStatus IAM action in that cluster..
  */
-export const getLoaderJobStatus: (
-  input: GetLoaderJobStatusInput,
-) => effect.Effect<
+export const getLoaderJobStatus: API.OperationMethod<
+  GetLoaderJobStatusInput,
   GetLoaderJobStatusOutput,
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -3143,9 +3124,8 @@ export const getLoaderJobStatus: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:GetMLDataProcessingJobStatus IAM action in that cluster.
  */
-export const getMLDataProcessingJob: (
-  input: GetMLDataProcessingJobInput,
-) => effect.Effect<
+export const getMLDataProcessingJob: API.OperationMethod<
+  GetMLDataProcessingJobInput,
   GetMLDataProcessingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3182,9 +3162,8 @@ export const getMLDataProcessingJob: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLEndpointStatus IAM action in that cluster.
  */
-export const getMLEndpoint: (
-  input: GetMLEndpointInput,
-) => effect.Effect<
+export const getMLEndpoint: API.OperationMethod<
+  GetMLEndpointInput,
   GetMLEndpointOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3221,9 +3200,8 @@ export const getMLEndpoint: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTrainingJobStatus IAM action in that cluster.
  */
-export const getMLModelTrainingJob: (
-  input: GetMLModelTrainingJobInput,
-) => effect.Effect<
+export const getMLModelTrainingJob: API.OperationMethod<
+  GetMLModelTrainingJobInput,
   GetMLModelTrainingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3260,9 +3238,8 @@ export const getMLModelTrainingJob: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetMLModelTransformJobStatus IAM action in that cluster.
  */
-export const getMLModelTransformJob: (
-  input: GetMLModelTransformJobInput,
-) => effect.Effect<
+export const getMLModelTransformJob: API.OperationMethod<
+  GetMLModelTransformJobInput,
   GetMLModelTransformJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3301,9 +3278,8 @@ export const getMLModelTransformJob: (
  *
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const getOpenCypherQueryStatus: (
-  input: GetOpenCypherQueryStatusInput,
-) => effect.Effect<
+export const getOpenCypherQueryStatus: API.OperationMethod<
+  GetOpenCypherQueryStatusInput,
   GetOpenCypherQueryStatusOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3352,9 +3328,8 @@ export const getOpenCypherQueryStatus: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetStatisticsStatus IAM action in that cluster.
  */
-export const getPropertygraphStatistics: (
-  input: GetPropertygraphStatisticsRequest,
-) => effect.Effect<
+export const getPropertygraphStatistics: API.OperationMethod<
+  GetPropertygraphStatisticsRequest,
   GetPropertygraphStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3411,9 +3386,8 @@ export const getPropertygraphStatistics: (
  *
  * See Condition keys available in Neptune IAM data-access policy statements).
  */
-export const getPropertygraphStream: (
-  input: GetPropertygraphStreamInput,
-) => effect.Effect<
+export const getPropertygraphStream: API.OperationMethod<
+  GetPropertygraphStreamInput,
   GetPropertygraphStreamOutput,
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3452,9 +3426,8 @@ export const getPropertygraphStream: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
-export const getPropertygraphSummary: (
-  input: GetPropertygraphSummaryInput,
-) => effect.Effect<
+export const getPropertygraphSummary: API.OperationMethod<
+  GetPropertygraphSummaryInput,
   GetPropertygraphSummaryOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3495,9 +3468,8 @@ export const getPropertygraphSummary: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:GetGraphSummary IAM action in that cluster.
  */
-export const getRDFGraphSummary: (
-  input: GetRDFGraphSummaryInput,
-) => effect.Effect<
+export const getRDFGraphSummary: API.OperationMethod<
+  GetRDFGraphSummaryInput,
   GetRDFGraphSummaryOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3536,9 +3508,8 @@ export const getRDFGraphSummary: (
 /**
  * Gets RDF statistics (SPARQL).
  */
-export const getSparqlStatistics: (
-  input: GetSparqlStatisticsRequest,
-) => effect.Effect<
+export const getSparqlStatistics: API.OperationMethod<
+  GetSparqlStatisticsRequest,
   GetSparqlStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3587,9 +3558,8 @@ export const getSparqlStatistics: (
  *
  * Note that the neptune-db:QueryLanguage:Sparql IAM condition key can be used in the policy document to restrict the use of SPARQL queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const getSparqlStream: (
-  input: GetSparqlStreamInput,
-) => effect.Effect<
+export const getSparqlStream: API.OperationMethod<
+  GetSparqlStreamInput,
   GetSparqlStreamOutput,
   | ClientTimeoutException
   | ConstraintViolationException
@@ -3630,9 +3600,8 @@ export const getSparqlStream: (
  *
  * Note that the neptune-db:QueryLanguage:Gremlin IAM condition key can be used in the policy document to restrict the use of Gremlin queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const listGremlinQueries: (
-  input: ListGremlinQueriesInput,
-) => effect.Effect<
+export const listGremlinQueries: API.OperationMethod<
+  ListGremlinQueriesInput,
   ListGremlinQueriesOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3679,9 +3648,8 @@ export const listGremlinQueries: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListLoaderJobs IAM action in that cluster..
  */
-export const listLoaderJobs: (
-  input: ListLoaderJobsInput,
-) => effect.Effect<
+export const listLoaderJobs: API.OperationMethod<
+  ListLoaderJobsInput,
   ListLoaderJobsOutput,
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -3720,9 +3688,8 @@ export const listLoaderJobs: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLDataProcessingJobs IAM action in that cluster.
  */
-export const listMLDataProcessingJobs: (
-  input: ListMLDataProcessingJobsInput,
-) => effect.Effect<
+export const listMLDataProcessingJobs: API.OperationMethod<
+  ListMLDataProcessingJobsInput,
   ListMLDataProcessingJobsOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3759,9 +3726,8 @@ export const listMLDataProcessingJobs: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLEndpoints IAM action in that cluster.
  */
-export const listMLEndpoints: (
-  input: ListMLEndpointsInput,
-) => effect.Effect<
+export const listMLEndpoints: API.OperationMethod<
+  ListMLEndpointsInput,
   ListMLEndpointsOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3798,9 +3764,8 @@ export const listMLEndpoints: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:neptune-db:ListMLModelTrainingJobs IAM action in that cluster.
  */
-export const listMLModelTrainingJobs: (
-  input: ListMLModelTrainingJobsInput,
-) => effect.Effect<
+export const listMLModelTrainingJobs: API.OperationMethod<
+  ListMLModelTrainingJobsInput,
   ListMLModelTrainingJobsOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3837,9 +3802,8 @@ export const listMLModelTrainingJobs: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ListMLModelTransformJobs IAM action in that cluster.
  */
-export const listMLModelTransformJobs: (
-  input: ListMLModelTransformJobsInput,
-) => effect.Effect<
+export const listMLModelTransformJobs: API.OperationMethod<
+  ListMLModelTransformJobsInput,
   ListMLModelTransformJobsOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -3878,9 +3842,8 @@ export const listMLModelTransformJobs: (
  *
  * Note that the neptune-db:QueryLanguage:OpenCypher IAM condition key can be used in the policy document to restrict the use of openCypher queries (see Condition keys available in Neptune IAM data-access policy statements).
  */
-export const listOpenCypherQueries: (
-  input: ListOpenCypherQueriesInput,
-) => effect.Effect<
+export const listOpenCypherQueries: API.OperationMethod<
+  ListOpenCypherQueriesInput,
   ListOpenCypherQueriesOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3929,9 +3892,8 @@ export const listOpenCypherQueries: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
-export const managePropertygraphStatistics: (
-  input: ManagePropertygraphStatisticsInput,
-) => effect.Effect<
+export const managePropertygraphStatistics: API.OperationMethod<
+  ManagePropertygraphStatisticsInput,
   ManagePropertygraphStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -3972,9 +3934,8 @@ export const managePropertygraphStatistics: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:ManageStatistics IAM action in that cluster.
  */
-export const manageSparqlStatistics: (
-  input: ManageSparqlStatisticsInput,
-) => effect.Effect<
+export const manageSparqlStatistics: API.OperationMethod<
+  ManageSparqlStatisticsInput,
   ManageSparqlStatisticsOutput,
   | AccessDeniedException
   | BadRequestException
@@ -4015,9 +3976,8 @@ export const manageSparqlStatistics: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartLoaderJob IAM action in that cluster.
  */
-export const startLoaderJob: (
-  input: StartLoaderJobInput,
-) => effect.Effect<
+export const startLoaderJob: API.OperationMethod<
+  StartLoaderJobInput,
   StartLoaderJobOutput,
   | BadRequestException
   | BulkLoadIdNotFoundException
@@ -4060,9 +4020,8 @@ export const startLoaderJob: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelDataProcessingJob IAM action in that cluster.
  */
-export const startMLDataProcessingJob: (
-  input: StartMLDataProcessingJobInput,
-) => effect.Effect<
+export const startMLDataProcessingJob: API.OperationMethod<
+  StartMLDataProcessingJobInput,
   StartMLDataProcessingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -4099,9 +4058,8 @@ export const startMLDataProcessingJob: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTrainingJob IAM action in that cluster.
  */
-export const startMLModelTrainingJob: (
-  input: StartMLModelTrainingJobInput,
-) => effect.Effect<
+export const startMLModelTrainingJob: API.OperationMethod<
+  StartMLModelTrainingJobInput,
   StartMLModelTrainingJobOutput,
   | BadRequestException
   | ClientTimeoutException
@@ -4138,9 +4096,8 @@ export const startMLModelTrainingJob: (
  *
  * When invoking this operation in a Neptune cluster that has IAM authentication enabled, the IAM user or role making the request must have a policy attached that allows the neptune-db:StartMLModelTransformJob IAM action in that cluster.
  */
-export const startMLModelTransformJob: (
-  input: StartMLModelTransformJobInput,
-) => effect.Effect<
+export const startMLModelTransformJob: API.OperationMethod<
+  StartMLModelTransformJobInput,
   StartMLModelTransformJobOutput,
   | BadRequestException
   | ClientTimeoutException

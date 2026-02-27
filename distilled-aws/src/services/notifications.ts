@@ -2147,19 +2147,17 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Returns a list of Account contacts and Channels associated with a `ManagedNotificationConfiguration`, in paginated format.
  */
-export const listManagedNotificationChannelAssociations: {
-  (
-    input: ListManagedNotificationChannelAssociationsRequest,
-  ): effect.Effect<
-    ListManagedNotificationChannelAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listManagedNotificationChannelAssociations: API.OperationMethod<
+  ListManagedNotificationChannelAssociationsRequest,
+  ListManagedNotificationChannelAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedNotificationChannelAssociationsRequest,
   ) => stream.Stream<
@@ -2204,19 +2202,17 @@ export const listManagedNotificationChannelAssociations: {
 /**
  * Returns a list of member accounts associated with a notification configuration.
  */
-export const listMemberAccounts: {
-  (
-    input: ListMemberAccountsRequest,
-  ): effect.Effect<
-    ListMemberAccountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listMemberAccounts: API.OperationMethod<
+  ListMemberAccountsRequest,
+  ListMemberAccountsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMemberAccountsRequest,
   ) => stream.Stream<
@@ -2265,9 +2261,8 @@ export const listMemberAccounts: {
  *
  * This is only supported for `NotificationConfigurations`.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2294,9 +2289,8 @@ export const listTagsForResource: (
  *
  * This is only supported for `NotificationConfigurations`.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2321,9 +2315,8 @@ export const tagResource: (
  *
  * For more information, see Tagging your Amazon Web Services resources in the *Tagging Amazon Web Services Resources User Guide*.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2346,9 +2339,8 @@ export const untagResource: (
 /**
  * Associates a delivery Channel with a particular `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
-export const associateChannel: (
-  input: AssociateChannelRequest,
-) => effect.Effect<
+export const associateChannel: API.OperationMethod<
+  AssociateChannelRequest,
   AssociateChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2375,9 +2367,8 @@ export const associateChannel: (
 /**
  * Disassociates a Channel from a specified `NotificationConfiguration`. Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
-export const disassociateChannel: (
-  input: DisassociateChannelRequest,
-) => effect.Effect<
+export const disassociateChannel: API.OperationMethod<
+  DisassociateChannelRequest,
   DisassociateChannelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2400,19 +2391,17 @@ export const disassociateChannel: (
 /**
  * Returns a list of Channels for a `NotificationConfiguration`.
  */
-export const listChannels: {
-  (
-    input: ListChannelsRequest,
-  ): effect.Effect<
-    ListChannelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
@@ -2457,9 +2446,8 @@ export const listChannels: {
 /**
  * Creates an `EventRule` that is associated with a specified `NotificationConfiguration`.
  */
-export const createEventRule: (
-  input: CreateEventRuleRequest,
-) => effect.Effect<
+export const createEventRule: API.OperationMethod<
+  CreateEventRuleRequest,
   CreateEventRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -2486,9 +2474,8 @@ export const createEventRule: (
 /**
  * Updates an existing `EventRule`.
  */
-export const updateEventRule: (
-  input: UpdateEventRuleRequest,
-) => effect.Effect<
+export const updateEventRule: API.OperationMethod<
+  UpdateEventRuleRequest,
   UpdateEventRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -2513,9 +2500,8 @@ export const updateEventRule: (
 /**
  * Returns a specified `EventRule`.
  */
-export const getEventRule: (
-  input: GetEventRuleRequest,
-) => effect.Effect<
+export const getEventRule: API.OperationMethod<
+  GetEventRuleRequest,
   GetEventRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2538,9 +2524,8 @@ export const getEventRule: (
 /**
  * Deletes an `EventRule`.
  */
-export const deleteEventRule: (
-  input: DeleteEventRuleRequest,
-) => effect.Effect<
+export const deleteEventRule: API.OperationMethod<
+  DeleteEventRuleRequest,
   DeleteEventRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -2565,19 +2550,17 @@ export const deleteEventRule: (
 /**
  * Returns a list of `EventRules` according to specified filters, in reverse chronological order (newest first).
  */
-export const listEventRules: {
-  (
-    input: ListEventRulesRequest,
-  ): effect.Effect<
-    ListEventRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEventRules: API.OperationMethod<
+  ListEventRulesRequest,
+  ListEventRulesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventRulesRequest,
   ) => stream.Stream<
@@ -2622,9 +2605,8 @@ export const listEventRules: {
 /**
  * Associates an Account Contact with a particular `ManagedNotificationConfiguration`.
  */
-export const associateManagedNotificationAccountContact: (
-  input: AssociateManagedNotificationAccountContactRequest,
-) => effect.Effect<
+export const associateManagedNotificationAccountContact: API.OperationMethod<
+  AssociateManagedNotificationAccountContactRequest,
   AssociateManagedNotificationAccountContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -2651,9 +2633,8 @@ export const associateManagedNotificationAccountContact: (
 /**
  * Disassociates an Account Contact with a particular `ManagedNotificationConfiguration`.
  */
-export const disassociateManagedNotificationAccountContact: (
-  input: DisassociateManagedNotificationAccountContactRequest,
-) => effect.Effect<
+export const disassociateManagedNotificationAccountContact: API.OperationMethod<
+  DisassociateManagedNotificationAccountContactRequest,
   DisassociateManagedNotificationAccountContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -2680,9 +2661,8 @@ export const disassociateManagedNotificationAccountContact: (
  *
  * Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
-export const associateManagedNotificationAdditionalChannel: (
-  input: AssociateManagedNotificationAdditionalChannelRequest,
-) => effect.Effect<
+export const associateManagedNotificationAdditionalChannel: API.OperationMethod<
+  AssociateManagedNotificationAdditionalChannelRequest,
   AssociateManagedNotificationAdditionalChannelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2711,9 +2691,8 @@ export const associateManagedNotificationAdditionalChannel: (
  *
  * Supported Channels include Amazon Q Developer in chat applications, the Console Mobile Application, and emails (notifications-contacts).
  */
-export const disassociateManagedNotificationAdditionalChannel: (
-  input: DisassociateManagedNotificationAdditionalChannelRequest,
-) => effect.Effect<
+export const disassociateManagedNotificationAdditionalChannel: API.OperationMethod<
+  DisassociateManagedNotificationAdditionalChannelRequest,
   DisassociateManagedNotificationAdditionalChannelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2736,9 +2715,8 @@ export const disassociateManagedNotificationAdditionalChannel: (
 /**
  * Returns the child event of a specific given `ManagedNotificationEvent`.
  */
-export const getManagedNotificationChildEvent: (
-  input: GetManagedNotificationChildEventRequest,
-) => effect.Effect<
+export const getManagedNotificationChildEvent: API.OperationMethod<
+  GetManagedNotificationChildEventRequest,
   GetManagedNotificationChildEventResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2761,18 +2739,16 @@ export const getManagedNotificationChildEvent: (
 /**
  * Returns a list of `ManagedNotificationChildEvents` for a specified aggregate `ManagedNotificationEvent`, ordered by creation time in reverse chronological order (newest first).
  */
-export const listManagedNotificationChildEvents: {
-  (
-    input: ListManagedNotificationChildEventsRequest,
-  ): effect.Effect<
-    ListManagedNotificationChildEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listManagedNotificationChildEvents: API.OperationMethod<
+  ListManagedNotificationChildEventsRequest,
+  ListManagedNotificationChildEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedNotificationChildEventsRequest,
   ) => stream.Stream<
@@ -2814,9 +2790,8 @@ export const listManagedNotificationChildEvents: {
 /**
  * Returns a specified `ManagedNotificationConfiguration`.
  */
-export const getManagedNotificationConfiguration: (
-  input: GetManagedNotificationConfigurationRequest,
-) => effect.Effect<
+export const getManagedNotificationConfiguration: API.OperationMethod<
+  GetManagedNotificationConfigurationRequest,
   GetManagedNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2839,18 +2814,16 @@ export const getManagedNotificationConfiguration: (
 /**
  * Returns a list of Managed Notification Configurations according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
-export const listManagedNotificationConfigurations: {
-  (
-    input: ListManagedNotificationConfigurationsRequest,
-  ): effect.Effect<
-    ListManagedNotificationConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listManagedNotificationConfigurations: API.OperationMethod<
+  ListManagedNotificationConfigurationsRequest,
+  ListManagedNotificationConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedNotificationConfigurationsRequest,
   ) => stream.Stream<
@@ -2892,9 +2865,8 @@ export const listManagedNotificationConfigurations: {
 /**
  * Returns a specified `ManagedNotificationEvent`.
  */
-export const getManagedNotificationEvent: (
-  input: GetManagedNotificationEventRequest,
-) => effect.Effect<
+export const getManagedNotificationEvent: API.OperationMethod<
+  GetManagedNotificationEventRequest,
   GetManagedNotificationEventResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2917,18 +2889,16 @@ export const getManagedNotificationEvent: (
 /**
  * Returns a list of Managed Notification Events according to specified filters, ordered by creation time in reverse chronological order (newest first).
  */
-export const listManagedNotificationEvents: {
-  (
-    input: ListManagedNotificationEventsRequest,
-  ): effect.Effect<
-    ListManagedNotificationEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listManagedNotificationEvents: API.OperationMethod<
+  ListManagedNotificationEventsRequest,
+  ListManagedNotificationEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedNotificationEventsRequest,
   ) => stream.Stream<
@@ -2970,9 +2940,8 @@ export const listManagedNotificationEvents: {
 /**
  * Creates a new `NotificationConfiguration`.
  */
-export const createNotificationConfiguration: (
-  input: CreateNotificationConfigurationRequest,
-) => effect.Effect<
+export const createNotificationConfiguration: API.OperationMethod<
+  CreateNotificationConfigurationRequest,
   CreateNotificationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -2997,9 +2966,8 @@ export const createNotificationConfiguration: (
 /**
  * Updates a `NotificationConfiguration`.
  */
-export const updateNotificationConfiguration: (
-  input: UpdateNotificationConfigurationRequest,
-) => effect.Effect<
+export const updateNotificationConfiguration: API.OperationMethod<
+  UpdateNotificationConfigurationRequest,
   UpdateNotificationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3024,9 +2992,8 @@ export const updateNotificationConfiguration: (
 /**
  * Returns a specified `NotificationConfiguration`.
  */
-export const getNotificationConfiguration: (
-  input: GetNotificationConfigurationRequest,
-) => effect.Effect<
+export const getNotificationConfiguration: API.OperationMethod<
+  GetNotificationConfigurationRequest,
   GetNotificationConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3049,9 +3016,8 @@ export const getNotificationConfiguration: (
 /**
  * Deletes a `NotificationConfiguration`.
  */
-export const deleteNotificationConfiguration: (
-  input: DeleteNotificationConfigurationRequest,
-) => effect.Effect<
+export const deleteNotificationConfiguration: API.OperationMethod<
+  DeleteNotificationConfigurationRequest,
   DeleteNotificationConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3076,18 +3042,16 @@ export const deleteNotificationConfiguration: (
 /**
  * Returns a list of abbreviated `NotificationConfigurations` according to specified filters, in reverse chronological order (newest first).
  */
-export const listNotificationConfigurations: {
-  (
-    input: ListNotificationConfigurationsRequest,
-  ): effect.Effect<
-    ListNotificationConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listNotificationConfigurations: API.OperationMethod<
+  ListNotificationConfigurationsRequest,
+  ListNotificationConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotificationConfigurationsRequest,
   ) => stream.Stream<
@@ -3131,9 +3095,8 @@ export const listNotificationConfigurations: {
  *
  * User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. `GetNotificationEvent` only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the *Amazon Web Services User Notifications User Guide*.
  */
-export const getNotificationEvent: (
-  input: GetNotificationEventRequest,
-) => effect.Effect<
+export const getNotificationEvent: API.OperationMethod<
+  GetNotificationEventRequest,
   GetNotificationEventResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3158,18 +3121,16 @@ export const getNotificationEvent: (
  *
  * User Notifications stores notifications in the individual Regions you register as notification hubs and the Region of the source event rule. ListNotificationEvents only returns notifications stored in the same Region in which the action is called. User Notifications doesn't backfill notifications to new Regions selected as notification hubs. For this reason, we recommend that you make calls in your oldest registered notification hub. For more information, see Notification hubs in the *Amazon Web Services User Notifications User Guide*.
  */
-export const listNotificationEvents: {
-  (
-    input: ListNotificationEventsRequest,
-  ): effect.Effect<
-    ListNotificationEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listNotificationEvents: API.OperationMethod<
+  ListNotificationEventsRequest,
+  ListNotificationEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotificationEventsRequest,
   ) => stream.Stream<
@@ -3213,9 +3174,8 @@ export const listNotificationEvents: {
  *
  * There is a maximum of one `NotificationConfiguration` per Region. You can have a maximum of 3 `NotificationHub` resources at a time.
  */
-export const registerNotificationHub: (
-  input: RegisterNotificationHubRequest,
-) => effect.Effect<
+export const registerNotificationHub: API.OperationMethod<
+  RegisterNotificationHubRequest,
   RegisterNotificationHubResponse,
   | AccessDeniedException
   | ConflictException
@@ -3242,9 +3202,8 @@ export const registerNotificationHub: (
  *
  * You can't deregister the last `NotificationHub` in the account. `NotificationEvents` stored in the deregistered `NotificationConfiguration` are no longer be visible. Recreating a new `NotificationConfiguration` in the same Region restores access to those `NotificationEvents`.
  */
-export const deregisterNotificationHub: (
-  input: DeregisterNotificationHubRequest,
-) => effect.Effect<
+export const deregisterNotificationHub: API.OperationMethod<
+  DeregisterNotificationHubRequest,
   DeregisterNotificationHubResponse,
   | AccessDeniedException
   | ConflictException
@@ -3269,18 +3228,16 @@ export const deregisterNotificationHub: (
 /**
  * Returns a list of `NotificationHubs`.
  */
-export const listNotificationHubs: {
-  (
-    input: ListNotificationHubsRequest,
-  ): effect.Effect<
-    ListNotificationHubsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listNotificationHubs: API.OperationMethod<
+  ListNotificationHubsRequest,
+  ListNotificationHubsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotificationHubsRequest,
   ) => stream.Stream<
@@ -3322,9 +3279,8 @@ export const listNotificationHubs: {
 /**
  * Enables service trust between User Notifications and Amazon Web Services Organizations.
  */
-export const enableNotificationsAccessForOrganization: (
-  input: EnableNotificationsAccessForOrganizationRequest,
-) => effect.Effect<
+export const enableNotificationsAccessForOrganization: API.OperationMethod<
+  EnableNotificationsAccessForOrganizationRequest,
   EnableNotificationsAccessForOrganizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3351,9 +3307,8 @@ export const enableNotificationsAccessForOrganization: (
 /**
  * Returns the AccessStatus of Service Trust Enablement for User Notifications and Amazon Web Services Organizations.
  */
-export const getNotificationsAccessForOrganization: (
-  input: GetNotificationsAccessForOrganizationRequest,
-) => effect.Effect<
+export const getNotificationsAccessForOrganization: API.OperationMethod<
+  GetNotificationsAccessForOrganizationRequest,
   GetNotificationsAccessForOrganizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3374,9 +3329,8 @@ export const getNotificationsAccessForOrganization: (
 /**
  * Disables service trust between User Notifications and Amazon Web Services Organizations.
  */
-export const disableNotificationsAccessForOrganization: (
-  input: DisableNotificationsAccessForOrganizationRequest,
-) => effect.Effect<
+export const disableNotificationsAccessForOrganization: API.OperationMethod<
+  DisableNotificationsAccessForOrganizationRequest,
   DisableNotificationsAccessForOrganizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3403,9 +3357,8 @@ export const disableNotificationsAccessForOrganization: (
 /**
  * Associates an organizational unit with a notification configuration.
  */
-export const associateOrganizationalUnit: (
-  input: AssociateOrganizationalUnitRequest,
-) => effect.Effect<
+export const associateOrganizationalUnit: API.OperationMethod<
+  AssociateOrganizationalUnitRequest,
   AssociateOrganizationalUnitResponse,
   | AccessDeniedException
   | ConflictException
@@ -3432,9 +3385,8 @@ export const associateOrganizationalUnit: (
 /**
  * Removes the association between an organizational unit and a notification configuration.
  */
-export const disassociateOrganizationalUnit: (
-  input: DisassociateOrganizationalUnitRequest,
-) => effect.Effect<
+export const disassociateOrganizationalUnit: API.OperationMethod<
+  DisassociateOrganizationalUnitRequest,
   DisassociateOrganizationalUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3457,19 +3409,17 @@ export const disassociateOrganizationalUnit: (
 /**
  * Returns a list of organizational units associated with a notification configuration.
  */
-export const listOrganizationalUnits: {
-  (
-    input: ListOrganizationalUnitsRequest,
-  ): effect.Effect<
-    ListOrganizationalUnitsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listOrganizationalUnits: API.OperationMethod<
+  ListOrganizationalUnitsRequest,
+  ListOrganizationalUnitsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrganizationalUnitsRequest,
   ) => stream.Stream<

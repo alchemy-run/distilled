@@ -228,9 +228,8 @@ export class SessionExpiredException extends S.TaggedErrorClass<SessionExpiredEx
  * must specify either a signaling channel ARN or the client ID in order to invoke this
  * API.
  */
-export const getIceServerConfig: (
-  input: GetIceServerConfigRequest,
-) => effect.Effect<
+export const getIceServerConfig: API.OperationMethod<
+  GetIceServerConfigRequest,
   GetIceServerConfigResponse,
   | ClientLimitExceededException
   | InvalidArgumentException
@@ -260,9 +259,8 @@ export const getIceServerConfig: (
  * connected to the signaling channel, redelivery requests are made until the message
  * expires.
  */
-export const sendAlexaOfferToMaster: (
-  input: SendAlexaOfferToMasterRequest,
-) => effect.Effect<
+export const sendAlexaOfferToMaster: API.OperationMethod<
+  SendAlexaOfferToMasterRequest,
   SendAlexaOfferToMasterResponse,
   | ClientLimitExceededException
   | InvalidArgumentException

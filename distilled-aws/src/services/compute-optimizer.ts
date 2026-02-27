@@ -3921,9 +3921,8 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
  * enhanced infrastructure metrics in the Compute Optimizer User
  * Guide.
  */
-export const deleteRecommendationPreferences: (
-  input: DeleteRecommendationPreferencesRequest,
-) => effect.Effect<
+export const deleteRecommendationPreferences: API.OperationMethod<
+  DeleteRecommendationPreferencesRequest,
   DeleteRecommendationPreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3956,22 +3955,20 @@ export const deleteRecommendationPreferences: (
  * recommendations. Then use the DescribeRecommendationExportJobs action
  * to view your export jobs.
  */
-export const describeRecommendationExportJobs: {
-  (
-    input: DescribeRecommendationExportJobsRequest,
-  ): effect.Effect<
-    DescribeRecommendationExportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidParameterValueException
-    | MissingAuthenticationToken
-    | OptInRequiredException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRecommendationExportJobs: API.OperationMethod<
+  DescribeRecommendationExportJobsRequest,
+  DescribeRecommendationExportJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRecommendationExportJobsRequest,
   ) => stream.Stream<
@@ -4032,9 +4029,8 @@ export const describeRecommendationExportJobs: {
  *
  * You can have only one Amazon EC2 Auto Scaling group export job in progress per Amazon Web Services Region.
  */
-export const exportAutoScalingGroupRecommendations: (
-  input: ExportAutoScalingGroupRecommendationsRequest,
-) => effect.Effect<
+export const exportAutoScalingGroupRecommendations: API.OperationMethod<
+  ExportAutoScalingGroupRecommendationsRequest,
   ExportAutoScalingGroupRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4070,9 +4066,8 @@ export const exportAutoScalingGroupRecommendations: (
  *
  * You can have only one Amazon EBS volume export job in progress per Amazon Web Services Region.
  */
-export const exportEBSVolumeRecommendations: (
-  input: ExportEBSVolumeRecommendationsRequest,
-) => effect.Effect<
+export const exportEBSVolumeRecommendations: API.OperationMethod<
+  ExportEBSVolumeRecommendationsRequest,
   ExportEBSVolumeRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4108,9 +4103,8 @@ export const exportEBSVolumeRecommendations: (
  *
  * You can have only one Amazon EC2 instance export job in progress per Amazon Web Services Region.
  */
-export const exportEC2InstanceRecommendations: (
-  input: ExportEC2InstanceRecommendationsRequest,
-) => effect.Effect<
+export const exportEC2InstanceRecommendations: API.OperationMethod<
+  ExportEC2InstanceRecommendationsRequest,
   ExportEC2InstanceRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4146,9 +4140,8 @@ export const exportEC2InstanceRecommendations: (
  *
  * You can only have one Amazon ECS service export job in progress per Amazon Web Services Region.
  */
-export const exportECSServiceRecommendations: (
-  input: ExportECSServiceRecommendationsRequest,
-) => effect.Effect<
+export const exportECSServiceRecommendations: API.OperationMethod<
+  ExportECSServiceRecommendationsRequest,
   ExportECSServiceRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4184,9 +4177,8 @@ export const exportECSServiceRecommendations: (
  *
  * You can have only one idle resource export job in progress per Amazon Web Services Region.
  */
-export const exportIdleRecommendations: (
-  input: ExportIdleRecommendationsRequest,
-) => effect.Effect<
+export const exportIdleRecommendations: API.OperationMethod<
+  ExportIdleRecommendationsRequest,
   ExportIdleRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4222,9 +4214,8 @@ export const exportIdleRecommendations: (
  *
  * You can have only one Lambda function export job in progress per Amazon Web Services Region.
  */
-export const exportLambdaFunctionRecommendations: (
-  input: ExportLambdaFunctionRecommendationsRequest,
-) => effect.Effect<
+export const exportLambdaFunctionRecommendations: API.OperationMethod<
+  ExportLambdaFunctionRecommendationsRequest,
   ExportLambdaFunctionRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4260,9 +4251,8 @@ export const exportLambdaFunctionRecommendations: (
  *
  * You can have only one license export job in progress per Amazon Web Services Region.
  */
-export const exportLicenseRecommendations: (
-  input: ExportLicenseRecommendationsRequest,
-) => effect.Effect<
+export const exportLicenseRecommendations: API.OperationMethod<
+  ExportLicenseRecommendationsRequest,
   ExportLicenseRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4298,9 +4288,8 @@ export const exportLicenseRecommendations: (
  *
  * You can have only one Amazon Aurora or RDS export job in progress per Amazon Web Services Region.
  */
-export const exportRDSDatabaseRecommendations: (
-  input: ExportRDSDatabaseRecommendationsRequest,
-) => effect.Effect<
+export const exportRDSDatabaseRecommendations: API.OperationMethod<
+  ExportRDSDatabaseRecommendationsRequest,
   ExportRDSDatabaseRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4334,9 +4323,8 @@ export const exportRDSDatabaseRecommendations: (
  * resources and requirements in the Compute Optimizer User
  * Guide.
  */
-export const getAutoScalingGroupRecommendations: (
-  input: GetAutoScalingGroupRecommendationsRequest,
-) => effect.Effect<
+export const getAutoScalingGroupRecommendations: API.OperationMethod<
+  GetAutoScalingGroupRecommendationsRequest,
   GetAutoScalingGroupRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4370,9 +4358,8 @@ export const getAutoScalingGroupRecommendations: (
  * resources and requirements in the Compute Optimizer User
  * Guide.
  */
-export const getEBSVolumeRecommendations: (
-  input: GetEBSVolumeRecommendationsRequest,
-) => effect.Effect<
+export const getEBSVolumeRecommendations: API.OperationMethod<
+  GetEBSVolumeRecommendationsRequest,
   GetEBSVolumeRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4406,9 +4393,8 @@ export const getEBSVolumeRecommendations: (
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getEC2InstanceRecommendations: (
-  input: GetEC2InstanceRecommendationsRequest,
-) => effect.Effect<
+export const getEC2InstanceRecommendations: API.OperationMethod<
+  GetEC2InstanceRecommendationsRequest,
   GetEC2InstanceRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4443,9 +4429,8 @@ export const getEC2InstanceRecommendations: (
  * `Memory` metric is returned only for resources that have the unified
  * CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
  */
-export const getEC2RecommendationProjectedMetrics: (
-  input: GetEC2RecommendationProjectedMetricsRequest,
-) => effect.Effect<
+export const getEC2RecommendationProjectedMetrics: API.OperationMethod<
+  GetEC2RecommendationProjectedMetricsRequest,
   GetEC2RecommendationProjectedMetricsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4474,9 +4459,8 @@ export const getEC2RecommendationProjectedMetrics: (
 /**
  * Returns the projected metrics of Amazon ECS service recommendations.
  */
-export const getECSServiceRecommendationProjectedMetrics: (
-  input: GetECSServiceRecommendationProjectedMetricsRequest,
-) => effect.Effect<
+export const getECSServiceRecommendationProjectedMetrics: API.OperationMethod<
+  GetECSServiceRecommendationProjectedMetricsRequest,
   GetECSServiceRecommendationProjectedMetricsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4511,9 +4495,8 @@ export const getECSServiceRecommendationProjectedMetrics: (
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getECSServiceRecommendations: (
-  input: GetECSServiceRecommendationsRequest,
-) => effect.Effect<
+export const getECSServiceRecommendations: API.OperationMethod<
+  GetECSServiceRecommendationsRequest,
   GetECSServiceRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4548,9 +4531,8 @@ export const getECSServiceRecommendations: (
  * `Active` or `Inactive`. Use this action to view the
  * recommendation preferences that are in effect, or `Active`.
  */
-export const getEffectiveRecommendationPreferences: (
-  input: GetEffectiveRecommendationPreferencesRequest,
-) => effect.Effect<
+export const getEffectiveRecommendationPreferences: API.OperationMethod<
+  GetEffectiveRecommendationPreferencesRequest,
   GetEffectiveRecommendationPreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4584,9 +4566,8 @@ export const getEffectiveRecommendationPreferences: (
  * the enrollment status of member accounts of the organization. Use the GetEnrollmentStatusesForOrganization action to get detailed information
  * about the enrollment status of member accounts of an organization.
  */
-export const getEnrollmentStatus: (
-  input: GetEnrollmentStatusRequest,
-) => effect.Effect<
+export const getEnrollmentStatus: API.OperationMethod<
+  GetEnrollmentStatusRequest,
   GetEnrollmentStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4614,20 +4595,18 @@ export const getEnrollmentStatus: (
  *
  * To get the enrollment status of standalone accounts, use the GetEnrollmentStatus action.
  */
-export const getEnrollmentStatusesForOrganization: {
-  (
-    input: GetEnrollmentStatusesForOrganizationRequest,
-  ): effect.Effect<
-    GetEnrollmentStatusesForOrganizationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidParameterValueException
-    | MissingAuthenticationToken
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getEnrollmentStatusesForOrganization: API.OperationMethod<
+  GetEnrollmentStatusesForOrganizationRequest,
+  GetEnrollmentStatusesForOrganizationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetEnrollmentStatusesForOrganizationRequest,
   ) => stream.Stream<
@@ -4678,9 +4657,8 @@ export const getEnrollmentStatusesForOrganization: {
  * Resource requirements in the
  * *Compute Optimizer User Guide*
  */
-export const getIdleRecommendations: (
-  input: GetIdleRecommendationsRequest,
-) => effect.Effect<
+export const getIdleRecommendations: API.OperationMethod<
+  GetIdleRecommendationsRequest,
   GetIdleRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4714,22 +4692,20 @@ export const getIdleRecommendations: (
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getLambdaFunctionRecommendations: {
-  (
-    input: GetLambdaFunctionRecommendationsRequest,
-  ): effect.Effect<
-    GetLambdaFunctionRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidParameterValueException
-    | LimitExceededException
-    | MissingAuthenticationToken
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getLambdaFunctionRecommendations: API.OperationMethod<
+  GetLambdaFunctionRecommendationsRequest,
+  GetLambdaFunctionRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | LimitExceededException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetLambdaFunctionRecommendationsRequest,
   ) => stream.Stream<
@@ -4788,9 +4764,8 @@ export const getLambdaFunctionRecommendations: {
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getLicenseRecommendations: (
-  input: GetLicenseRecommendationsRequest,
-) => effect.Effect<
+export const getLicenseRecommendations: API.OperationMethod<
+  GetLicenseRecommendationsRequest,
   GetLicenseRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4819,9 +4794,8 @@ export const getLicenseRecommendations: (
 /**
  * Returns the projected metrics of Aurora and RDS database recommendations.
  */
-export const getRDSDatabaseRecommendationProjectedMetrics: (
-  input: GetRDSDatabaseRecommendationProjectedMetricsRequest,
-) => effect.Effect<
+export const getRDSDatabaseRecommendationProjectedMetrics: API.OperationMethod<
+  GetRDSDatabaseRecommendationProjectedMetricsRequest,
   GetRDSDatabaseRecommendationProjectedMetricsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4856,9 +4830,8 @@ export const getRDSDatabaseRecommendationProjectedMetrics: (
  * requirements in the Compute Optimizer User
  * Guide.
  */
-export const getRDSDatabaseRecommendations: (
-  input: GetRDSDatabaseRecommendationsRequest,
-) => effect.Effect<
+export const getRDSDatabaseRecommendations: API.OperationMethod<
+  GetRDSDatabaseRecommendationsRequest,
   GetRDSDatabaseRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4896,22 +4869,20 @@ export const getRDSDatabaseRecommendations: (
  * enhanced infrastructure metrics in the Compute Optimizer User
  * Guide.
  */
-export const getRecommendationPreferences: {
-  (
-    input: GetRecommendationPreferencesRequest,
-  ): effect.Effect<
-    GetRecommendationPreferencesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidParameterValueException
-    | MissingAuthenticationToken
-    | OptInRequiredException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getRecommendationPreferences: API.OperationMethod<
+  GetRecommendationPreferencesRequest,
+  GetRecommendationPreferencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetRecommendationPreferencesRequest,
   ) => stream.Stream<
@@ -4989,21 +4960,19 @@ export const getRecommendationPreferences: {
  * - Amazon Aurora and Amazon RDS databases in an account that are `Underprovisioned`,
  * `Overprovisioned`, `Optimized`, or `NotOptimized`.
  */
-export const getRecommendationSummaries: {
-  (
-    input: GetRecommendationSummariesRequest,
-  ): effect.Effect<
-    GetRecommendationSummariesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | InvalidParameterValueException
-    | MissingAuthenticationToken
-    | OptInRequiredException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getRecommendationSummaries: API.OperationMethod<
+  GetRecommendationSummariesRequest,
+  GetRecommendationSummariesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | InvalidParameterValueException
+  | MissingAuthenticationToken
+  | OptInRequiredException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetRecommendationSummariesRequest,
   ) => stream.Stream<
@@ -5059,9 +5028,8 @@ export const getRecommendationSummaries: {
  * enhanced infrastructure metrics in the Compute Optimizer User
  * Guide.
  */
-export const putRecommendationPreferences: (
-  input: PutRecommendationPreferencesRequest,
-) => effect.Effect<
+export const putRecommendationPreferences: API.OperationMethod<
+  PutRecommendationPreferencesRequest,
   PutRecommendationPreferencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5100,9 +5068,8 @@ export const putRecommendationPreferences: (
  * account to access its data. For more information, see Using
  * Service-Linked Roles for Compute Optimizer in the *Compute Optimizer User Guide*.
  */
-export const updateEnrollmentStatus: (
-  input: UpdateEnrollmentStatusRequest,
-) => effect.Effect<
+export const updateEnrollmentStatus: API.OperationMethod<
+  UpdateEnrollmentStatusRequest,
   UpdateEnrollmentStatusResponse,
   | AccessDeniedException
   | InternalServerException

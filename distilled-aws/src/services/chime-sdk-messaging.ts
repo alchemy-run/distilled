@@ -2650,9 +2650,8 @@ export class ResourceLimitExceededException extends S.TaggedErrorClass<ResourceL
  * `AppInstanceUser` or `AppInstanceBot`
  * that makes the API call as the value in the header.
  */
-export const associateChannelFlow: (
-  input: AssociateChannelFlowRequest,
-) => effect.Effect<
+export const associateChannelFlow: API.OperationMethod<
+  AssociateChannelFlowRequest,
   AssociateChannelFlowResponse,
   | BadRequestException
   | ConflictException
@@ -2681,9 +2680,8 @@ export const associateChannelFlow: (
 /**
  * Adds a specified number of users and bots to a channel.
  */
-export const batchCreateChannelMembership: (
-  input: BatchCreateChannelMembershipRequest,
-) => effect.Effect<
+export const batchCreateChannelMembership: API.OperationMethod<
+  BatchCreateChannelMembershipRequest,
   BatchCreateChannelMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -2720,9 +2718,8 @@ export const batchCreateChannelMembership: (
  *
  * - Make no changes to the message
  */
-export const channelFlowCallback: (
-  input: ChannelFlowCallbackRequest,
-) => effect.Effect<
+export const channelFlowCallback: API.OperationMethod<
+  ChannelFlowCallbackRequest,
   ChannelFlowCallbackResponse,
   | BadRequestException
   | ConflictException
@@ -2756,9 +2753,8 @@ export const channelFlowCallback: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const createChannel: (
-  input: CreateChannelRequest,
-) => effect.Effect<
+export const createChannel: API.OperationMethod<
+  CreateChannelRequest,
   CreateChannelResponse,
   | BadRequestException
   | ConflictException
@@ -2797,9 +2793,8 @@ export const createChannel: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const createChannelBan: (
-  input: CreateChannelBanRequest,
-) => effect.Effect<
+export const createChannelBan: API.OperationMethod<
+  CreateChannelBanRequest,
   CreateChannelBanResponse,
   | BadRequestException
   | ConflictException
@@ -2842,9 +2837,8 @@ export const createChannelBan: (
  * Channel flows don't process Control or System messages. For more information about the message types provided by Chime SDK messaging, refer to
  * Message types in the *Amazon Chime developer guide*.
  */
-export const createChannelFlow: (
-  input: CreateChannelFlowRequest,
-) => effect.Effect<
+export const createChannelFlow: API.OperationMethod<
+  CreateChannelFlowRequest,
   CreateChannelFlowResponse,
   | BadRequestException
   | ConflictException
@@ -2895,9 +2889,8 @@ export const createChannelFlow: (
  * ARN of the `AppInstanceUserArn` or `AppInstanceBot` that makes the API call
  * as the value in the header.
  */
-export const createChannelMembership: (
-  input: CreateChannelMembershipRequest,
-) => effect.Effect<
+export const createChannelMembership: API.OperationMethod<
+  CreateChannelMembershipRequest,
   CreateChannelMembershipResponse,
   | BadRequestException
   | ConflictException
@@ -2942,9 +2935,8 @@ export const createChannelMembership: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot`of the user that makes the API call as the value in
  * the header.
  */
-export const createChannelModerator: (
-  input: CreateChannelModeratorRequest,
-) => effect.Effect<
+export const createChannelModerator: API.OperationMethod<
+  CreateChannelModeratorRequest,
   CreateChannelModeratorResponse,
   | BadRequestException
   | ConflictException
@@ -2978,9 +2970,8 @@ export const createChannelModerator: (
  * ARN of the `AppInstanceUserArn` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const deleteChannel: (
-  input: DeleteChannelRequest,
-) => effect.Effect<
+export const deleteChannel: API.OperationMethod<
+  DeleteChannelRequest,
   DeleteChannelResponse,
   | BadRequestException
   | ConflictException
@@ -3011,9 +3002,8 @@ export const deleteChannel: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const deleteChannelBan: (
-  input: DeleteChannelBanRequest,
-) => effect.Effect<
+export const deleteChannelBan: API.OperationMethod<
+  DeleteChannelBanRequest,
   DeleteChannelBanResponse,
   | BadRequestException
   | ForbiddenException
@@ -3041,9 +3031,8 @@ export const deleteChannelBan: (
  * This API works only when the channel flow is not associated with any channel. To get a list of all channels that a channel flow is associated with, use the
  * `ListChannelsAssociatedWithChannelFlow` API. Use the `DisassociateChannelFlow` API to disassociate a channel flow from all channels.
  */
-export const deleteChannelFlow: (
-  input: DeleteChannelFlowRequest,
-) => effect.Effect<
+export const deleteChannelFlow: API.OperationMethod<
+  DeleteChannelFlowRequest,
   DeleteChannelFlowResponse,
   | BadRequestException
   | ConflictException
@@ -3074,9 +3063,8 @@ export const deleteChannelFlow: (
  * `AppInstanceUserArn` of the user that makes the API call as the value in
  * the header.
  */
-export const deleteChannelMembership: (
-  input: DeleteChannelMembershipRequest,
-) => effect.Effect<
+export const deleteChannelMembership: API.OperationMethod<
+  DeleteChannelMembershipRequest,
   DeleteChannelMembershipResponse,
   | BadRequestException
   | ConflictException
@@ -3109,9 +3097,8 @@ export const deleteChannelMembership: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const deleteChannelMessage: (
-  input: DeleteChannelMessageRequest,
-) => effect.Effect<
+export const deleteChannelMessage: API.OperationMethod<
+  DeleteChannelMessageRequest,
   DeleteChannelMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -3140,9 +3127,8 @@ export const deleteChannelMessage: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const deleteChannelModerator: (
-  input: DeleteChannelModeratorRequest,
-) => effect.Effect<
+export const deleteChannelModerator: API.OperationMethod<
+  DeleteChannelModeratorRequest,
   DeleteChannelModeratorResponse,
   | BadRequestException
   | ForbiddenException
@@ -3168,9 +3154,8 @@ export const deleteChannelModerator: (
  * Deletes the streaming configurations for an `AppInstance`. For more information, see
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
-export const deleteMessagingStreamingConfigurations: (
-  input: DeleteMessagingStreamingConfigurationsRequest,
-) => effect.Effect<
+export const deleteMessagingStreamingConfigurations: API.OperationMethod<
+  DeleteMessagingStreamingConfigurationsRequest,
   DeleteMessagingStreamingConfigurationsResponse,
   | BadRequestException
   | ForbiddenException
@@ -3200,9 +3185,8 @@ export const deleteMessagingStreamingConfigurations: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannel: (
-  input: DescribeChannelRequest,
-) => effect.Effect<
+export const describeChannel: API.OperationMethod<
+  DescribeChannelRequest,
   DescribeChannelResponse,
   | BadRequestException
   | ForbiddenException
@@ -3231,9 +3215,8 @@ export const describeChannel: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannelBan: (
-  input: DescribeChannelBanRequest,
-) => effect.Effect<
+export const describeChannelBan: API.OperationMethod<
+  DescribeChannelBanRequest,
   DescribeChannelBanResponse,
   | BadRequestException
   | ForbiddenException
@@ -3260,9 +3243,8 @@ export const describeChannelBan: (
 /**
  * Returns the full details of a channel flow in an Amazon Chime `AppInstance`. This is a developer API.
  */
-export const describeChannelFlow: (
-  input: DescribeChannelFlowRequest,
-) => effect.Effect<
+export const describeChannelFlow: API.OperationMethod<
+  DescribeChannelFlowRequest,
   DescribeChannelFlowResponse,
   | BadRequestException
   | ForbiddenException
@@ -3291,9 +3273,8 @@ export const describeChannelFlow: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannelMembership: (
-  input: DescribeChannelMembershipRequest,
-) => effect.Effect<
+export const describeChannelMembership: API.OperationMethod<
+  DescribeChannelMembershipRequest,
   DescribeChannelMembershipResponse,
   | BadRequestException
   | ForbiddenException
@@ -3325,9 +3306,8 @@ export const describeChannelMembership: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannelMembershipForAppInstanceUser: (
-  input: DescribeChannelMembershipForAppInstanceUserRequest,
-) => effect.Effect<
+export const describeChannelMembershipForAppInstanceUser: API.OperationMethod<
+  DescribeChannelMembershipForAppInstanceUserRequest,
   DescribeChannelMembershipForAppInstanceUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -3357,9 +3337,8 @@ export const describeChannelMembershipForAppInstanceUser: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const describeChannelModeratedByAppInstanceUser: (
-  input: DescribeChannelModeratedByAppInstanceUserRequest,
-) => effect.Effect<
+export const describeChannelModeratedByAppInstanceUser: API.OperationMethod<
+  DescribeChannelModeratedByAppInstanceUserRequest,
   DescribeChannelModeratedByAppInstanceUserResponse,
   | BadRequestException
   | ForbiddenException
@@ -3388,9 +3367,8 @@ export const describeChannelModeratedByAppInstanceUser: (
  * `AppInstanceUserArn` of the user that makes the API call as the value in
  * the header.
  */
-export const describeChannelModerator: (
-  input: DescribeChannelModeratorRequest,
-) => effect.Effect<
+export const describeChannelModerator: API.OperationMethod<
+  DescribeChannelModeratorRequest,
   DescribeChannelModeratorResponse,
   | BadRequestException
   | ForbiddenException
@@ -3424,9 +3402,8 @@ export const describeChannelModerator: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const disassociateChannelFlow: (
-  input: DisassociateChannelFlowRequest,
-) => effect.Effect<
+export const disassociateChannelFlow: API.OperationMethod<
+  DisassociateChannelFlowRequest,
   DisassociateChannelFlowResponse,
   | BadRequestException
   | ConflictException
@@ -3463,9 +3440,8 @@ export const disassociateChannelFlow: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const getChannelMembershipPreferences: (
-  input: GetChannelMembershipPreferencesRequest,
-) => effect.Effect<
+export const getChannelMembershipPreferences: API.OperationMethod<
+  GetChannelMembershipPreferencesRequest,
   GetChannelMembershipPreferencesResponse,
   | BadRequestException
   | ForbiddenException
@@ -3494,9 +3470,8 @@ export const getChannelMembershipPreferences: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const getChannelMessage: (
-  input: GetChannelMessageRequest,
-) => effect.Effect<
+export const getChannelMessage: API.OperationMethod<
+  GetChannelMessageRequest,
   GetChannelMessageResponse,
   | BadRequestException
   | ForbiddenException
@@ -3550,9 +3525,8 @@ export const getChannelMessage: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const getChannelMessageStatus: (
-  input: GetChannelMessageStatusRequest,
-) => effect.Effect<
+export const getChannelMessageStatus: API.OperationMethod<
+  GetChannelMessageStatusRequest,
   GetChannelMessageStatusResponse,
   | BadRequestException
   | ForbiddenException
@@ -3577,9 +3551,8 @@ export const getChannelMessageStatus: (
 /**
  * The details of the endpoint for the messaging session.
  */
-export const getMessagingSessionEndpoint: (
-  input: GetMessagingSessionEndpointRequest,
-) => effect.Effect<
+export const getMessagingSessionEndpoint: API.OperationMethod<
+  GetMessagingSessionEndpointRequest,
   GetMessagingSessionEndpointResponse,
   | ForbiddenException
   | ServiceFailureException
@@ -3603,9 +3576,8 @@ export const getMessagingSessionEndpoint: (
  * Retrieves the data streaming configuration for an `AppInstance`. For more information, see
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
-export const getMessagingStreamingConfigurations: (
-  input: GetMessagingStreamingConfigurationsRequest,
-) => effect.Effect<
+export const getMessagingStreamingConfigurations: API.OperationMethod<
+  GetMessagingStreamingConfigurationsRequest,
   GetMessagingStreamingConfigurationsResponse,
   | BadRequestException
   | ForbiddenException
@@ -3636,20 +3608,18 @@ export const getMessagingStreamingConfigurations: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelBans: {
-  (
-    input: ListChannelBansRequest,
-  ): effect.Effect<
-    ListChannelBansResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelBans: API.OperationMethod<
+  ListChannelBansRequest,
+  ListChannelBansResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelBansRequest,
   ) => stream.Stream<
@@ -3696,20 +3666,18 @@ export const listChannelBans: {
 /**
  * Returns a paginated lists of all the channel flows created under a single Chime. This is a developer API.
  */
-export const listChannelFlows: {
-  (
-    input: ListChannelFlowsRequest,
-  ): effect.Effect<
-    ListChannelFlowsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelFlows: API.OperationMethod<
+  ListChannelFlowsRequest,
+  ListChannelFlowsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelFlowsRequest,
   ) => stream.Stream<
@@ -3763,20 +3731,18 @@ export const listChannelFlows: {
  * If you want to list the channels to which a specific app instance user belongs, see the
  * ListChannelMembershipsForAppInstanceUser API.
  */
-export const listChannelMemberships: {
-  (
-    input: ListChannelMembershipsRequest,
-  ): effect.Effect<
-    ListChannelMembershipsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelMemberships: API.OperationMethod<
+  ListChannelMembershipsRequest,
+  ListChannelMembershipsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelMembershipsRequest,
   ) => stream.Stream<
@@ -3828,20 +3794,18 @@ export const listChannelMemberships: {
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelMembershipsForAppInstanceUser: {
-  (
-    input: ListChannelMembershipsForAppInstanceUserRequest,
-  ): effect.Effect<
-    ListChannelMembershipsForAppInstanceUserResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelMembershipsForAppInstanceUser: API.OperationMethod<
+  ListChannelMembershipsForAppInstanceUserRequest,
+  ListChannelMembershipsForAppInstanceUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelMembershipsForAppInstanceUserRequest,
   ) => stream.Stream<
@@ -3898,20 +3862,18 @@ export const listChannelMembershipsForAppInstanceUser: {
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelMessages: {
-  (
-    input: ListChannelMessagesRequest,
-  ): effect.Effect<
-    ListChannelMessagesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelMessages: API.OperationMethod<
+  ListChannelMessagesRequest,
+  ListChannelMessagesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelMessagesRequest,
   ) => stream.Stream<
@@ -3962,20 +3924,18 @@ export const listChannelMessages: {
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelModerators: {
-  (
-    input: ListChannelModeratorsRequest,
-  ): effect.Effect<
-    ListChannelModeratorsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelModerators: API.OperationMethod<
+  ListChannelModeratorsRequest,
+  ListChannelModeratorsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelModeratorsRequest,
   ) => stream.Stream<
@@ -4035,20 +3995,18 @@ export const listChannelModerators: {
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannels: {
-  (
-    input: ListChannelsRequest,
-  ): effect.Effect<
-    ListChannelsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannels: API.OperationMethod<
+  ListChannelsRequest,
+  ListChannelsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsRequest,
   ) => stream.Stream<
@@ -4095,20 +4053,18 @@ export const listChannels: {
 /**
  * Lists all channels associated with a specified channel flow. You can associate a channel flow with multiple channels, but you can only associate a channel with one channel flow. This is a developer API.
  */
-export const listChannelsAssociatedWithChannelFlow: {
-  (
-    input: ListChannelsAssociatedWithChannelFlowRequest,
-  ): effect.Effect<
-    ListChannelsAssociatedWithChannelFlowResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelsAssociatedWithChannelFlow: API.OperationMethod<
+  ListChannelsAssociatedWithChannelFlowRequest,
+  ListChannelsAssociatedWithChannelFlowResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsAssociatedWithChannelFlowRequest,
   ) => stream.Stream<
@@ -4159,20 +4115,18 @@ export const listChannelsAssociatedWithChannelFlow: {
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const listChannelsModeratedByAppInstanceUser: {
-  (
-    input: ListChannelsModeratedByAppInstanceUserRequest,
-  ): effect.Effect<
-    ListChannelsModeratedByAppInstanceUserResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannelsModeratedByAppInstanceUser: API.OperationMethod<
+  ListChannelsModeratedByAppInstanceUserRequest,
+  ListChannelsModeratedByAppInstanceUserResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsModeratedByAppInstanceUserRequest,
   ) => stream.Stream<
@@ -4219,20 +4173,18 @@ export const listChannelsModeratedByAppInstanceUser: {
 /**
  * Lists all the SubChannels in an elastic channel when given a channel ID. Available only to the app instance admins and channel moderators of elastic channels.
  */
-export const listSubChannels: {
-  (
-    input: ListSubChannelsRequest,
-  ): effect.Effect<
-    ListSubChannelsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSubChannels: API.OperationMethod<
+  ListSubChannelsRequest,
+  ListSubChannelsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubChannelsRequest,
   ) => stream.Stream<
@@ -4279,9 +4231,8 @@ export const listSubChannels: {
 /**
  * Lists the tags applied to an Amazon Chime SDK messaging resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -4316,9 +4267,8 @@ export const listTagsForResource: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const putChannelExpirationSettings: (
-  input: PutChannelExpirationSettingsRequest,
-) => effect.Effect<
+export const putChannelExpirationSettings: API.OperationMethod<
+  PutChannelExpirationSettingsRequest,
   PutChannelExpirationSettingsResponse,
   | BadRequestException
   | ConflictException
@@ -4353,9 +4303,8 @@ export const putChannelExpirationSettings: (
  * `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in the
  * header.
  */
-export const putChannelMembershipPreferences: (
-  input: PutChannelMembershipPreferencesRequest,
-) => effect.Effect<
+export const putChannelMembershipPreferences: API.OperationMethod<
+  PutChannelMembershipPreferencesRequest,
   PutChannelMembershipPreferencesResponse,
   | BadRequestException
   | ConflictException
@@ -4383,9 +4332,8 @@ export const putChannelMembershipPreferences: (
  * Sets the data streaming configuration for an `AppInstance`. For more information, see
  * Streaming messaging data in the *Amazon Chime SDK Developer Guide*.
  */
-export const putMessagingStreamingConfigurations: (
-  input: PutMessagingStreamingConfigurationsRequest,
-) => effect.Effect<
+export const putMessagingStreamingConfigurations: API.OperationMethod<
+  PutMessagingStreamingConfigurationsRequest,
   PutMessagingStreamingConfigurationsResponse,
   | BadRequestException
   | ConflictException
@@ -4419,9 +4367,8 @@ export const putMessagingStreamingConfigurations: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const redactChannelMessage: (
-  input: RedactChannelMessageRequest,
-) => effect.Effect<
+export const redactChannelMessage: API.OperationMethod<
+  RedactChannelMessageRequest,
   RedactChannelMessageResponse,
   | BadRequestException
   | ConflictException
@@ -4456,20 +4403,18 @@ export const redactChannelMessage: (
  *
  * This operation isn't supported for `AppInstanceUsers` with a large number of memberships.
  */
-export const searchChannels: {
-  (
-    input: SearchChannelsRequest,
-  ): effect.Effect<
-    SearchChannelsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottledClientException
-    | UnauthorizedClientException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchChannels: API.OperationMethod<
+  SearchChannelsRequest,
+  SearchChannelsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottledClientException
+  | UnauthorizedClientException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchChannelsRequest,
   ) => stream.Stream<
@@ -4525,9 +4470,8 @@ export const searchChannels: {
  *
  * `CONTROL` messages are limited to 30 bytes and do not contain metadata.
  */
-export const sendChannelMessage: (
-  input: SendChannelMessageRequest,
-) => effect.Effect<
+export const sendChannelMessage: API.OperationMethod<
+  SendChannelMessageRequest,
   SendChannelMessageResponse,
   | BadRequestException
   | ConflictException
@@ -4554,9 +4498,8 @@ export const sendChannelMessage: (
 /**
  * Applies the specified tags to the specified Amazon Chime SDK messaging resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -4583,9 +4526,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified Amazon Chime SDK messaging resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -4616,9 +4558,8 @@ export const untagResource: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const updateChannel: (
-  input: UpdateChannelRequest,
-) => effect.Effect<
+export const updateChannel: API.OperationMethod<
+  UpdateChannelRequest,
   UpdateChannelResponse,
   | BadRequestException
   | ConflictException
@@ -4645,9 +4586,8 @@ export const updateChannel: (
 /**
  * Updates channel flow attributes. This is a developer API.
  */
-export const updateChannelFlow: (
-  input: UpdateChannelFlowRequest,
-) => effect.Effect<
+export const updateChannelFlow: API.OperationMethod<
+  UpdateChannelFlowRequest,
   UpdateChannelFlowResponse,
   | BadRequestException
   | ConflictException
@@ -4678,9 +4618,8 @@ export const updateChannelFlow: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const updateChannelMessage: (
-  input: UpdateChannelMessageRequest,
-) => effect.Effect<
+export const updateChannelMessage: API.OperationMethod<
+  UpdateChannelMessageRequest,
   UpdateChannelMessageResponse,
   | BadRequestException
   | ConflictException
@@ -4711,9 +4650,8 @@ export const updateChannelMessage: (
  * ARN of the `AppInstanceUser` or `AppInstanceBot` that makes the API call as the value in
  * the header.
  */
-export const updateChannelReadMarker: (
-  input: UpdateChannelReadMarkerRequest,
-) => effect.Effect<
+export const updateChannelReadMarker: API.OperationMethod<
+  UpdateChannelReadMarkerRequest,
   UpdateChannelReadMarkerResponse,
   | BadRequestException
   | ConflictException

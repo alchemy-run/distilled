@@ -1243,9 +1243,8 @@ export class CommonServiceException extends S.TaggedErrorClass<CommonServiceExce
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const addPermission: (
-  input: AddPermissionRequest,
-) => effect.Effect<
+export const addPermission: API.OperationMethod<
+  AddPermissionRequest,
   AddPermissionResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1281,9 +1280,8 @@ export const addPermission: (
  * - Only one active message movement task is supported per queue at any given
  * time.
  */
-export const cancelMessageMoveTask: (
-  input: CancelMessageMoveTaskRequest,
-) => effect.Effect<
+export const cancelMessageMoveTask: API.OperationMethod<
+  CancelMessageMoveTaskRequest,
   CancelMessageMoveTaskResult,
   | InvalidAddress
   | InvalidSecurity
@@ -1352,9 +1350,8 @@ export const cancelMessageMoveTask: (
  * `ChangeMessageVisibility` action) the next time the message is
  * received.
  */
-export const changeMessageVisibility: (
-  input: ChangeMessageVisibilityRequest,
-) => effect.Effect<
+export const changeMessageVisibility: API.OperationMethod<
+  ChangeMessageVisibilityRequest,
   ChangeMessageVisibilityResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1390,9 +1387,8 @@ export const changeMessageVisibility: (
  *
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
-export const changeMessageVisibilityBatch: (
-  input: ChangeMessageVisibilityBatchRequest,
-) => effect.Effect<
+export const changeMessageVisibilityBatch: API.OperationMethod<
+  ChangeMessageVisibilityBatchRequest,
   ChangeMessageVisibilityBatchResult,
   | BatchEntryIdsNotDistinct
   | EmptyBatchRequest
@@ -1468,9 +1464,8 @@ export const changeMessageVisibilityBatch: (
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const createQueue: (
-  input: CreateQueueRequest,
-) => effect.Effect<
+export const createQueue: API.OperationMethod<
+  CreateQueueRequest,
   CreateQueueResult,
   | InvalidAddress
   | InvalidAttributeName
@@ -1523,9 +1518,8 @@ export const createQueue: (
  * receive request. You should ensure that your application is idempotent, so that
  * receiving a message more than once does not cause issues.
  */
-export const deleteMessage: (
-  input: DeleteMessageRequest,
-) => effect.Effect<
+export const deleteMessage: API.OperationMethod<
+  DeleteMessageRequest,
   DeleteMessageResponse,
   | InvalidAddress
   | InvalidIdFormat
@@ -1557,9 +1551,8 @@ export const deleteMessage: (
  *
  * Because the batch request can result in a combination of successful and unsuccessful actions, you should check for batch errors even when the call returns an HTTP status code of `200`.
  */
-export const deleteMessageBatch: (
-  input: DeleteMessageBatchRequest,
-) => effect.Effect<
+export const deleteMessageBatch: API.OperationMethod<
+  DeleteMessageBatchRequest,
   DeleteMessageBatchResult,
   | BatchEntryIdsNotDistinct
   | EmptyBatchRequest
@@ -1610,9 +1603,8 @@ export const deleteMessageBatch: (
  *
  * The delete operation uses the HTTP `GET` verb.
  */
-export const deleteQueue: (
-  input: DeleteQueueRequest,
-) => effect.Effect<
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueRequest,
   DeleteQueueResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1637,9 +1629,8 @@ export const deleteQueue: (
  *
  * To determine whether a queue is FIFO, you can check whether `QueueName` ends with the `.fifo` suffix.
  */
-export const getQueueAttributes: (
-  input: GetQueueAttributesRequest,
-) => effect.Effect<
+export const getQueueAttributes: API.OperationMethod<
+  GetQueueAttributesRequest,
   GetQueueAttributesResult,
   | InvalidAddress
   | InvalidAttributeName
@@ -1675,9 +1666,8 @@ export const getQueueAttributes: (
  * API or Allow developers to write messages to a shared queue in the Amazon SQS
  * Developer Guide.
  */
-export const getQueueUrl: (
-  input: GetQueueUrlRequest,
-) => effect.Effect<
+export const getQueueUrl: API.OperationMethod<
+  GetQueueUrlRequest,
   GetQueueUrlResult,
   | InvalidAddress
   | InvalidSecurity
@@ -1712,19 +1702,17 @@ export const getQueueUrl: (
  * For more information about using dead-letter queues, see Using Amazon SQS Dead-Letter Queues in the Amazon SQS Developer
  * Guide.
  */
-export const listDeadLetterSourceQueues: {
-  (
-    input: ListDeadLetterSourceQueuesRequest,
-  ): effect.Effect<
-    ListDeadLetterSourceQueuesResult,
-    | InvalidAddress
-    | InvalidSecurity
-    | QueueDoesNotExist
-    | RequestThrottled
-    | UnsupportedOperation
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeadLetterSourceQueues: API.OperationMethod<
+  ListDeadLetterSourceQueuesRequest,
+  ListDeadLetterSourceQueuesResult,
+  | InvalidAddress
+  | InvalidSecurity
+  | QueueDoesNotExist
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeadLetterSourceQueuesRequest,
   ) => stream.Stream<
@@ -1778,9 +1766,8 @@ export const listDeadLetterSourceQueues: {
  * - Only one active message movement task is supported per queue at any given
  * time.
  */
-export const listMessageMoveTasks: (
-  input: ListMessageMoveTasksRequest,
-) => effect.Effect<
+export const listMessageMoveTasks: API.OperationMethod<
+  ListMessageMoveTasksRequest,
   ListMessageMoveTasksResult,
   | InvalidAddress
   | InvalidSecurity
@@ -1822,18 +1809,16 @@ export const listMessageMoveTasks: (
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const listQueues: {
-  (
-    input: ListQueuesRequest,
-  ): effect.Effect<
-    ListQueuesResult,
-    | InvalidAddress
-    | InvalidSecurity
-    | RequestThrottled
-    | UnsupportedOperation
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueues: API.OperationMethod<
+  ListQueuesRequest,
+  ListQueuesResult,
+  | InvalidAddress
+  | InvalidSecurity
+  | RequestThrottled
+  | UnsupportedOperation
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<
@@ -1881,9 +1866,8 @@ export const listQueues: {
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const listQueueTags: (
-  input: ListQueueTagsRequest,
-) => effect.Effect<
+export const listQueueTags: API.OperationMethod<
+  ListQueueTagsRequest,
   ListQueueTagsResult,
   | InvalidAddress
   | InvalidSecurity
@@ -1920,9 +1904,8 @@ export const listQueueTags: (
  * Messages sent to the queue *after* you call `PurgeQueue`
  * might be deleted while the queue is being purged.
  */
-export const purgeQueue: (
-  input: PurgeQueueRequest,
-) => effect.Effect<
+export const purgeQueue: API.OperationMethod<
+  PurgeQueueRequest,
   PurgeQueueResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -1984,9 +1967,8 @@ export const purgeQueue: (
  *
  * In the future, new attributes might be added. If you write code that calls this action, we recommend that you structure your code so that it can handle new attributes gracefully.
  */
-export const receiveMessage: (
-  input: ReceiveMessageRequest,
-) => effect.Effect<
+export const receiveMessage: API.OperationMethod<
+  ReceiveMessageRequest,
   ReceiveMessageResult,
   | InvalidAddress
   | InvalidSecurity
@@ -2038,9 +2020,8 @@ export const receiveMessage: (
  *
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
-export const removePermission: (
-  input: RemovePermissionRequest,
-) => effect.Effect<
+export const removePermission: API.OperationMethod<
+  RemovePermissionRequest,
   RemovePermissionResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -2069,9 +2050,8 @@ export const removePermission: (
  *
  * If a message contains characters outside the allowed set, Amazon SQS rejects the message and returns an InvalidMessageContents error. Ensure that your message body includes only valid characters to avoid this exception.
  */
-export const sendMessage: (
-  input: SendMessageRequest,
-) => effect.Effect<
+export const sendMessage: API.OperationMethod<
+  SendMessageRequest,
   SendMessageResult,
   | InvalidAddress
   | InvalidMessageContents
@@ -2136,9 +2116,8 @@ export const sendMessage: (
  * If you don't specify the `DelaySeconds` parameter for an entry, Amazon SQS uses
  * the default value for the queue.
  */
-export const sendMessageBatch: (
-  input: SendMessageBatchRequest,
-) => effect.Effect<
+export const sendMessageBatch: API.OperationMethod<
+  SendMessageBatchRequest,
   SendMessageBatchResult,
   | BatchEntryIdsNotDistinct
   | BatchRequestTooLong
@@ -2205,9 +2184,8 @@ export const sendMessageBatch: (
  *
  * - To remove the ability to change queue permissions, you must deny permission to the `AddPermission`, `RemovePermission`, and `SetQueueAttributes` actions in your IAM policy.
  */
-export const setQueueAttributes: (
-  input: SetQueueAttributesRequest,
-) => effect.Effect<
+export const setQueueAttributes: API.OperationMethod<
+  SetQueueAttributesRequest,
   SetQueueAttributesResponse,
   | InvalidAddress
   | InvalidAttributeName
@@ -2254,9 +2232,8 @@ export const setQueueAttributes: (
  * - Only one active message movement task is supported per queue at any given
  * time.
  */
-export const startMessageMoveTask: (
-  input: StartMessageMoveTaskRequest,
-) => effect.Effect<
+export const startMessageMoveTask: API.OperationMethod<
+  StartMessageMoveTaskRequest,
   StartMessageMoveTaskResult,
   | InvalidAddress
   | InvalidSecurity
@@ -2304,9 +2281,8 @@ export const startMessageMoveTask: (
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const tagQueue: (
-  input: TagQueueRequest,
-) => effect.Effect<
+export const tagQueue: API.OperationMethod<
+  TagQueueRequest,
   TagQueueResponse,
   | InvalidAddress
   | InvalidSecurity
@@ -2334,9 +2310,8 @@ export const tagQueue: (
  * see Grant
  * cross-account permissions to a role and a username in the *Amazon SQS Developer Guide*.
  */
-export const untagQueue: (
-  input: UntagQueueRequest,
-) => effect.Effect<
+export const untagQueue: API.OperationMethod<
+  UntagQueueRequest,
   UntagQueueResponse,
   | InvalidAddress
   | InvalidSecurity

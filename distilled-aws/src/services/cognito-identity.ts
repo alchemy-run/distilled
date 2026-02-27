@@ -1086,9 +1086,8 @@ export class ConcurrentModificationException extends S.TaggedErrorClass<Concurre
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const createIdentityPool: (
-  input: CreateIdentityPoolInput,
-) => effect.Effect<
+export const createIdentityPool: API.OperationMethod<
+  CreateIdentityPoolInput,
   IdentityPool,
   | InternalErrorException
   | InvalidParameterException
@@ -1117,9 +1116,8 @@ export const createIdentityPool: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const deleteIdentities: (
-  input: DeleteIdentitiesInput,
-) => effect.Effect<
+export const deleteIdentities: API.OperationMethod<
+  DeleteIdentitiesInput,
   DeleteIdentitiesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1142,9 +1140,8 @@ export const deleteIdentities: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const deleteIdentityPool: (
-  input: DeleteIdentityPoolInput,
-) => effect.Effect<
+export const deleteIdentityPool: API.OperationMethod<
+  DeleteIdentityPoolInput,
   DeleteIdentityPoolResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1171,9 +1168,8 @@ export const deleteIdentityPool: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const describeIdentity: (
-  input: DescribeIdentityInput,
-) => effect.Effect<
+export const describeIdentity: API.OperationMethod<
+  DescribeIdentityInput,
   IdentityDescription,
   | InternalErrorException
   | InvalidParameterException
@@ -1200,9 +1196,8 @@ export const describeIdentity: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const describeIdentityPool: (
-  input: DescribeIdentityPoolInput,
-) => effect.Effect<
+export const describeIdentityPool: API.OperationMethod<
+  DescribeIdentityPoolInput,
   IdentityPool,
   | InternalErrorException
   | InvalidParameterException
@@ -1229,9 +1224,8 @@ export const describeIdentityPool: (
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const getCredentialsForIdentity: (
-  input: GetCredentialsForIdentityInput,
-) => effect.Effect<
+export const getCredentialsForIdentity: API.OperationMethod<
+  GetCredentialsForIdentityInput,
   GetCredentialsForIdentityResponse,
   | ExternalServiceException
   | InternalErrorException
@@ -1263,9 +1257,8 @@ export const getCredentialsForIdentity: (
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const getId: (
-  input: GetIdInput,
-) => effect.Effect<
+export const getId: API.OperationMethod<
+  GetIdInput,
   GetIdResponse,
   | ExternalServiceException
   | InternalErrorException
@@ -1297,9 +1290,8 @@ export const getId: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const getIdentityPoolRoles: (
-  input: GetIdentityPoolRolesInput,
-) => effect.Effect<
+export const getIdentityPoolRoles: API.OperationMethod<
+  GetIdentityPoolRolesInput,
   GetIdentityPoolRolesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1330,9 +1322,8 @@ export const getIdentityPoolRoles: (
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const getOpenIdToken: (
-  input: GetOpenIdTokenInput,
-) => effect.Effect<
+export const getOpenIdToken: API.OperationMethod<
+  GetOpenIdTokenInput,
   GetOpenIdTokenResponse,
   | ExternalServiceException
   | InternalErrorException
@@ -1374,9 +1365,8 @@ export const getOpenIdToken: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const getOpenIdTokenForDeveloperIdentity: (
-  input: GetOpenIdTokenForDeveloperIdentityInput,
-) => effect.Effect<
+export const getOpenIdTokenForDeveloperIdentity: API.OperationMethod<
+  GetOpenIdTokenForDeveloperIdentityInput,
   GetOpenIdTokenForDeveloperIdentityResponse,
   | DeveloperUserAlreadyRegisteredException
   | InternalErrorException
@@ -1404,9 +1394,8 @@ export const getOpenIdTokenForDeveloperIdentity: (
  * Use `GetPrincipalTagAttributeMap` to list all mappings between
  * `PrincipalTags` and user attributes.
  */
-export const getPrincipalTagAttributeMap: (
-  input: GetPrincipalTagAttributeMapInput,
-) => effect.Effect<
+export const getPrincipalTagAttributeMap: API.OperationMethod<
+  GetPrincipalTagAttributeMapInput,
   GetPrincipalTagAttributeMapResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1432,9 +1421,8 @@ export const getPrincipalTagAttributeMap: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const listIdentities: (
-  input: ListIdentitiesInput,
-) => effect.Effect<
+export const listIdentities: API.OperationMethod<
+  ListIdentitiesInput,
   ListIdentitiesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1460,19 +1448,17 @@ export const listIdentities: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const listIdentityPools: {
-  (
-    input: ListIdentityPoolsInput,
-  ): effect.Effect<
-    ListIdentityPoolsResponse,
-    | InternalErrorException
-    | InvalidParameterException
-    | NotAuthorizedException
-    | ResourceNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Creds | Region | HttpClient.HttpClient
-  >;
+export const listIdentityPools: API.OperationMethod<
+  ListIdentityPoolsInput,
+  ListIdentityPoolsResponse,
+  | InternalErrorException
+  | InvalidParameterException
+  | NotAuthorizedException
+  | ResourceNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Creds | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdentityPoolsInput,
   ) => stream.Stream<
@@ -1522,9 +1508,8 @@ export const listIdentityPools: {
  *
  * You can use this action up to 10 times per second, per account.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1565,9 +1550,8 @@ export const listTagsForResource: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const lookupDeveloperIdentity: (
-  input: LookupDeveloperIdentityInput,
-) => effect.Effect<
+export const lookupDeveloperIdentity: API.OperationMethod<
+  LookupDeveloperIdentityInput,
   LookupDeveloperIdentityResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1607,9 +1591,8 @@ export const lookupDeveloperIdentity: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const mergeDeveloperIdentities: (
-  input: MergeDeveloperIdentitiesInput,
-) => effect.Effect<
+export const mergeDeveloperIdentities: API.OperationMethod<
+  MergeDeveloperIdentitiesInput,
   MergeDeveloperIdentitiesResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1637,9 +1620,8 @@ export const mergeDeveloperIdentities: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const setIdentityPoolRoles: (
-  input: SetIdentityPoolRolesInput,
-) => effect.Effect<
+export const setIdentityPoolRoles: API.OperationMethod<
+  SetIdentityPoolRolesInput,
   SetIdentityPoolRolesResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -1667,9 +1649,8 @@ export const setIdentityPoolRoles: (
  * You can use this operation to use default (username and clientID) attribute or custom
  * attribute mappings.
  */
-export const setPrincipalTagAttributeMap: (
-  input: SetPrincipalTagAttributeMapInput,
-) => effect.Effect<
+export const setPrincipalTagAttributeMap: API.OperationMethod<
+  SetPrincipalTagAttributeMapInput,
   SetPrincipalTagAttributeMapResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1709,9 +1690,8 @@ export const setPrincipalTagAttributeMap: (
  * You can use this action up to 5 times per second, per account. An identity pool can have
  * as many as 50 tags.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1740,9 +1720,8 @@ export const tagResource: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const unlinkDeveloperIdentity: (
-  input: UnlinkDeveloperIdentityInput,
-) => effect.Effect<
+export const unlinkDeveloperIdentity: API.OperationMethod<
+  UnlinkDeveloperIdentityInput,
   UnlinkDeveloperIdentityResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1771,9 +1750,8 @@ export const unlinkDeveloperIdentity: (
  *
  * This is a public API. You do not need any credentials to call this API.
  */
-export const unlinkIdentity: (
-  input: UnlinkIdentityInput,
-) => effect.Effect<
+export const unlinkIdentity: API.OperationMethod<
+  UnlinkIdentityInput,
   UnlinkIdentityResponse,
   | ExternalServiceException
   | InternalErrorException
@@ -1801,9 +1779,8 @@ export const unlinkIdentity: (
  * Removes the specified tags from the specified Amazon Cognito identity pool. You can use
  * this action up to 5 times per second, per account
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1831,9 +1808,8 @@ export const untagResource: (
  * You must use Amazon Web Services developer credentials to call this
  * operation.
  */
-export const updateIdentityPool: (
-  input: IdentityPool,
-) => effect.Effect<
+export const updateIdentityPool: API.OperationMethod<
+  IdentityPool,
   IdentityPool,
   | ConcurrentModificationException
   | InternalErrorException

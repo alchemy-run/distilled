@@ -329,19 +329,17 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 /**
  * Provides a list of analysis segments for a real-time analysis session.
  */
-export const listRealtimeContactAnalysisSegments: {
-  (
-    input: ListRealtimeContactAnalysisSegmentsRequest,
-  ): effect.Effect<
-    ListRealtimeContactAnalysisSegmentsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRealtimeContactAnalysisSegments: API.OperationMethod<
+  ListRealtimeContactAnalysisSegmentsRequest,
+  ListRealtimeContactAnalysisSegmentsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRealtimeContactAnalysisSegmentsRequest,
   ) => stream.Stream<

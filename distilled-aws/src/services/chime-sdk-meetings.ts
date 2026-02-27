@@ -1073,9 +1073,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
  * Creates up to 100 attendees for an active Amazon Chime SDK meeting. For more information about the Amazon Chime SDK, see
  * Using the Amazon Chime SDK in the *Amazon Chime Developer Guide*.
  */
-export const batchCreateAttendee: (
-  input: BatchCreateAttendeeRequest,
-) => effect.Effect<
+export const batchCreateAttendee: API.OperationMethod<
+  BatchCreateAttendeeRequest,
   BatchCreateAttendeeResponse,
   | BadRequestException
   | ForbiddenException
@@ -1135,9 +1134,8 @@ export const batchCreateAttendee: (
  * - When you change a `video` or `content` capability from `None` or `Receive` to `Send` or `SendReceive` ,
  * and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
  */
-export const batchUpdateAttendeeCapabilitiesExcept: (
-  input: BatchUpdateAttendeeCapabilitiesExceptRequest,
-) => effect.Effect<
+export const batchUpdateAttendeeCapabilitiesExcept: API.OperationMethod<
+  BatchUpdateAttendeeCapabilitiesExceptRequest,
   BatchUpdateAttendeeCapabilitiesExceptResponse,
   | BadRequestException
   | ConflictException
@@ -1169,9 +1167,8 @@ export const batchUpdateAttendeeCapabilitiesExcept: (
  * in the
  * *Amazon Chime Developer Guide*.
  */
-export const createAttendee: (
-  input: CreateAttendeeRequest,
-) => effect.Effect<
+export const createAttendee: API.OperationMethod<
+  CreateAttendeeRequest,
   CreateAttendeeResponse,
   | BadRequestException
   | ForbiddenException
@@ -1215,9 +1212,8 @@ export const createAttendee: (
  *
  * - Video.MaxResolution: HD
  */
-export const createMeeting: (
-  input: CreateMeetingRequest,
-) => effect.Effect<
+export const createMeeting: API.OperationMethod<
+  CreateMeetingRequest,
   CreateMeetingResponse,
   | BadRequestException
   | ConflictException
@@ -1259,9 +1255,8 @@ export const createMeeting: (
  *
  * - Video.MaxResolution: HD
  */
-export const createMeetingWithAttendees: (
-  input: CreateMeetingWithAttendeesRequest,
-) => effect.Effect<
+export const createMeetingWithAttendees: API.OperationMethod<
+  CreateMeetingWithAttendeesRequest,
   CreateMeetingWithAttendeesResponse,
   | BadRequestException
   | ConflictException
@@ -1293,9 +1288,8 @@ export const createMeetingWithAttendees: (
  * Using the Amazon Chime SDK
  * in the *Amazon Chime Developer Guide*.
  */
-export const deleteAttendee: (
-  input: DeleteAttendeeRequest,
-) => effect.Effect<
+export const deleteAttendee: API.OperationMethod<
+  DeleteAttendeeRequest,
   DeleteAttendeeResponse,
   | BadRequestException
   | ForbiddenException
@@ -1325,9 +1319,8 @@ export const deleteAttendee: (
  * Using the Amazon Chime SDK in the
  * *Amazon Chime Developer Guide*.
  */
-export const deleteMeeting: (
-  input: DeleteMeetingRequest,
-) => effect.Effect<
+export const deleteMeeting: API.OperationMethod<
+  DeleteMeetingRequest,
   DeleteMeetingResponse,
   | BadRequestException
   | ForbiddenException
@@ -1356,9 +1349,8 @@ export const deleteMeeting: (
  * Using the Amazon Chime SDK
  * in the *Amazon Chime Developer Guide*.
  */
-export const getAttendee: (
-  input: GetAttendeeRequest,
-) => effect.Effect<
+export const getAttendee: API.OperationMethod<
+  GetAttendeeRequest,
   GetAttendeeResponse,
   | BadRequestException
   | ForbiddenException
@@ -1387,9 +1379,8 @@ export const getAttendee: (
  * Using the Amazon Chime SDK
  * in the *Amazon Chime Developer Guide*.
  */
-export const getMeeting: (
-  input: GetMeetingRequest,
-) => effect.Effect<
+export const getMeeting: API.OperationMethod<
+  GetMeetingRequest,
   GetMeetingResponse,
   | BadRequestException
   | ForbiddenException
@@ -1418,21 +1409,19 @@ export const getMeeting: (
  * Using the Amazon Chime SDK
  * in the *Amazon Chime Developer Guide*.
  */
-export const listAttendees: {
-  (
-    input: ListAttendeesRequest,
-  ): effect.Effect<
-    ListAttendeesResponse,
-    | BadRequestException
-    | ForbiddenException
-    | NotFoundException
-    | ServiceFailureException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttendees: API.OperationMethod<
+  ListAttendeesRequest,
+  ListAttendeesResponse,
+  | BadRequestException
+  | ForbiddenException
+  | NotFoundException
+  | ServiceFailureException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttendeesRequest,
   ) => stream.Stream<
@@ -1482,9 +1471,8 @@ export const listAttendees: {
 /**
  * Returns a list of the tags available for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1527,9 +1515,8 @@ export const listTagsForResource: (
  * that the session or communication is being recorded, and obtaining all necessary consents. You can opt out from Amazon Web Services using audio content to develop and
  * improve AWS AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
  */
-export const startMeetingTranscription: (
-  input: StartMeetingTranscriptionRequest,
-) => effect.Effect<
+export const startMeetingTranscription: API.OperationMethod<
+  StartMeetingTranscriptionRequest,
   StartMeetingTranscriptionResponse,
   | BadRequestException
   | ForbiddenException
@@ -1569,9 +1556,8 @@ export const startMeetingTranscription: (
  * that the session or communication is being recorded, and obtaining all necessary consents. You can opt out from Amazon Web Services using audio content to develop and
  * improve Amazon Web Services AI/ML services by configuring an AI services opt out policy using Amazon Web Services Organizations.
  */
-export const stopMeetingTranscription: (
-  input: StopMeetingTranscriptionRequest,
-) => effect.Effect<
+export const stopMeetingTranscription: API.OperationMethod<
+  StopMeetingTranscriptionRequest,
   StopMeetingTranscriptionResponse,
   | BadRequestException
   | ForbiddenException
@@ -1600,9 +1586,8 @@ export const stopMeetingTranscription: (
 /**
  * The resource that supports tags.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1648,9 +1633,8 @@ export const tagResource: (
  *
  * `ChimeSDKMeetings:DeleteTags`
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -1708,9 +1692,8 @@ export const untagResource: (
  * - When you change a `video` or `content` capability from `None` or `Receive` to `Send` or `SendReceive` ,
  * and if the attendee turned on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
  */
-export const updateAttendeeCapabilities: (
-  input: UpdateAttendeeCapabilitiesRequest,
-) => effect.Effect<
+export const updateAttendeeCapabilities: API.OperationMethod<
+  UpdateAttendeeCapabilitiesRequest,
   UpdateAttendeeCapabilitiesResponse,
   | BadRequestException
   | ConflictException

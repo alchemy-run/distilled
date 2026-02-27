@@ -1302,9 +1302,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Modifies an existing benefit application by applying amendments to specific fields while maintaining revision control.
  */
-export const amendBenefitApplication: (
-  input: AmendBenefitApplicationInput,
-) => effect.Effect<
+export const amendBenefitApplication: API.OperationMethod<
+  AmendBenefitApplicationInput,
   AmendBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1329,9 +1328,8 @@ export const amendBenefitApplication: (
 /**
  * Links an AWS resource to an existing benefit application for tracking and management purposes.
  */
-export const associateBenefitApplicationResource: (
-  input: AssociateBenefitApplicationResourceInput,
-) => effect.Effect<
+export const associateBenefitApplicationResource: API.OperationMethod<
+  AssociateBenefitApplicationResourceInput,
   AssociateBenefitApplicationResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1356,9 +1354,8 @@ export const associateBenefitApplicationResource: (
 /**
  * Cancels a benefit application that is currently in progress, preventing further processing.
  */
-export const cancelBenefitApplication: (
-  input: CancelBenefitApplicationInput,
-) => effect.Effect<
+export const cancelBenefitApplication: API.OperationMethod<
+  CancelBenefitApplicationInput,
   CancelBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1383,9 +1380,8 @@ export const cancelBenefitApplication: (
 /**
  * Creates a new benefit application for a partner to request access to AWS benefits and programs.
  */
-export const createBenefitApplication: (
-  input: CreateBenefitApplicationInput,
-) => effect.Effect<
+export const createBenefitApplication: API.OperationMethod<
+  CreateBenefitApplicationInput,
   CreateBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1410,9 +1406,8 @@ export const createBenefitApplication: (
 /**
  * Removes the association between an AWS resource and a benefit application.
  */
-export const disassociateBenefitApplicationResource: (
-  input: DisassociateBenefitApplicationResourceInput,
-) => effect.Effect<
+export const disassociateBenefitApplicationResource: API.OperationMethod<
+  DisassociateBenefitApplicationResourceInput,
   DisassociateBenefitApplicationResourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1437,9 +1432,8 @@ export const disassociateBenefitApplicationResource: (
 /**
  * Retrieves detailed information about a specific benefit available in the partner catalog.
  */
-export const getBenefit: (
-  input: GetBenefitInput,
-) => effect.Effect<
+export const getBenefit: API.OperationMethod<
+  GetBenefitInput,
   GetBenefitOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1462,9 +1456,8 @@ export const getBenefit: (
 /**
  * Retrieves detailed information about a specific benefit allocation that has been granted to a partner.
  */
-export const getBenefitAllocation: (
-  input: GetBenefitAllocationInput,
-) => effect.Effect<
+export const getBenefitAllocation: API.OperationMethod<
+  GetBenefitAllocationInput,
   GetBenefitAllocationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1487,9 +1480,8 @@ export const getBenefitAllocation: (
 /**
  * Retrieves detailed information about a specific benefit application.
  */
-export const getBenefitApplication: (
-  input: GetBenefitApplicationInput,
-) => effect.Effect<
+export const getBenefitApplication: API.OperationMethod<
+  GetBenefitApplicationInput,
   GetBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1514,19 +1506,17 @@ export const getBenefitApplication: (
 /**
  * Retrieves a paginated list of benefit allocations based on specified filter criteria.
  */
-export const listBenefitAllocations: {
-  (
-    input: ListBenefitAllocationsInput,
-  ): effect.Effect<
-    ListBenefitAllocationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBenefitAllocations: API.OperationMethod<
+  ListBenefitAllocationsInput,
+  ListBenefitAllocationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBenefitAllocationsInput,
   ) => stream.Stream<
@@ -1571,19 +1561,17 @@ export const listBenefitAllocations: {
 /**
  * Retrieves a paginated list of benefit applications based on specified filter criteria.
  */
-export const listBenefitApplications: {
-  (
-    input: ListBenefitApplicationsInput,
-  ): effect.Effect<
-    ListBenefitApplicationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBenefitApplications: API.OperationMethod<
+  ListBenefitApplicationsInput,
+  ListBenefitApplicationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBenefitApplicationsInput,
   ) => stream.Stream<
@@ -1628,19 +1616,17 @@ export const listBenefitApplications: {
 /**
  * Retrieves a paginated list of available benefits based on specified filter criteria.
  */
-export const listBenefits: {
-  (
-    input: ListBenefitsInput,
-  ): effect.Effect<
-    ListBenefitsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBenefits: API.OperationMethod<
+  ListBenefitsInput,
+  ListBenefitsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBenefitsInput,
   ) => stream.Stream<
@@ -1685,9 +1671,8 @@ export const listBenefits: {
 /**
  * Retrieves all tags associated with a specific resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1710,9 +1695,8 @@ export const listTagsForResource: (
 /**
  * Recalls a submitted benefit application, returning it to draft status for further modifications.
  */
-export const recallBenefitApplication: (
-  input: RecallBenefitApplicationInput,
-) => effect.Effect<
+export const recallBenefitApplication: API.OperationMethod<
+  RecallBenefitApplicationInput,
   RecallBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1737,9 +1721,8 @@ export const recallBenefitApplication: (
 /**
  * Submits a benefit application for review and processing by AWS.
  */
-export const submitBenefitApplication: (
-  input: SubmitBenefitApplicationInput,
-) => effect.Effect<
+export const submitBenefitApplication: API.OperationMethod<
+  SubmitBenefitApplicationInput,
   SubmitBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException
@@ -1764,9 +1747,8 @@ export const submitBenefitApplication: (
 /**
  * Adds or updates tags for a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1793,9 +1775,8 @@ export const tagResource: (
 /**
  * Removes specified tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1822,9 +1803,8 @@ export const untagResource: (
 /**
  * Updates an existing benefit application with new information while maintaining revision control.
  */
-export const updateBenefitApplication: (
-  input: UpdateBenefitApplicationInput,
-) => effect.Effect<
+export const updateBenefitApplication: API.OperationMethod<
+  UpdateBenefitApplicationInput,
   UpdateBenefitApplicationOutput,
   | AccessDeniedException
   | ConflictException

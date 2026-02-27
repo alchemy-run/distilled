@@ -7586,9 +7586,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Creates an association between a queue and a fleet.
  */
-export const createQueueFleetAssociation: (
-  input: CreateQueueFleetAssociationRequest,
-) => effect.Effect<
+export const createQueueFleetAssociation: API.OperationMethod<
+  CreateQueueFleetAssociationRequest,
   CreateQueueFleetAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7611,9 +7610,8 @@ export const createQueueFleetAssociation: (
 /**
  * Associates a limit with a particular queue. After the limit is associated, all workers for jobs that specify the limit associated with the queue are subject to the limit. You can't associate two limits with the same `amountRequirementName` to the same queue.
  */
-export const createQueueLimitAssociation: (
-  input: CreateQueueLimitAssociationRequest,
-) => effect.Effect<
+export const createQueueLimitAssociation: API.OperationMethod<
+  CreateQueueLimitAssociationRequest,
   CreateQueueLimitAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7636,9 +7634,8 @@ export const createQueueLimitAssociation: (
 /**
  * Deletes a queue-fleet association.
  */
-export const deleteQueueFleetAssociation: (
-  input: DeleteQueueFleetAssociationRequest,
-) => effect.Effect<
+export const deleteQueueFleetAssociation: API.OperationMethod<
+  DeleteQueueFleetAssociationRequest,
   DeleteQueueFleetAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7663,9 +7660,8 @@ export const deleteQueueFleetAssociation: (
 /**
  * Removes the association between a queue and a limit. You must use the `UpdateQueueLimitAssociation` operation to set the status to `STOP_LIMIT_USAGE_AND_COMPLETE_TASKS` or `STOP_LIMIT_USAGE_AND_CANCEL_TASKS`. The status does not change immediately. Use the `GetQueueLimitAssociation` operation to see if the status changed to `STOPPED` before deleting the association.
  */
-export const deleteQueueLimitAssociation: (
-  input: DeleteQueueLimitAssociationRequest,
-) => effect.Effect<
+export const deleteQueueLimitAssociation: API.OperationMethod<
+  DeleteQueueLimitAssociationRequest,
   DeleteQueueLimitAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7690,9 +7686,8 @@ export const deleteQueueLimitAssociation: (
 /**
  * Gets a queue-fleet association.
  */
-export const getQueueFleetAssociation: (
-  input: GetQueueFleetAssociationRequest,
-) => effect.Effect<
+export const getQueueFleetAssociation: API.OperationMethod<
+  GetQueueFleetAssociationRequest,
   GetQueueFleetAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7715,9 +7710,8 @@ export const getQueueFleetAssociation: (
 /**
  * Gets information about a specific association between a queue and a limit.
  */
-export const getQueueLimitAssociation: (
-  input: GetQueueLimitAssociationRequest,
-) => effect.Effect<
+export const getQueueLimitAssociation: API.OperationMethod<
+  GetQueueLimitAssociationRequest,
   GetQueueLimitAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7740,19 +7734,17 @@ export const getQueueLimitAssociation: (
 /**
  * Gets a set of statistics for queues or farms. Before you can call the `GetSessionStatisticsAggregation` operation, you must first call the `StartSessionsStatisticsAggregation` operation. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
-export const getSessionsStatisticsAggregation: {
-  (
-    input: GetSessionsStatisticsAggregationRequest,
-  ): effect.Effect<
-    GetSessionsStatisticsAggregationResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getSessionsStatisticsAggregation: API.OperationMethod<
+  GetSessionsStatisticsAggregationRequest,
+  GetSessionsStatisticsAggregationResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSessionsStatisticsAggregationRequest,
   ) => stream.Stream<
@@ -7797,14 +7789,12 @@ export const getSessionsStatisticsAggregation: {
 /**
  * A list of the available metered products.
  */
-export const listAvailableMeteredProducts: {
-  (
-    input: ListAvailableMeteredProductsRequest,
-  ): effect.Effect<
-    ListAvailableMeteredProductsResponse,
-    InternalServerErrorException | ThrottlingException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAvailableMeteredProducts: API.OperationMethod<
+  ListAvailableMeteredProductsRequest,
+  ListAvailableMeteredProductsResponse,
+  InternalServerErrorException | ThrottlingException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAvailableMeteredProductsRequest,
   ) => stream.Stream<
@@ -7833,18 +7823,16 @@ export const listAvailableMeteredProducts: {
 /**
  * Lists queue-fleet associations.
  */
-export const listQueueFleetAssociations: {
-  (
-    input: ListQueueFleetAssociationsRequest,
-  ): effect.Effect<
-    ListQueueFleetAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueueFleetAssociations: API.OperationMethod<
+  ListQueueFleetAssociationsRequest,
+  ListQueueFleetAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueueFleetAssociationsRequest,
   ) => stream.Stream<
@@ -7886,18 +7874,16 @@ export const listQueueFleetAssociations: {
 /**
  * Gets a list of the associations between queues and limits defined in a farm.
  */
-export const listQueueLimitAssociations: {
-  (
-    input: ListQueueLimitAssociationsRequest,
-  ): effect.Effect<
-    ListQueueLimitAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueueLimitAssociations: API.OperationMethod<
+  ListQueueLimitAssociationsRequest,
+  ListQueueLimitAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueueLimitAssociationsRequest,
   ) => stream.Stream<
@@ -7939,9 +7925,8 @@ export const listQueueLimitAssociations: {
 /**
  * Lists tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7964,9 +7949,8 @@ export const listTagsForResource: (
 /**
  * Searches for jobs.
  */
-export const searchJobs: (
-  input: SearchJobsRequest,
-) => effect.Effect<
+export const searchJobs: API.OperationMethod<
+  SearchJobsRequest,
   SearchJobsResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -7989,9 +7973,8 @@ export const searchJobs: (
 /**
  * Searches for steps.
  */
-export const searchSteps: (
-  input: SearchStepsRequest,
-) => effect.Effect<
+export const searchSteps: API.OperationMethod<
+  SearchStepsRequest,
   SearchStepsResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8014,9 +7997,8 @@ export const searchSteps: (
 /**
  * Searches for tasks.
  */
-export const searchTasks: (
-  input: SearchTasksRequest,
-) => effect.Effect<
+export const searchTasks: API.OperationMethod<
+  SearchTasksRequest,
   SearchTasksResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8039,9 +8021,8 @@ export const searchTasks: (
 /**
  * Searches for workers.
  */
-export const searchWorkers: (
-  input: SearchWorkersRequest,
-) => effect.Effect<
+export const searchWorkers: API.OperationMethod<
+  SearchWorkersRequest,
   SearchWorkersResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8064,9 +8045,8 @@ export const searchWorkers: (
 /**
  * Starts an asynchronous request for getting aggregated statistics about queues and farms. Get the statistics using the `GetSessionsStatisticsAggregation` operation. You can only have one running aggregation for your Deadline Cloud farm. Call the `GetSessionsStatisticsAggregation` operation and check the `status` field to see if an aggregation is running. Statistics are available for 1 hour after you call the `StartSessionsStatisticsAggregation` operation.
  */
-export const startSessionsStatisticsAggregation: (
-  input: StartSessionsStatisticsAggregationRequest,
-) => effect.Effect<
+export const startSessionsStatisticsAggregation: API.OperationMethod<
+  StartSessionsStatisticsAggregationRequest,
   StartSessionsStatisticsAggregationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8089,9 +8069,8 @@ export const startSessionsStatisticsAggregation: (
 /**
  * Tags a resource using the resource's ARN and desired tags.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8116,9 +8095,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource using the resource's ARN and tag to remove.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8143,9 +8121,8 @@ export const untagResource: (
 /**
  * Updates a queue-fleet association.
  */
-export const updateQueueFleetAssociation: (
-  input: UpdateQueueFleetAssociationRequest,
-) => effect.Effect<
+export const updateQueueFleetAssociation: API.OperationMethod<
+  UpdateQueueFleetAssociationRequest,
   UpdateQueueFleetAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8168,9 +8145,8 @@ export const updateQueueFleetAssociation: (
 /**
  * Updates the status of the queue. If you set the status to one of the `STOP_LIMIT_USAGE*` values, there will be a delay before the status transitions to the `STOPPED` state.
  */
-export const updateQueueLimitAssociation: (
-  input: UpdateQueueLimitAssociationRequest,
-) => effect.Effect<
+export const updateQueueLimitAssociation: API.OperationMethod<
+  UpdateQueueLimitAssociationRequest,
   UpdateQueueLimitAssociationResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8193,9 +8169,8 @@ export const updateQueueLimitAssociation: (
 /**
  * Creates a farm to allow space for queues and fleets. Farms are the space where the components of your renders gather and are pieced together in the cloud. Farms contain budgets and allow you to enforce permissions. Deadline Cloud farms are a useful container for large projects.
  */
-export const createFarm: (
-  input: CreateFarmRequest,
-) => effect.Effect<
+export const createFarm: API.OperationMethod<
+  CreateFarmRequest,
   CreateFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8220,9 +8195,8 @@ export const createFarm: (
 /**
  * Get a farm.
  */
-export const getFarm: (
-  input: GetFarmRequest,
-) => effect.Effect<
+export const getFarm: API.OperationMethod<
+  GetFarmRequest,
   GetFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8245,9 +8219,8 @@ export const getFarm: (
 /**
  * Updates a farm.
  */
-export const updateFarm: (
-  input: UpdateFarmRequest,
-) => effect.Effect<
+export const updateFarm: API.OperationMethod<
+  UpdateFarmRequest,
   UpdateFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8270,9 +8243,8 @@ export const updateFarm: (
 /**
  * Deletes a farm.
  */
-export const deleteFarm: (
-  input: DeleteFarmRequest,
-) => effect.Effect<
+export const deleteFarm: API.OperationMethod<
+  DeleteFarmRequest,
   DeleteFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8295,18 +8267,16 @@ export const deleteFarm: (
 /**
  * Lists farms.
  */
-export const listFarms: {
-  (
-    input: ListFarmsRequest,
-  ): effect.Effect<
-    ListFarmsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFarms: API.OperationMethod<
+  ListFarmsRequest,
+  ListFarmsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFarmsRequest,
   ) => stream.Stream<
@@ -8348,9 +8318,8 @@ export const listFarms: {
 /**
  * Assigns a farm membership level to a member.
  */
-export const associateMemberToFarm: (
-  input: AssociateMemberToFarmRequest,
-) => effect.Effect<
+export const associateMemberToFarm: API.OperationMethod<
+  AssociateMemberToFarmRequest,
   AssociateMemberToFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8377,9 +8346,8 @@ export const associateMemberToFarm: (
  *
  * You must add the `amountRequirementName` to a step in a job template to declare the limit requirement.
  */
-export const createLimit: (
-  input: CreateLimitRequest,
-) => effect.Effect<
+export const createLimit: API.OperationMethod<
+  CreateLimitRequest,
   CreateLimitResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8404,9 +8372,8 @@ export const createLimit: (
 /**
  * Creates a storage profile that specifies the operating system, file type, and file location of resources used on a farm.
  */
-export const createStorageProfile: (
-  input: CreateStorageProfileRequest,
-) => effect.Effect<
+export const createStorageProfile: API.OperationMethod<
+  CreateStorageProfileRequest,
   CreateStorageProfileResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8431,9 +8398,8 @@ export const createStorageProfile: (
 /**
  * Removes a limit from the specified farm. Before you delete a limit you must use the `DeleteQueueLimitAssociation` operation to remove the association with any queues.
  */
-export const deleteLimit: (
-  input: DeleteLimitRequest,
-) => effect.Effect<
+export const deleteLimit: API.OperationMethod<
+  DeleteLimitRequest,
   DeleteLimitResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8454,9 +8420,8 @@ export const deleteLimit: (
 /**
  * Deletes a storage profile.
  */
-export const deleteStorageProfile: (
-  input: DeleteStorageProfileRequest,
-) => effect.Effect<
+export const deleteStorageProfile: API.OperationMethod<
+  DeleteStorageProfileRequest,
   DeleteStorageProfileResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8477,9 +8442,8 @@ export const deleteStorageProfile: (
 /**
  * Disassociates a member from a farm.
  */
-export const disassociateMemberFromFarm: (
-  input: DisassociateMemberFromFarmRequest,
-) => effect.Effect<
+export const disassociateMemberFromFarm: API.OperationMethod<
+  DisassociateMemberFromFarmRequest,
   DisassociateMemberFromFarmResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8502,9 +8466,8 @@ export const disassociateMemberFromFarm: (
 /**
  * Gets information about a specific limit.
  */
-export const getLimit: (
-  input: GetLimitRequest,
-) => effect.Effect<
+export const getLimit: API.OperationMethod<
+  GetLimitRequest,
   GetLimitResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8527,9 +8490,8 @@ export const getLimit: (
 /**
  * Gets a storage profile.
  */
-export const getStorageProfile: (
-  input: GetStorageProfileRequest,
-) => effect.Effect<
+export const getStorageProfile: API.OperationMethod<
+  GetStorageProfileRequest,
   GetStorageProfileResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8552,19 +8514,17 @@ export const getStorageProfile: (
 /**
  * Lists the members of a farm.
  */
-export const listFarmMembers: {
-  (
-    input: ListFarmMembersRequest,
-  ): effect.Effect<
-    ListFarmMembersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFarmMembers: API.OperationMethod<
+  ListFarmMembersRequest,
+  ListFarmMembersResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFarmMembersRequest,
   ) => stream.Stream<
@@ -8609,19 +8569,17 @@ export const listFarmMembers: {
 /**
  * Gets a list of limits defined in the specified farm.
  */
-export const listLimits: {
-  (
-    input: ListLimitsRequest,
-  ): effect.Effect<
-    ListLimitsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLimits: API.OperationMethod<
+  ListLimitsRequest,
+  ListLimitsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLimitsRequest,
   ) => stream.Stream<
@@ -8666,19 +8624,17 @@ export const listLimits: {
 /**
  * Lists storage profiles.
  */
-export const listStorageProfiles: {
-  (
-    input: ListStorageProfilesRequest,
-  ): effect.Effect<
-    ListStorageProfilesResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStorageProfiles: API.OperationMethod<
+  ListStorageProfilesRequest,
+  ListStorageProfilesResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStorageProfilesRequest,
   ) => stream.Stream<
@@ -8723,9 +8679,8 @@ export const listStorageProfiles: {
 /**
  * Updates the properties of the specified limit.
  */
-export const updateLimit: (
-  input: UpdateLimitRequest,
-) => effect.Effect<
+export const updateLimit: API.OperationMethod<
+  UpdateLimitRequest,
   UpdateLimitResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8748,9 +8703,8 @@ export const updateLimit: (
 /**
  * Updates a storage profile.
  */
-export const updateStorageProfile: (
-  input: UpdateStorageProfileRequest,
-) => effect.Effect<
+export const updateStorageProfile: API.OperationMethod<
+  UpdateStorageProfileRequest,
   UpdateStorageProfileResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8773,9 +8727,8 @@ export const updateStorageProfile: (
 /**
  * Creates a budget to set spending thresholds for your rendering activity.
  */
-export const createBudget: (
-  input: CreateBudgetRequest,
-) => effect.Effect<
+export const createBudget: API.OperationMethod<
+  CreateBudgetRequest,
   CreateBudgetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8800,9 +8753,8 @@ export const createBudget: (
 /**
  * Get a budget.
  */
-export const getBudget: (
-  input: GetBudgetRequest,
-) => effect.Effect<
+export const getBudget: API.OperationMethod<
+  GetBudgetRequest,
   GetBudgetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8825,9 +8777,8 @@ export const getBudget: (
 /**
  * Updates a budget that sets spending thresholds for rendering activity.
  */
-export const updateBudget: (
-  input: UpdateBudgetRequest,
-) => effect.Effect<
+export const updateBudget: API.OperationMethod<
+  UpdateBudgetRequest,
   UpdateBudgetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8850,9 +8801,8 @@ export const updateBudget: (
 /**
  * Deletes a budget.
  */
-export const deleteBudget: (
-  input: DeleteBudgetRequest,
-) => effect.Effect<
+export const deleteBudget: API.OperationMethod<
+  DeleteBudgetRequest,
   DeleteBudgetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8875,19 +8825,17 @@ export const deleteBudget: (
 /**
  * A list of budgets in a farm.
  */
-export const listBudgets: {
-  (
-    input: ListBudgetsRequest,
-  ): effect.Effect<
-    ListBudgetsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBudgets: API.OperationMethod<
+  ListBudgetsRequest,
+  ListBudgetsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBudgetsRequest,
   ) => stream.Stream<
@@ -8932,9 +8880,8 @@ export const listBudgets: {
 /**
  * Creates a fleet. Fleets gather information relating to compute, or capacity, for renders within your farms. You can choose to manage your own capacity or opt to have fleets fully managed by Deadline Cloud.
  */
-export const createFleet: (
-  input: CreateFleetRequest,
-) => effect.Effect<
+export const createFleet: API.OperationMethod<
+  CreateFleetRequest,
   CreateFleetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8959,9 +8906,8 @@ export const createFleet: (
 /**
  * Get a fleet.
  */
-export const getFleet: (
-  input: GetFleetRequest,
-) => effect.Effect<
+export const getFleet: API.OperationMethod<
+  GetFleetRequest,
   GetFleetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -8984,9 +8930,8 @@ export const getFleet: (
 /**
  * Updates a fleet.
  */
-export const updateFleet: (
-  input: UpdateFleetRequest,
-) => effect.Effect<
+export const updateFleet: API.OperationMethod<
+  UpdateFleetRequest,
   UpdateFleetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9011,9 +8956,8 @@ export const updateFleet: (
 /**
  * Deletes a fleet.
  */
-export const deleteFleet: (
-  input: DeleteFleetRequest,
-) => effect.Effect<
+export const deleteFleet: API.OperationMethod<
+  DeleteFleetRequest,
   DeleteFleetResponse,
   | AccessDeniedException
   | ConflictException
@@ -9038,19 +8982,17 @@ export const deleteFleet: (
 /**
  * Lists fleets.
  */
-export const listFleets: {
-  (
-    input: ListFleetsRequest,
-  ): effect.Effect<
-    ListFleetsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFleets: API.OperationMethod<
+  ListFleetsRequest,
+  ListFleetsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFleetsRequest,
   ) => stream.Stream<
@@ -9095,9 +9037,8 @@ export const listFleets: {
 /**
  * Assigns a fleet membership level to a member.
  */
-export const associateMemberToFleet: (
-  input: AssociateMemberToFleetRequest,
-) => effect.Effect<
+export const associateMemberToFleet: API.OperationMethod<
+  AssociateMemberToFleetRequest,
   AssociateMemberToFleetResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9122,9 +9063,8 @@ export const associateMemberToFleet: (
 /**
  * Get Amazon Web Services credentials from the fleet role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
-export const assumeFleetRoleForRead: (
-  input: AssumeFleetRoleForReadRequest,
-) => effect.Effect<
+export const assumeFleetRoleForRead: API.OperationMethod<
+  AssumeFleetRoleForReadRequest,
   AssumeFleetRoleForReadResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9147,9 +9087,8 @@ export const assumeFleetRoleForRead: (
 /**
  * Disassociates a member from a fleet.
  */
-export const disassociateMemberFromFleet: (
-  input: DisassociateMemberFromFleetRequest,
-) => effect.Effect<
+export const disassociateMemberFromFleet: API.OperationMethod<
+  DisassociateMemberFromFleetRequest,
   DisassociateMemberFromFleetResponse,
   | AccessDeniedException
   | ConflictException
@@ -9174,19 +9113,17 @@ export const disassociateMemberFromFleet: (
 /**
  * Lists fleet members.
  */
-export const listFleetMembers: {
-  (
-    input: ListFleetMembersRequest,
-  ): effect.Effect<
-    ListFleetMembersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFleetMembers: API.OperationMethod<
+  ListFleetMembersRequest,
+  ListFleetMembersResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFleetMembersRequest,
   ) => stream.Stream<
@@ -9233,9 +9170,8 @@ export const listFleetMembers: {
  *
  * Deadline Cloud limits the number of workers to less than or equal to the fleet's maximum worker count. The service maintains eventual consistency for the worker count. If you make multiple rapid calls to `CreateWorker` before the field updates, you might exceed your fleet's maximum worker count. For example, if your `maxWorkerCount` is 10 and you currently have 9 workers, making two quick `CreateWorker` calls might successfully create 2 workers instead of 1, resulting in 11 total workers.
  */
-export const createWorker: (
-  input: CreateWorkerRequest,
-) => effect.Effect<
+export const createWorker: API.OperationMethod<
+  CreateWorkerRequest,
   CreateWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -9260,9 +9196,8 @@ export const createWorker: (
 /**
  * Gets a worker.
  */
-export const getWorker: (
-  input: GetWorkerRequest,
-) => effect.Effect<
+export const getWorker: API.OperationMethod<
+  GetWorkerRequest,
   GetWorkerResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9285,9 +9220,8 @@ export const getWorker: (
 /**
  * Updates a worker.
  */
-export const updateWorker: (
-  input: UpdateWorkerRequest,
-) => effect.Effect<
+export const updateWorker: API.OperationMethod<
+  UpdateWorkerRequest,
   UpdateWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -9312,9 +9246,8 @@ export const updateWorker: (
 /**
  * Deletes a worker.
  */
-export const deleteWorker: (
-  input: DeleteWorkerRequest,
-) => effect.Effect<
+export const deleteWorker: API.OperationMethod<
+  DeleteWorkerRequest,
   DeleteWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -9339,19 +9272,17 @@ export const deleteWorker: (
 /**
  * Lists workers.
  */
-export const listWorkers: {
-  (
-    input: ListWorkersRequest,
-  ): effect.Effect<
-    ListWorkersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkers: API.OperationMethod<
+  ListWorkersRequest,
+  ListWorkersResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkersRequest,
   ) => stream.Stream<
@@ -9396,9 +9327,8 @@ export const listWorkers: {
 /**
  * Get credentials from the fleet role for a worker.
  */
-export const assumeFleetRoleForWorker: (
-  input: AssumeFleetRoleForWorkerRequest,
-) => effect.Effect<
+export const assumeFleetRoleForWorker: API.OperationMethod<
+  AssumeFleetRoleForWorkerRequest,
   AssumeFleetRoleForWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -9423,9 +9353,8 @@ export const assumeFleetRoleForWorker: (
 /**
  * Allows a worker to assume a queue role.
  */
-export const assumeQueueRoleForWorker: (
-  input: AssumeQueueRoleForWorkerRequest,
-) => effect.Effect<
+export const assumeQueueRoleForWorker: API.OperationMethod<
+  AssumeQueueRoleForWorkerRequest,
   AssumeQueueRoleForWorkerResponse,
   | AccessDeniedException
   | ConflictException
@@ -9450,9 +9379,8 @@ export const assumeQueueRoleForWorker: (
 /**
  * Get batched job details for a worker.
  */
-export const batchGetJobEntity: (
-  input: BatchGetJobEntityRequest,
-) => effect.Effect<
+export const batchGetJobEntity: API.OperationMethod<
+  BatchGetJobEntityRequest,
   BatchGetJobEntityResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9475,19 +9403,17 @@ export const batchGetJobEntity: (
 /**
  * Lists sessions for a worker.
  */
-export const listSessionsForWorker: {
-  (
-    input: ListSessionsForWorkerRequest,
-  ): effect.Effect<
-    ListSessionsForWorkerResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessionsForWorker: API.OperationMethod<
+  ListSessionsForWorkerRequest,
+  ListSessionsForWorkerResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionsForWorkerRequest,
   ) => stream.Stream<
@@ -9532,9 +9458,8 @@ export const listSessionsForWorker: {
 /**
  * Updates the schedule for a worker.
  */
-export const updateWorkerSchedule: (
-  input: UpdateWorkerScheduleRequest,
-) => effect.Effect<
+export const updateWorkerSchedule: API.OperationMethod<
+  UpdateWorkerScheduleRequest,
   UpdateWorkerScheduleResponse,
   | AccessDeniedException
   | ConflictException
@@ -9559,9 +9484,8 @@ export const updateWorkerSchedule: (
 /**
  * Creates a queue to coordinate the order in which jobs run on a farm. A queue can also specify where to pull resources and indicate where to output completed jobs.
  */
-export const createQueue: (
-  input: CreateQueueRequest,
-) => effect.Effect<
+export const createQueue: API.OperationMethod<
+  CreateQueueRequest,
   CreateQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9586,9 +9510,8 @@ export const createQueue: (
 /**
  * Gets a queue.
  */
-export const getQueue: (
-  input: GetQueueRequest,
-) => effect.Effect<
+export const getQueue: API.OperationMethod<
+  GetQueueRequest,
   GetQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9611,9 +9534,8 @@ export const getQueue: (
 /**
  * Updates a queue.
  */
-export const updateQueue: (
-  input: UpdateQueueRequest,
-) => effect.Effect<
+export const updateQueue: API.OperationMethod<
+  UpdateQueueRequest,
   UpdateQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9638,9 +9560,8 @@ export const updateQueue: (
  *
  * You can't recover the jobs in a queue if you delete the queue. Deleting the queue also deletes the jobs in that queue.
  */
-export const deleteQueue: (
-  input: DeleteQueueRequest,
-) => effect.Effect<
+export const deleteQueue: API.OperationMethod<
+  DeleteQueueRequest,
   DeleteQueueResponse,
   | AccessDeniedException
   | ConflictException
@@ -9665,19 +9586,17 @@ export const deleteQueue: (
 /**
  * Lists queues.
  */
-export const listQueues: {
-  (
-    input: ListQueuesRequest,
-  ): effect.Effect<
-    ListQueuesResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueues: API.OperationMethod<
+  ListQueuesRequest,
+  ListQueuesResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueuesRequest,
   ) => stream.Stream<
@@ -9722,9 +9641,8 @@ export const listQueues: {
 /**
  * Assigns a queue membership level to a member
  */
-export const associateMemberToQueue: (
-  input: AssociateMemberToQueueRequest,
-) => effect.Effect<
+export const associateMemberToQueue: API.OperationMethod<
+  AssociateMemberToQueueRequest,
   AssociateMemberToQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9749,9 +9667,8 @@ export const associateMemberToQueue: (
 /**
  * Gets Amazon Web Services credentials from the queue role. The IAM permissions of the credentials are scoped down to have read-only access.
  */
-export const assumeQueueRoleForRead: (
-  input: AssumeQueueRoleForReadRequest,
-) => effect.Effect<
+export const assumeQueueRoleForRead: API.OperationMethod<
+  AssumeQueueRoleForReadRequest,
   AssumeQueueRoleForReadResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9774,9 +9691,8 @@ export const assumeQueueRoleForRead: (
 /**
  * Allows a user to assume a role for a queue.
  */
-export const assumeQueueRoleForUser: (
-  input: AssumeQueueRoleForUserRequest,
-) => effect.Effect<
+export const assumeQueueRoleForUser: API.OperationMethod<
+  AssumeQueueRoleForUserRequest,
   AssumeQueueRoleForUserResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9799,9 +9715,8 @@ export const assumeQueueRoleForUser: (
 /**
  * Creates an environment for a queue that defines how jobs in the queue run.
  */
-export const createQueueEnvironment: (
-  input: CreateQueueEnvironmentRequest,
-) => effect.Effect<
+export const createQueueEnvironment: API.OperationMethod<
+  CreateQueueEnvironmentRequest,
   CreateQueueEnvironmentResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9826,9 +9741,8 @@ export const createQueueEnvironment: (
 /**
  * Deletes a queue environment.
  */
-export const deleteQueueEnvironment: (
-  input: DeleteQueueEnvironmentRequest,
-) => effect.Effect<
+export const deleteQueueEnvironment: API.OperationMethod<
+  DeleteQueueEnvironmentRequest,
   DeleteQueueEnvironmentResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9849,9 +9763,8 @@ export const deleteQueueEnvironment: (
 /**
  * Disassociates a member from a queue.
  */
-export const disassociateMemberFromQueue: (
-  input: DisassociateMemberFromQueueRequest,
-) => effect.Effect<
+export const disassociateMemberFromQueue: API.OperationMethod<
+  DisassociateMemberFromQueueRequest,
   DisassociateMemberFromQueueResponse,
   | AccessDeniedException
   | ConflictException
@@ -9876,9 +9789,8 @@ export const disassociateMemberFromQueue: (
 /**
  * Gets a queue environment.
  */
-export const getQueueEnvironment: (
-  input: GetQueueEnvironmentRequest,
-) => effect.Effect<
+export const getQueueEnvironment: API.OperationMethod<
+  GetQueueEnvironmentRequest,
   GetQueueEnvironmentResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9901,9 +9813,8 @@ export const getQueueEnvironment: (
 /**
  * Gets a storage profile for a queue.
  */
-export const getStorageProfileForQueue: (
-  input: GetStorageProfileForQueueRequest,
-) => effect.Effect<
+export const getStorageProfileForQueue: API.OperationMethod<
+  GetStorageProfileForQueueRequest,
   GetStorageProfileForQueueResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -9926,19 +9837,17 @@ export const getStorageProfileForQueue: (
 /**
  * Lists queue environments.
  */
-export const listQueueEnvironments: {
-  (
-    input: ListQueueEnvironmentsRequest,
-  ): effect.Effect<
-    ListQueueEnvironmentsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueueEnvironments: API.OperationMethod<
+  ListQueueEnvironmentsRequest,
+  ListQueueEnvironmentsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueueEnvironmentsRequest,
   ) => stream.Stream<
@@ -9983,19 +9892,17 @@ export const listQueueEnvironments: {
 /**
  * Lists the members in a queue.
  */
-export const listQueueMembers: {
-  (
-    input: ListQueueMembersRequest,
-  ): effect.Effect<
-    ListQueueMembersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueueMembers: API.OperationMethod<
+  ListQueueMembersRequest,
+  ListQueueMembersResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueueMembersRequest,
   ) => stream.Stream<
@@ -10040,19 +9947,17 @@ export const listQueueMembers: {
 /**
  * Lists storage profiles for a queue.
  */
-export const listStorageProfilesForQueue: {
-  (
-    input: ListStorageProfilesForQueueRequest,
-  ): effect.Effect<
-    ListStorageProfilesForQueueResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStorageProfilesForQueue: API.OperationMethod<
+  ListStorageProfilesForQueueRequest,
+  ListStorageProfilesForQueueResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStorageProfilesForQueueRequest,
   ) => stream.Stream<
@@ -10097,9 +10002,8 @@ export const listStorageProfilesForQueue: {
 /**
  * Updates the queue environment.
  */
-export const updateQueueEnvironment: (
-  input: UpdateQueueEnvironmentRequest,
-) => effect.Effect<
+export const updateQueueEnvironment: API.OperationMethod<
+  UpdateQueueEnvironmentRequest,
   UpdateQueueEnvironmentResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10122,9 +10026,8 @@ export const updateQueueEnvironment: (
 /**
  * Creates a job. A job is a set of instructions that Deadline Cloud uses to schedule and run work on available workers. For more information, see Deadline Cloud jobs.
  */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
   CreateJobResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10149,9 +10052,8 @@ export const createJob: (
 /**
  * Gets a Deadline Cloud job.
  */
-export const getJob: (
-  input: GetJobRequest,
-) => effect.Effect<
+export const getJob: API.OperationMethod<
+  GetJobRequest,
   GetJobResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10178,9 +10080,8 @@ export const getJob: (
  *
  * An archived jobs and its steps and tasks are deleted after 120 days. The job can't be recovered.
  */
-export const updateJob: (
-  input: UpdateJobRequest,
-) => effect.Effect<
+export const updateJob: API.OperationMethod<
+  UpdateJobRequest,
   UpdateJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -10205,19 +10106,17 @@ export const updateJob: (
 /**
  * Lists jobs.
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -10262,9 +10161,8 @@ export const listJobs: {
 /**
  * Assigns a job membership level to a member
  */
-export const associateMemberToJob: (
-  input: AssociateMemberToJobRequest,
-) => effect.Effect<
+export const associateMemberToJob: API.OperationMethod<
+  AssociateMemberToJobRequest,
   AssociateMemberToJobResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10289,9 +10187,8 @@ export const associateMemberToJob: (
 /**
  * Copies a job template to an Amazon S3 bucket.
  */
-export const copyJobTemplate: (
-  input: CopyJobTemplateRequest,
-) => effect.Effect<
+export const copyJobTemplate: API.OperationMethod<
+  CopyJobTemplateRequest,
   CopyJobTemplateResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10314,9 +10211,8 @@ export const copyJobTemplate: (
 /**
  * Disassociates a member from a job.
  */
-export const disassociateMemberFromJob: (
-  input: DisassociateMemberFromJobRequest,
-) => effect.Effect<
+export const disassociateMemberFromJob: API.OperationMethod<
+  DisassociateMemberFromJobRequest,
   DisassociateMemberFromJobResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10339,9 +10235,8 @@ export const disassociateMemberFromJob: (
 /**
  * Gets a session.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10364,9 +10259,8 @@ export const getSession: (
 /**
  * Gets a session action for the job.
  */
-export const getSessionAction: (
-  input: GetSessionActionRequest,
-) => effect.Effect<
+export const getSessionAction: API.OperationMethod<
+  GetSessionActionRequest,
   GetSessionActionResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10389,9 +10283,8 @@ export const getSessionAction: (
 /**
  * Gets a step.
  */
-export const getStep: (
-  input: GetStepRequest,
-) => effect.Effect<
+export const getStep: API.OperationMethod<
+  GetStepRequest,
   GetStepResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10414,9 +10307,8 @@ export const getStep: (
 /**
  * Gets a task.
  */
-export const getTask: (
-  input: GetTaskRequest,
-) => effect.Effect<
+export const getTask: API.OperationMethod<
+  GetTaskRequest,
   GetTaskResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -10439,19 +10331,17 @@ export const getTask: (
 /**
  * Lists members on a job.
  */
-export const listJobMembers: {
-  (
-    input: ListJobMembersRequest,
-  ): effect.Effect<
-    ListJobMembersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobMembers: API.OperationMethod<
+  ListJobMembersRequest,
+  ListJobMembersResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobMembersRequest,
   ) => stream.Stream<
@@ -10496,19 +10386,17 @@ export const listJobMembers: {
 /**
  * Lists parameter definitions of a job.
  */
-export const listJobParameterDefinitions: {
-  (
-    input: ListJobParameterDefinitionsRequest,
-  ): effect.Effect<
-    ListJobParameterDefinitionsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobParameterDefinitions: API.OperationMethod<
+  ListJobParameterDefinitionsRequest,
+  ListJobParameterDefinitionsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobParameterDefinitionsRequest,
   ) => stream.Stream<
@@ -10553,19 +10441,17 @@ export const listJobParameterDefinitions: {
 /**
  * Lists session actions.
  */
-export const listSessionActions: {
-  (
-    input: ListSessionActionsRequest,
-  ): effect.Effect<
-    ListSessionActionsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessionActions: API.OperationMethod<
+  ListSessionActionsRequest,
+  ListSessionActionsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionActionsRequest,
   ) => stream.Stream<
@@ -10610,19 +10496,17 @@ export const listSessionActions: {
 /**
  * Lists sessions.
  */
-export const listSessions: {
-  (
-    input: ListSessionsRequest,
-  ): effect.Effect<
-    ListSessionsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessions: API.OperationMethod<
+  ListSessionsRequest,
+  ListSessionsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
@@ -10667,19 +10551,17 @@ export const listSessions: {
 /**
  * Lists step consumers.
  */
-export const listStepConsumers: {
-  (
-    input: ListStepConsumersRequest,
-  ): effect.Effect<
-    ListStepConsumersResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStepConsumers: API.OperationMethod<
+  ListStepConsumersRequest,
+  ListStepConsumersResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStepConsumersRequest,
   ) => stream.Stream<
@@ -10724,19 +10606,17 @@ export const listStepConsumers: {
 /**
  * Lists the dependencies for a step.
  */
-export const listStepDependencies: {
-  (
-    input: ListStepDependenciesRequest,
-  ): effect.Effect<
-    ListStepDependenciesResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listStepDependencies: API.OperationMethod<
+  ListStepDependenciesRequest,
+  ListStepDependenciesResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStepDependenciesRequest,
   ) => stream.Stream<
@@ -10781,19 +10661,17 @@ export const listStepDependencies: {
 /**
  * Lists steps for a job.
  */
-export const listSteps: {
-  (
-    input: ListStepsRequest,
-  ): effect.Effect<
-    ListStepsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSteps: API.OperationMethod<
+  ListStepsRequest,
+  ListStepsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListStepsRequest,
   ) => stream.Stream<
@@ -10838,19 +10716,17 @@ export const listSteps: {
 /**
  * Lists tasks for a job.
  */
-export const listTasks: {
-  (
-    input: ListTasksRequest,
-  ): effect.Effect<
-    ListTasksResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTasks: API.OperationMethod<
+  ListTasksRequest,
+  ListTasksResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTasksRequest,
   ) => stream.Stream<
@@ -10895,9 +10771,8 @@ export const listTasks: {
 /**
  * Updates a session.
  */
-export const updateSession: (
-  input: UpdateSessionRequest,
-) => effect.Effect<
+export const updateSession: API.OperationMethod<
+  UpdateSessionRequest,
   UpdateSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -10922,9 +10797,8 @@ export const updateSession: (
 /**
  * Updates a step.
  */
-export const updateStep: (
-  input: UpdateStepRequest,
-) => effect.Effect<
+export const updateStep: API.OperationMethod<
+  UpdateStepRequest,
   UpdateStepResponse,
   | AccessDeniedException
   | ConflictException
@@ -10949,9 +10823,8 @@ export const updateStep: (
 /**
  * Updates a task.
  */
-export const updateTask: (
-  input: UpdateTaskRequest,
-) => effect.Effect<
+export const updateTask: API.OperationMethod<
+  UpdateTaskRequest,
   UpdateTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -10976,9 +10849,8 @@ export const updateTask: (
 /**
  * Creates a license endpoint to integrate your various licensed software used for rendering on Deadline Cloud.
  */
-export const createLicenseEndpoint: (
-  input: CreateLicenseEndpointRequest,
-) => effect.Effect<
+export const createLicenseEndpoint: API.OperationMethod<
+  CreateLicenseEndpointRequest,
   CreateLicenseEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -11003,9 +10875,8 @@ export const createLicenseEndpoint: (
 /**
  * Gets a licence endpoint.
  */
-export const getLicenseEndpoint: (
-  input: GetLicenseEndpointRequest,
-) => effect.Effect<
+export const getLicenseEndpoint: API.OperationMethod<
+  GetLicenseEndpointRequest,
   GetLicenseEndpointResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -11028,9 +10899,8 @@ export const getLicenseEndpoint: (
 /**
  * Deletes a license endpoint.
  */
-export const deleteLicenseEndpoint: (
-  input: DeleteLicenseEndpointRequest,
-) => effect.Effect<
+export const deleteLicenseEndpoint: API.OperationMethod<
+  DeleteLicenseEndpointRequest,
   DeleteLicenseEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -11055,19 +10925,17 @@ export const deleteLicenseEndpoint: (
 /**
  * Lists license endpoints.
  */
-export const listLicenseEndpoints: {
-  (
-    input: ListLicenseEndpointsRequest,
-  ): effect.Effect<
-    ListLicenseEndpointsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLicenseEndpoints: API.OperationMethod<
+  ListLicenseEndpointsRequest,
+  ListLicenseEndpointsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLicenseEndpointsRequest,
   ) => stream.Stream<
@@ -11112,9 +10980,8 @@ export const listLicenseEndpoints: {
 /**
  * Deletes a metered product.
  */
-export const deleteMeteredProduct: (
-  input: DeleteMeteredProductRequest,
-) => effect.Effect<
+export const deleteMeteredProduct: API.OperationMethod<
+  DeleteMeteredProductRequest,
   DeleteMeteredProductResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -11137,19 +11004,17 @@ export const deleteMeteredProduct: (
 /**
  * Lists metered products.
  */
-export const listMeteredProducts: {
-  (
-    input: ListMeteredProductsRequest,
-  ): effect.Effect<
-    ListMeteredProductsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMeteredProducts: API.OperationMethod<
+  ListMeteredProductsRequest,
+  ListMeteredProductsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMeteredProductsRequest,
   ) => stream.Stream<
@@ -11194,9 +11059,8 @@ export const listMeteredProducts: {
 /**
  * Adds a metered product.
  */
-export const putMeteredProduct: (
-  input: PutMeteredProductRequest,
-) => effect.Effect<
+export const putMeteredProduct: API.OperationMethod<
+  PutMeteredProductRequest,
   PutMeteredProductResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -11219,9 +11083,8 @@ export const putMeteredProduct: (
 /**
  * Creates an Amazon Web Services Deadline Cloud monitor that you can use to view your farms, queues, and fleets. After you submit a job, you can track the progress of the tasks and steps that make up the job, and then download the job's results.
  */
-export const createMonitor: (
-  input: CreateMonitorRequest,
-) => effect.Effect<
+export const createMonitor: API.OperationMethod<
+  CreateMonitorRequest,
   CreateMonitorResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -11244,9 +11107,8 @@ export const createMonitor: (
 /**
  * Gets information about the specified monitor.
  */
-export const getMonitor: (
-  input: GetMonitorRequest,
-) => effect.Effect<
+export const getMonitor: API.OperationMethod<
+  GetMonitorRequest,
   GetMonitorResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -11269,9 +11131,8 @@ export const getMonitor: (
 /**
  * Modifies the settings for a Deadline Cloud monitor. You can modify one or all of the settings when you call `UpdateMonitor`.
  */
-export const updateMonitor: (
-  input: UpdateMonitorRequest,
-) => effect.Effect<
+export const updateMonitor: API.OperationMethod<
+  UpdateMonitorRequest,
   UpdateMonitorResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -11294,9 +11155,8 @@ export const updateMonitor: (
 /**
  * Removes a Deadline Cloud monitor. After you delete a monitor, you can create a new one and attach farms to the monitor.
  */
-export const deleteMonitor: (
-  input: DeleteMonitorRequest,
-) => effect.Effect<
+export const deleteMonitor: API.OperationMethod<
+  DeleteMonitorRequest,
   DeleteMonitorResponse,
   | AccessDeniedException
   | InternalServerErrorException
@@ -11319,18 +11179,16 @@ export const deleteMonitor: (
 /**
  * Gets a list of your monitors in Deadline Cloud.
  */
-export const listMonitors: {
-  (
-    input: ListMonitorsRequest,
-  ): effect.Effect<
-    ListMonitorsResponse,
-    | AccessDeniedException
-    | InternalServerErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMonitors: API.OperationMethod<
+  ListMonitorsRequest,
+  ListMonitorsResponse,
+  | AccessDeniedException
+  | InternalServerErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMonitorsRequest,
   ) => stream.Stream<

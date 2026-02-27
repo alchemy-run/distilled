@@ -700,9 +700,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * dictionary or use the `ListTables` API to get a response of all tables
  * and their available properties.
  */
-export const createExport: (
-  input: CreateExportRequest,
-) => effect.Effect<
+export const createExport: API.OperationMethod<
+  CreateExportRequest,
   CreateExportResponse,
   | InternalServerException
   | ServiceQuotaExceededException
@@ -723,9 +722,8 @@ export const createExport: (
 /**
  * Deletes an existing data export.
  */
-export const deleteExport: (
-  input: DeleteExportRequest,
-) => effect.Effect<
+export const deleteExport: API.OperationMethod<
+  DeleteExportRequest,
   DeleteExportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -746,9 +744,8 @@ export const deleteExport: (
 /**
  * Exports data based on the source data update.
  */
-export const getExecution: (
-  input: GetExecutionRequest,
-) => effect.Effect<
+export const getExecution: API.OperationMethod<
+  GetExecutionRequest,
   GetExecutionResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -769,9 +766,8 @@ export const getExecution: (
 /**
  * Views the definition of an existing data export.
  */
-export const getExport: (
-  input: GetExportRequest,
-) => effect.Effect<
+export const getExport: API.OperationMethod<
+  GetExportRequest,
   GetExportResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -793,9 +789,8 @@ export const getExport: (
  * Returns the metadata for the specified table and table properties. This includes the list
  * of columns in the table schema, their data types, and column descriptions.
  */
-export const getTable: (
-  input: GetTableRequest,
-) => effect.Effect<
+export const getTable: API.OperationMethod<
+  GetTableRequest,
   GetTableResponse,
   | InternalServerException
   | ThrottlingException
@@ -810,18 +805,16 @@ export const getTable: (
 /**
  * Lists the historical executions for the export.
  */
-export const listExecutions: {
-  (
-    input: ListExecutionsRequest,
-  ): effect.Effect<
-    ListExecutionsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExecutions: API.OperationMethod<
+  ListExecutionsRequest,
+  ListExecutionsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExecutionsRequest,
   ) => stream.Stream<
@@ -863,17 +856,15 @@ export const listExecutions: {
 /**
  * Lists all data export definitions.
  */
-export const listExports: {
-  (
-    input: ListExportsRequest,
-  ): effect.Effect<
-    ListExportsResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listExports: API.OperationMethod<
+  ListExportsRequest,
+  ListExportsResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExportsRequest,
   ) => stream.Stream<
@@ -908,17 +899,15 @@ export const listExports: {
 /**
  * Lists all available tables in data exports.
  */
-export const listTables: {
-  (
-    input: ListTablesRequest,
-  ): effect.Effect<
-    ListTablesResponse,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTables: API.OperationMethod<
+  ListTablesRequest,
+  ListTablesResponse,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTablesRequest,
   ) => stream.Stream<
@@ -953,9 +942,8 @@ export const listTables: {
 /**
  * List tags associated with an existing data export.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -976,9 +964,8 @@ export const listTagsForResource: (
 /**
  * Adds tags for an existing data export definition.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -999,9 +986,8 @@ export const tagResource: (
 /**
  * Deletes tags associated with an existing data export definition.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1023,9 +1009,8 @@ export const untagResource: (
  * Updates an existing data export by overwriting all export parameters. All export
  * parameters must be provided in the UpdateExport request.
  */
-export const updateExport: (
-  input: UpdateExportRequest,
-) => effect.Effect<
+export const updateExport: API.OperationMethod<
+  UpdateExportRequest,
   UpdateExportResponse,
   | InternalServerException
   | ResourceNotFoundException

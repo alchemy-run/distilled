@@ -457,9 +457,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Sync API: Invoke data automation.
  */
-export const invokeDataAutomation: (
-  input: InvokeDataAutomationRequest,
-) => effect.Effect<
+export const invokeDataAutomation: API.OperationMethod<
+  InvokeDataAutomationRequest,
   InvokeDataAutomationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -482,9 +481,8 @@ export const invokeDataAutomation: (
 /**
  * List tags for an Amazon Bedrock Data Automation resource
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -507,9 +505,8 @@ export const listTagsForResource: (
 /**
  * Tag an Amazon Bedrock Data Automation resource
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -534,9 +531,8 @@ export const tagResource: (
 /**
  * Untag an Amazon Bedrock Data Automation resource
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -559,9 +555,8 @@ export const untagResource: (
 /**
  * Async API: Invoke data automation.
  */
-export const invokeDataAutomationAsync: (
-  input: InvokeDataAutomationAsyncRequest,
-) => effect.Effect<
+export const invokeDataAutomationAsync: API.OperationMethod<
+  InvokeDataAutomationAsyncRequest,
   InvokeDataAutomationAsyncResponse,
   | AccessDeniedException
   | InternalServerException
@@ -584,9 +579,8 @@ export const invokeDataAutomationAsync: (
 /**
  * API used to get data automation status.
  */
-export const getDataAutomationStatus: (
-  input: GetDataAutomationStatusRequest,
-) => effect.Effect<
+export const getDataAutomationStatus: API.OperationMethod<
+  GetDataAutomationStatusRequest,
   GetDataAutomationStatusResponse,
   | AccessDeniedException
   | InternalServerException

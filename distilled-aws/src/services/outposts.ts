@@ -2168,9 +2168,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Cancels the capacity task.
  */
-export const cancelCapacityTask: (
-  input: CancelCapacityTaskInput,
-) => effect.Effect<
+export const cancelCapacityTask: API.OperationMethod<
+  CancelCapacityTaskInput,
   CancelCapacityTaskOutput,
   | AccessDeniedException
   | ConflictException
@@ -2193,9 +2192,8 @@ export const cancelCapacityTask: (
 /**
  * Cancels the specified order for an Outpost.
  */
-export const cancelOrder: (
-  input: CancelOrderInput,
-) => effect.Effect<
+export const cancelOrder: API.OperationMethod<
+  CancelOrderInput,
   CancelOrderOutput,
   | AccessDeniedException
   | ConflictException
@@ -2218,9 +2216,8 @@ export const cancelOrder: (
 /**
  * Creates an order for an Outpost.
  */
-export const createOrder: (
-  input: CreateOrderInput,
-) => effect.Effect<
+export const createOrder: API.OperationMethod<
+  CreateOrderInput,
   CreateOrderOutput,
   | AccessDeniedException
   | ConflictException
@@ -2247,9 +2244,8 @@ export const createOrder: (
  *
  * You can specify either an Availability one or an AZ ID.
  */
-export const createOutpost: (
-  input: CreateOutpostInput,
-) => effect.Effect<
+export const createOutpost: API.OperationMethod<
+  CreateOutpostInput,
   CreateOutpostOutput,
   | AccessDeniedException
   | ConflictException
@@ -2274,9 +2270,8 @@ export const createOutpost: (
 /**
  * Creates a site for an Outpost.
  */
-export const createSite: (
-  input: CreateSiteInput,
-) => effect.Effect<
+export const createSite: API.OperationMethod<
+  CreateSiteInput,
   CreateSiteOutput,
   | AccessDeniedException
   | ConflictException
@@ -2299,9 +2294,8 @@ export const createSite: (
 /**
  * Deletes the specified Outpost.
  */
-export const deleteOutpost: (
-  input: DeleteOutpostInput,
-) => effect.Effect<
+export const deleteOutpost: API.OperationMethod<
+  DeleteOutpostInput,
   DeleteOutpostOutput,
   | AccessDeniedException
   | ConflictException
@@ -2324,9 +2318,8 @@ export const deleteOutpost: (
 /**
  * Deletes the specified site.
  */
-export const deleteSite: (
-  input: DeleteSiteInput,
-) => effect.Effect<
+export const deleteSite: API.OperationMethod<
+  DeleteSiteInput,
   DeleteSiteOutput,
   | AccessDeniedException
   | ConflictException
@@ -2349,9 +2342,8 @@ export const deleteSite: (
 /**
  * Gets details of the specified capacity task.
  */
-export const getCapacityTask: (
-  input: GetCapacityTaskInput,
-) => effect.Effect<
+export const getCapacityTask: API.OperationMethod<
+  GetCapacityTaskInput,
   GetCapacityTaskOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2372,9 +2364,8 @@ export const getCapacityTask: (
 /**
  * Gets information about the specified catalog item.
  */
-export const getCatalogItem: (
-  input: GetCatalogItemInput,
-) => effect.Effect<
+export const getCatalogItem: API.OperationMethod<
+  GetCatalogItemInput,
   GetCatalogItemOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2402,9 +2393,8 @@ export const getCatalogItem: (
  * Amazon Web Services managed policies for Amazon Web Services Outposts and
  * Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the *Amazon Web Services Outposts User Guide*.
  */
-export const getConnection: (
-  input: GetConnectionRequest,
-) => effect.Effect<
+export const getConnection: API.OperationMethod<
+  GetConnectionRequest,
   GetConnectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2425,9 +2415,8 @@ export const getConnection: (
 /**
  * Gets information about the specified order.
  */
-export const getOrder: (
-  input: GetOrderInput,
-) => effect.Effect<
+export const getOrder: API.OperationMethod<
+  GetOrderInput,
   GetOrderOutput,
   | InternalServerException
   | NotFoundException
@@ -2442,9 +2431,8 @@ export const getOrder: (
 /**
  * Gets information about the specified Outpost.
  */
-export const getOutpost: (
-  input: GetOutpostInput,
-) => effect.Effect<
+export const getOutpost: API.OperationMethod<
+  GetOutpostInput,
   GetOutpostOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2465,17 +2453,15 @@ export const getOutpost: (
 /**
  * Gets current and historical billing information about the specified Outpost.
  */
-export const getOutpostBillingInformation: {
-  (
-    input: GetOutpostBillingInformationInput,
-  ): effect.Effect<
-    GetOutpostBillingInformationOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getOutpostBillingInformation: API.OperationMethod<
+  GetOutpostBillingInformationInput,
+  GetOutpostBillingInformationOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetOutpostBillingInformationInput,
   ) => stream.Stream<
@@ -2510,18 +2496,16 @@ export const getOutpostBillingInformation: {
 /**
  * Gets the instance types for the specified Outpost.
  */
-export const getOutpostInstanceTypes: {
-  (
-    input: GetOutpostInstanceTypesInput,
-  ): effect.Effect<
-    GetOutpostInstanceTypesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getOutpostInstanceTypes: API.OperationMethod<
+  GetOutpostInstanceTypesInput,
+  GetOutpostInstanceTypesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetOutpostInstanceTypesInput,
   ) => stream.Stream<
@@ -2565,18 +2549,16 @@ export const getOutpostInstanceTypes: {
  * This will generally include instance types that are not currently configured and therefore
  * cannot be launched with the current Outpost capacity configuration.
  */
-export const getOutpostSupportedInstanceTypes: {
-  (
-    input: GetOutpostSupportedInstanceTypesInput,
-  ): effect.Effect<
-    GetOutpostSupportedInstanceTypesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getOutpostSupportedInstanceTypes: API.OperationMethod<
+  GetOutpostSupportedInstanceTypesInput,
+  GetOutpostSupportedInstanceTypesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetOutpostSupportedInstanceTypesInput,
   ) => stream.Stream<
@@ -2618,9 +2600,8 @@ export const getOutpostSupportedInstanceTypes: {
 /**
  * Gets information about the specified Outpost site.
  */
-export const getSite: (
-  input: GetSiteInput,
-) => effect.Effect<
+export const getSite: API.OperationMethod<
+  GetSiteInput,
   GetSiteOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2641,9 +2622,8 @@ export const getSite: (
 /**
  * Gets the site address of the specified site.
  */
-export const getSiteAddress: (
-  input: GetSiteAddressInput,
-) => effect.Effect<
+export const getSiteAddress: API.OperationMethod<
+  GetSiteAddressInput,
   GetSiteAddressOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2665,18 +2645,16 @@ export const getSiteAddress: (
  * A list of Amazon EC2 instances, belonging to all accounts, running on the specified Outpost.
  * Does not include Amazon EBS or Amazon S3 instances.
  */
-export const listAssetInstances: {
-  (
-    input: ListAssetInstancesInput,
-  ): effect.Effect<
-    ListAssetInstancesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssetInstances: API.OperationMethod<
+  ListAssetInstancesInput,
+  ListAssetInstancesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetInstancesInput,
   ) => stream.Stream<
@@ -2722,18 +2700,16 @@ export const listAssetInstances: {
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listAssets: {
-  (
-    input: ListAssetsInput,
-  ): effect.Effect<
-    ListAssetsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssets: API.OperationMethod<
+  ListAssetsInput,
+  ListAssetsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssetsInput,
   ) => stream.Stream<
@@ -2777,18 +2753,16 @@ export const listAssets: {
  * initiated the capacity task. Use this list to specify the instances you cannot stop to free up
  * capacity to run the capacity task.
  */
-export const listBlockingInstancesForCapacityTask: {
-  (
-    input: ListBlockingInstancesForCapacityTaskInput,
-  ): effect.Effect<
-    ListBlockingInstancesForCapacityTaskOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBlockingInstancesForCapacityTask: API.OperationMethod<
+  ListBlockingInstancesForCapacityTaskInput,
+  ListBlockingInstancesForCapacityTaskOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBlockingInstancesForCapacityTaskInput,
   ) => stream.Stream<
@@ -2834,18 +2808,16 @@ export const listBlockingInstancesForCapacityTask: {
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listCapacityTasks: {
-  (
-    input: ListCapacityTasksInput,
-  ): effect.Effect<
-    ListCapacityTasksOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCapacityTasks: API.OperationMethod<
+  ListCapacityTasksInput,
+  ListCapacityTasksOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCapacityTasksInput,
   ) => stream.Stream<
@@ -2891,18 +2863,16 @@ export const listCapacityTasks: {
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listCatalogItems: {
-  (
-    input: ListCatalogItemsInput,
-  ): effect.Effect<
-    ListCatalogItemsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCatalogItems: API.OperationMethod<
+  ListCatalogItemsInput,
+  ListCatalogItemsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCatalogItemsInput,
   ) => stream.Stream<
@@ -2944,18 +2914,16 @@ export const listCatalogItems: {
 /**
  * Lists the Outpost orders for your Amazon Web Services account.
  */
-export const listOrders: {
-  (
-    input: ListOrdersInput,
-  ): effect.Effect<
-    ListOrdersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | NotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOrders: API.OperationMethod<
+  ListOrdersInput,
+  ListOrdersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | NotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrdersInput,
   ) => stream.Stream<
@@ -3001,17 +2969,15 @@ export const listOrders: {
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listOutposts: {
-  (
-    input: ListOutpostsInput,
-  ): effect.Effect<
-    ListOutpostsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOutposts: API.OperationMethod<
+  ListOutpostsInput,
+  ListOutpostsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOutpostsInput,
   ) => stream.Stream<
@@ -3051,17 +3017,15 @@ export const listOutposts: {
  * all of the specified filters. For a filter where you can specify multiple values, the results include
  * items that match any of the values that you specify for the filter.
  */
-export const listSites: {
-  (
-    input: ListSitesInput,
-  ): effect.Effect<
-    ListSitesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSites: API.OperationMethod<
+  ListSitesInput,
+  ListSitesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSitesInput,
   ) => stream.Stream<
@@ -3096,9 +3060,8 @@ export const listSites: {
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | NotFoundException
@@ -3114,9 +3077,8 @@ export const listTagsForResource: (
  * Starts the specified capacity task. You can have one active capacity task for each order
  * and each Outpost.
  */
-export const startCapacityTask: (
-  input: StartCapacityTaskInput,
-) => effect.Effect<
+export const startCapacityTask: API.OperationMethod<
+  StartCapacityTaskInput,
   StartCapacityTaskOutput,
   | AccessDeniedException
   | ConflictException
@@ -3146,9 +3108,8 @@ export const startCapacityTask: (
  * Amazon Web Services managed policies for Amazon Web Services Outposts and
  * Logging Amazon Web Services Outposts API calls with Amazon Web Services CloudTrail in the *Amazon Web Services Outposts User Guide*.
  */
-export const startConnection: (
-  input: StartConnectionRequest,
-) => effect.Effect<
+export const startConnection: API.OperationMethod<
+  StartConnectionRequest,
   StartConnectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3169,9 +3130,8 @@ export const startConnection: (
 /**
  * Starts the decommission process to return the Outposts racks or servers.
  */
-export const startOutpostDecommission: (
-  input: StartOutpostDecommissionInput,
-) => effect.Effect<
+export const startOutpostDecommission: API.OperationMethod<
+  StartOutpostDecommissionInput,
   StartOutpostDecommissionOutput,
   | AccessDeniedException
   | ConflictException
@@ -3194,9 +3154,8 @@ export const startOutpostDecommission: (
 /**
  * Adds tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | NotFoundException
@@ -3211,9 +3170,8 @@ export const tagResource: (
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | NotFoundException
@@ -3228,9 +3186,8 @@ export const untagResource: (
 /**
  * Updates an Outpost.
  */
-export const updateOutpost: (
-  input: UpdateOutpostInput,
-) => effect.Effect<
+export const updateOutpost: API.OperationMethod<
+  UpdateOutpostInput,
   UpdateOutpostOutput,
   | AccessDeniedException
   | ConflictException
@@ -3253,9 +3210,8 @@ export const updateOutpost: (
 /**
  * Updates the specified site.
  */
-export const updateSite: (
-  input: UpdateSiteInput,
-) => effect.Effect<
+export const updateSite: API.OperationMethod<
+  UpdateSiteInput,
   UpdateSiteOutput,
   | AccessDeniedException
   | ConflictException
@@ -3284,9 +3240,8 @@ export const updateSite: (
  * You can update the operating address before you place an order at the site, or after all
  * Outposts that belong to the site have been deactivated.
  */
-export const updateSiteAddress: (
-  input: UpdateSiteAddressInput,
-) => effect.Effect<
+export const updateSiteAddress: API.OperationMethod<
+  UpdateSiteAddressInput,
   UpdateSiteAddressOutput,
   | AccessDeniedException
   | ConflictException
@@ -3314,9 +3269,8 @@ export const updateSiteAddress: (
  * To update a rack at a site with an order of `IN_PROGRESS`, you must wait for
  * the order to complete or cancel the order.
  */
-export const updateSiteRackPhysicalProperties: (
-  input: UpdateSiteRackPhysicalPropertiesInput,
-) => effect.Effect<
+export const updateSiteRackPhysicalProperties: API.OperationMethod<
+  UpdateSiteRackPhysicalPropertiesInput,
   UpdateSiteRackPhysicalPropertiesOutput,
   | AccessDeniedException
   | ConflictException

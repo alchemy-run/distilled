@@ -2297,9 +2297,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  *
  * Currently, we only support generating a template that can generate the input to produce an Outbound X12 EDI file.
  */
-export const createStarterMappingTemplate: (
-  input: CreateStarterMappingTemplateRequest,
-) => effect.Effect<
+export const createStarterMappingTemplate: API.OperationMethod<
+  CreateStarterMappingTemplateRequest,
   CreateStarterMappingTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2330,9 +2329,8 @@ export const createStarterMappingTemplate: (
  *
  * - Use the output from the `TestMapping` operation as either input or output for your GenerateMapping call, along with your sample file.
  */
-export const generateMapping: (
-  input: GenerateMappingRequest,
-) => effect.Effect<
+export const generateMapping: API.OperationMethod<
+  GenerateMappingRequest,
   GenerateMappingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2355,9 +2353,8 @@ export const generateMapping: (
  *
  * If 30 days have elapsed since your transformer job was started, the system deletes it. So, if you run `GetTransformerJob` and supply a `transformerId` and `transformerJobId` for a job that was started more than 30 days previously, you receive a 404 response.
  */
-export const getTransformerJob: (
-  input: GetTransformerJobRequest,
-) => effect.Effect<
+export const getTransformerJob: API.OperationMethod<
+  GetTransformerJobRequest,
   GetTransformerJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2380,9 +2377,8 @@ export const getTransformerJob: (
 /**
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a capability, partnership, profile, or transformer.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2405,9 +2401,8 @@ export const listTagsForResource: (
  *
  * The system stores transformer jobs for 30 days. During that period, you can run GetTransformerJob and supply its `transformerId` and `transformerJobId` to return details of the job.
  */
-export const startTransformerJob: (
-  input: StartTransformerJobRequest,
-) => effect.Effect<
+export const startTransformerJob: API.OperationMethod<
+  StartTransformerJobRequest,
   StartTransformerJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2434,9 +2429,8 @@ export const startTransformerJob: (
  *
  * There is no response returned from this call.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2457,9 +2451,8 @@ export const tagResource: (
 /**
  * This operation mimics the latter half of a typical Outbound EDI request. It takes an input JSON/XML in the B2Bi shape as input, converts it to an X12 EDI string, and return that string.
  */
-export const testConversion: (
-  input: TestConversionRequest,
-) => effect.Effect<
+export const testConversion: API.OperationMethod<
+  TestConversionRequest,
   TestConversionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2482,9 +2475,8 @@ export const testConversion: (
 /**
  * Maps the input file according to the provided template file. The API call downloads the file contents from the Amazon S3 location, and passes the contents in as a string, to the `inputFileContent` parameter.
  */
-export const testMapping: (
-  input: TestMappingRequest,
-) => effect.Effect<
+export const testMapping: API.OperationMethod<
+  TestMappingRequest,
   TestMappingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2507,9 +2499,8 @@ export const testMapping: (
 /**
  * Parses the input EDI (electronic data interchange) file. The input file has a file size limit of 250 KB.
  */
-export const testParsing: (
-  input: TestParsingRequest,
-) => effect.Effect<
+export const testParsing: API.OperationMethod<
+  TestParsingRequest,
   TestParsingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2532,9 +2523,8 @@ export const testParsing: (
 /**
  * Detaches a key-value pair from the specified resource, as identified by its Amazon Resource Name (ARN). Resources are capability, partnership, profile, transformers and other entities.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2553,9 +2543,8 @@ export const untagResource: (
 /**
  * Instantiates a capability based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const createCapability: (
-  input: CreateCapabilityRequest,
-) => effect.Effect<
+export const createCapability: API.OperationMethod<
+  CreateCapabilityRequest,
   CreateCapabilityResponse,
   | AccessDeniedException
   | ConflictException
@@ -2582,9 +2571,8 @@ export const createCapability: (
 /**
  * Retrieves the details for the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const getCapability: (
-  input: GetCapabilityRequest,
-) => effect.Effect<
+export const getCapability: API.OperationMethod<
+  GetCapabilityRequest,
   GetCapabilityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2607,9 +2595,8 @@ export const getCapability: (
 /**
  * Updates some of the parameters for a capability, based on the specified parameters. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const updateCapability: (
-  input: UpdateCapabilityRequest,
-) => effect.Effect<
+export const updateCapability: API.OperationMethod<
+  UpdateCapabilityRequest,
   UpdateCapabilityResponse,
   | AccessDeniedException
   | ConflictException
@@ -2636,9 +2623,8 @@ export const updateCapability: (
 /**
  * Deletes the specified capability. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const deleteCapability: (
-  input: DeleteCapabilityRequest,
-) => effect.Effect<
+export const deleteCapability: API.OperationMethod<
+  DeleteCapabilityRequest,
   DeleteCapabilityResponse,
   | AccessDeniedException
   | ConflictException
@@ -2663,18 +2649,16 @@ export const deleteCapability: (
 /**
  * Lists the capabilities associated with your Amazon Web Services account for your current or specified region. A trading capability contains the information required to transform incoming EDI documents into JSON or XML outputs.
  */
-export const listCapabilities: {
-  (
-    input: ListCapabilitiesRequest,
-  ): effect.Effect<
-    ListCapabilitiesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCapabilities: API.OperationMethod<
+  ListCapabilitiesRequest,
+  ListCapabilitiesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCapabilitiesRequest,
   ) => stream.Stream<
@@ -2716,9 +2700,8 @@ export const listCapabilities: {
 /**
  * Creates a partnership between a customer and a trading partner, based on the supplied parameters. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const createPartnership: (
-  input: CreatePartnershipRequest,
-) => effect.Effect<
+export const createPartnership: API.OperationMethod<
+  CreatePartnershipRequest,
   CreatePartnershipResponse,
   | AccessDeniedException
   | ConflictException
@@ -2745,9 +2728,8 @@ export const createPartnership: (
 /**
  * Retrieves the details for a partnership, based on the partner and profile IDs specified. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const getPartnership: (
-  input: GetPartnershipRequest,
-) => effect.Effect<
+export const getPartnership: API.OperationMethod<
+  GetPartnershipRequest,
   GetPartnershipResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2770,9 +2752,8 @@ export const getPartnership: (
 /**
  * Updates some of the parameters for a partnership between a customer and trading partner. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const updatePartnership: (
-  input: UpdatePartnershipRequest,
-) => effect.Effect<
+export const updatePartnership: API.OperationMethod<
+  UpdatePartnershipRequest,
   UpdatePartnershipResponse,
   | AccessDeniedException
   | ConflictException
@@ -2799,9 +2780,8 @@ export const updatePartnership: (
 /**
  * Deletes the specified partnership. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const deletePartnership: (
-  input: DeletePartnershipRequest,
-) => effect.Effect<
+export const deletePartnership: API.OperationMethod<
+  DeletePartnershipRequest,
   DeletePartnershipResponse,
   | AccessDeniedException
   | ConflictException
@@ -2826,19 +2806,17 @@ export const deletePartnership: (
 /**
  * Lists the partnerships associated with your Amazon Web Services account for your current or specified region. A partnership represents the connection between you and your trading partner. It ties together a profile and one or more trading capabilities.
  */
-export const listPartnerships: {
-  (
-    input: ListPartnershipsRequest,
-  ): effect.Effect<
-    ListPartnershipsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPartnerships: API.OperationMethod<
+  ListPartnershipsRequest,
+  ListPartnershipsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPartnershipsRequest,
   ) => stream.Stream<
@@ -2883,9 +2861,8 @@ export const listPartnerships: {
 /**
  * Creates a customer profile. You can have up to five customer profiles, each representing a distinct private network. A profile is the mechanism used to create the concept of a private network.
  */
-export const createProfile: (
-  input: CreateProfileRequest,
-) => effect.Effect<
+export const createProfile: API.OperationMethod<
+  CreateProfileRequest,
   CreateProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -2912,9 +2889,8 @@ export const createProfile: (
 /**
  * Retrieves the details for the profile specified by the profile ID. A profile is the mechanism used to create the concept of a private network.
  */
-export const getProfile: (
-  input: GetProfileRequest,
-) => effect.Effect<
+export const getProfile: API.OperationMethod<
+  GetProfileRequest,
   GetProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2937,9 +2913,8 @@ export const getProfile: (
 /**
  * Updates the specified parameters for a profile. A profile is the mechanism used to create the concept of a private network.
  */
-export const updateProfile: (
-  input: UpdateProfileRequest,
-) => effect.Effect<
+export const updateProfile: API.OperationMethod<
+  UpdateProfileRequest,
   UpdateProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -2966,9 +2941,8 @@ export const updateProfile: (
 /**
  * Deletes the specified profile. A profile is the mechanism used to create the concept of a private network.
  */
-export const deleteProfile: (
-  input: DeleteProfileRequest,
-) => effect.Effect<
+export const deleteProfile: API.OperationMethod<
+  DeleteProfileRequest,
   DeleteProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -2993,18 +2967,16 @@ export const deleteProfile: (
 /**
  * Lists the profiles associated with your Amazon Web Services account for your current or specified region. A profile is the mechanism used to create the concept of a private network.
  */
-export const listProfiles: {
-  (
-    input: ListProfilesRequest,
-  ): effect.Effect<
-    ListProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfiles: API.OperationMethod<
+  ListProfilesRequest,
+  ListProfilesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfilesRequest,
   ) => stream.Stream<
@@ -3058,9 +3030,8 @@ export const listProfiles: {
  *
  * - Use either the `inputConversion` or `outputConversion` in place of `ediType`
  */
-export const createTransformer: (
-  input: CreateTransformerRequest,
-) => effect.Effect<
+export const createTransformer: API.OperationMethod<
+  CreateTransformerRequest,
   CreateTransformerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3087,9 +3058,8 @@ export const createTransformer: (
 /**
  * Retrieves the details for the transformer specified by the transformer ID. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
-export const getTransformer: (
-  input: GetTransformerRequest,
-) => effect.Effect<
+export const getTransformer: API.OperationMethod<
+  GetTransformerRequest,
   GetTransformerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3112,9 +3082,8 @@ export const getTransformer: (
 /**
  * Updates the specified parameters for a transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
-export const updateTransformer: (
-  input: UpdateTransformerRequest,
-) => effect.Effect<
+export const updateTransformer: API.OperationMethod<
+  UpdateTransformerRequest,
   UpdateTransformerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3141,9 +3110,8 @@ export const updateTransformer: (
 /**
  * Deletes the specified transformer. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
-export const deleteTransformer: (
-  input: DeleteTransformerRequest,
-) => effect.Effect<
+export const deleteTransformer: API.OperationMethod<
+  DeleteTransformerRequest,
   DeleteTransformerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3168,18 +3136,16 @@ export const deleteTransformer: (
 /**
  * Lists the available transformers. A transformer can take an EDI file as input and transform it into a JSON-or XML-formatted document. Alternatively, a transformer can take a JSON-or XML-formatted document as input and transform it into an EDI file.
  */
-export const listTransformers: {
-  (
-    input: ListTransformersRequest,
-  ): effect.Effect<
-    ListTransformersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTransformers: API.OperationMethod<
+  ListTransformersRequest,
+  ListTransformersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTransformersRequest,
   ) => stream.Stream<

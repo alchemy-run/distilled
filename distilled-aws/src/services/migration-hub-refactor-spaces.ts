@@ -1654,9 +1654,8 @@ export class InvalidResourcePolicyException extends S.TaggedErrorClass<InvalidRe
  * information, see
  * Create an application in the *Refactor Spaces User Guide*.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1693,9 +1692,8 @@ export const createApplication: (
  * a transit gateway and you must use your network infrastructure to route traffic to services
  * with private URL endpoints.
  */
-export const createEnvironment: (
-  input: CreateEnvironmentRequest,
-) => effect.Effect<
+export const createEnvironment: API.OperationMethod<
+  CreateEnvironmentRequest,
   CreateEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -1789,9 +1787,8 @@ export const createEnvironment: (
  * configured to connect to the application proxy VPC. For more information, see Create
  * a route in the *Refactor Spaces User Guide*.
  */
-export const createRoute: (
-  input: CreateRouteRequest,
-) => effect.Effect<
+export const createRoute: API.OperationMethod<
+  CreateRouteRequest,
   CreateRouteResponse,
   | AccessDeniedException
   | ConflictException
@@ -1826,9 +1823,8 @@ export const createRoute: (
  * `RefactorSpacesSecurityGroup` to the resource. Alternatively, to add more
  * cross-account constraints, apply your own security group.
  */
-export const createService: (
-  input: CreateServiceRequest,
-) => effect.Effect<
+export const createService: API.OperationMethod<
+  CreateServiceRequest,
   CreateServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1856,9 +1852,8 @@ export const createService: (
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces application. Before you can delete an application, you must first
  * delete any services or routes within the application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1884,9 +1879,8 @@ export const deleteApplication: (
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces environment. Before you can delete an environment, you must first
  * delete any applications and services within the environment.
  */
-export const deleteEnvironment: (
-  input: DeleteEnvironmentRequest,
-) => effect.Effect<
+export const deleteEnvironment: API.OperationMethod<
+  DeleteEnvironmentRequest,
   DeleteEnvironmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -1911,9 +1905,8 @@ export const deleteEnvironment: (
 /**
  * Deletes the resource policy set for the environment.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1936,9 +1929,8 @@ export const deleteResourcePolicy: (
 /**
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces route.
  */
-export const deleteRoute: (
-  input: DeleteRouteRequest,
-) => effect.Effect<
+export const deleteRoute: API.OperationMethod<
+  DeleteRouteRequest,
   DeleteRouteResponse,
   | AccessDeniedException
   | ConflictException
@@ -1963,9 +1955,8 @@ export const deleteRoute: (
 /**
  * Deletes an Amazon Web Services Migration Hub Refactor Spaces service.
  */
-export const deleteService: (
-  input: DeleteServiceRequest,
-) => effect.Effect<
+export const deleteService: API.OperationMethod<
+  DeleteServiceRequest,
   DeleteServiceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1990,9 +1981,8 @@ export const deleteService: (
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces application.
  */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
   GetApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2015,9 +2005,8 @@ export const getApplication: (
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces environment.
  */
-export const getEnvironment: (
-  input: GetEnvironmentRequest,
-) => effect.Effect<
+export const getEnvironment: API.OperationMethod<
+  GetEnvironmentRequest,
   GetEnvironmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2040,9 +2029,8 @@ export const getEnvironment: (
 /**
  * Gets the resource-based permission policy that is set for the given environment.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2065,9 +2053,8 @@ export const getResourcePolicy: (
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces route.
  */
-export const getRoute: (
-  input: GetRouteRequest,
-) => effect.Effect<
+export const getRoute: API.OperationMethod<
+  GetRouteRequest,
   GetRouteResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2090,9 +2077,8 @@ export const getRoute: (
 /**
  * Gets an Amazon Web Services Migration Hub Refactor Spaces service.
  */
-export const getService: (
-  input: GetServiceRequest,
-) => effect.Effect<
+export const getService: API.OperationMethod<
+  GetServiceRequest,
   GetServiceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2115,21 +2101,19 @@ export const getService: (
 /**
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -2181,19 +2165,17 @@ export const listApplications: {
  * Lists Amazon Web Services Migration Hub Refactor Spaces environments owned by a caller account or shared with the caller
  * account.
  */
-export const listEnvironments: {
-  (
-    input: ListEnvironmentsRequest,
-  ): effect.Effect<
-    ListEnvironmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironments: API.OperationMethod<
+  ListEnvironmentsRequest,
+  ListEnvironmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentsRequest,
   ) => stream.Stream<
@@ -2239,19 +2221,17 @@ export const listEnvironments: {
  * Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the
  * environment.
  */
-export const listEnvironmentVpcs: {
-  (
-    input: ListEnvironmentVpcsRequest,
-  ): effect.Effect<
-    ListEnvironmentVpcsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnvironmentVpcs: API.OperationMethod<
+  ListEnvironmentVpcsRequest,
+  ListEnvironmentVpcsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnvironmentVpcsRequest,
   ) => stream.Stream<
@@ -2296,21 +2276,19 @@ export const listEnvironmentVpcs: {
 /**
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces routes within an application.
  */
-export const listRoutes: {
-  (
-    input: ListRoutesRequest,
-  ): effect.Effect<
-    ListRoutesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoutes: API.OperationMethod<
+  ListRoutesRequest,
+  ListRoutesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRoutesRequest,
   ) => stream.Stream<
@@ -2361,21 +2339,19 @@ export const listRoutes: {
 /**
  * Lists all the Amazon Web Services Migration Hub Refactor Spaces services within an application.
  */
-export const listServices: {
-  (
-    input: ListServicesRequest,
-  ): effect.Effect<
-    ListServicesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServices: API.OperationMethod<
+  ListServicesRequest,
+  ListServicesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesRequest,
   ) => stream.Stream<
@@ -2427,9 +2403,8 @@ export const listServices: {
  * Lists the tags of a resource. The caller account must be the same as the resource’s
  * `OwnerAccountId`. Listing tags in other accounts is not supported.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2451,9 +2426,8 @@ export const listTagsForResource: (
  * `arn:aws:ram::aws:permission/AWSRAMDefaultPermissionRefactorSpacesEnvironment`
  * permission in Resource Access Manager. The policy must not contain new lines or blank lines.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2483,9 +2457,8 @@ export const putResourcePolicy: (
  * Amazon Web Services Migration Hub Refactor Spaces does not propagate tags to orchestrated resources, such as an
  * environment’s transit gateway.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2506,9 +2479,8 @@ export const tagResource: (
  * manage a resource. To untag a resource, the caller account must be the same as the resource’s
  * `OwnerAccountId`. Untagging resources across accounts is not supported.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2527,9 +2499,8 @@ export const untagResource: (
 /**
  * Updates an Amazon Web Services Migration Hub Refactor Spaces route.
  */
-export const updateRoute: (
-  input: UpdateRouteRequest,
-) => effect.Effect<
+export const updateRoute: API.OperationMethod<
+  UpdateRouteRequest,
   UpdateRouteResponse,
   | AccessDeniedException
   | InternalServerException

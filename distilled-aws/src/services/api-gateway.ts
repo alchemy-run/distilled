@@ -4804,9 +4804,8 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 /**
  * Create an ApiKey resource.
  */
-export const createApiKey: (
-  input: CreateApiKeyRequest,
-) => effect.Effect<
+export const createApiKey: API.OperationMethod<
+  CreateApiKeyRequest,
   ApiKey,
   | BadRequestException
   | ConflictException
@@ -4831,9 +4830,8 @@ export const createApiKey: (
 /**
  * Adds a new Authorizer resource to an existing RestApi resource.
  */
-export const createAuthorizer: (
-  input: CreateAuthorizerRequest,
-) => effect.Effect<
+export const createAuthorizer: API.OperationMethod<
+  CreateAuthorizerRequest,
   Authorizer,
   | BadRequestException
   | ConflictException
@@ -4858,9 +4856,8 @@ export const createAuthorizer: (
 /**
  * Creates a new BasePathMapping resource.
  */
-export const createBasePathMapping: (
-  input: CreateBasePathMappingRequest,
-) => effect.Effect<
+export const createBasePathMapping: API.OperationMethod<
+  CreateBasePathMappingRequest,
   BasePathMapping,
   | BadRequestException
   | ConflictException
@@ -4885,9 +4882,8 @@ export const createBasePathMapping: (
 /**
  * Creates a Deployment resource, which makes a specified RestApi callable over the internet.
  */
-export const createDeployment: (
-  input: CreateDeploymentRequest,
-) => effect.Effect<
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentRequest,
   Deployment,
   | BadRequestException
   | ConflictException
@@ -4914,9 +4910,8 @@ export const createDeployment: (
 /**
  * Creates a documentation part.
  */
-export const createDocumentationPart: (
-  input: CreateDocumentationPartRequest,
-) => effect.Effect<
+export const createDocumentationPart: API.OperationMethod<
+  CreateDocumentationPartRequest,
   DocumentationPart,
   | BadRequestException
   | ConflictException
@@ -4941,9 +4936,8 @@ export const createDocumentationPart: (
 /**
  * Creates a documentation version
  */
-export const createDocumentationVersion: (
-  input: CreateDocumentationVersionRequest,
-) => effect.Effect<
+export const createDocumentationVersion: API.OperationMethod<
+  CreateDocumentationVersionRequest,
   DocumentationVersion,
   | BadRequestException
   | ConflictException
@@ -4968,9 +4962,8 @@ export const createDocumentationVersion: (
 /**
  * Creates a new domain name.
  */
-export const createDomainName: (
-  input: CreateDomainNameRequest,
-) => effect.Effect<
+export const createDomainName: API.OperationMethod<
+  CreateDomainNameRequest,
   DomainName,
   | BadRequestException
   | ConflictException
@@ -4994,9 +4987,8 @@ export const createDomainName: (
  * Creates a domain name access association resource between an access association source and a private custom
  * domain name.
  */
-export const createDomainNameAccessAssociation: (
-  input: CreateDomainNameAccessAssociationRequest,
-) => effect.Effect<
+export const createDomainNameAccessAssociation: API.OperationMethod<
+  CreateDomainNameAccessAssociationRequest,
   DomainNameAccessAssociation,
   | BadRequestException
   | ConflictException
@@ -5019,9 +5011,8 @@ export const createDomainNameAccessAssociation: (
 /**
  * Adds a new Model resource to an existing RestApi resource.
  */
-export const createModel: (
-  input: CreateModelRequest,
-) => effect.Effect<
+export const createModel: API.OperationMethod<
+  CreateModelRequest,
   Model,
   | BadRequestException
   | ConflictException
@@ -5046,9 +5037,8 @@ export const createModel: (
 /**
  * Creates a RequestValidator of a given RestApi.
  */
-export const createRequestValidator: (
-  input: CreateRequestValidatorRequest,
-) => effect.Effect<
+export const createRequestValidator: API.OperationMethod<
+  CreateRequestValidatorRequest,
   RequestValidator,
   | BadRequestException
   | ConflictException
@@ -5073,9 +5063,8 @@ export const createRequestValidator: (
 /**
  * Creates a Resource resource.
  */
-export const createResource: (
-  input: CreateResourceRequest,
-) => effect.Effect<
+export const createResource: API.OperationMethod<
+  CreateResourceRequest,
   Resource,
   | BadRequestException
   | ConflictException
@@ -5100,9 +5089,8 @@ export const createResource: (
 /**
  * Creates a new RestApi resource.
  */
-export const createRestApi: (
-  input: CreateRestApiRequest,
-) => effect.Effect<
+export const createRestApi: API.OperationMethod<
+  CreateRestApiRequest,
   RestApi,
   | BadRequestException
   | ConflictException
@@ -5125,9 +5113,8 @@ export const createRestApi: (
 /**
  * Creates a new Stage resource that references a pre-existing Deployment for the API.
  */
-export const createStage: (
-  input: CreateStageRequest,
-) => effect.Effect<
+export const createStage: API.OperationMethod<
+  CreateStageRequest,
   Stage,
   | BadRequestException
   | ConflictException
@@ -5152,9 +5139,8 @@ export const createStage: (
 /**
  * Creates a usage plan with the throttle and quota limits, as well as the associated API stages, specified in the payload.
  */
-export const createUsagePlan: (
-  input: CreateUsagePlanRequest,
-) => effect.Effect<
+export const createUsagePlan: API.OperationMethod<
+  CreateUsagePlanRequest,
   UsagePlan,
   | BadRequestException
   | ConflictException
@@ -5179,9 +5165,8 @@ export const createUsagePlan: (
 /**
  * Creates a usage plan key for adding an existing API key to a usage plan.
  */
-export const createUsagePlanKey: (
-  input: CreateUsagePlanKeyRequest,
-) => effect.Effect<
+export const createUsagePlanKey: API.OperationMethod<
+  CreateUsagePlanKeyRequest,
   UsagePlanKey,
   | BadRequestException
   | ConflictException
@@ -5206,9 +5191,8 @@ export const createUsagePlanKey: (
 /**
  * Creates a VPC link, under the caller's account in a selected region, in an asynchronous operation that typically takes 2-4 minutes to complete and become operational. The caller must have permissions to create and update VPC Endpoint services.
  */
-export const createVpcLink: (
-  input: CreateVpcLinkRequest,
-) => effect.Effect<
+export const createVpcLink: API.OperationMethod<
+  CreateVpcLinkRequest,
   VpcLink,
   | BadRequestException
   | ConflictException
@@ -5231,9 +5215,8 @@ export const createVpcLink: (
 /**
  * Deletes the ApiKey resource.
  */
-export const deleteApiKey: (
-  input: DeleteApiKeyRequest,
-) => effect.Effect<
+export const deleteApiKey: API.OperationMethod<
+  DeleteApiKeyRequest,
   DeleteApiKeyResponse,
   | BadRequestException
   | ConflictException
@@ -5256,9 +5239,8 @@ export const deleteApiKey: (
 /**
  * Deletes an existing Authorizer resource.
  */
-export const deleteAuthorizer: (
-  input: DeleteAuthorizerRequest,
-) => effect.Effect<
+export const deleteAuthorizer: API.OperationMethod<
+  DeleteAuthorizerRequest,
   DeleteAuthorizerResponse,
   | BadRequestException
   | ConflictException
@@ -5281,9 +5263,8 @@ export const deleteAuthorizer: (
 /**
  * Deletes the BasePathMapping resource.
  */
-export const deleteBasePathMapping: (
-  input: DeleteBasePathMappingRequest,
-) => effect.Effect<
+export const deleteBasePathMapping: API.OperationMethod<
+  DeleteBasePathMappingRequest,
   DeleteBasePathMappingResponse,
   | BadRequestException
   | ConflictException
@@ -5306,9 +5287,8 @@ export const deleteBasePathMapping: (
 /**
  * Deletes the ClientCertificate resource.
  */
-export const deleteClientCertificate: (
-  input: DeleteClientCertificateRequest,
-) => effect.Effect<
+export const deleteClientCertificate: API.OperationMethod<
+  DeleteClientCertificateRequest,
   DeleteClientCertificateResponse,
   | BadRequestException
   | ConflictException
@@ -5331,9 +5311,8 @@ export const deleteClientCertificate: (
 /**
  * Deletes a Deployment resource. Deleting a deployment will only succeed if there are no Stage resources associated with it.
  */
-export const deleteDeployment: (
-  input: DeleteDeploymentRequest,
-) => effect.Effect<
+export const deleteDeployment: API.OperationMethod<
+  DeleteDeploymentRequest,
   DeleteDeploymentResponse,
   | BadRequestException
   | ConflictException
@@ -5358,9 +5337,8 @@ export const deleteDeployment: (
 /**
  * Deletes a documentation part
  */
-export const deleteDocumentationPart: (
-  input: DeleteDocumentationPartRequest,
-) => effect.Effect<
+export const deleteDocumentationPart: API.OperationMethod<
+  DeleteDocumentationPartRequest,
   DeleteDocumentationPartResponse,
   | BadRequestException
   | ConflictException
@@ -5383,9 +5361,8 @@ export const deleteDocumentationPart: (
 /**
  * Deletes a documentation version.
  */
-export const deleteDocumentationVersion: (
-  input: DeleteDocumentationVersionRequest,
-) => effect.Effect<
+export const deleteDocumentationVersion: API.OperationMethod<
+  DeleteDocumentationVersionRequest,
   DeleteDocumentationVersionResponse,
   | BadRequestException
   | ConflictException
@@ -5408,9 +5385,8 @@ export const deleteDocumentationVersion: (
 /**
  * Deletes the DomainName resource.
  */
-export const deleteDomainName: (
-  input: DeleteDomainNameRequest,
-) => effect.Effect<
+export const deleteDomainName: API.OperationMethod<
+  DeleteDomainNameRequest,
   DeleteDomainNameResponse,
   | BadRequestException
   | ConflictException
@@ -5435,9 +5411,8 @@ export const deleteDomainName: (
  *
  * Only the AWS account that created the DomainNameAccessAssociation resource can delete it. To stop an access association source in another AWS account from accessing your private custom domain name, use the RejectDomainNameAccessAssociation operation.
  */
-export const deleteDomainNameAccessAssociation: (
-  input: DeleteDomainNameAccessAssociationRequest,
-) => effect.Effect<
+export const deleteDomainNameAccessAssociation: API.OperationMethod<
+  DeleteDomainNameAccessAssociationRequest,
   DeleteDomainNameAccessAssociationResponse,
   | BadRequestException
   | ConflictException
@@ -5460,9 +5435,8 @@ export const deleteDomainNameAccessAssociation: (
 /**
  * Clears any customization of a GatewayResponse of a specified response type on the given RestApi and resets it with the default settings.
  */
-export const deleteGatewayResponse: (
-  input: DeleteGatewayResponseRequest,
-) => effect.Effect<
+export const deleteGatewayResponse: API.OperationMethod<
+  DeleteGatewayResponseRequest,
   DeleteGatewayResponseResponse,
   | BadRequestException
   | ConflictException
@@ -5485,9 +5459,8 @@ export const deleteGatewayResponse: (
 /**
  * Represents a delete integration.
  */
-export const deleteIntegration: (
-  input: DeleteIntegrationRequest,
-) => effect.Effect<
+export const deleteIntegration: API.OperationMethod<
+  DeleteIntegrationRequest,
   DeleteIntegrationResponse,
   | BadRequestException
   | ConflictException
@@ -5510,9 +5483,8 @@ export const deleteIntegration: (
 /**
  * Represents a delete integration response.
  */
-export const deleteIntegrationResponse: (
-  input: DeleteIntegrationResponseRequest,
-) => effect.Effect<
+export const deleteIntegrationResponse: API.OperationMethod<
+  DeleteIntegrationResponseRequest,
   DeleteIntegrationResponseResponse,
   | BadRequestException
   | ConflictException
@@ -5535,9 +5507,8 @@ export const deleteIntegrationResponse: (
 /**
  * Deletes an existing Method resource.
  */
-export const deleteMethod: (
-  input: DeleteMethodRequest,
-) => effect.Effect<
+export const deleteMethod: API.OperationMethod<
+  DeleteMethodRequest,
   DeleteMethodResponse,
   | ConflictException
   | NotFoundException
@@ -5558,9 +5529,8 @@ export const deleteMethod: (
 /**
  * Deletes an existing MethodResponse resource.
  */
-export const deleteMethodResponse: (
-  input: DeleteMethodResponseRequest,
-) => effect.Effect<
+export const deleteMethodResponse: API.OperationMethod<
+  DeleteMethodResponseRequest,
   DeleteMethodResponseResponse,
   | BadRequestException
   | ConflictException
@@ -5583,9 +5553,8 @@ export const deleteMethodResponse: (
 /**
  * Deletes a model.
  */
-export const deleteModel: (
-  input: DeleteModelRequest,
-) => effect.Effect<
+export const deleteModel: API.OperationMethod<
+  DeleteModelRequest,
   DeleteModelResponse,
   | BadRequestException
   | ConflictException
@@ -5608,9 +5577,8 @@ export const deleteModel: (
 /**
  * Deletes a RequestValidator of a given RestApi.
  */
-export const deleteRequestValidator: (
-  input: DeleteRequestValidatorRequest,
-) => effect.Effect<
+export const deleteRequestValidator: API.OperationMethod<
+  DeleteRequestValidatorRequest,
   DeleteRequestValidatorResponse,
   | BadRequestException
   | ConflictException
@@ -5633,9 +5601,8 @@ export const deleteRequestValidator: (
 /**
  * Deletes a Resource resource.
  */
-export const deleteResource: (
-  input: DeleteResourceRequest,
-) => effect.Effect<
+export const deleteResource: API.OperationMethod<
+  DeleteResourceRequest,
   DeleteResourceResponse,
   | BadRequestException
   | ConflictException
@@ -5658,9 +5625,8 @@ export const deleteResource: (
 /**
  * Deletes the specified API.
  */
-export const deleteRestApi: (
-  input: DeleteRestApiRequest,
-) => effect.Effect<
+export const deleteRestApi: API.OperationMethod<
+  DeleteRestApiRequest,
   DeleteRestApiResponse,
   | BadRequestException
   | ConflictException
@@ -5683,9 +5649,8 @@ export const deleteRestApi: (
 /**
  * Deletes a Stage resource.
  */
-export const deleteStage: (
-  input: DeleteStageRequest,
-) => effect.Effect<
+export const deleteStage: API.OperationMethod<
+  DeleteStageRequest,
   DeleteStageResponse,
   | BadRequestException
   | ConflictException
@@ -5710,9 +5675,8 @@ export const deleteStage: (
 /**
  * Deletes a usage plan of a given plan Id.
  */
-export const deleteUsagePlan: (
-  input: DeleteUsagePlanRequest,
-) => effect.Effect<
+export const deleteUsagePlan: API.OperationMethod<
+  DeleteUsagePlanRequest,
   DeleteUsagePlanResponse,
   | BadRequestException
   | ConflictException
@@ -5735,9 +5699,8 @@ export const deleteUsagePlan: (
 /**
  * Deletes a usage plan key and remove the underlying API key from the associated usage plan.
  */
-export const deleteUsagePlanKey: (
-  input: DeleteUsagePlanKeyRequest,
-) => effect.Effect<
+export const deleteUsagePlanKey: API.OperationMethod<
+  DeleteUsagePlanKeyRequest,
   DeleteUsagePlanKeyResponse,
   | BadRequestException
   | ConflictException
@@ -5760,9 +5723,8 @@ export const deleteUsagePlanKey: (
 /**
  * Deletes an existing VpcLink of a specified identifier.
  */
-export const deleteVpcLink: (
-  input: DeleteVpcLinkRequest,
-) => effect.Effect<
+export const deleteVpcLink: API.OperationMethod<
+  DeleteVpcLinkRequest,
   DeleteVpcLinkResponse,
   | BadRequestException
   | ConflictException
@@ -5785,9 +5747,8 @@ export const deleteVpcLink: (
 /**
  * Flushes all authorizer cache entries on a stage.
  */
-export const flushStageAuthorizersCache: (
-  input: FlushStageAuthorizersCacheRequest,
-) => effect.Effect<
+export const flushStageAuthorizersCache: API.OperationMethod<
+  FlushStageAuthorizersCacheRequest,
   FlushStageAuthorizersCacheResponse,
   | BadRequestException
   | ConflictException
@@ -5812,9 +5773,8 @@ export const flushStageAuthorizersCache: (
 /**
  * Flushes a stage's cache.
  */
-export const flushStageCache: (
-  input: FlushStageCacheRequest,
-) => effect.Effect<
+export const flushStageCache: API.OperationMethod<
+  FlushStageCacheRequest,
   FlushStageCacheResponse,
   | BadRequestException
   | ConflictException
@@ -5839,9 +5799,8 @@ export const flushStageCache: (
 /**
  * Generates a ClientCertificate resource.
  */
-export const generateClientCertificate: (
-  input: GenerateClientCertificateRequest,
-) => effect.Effect<
+export const generateClientCertificate: API.OperationMethod<
+  GenerateClientCertificateRequest,
   ClientCertificate,
   | BadRequestException
   | ConflictException
@@ -5864,9 +5823,8 @@ export const generateClientCertificate: (
 /**
  * Gets information about the current Account resource.
  */
-export const getAccount: (
-  input: GetAccountRequest,
-) => effect.Effect<
+export const getAccount: API.OperationMethod<
+  GetAccountRequest,
   Account,
   | BadRequestException
   | NotFoundException
@@ -5887,9 +5845,8 @@ export const getAccount: (
 /**
  * Gets information about the current ApiKey resource.
  */
-export const getApiKey: (
-  input: GetApiKeyRequest,
-) => effect.Effect<
+export const getApiKey: API.OperationMethod<
+  GetApiKeyRequest,
   ApiKey,
   | BadRequestException
   | NotFoundException
@@ -5910,18 +5867,16 @@ export const getApiKey: (
 /**
  * Gets information about the current ApiKeys resource.
  */
-export const getApiKeys: {
-  (
-    input: GetApiKeysRequest,
-  ): effect.Effect<
-    ApiKeys,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getApiKeys: API.OperationMethod<
+  GetApiKeysRequest,
+  ApiKeys,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetApiKeysRequest,
   ) => stream.Stream<
@@ -5963,9 +5918,8 @@ export const getApiKeys: {
 /**
  * Describe an existing Authorizer resource.
  */
-export const getAuthorizer: (
-  input: GetAuthorizerRequest,
-) => effect.Effect<
+export const getAuthorizer: API.OperationMethod<
+  GetAuthorizerRequest,
   Authorizer,
   | BadRequestException
   | NotFoundException
@@ -5986,9 +5940,8 @@ export const getAuthorizer: (
 /**
  * Describe an existing Authorizers resource.
  */
-export const getAuthorizers: (
-  input: GetAuthorizersRequest,
-) => effect.Effect<
+export const getAuthorizers: API.OperationMethod<
+  GetAuthorizersRequest,
   Authorizers,
   | BadRequestException
   | NotFoundException
@@ -6009,9 +5962,8 @@ export const getAuthorizers: (
 /**
  * Describe a BasePathMapping resource.
  */
-export const getBasePathMapping: (
-  input: GetBasePathMappingRequest,
-) => effect.Effect<
+export const getBasePathMapping: API.OperationMethod<
+  GetBasePathMappingRequest,
   BasePathMapping,
   | BadRequestException
   | NotFoundException
@@ -6032,18 +5984,16 @@ export const getBasePathMapping: (
 /**
  * Represents a collection of BasePathMapping resources.
  */
-export const getBasePathMappings: {
-  (
-    input: GetBasePathMappingsRequest,
-  ): effect.Effect<
-    BasePathMappings,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBasePathMappings: API.OperationMethod<
+  GetBasePathMappingsRequest,
+  BasePathMappings,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBasePathMappingsRequest,
   ) => stream.Stream<
@@ -6085,9 +6035,8 @@ export const getBasePathMappings: {
 /**
  * Gets information about the current ClientCertificate resource.
  */
-export const getClientCertificate: (
-  input: GetClientCertificateRequest,
-) => effect.Effect<
+export const getClientCertificate: API.OperationMethod<
+  GetClientCertificateRequest,
   ClientCertificate,
   | BadRequestException
   | NotFoundException
@@ -6108,18 +6057,16 @@ export const getClientCertificate: (
 /**
  * Gets a collection of ClientCertificate resources.
  */
-export const getClientCertificates: {
-  (
-    input: GetClientCertificatesRequest,
-  ): effect.Effect<
-    ClientCertificates,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getClientCertificates: API.OperationMethod<
+  GetClientCertificatesRequest,
+  ClientCertificates,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetClientCertificatesRequest,
   ) => stream.Stream<
@@ -6161,9 +6108,8 @@ export const getClientCertificates: {
 /**
  * Gets information about a Deployment resource.
  */
-export const getDeployment: (
-  input: GetDeploymentRequest,
-) => effect.Effect<
+export const getDeployment: API.OperationMethod<
+  GetDeploymentRequest,
   Deployment,
   | BadRequestException
   | NotFoundException
@@ -6186,19 +6132,17 @@ export const getDeployment: (
 /**
  * Gets information about a Deployments collection.
  */
-export const getDeployments: {
-  (
-    input: GetDeploymentsRequest,
-  ): effect.Effect<
-    Deployments,
-    | BadRequestException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDeployments: API.OperationMethod<
+  GetDeploymentsRequest,
+  Deployments,
+  | BadRequestException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDeploymentsRequest,
   ) => stream.Stream<
@@ -6243,9 +6187,8 @@ export const getDeployments: {
 /**
  * Gets a documentation part.
  */
-export const getDocumentationPart: (
-  input: GetDocumentationPartRequest,
-) => effect.Effect<
+export const getDocumentationPart: API.OperationMethod<
+  GetDocumentationPartRequest,
   DocumentationPart,
   | BadRequestException
   | NotFoundException
@@ -6266,9 +6209,8 @@ export const getDocumentationPart: (
 /**
  * Gets documentation parts.
  */
-export const getDocumentationParts: (
-  input: GetDocumentationPartsRequest,
-) => effect.Effect<
+export const getDocumentationParts: API.OperationMethod<
+  GetDocumentationPartsRequest,
   DocumentationParts,
   | BadRequestException
   | NotFoundException
@@ -6289,9 +6231,8 @@ export const getDocumentationParts: (
 /**
  * Gets a documentation version.
  */
-export const getDocumentationVersion: (
-  input: GetDocumentationVersionRequest,
-) => effect.Effect<
+export const getDocumentationVersion: API.OperationMethod<
+  GetDocumentationVersionRequest,
   DocumentationVersion,
   | NotFoundException
   | TooManyRequestsException
@@ -6306,9 +6247,8 @@ export const getDocumentationVersion: (
 /**
  * Gets documentation versions.
  */
-export const getDocumentationVersions: (
-  input: GetDocumentationVersionsRequest,
-) => effect.Effect<
+export const getDocumentationVersions: API.OperationMethod<
+  GetDocumentationVersionsRequest,
   DocumentationVersions,
   | BadRequestException
   | NotFoundException
@@ -6329,9 +6269,8 @@ export const getDocumentationVersions: (
 /**
  * Represents a domain name that is contained in a simpler, more intuitive URL that can be called.
  */
-export const getDomainName: (
-  input: GetDomainNameRequest,
-) => effect.Effect<
+export const getDomainName: API.OperationMethod<
+  GetDomainNameRequest,
   DomainName,
   | BadRequestException
   | NotFoundException
@@ -6352,9 +6291,8 @@ export const getDomainName: (
 /**
  * Represents a collection on DomainNameAccessAssociations resources.
  */
-export const getDomainNameAccessAssociations: (
-  input: GetDomainNameAccessAssociationsRequest,
-) => effect.Effect<
+export const getDomainNameAccessAssociations: API.OperationMethod<
+  GetDomainNameAccessAssociationsRequest,
   DomainNameAccessAssociations,
   | BadRequestException
   | NotFoundException
@@ -6375,18 +6313,16 @@ export const getDomainNameAccessAssociations: (
 /**
  * Represents a collection of DomainName resources.
  */
-export const getDomainNames: {
-  (
-    input: GetDomainNamesRequest,
-  ): effect.Effect<
-    DomainNames,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDomainNames: API.OperationMethod<
+  GetDomainNamesRequest,
+  DomainNames,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDomainNamesRequest,
   ) => stream.Stream<
@@ -6428,9 +6364,8 @@ export const getDomainNames: {
 /**
  * Exports a deployed version of a RestApi in a specified format.
  */
-export const getExport: (
-  input: GetExportRequest,
-) => effect.Effect<
+export const getExport: API.OperationMethod<
+  GetExportRequest,
   ExportResponse,
   | BadRequestException
   | ConflictException
@@ -6455,9 +6390,8 @@ export const getExport: (
 /**
  * Gets a GatewayResponse of a specified response type on the given RestApi.
  */
-export const getGatewayResponse: (
-  input: GetGatewayResponseRequest,
-) => effect.Effect<
+export const getGatewayResponse: API.OperationMethod<
+  GetGatewayResponseRequest,
   GatewayResponse,
   | BadRequestException
   | NotFoundException
@@ -6478,9 +6412,8 @@ export const getGatewayResponse: (
 /**
  * Gets the GatewayResponses collection on the given RestApi. If an API developer has not added any definitions for gateway responses, the result will be the API Gateway-generated default GatewayResponses collection for the supported response types.
  */
-export const getGatewayResponses: (
-  input: GetGatewayResponsesRequest,
-) => effect.Effect<
+export const getGatewayResponses: API.OperationMethod<
+  GetGatewayResponsesRequest,
   GatewayResponses,
   | BadRequestException
   | NotFoundException
@@ -6501,9 +6434,8 @@ export const getGatewayResponses: (
 /**
  * Get the integration settings.
  */
-export const getIntegration: (
-  input: GetIntegrationRequest,
-) => effect.Effect<
+export const getIntegration: API.OperationMethod<
+  GetIntegrationRequest,
   Integration,
   | BadRequestException
   | NotFoundException
@@ -6524,9 +6456,8 @@ export const getIntegration: (
 /**
  * Represents a get integration response.
  */
-export const getIntegrationResponse: (
-  input: GetIntegrationResponseRequest,
-) => effect.Effect<
+export const getIntegrationResponse: API.OperationMethod<
+  GetIntegrationResponseRequest,
   IntegrationResponse,
   | BadRequestException
   | NotFoundException
@@ -6547,9 +6478,8 @@ export const getIntegrationResponse: (
 /**
  * Describe an existing Method resource.
  */
-export const getMethod: (
-  input: GetMethodRequest,
-) => effect.Effect<
+export const getMethod: API.OperationMethod<
+  GetMethodRequest,
   Method,
   | NotFoundException
   | TooManyRequestsException
@@ -6564,9 +6494,8 @@ export const getMethod: (
 /**
  * Describes a MethodResponse resource.
  */
-export const getMethodResponse: (
-  input: GetMethodResponseRequest,
-) => effect.Effect<
+export const getMethodResponse: API.OperationMethod<
+  GetMethodResponseRequest,
   MethodResponse,
   | NotFoundException
   | TooManyRequestsException
@@ -6581,9 +6510,8 @@ export const getMethodResponse: (
 /**
  * Describes an existing model defined for a RestApi resource.
  */
-export const getModel: (
-  input: GetModelRequest,
-) => effect.Effect<
+export const getModel: API.OperationMethod<
+  GetModelRequest,
   Model,
   | BadRequestException
   | NotFoundException
@@ -6604,18 +6532,16 @@ export const getModel: (
 /**
  * Describes existing Models defined for a RestApi resource.
  */
-export const getModels: {
-  (
-    input: GetModelsRequest,
-  ): effect.Effect<
-    Models,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getModels: API.OperationMethod<
+  GetModelsRequest,
+  Models,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetModelsRequest,
   ) => stream.Stream<
@@ -6657,9 +6583,8 @@ export const getModels: {
 /**
  * Generates a sample mapping template that can be used to transform a payload into the structure of a model.
  */
-export const getModelTemplate: (
-  input: GetModelTemplateRequest,
-) => effect.Effect<
+export const getModelTemplate: API.OperationMethod<
+  GetModelTemplateRequest,
   Template,
   | BadRequestException
   | NotFoundException
@@ -6680,9 +6605,8 @@ export const getModelTemplate: (
 /**
  * Gets a RequestValidator of a given RestApi.
  */
-export const getRequestValidator: (
-  input: GetRequestValidatorRequest,
-) => effect.Effect<
+export const getRequestValidator: API.OperationMethod<
+  GetRequestValidatorRequest,
   RequestValidator,
   | BadRequestException
   | NotFoundException
@@ -6703,9 +6627,8 @@ export const getRequestValidator: (
 /**
  * Gets the RequestValidators collection of a given RestApi.
  */
-export const getRequestValidators: (
-  input: GetRequestValidatorsRequest,
-) => effect.Effect<
+export const getRequestValidators: API.OperationMethod<
+  GetRequestValidatorsRequest,
   RequestValidators,
   | BadRequestException
   | NotFoundException
@@ -6726,9 +6649,8 @@ export const getRequestValidators: (
 /**
  * Lists information about a resource.
  */
-export const getResource: (
-  input: GetResourceRequest,
-) => effect.Effect<
+export const getResource: API.OperationMethod<
+  GetResourceRequest,
   Resource,
   | NotFoundException
   | TooManyRequestsException
@@ -6743,18 +6665,16 @@ export const getResource: (
 /**
  * Lists information about a collection of Resource resources.
  */
-export const getResources: {
-  (
-    input: GetResourcesRequest,
-  ): effect.Effect<
-    Resources,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResources: API.OperationMethod<
+  GetResourcesRequest,
+  Resources,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourcesRequest,
   ) => stream.Stream<
@@ -6796,9 +6716,8 @@ export const getResources: {
 /**
  * Lists the RestApi resource in the collection.
  */
-export const getRestApi: (
-  input: GetRestApiRequest,
-) => effect.Effect<
+export const getRestApi: API.OperationMethod<
+  GetRestApiRequest,
   RestApi,
   | BadRequestException
   | NotFoundException
@@ -6819,18 +6738,16 @@ export const getRestApi: (
 /**
  * Lists the RestApis resources for your collection.
  */
-export const getRestApis: {
-  (
-    input: GetRestApisRequest,
-  ): effect.Effect<
-    RestApis,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getRestApis: API.OperationMethod<
+  GetRestApisRequest,
+  RestApis,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetRestApisRequest,
   ) => stream.Stream<
@@ -6872,9 +6789,8 @@ export const getRestApis: {
 /**
  * Generates a client SDK for a RestApi and Stage.
  */
-export const getSdk: (
-  input: GetSdkRequest,
-) => effect.Effect<
+export const getSdk: API.OperationMethod<
+  GetSdkRequest,
   SdkResponse,
   | BadRequestException
   | ConflictException
@@ -6899,9 +6815,8 @@ export const getSdk: (
 /**
  * Gets an SDK type.
  */
-export const getSdkType: (
-  input: GetSdkTypeRequest,
-) => effect.Effect<
+export const getSdkType: API.OperationMethod<
+  GetSdkTypeRequest,
   SdkType,
   | BadRequestException
   | NotFoundException
@@ -6922,9 +6837,8 @@ export const getSdkType: (
 /**
  * Gets SDK types
  */
-export const getSdkTypes: (
-  input: GetSdkTypesRequest,
-) => effect.Effect<
+export const getSdkTypes: API.OperationMethod<
+  GetSdkTypesRequest,
   SdkTypes,
   | BadRequestException
   | NotFoundException
@@ -6945,9 +6859,8 @@ export const getSdkTypes: (
 /**
  * Gets information about a Stage resource.
  */
-export const getStage: (
-  input: GetStageRequest,
-) => effect.Effect<
+export const getStage: API.OperationMethod<
+  GetStageRequest,
   Stage,
   | BadRequestException
   | ConflictException
@@ -6972,9 +6885,8 @@ export const getStage: (
 /**
  * Gets information about one or more Stage resources.
  */
-export const getStages: (
-  input: GetStagesRequest,
-) => effect.Effect<
+export const getStages: API.OperationMethod<
+  GetStagesRequest,
   Stages,
   | BadRequestException
   | ConflictException
@@ -6999,9 +6911,8 @@ export const getStages: (
 /**
  * Gets the Tags collection for a given resource.
  */
-export const getTags: (
-  input: GetTagsRequest,
-) => effect.Effect<
+export const getTags: API.OperationMethod<
+  GetTagsRequest,
   Tags,
   | BadRequestException
   | NotFoundException
@@ -7022,18 +6933,16 @@ export const getTags: (
 /**
  * Gets the usage data of a usage plan in a specified time interval.
  */
-export const getUsage: {
-  (
-    input: GetUsageRequest,
-  ): effect.Effect<
-    Usage,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getUsage: API.OperationMethod<
+  GetUsageRequest,
+  Usage,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetUsageRequest,
   ) => stream.Stream<
@@ -7075,9 +6984,8 @@ export const getUsage: {
 /**
  * Gets a usage plan of a given plan identifier.
  */
-export const getUsagePlan: (
-  input: GetUsagePlanRequest,
-) => effect.Effect<
+export const getUsagePlan: API.OperationMethod<
+  GetUsagePlanRequest,
   UsagePlan,
   | BadRequestException
   | NotFoundException
@@ -7098,9 +7006,8 @@ export const getUsagePlan: (
 /**
  * Gets a usage plan key of a given key identifier.
  */
-export const getUsagePlanKey: (
-  input: GetUsagePlanKeyRequest,
-) => effect.Effect<
+export const getUsagePlanKey: API.OperationMethod<
+  GetUsagePlanKeyRequest,
   UsagePlanKey,
   | BadRequestException
   | NotFoundException
@@ -7121,18 +7028,16 @@ export const getUsagePlanKey: (
 /**
  * Gets all the usage plan keys representing the API keys added to a specified usage plan.
  */
-export const getUsagePlanKeys: {
-  (
-    input: GetUsagePlanKeysRequest,
-  ): effect.Effect<
-    UsagePlanKeys,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getUsagePlanKeys: API.OperationMethod<
+  GetUsagePlanKeysRequest,
+  UsagePlanKeys,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetUsagePlanKeysRequest,
   ) => stream.Stream<
@@ -7174,18 +7079,16 @@ export const getUsagePlanKeys: {
 /**
  * Gets all the usage plans of the caller's account.
  */
-export const getUsagePlans: {
-  (
-    input: GetUsagePlansRequest,
-  ): effect.Effect<
-    UsagePlans,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getUsagePlans: API.OperationMethod<
+  GetUsagePlansRequest,
+  UsagePlans,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetUsagePlansRequest,
   ) => stream.Stream<
@@ -7227,9 +7130,8 @@ export const getUsagePlans: {
 /**
  * Gets a specified VPC link under the caller's account in a region.
  */
-export const getVpcLink: (
-  input: GetVpcLinkRequest,
-) => effect.Effect<
+export const getVpcLink: API.OperationMethod<
+  GetVpcLinkRequest,
   VpcLink,
   | BadRequestException
   | NotFoundException
@@ -7250,18 +7152,16 @@ export const getVpcLink: (
 /**
  * Gets the VpcLinks collection under the caller's account in a selected region.
  */
-export const getVpcLinks: {
-  (
-    input: GetVpcLinksRequest,
-  ): effect.Effect<
-    VpcLinks,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getVpcLinks: API.OperationMethod<
+  GetVpcLinksRequest,
+  VpcLinks,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetVpcLinksRequest,
   ) => stream.Stream<
@@ -7303,9 +7203,8 @@ export const getVpcLinks: {
 /**
  * Import API keys from an external source, such as a CSV-formatted file.
  */
-export const importApiKeys: (
-  input: ImportApiKeysRequest,
-) => effect.Effect<
+export const importApiKeys: API.OperationMethod<
+  ImportApiKeysRequest,
   ApiKeyIds,
   | BadRequestException
   | ConflictException
@@ -7330,9 +7229,8 @@ export const importApiKeys: (
 /**
  * Imports documentation parts
  */
-export const importDocumentationParts: (
-  input: ImportDocumentationPartsRequest,
-) => effect.Effect<
+export const importDocumentationParts: API.OperationMethod<
+  ImportDocumentationPartsRequest,
   DocumentationPartIds,
   | BadRequestException
   | ConflictException
@@ -7357,9 +7255,8 @@ export const importDocumentationParts: (
 /**
  * A feature of the API Gateway control service for creating a new API from an external API definition file.
  */
-export const importRestApi: (
-  input: ImportRestApiRequest,
-) => effect.Effect<
+export const importRestApi: API.OperationMethod<
+  ImportRestApiRequest,
   RestApi,
   | BadRequestException
   | ConflictException
@@ -7384,9 +7281,8 @@ export const importRestApi: (
 /**
  * Creates a customization of a GatewayResponse of a specified response type and status code on the given RestApi.
  */
-export const putGatewayResponse: (
-  input: PutGatewayResponseRequest,
-) => effect.Effect<
+export const putGatewayResponse: API.OperationMethod<
+  PutGatewayResponseRequest,
   GatewayResponse,
   | BadRequestException
   | ConflictException
@@ -7411,9 +7307,8 @@ export const putGatewayResponse: (
 /**
  * Sets up a method's integration.
  */
-export const putIntegration: (
-  input: PutIntegrationRequest,
-) => effect.Effect<
+export const putIntegration: API.OperationMethod<
+  PutIntegrationRequest,
   Integration,
   | BadRequestException
   | ConflictException
@@ -7438,9 +7333,8 @@ export const putIntegration: (
 /**
  * Represents a put integration.
  */
-export const putIntegrationResponse: (
-  input: PutIntegrationResponseRequest,
-) => effect.Effect<
+export const putIntegrationResponse: API.OperationMethod<
+  PutIntegrationResponseRequest,
   IntegrationResponse,
   | BadRequestException
   | ConflictException
@@ -7465,9 +7359,8 @@ export const putIntegrationResponse: (
 /**
  * Add a method to an existing Resource resource.
  */
-export const putMethod: (
-  input: PutMethodRequest,
-) => effect.Effect<
+export const putMethod: API.OperationMethod<
+  PutMethodRequest,
   Method,
   | BadRequestException
   | ConflictException
@@ -7492,9 +7385,8 @@ export const putMethod: (
 /**
  * Adds a MethodResponse to an existing Method resource.
  */
-export const putMethodResponse: (
-  input: PutMethodResponseRequest,
-) => effect.Effect<
+export const putMethodResponse: API.OperationMethod<
+  PutMethodResponseRequest,
   MethodResponse,
   | BadRequestException
   | ConflictException
@@ -7520,9 +7412,8 @@ export const putMethodResponse: (
  * A feature of the API Gateway control service for updating an existing API with an input of external API definitions.
  * The update can take the form of merging the supplied definition into the existing API or overwriting the existing API.
  */
-export const putRestApi: (
-  input: PutRestApiRequest,
-) => effect.Effect<
+export const putRestApi: API.OperationMethod<
+  PutRestApiRequest,
   RestApi,
   | BadRequestException
   | ConflictException
@@ -7549,9 +7440,8 @@ export const putRestApi: (
  *
  * To reject a domain name access association with an access association source in another AWS account, use this operation. To remove a domain name access association with an access association source in your own account, use the DeleteDomainNameAccessAssociation operation.
  */
-export const rejectDomainNameAccessAssociation: (
-  input: RejectDomainNameAccessAssociationRequest,
-) => effect.Effect<
+export const rejectDomainNameAccessAssociation: API.OperationMethod<
+  RejectDomainNameAccessAssociationRequest,
   RejectDomainNameAccessAssociationResponse,
   | BadRequestException
   | ConflictException
@@ -7574,9 +7464,8 @@ export const rejectDomainNameAccessAssociation: (
 /**
  * Adds or updates a tag on a given resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -7601,9 +7490,8 @@ export const tagResource: (
 /**
  * Simulate the execution of an Authorizer in your RestApi with headers, parameters, and an incoming request body.
  */
-export const testInvokeAuthorizer: (
-  input: TestInvokeAuthorizerRequest,
-) => effect.Effect<
+export const testInvokeAuthorizer: API.OperationMethod<
+  TestInvokeAuthorizerRequest,
   TestInvokeAuthorizerResponse,
   | BadRequestException
   | NotFoundException
@@ -7624,9 +7512,8 @@ export const testInvokeAuthorizer: (
 /**
  * Simulate the invocation of a Method in your RestApi with headers, parameters, and an incoming request body.
  */
-export const testInvokeMethod: (
-  input: TestInvokeMethodRequest,
-) => effect.Effect<
+export const testInvokeMethod: API.OperationMethod<
+  TestInvokeMethodRequest,
   TestInvokeMethodResponse,
   | BadRequestException
   | NotFoundException
@@ -7647,9 +7534,8 @@ export const testInvokeMethod: (
 /**
  * Removes a tag from a given resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -7674,9 +7560,8 @@ export const untagResource: (
 /**
  * Changes information about the current Account resource.
  */
-export const updateAccount: (
-  input: UpdateAccountRequest,
-) => effect.Effect<
+export const updateAccount: API.OperationMethod<
+  UpdateAccountRequest,
   Account,
   | BadRequestException
   | ConflictException
@@ -7701,9 +7586,8 @@ export const updateAccount: (
 /**
  * Changes information about an ApiKey resource.
  */
-export const updateApiKey: (
-  input: UpdateApiKeyRequest,
-) => effect.Effect<
+export const updateApiKey: API.OperationMethod<
+  UpdateApiKeyRequest,
   ApiKey,
   | BadRequestException
   | ConflictException
@@ -7728,9 +7612,8 @@ export const updateApiKey: (
 /**
  * Updates an existing Authorizer resource.
  */
-export const updateAuthorizer: (
-  input: UpdateAuthorizerRequest,
-) => effect.Effect<
+export const updateAuthorizer: API.OperationMethod<
+  UpdateAuthorizerRequest,
   Authorizer,
   | BadRequestException
   | ConflictException
@@ -7755,9 +7638,8 @@ export const updateAuthorizer: (
 /**
  * Changes information about the BasePathMapping resource.
  */
-export const updateBasePathMapping: (
-  input: UpdateBasePathMappingRequest,
-) => effect.Effect<
+export const updateBasePathMapping: API.OperationMethod<
+  UpdateBasePathMappingRequest,
   BasePathMapping,
   | BadRequestException
   | ConflictException
@@ -7782,9 +7664,8 @@ export const updateBasePathMapping: (
 /**
  * Changes information about an ClientCertificate resource.
  */
-export const updateClientCertificate: (
-  input: UpdateClientCertificateRequest,
-) => effect.Effect<
+export const updateClientCertificate: API.OperationMethod<
+  UpdateClientCertificateRequest,
   ClientCertificate,
   | BadRequestException
   | ConflictException
@@ -7809,9 +7690,8 @@ export const updateClientCertificate: (
 /**
  * Changes information about a Deployment resource.
  */
-export const updateDeployment: (
-  input: UpdateDeploymentRequest,
-) => effect.Effect<
+export const updateDeployment: API.OperationMethod<
+  UpdateDeploymentRequest,
   Deployment,
   | BadRequestException
   | ConflictException
@@ -7838,9 +7718,8 @@ export const updateDeployment: (
 /**
  * Updates a documentation part.
  */
-export const updateDocumentationPart: (
-  input: UpdateDocumentationPartRequest,
-) => effect.Effect<
+export const updateDocumentationPart: API.OperationMethod<
+  UpdateDocumentationPartRequest,
   DocumentationPart,
   | BadRequestException
   | ConflictException
@@ -7865,9 +7744,8 @@ export const updateDocumentationPart: (
 /**
  * Updates a documentation version.
  */
-export const updateDocumentationVersion: (
-  input: UpdateDocumentationVersionRequest,
-) => effect.Effect<
+export const updateDocumentationVersion: API.OperationMethod<
+  UpdateDocumentationVersionRequest,
   DocumentationVersion,
   | BadRequestException
   | ConflictException
@@ -7892,9 +7770,8 @@ export const updateDocumentationVersion: (
 /**
  * Changes information about the DomainName resource.
  */
-export const updateDomainName: (
-  input: UpdateDomainNameRequest,
-) => effect.Effect<
+export const updateDomainName: API.OperationMethod<
+  UpdateDomainNameRequest,
   DomainName,
   | BadRequestException
   | ConflictException
@@ -7919,9 +7796,8 @@ export const updateDomainName: (
 /**
  * Updates a GatewayResponse of a specified response type on the given RestApi.
  */
-export const updateGatewayResponse: (
-  input: UpdateGatewayResponseRequest,
-) => effect.Effect<
+export const updateGatewayResponse: API.OperationMethod<
+  UpdateGatewayResponseRequest,
   GatewayResponse,
   | BadRequestException
   | ConflictException
@@ -7946,9 +7822,8 @@ export const updateGatewayResponse: (
 /**
  * Represents an update integration.
  */
-export const updateIntegration: (
-  input: UpdateIntegrationRequest,
-) => effect.Effect<
+export const updateIntegration: API.OperationMethod<
+  UpdateIntegrationRequest,
   Integration,
   | BadRequestException
   | ConflictException
@@ -7973,9 +7848,8 @@ export const updateIntegration: (
 /**
  * Represents an update integration response.
  */
-export const updateIntegrationResponse: (
-  input: UpdateIntegrationResponseRequest,
-) => effect.Effect<
+export const updateIntegrationResponse: API.OperationMethod<
+  UpdateIntegrationResponseRequest,
   IntegrationResponse,
   | BadRequestException
   | ConflictException
@@ -8000,9 +7874,8 @@ export const updateIntegrationResponse: (
 /**
  * Updates an existing Method resource.
  */
-export const updateMethod: (
-  input: UpdateMethodRequest,
-) => effect.Effect<
+export const updateMethod: API.OperationMethod<
+  UpdateMethodRequest,
   Method,
   | BadRequestException
   | ConflictException
@@ -8025,9 +7898,8 @@ export const updateMethod: (
 /**
  * Updates an existing MethodResponse resource.
  */
-export const updateMethodResponse: (
-  input: UpdateMethodResponseRequest,
-) => effect.Effect<
+export const updateMethodResponse: API.OperationMethod<
+  UpdateMethodResponseRequest,
   MethodResponse,
   | BadRequestException
   | ConflictException
@@ -8052,9 +7924,8 @@ export const updateMethodResponse: (
 /**
  * Changes information about a model. The maximum size of the model is 400 KB.
  */
-export const updateModel: (
-  input: UpdateModelRequest,
-) => effect.Effect<
+export const updateModel: API.OperationMethod<
+  UpdateModelRequest,
   Model,
   | BadRequestException
   | ConflictException
@@ -8079,9 +7950,8 @@ export const updateModel: (
 /**
  * Updates a RequestValidator of a given RestApi.
  */
-export const updateRequestValidator: (
-  input: UpdateRequestValidatorRequest,
-) => effect.Effect<
+export const updateRequestValidator: API.OperationMethod<
+  UpdateRequestValidatorRequest,
   RequestValidator,
   | BadRequestException
   | ConflictException
@@ -8106,9 +7976,8 @@ export const updateRequestValidator: (
 /**
  * Changes information about a Resource resource.
  */
-export const updateResource: (
-  input: UpdateResourceRequest,
-) => effect.Effect<
+export const updateResource: API.OperationMethod<
+  UpdateResourceRequest,
   Resource,
   | BadRequestException
   | ConflictException
@@ -8131,9 +8000,8 @@ export const updateResource: (
 /**
  * Changes information about the specified API.
  */
-export const updateRestApi: (
-  input: UpdateRestApiRequest,
-) => effect.Effect<
+export const updateRestApi: API.OperationMethod<
+  UpdateRestApiRequest,
   RestApi,
   | BadRequestException
   | ConflictException
@@ -8158,9 +8026,8 @@ export const updateRestApi: (
 /**
  * Changes information about a Stage resource.
  */
-export const updateStage: (
-  input: UpdateStageRequest,
-) => effect.Effect<
+export const updateStage: API.OperationMethod<
+  UpdateStageRequest,
   Stage,
   | BadRequestException
   | ConflictException
@@ -8185,9 +8052,8 @@ export const updateStage: (
 /**
  * Grants a temporary extension to the remaining quota of a usage plan associated with a specified API key.
  */
-export const updateUsage: (
-  input: UpdateUsageRequest,
-) => effect.Effect<
+export const updateUsage: API.OperationMethod<
+  UpdateUsageRequest,
   Usage,
   | BadRequestException
   | ConflictException
@@ -8212,9 +8078,8 @@ export const updateUsage: (
 /**
  * Updates a usage plan of a given plan Id.
  */
-export const updateUsagePlan: (
-  input: UpdateUsagePlanRequest,
-) => effect.Effect<
+export const updateUsagePlan: API.OperationMethod<
+  UpdateUsagePlanRequest,
   UsagePlan,
   | BadRequestException
   | ConflictException
@@ -8239,9 +8104,8 @@ export const updateUsagePlan: (
 /**
  * Updates an existing VpcLink of a specified identifier.
  */
-export const updateVpcLink: (
-  input: UpdateVpcLinkRequest,
-) => effect.Effect<
+export const updateVpcLink: API.OperationMethod<
+  UpdateVpcLinkRequest,
   VpcLink,
   | BadRequestException
   | ConflictException

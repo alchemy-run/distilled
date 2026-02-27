@@ -409,9 +409,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists all of the tags associated with the Amazon Resource Name (ARN) that you specify. The resource can be a user, server, or role.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -434,9 +433,8 @@ export const listTagsForResource: (
 /**
  * Attaches a key-value pair to a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -459,9 +457,8 @@ export const tagResource: (
 /**
  * Detaches a key-value pair from a resource, as identified by its Amazon Resource Name (ARN). Taggable resources in AWS User Notifications Contacts include email contacts..
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -484,9 +481,8 @@ export const untagResource: (
 /**
  * Creates an email contact for the provided email address.
  */
-export const createEmailContact: (
-  input: CreateEmailContactRequest,
-) => effect.Effect<
+export const createEmailContact: API.OperationMethod<
+  CreateEmailContactRequest,
   CreateEmailContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -511,9 +507,8 @@ export const createEmailContact: (
 /**
  * Returns an email contact.
  */
-export const getEmailContact: (
-  input: GetEmailContactRequest,
-) => effect.Effect<
+export const getEmailContact: API.OperationMethod<
+  GetEmailContactRequest,
   GetEmailContactResponse,
   | AccessDeniedException
   | InternalServerException
@@ -538,9 +533,8 @@ export const getEmailContact: (
  *
  * Deleting an email contact removes it from all associated notification configurations.
  */
-export const deleteEmailContact: (
-  input: DeleteEmailContactRequest,
-) => effect.Effect<
+export const deleteEmailContact: API.OperationMethod<
+  DeleteEmailContactRequest,
   DeleteEmailContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -565,18 +559,16 @@ export const deleteEmailContact: (
 /**
  * Lists all email contacts created under the Account.
  */
-export const listEmailContacts: {
-  (
-    input: ListEmailContactsRequest,
-  ): effect.Effect<
-    ListEmailContactsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEmailContacts: API.OperationMethod<
+  ListEmailContactsRequest,
+  ListEmailContactsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEmailContactsRequest,
   ) => stream.Stream<
@@ -618,9 +610,8 @@ export const listEmailContacts: {
 /**
  * Activates an email contact using an activation code. This code is in the activation email sent to the email address associated with this email contact.
  */
-export const activateEmailContact: (
-  input: ActivateEmailContactRequest,
-) => effect.Effect<
+export const activateEmailContact: API.OperationMethod<
+  ActivateEmailContactRequest,
   ActivateEmailContactResponse,
   | AccessDeniedException
   | ConflictException
@@ -647,9 +638,8 @@ export const activateEmailContact: (
  *
  * It might take a few minutes for the activation email to arrive. If it doesn't arrive, check in your spam folder or try sending another activation email.
  */
-export const sendActivationCode: (
-  input: SendActivationCodeRequest,
-) => effect.Effect<
+export const sendActivationCode: API.OperationMethod<
+  SendActivationCodeRequest,
   SendActivationCodeResponse,
   | AccessDeniedException
   | ConflictException

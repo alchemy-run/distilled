@@ -967,9 +967,8 @@ export class LimitExceededException extends S.TaggedErrorClass<LimitExceededExce
  *
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const bulkPublish: (
-  input: BulkPublishRequest,
-) => effect.Effect<
+export const bulkPublish: API.OperationMethod<
+  BulkPublishRequest,
   BulkPublishResponse,
   | AlreadyStreamedException
   | DuplicateRequestException
@@ -999,9 +998,8 @@ export const bulkPublish: (
  *
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
  */
-export const deleteDataset: (
-  input: DeleteDatasetRequest,
-) => effect.Effect<
+export const deleteDataset: API.OperationMethod<
+  DeleteDatasetRequest,
   DeleteDatasetResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1030,9 +1028,8 @@ export const deleteDataset: (
  *
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials. You should use Cognito Identity credentials to make this API call.
  */
-export const describeDataset: (
-  input: DescribeDatasetRequest,
-) => effect.Effect<
+export const describeDataset: API.OperationMethod<
+  DescribeDatasetRequest,
   DescribeDatasetResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1098,9 +1095,8 @@ export const describeDataset: (
  * "Version": "1.0"
  * }
  */
-export const describeIdentityPoolUsage: (
-  input: DescribeIdentityPoolUsageRequest,
-) => effect.Effect<
+export const describeIdentityPoolUsage: API.OperationMethod<
+  DescribeIdentityPoolUsageRequest,
   DescribeIdentityPoolUsageResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1168,9 +1164,8 @@ export const describeIdentityPoolUsage: (
  * "Version": "1.0"
  * }
  */
-export const describeIdentityUsage: (
-  input: DescribeIdentityUsageRequest,
-) => effect.Effect<
+export const describeIdentityUsage: API.OperationMethod<
+  DescribeIdentityUsageRequest,
   DescribeIdentityUsageResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1195,9 +1190,8 @@ export const describeIdentityUsage: (
  *
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const getBulkPublishDetails: (
-  input: GetBulkPublishDetailsRequest,
-) => effect.Effect<
+export const getBulkPublishDetails: API.OperationMethod<
+  GetBulkPublishDetailsRequest,
   GetBulkPublishDetailsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1220,9 +1214,8 @@ export const getBulkPublishDetails: (
  *
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const getCognitoEvents: (
-  input: GetCognitoEventsRequest,
-) => effect.Effect<
+export const getCognitoEvents: API.OperationMethod<
+  GetCognitoEventsRequest,
   GetCognitoEventsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1287,9 +1280,8 @@ export const getCognitoEvents: (
  * "Version": "1.0"
  * }
  */
-export const getIdentityPoolConfiguration: (
-  input: GetIdentityPoolConfigurationRequest,
-) => effect.Effect<
+export const getIdentityPoolConfiguration: API.OperationMethod<
+  GetIdentityPoolConfigurationRequest,
   GetIdentityPoolConfigurationResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1366,9 +1358,8 @@ export const getIdentityPoolConfiguration: (
  * "Version": "1.0"
  * }
  */
-export const listDatasets: (
-  input: ListDatasetsRequest,
-) => effect.Effect<
+export const listDatasets: API.OperationMethod<
+  ListDatasetsRequest,
   ListDatasetsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1443,9 +1434,8 @@ export const listDatasets: (
  * "Version": "1.0"
  * }
  */
-export const listIdentityPoolUsage: (
-  input: ListIdentityPoolUsageRequest,
-) => effect.Effect<
+export const listIdentityPoolUsage: API.OperationMethod<
+  ListIdentityPoolUsageRequest,
   ListIdentityPoolUsageResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1517,9 +1507,8 @@ export const listIdentityPoolUsage: (
  * "Version": "1.0"
  * }
  */
-export const listRecords: (
-  input: ListRecordsRequest,
-) => effect.Effect<
+export const listRecords: API.OperationMethod<
+  ListRecordsRequest,
   ListRecordsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1581,9 +1570,8 @@ export const listRecords: (
  * "Version": "1.0"
  * }
  */
-export const registerDevice: (
-  input: RegisterDeviceRequest,
-) => effect.Effect<
+export const registerDevice: API.OperationMethod<
+  RegisterDeviceRequest,
   RegisterDeviceResponse,
   | InternalErrorException
   | InvalidConfigurationException
@@ -1610,9 +1598,8 @@ export const registerDevice: (
  *
  * This API can only be called with developer credentials. You cannot call this API with the temporary user credentials provided by Cognito Identity.
  */
-export const setCognitoEvents: (
-  input: SetCognitoEventsRequest,
-) => effect.Effect<
+export const setCognitoEvents: API.OperationMethod<
+  SetCognitoEventsRequest,
   SetCognitoEventsResponse,
   | InternalErrorException
   | InvalidParameterException
@@ -1682,9 +1669,8 @@ export const setCognitoEvents: (
  * "Version": "1.0"
  * }
  */
-export const setIdentityPoolConfiguration: (
-  input: SetIdentityPoolConfigurationRequest,
-) => effect.Effect<
+export const setIdentityPoolConfiguration: API.OperationMethod<
+  SetIdentityPoolConfigurationRequest,
   SetIdentityPoolConfigurationResponse,
   | ConcurrentModificationException
   | InternalErrorException
@@ -1749,9 +1735,8 @@ export const setIdentityPoolConfiguration: (
  * "Version": "1.0"
  * }
  */
-export const subscribeToDataset: (
-  input: SubscribeToDatasetRequest,
-) => effect.Effect<
+export const subscribeToDataset: API.OperationMethod<
+  SubscribeToDatasetRequest,
   SubscribeToDatasetResponse,
   | InternalErrorException
   | InvalidConfigurationException
@@ -1817,9 +1802,8 @@ export const subscribeToDataset: (
  * "Version": "1.0"
  * }
  */
-export const unsubscribeFromDataset: (
-  input: UnsubscribeFromDatasetRequest,
-) => effect.Effect<
+export const unsubscribeFromDataset: API.OperationMethod<
+  UnsubscribeFromDatasetRequest,
   UnsubscribeFromDatasetResponse,
   | InternalErrorException
   | InvalidConfigurationException
@@ -1850,9 +1834,8 @@ export const unsubscribeFromDataset: (
  *
  * This API can be called with temporary user credentials provided by Cognito Identity or with developer credentials.
  */
-export const updateRecords: (
-  input: UpdateRecordsRequest,
-) => effect.Effect<
+export const updateRecords: API.OperationMethod<
+  UpdateRecordsRequest,
   UpdateRecordsResponse,
   | InternalErrorException
   | InvalidLambdaFunctionOutputException

@@ -1582,9 +1582,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Copies a Blueprint from one stage to another
  */
-export const copyBlueprintStage: (
-  input: CopyBlueprintStageRequest,
-) => effect.Effect<
+export const copyBlueprintStage: API.OperationMethod<
+  CopyBlueprintStageRequest,
   CopyBlueprintStageResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1607,9 +1606,8 @@ export const copyBlueprintStage: (
 /**
  * Creates a new version of an existing Amazon Bedrock Data Automation Blueprint
  */
-export const createBlueprintVersion: (
-  input: CreateBlueprintVersionRequest,
-) => effect.Effect<
+export const createBlueprintVersion: API.OperationMethod<
+  CreateBlueprintVersionRequest,
   CreateBlueprintVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1634,9 +1632,8 @@ export const createBlueprintVersion: (
 /**
  * List tags for an Amazon Bedrock Data Automation resource
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1659,9 +1656,8 @@ export const listTagsForResource: (
 /**
  * Tag an Amazon Bedrock Data Automation resource
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1686,9 +1682,8 @@ export const tagResource: (
 /**
  * Untag an Amazon Bedrock Data Automation resource
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1711,9 +1706,8 @@ export const untagResource: (
 /**
  * Invoke an async job to perform Blueprint Optimization
  */
-export const invokeBlueprintOptimizationAsync: (
-  input: InvokeBlueprintOptimizationAsyncRequest,
-) => effect.Effect<
+export const invokeBlueprintOptimizationAsync: API.OperationMethod<
+  InvokeBlueprintOptimizationAsyncRequest,
   InvokeBlueprintOptimizationAsyncResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1738,9 +1732,8 @@ export const invokeBlueprintOptimizationAsync: (
 /**
  * API used to get blueprint optimization status.
  */
-export const getBlueprintOptimizationStatus: (
-  input: GetBlueprintOptimizationStatusRequest,
-) => effect.Effect<
+export const getBlueprintOptimizationStatus: API.OperationMethod<
+  GetBlueprintOptimizationStatusRequest,
   GetBlueprintOptimizationStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1763,9 +1756,8 @@ export const getBlueprintOptimizationStatus: (
 /**
  * Creates an Amazon Bedrock Data Automation Blueprint
  */
-export const createBlueprint: (
-  input: CreateBlueprintRequest,
-) => effect.Effect<
+export const createBlueprint: API.OperationMethod<
+  CreateBlueprintRequest,
   CreateBlueprintResponse,
   | AccessDeniedException
   | ConflictException
@@ -1790,9 +1782,8 @@ export const createBlueprint: (
 /**
  * Gets an existing Amazon Bedrock Data Automation Blueprint
  */
-export const getBlueprint: (
-  input: GetBlueprintRequest,
-) => effect.Effect<
+export const getBlueprint: API.OperationMethod<
+  GetBlueprintRequest,
   GetBlueprintResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1815,9 +1806,8 @@ export const getBlueprint: (
 /**
  * Updates an existing Amazon Bedrock Data Automation Blueprint
  */
-export const updateBlueprint: (
-  input: UpdateBlueprintRequest,
-) => effect.Effect<
+export const updateBlueprint: API.OperationMethod<
+  UpdateBlueprintRequest,
   UpdateBlueprintResponse,
   | AccessDeniedException
   | ConflictException
@@ -1842,9 +1832,8 @@ export const updateBlueprint: (
 /**
  * Deletes an existing Amazon Bedrock Data Automation Blueprint
  */
-export const deleteBlueprint: (
-  input: DeleteBlueprintRequest,
-) => effect.Effect<
+export const deleteBlueprint: API.OperationMethod<
+  DeleteBlueprintRequest,
   DeleteBlueprintResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1867,19 +1856,17 @@ export const deleteBlueprint: (
 /**
  * Lists all existing Amazon Bedrock Data Automation Blueprints
  */
-export const listBlueprints: {
-  (
-    input: ListBlueprintsRequest,
-  ): effect.Effect<
-    ListBlueprintsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBlueprints: API.OperationMethod<
+  ListBlueprintsRequest,
+  ListBlueprintsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBlueprintsRequest,
   ) => stream.Stream<
@@ -1924,9 +1911,8 @@ export const listBlueprints: {
 /**
  * Creates an Amazon Bedrock Data Automation Project
  */
-export const createDataAutomationProject: (
-  input: CreateDataAutomationProjectRequest,
-) => effect.Effect<
+export const createDataAutomationProject: API.OperationMethod<
+  CreateDataAutomationProjectRequest,
   CreateDataAutomationProjectResponse,
   | AccessDeniedException
   | ConflictException
@@ -1951,9 +1937,8 @@ export const createDataAutomationProject: (
 /**
  * Gets an existing Amazon Bedrock Data Automation Project
  */
-export const getDataAutomationProject: (
-  input: GetDataAutomationProjectRequest,
-) => effect.Effect<
+export const getDataAutomationProject: API.OperationMethod<
+  GetDataAutomationProjectRequest,
   GetDataAutomationProjectResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1976,9 +1961,8 @@ export const getDataAutomationProject: (
 /**
  * Updates an existing Amazon Bedrock Data Automation Project
  */
-export const updateDataAutomationProject: (
-  input: UpdateDataAutomationProjectRequest,
-) => effect.Effect<
+export const updateDataAutomationProject: API.OperationMethod<
+  UpdateDataAutomationProjectRequest,
   UpdateDataAutomationProjectResponse,
   | AccessDeniedException
   | ConflictException
@@ -2005,9 +1989,8 @@ export const updateDataAutomationProject: (
 /**
  * Deletes an existing Amazon Bedrock Data Automation Project
  */
-export const deleteDataAutomationProject: (
-  input: DeleteDataAutomationProjectRequest,
-) => effect.Effect<
+export const deleteDataAutomationProject: API.OperationMethod<
+  DeleteDataAutomationProjectRequest,
   DeleteDataAutomationProjectResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2030,19 +2013,17 @@ export const deleteDataAutomationProject: (
 /**
  * Lists all existing Amazon Bedrock Data Automation Projects
  */
-export const listDataAutomationProjects: {
-  (
-    input: ListDataAutomationProjectsRequest,
-  ): effect.Effect<
-    ListDataAutomationProjectsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataAutomationProjects: API.OperationMethod<
+  ListDataAutomationProjectsRequest,
+  ListDataAutomationProjectsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataAutomationProjectsRequest,
   ) => stream.Stream<

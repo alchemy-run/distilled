@@ -3581,9 +3581,8 @@ export class LicenseUsageException extends S.TaggedErrorClass<LicenseUsageExcept
 /**
  * Accepts the specified grant.
  */
-export const acceptGrant: (
-  input: AcceptGrantRequest,
-) => effect.Effect<
+export const acceptGrant: API.OperationMethod<
+  AcceptGrantRequest,
   AcceptGrantResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3610,9 +3609,8 @@ export const acceptGrant: (
 /**
  * Checks in the specified license. Check in a license when it is no longer in use.
  */
-export const checkInLicense: (
-  input: CheckInLicenseRequest,
-) => effect.Effect<
+export const checkInLicense: API.OperationMethod<
+  CheckInLicenseRequest,
   CheckInLicenseResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3641,9 +3639,8 @@ export const checkInLicense: (
 /**
  * Checks out the specified license for offline use.
  */
-export const checkoutBorrowLicense: (
-  input: CheckoutBorrowLicenseRequest,
-) => effect.Effect<
+export const checkoutBorrowLicense: API.OperationMethod<
+  CheckoutBorrowLicenseRequest,
   CheckoutBorrowLicenseResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3681,9 +3678,8 @@ export const checkoutBorrowLicense: (
  * If the account that created the license is the same that is performing the check out, you must
  * specify the account as the beneficiary.
  */
-export const checkoutLicense: (
-  input: CheckoutLicenseRequest,
-) => effect.Effect<
+export const checkoutLicense: API.OperationMethod<
+  CheckoutLicenseRequest,
   CheckoutLicenseResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3718,9 +3714,8 @@ export const checkoutLicense: (
  * entitlements with a specific Amazon Web Services account, an organization, or an
  * organizational unit (OU). For more information, see Granted licenses in License Manager in the *License Manager User Guide*.
  */
-export const createGrant: (
-  input: CreateGrantRequest,
-) => effect.Effect<
+export const createGrant: API.OperationMethod<
+  CreateGrantRequest,
   CreateGrantResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3748,9 +3743,8 @@ export const createGrant: (
  * Creates a new version of the specified grant. For more information, see
  * Granted licenses in License Manager in the *License Manager User Guide*.
  */
-export const createGrantVersion: (
-  input: CreateGrantVersionRequest,
-) => effect.Effect<
+export const createGrantVersion: API.OperationMethod<
+  CreateGrantVersionRequest,
   CreateGrantVersionResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3777,9 +3771,8 @@ export const createGrantVersion: (
 /**
  * Creates a license.
  */
-export const createLicense: (
-  input: CreateLicenseRequest,
-) => effect.Effect<
+export const createLicense: API.OperationMethod<
+  CreateLicenseRequest,
   CreateLicenseResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3806,9 +3799,8 @@ export const createLicense: (
 /**
  * Creates a license asset group.
  */
-export const createLicenseAssetGroup: (
-  input: CreateLicenseAssetGroupRequest,
-) => effect.Effect<
+export const createLicenseAssetGroup: API.OperationMethod<
+  CreateLicenseAssetGroupRequest,
   CreateLicenseAssetGroupResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3833,9 +3825,8 @@ export const createLicenseAssetGroup: (
 /**
  * Creates a license asset ruleset.
  */
-export const createLicenseAssetRuleset: (
-  input: CreateLicenseAssetRulesetRequest,
-) => effect.Effect<
+export const createLicenseAssetRuleset: API.OperationMethod<
+  CreateLicenseAssetRulesetRequest,
   CreateLicenseAssetRulesetResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3866,9 +3857,8 @@ export const createLicenseAssetRuleset: (
  * Dedicated Instance, Dedicated Host, or all of these), license affinity to host (how long a
  * license must be associated with a host), and the number of licenses purchased and used.
  */
-export const createLicenseConfiguration: (
-  input: CreateLicenseConfigurationRequest,
-) => effect.Effect<
+export const createLicenseConfiguration: API.OperationMethod<
+  CreateLicenseConfigurationRequest,
   CreateLicenseConfigurationResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3893,9 +3883,8 @@ export const createLicenseConfiguration: (
 /**
  * Creates a new license conversion task.
  */
-export const createLicenseConversionTaskForResource: (
-  input: CreateLicenseConversionTaskForResourceRequest,
-) => effect.Effect<
+export const createLicenseConversionTaskForResource: API.OperationMethod<
+  CreateLicenseConversionTaskForResourceRequest,
   CreateLicenseConversionTaskForResourceResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3920,9 +3909,8 @@ export const createLicenseConversionTaskForResource: (
 /**
  * Creates a report generator.
  */
-export const createLicenseManagerReportGenerator: (
-  input: CreateLicenseManagerReportGeneratorRequest,
-) => effect.Effect<
+export const createLicenseManagerReportGenerator: API.OperationMethod<
+  CreateLicenseManagerReportGeneratorRequest,
   CreateLicenseManagerReportGeneratorResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3951,9 +3939,8 @@ export const createLicenseManagerReportGenerator: (
 /**
  * Creates a new version of the specified license.
  */
-export const createLicenseVersion: (
-  input: CreateLicenseVersionRequest,
-) => effect.Effect<
+export const createLicenseVersion: API.OperationMethod<
+  CreateLicenseVersionRequest,
   CreateLicenseVersionResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -3986,9 +3973,8 @@ export const createLicenseVersion: (
  * you can call AssumeRoleWithWebIdentity to get role credentials that you can use to
  * call License Manager to manage the specified license.
  */
-export const createToken: (
-  input: CreateTokenRequest,
-) => effect.Effect<
+export const createToken: API.OperationMethod<
+  CreateTokenRequest,
   CreateTokenResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4017,9 +4003,8 @@ export const createToken: (
 /**
  * Deletes the specified grant.
  */
-export const deleteGrant: (
-  input: DeleteGrantRequest,
-) => effect.Effect<
+export const deleteGrant: API.OperationMethod<
+  DeleteGrantRequest,
   DeleteGrantResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4046,9 +4031,8 @@ export const deleteGrant: (
 /**
  * Deletes the specified license.
  */
-export const deleteLicense: (
-  input: DeleteLicenseRequest,
-) => effect.Effect<
+export const deleteLicense: API.OperationMethod<
+  DeleteLicenseRequest,
   DeleteLicenseResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4077,9 +4061,8 @@ export const deleteLicense: (
 /**
  * Deletes a license asset group.
  */
-export const deleteLicenseAssetGroup: (
-  input: DeleteLicenseAssetGroupRequest,
-) => effect.Effect<
+export const deleteLicenseAssetGroup: API.OperationMethod<
+  DeleteLicenseAssetGroupRequest,
   DeleteLicenseAssetGroupResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4104,9 +4087,8 @@ export const deleteLicenseAssetGroup: (
 /**
  * Deletes a license asset ruleset.
  */
-export const deleteLicenseAssetRuleset: (
-  input: DeleteLicenseAssetRulesetRequest,
-) => effect.Effect<
+export const deleteLicenseAssetRuleset: API.OperationMethod<
+  DeleteLicenseAssetRulesetRequest,
   DeleteLicenseAssetRulesetResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4133,9 +4115,8 @@ export const deleteLicenseAssetRuleset: (
  *
  * You cannot delete a license configuration that is in use.
  */
-export const deleteLicenseConfiguration: (
-  input: DeleteLicenseConfigurationRequest,
-) => effect.Effect<
+export const deleteLicenseConfiguration: API.OperationMethod<
+  DeleteLicenseConfigurationRequest,
   DeleteLicenseConfigurationResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4161,9 +4142,8 @@ export const deleteLicenseConfiguration: (
  * This action deletes the report generator, which stops it from generating future reports.
  * The action cannot be reversed. It has no effect on the previous reports from this generator.
  */
-export const deleteLicenseManagerReportGenerator: (
-  input: DeleteLicenseManagerReportGeneratorRequest,
-) => effect.Effect<
+export const deleteLicenseManagerReportGenerator: API.OperationMethod<
+  DeleteLicenseManagerReportGeneratorRequest,
   DeleteLicenseManagerReportGeneratorResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4192,9 +4172,8 @@ export const deleteLicenseManagerReportGenerator: (
 /**
  * Deletes the specified token. Must be called in the license home Region.
  */
-export const deleteToken: (
-  input: DeleteTokenRequest,
-) => effect.Effect<
+export const deleteToken: API.OperationMethod<
+  DeleteTokenRequest,
   DeleteTokenResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4221,9 +4200,8 @@ export const deleteToken: (
 /**
  * Extends the expiration date for license consumption.
  */
-export const extendLicenseConsumption: (
-  input: ExtendLicenseConsumptionRequest,
-) => effect.Effect<
+export const extendLicenseConsumption: API.OperationMethod<
+  ExtendLicenseConsumptionRequest,
   ExtendLicenseConsumptionResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4251,9 +4229,8 @@ export const extendLicenseConsumption: (
  * Gets a temporary access token to use with AssumeRoleWithWebIdentity. Access tokens
  * are valid for one hour.
  */
-export const getAccessToken: (
-  input: GetAccessTokenRequest,
-) => effect.Effect<
+export const getAccessToken: API.OperationMethod<
+  GetAccessTokenRequest,
   GetAccessTokenResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4276,9 +4253,8 @@ export const getAccessToken: (
 /**
  * Gets detailed information about the specified grant.
  */
-export const getGrant: (
-  input: GetGrantRequest,
-) => effect.Effect<
+export const getGrant: API.OperationMethod<
+  GetGrantRequest,
   GetGrantResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4305,9 +4281,8 @@ export const getGrant: (
 /**
  * Gets detailed information about the specified license.
  */
-export const getLicense: (
-  input: GetLicenseRequest,
-) => effect.Effect<
+export const getLicense: API.OperationMethod<
+  GetLicenseRequest,
   GetLicenseResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4332,9 +4307,8 @@ export const getLicense: (
 /**
  * Gets a license asset group.
  */
-export const getLicenseAssetGroup: (
-  input: GetLicenseAssetGroupRequest,
-) => effect.Effect<
+export const getLicenseAssetGroup: API.OperationMethod<
+  GetLicenseAssetGroupRequest,
   GetLicenseAssetGroupResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4359,9 +4333,8 @@ export const getLicenseAssetGroup: (
 /**
  * Gets a license asset ruleset.
  */
-export const getLicenseAssetRuleset: (
-  input: GetLicenseAssetRulesetRequest,
-) => effect.Effect<
+export const getLicenseAssetRuleset: API.OperationMethod<
+  GetLicenseAssetRulesetRequest,
   GetLicenseAssetRulesetResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4386,9 +4359,8 @@ export const getLicenseAssetRuleset: (
 /**
  * Gets detailed information about the specified license configuration.
  */
-export const getLicenseConfiguration: (
-  input: GetLicenseConfigurationRequest,
-) => effect.Effect<
+export const getLicenseConfiguration: API.OperationMethod<
+  GetLicenseConfigurationRequest,
   GetLicenseConfigurationResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4411,9 +4383,8 @@ export const getLicenseConfiguration: (
 /**
  * Gets information about the specified license type conversion task.
  */
-export const getLicenseConversionTask: (
-  input: GetLicenseConversionTaskRequest,
-) => effect.Effect<
+export const getLicenseConversionTask: API.OperationMethod<
+  GetLicenseConversionTaskRequest,
   GetLicenseConversionTaskResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4436,9 +4407,8 @@ export const getLicenseConversionTask: (
 /**
  * Gets information about the specified report generator.
  */
-export const getLicenseManagerReportGenerator: (
-  input: GetLicenseManagerReportGeneratorRequest,
-) => effect.Effect<
+export const getLicenseManagerReportGenerator: API.OperationMethod<
+  GetLicenseManagerReportGeneratorRequest,
   GetLicenseManagerReportGeneratorResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4467,9 +4437,8 @@ export const getLicenseManagerReportGenerator: (
 /**
  * Gets detailed information about the usage of the specified license.
  */
-export const getLicenseUsage: (
-  input: GetLicenseUsageRequest,
-) => effect.Effect<
+export const getLicenseUsage: API.OperationMethod<
+  GetLicenseUsageRequest,
   GetLicenseUsageResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4494,9 +4463,8 @@ export const getLicenseUsage: (
 /**
  * Gets the License Manager settings for the current Region.
  */
-export const getServiceSettings: (
-  input: GetServiceSettingsRequest,
-) => effect.Effect<
+export const getServiceSettings: API.OperationMethod<
+  GetServiceSettingsRequest,
   GetServiceSettingsResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4517,9 +4485,8 @@ export const getServiceSettings: (
 /**
  * Lists assets for a license asset group.
  */
-export const listAssetsForLicenseAssetGroup: (
-  input: ListAssetsForLicenseAssetGroupRequest,
-) => effect.Effect<
+export const listAssetsForLicenseAssetGroup: API.OperationMethod<
+  ListAssetsForLicenseAssetGroupRequest,
   ListAssetsForLicenseAssetGroupResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4548,9 +4515,8 @@ export const listAssetsForLicenseAssetGroup: (
  * For example, an AMI or a stopped instance might not consume a license (depending on
  * the license rules).
  */
-export const listAssociationsForLicenseConfiguration: (
-  input: ListAssociationsForLicenseConfigurationRequest,
-) => effect.Effect<
+export const listAssociationsForLicenseConfiguration: API.OperationMethod<
+  ListAssociationsForLicenseConfigurationRequest,
   ListAssociationsForLicenseConfigurationResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4575,9 +4541,8 @@ export const listAssociationsForLicenseConfiguration: (
 /**
  * Lists the grants distributed for the specified license.
  */
-export const listDistributedGrants: (
-  input: ListDistributedGrantsRequest,
-) => effect.Effect<
+export const listDistributedGrants: API.OperationMethod<
+  ListDistributedGrantsRequest,
   ListDistributedGrantsResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4604,9 +4569,8 @@ export const listDistributedGrants: (
 /**
  * Lists the license configuration operations that failed.
  */
-export const listFailuresForLicenseConfigurationOperations: (
-  input: ListFailuresForLicenseConfigurationOperationsRequest,
-) => effect.Effect<
+export const listFailuresForLicenseConfigurationOperations: API.OperationMethod<
+  ListFailuresForLicenseConfigurationOperationsRequest,
   ListFailuresForLicenseConfigurationOperationsResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4629,9 +4593,8 @@ export const listFailuresForLicenseConfigurationOperations: (
 /**
  * Lists license asset groups.
  */
-export const listLicenseAssetGroups: (
-  input: ListLicenseAssetGroupsRequest,
-) => effect.Effect<
+export const listLicenseAssetGroups: API.OperationMethod<
+  ListLicenseAssetGroupsRequest,
   ListLicenseAssetGroupsResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4656,9 +4619,8 @@ export const listLicenseAssetGroups: (
 /**
  * Lists license asset rulesets.
  */
-export const listLicenseAssetRulesets: (
-  input: ListLicenseAssetRulesetsRequest,
-) => effect.Effect<
+export const listLicenseAssetRulesets: API.OperationMethod<
+  ListLicenseAssetRulesetsRequest,
   ListLicenseAssetRulesetsResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4683,9 +4645,8 @@ export const listLicenseAssetRulesets: (
 /**
  * Lists the license configurations for your account.
  */
-export const listLicenseConfigurations: (
-  input: ListLicenseConfigurationsRequest,
-) => effect.Effect<
+export const listLicenseConfigurations: API.OperationMethod<
+  ListLicenseConfigurationsRequest,
   ListLicenseConfigurationsResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4710,9 +4671,8 @@ export const listLicenseConfigurations: (
 /**
  * Lists license configurations for an organization.
  */
-export const listLicenseConfigurationsForOrganization: (
-  input: ListLicenseConfigurationsForOrganizationRequest,
-) => effect.Effect<
+export const listLicenseConfigurationsForOrganization: API.OperationMethod<
+  ListLicenseConfigurationsForOrganizationRequest,
   ListLicenseConfigurationsForOrganizationResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4737,9 +4697,8 @@ export const listLicenseConfigurationsForOrganization: (
 /**
  * Lists the license type conversion tasks for your account.
  */
-export const listLicenseConversionTasks: (
-  input: ListLicenseConversionTasksRequest,
-) => effect.Effect<
+export const listLicenseConversionTasks: API.OperationMethod<
+  ListLicenseConversionTasksRequest,
   ListLicenseConversionTasksResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4762,9 +4721,8 @@ export const listLicenseConversionTasks: (
 /**
  * Lists the report generators for your account.
  */
-export const listLicenseManagerReportGenerators: (
-  input: ListLicenseManagerReportGeneratorsRequest,
-) => effect.Effect<
+export const listLicenseManagerReportGenerators: API.OperationMethod<
+  ListLicenseManagerReportGeneratorsRequest,
   ListLicenseManagerReportGeneratorsResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4793,9 +4751,8 @@ export const listLicenseManagerReportGenerators: (
 /**
  * Lists the licenses for your account.
  */
-export const listLicenses: (
-  input: ListLicensesRequest,
-) => effect.Effect<
+export const listLicenses: API.OperationMethod<
+  ListLicensesRequest,
   ListLicensesResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4820,9 +4777,8 @@ export const listLicenses: (
 /**
  * Describes the license configurations for the specified resource.
  */
-export const listLicenseSpecificationsForResource: (
-  input: ListLicenseSpecificationsForResourceRequest,
-) => effect.Effect<
+export const listLicenseSpecificationsForResource: API.OperationMethod<
+  ListLicenseSpecificationsForResourceRequest,
   ListLicenseSpecificationsForResourceResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4845,9 +4801,8 @@ export const listLicenseSpecificationsForResource: (
 /**
  * Lists all versions of the specified license.
  */
-export const listLicenseVersions: (
-  input: ListLicenseVersionsRequest,
-) => effect.Effect<
+export const listLicenseVersions: API.OperationMethod<
+  ListLicenseVersionsRequest,
   ListLicenseVersionsResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4872,9 +4827,8 @@ export const listLicenseVersions: (
  * recipient as this Amazon Web Services account, your organization, or an organizational unit
  * (OU) to which this member account belongs.
  */
-export const listReceivedGrants: (
-  input: ListReceivedGrantsRequest,
-) => effect.Effect<
+export const listReceivedGrants: API.OperationMethod<
+  ListReceivedGrantsRequest,
   ListReceivedGrantsResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4901,9 +4855,8 @@ export const listReceivedGrants: (
 /**
  * Lists the grants received for all accounts in the organization.
  */
-export const listReceivedGrantsForOrganization: (
-  input: ListReceivedGrantsForOrganizationRequest,
-) => effect.Effect<
+export const listReceivedGrantsForOrganization: API.OperationMethod<
+  ListReceivedGrantsForOrganizationRequest,
   ListReceivedGrantsForOrganizationResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4930,9 +4883,8 @@ export const listReceivedGrantsForOrganization: (
 /**
  * Lists received licenses.
  */
-export const listReceivedLicenses: (
-  input: ListReceivedLicensesRequest,
-) => effect.Effect<
+export const listReceivedLicenses: API.OperationMethod<
+  ListReceivedLicensesRequest,
   ListReceivedLicensesResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4959,9 +4911,8 @@ export const listReceivedLicenses: (
 /**
  * Lists the licenses received for all accounts in the organization.
  */
-export const listReceivedLicensesForOrganization: (
-  input: ListReceivedLicensesForOrganizationRequest,
-) => effect.Effect<
+export const listReceivedLicensesForOrganization: API.OperationMethod<
+  ListReceivedLicensesForOrganizationRequest,
   ListReceivedLicensesForOrganizationResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -4988,9 +4939,8 @@ export const listReceivedLicensesForOrganization: (
 /**
  * Lists resources managed using Systems Manager inventory.
  */
-export const listResourceInventory: (
-  input: ListResourceInventoryRequest,
-) => effect.Effect<
+export const listResourceInventory: API.OperationMethod<
+  ListResourceInventoryRequest,
   ListResourceInventoryResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5018,9 +4968,8 @@ export const listResourceInventory: (
  * Lists the tags for the specified resource. For more information about tagging support in
  * License Manager, see the TagResource operation.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5045,9 +4994,8 @@ export const listTagsForResource: (
 /**
  * Lists your tokens.
  */
-export const listTokens: (
-  input: ListTokensRequest,
-) => effect.Effect<
+export const listTokens: API.OperationMethod<
+  ListTokensRequest,
   ListTokensResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5072,9 +5020,8 @@ export const listTokens: (
  * consumption details by resource at a selected point in time. Use this action to audit the
  * current license consumption for any license inventory and configuration.
  */
-export const listUsageForLicenseConfiguration: (
-  input: ListUsageForLicenseConfigurationRequest,
-) => effect.Effect<
+export const listUsageForLicenseConfiguration: API.OperationMethod<
+  ListUsageForLicenseConfigurationRequest,
   ListUsageForLicenseConfigurationResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5099,9 +5046,8 @@ export const listUsageForLicenseConfiguration: (
 /**
  * Rejects the specified grant.
  */
-export const rejectGrant: (
-  input: RejectGrantRequest,
-) => effect.Effect<
+export const rejectGrant: API.OperationMethod<
+  RejectGrantRequest,
   RejectGrantResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5137,9 +5083,8 @@ export const rejectGrant: (
  *
  * - Report generators
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5164,9 +5109,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5191,9 +5135,8 @@ export const untagResource: (
 /**
  * Updates a license asset group.
  */
-export const updateLicenseAssetGroup: (
-  input: UpdateLicenseAssetGroupRequest,
-) => effect.Effect<
+export const updateLicenseAssetGroup: API.OperationMethod<
+  UpdateLicenseAssetGroupRequest,
   UpdateLicenseAssetGroupResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5218,9 +5161,8 @@ export const updateLicenseAssetGroup: (
 /**
  * Updates a license asset ruleset.
  */
-export const updateLicenseAssetRuleset: (
-  input: UpdateLicenseAssetRulesetRequest,
-) => effect.Effect<
+export const updateLicenseAssetRuleset: API.OperationMethod<
+  UpdateLicenseAssetRulesetRequest,
   UpdateLicenseAssetRulesetResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5245,9 +5187,8 @@ export const updateLicenseAssetRuleset: (
 /**
  * Modifies the attributes of an existing license configuration.
  */
-export const updateLicenseConfiguration: (
-  input: UpdateLicenseConfigurationRequest,
-) => effect.Effect<
+export const updateLicenseConfiguration: API.OperationMethod<
+  UpdateLicenseConfigurationRequest,
   UpdateLicenseConfigurationResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5276,9 +5217,8 @@ export const updateLicenseConfiguration: (
  *
  * After you make changes to a report generator, it starts generating new reports within 60 minutes of being updated.
  */
-export const updateLicenseManagerReportGenerator: (
-  input: UpdateLicenseManagerReportGeneratorRequest,
-) => effect.Effect<
+export const updateLicenseManagerReportGenerator: API.OperationMethod<
+  UpdateLicenseManagerReportGeneratorRequest,
   UpdateLicenseManagerReportGeneratorResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5311,9 +5251,8 @@ export const updateLicenseManagerReportGenerator: (
  * You cannot update the license specifications for launch templates and CloudFormation templates,
  * as they send license configurations to the operation that creates the resource.
  */
-export const updateLicenseSpecificationsForResource: (
-  input: UpdateLicenseSpecificationsForResourceRequest,
-) => effect.Effect<
+export const updateLicenseSpecificationsForResource: API.OperationMethod<
+  UpdateLicenseSpecificationsForResourceRequest,
   UpdateLicenseSpecificationsForResourceResponse,
   | AccessDeniedException
   | AuthorizationException
@@ -5342,9 +5281,8 @@ export const updateLicenseSpecificationsForResource: (
 /**
  * Updates License Manager settings for the current Region.
  */
-export const updateServiceSettings: (
-  input: UpdateServiceSettingsRequest,
-) => effect.Effect<
+export const updateServiceSettings: API.OperationMethod<
+  UpdateServiceSettingsRequest,
   UpdateServiceSettingsResponse,
   | AccessDeniedException
   | AuthorizationException

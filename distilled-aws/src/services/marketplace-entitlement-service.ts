@@ -233,17 +233,15 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
  *
  * These parameters are mutually exclusive. You can't specify both `CustomerIdentifier` and `CustomerAWSAccountID` in the same request.
  */
-export const getEntitlements: {
-  (
-    input: GetEntitlementsRequest,
-  ): effect.Effect<
-    GetEntitlementsResult,
-    | InternalServiceErrorException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getEntitlements: API.OperationMethod<
+  GetEntitlementsRequest,
+  GetEntitlementsResult,
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetEntitlementsRequest,
   ) => stream.Stream<

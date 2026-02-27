@@ -5849,9 +5849,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
  * You can execute this operation no more than 16 times per second,
  * and with at most 160 queries from the batches per second (cumulative).
  */
-export const batchGetMetricData: (
-  input: BatchGetMetricDataRequest,
-) => effect.Effect<
+export const batchGetMetricData: API.OperationMethod<
+  BatchGetMetricDataRequest,
   BatchGetMetricDataResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -5872,9 +5871,8 @@ export const batchGetMetricData: (
 /**
  * Cancels an export job.
  */
-export const cancelExportJob: (
-  input: CancelExportJobRequest,
-) => effect.Effect<
+export const cancelExportJob: API.OperationMethod<
+  CancelExportJobRequest,
   CancelExportJobResponse,
   | BadRequestException
   | NotFoundException
@@ -5893,9 +5891,8 @@ export const cancelExportJob: (
  * you apply a configuration set to an email, all of the rules in that configuration set
  * are applied to the email.
  */
-export const createConfigurationSet: (
-  input: CreateConfigurationSetRequest,
-) => effect.Effect<
+export const createConfigurationSet: API.OperationMethod<
+  CreateConfigurationSetRequest,
   CreateConfigurationSetResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -5926,9 +5923,8 @@ export const createConfigurationSet: (
  *
  * A single configuration set can include more than one event destination.
  */
-export const createConfigurationSetEventDestination: (
-  input: CreateConfigurationSetEventDestinationRequest,
-) => effect.Effect<
+export const createConfigurationSetEventDestination: API.OperationMethod<
+  CreateConfigurationSetEventDestinationRequest,
   CreateConfigurationSetEventDestinationResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -5952,9 +5948,8 @@ export const createConfigurationSetEventDestination: (
  * Creates a contact, which is an end-user who is receiving the email, and adds them to a
  * contact list.
  */
-export const createContact: (
-  input: CreateContactRequest,
-) => effect.Effect<
+export const createContact: API.OperationMethod<
+  CreateContactRequest,
   CreateContactResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -5975,9 +5970,8 @@ export const createContact: (
 /**
  * Creates a contact list.
  */
-export const createContactList: (
-  input: CreateContactListRequest,
-) => effect.Effect<
+export const createContactList: API.OperationMethod<
+  CreateContactListRequest,
   CreateContactListResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6004,9 +5998,8 @@ export const createContactList: (
  *
  * You can execute this operation no more than once per second.
  */
-export const createCustomVerificationEmailTemplate: (
-  input: CreateCustomVerificationEmailTemplateRequest,
-) => effect.Effect<
+export const createCustomVerificationEmailTemplate: API.OperationMethod<
+  CreateCustomVerificationEmailTemplateRequest,
   CreateCustomVerificationEmailTemplateResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6032,9 +6025,8 @@ export const createCustomVerificationEmailTemplate: (
  * a configuration set. When you send an email that uses that configuration set, the
  * message is sent from one of the addresses in the associated pool.
  */
-export const createDedicatedIpPool: (
-  input: CreateDedicatedIpPoolRequest,
-) => effect.Effect<
+export const createDedicatedIpPool: API.OperationMethod<
+  CreateDedicatedIpPoolRequest,
   CreateDedicatedIpPoolResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6063,9 +6055,8 @@ export const createDedicatedIpPool: (
  * `GetDeliverabilityTestReport` operation to view the results of the
  * test.
  */
-export const createDeliverabilityTestReport: (
-  input: CreateDeliverabilityTestReportRequest,
-) => effect.Effect<
+export const createDeliverabilityTestReport: API.OperationMethod<
+  CreateDeliverabilityTestReportRequest,
   CreateDeliverabilityTestReportResponse,
   | AccountSuspendedException
   | BadRequestException
@@ -6124,9 +6115,8 @@ export const createDeliverabilityTestReport: (
  *
  * Additionally, you can associate an existing configuration set with the email identity that you're verifying.
  */
-export const createEmailIdentity: (
-  input: CreateEmailIdentityRequest,
-) => effect.Effect<
+export const createEmailIdentity: API.OperationMethod<
+  CreateEmailIdentityRequest,
   CreateEmailIdentityResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6162,9 +6152,8 @@ export const createEmailIdentity: (
  *
  * You can execute this operation no more than once per second.
  */
-export const createEmailIdentityPolicy: (
-  input: CreateEmailIdentityPolicyRequest,
-) => effect.Effect<
+export const createEmailIdentityPolicy: API.OperationMethod<
+  CreateEmailIdentityPolicyRequest,
   CreateEmailIdentityPolicyResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6191,9 +6180,8 @@ export const createEmailIdentityPolicy: (
  *
  * You can execute this operation no more than once per second.
  */
-export const createEmailTemplate: (
-  input: CreateEmailTemplateRequest,
-) => effect.Effect<
+export const createEmailTemplate: API.OperationMethod<
+  CreateEmailTemplateRequest,
   CreateEmailTemplateResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6216,9 +6204,8 @@ export const createEmailTemplate: (
  *
  * You can execute this operation no more than once per second.
  */
-export const createExportJob: (
-  input: CreateExportJobRequest,
-) => effect.Effect<
+export const createExportJob: API.OperationMethod<
+  CreateExportJobRequest,
   CreateExportJobResponse,
   | BadRequestException
   | LimitExceededException
@@ -6239,9 +6226,8 @@ export const createExportJob: (
 /**
  * Creates an import job for a data destination.
  */
-export const createImportJob: (
-  input: CreateImportJobRequest,
-) => effect.Effect<
+export const createImportJob: API.OperationMethod<
+  CreateImportJobRequest,
   CreateImportJobResponse,
   | BadRequestException
   | LimitExceededException
@@ -6266,9 +6252,8 @@ export const createImportJob: (
  * and secondary regions - sending traffic will be split equally between the two.
  * The primary region is the region where the resource has been created and where it can be managed.
  */
-export const createMultiRegionEndpoint: (
-  input: CreateMultiRegionEndpointRequest,
-) => effect.Effect<
+export const createMultiRegionEndpoint: API.OperationMethod<
+  CreateMultiRegionEndpointRequest,
   CreateMultiRegionEndpointResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6294,9 +6279,8 @@ export const createMultiRegionEndpoint: (
  * and templates, along with reputation metrics and sending status. This helps isolate and manage
  * email sending for different customers or business units within your Amazon SES API v2 account.
  */
-export const createTenant: (
-  input: CreateTenantRequest,
-) => effect.Effect<
+export const createTenant: API.OperationMethod<
+  CreateTenantRequest,
   CreateTenantResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6324,9 +6308,8 @@ export const createTenant: (
  * A single resource can be associated with multiple tenants, allowing for resource sharing
  * across different tenants while maintaining isolation in email sending operations.
  */
-export const createTenantResourceAssociation: (
-  input: CreateTenantResourceAssociationRequest,
-) => effect.Effect<
+export const createTenantResourceAssociation: API.OperationMethod<
+  CreateTenantResourceAssociationRequest,
   CreateTenantResourceAssociationResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -6352,9 +6335,8 @@ export const createTenantResourceAssociation: (
  * the configuration set in the headers of the email. When you apply a configuration set to
  * an email, all of the rules in that configuration set are applied to the email.
  */
-export const deleteConfigurationSet: (
-  input: DeleteConfigurationSetRequest,
-) => effect.Effect<
+export const deleteConfigurationSet: API.OperationMethod<
+  DeleteConfigurationSetRequest,
   DeleteConfigurationSetResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -6380,9 +6362,8 @@ export const deleteConfigurationSet: (
  * information about these events to. For example, you can send event data to Amazon EventBridge and
  * associate a rule to send the event to the specified target.
  */
-export const deleteConfigurationSetEventDestination: (
-  input: DeleteConfigurationSetEventDestinationRequest,
-) => effect.Effect<
+export const deleteConfigurationSetEventDestination: API.OperationMethod<
+  DeleteConfigurationSetEventDestinationRequest,
   DeleteConfigurationSetEventDestinationResponse,
   | BadRequestException
   | NotFoundException
@@ -6397,9 +6378,8 @@ export const deleteConfigurationSetEventDestination: (
 /**
  * Removes a contact from a contact list.
  */
-export const deleteContact: (
-  input: DeleteContactRequest,
-) => effect.Effect<
+export const deleteContact: API.OperationMethod<
+  DeleteContactRequest,
   DeleteContactResponse,
   | BadRequestException
   | NotFoundException
@@ -6414,9 +6394,8 @@ export const deleteContact: (
 /**
  * Deletes a contact list and all of the contacts on that list.
  */
-export const deleteContactList: (
-  input: DeleteContactListRequest,
-) => effect.Effect<
+export const deleteContactList: API.OperationMethod<
+  DeleteContactListRequest,
   DeleteContactListResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -6443,9 +6422,8 @@ export const deleteContactList: (
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteCustomVerificationEmailTemplate: (
-  input: DeleteCustomVerificationEmailTemplateRequest,
-) => effect.Effect<
+export const deleteCustomVerificationEmailTemplate: API.OperationMethod<
+  DeleteCustomVerificationEmailTemplateRequest,
   DeleteCustomVerificationEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6460,9 +6438,8 @@ export const deleteCustomVerificationEmailTemplate: (
 /**
  * Delete a dedicated IP pool.
  */
-export const deleteDedicatedIpPool: (
-  input: DeleteDedicatedIpPoolRequest,
-) => effect.Effect<
+export const deleteDedicatedIpPool: API.OperationMethod<
+  DeleteDedicatedIpPoolRequest,
   DeleteDedicatedIpPoolResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -6484,9 +6461,8 @@ export const deleteDedicatedIpPool: (
  * Deletes an email identity. An identity can be either an email address or a domain
  * name.
  */
-export const deleteEmailIdentity: (
-  input: DeleteEmailIdentityRequest,
-) => effect.Effect<
+export const deleteEmailIdentity: API.OperationMethod<
+  DeleteEmailIdentityRequest,
   DeleteEmailIdentityResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -6519,9 +6495,8 @@ export const deleteEmailIdentity: (
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteEmailIdentityPolicy: (
-  input: DeleteEmailIdentityPolicyRequest,
-) => effect.Effect<
+export const deleteEmailIdentityPolicy: API.OperationMethod<
+  DeleteEmailIdentityPolicyRequest,
   DeleteEmailIdentityPolicyResponse,
   | BadRequestException
   | NotFoundException
@@ -6538,9 +6513,8 @@ export const deleteEmailIdentityPolicy: (
  *
  * You can execute this operation no more than once per second.
  */
-export const deleteEmailTemplate: (
-  input: DeleteEmailTemplateRequest,
-) => effect.Effect<
+export const deleteEmailTemplate: API.OperationMethod<
+  DeleteEmailTemplateRequest,
   DeleteEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6558,9 +6532,8 @@ export const deleteEmailTemplate: (
  * Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region
  * where operation is executed can be deleted.
  */
-export const deleteMultiRegionEndpoint: (
-  input: DeleteMultiRegionEndpointRequest,
-) => effect.Effect<
+export const deleteMultiRegionEndpoint: API.OperationMethod<
+  DeleteMultiRegionEndpointRequest,
   DeleteMultiRegionEndpointResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -6581,9 +6554,8 @@ export const deleteMultiRegionEndpoint: (
 /**
  * Removes an email address from the suppression list for your account.
  */
-export const deleteSuppressedDestination: (
-  input: DeleteSuppressedDestinationRequest,
-) => effect.Effect<
+export const deleteSuppressedDestination: API.OperationMethod<
+  DeleteSuppressedDestinationRequest,
   DeleteSuppressedDestinationResponse,
   | BadRequestException
   | NotFoundException
@@ -6601,9 +6573,8 @@ export const deleteSuppressedDestination: (
  * When you delete a tenant, its associations with resources
  * are removed, but the resources themselves are not deleted.
  */
-export const deleteTenant: (
-  input: DeleteTenantRequest,
-) => effect.Effect<
+export const deleteTenant: API.OperationMethod<
+  DeleteTenantRequest,
   DeleteTenantResponse,
   | BadRequestException
   | NotFoundException
@@ -6622,9 +6593,8 @@ export const deleteTenant: (
  * only its association with the specific tenant is removed. After removal, the resource
  * will no longer be available for use with that tenant's email sending operations.
  */
-export const deleteTenantResourceAssociation: (
-  input: DeleteTenantResourceAssociationRequest,
-) => effect.Effect<
+export const deleteTenantResourceAssociation: API.OperationMethod<
+  DeleteTenantResourceAssociationRequest,
   DeleteTenantResourceAssociationResponse,
   | BadRequestException
   | NotFoundException
@@ -6640,9 +6610,8 @@ export const deleteTenantResourceAssociation: (
  * Obtain information about the email-sending status and capabilities of your Amazon SES
  * account in the current Amazon Web Services Region.
  */
-export const getAccount: (
-  input: GetAccountRequest,
-) => effect.Effect<
+export const getAccount: API.OperationMethod<
+  GetAccountRequest,
   GetAccountResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6654,9 +6623,8 @@ export const getAccount: (
 /**
  * Retrieve a list of the blacklists that your dedicated IP addresses appear on.
  */
-export const getBlacklistReports: (
-  input: GetBlacklistReportsRequest,
-) => effect.Effect<
+export const getBlacklistReports: API.OperationMethod<
+  GetBlacklistReportsRequest,
   GetBlacklistReportsResponse,
   | BadRequestException
   | NotFoundException
@@ -6678,9 +6646,8 @@ export const getBlacklistReports: (
  * the configuration set in the headers of the email. When you apply a configuration set to
  * an email, all of the rules in that configuration set are applied to the email.
  */
-export const getConfigurationSet: (
-  input: GetConfigurationSetRequest,
-) => effect.Effect<
+export const getConfigurationSet: API.OperationMethod<
+  GetConfigurationSetRequest,
   GetConfigurationSetResponse,
   | BadRequestException
   | NotFoundException
@@ -6701,9 +6668,8 @@ export const getConfigurationSet: (
  * information about these events to. For example, you can send event data to Amazon EventBridge and
  * associate a rule to send the event to the specified target.
  */
-export const getConfigurationSetEventDestinations: (
-  input: GetConfigurationSetEventDestinationsRequest,
-) => effect.Effect<
+export const getConfigurationSetEventDestinations: API.OperationMethod<
+  GetConfigurationSetEventDestinationsRequest,
   GetConfigurationSetEventDestinationsResponse,
   | BadRequestException
   | NotFoundException
@@ -6718,9 +6684,8 @@ export const getConfigurationSetEventDestinations: (
 /**
  * Returns a contact from a contact list.
  */
-export const getContact: (
-  input: GetContactRequest,
-) => effect.Effect<
+export const getContact: API.OperationMethod<
+  GetContactRequest,
   GetContactResponse,
   | BadRequestException
   | NotFoundException
@@ -6736,9 +6701,8 @@ export const getContact: (
  * Returns contact list metadata. It does not return any information about the contacts
  * present in the list.
  */
-export const getContactList: (
-  input: GetContactListRequest,
-) => effect.Effect<
+export const getContactList: API.OperationMethod<
+  GetContactListRequest,
   GetContactListResponse,
   | BadRequestException
   | NotFoundException
@@ -6760,9 +6724,8 @@ export const getContactList: (
  *
  * You can execute this operation no more than once per second.
  */
-export const getCustomVerificationEmailTemplate: (
-  input: GetCustomVerificationEmailTemplateRequest,
-) => effect.Effect<
+export const getCustomVerificationEmailTemplate: API.OperationMethod<
+  GetCustomVerificationEmailTemplateRequest,
   GetCustomVerificationEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -6779,9 +6742,8 @@ export const getCustomVerificationEmailTemplate: (
  * pool that it's associated with, as well information about the automatic warm-up process
  * for the address.
  */
-export const getDedicatedIp: (
-  input: GetDedicatedIpRequest,
-) => effect.Effect<
+export const getDedicatedIp: API.OperationMethod<
+  GetDedicatedIpRequest,
   GetDedicatedIpResponse,
   | BadRequestException
   | NotFoundException
@@ -6796,9 +6758,8 @@ export const getDedicatedIp: (
 /**
  * Retrieve information about the dedicated pool.
  */
-export const getDedicatedIpPool: (
-  input: GetDedicatedIpPoolRequest,
-) => effect.Effect<
+export const getDedicatedIpPool: API.OperationMethod<
+  GetDedicatedIpPoolRequest,
   GetDedicatedIpPoolResponse,
   | BadRequestException
   | NotFoundException
@@ -6814,17 +6775,15 @@ export const getDedicatedIpPool: (
  * List the dedicated IP addresses that are associated with your Amazon Web Services
  * account.
  */
-export const getDedicatedIps: {
-  (
-    input: GetDedicatedIpsRequest,
-  ): effect.Effect<
-    GetDedicatedIpsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getDedicatedIps: API.OperationMethod<
+  GetDedicatedIpsRequest,
+  GetDedicatedIpsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDedicatedIpsRequest,
   ) => stream.Stream<
@@ -6865,9 +6824,8 @@ export const getDedicatedIps: {
  * to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more
  * information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
  */
-export const getDeliverabilityDashboardOptions: (
-  input: GetDeliverabilityDashboardOptionsRequest,
-) => effect.Effect<
+export const getDeliverabilityDashboardOptions: API.OperationMethod<
+  GetDeliverabilityDashboardOptionsRequest,
   GetDeliverabilityDashboardOptionsResponse,
   | BadRequestException
   | LimitExceededException
@@ -6886,9 +6844,8 @@ export const getDeliverabilityDashboardOptions: (
 /**
  * Retrieve the results of a predictive inbox placement test.
  */
-export const getDeliverabilityTestReport: (
-  input: GetDeliverabilityTestReportRequest,
-) => effect.Effect<
+export const getDeliverabilityTestReport: API.OperationMethod<
+  GetDeliverabilityTestReportRequest,
   GetDeliverabilityTestReportResponse,
   | BadRequestException
   | NotFoundException
@@ -6905,9 +6862,8 @@ export const getDeliverabilityTestReport: (
  * for a campaign only if the campaign sent email by using a domain that the
  * Deliverability dashboard is enabled for.
  */
-export const getDomainDeliverabilityCampaign: (
-  input: GetDomainDeliverabilityCampaignRequest,
-) => effect.Effect<
+export const getDomainDeliverabilityCampaign: API.OperationMethod<
+  GetDomainDeliverabilityCampaignRequest,
   GetDomainDeliverabilityCampaignResponse,
   | BadRequestException
   | NotFoundException
@@ -6923,9 +6879,8 @@ export const getDomainDeliverabilityCampaign: (
  * Retrieve inbox placement and engagement rates for the domains that you use to send
  * email.
  */
-export const getDomainStatisticsReport: (
-  input: GetDomainStatisticsReportRequest,
-) => effect.Effect<
+export const getDomainStatisticsReport: API.OperationMethod<
+  GetDomainStatisticsReportRequest,
   GetDomainStatisticsReportResponse,
   | BadRequestException
   | NotFoundException
@@ -6940,9 +6895,8 @@ export const getDomainStatisticsReport: (
 /**
  * Provides validation insights about a specific email address, including syntax validation, DNS record checks, mailbox existence, and other deliverability factors.
  */
-export const getEmailAddressInsights: (
-  input: GetEmailAddressInsightsRequest,
-) => effect.Effect<
+export const getEmailAddressInsights: API.OperationMethod<
+  GetEmailAddressInsightsRequest,
   GetEmailAddressInsightsResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -6956,9 +6910,8 @@ export const getEmailAddressInsights: (
  * status, sending authorization policies, its DKIM authentication status, and its custom
  * Mail-From settings.
  */
-export const getEmailIdentity: (
-  input: GetEmailIdentityRequest,
-) => effect.Effect<
+export const getEmailIdentity: API.OperationMethod<
+  GetEmailIdentityRequest,
   GetEmailIdentityResponse,
   | BadRequestException
   | NotFoundException
@@ -6985,9 +6938,8 @@ export const getEmailIdentity: (
  *
  * You can execute this operation no more than once per second.
  */
-export const getEmailIdentityPolicies: (
-  input: GetEmailIdentityPoliciesRequest,
-) => effect.Effect<
+export const getEmailIdentityPolicies: API.OperationMethod<
+  GetEmailIdentityPoliciesRequest,
   GetEmailIdentityPoliciesResponse,
   | BadRequestException
   | NotFoundException
@@ -7005,9 +6957,8 @@ export const getEmailIdentityPolicies: (
  *
  * You can execute this operation no more than once per second.
  */
-export const getEmailTemplate: (
-  input: GetEmailTemplateRequest,
-) => effect.Effect<
+export const getEmailTemplate: API.OperationMethod<
+  GetEmailTemplateRequest,
   GetEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -7022,9 +6973,8 @@ export const getEmailTemplate: (
 /**
  * Provides information about an export job.
  */
-export const getExportJob: (
-  input: GetExportJobRequest,
-) => effect.Effect<
+export const getExportJob: API.OperationMethod<
+  GetExportJobRequest,
   GetExportJobResponse,
   | BadRequestException
   | NotFoundException
@@ -7039,9 +6989,8 @@ export const getExportJob: (
 /**
  * Provides information about an import job.
  */
-export const getImportJob: (
-  input: GetImportJobRequest,
-) => effect.Effect<
+export const getImportJob: API.OperationMethod<
+  GetImportJobRequest,
   GetImportJobResponse,
   | BadRequestException
   | NotFoundException
@@ -7059,9 +7008,8 @@ export const getImportJob: (
  *
  * You can execute this operation no more than once per second.
  */
-export const getMessageInsights: (
-  input: GetMessageInsightsRequest,
-) => effect.Effect<
+export const getMessageInsights: API.OperationMethod<
+  GetMessageInsightsRequest,
   GetMessageInsightsResponse,
   | BadRequestException
   | NotFoundException
@@ -7079,9 +7027,8 @@ export const getMessageInsights: (
  * Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region
  * where operation is executed can be displayed.
  */
-export const getMultiRegionEndpoint: (
-  input: GetMultiRegionEndpointRequest,
-) => effect.Effect<
+export const getMultiRegionEndpoint: API.OperationMethod<
+  GetMultiRegionEndpointRequest,
   GetMultiRegionEndpointResponse,
   | BadRequestException
   | NotFoundException
@@ -7103,9 +7050,8 @@ export const getMultiRegionEndpoint: (
  * impact reputation finding for the entity. Reputation findings can be retrieved
  * using the `ListRecommendations` operation.
  */
-export const getReputationEntity: (
-  input: GetReputationEntityRequest,
-) => effect.Effect<
+export const getReputationEntity: API.OperationMethod<
+  GetReputationEntityRequest,
   GetReputationEntityResponse,
   | BadRequestException
   | NotFoundException
@@ -7121,9 +7067,8 @@ export const getReputationEntity: (
  * Retrieves information about a specific email address that's on the suppression list
  * for your account.
  */
-export const getSuppressedDestination: (
-  input: GetSuppressedDestinationRequest,
-) => effect.Effect<
+export const getSuppressedDestination: API.OperationMethod<
+  GetSuppressedDestinationRequest,
   GetSuppressedDestinationResponse,
   | BadRequestException
   | NotFoundException
@@ -7139,9 +7084,8 @@ export const getSuppressedDestination: (
  * Get information about a specific tenant, including the tenant's name, ID, ARN,
  * creation timestamp, tags, and sending status.
  */
-export const getTenant: (
-  input: GetTenantRequest,
-) => effect.Effect<
+export const getTenant: API.OperationMethod<
+  GetTenantRequest,
   GetTenantResponse,
   | BadRequestException
   | NotFoundException
@@ -7162,14 +7106,12 @@ export const getTenant: (
  * the configuration set in the headers of the email. When you apply a configuration set to
  * an email, all of the rules in that configuration set are applied to the email.
  */
-export const listConfigurationSets: {
-  (
-    input: ListConfigurationSetsRequest,
-  ): effect.Effect<
-    ListConfigurationSetsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listConfigurationSets: API.OperationMethod<
+  ListConfigurationSetsRequest,
+  ListConfigurationSetsResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConfigurationSetsRequest,
   ) => stream.Stream<
@@ -7200,14 +7142,12 @@ export const listConfigurationSets: {
  * If your output includes a "NextToken" field with a string value, this indicates there may be additional
  * contacts on the filtered list - regardless of the number of contacts returned.
  */
-export const listContactLists: {
-  (
-    input: ListContactListsRequest,
-  ): effect.Effect<
-    ListContactListsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listContactLists: API.OperationMethod<
+  ListContactListsRequest,
+  ListContactListsResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactListsRequest,
   ) => stream.Stream<
@@ -7235,17 +7175,15 @@ export const listContactLists: {
 /**
  * Lists the contacts present in a specific contact list.
  */
-export const listContacts: {
-  (
-    input: ListContactsRequest,
-  ): effect.Effect<
-    ListContactsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listContacts: API.OperationMethod<
+  ListContactsRequest,
+  ListContactsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListContactsRequest,
   ) => stream.Stream<
@@ -7286,14 +7224,12 @@ export const listContacts: {
  *
  * You can execute this operation no more than once per second.
  */
-export const listCustomVerificationEmailTemplates: {
-  (
-    input: ListCustomVerificationEmailTemplatesRequest,
-  ): effect.Effect<
-    ListCustomVerificationEmailTemplatesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listCustomVerificationEmailTemplates: API.OperationMethod<
+  ListCustomVerificationEmailTemplatesRequest,
+  ListCustomVerificationEmailTemplatesResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomVerificationEmailTemplatesRequest,
   ) => stream.Stream<
@@ -7322,14 +7258,12 @@ export const listCustomVerificationEmailTemplates: {
  * List all of the dedicated IP pools that exist in your Amazon Web Services account in the current
  * Region.
  */
-export const listDedicatedIpPools: {
-  (
-    input: ListDedicatedIpPoolsRequest,
-  ): effect.Effect<
-    ListDedicatedIpPoolsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDedicatedIpPools: API.OperationMethod<
+  ListDedicatedIpPoolsRequest,
+  ListDedicatedIpPoolsResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDedicatedIpPoolsRequest,
   ) => stream.Stream<
@@ -7359,17 +7293,15 @@ export const listDedicatedIpPools: {
  * predictive inbox placement tests that are complete, you can use the `GetDeliverabilityTestReport`
  * operation to view the results.
  */
-export const listDeliverabilityTestReports: {
-  (
-    input: ListDeliverabilityTestReportsRequest,
-  ): effect.Effect<
-    ListDeliverabilityTestReportsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDeliverabilityTestReports: API.OperationMethod<
+  ListDeliverabilityTestReportsRequest,
+  ListDeliverabilityTestReportsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeliverabilityTestReportsRequest,
   ) => stream.Stream<
@@ -7405,17 +7337,15 @@ export const listDeliverabilityTestReports: {
  * email during a specified time range. This data is available for a domain only if you
  * enabled the Deliverability dashboard for the domain.
  */
-export const listDomainDeliverabilityCampaigns: {
-  (
-    input: ListDomainDeliverabilityCampaignsRequest,
-  ): effect.Effect<
-    ListDomainDeliverabilityCampaignsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDomainDeliverabilityCampaigns: API.OperationMethod<
+  ListDomainDeliverabilityCampaignsRequest,
+  ListDomainDeliverabilityCampaignsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainDeliverabilityCampaignsRequest,
   ) => stream.Stream<
@@ -7452,14 +7382,12 @@ export const listDomainDeliverabilityCampaigns: {
  * identities that are verified as well as those that aren't. This operation returns
  * identities that are associated with Amazon SES and Amazon Pinpoint.
  */
-export const listEmailIdentities: {
-  (
-    input: ListEmailIdentitiesRequest,
-  ): effect.Effect<
-    ListEmailIdentitiesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEmailIdentities: API.OperationMethod<
+  ListEmailIdentitiesRequest,
+  ListEmailIdentitiesResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEmailIdentitiesRequest,
   ) => stream.Stream<
@@ -7490,14 +7418,12 @@ export const listEmailIdentities: {
  *
  * You can execute this operation no more than once per second.
  */
-export const listEmailTemplates: {
-  (
-    input: ListEmailTemplatesRequest,
-  ): effect.Effect<
-    ListEmailTemplatesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listEmailTemplates: API.OperationMethod<
+  ListEmailTemplatesRequest,
+  ListEmailTemplatesResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEmailTemplatesRequest,
   ) => stream.Stream<
@@ -7525,14 +7451,12 @@ export const listEmailTemplates: {
 /**
  * Lists all of the export jobs.
  */
-export const listExportJobs: {
-  (
-    input: ListExportJobsRequest,
-  ): effect.Effect<
-    ListExportJobsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listExportJobs: API.OperationMethod<
+  ListExportJobsRequest,
+  ListExportJobsResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListExportJobsRequest,
   ) => stream.Stream<
@@ -7560,14 +7484,12 @@ export const listExportJobs: {
 /**
  * Lists all of the import jobs.
  */
-export const listImportJobs: {
-  (
-    input: ListImportJobsRequest,
-  ): effect.Effect<
-    ListImportJobsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listImportJobs: API.OperationMethod<
+  ListImportJobsRequest,
+  ListImportJobsResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportJobsRequest,
   ) => stream.Stream<
@@ -7598,14 +7520,12 @@ export const listImportJobs: {
  * Only multi-region endpoints (global-endpoints) whose primary region is the AWS-Region
  * where operation is executed will be listed.
  */
-export const listMultiRegionEndpoints: {
-  (
-    input: ListMultiRegionEndpointsRequest,
-  ): effect.Effect<
-    ListMultiRegionEndpointsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listMultiRegionEndpoints: API.OperationMethod<
+  ListMultiRegionEndpointsRequest,
+  ListMultiRegionEndpointsResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMultiRegionEndpointsRequest,
   ) => stream.Stream<
@@ -7636,17 +7556,15 @@ export const listMultiRegionEndpoints: {
  *
  * You can execute this operation no more than once per second.
  */
-export const listRecommendations: {
-  (
-    input: ListRecommendationsRequest,
-  ): effect.Effect<
-    ListRecommendationsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listRecommendations: API.OperationMethod<
+  ListRecommendationsRequest,
+  ListRecommendationsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendationsRequest,
   ) => stream.Stream<
@@ -7686,14 +7604,12 @@ export const listRecommendations: {
  * tracking and management capabilities. Use this operation to get an overview of
  * all entities and their current reputation status.
  */
-export const listReputationEntities: {
-  (
-    input: ListReputationEntitiesRequest,
-  ): effect.Effect<
-    ListReputationEntitiesResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listReputationEntities: API.OperationMethod<
+  ListReputationEntitiesRequest,
+  ListReputationEntitiesResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReputationEntitiesRequest,
   ) => stream.Stream<
@@ -7726,17 +7642,15 @@ export const listReputationEntities: {
  * resource. This is useful for understanding which tenants are currently using a particular
  * resource such as an email identity, configuration set, or email template.
  */
-export const listResourceTenants: {
-  (
-    input: ListResourceTenantsRequest,
-  ): effect.Effect<
-    ListResourceTenantsResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listResourceTenants: API.OperationMethod<
+  ListResourceTenantsRequest,
+  ListResourceTenantsResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceTenantsRequest,
   ) => stream.Stream<
@@ -7772,17 +7686,15 @@ export const listResourceTenants: {
  * Retrieves a list of email addresses that are on the suppression list for your
  * account.
  */
-export const listSuppressedDestinations: {
-  (
-    input: ListSuppressedDestinationsRequest,
-  ): effect.Effect<
-    ListSuppressedDestinationsResponse,
-    | BadRequestException
-    | InvalidNextTokenException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listSuppressedDestinations: API.OperationMethod<
+  ListSuppressedDestinationsRequest,
+  ListSuppressedDestinationsResponse,
+  | BadRequestException
+  | InvalidNextTokenException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSuppressedDestinationsRequest,
   ) => stream.Stream<
@@ -7825,9 +7737,8 @@ export const listSuppressedDestinations: {
  * acts as a category for more specific tag values. A tag value acts as a descriptor within
  * a tag key.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | NotFoundException
@@ -7846,17 +7757,15 @@ export const listTagsForResource: (
  * or email templates) that are associated with the specified tenant. You can optionally
  * filter the results by resource type.
  */
-export const listTenantResources: {
-  (
-    input: ListTenantResourcesRequest,
-  ): effect.Effect<
-    ListTenantResourcesResponse,
-    | BadRequestException
-    | NotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTenantResources: API.OperationMethod<
+  ListTenantResourcesRequest,
+  ListTenantResourcesResponse,
+  | BadRequestException
+  | NotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTenantResourcesRequest,
   ) => stream.Stream<
@@ -7894,14 +7803,12 @@ export const listTenantResources: {
  * This operation returns basic information about each tenant,
  * such as tenant name, ID, ARN, and creation timestamp.
  */
-export const listTenants: {
-  (
-    input: ListTenantsRequest,
-  ): effect.Effect<
-    ListTenantsResponse,
-    BadRequestException | TooManyRequestsException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listTenants: API.OperationMethod<
+  ListTenantsRequest,
+  ListTenantsResponse,
+  BadRequestException | TooManyRequestsException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTenantsRequest,
   ) => stream.Stream<
@@ -7930,9 +7837,8 @@ export const listTenants: {
 /**
  * Enable or disable the automatic warm-up feature for dedicated IP addresses.
  */
-export const putAccountDedicatedIpWarmupAttributes: (
-  input: PutAccountDedicatedIpWarmupAttributesRequest,
-) => effect.Effect<
+export const putAccountDedicatedIpWarmupAttributes: API.OperationMethod<
+  PutAccountDedicatedIpWarmupAttributesRequest,
   PutAccountDedicatedIpWarmupAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7944,9 +7850,8 @@ export const putAccountDedicatedIpWarmupAttributes: (
 /**
  * Update your Amazon SES account details.
  */
-export const putAccountDetails: (
-  input: PutAccountDetailsRequest,
-) => effect.Effect<
+export const putAccountDetails: API.OperationMethod<
+  PutAccountDetailsRequest,
   PutAccountDetailsResponse,
   | BadRequestException
   | ConflictException
@@ -7961,9 +7866,8 @@ export const putAccountDetails: (
 /**
  * Enable or disable the ability of your account to send email.
  */
-export const putAccountSendingAttributes: (
-  input: PutAccountSendingAttributesRequest,
-) => effect.Effect<
+export const putAccountSendingAttributes: API.OperationMethod<
+  PutAccountSendingAttributesRequest,
   PutAccountSendingAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7975,9 +7879,8 @@ export const putAccountSendingAttributes: (
 /**
  * Change the settings for the account-level suppression list.
  */
-export const putAccountSuppressionAttributes: (
-  input: PutAccountSuppressionAttributesRequest,
-) => effect.Effect<
+export const putAccountSuppressionAttributes: API.OperationMethod<
+  PutAccountSuppressionAttributesRequest,
   PutAccountSuppressionAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -7991,9 +7894,8 @@ export const putAccountSuppressionAttributes: (
  *
  * You can execute this operation no more than once per second.
  */
-export const putAccountVdmAttributes: (
-  input: PutAccountVdmAttributesRequest,
-) => effect.Effect<
+export const putAccountVdmAttributes: API.OperationMethod<
+  PutAccountVdmAttributesRequest,
   PutAccountVdmAttributesResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8007,9 +7909,8 @@ export const putAccountVdmAttributes: (
  * `SendEmail` or `SendBulkEmail` operations the message as it will be given
  * to the receiving SMTP server will be archived, along with the recipient information.
  */
-export const putConfigurationSetArchivingOptions: (
-  input: PutConfigurationSetArchivingOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetArchivingOptions: API.OperationMethod<
+  PutConfigurationSetArchivingOptionsRequest,
   PutConfigurationSetArchivingOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -8025,9 +7926,8 @@ export const putConfigurationSetArchivingOptions: (
  * Associate a configuration set with a dedicated IP pool. You can use dedicated IP pools
  * to create groups of dedicated IP addresses for sending specific types of email.
  */
-export const putConfigurationSetDeliveryOptions: (
-  input: PutConfigurationSetDeliveryOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetDeliveryOptions: API.OperationMethod<
+  PutConfigurationSetDeliveryOptionsRequest,
   PutConfigurationSetDeliveryOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -8043,9 +7943,8 @@ export const putConfigurationSetDeliveryOptions: (
  * Enable or disable collection of reputation metrics for emails that you send using a
  * particular configuration set in a specific Amazon Web Services Region.
  */
-export const putConfigurationSetReputationOptions: (
-  input: PutConfigurationSetReputationOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetReputationOptions: API.OperationMethod<
+  PutConfigurationSetReputationOptionsRequest,
   PutConfigurationSetReputationOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -8061,9 +7960,8 @@ export const putConfigurationSetReputationOptions: (
  * Enable or disable email sending for messages that use a particular configuration set
  * in a specific Amazon Web Services Region.
  */
-export const putConfigurationSetSendingOptions: (
-  input: PutConfigurationSetSendingOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetSendingOptions: API.OperationMethod<
+  PutConfigurationSetSendingOptionsRequest,
   PutConfigurationSetSendingOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -8078,9 +7976,8 @@ export const putConfigurationSetSendingOptions: (
 /**
  * Specify the account suppression list preferences for a configuration set.
  */
-export const putConfigurationSetSuppressionOptions: (
-  input: PutConfigurationSetSuppressionOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetSuppressionOptions: API.OperationMethod<
+  PutConfigurationSetSuppressionOptionsRequest,
   PutConfigurationSetSuppressionOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -8096,9 +7993,8 @@ export const putConfigurationSetSuppressionOptions: (
  * Specify a custom domain to use for open and click tracking elements in email that you
  * send.
  */
-export const putConfigurationSetTrackingOptions: (
-  input: PutConfigurationSetTrackingOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetTrackingOptions: API.OperationMethod<
+  PutConfigurationSetTrackingOptionsRequest,
   PutConfigurationSetTrackingOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -8115,9 +8011,8 @@ export const putConfigurationSetTrackingOptions: (
  *
  * You can execute this operation no more than once per second.
  */
-export const putConfigurationSetVdmOptions: (
-  input: PutConfigurationSetVdmOptionsRequest,
-) => effect.Effect<
+export const putConfigurationSetVdmOptions: API.OperationMethod<
+  PutConfigurationSetVdmOptionsRequest,
   PutConfigurationSetVdmOptionsResponse,
   | BadRequestException
   | NotFoundException
@@ -8138,9 +8033,8 @@ export const putConfigurationSetVdmOptions: (
  * The dedicated IP pool you specify must already exist. You can create a new pool by
  * using the `CreateDedicatedIpPool` operation.
  */
-export const putDedicatedIpInPool: (
-  input: PutDedicatedIpInPoolRequest,
-) => effect.Effect<
+export const putDedicatedIpInPool: API.OperationMethod<
+  PutDedicatedIpInPoolRequest,
   PutDedicatedIpInPoolResponse,
   | BadRequestException
   | NotFoundException
@@ -8157,9 +8051,8 @@ export const putDedicatedIpInPool: (
  *
  * `MANAGED` pools cannot be converted to `STANDARD` scaling mode.
  */
-export const putDedicatedIpPoolScalingAttributes: (
-  input: PutDedicatedIpPoolScalingAttributesRequest,
-) => effect.Effect<
+export const putDedicatedIpPoolScalingAttributes: API.OperationMethod<
+  PutDedicatedIpPoolScalingAttributesRequest,
   PutDedicatedIpPoolScalingAttributesResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -8180,9 +8073,8 @@ export const putDedicatedIpPoolScalingAttributes: (
 /**
  *
  */
-export const putDedicatedIpWarmupAttributes: (
-  input: PutDedicatedIpWarmupAttributesRequest,
-) => effect.Effect<
+export const putDedicatedIpWarmupAttributes: API.OperationMethod<
+  PutDedicatedIpWarmupAttributesRequest,
   PutDedicatedIpWarmupAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -8203,9 +8095,8 @@ export const putDedicatedIpWarmupAttributes: (
  * to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more
  * information about the features and cost of a Deliverability dashboard subscription, see Amazon SES Pricing.
  */
-export const putDeliverabilityDashboardOption: (
-  input: PutDeliverabilityDashboardOptionRequest,
-) => effect.Effect<
+export const putDeliverabilityDashboardOption: API.OperationMethod<
+  PutDeliverabilityDashboardOptionRequest,
   PutDeliverabilityDashboardOptionResponse,
   | AlreadyExistsException
   | BadRequestException
@@ -8228,9 +8119,8 @@ export const putDeliverabilityDashboardOption: (
 /**
  * Used to associate a configuration set with an email identity.
  */
-export const putEmailIdentityConfigurationSetAttributes: (
-  input: PutEmailIdentityConfigurationSetAttributesRequest,
-) => effect.Effect<
+export const putEmailIdentityConfigurationSetAttributes: API.OperationMethod<
+  PutEmailIdentityConfigurationSetAttributesRequest,
   PutEmailIdentityConfigurationSetAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -8245,9 +8135,8 @@ export const putEmailIdentityConfigurationSetAttributes: (
 /**
  * Used to enable or disable DKIM authentication for an email identity.
  */
-export const putEmailIdentityDkimAttributes: (
-  input: PutEmailIdentityDkimAttributesRequest,
-) => effect.Effect<
+export const putEmailIdentityDkimAttributes: API.OperationMethod<
+  PutEmailIdentityDkimAttributesRequest,
   PutEmailIdentityDkimAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -8276,9 +8165,8 @@ export const putEmailIdentityDkimAttributes: (
  *
  * - Change from using BYODKIM to using Easy DKIM.
  */
-export const putEmailIdentityDkimSigningAttributes: (
-  input: PutEmailIdentityDkimSigningAttributesRequest,
-) => effect.Effect<
+export const putEmailIdentityDkimSigningAttributes: API.OperationMethod<
+  PutEmailIdentityDkimSigningAttributesRequest,
   PutEmailIdentityDkimSigningAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -8304,9 +8192,8 @@ export const putEmailIdentityDkimSigningAttributes: (
  * by setting up an event destination), you receive an email notification when these events
  * occur (even if this setting is disabled).
  */
-export const putEmailIdentityFeedbackAttributes: (
-  input: PutEmailIdentityFeedbackAttributesRequest,
-) => effect.Effect<
+export const putEmailIdentityFeedbackAttributes: API.OperationMethod<
+  PutEmailIdentityFeedbackAttributesRequest,
   PutEmailIdentityFeedbackAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -8322,9 +8209,8 @@ export const putEmailIdentityFeedbackAttributes: (
  * Used to enable or disable the custom Mail-From domain configuration for an email
  * identity.
  */
-export const putEmailIdentityMailFromAttributes: (
-  input: PutEmailIdentityMailFromAttributesRequest,
-) => effect.Effect<
+export const putEmailIdentityMailFromAttributes: API.OperationMethod<
+  PutEmailIdentityMailFromAttributesRequest,
   PutEmailIdentityMailFromAttributesResponse,
   | BadRequestException
   | NotFoundException
@@ -8339,9 +8225,8 @@ export const putEmailIdentityMailFromAttributes: (
 /**
  * Adds an email address to the suppression list for your account.
  */
-export const putSuppressedDestination: (
-  input: PutSuppressedDestinationRequest,
-) => effect.Effect<
+export const putSuppressedDestination: API.OperationMethod<
+  PutSuppressedDestinationRequest,
   PutSuppressedDestinationResponse,
   BadRequestException | TooManyRequestsException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -8353,9 +8238,8 @@ export const putSuppressedDestination: (
 /**
  * Composes an email message to multiple destinations.
  */
-export const sendBulkEmail: (
-  input: SendBulkEmailRequest,
-) => effect.Effect<
+export const sendBulkEmail: API.OperationMethod<
+  SendBulkEmailRequest,
   SendBulkEmailResponse,
   | AccountSuspendedException
   | BadRequestException
@@ -8394,9 +8278,8 @@ export const sendBulkEmail: (
  *
  * You can execute this operation no more than once per second.
  */
-export const sendCustomVerificationEmail: (
-  input: SendCustomVerificationEmailRequest,
-) => effect.Effect<
+export const sendCustomVerificationEmail: API.OperationMethod<
+  SendCustomVerificationEmailRequest,
   SendCustomVerificationEmailResponse,
   | BadRequestException
   | LimitExceededException
@@ -8438,9 +8321,8 @@ export const sendCustomVerificationEmail: (
  * personalization tags. When you send this type of email, Amazon SES API v2 automatically
  * replaces the tags with values that you specify.
  */
-export const sendEmail: (
-  input: SendEmailRequest,
-) => effect.Effect<
+export const sendEmail: API.OperationMethod<
+  SendEmailRequest,
   SendEmailResponse,
   | AccountSuspendedException
   | BadRequestException
@@ -8478,9 +8360,8 @@ export const sendEmail: (
  * general label that acts as a category for more specific tag values. A tag value acts as
  * a descriptor within a tag key.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -8504,9 +8385,8 @@ export const tagResource: (
  *
  * You can execute this operation no more than once per second.
  */
-export const testRenderEmailTemplate: (
-  input: TestRenderEmailTemplateRequest,
-) => effect.Effect<
+export const testRenderEmailTemplate: API.OperationMethod<
+  TestRenderEmailTemplateRequest,
   TestRenderEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -8521,9 +8401,8 @@ export const testRenderEmailTemplate: (
 /**
  * Remove one or more tags (keys and values) from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -8549,9 +8428,8 @@ export const untagResource: (
  * information about these events to. For example, you can send event data to Amazon EventBridge and
  * associate a rule to send the event to the specified target.
  */
-export const updateConfigurationSetEventDestination: (
-  input: UpdateConfigurationSetEventDestinationRequest,
-) => effect.Effect<
+export const updateConfigurationSetEventDestination: API.OperationMethod<
+  UpdateConfigurationSetEventDestinationRequest,
   UpdateConfigurationSetEventDestinationResponse,
   | BadRequestException
   | NotFoundException
@@ -8570,9 +8448,8 @@ export const updateConfigurationSetEventDestination: (
  * `TopicPreferences` object, not just the ones that need updating;
  * otherwise, all your existing preferences will be removed.
  */
-export const updateContact: (
-  input: UpdateContactRequest,
-) => effect.Effect<
+export const updateContact: API.OperationMethod<
+  UpdateContactRequest,
   UpdateContactResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -8593,9 +8470,8 @@ export const updateContact: (
 /**
  * Updates contact list metadata. This operation does a complete replacement.
  */
-export const updateContactList: (
-  input: UpdateContactListRequest,
-) => effect.Effect<
+export const updateContactList: API.OperationMethod<
+  UpdateContactListRequest,
   UpdateContactListResponse,
   | BadRequestException
   | ConcurrentModificationException
@@ -8622,9 +8498,8 @@ export const updateContactList: (
  *
  * You can execute this operation no more than once per second.
  */
-export const updateCustomVerificationEmailTemplate: (
-  input: UpdateCustomVerificationEmailTemplateRequest,
-) => effect.Effect<
+export const updateCustomVerificationEmailTemplate: API.OperationMethod<
+  UpdateCustomVerificationEmailTemplateRequest,
   UpdateCustomVerificationEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -8651,9 +8526,8 @@ export const updateCustomVerificationEmailTemplate: (
  *
  * You can execute this operation no more than once per second.
  */
-export const updateEmailIdentityPolicy: (
-  input: UpdateEmailIdentityPolicyRequest,
-) => effect.Effect<
+export const updateEmailIdentityPolicy: API.OperationMethod<
+  UpdateEmailIdentityPolicyRequest,
   UpdateEmailIdentityPolicyResponse,
   | BadRequestException
   | NotFoundException
@@ -8672,9 +8546,8 @@ export const updateEmailIdentityPolicy: (
  *
  * You can execute this operation no more than once per second.
  */
-export const updateEmailTemplate: (
-  input: UpdateEmailTemplateRequest,
-) => effect.Effect<
+export const updateEmailTemplate: API.OperationMethod<
+  UpdateEmailTemplateRequest,
   UpdateEmailTemplateResponse,
   | BadRequestException
   | NotFoundException
@@ -8698,9 +8571,8 @@ export const updateEmailTemplate: (
  * the Amazon Web Services Amazon SES-managed status also permits sending, even if there are active reputation
  * findings, until the findings are resolved or new violations occur.
  */
-export const updateReputationEntityCustomerManagedStatus: (
-  input: UpdateReputationEntityCustomerManagedStatusRequest,
-) => effect.Effect<
+export const updateReputationEntityCustomerManagedStatus: API.OperationMethod<
+  UpdateReputationEntityCustomerManagedStatusRequest,
   UpdateReputationEntityCustomerManagedStatusResponse,
   | BadRequestException
   | ConflictException
@@ -8720,9 +8592,8 @@ export const updateReputationEntityCustomerManagedStatus: (
  * Reputation management policies are Amazon Web Services Amazon SES-managed (predefined policies).
  * You can select from none, standard, and strict policies.
  */
-export const updateReputationEntityPolicy: (
-  input: UpdateReputationEntityPolicyRequest,
-) => effect.Effect<
+export const updateReputationEntityPolicy: API.OperationMethod<
+  UpdateReputationEntityPolicyRequest,
   UpdateReputationEntityPolicyResponse,
   | BadRequestException
   | ConflictException

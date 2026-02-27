@@ -1348,9 +1348,8 @@ export class DependencyFailedException extends S.TaggedErrorClass<DependencyFail
  * enables for the alias, you receive a
  * `BadRequestException`.
  */
-export const deleteSession: (
-  input: DeleteSessionRequest,
-) => effect.Effect<
+export const deleteSession: API.OperationMethod<
+  DeleteSessionRequest,
   DeleteSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1385,9 +1384,8 @@ export const deleteSession: (
  * or is not enabled for the alias, you receive a
  * `BadRequestException`.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1412,9 +1410,8 @@ export const getSession: (
  * bot. Use this operation to enable your application to set the state of
  * the bot.
  */
-export const putSession: (
-  input: PutSessionRequest,
-) => effect.Effect<
+export const putSession: API.OperationMethod<
+  PutSessionRequest,
   PutSessionResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -1468,9 +1465,8 @@ export const putSession: (
  *
  * For more information, see Completion message.
  */
-export const recognizeText: (
-  input: RecognizeTextRequest,
-) => effect.Effect<
+export const recognizeText: API.OperationMethod<
+  RecognizeTextRequest,
   RecognizeTextResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -1547,9 +1543,8 @@ export const recognizeText: (
  *
  * For more information, see Completion message.
  */
-export const recognizeUtterance: (
-  input: RecognizeUtteranceRequest,
-) => effect.Effect<
+export const recognizeUtterance: API.OperationMethod<
+  RecognizeUtteranceRequest,
   RecognizeUtteranceResponse,
   | AccessDeniedException
   | BadGatewayException
@@ -1622,9 +1617,8 @@ export const recognizeUtterance: (
  *
  * - AWS SDK for Ruby V3
  */
-export const startConversation: (
-  input: StartConversationRequest,
-) => effect.Effect<
+export const startConversation: API.OperationMethod<
+  StartConversationRequest,
   StartConversationResponse,
   | AccessDeniedException
   | InternalServerException

@@ -1714,9 +1714,8 @@ export class InvalidJobIdException extends S.TaggedErrorClass<InvalidJobIdExcept
  * For more information, see Document Text
  * Analysis.
  */
-export const analyzeDocument: (
-  input: AnalyzeDocumentRequest,
-) => effect.Effect<
+export const analyzeDocument: API.OperationMethod<
+  AnalyzeDocumentRequest,
   AnalyzeDocumentResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -1760,9 +1759,8 @@ export const analyzeDocument: (
  * - `SummaryFields`- Contains all other information a receipt, such as
  * header information or the vendors name.
  */
-export const analyzeExpense: (
-  input: AnalyzeExpenseRequest,
-) => effect.Effect<
+export const analyzeExpense: API.OperationMethod<
+  AnalyzeExpenseRequest,
   AnalyzeExpenseResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -1796,9 +1794,8 @@ export const analyzeExpense: (
  * and value of the extracted text. Unlike other Amazon Textract operations,
  * `AnalyzeID` doesn't return any Geometry data.
  */
-export const analyzeID: (
-  input: AnalyzeIDRequest,
-) => effect.Effect<
+export const analyzeID: API.OperationMethod<
+  AnalyzeIDRequest,
   AnalyzeIDResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -1833,9 +1830,8 @@ export const analyzeID: (
  * ClientRequestToken. You can choose whether or not the adapter should be AutoUpdated with
  * the AutoUpdate argument. By default, AutoUpdate is set to DISABLED.
  */
-export const createAdapter: (
-  input: CreateAdapterRequest,
-) => effect.Effect<
+export const createAdapter: API.OperationMethod<
+  CreateAdapterRequest,
   CreateAdapterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1871,9 +1867,8 @@ export const createAdapter: (
  * specify an Amazon S3 bucket with the OutputConfig argument. You can provide an optional KMSKeyId,
  * an optional ClientRequestToken, and optional tags.
  */
-export const createAdapterVersion: (
-  input: CreateAdapterVersionRequest,
-) => effect.Effect<
+export const createAdapterVersion: API.OperationMethod<
+  CreateAdapterVersionRequest,
   CreateAdapterVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1912,9 +1907,8 @@ export const createAdapterVersion: (
 /**
  * Deletes an Amazon Textract adapter. Takes an AdapterId and deletes the adapter specified by the ID.
  */
-export const deleteAdapter: (
-  input: DeleteAdapterRequest,
-) => effect.Effect<
+export const deleteAdapter: API.OperationMethod<
+  DeleteAdapterRequest,
   DeleteAdapterResponse,
   | AccessDeniedException
   | ConflictException
@@ -1944,9 +1938,8 @@ export const deleteAdapter: (
  * Deletes an Amazon Textract adapter version. Requires that you specify both an AdapterId and a
  * AdapterVersion. Deletes the adapter version specified by the AdapterId and the AdapterVersion.
  */
-export const deleteAdapterVersion: (
-  input: DeleteAdapterVersionRequest,
-) => effect.Effect<
+export const deleteAdapterVersion: API.OperationMethod<
+  DeleteAdapterVersionRequest,
   DeleteAdapterVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1987,9 +1980,8 @@ export const deleteAdapterVersion: (
  *
  * For more information, see Document Text Detection.
  */
-export const detectDocumentText: (
-  input: DetectDocumentTextRequest,
-) => effect.Effect<
+export const detectDocumentText: API.OperationMethod<
+  DetectDocumentTextRequest,
   DetectDocumentTextResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2021,9 +2013,8 @@ export const detectDocumentText: (
  * Gets configuration information for an adapter specified by an AdapterId, returning information on AdapterName, Description,
  * CreationTime, AutoUpdate status, and FeatureTypes.
  */
-export const getAdapter: (
-  input: GetAdapterRequest,
-) => effect.Effect<
+export const getAdapter: API.OperationMethod<
+  GetAdapterRequest,
   GetAdapterResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2052,9 +2043,8 @@ export const getAdapter: (
  * AdapterId, AdapterVersion, FeatureTypes, Status, StatusMessage, DatasetConfig,
  * KMSKeyId, OutputConfig, Tags and EvaluationMetrics.
  */
-export const getAdapterVersion: (
-  input: GetAdapterVersionRequest,
-) => effect.Effect<
+export const getAdapterVersion: API.OperationMethod<
+  GetAdapterVersionRequest,
   GetAdapterVersionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2137,9 +2127,8 @@ export const getAdapterVersion: (
  * For more information, see Document Text
  * Analysis.
  */
-export const getDocumentAnalysis: (
-  input: GetDocumentAnalysisRequest,
-) => effect.Effect<
+export const getDocumentAnalysis: API.OperationMethod<
+  GetDocumentAnalysisRequest,
   GetDocumentAnalysisResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2195,9 +2184,8 @@ export const getDocumentAnalysis: (
  *
  * For more information, see Document Text Detection.
  */
-export const getDocumentTextDetection: (
-  input: GetDocumentTextDetectionRequest,
-) => effect.Effect<
+export const getDocumentTextDetection: API.OperationMethod<
+  GetDocumentTextDetectionRequest,
   GetDocumentTextDetectionResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2245,9 +2233,8 @@ export const getDocumentTextDetection: (
  *
  * For more information, see Analyzing Invoices and Receipts.
  */
-export const getExpenseAnalysis: (
-  input: GetExpenseAnalysisRequest,
-) => effect.Effect<
+export const getExpenseAnalysis: API.OperationMethod<
+  GetExpenseAnalysisRequest,
   GetExpenseAnalysisResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2288,9 +2275,8 @@ export const getExpenseAnalysis: (
  * the job identifier (`JobId`) from the initial call to
  * `StartLendingAnalysis`.
  */
-export const getLendingAnalysis: (
-  input: GetLendingAnalysisRequest,
-) => effect.Effect<
+export const getLendingAnalysis: API.OperationMethod<
+  GetLendingAnalysisRequest,
   GetLendingAnalysisResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2332,9 +2318,8 @@ export const getLendingAnalysis: (
  * `GetLendingAnalysisSummary`, and pass the job identifier (`JobId`) from
  * the initial call to `StartLendingAnalysis`.
  */
-export const getLendingAnalysisSummary: (
-  input: GetLendingAnalysisSummaryRequest,
-) => effect.Effect<
+export const getLendingAnalysisSummary: API.OperationMethod<
+  GetLendingAnalysisSummaryRequest,
   GetLendingAnalysisSummaryResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2363,20 +2348,18 @@ export const getLendingAnalysisSummary: (
 /**
  * Lists all adapters that match the specified filtration criteria.
  */
-export const listAdapters: {
-  (
-    input: ListAdaptersRequest,
-  ): effect.Effect<
-    ListAdaptersResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAdapters: API.OperationMethod<
+  ListAdaptersRequest,
+  ListAdaptersResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAdaptersRequest,
   ) => stream.Stream<
@@ -2424,21 +2407,19 @@ export const listAdapters: {
 /**
  * List all version of an adapter that meet the specified filtration criteria.
  */
-export const listAdapterVersions: {
-  (
-    input: ListAdapterVersionsRequest,
-  ): effect.Effect<
-    ListAdapterVersionsResponse,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidParameterException
-    | ProvisionedThroughputExceededException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAdapterVersions: API.OperationMethod<
+  ListAdapterVersionsRequest,
+  ListAdapterVersionsResponse,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidParameterException
+  | ProvisionedThroughputExceededException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAdapterVersionsRequest,
   ) => stream.Stream<
@@ -2489,9 +2470,8 @@ export const listAdapterVersions: {
 /**
  * Lists all tags for an Amazon Textract resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2534,9 +2514,8 @@ export const listTagsForResource: (
  *
  * For more information, see Document Text Analysis.
  */
-export const startDocumentAnalysis: (
-  input: StartDocumentAnalysisRequest,
-) => effect.Effect<
+export const startDocumentAnalysis: API.OperationMethod<
+  StartDocumentAnalysisRequest,
   StartDocumentAnalysisResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2589,9 +2568,8 @@ export const startDocumentAnalysis: (
  *
  * For more information, see Document Text Detection.
  */
-export const startDocumentTextDetection: (
-  input: StartDocumentTextDetectionRequest,
-) => effect.Effect<
+export const startDocumentTextDetection: API.OperationMethod<
+  StartDocumentTextDetectionRequest,
   StartDocumentTextDetectionResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2643,9 +2621,8 @@ export const startDocumentTextDetection: (
  *
  * For more information, see Analyzing Invoices and Receipts.
  */
-export const startExpenseAnalysis: (
-  input: StartExpenseAnalysisRequest,
-) => effect.Effect<
+export const startExpenseAnalysis: API.OperationMethod<
+  StartExpenseAnalysisRequest,
   StartExpenseAnalysisResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2708,9 +2685,8 @@ export const startExpenseAnalysis: (
  *
  * - splitDocuments (documents split across logical boundaries)
  */
-export const startLendingAnalysis: (
-  input: StartLendingAnalysisRequest,
-) => effect.Effect<
+export const startLendingAnalysis: API.OperationMethod<
+  StartLendingAnalysisRequest,
   StartLendingAnalysisResponse,
   | AccessDeniedException
   | BadDocumentException
@@ -2747,9 +2723,8 @@ export const startLendingAnalysis: (
 /**
  * Adds one or more tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2778,9 +2753,8 @@ export const tagResource: (
 /**
  * Removes any tags with the specified keys from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerError
@@ -2808,9 +2782,8 @@ export const untagResource: (
  * Update the configuration for an adapter. FeatureTypes configurations cannot be updated.
  * At least one new parameter must be specified as an argument.
  */
-export const updateAdapter: (
-  input: UpdateAdapterRequest,
-) => effect.Effect<
+export const updateAdapter: API.OperationMethod<
+  UpdateAdapterRequest,
   UpdateAdapterResponse,
   | AccessDeniedException
   | ConflictException

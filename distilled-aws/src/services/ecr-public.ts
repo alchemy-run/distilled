@@ -1300,9 +1300,8 @@ export class InvalidLayerPartException extends S.TaggedErrorClass<InvalidLayerPa
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const batchCheckLayerAvailability: (
-  input: BatchCheckLayerAvailabilityRequest,
-) => effect.Effect<
+export const batchCheckLayerAvailability: API.OperationMethod<
+  BatchCheckLayerAvailabilityRequest,
   BatchCheckLayerAvailabilityResponse,
   | InvalidParameterException
   | RegistryNotFoundException
@@ -1333,9 +1332,8 @@ export const batchCheckLayerAvailability: (
  * You can completely delete an image (and all of its tags) by specifying the digest of the
  * image in your request.
  */
-export const batchDeleteImage: (
-  input: BatchDeleteImageRequest,
-) => effect.Effect<
+export const batchDeleteImage: API.OperationMethod<
+  BatchDeleteImageRequest,
   BatchDeleteImageResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1363,9 +1361,8 @@ export const batchDeleteImage: (
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const completeLayerUpload: (
-  input: CompleteLayerUploadRequest,
-) => effect.Effect<
+export const completeLayerUpload: API.OperationMethod<
+  CompleteLayerUploadRequest,
   CompleteLayerUploadResponse,
   | EmptyUploadException
   | InvalidLayerException
@@ -1399,9 +1396,8 @@ export const completeLayerUpload: (
  * Creates a repository in a public registry. For more information, see Amazon ECR
  * repositories in the *Amazon Elastic Container Registry User Guide*.
  */
-export const createRepository: (
-  input: CreateRepositoryRequest,
-) => effect.Effect<
+export const createRepository: API.OperationMethod<
+  CreateRepositoryRequest,
   CreateRepositoryResponse,
   | InvalidParameterException
   | InvalidTagParameterException
@@ -1430,9 +1426,8 @@ export const createRepository: (
  * either manually delete all images in the repository or use the `force` option.
  * This option deletes all images on your behalf before deleting the repository.
  */
-export const deleteRepository: (
-  input: DeleteRepositoryRequest,
-) => effect.Effect<
+export const deleteRepository: API.OperationMethod<
+  DeleteRepositoryRequest,
   DeleteRepositoryResponse,
   | InvalidParameterException
   | RepositoryNotEmptyException
@@ -1455,9 +1450,8 @@ export const deleteRepository: (
 /**
  * Deletes the repository policy that's associated with the specified repository.
  */
-export const deleteRepositoryPolicy: (
-  input: DeleteRepositoryPolicyRequest,
-) => effect.Effect<
+export const deleteRepositoryPolicy: API.OperationMethod<
+  DeleteRepositoryPolicyRequest,
   DeleteRepositoryPolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1486,19 +1480,17 @@ export const deleteRepositoryPolicy: (
  * command shows the uncompressed image size. Therefore, it might return a larger image
  * size than the image sizes that are returned by DescribeImages.
  */
-export const describeImages: {
-  (
-    input: DescribeImagesRequest,
-  ): effect.Effect<
-    DescribeImagesResponse,
-    | ImageNotFoundException
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeImages: API.OperationMethod<
+  DescribeImagesRequest,
+  DescribeImagesResponse,
+  | ImageNotFoundException
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImagesRequest,
   ) => stream.Stream<
@@ -1543,18 +1535,16 @@ export const describeImages: {
 /**
  * Returns the image tag details for a repository in a public registry.
  */
-export const describeImageTags: {
-  (
-    input: DescribeImageTagsRequest,
-  ): effect.Effect<
-    DescribeImageTagsResponse,
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeImageTags: API.OperationMethod<
+  DescribeImageTagsRequest,
+  DescribeImageTagsResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeImageTagsRequest,
   ) => stream.Stream<
@@ -1596,17 +1586,15 @@ export const describeImageTags: {
 /**
  * Returns details for a public registry.
  */
-export const describeRegistries: {
-  (
-    input: DescribeRegistriesRequest,
-  ): effect.Effect<
-    DescribeRegistriesResponse,
-    | InvalidParameterException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRegistries: API.OperationMethod<
+  DescribeRegistriesRequest,
+  DescribeRegistriesResponse,
+  | InvalidParameterException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRegistriesRequest,
   ) => stream.Stream<
@@ -1645,18 +1633,16 @@ export const describeRegistries: {
 /**
  * Describes repositories that are in a public registry.
  */
-export const describeRepositories: {
-  (
-    input: DescribeRepositoriesRequest,
-  ): effect.Effect<
-    DescribeRepositoriesResponse,
-    | InvalidParameterException
-    | RepositoryNotFoundException
-    | ServerException
-    | UnsupportedCommandException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRepositories: API.OperationMethod<
+  DescribeRepositoriesRequest,
+  DescribeRepositoriesResponse,
+  | InvalidParameterException
+  | RepositoryNotFoundException
+  | ServerException
+  | UnsupportedCommandException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRepositoriesRequest,
   ) => stream.Stream<
@@ -1702,9 +1688,8 @@ export const describeRepositories: {
  * the `ecr-public:GetAuthorizationToken` and
  * `sts:GetServiceBearerToken` permissions.
  */
-export const getAuthorizationToken: (
-  input: GetAuthorizationTokenRequest,
-) => effect.Effect<
+export const getAuthorizationToken: API.OperationMethod<
+  GetAuthorizationTokenRequest,
   GetAuthorizationTokenResponse,
   | InvalidParameterException
   | ServerException
@@ -1723,9 +1708,8 @@ export const getAuthorizationToken: (
 /**
  * Retrieves catalog metadata for a public registry.
  */
-export const getRegistryCatalogData: (
-  input: GetRegistryCatalogDataRequest,
-) => effect.Effect<
+export const getRegistryCatalogData: API.OperationMethod<
+  GetRegistryCatalogDataRequest,
   GetRegistryCatalogDataResponse,
   ServerException | UnsupportedCommandException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1738,9 +1722,8 @@ export const getRegistryCatalogData: (
  * Retrieve catalog metadata for a repository in a public registry. This metadata is
  * displayed publicly in the Amazon ECR Public Gallery.
  */
-export const getRepositoryCatalogData: (
-  input: GetRepositoryCatalogDataRequest,
-) => effect.Effect<
+export const getRepositoryCatalogData: API.OperationMethod<
+  GetRepositoryCatalogDataRequest,
   GetRepositoryCatalogDataResponse,
   | InvalidParameterException
   | RepositoryCatalogDataNotFoundException
@@ -1763,9 +1746,8 @@ export const getRepositoryCatalogData: (
 /**
  * Retrieves the repository policy for the specified repository.
  */
-export const getRepositoryPolicy: (
-  input: GetRepositoryPolicyRequest,
-) => effect.Effect<
+export const getRepositoryPolicy: API.OperationMethod<
+  GetRepositoryPolicyRequest,
   GetRepositoryPolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1794,9 +1776,8 @@ export const getRepositoryPolicy: (
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const initiateLayerUpload: (
-  input: InitiateLayerUploadRequest,
-) => effect.Effect<
+export const initiateLayerUpload: API.OperationMethod<
+  InitiateLayerUploadRequest,
   InitiateLayerUploadResponse,
   | InvalidParameterException
   | RegistryNotFoundException
@@ -1819,9 +1800,8 @@ export const initiateLayerUpload: (
 /**
  * List the tags for an Amazon ECR Public resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1848,9 +1828,8 @@ export const listTagsForResource: (
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const putImage: (
-  input: PutImageRequest,
-) => effect.Effect<
+export const putImage: API.OperationMethod<
+  PutImageRequest,
   PutImageResponse,
   | ImageAlreadyExistsException
   | ImageDigestDoesNotMatchException
@@ -1885,9 +1864,8 @@ export const putImage: (
 /**
  * Create or update the catalog data for a public registry.
  */
-export const putRegistryCatalogData: (
-  input: PutRegistryCatalogDataRequest,
-) => effect.Effect<
+export const putRegistryCatalogData: API.OperationMethod<
+  PutRegistryCatalogDataRequest,
   PutRegistryCatalogDataResponse,
   | InvalidParameterException
   | ServerException
@@ -1906,9 +1884,8 @@ export const putRegistryCatalogData: (
 /**
  * Creates or updates the catalog data for a repository in a public registry.
  */
-export const putRepositoryCatalogData: (
-  input: PutRepositoryCatalogDataRequest,
-) => effect.Effect<
+export const putRepositoryCatalogData: API.OperationMethod<
+  PutRepositoryCatalogDataRequest,
   PutRepositoryCatalogDataResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1931,9 +1908,8 @@ export const putRepositoryCatalogData: (
  * permissions. For more information, see Amazon ECR Repository
  * Policies in the *Amazon Elastic Container Registry User Guide*.
  */
-export const setRepositoryPolicy: (
-  input: SetRepositoryPolicyRequest,
-) => effect.Effect<
+export const setRepositoryPolicy: API.OperationMethod<
+  SetRepositoryPolicyRequest,
   SetRepositoryPolicyResponse,
   | InvalidParameterException
   | RepositoryNotFoundException
@@ -1957,9 +1933,8 @@ export const setRepositoryPolicy: (
  * changed. When a resource is deleted, the tags associated with that resource are also
  * deleted.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidParameterException
   | InvalidTagParameterException
@@ -1984,9 +1959,8 @@ export const tagResource: (
 /**
  * Deletes specified tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidParameterException
   | InvalidTagParameterException
@@ -2017,9 +1991,8 @@ export const untagResource: (
  *
  * This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the `docker` CLI to pull, tag, and push images.
  */
-export const uploadLayerPart: (
-  input: UploadLayerPartRequest,
-) => effect.Effect<
+export const uploadLayerPart: API.OperationMethod<
+  UploadLayerPartRequest,
   UploadLayerPartResponse,
   | InvalidLayerPartException
   | InvalidParameterException

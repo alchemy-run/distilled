@@ -436,9 +436,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Deletes the key value pair specified by the key.
  */
-export const deleteKey: (
-  input: DeleteKeyRequest,
-) => effect.Effect<
+export const deleteKey: API.OperationMethod<
+  DeleteKeyRequest,
   DeleteKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -463,9 +462,8 @@ export const deleteKey: (
 /**
  * Returns metadata information about Key Value Store.
  */
-export const describeKeyValueStore: (
-  input: DescribeKeyValueStoreRequest,
-) => effect.Effect<
+export const describeKeyValueStore: API.OperationMethod<
+  DescribeKeyValueStoreRequest,
   DescribeKeyValueStoreResponse,
   | AccessDeniedException
   | ConflictException
@@ -486,9 +484,8 @@ export const describeKeyValueStore: (
 /**
  * Returns a key value pair.
  */
-export const getKey: (
-  input: GetKeyRequest,
-) => effect.Effect<
+export const getKey: API.OperationMethod<
+  GetKeyRequest,
   GetKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -509,19 +506,17 @@ export const getKey: (
 /**
  * Returns a list of key value pairs.
  */
-export const listKeys: {
-  (
-    input: ListKeysRequest,
-  ): effect.Effect<
-    ListKeysResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKeys: API.OperationMethod<
+  ListKeysRequest,
+  ListKeysResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeysRequest,
   ) => stream.Stream<
@@ -566,9 +561,8 @@ export const listKeys: {
 /**
  * Creates a new key value pair or replaces the value of an existing key.
  */
-export const putKey: (
-  input: PutKeyRequest,
-) => effect.Effect<
+export const putKey: API.OperationMethod<
+  PutKeyRequest,
   PutKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -593,9 +587,8 @@ export const putKey: (
 /**
  * Puts or Deletes multiple key value pairs in a single, all-or-nothing operation.
  */
-export const updateKeys: (
-  input: UpdateKeysRequest,
-) => effect.Effect<
+export const updateKeys: API.OperationMethod<
+  UpdateKeysRequest,
   UpdateKeysResponse,
   | AccessDeniedException
   | ConflictException

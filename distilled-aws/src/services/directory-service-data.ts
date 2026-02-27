@@ -1021,9 +1021,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
 /**
  * Adds an existing user, group, or computer as a group member.
  */
-export const addGroupMember: (
-  input: AddGroupMemberRequest,
-) => effect.Effect<
+export const addGroupMember: API.OperationMethod<
+  AddGroupMemberRequest,
   AddGroupMemberResult,
   | AccessDeniedException
   | ConflictException
@@ -1050,9 +1049,8 @@ export const addGroupMember: (
 /**
  * Creates a new group.
  */
-export const createGroup: (
-  input: CreateGroupRequest,
-) => effect.Effect<
+export const createGroup: API.OperationMethod<
+  CreateGroupRequest,
   CreateGroupResult,
   | AccessDeniedException
   | ConflictException
@@ -1077,9 +1075,8 @@ export const createGroup: (
 /**
  * Creates a new user.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResult,
   | AccessDeniedException
   | ConflictException
@@ -1104,9 +1101,8 @@ export const createUser: (
 /**
  * Deletes a group.
  */
-export const deleteGroup: (
-  input: DeleteGroupRequest,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
   DeleteGroupResult,
   | AccessDeniedException
   | ConflictException
@@ -1133,9 +1129,8 @@ export const deleteGroup: (
 /**
  * Deletes a user.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResult,
   | AccessDeniedException
   | ConflictException
@@ -1162,9 +1157,8 @@ export const deleteUser: (
 /**
  * Returns information about a specific group.
  */
-export const describeGroup: (
-  input: DescribeGroupRequest,
-) => effect.Effect<
+export const describeGroup: API.OperationMethod<
+  DescribeGroupRequest,
   DescribeGroupResult,
   | AccessDeniedException
   | DirectoryUnavailableException
@@ -1189,9 +1183,8 @@ export const describeGroup: (
 /**
  * Returns information about a specific user.
  */
-export const describeUser: (
-  input: DescribeUserRequest,
-) => effect.Effect<
+export const describeUser: API.OperationMethod<
+  DescribeUserRequest,
   DescribeUserResult,
   | AccessDeniedException
   | DirectoryUnavailableException
@@ -1218,9 +1211,8 @@ export const describeUser: (
  * account, see ResetUserPassword
  * in the *Directory Service API Reference*.
  */
-export const disableUser: (
-  input: DisableUserRequest,
-) => effect.Effect<
+export const disableUser: API.OperationMethod<
+  DisableUserRequest,
   DisableUserResult,
   | AccessDeniedException
   | ConflictException
@@ -1255,20 +1247,18 @@ export const disableUser: (
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const listGroupMembers: {
-  (
-    input: ListGroupMembersRequest,
-  ): effect.Effect<
-    ListGroupMembersResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupMembers: API.OperationMethod<
+  ListGroupMembersRequest,
+  ListGroupMembersResult,
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupMembersRequest,
   ) => stream.Stream<
@@ -1324,19 +1314,17 @@ export const listGroupMembers: {
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const listGroups: {
-  (
-    input: ListGroupsRequest,
-  ): effect.Effect<
-    ListGroupsResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
+  ListGroupsResult,
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
@@ -1389,20 +1377,18 @@ export const listGroups: {
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const listGroupsForMember: {
-  (
-    input: ListGroupsForMemberRequest,
-  ): effect.Effect<
-    ListGroupsForMemberResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroupsForMember: API.OperationMethod<
+  ListGroupsForMemberRequest,
+  ListGroupsForMemberResult,
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsForMemberRequest,
   ) => stream.Stream<
@@ -1458,19 +1444,17 @@ export const listGroupsForMember: {
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const listUsers: {
-  (
-    input: ListUsersRequest,
-  ): effect.Effect<
-    ListUsersResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsers: API.OperationMethod<
+  ListUsersRequest,
+  ListUsersResult,
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsersRequest,
   ) => stream.Stream<
@@ -1515,9 +1499,8 @@ export const listUsers: {
 /**
  * Removes a member from a group.
  */
-export const removeGroupMember: (
-  input: RemoveGroupMemberRequest,
-) => effect.Effect<
+export const removeGroupMember: API.OperationMethod<
+  RemoveGroupMemberRequest,
   RemoveGroupMemberResult,
   | AccessDeniedException
   | ConflictException
@@ -1554,19 +1537,17 @@ export const removeGroupMember: (
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const searchGroups: {
-  (
-    input: SearchGroupsRequest,
-  ): effect.Effect<
-    SearchGroupsResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchGroups: API.OperationMethod<
+  SearchGroupsRequest,
+  SearchGroupsResult,
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchGroupsRequest,
   ) => stream.Stream<
@@ -1621,19 +1602,17 @@ export const searchGroups: {
  * You can also specify a maximum number of return results with the `MaxResults`
  * parameter.
  */
-export const searchUsers: {
-  (
-    input: SearchUsersRequest,
-  ): effect.Effect<
-    SearchUsersResult,
-    | AccessDeniedException
-    | DirectoryUnavailableException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchUsers: API.OperationMethod<
+  SearchUsersRequest,
+  SearchUsersResult,
+  | AccessDeniedException
+  | DirectoryUnavailableException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchUsersRequest,
   ) => stream.Stream<
@@ -1678,9 +1657,8 @@ export const searchUsers: {
 /**
  * Updates group information.
  */
-export const updateGroup: (
-  input: UpdateGroupRequest,
-) => effect.Effect<
+export const updateGroup: API.OperationMethod<
+  UpdateGroupRequest,
   UpdateGroupResult,
   | AccessDeniedException
   | ConflictException
@@ -1707,9 +1685,8 @@ export const updateGroup: (
 /**
  * Updates user information.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResult,
   | AccessDeniedException
   | ConflictException

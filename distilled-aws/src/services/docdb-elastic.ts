@@ -919,9 +919,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * The type of pending maintenance action to be applied to the resource.
  */
-export const applyPendingMaintenanceAction: (
-  input: ApplyPendingMaintenanceActionInput,
-) => effect.Effect<
+export const applyPendingMaintenanceAction: API.OperationMethod<
+  ApplyPendingMaintenanceActionInput,
   ApplyPendingMaintenanceActionOutput,
   | AccessDeniedException
   | ConflictException
@@ -946,9 +945,8 @@ export const applyPendingMaintenanceAction: (
 /**
  * Copies a snapshot of an elastic cluster.
  */
-export const copyClusterSnapshot: (
-  input: CopyClusterSnapshotInput,
-) => effect.Effect<
+export const copyClusterSnapshot: API.OperationMethod<
+  CopyClusterSnapshotInput,
   CopyClusterSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -975,9 +973,8 @@ export const copyClusterSnapshot: (
 /**
  * Creates a new Amazon DocumentDB elastic cluster and returns its cluster structure.
  */
-export const createCluster: (
-  input: CreateClusterInput,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterInput,
   CreateClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1002,9 +999,8 @@ export const createCluster: (
 /**
  * Creates a snapshot of an elastic cluster.
  */
-export const createClusterSnapshot: (
-  input: CreateClusterSnapshotInput,
-) => effect.Effect<
+export const createClusterSnapshot: API.OperationMethod<
+  CreateClusterSnapshotInput,
   CreateClusterSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -1031,9 +1027,8 @@ export const createClusterSnapshot: (
 /**
  * Delete an elastic cluster.
  */
-export const deleteCluster: (
-  input: DeleteClusterInput,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterInput,
   DeleteClusterOutput,
   | AccessDeniedException
   | ConflictException
@@ -1058,9 +1053,8 @@ export const deleteCluster: (
 /**
  * Delete an elastic cluster snapshot.
  */
-export const deleteClusterSnapshot: (
-  input: DeleteClusterSnapshotInput,
-) => effect.Effect<
+export const deleteClusterSnapshot: API.OperationMethod<
+  DeleteClusterSnapshotInput,
   DeleteClusterSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -1085,9 +1079,8 @@ export const deleteClusterSnapshot: (
 /**
  * Returns information about a specific elastic cluster.
  */
-export const getCluster: (
-  input: GetClusterInput,
-) => effect.Effect<
+export const getCluster: API.OperationMethod<
+  GetClusterInput,
   GetClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1110,9 +1103,8 @@ export const getCluster: (
 /**
  * Returns information about a specific elastic cluster snapshot
  */
-export const getClusterSnapshot: (
-  input: GetClusterSnapshotInput,
-) => effect.Effect<
+export const getClusterSnapshot: API.OperationMethod<
+  GetClusterSnapshotInput,
   GetClusterSnapshotOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1135,9 +1127,8 @@ export const getClusterSnapshot: (
 /**
  * Retrieves all maintenance actions that are pending.
  */
-export const getPendingMaintenanceAction: (
-  input: GetPendingMaintenanceActionInput,
-) => effect.Effect<
+export const getPendingMaintenanceAction: API.OperationMethod<
+  GetPendingMaintenanceActionInput,
   GetPendingMaintenanceActionOutput,
   | AccessDeniedException
   | ConflictException
@@ -1162,18 +1153,16 @@ export const getPendingMaintenanceAction: (
 /**
  * Returns information about provisioned Amazon DocumentDB elastic clusters.
  */
-export const listClusters: {
-  (
-    input: ListClustersInput,
-  ): effect.Effect<
-    ListClustersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersInput,
+  ListClustersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersInput,
   ) => stream.Stream<
@@ -1215,18 +1204,16 @@ export const listClusters: {
 /**
  * Returns information about snapshots for a specified elastic cluster.
  */
-export const listClusterSnapshots: {
-  (
-    input: ListClusterSnapshotsInput,
-  ): effect.Effect<
-    ListClusterSnapshotsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusterSnapshots: API.OperationMethod<
+  ListClusterSnapshotsInput,
+  ListClusterSnapshotsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClusterSnapshotsInput,
   ) => stream.Stream<
@@ -1268,18 +1255,16 @@ export const listClusterSnapshots: {
 /**
  * Retrieves a list of all maintenance actions that are pending.
  */
-export const listPendingMaintenanceActions: {
-  (
-    input: ListPendingMaintenanceActionsInput,
-  ): effect.Effect<
-    ListPendingMaintenanceActionsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPendingMaintenanceActions: API.OperationMethod<
+  ListPendingMaintenanceActionsInput,
+  ListPendingMaintenanceActionsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPendingMaintenanceActionsInput,
   ) => stream.Stream<
@@ -1321,9 +1306,8 @@ export const listPendingMaintenanceActions: {
 /**
  * Lists all tags on a elastic cluster resource
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1344,9 +1328,8 @@ export const listTagsForResource: (
 /**
  * Restores an elastic cluster from a snapshot.
  */
-export const restoreClusterFromSnapshot: (
-  input: RestoreClusterFromSnapshotInput,
-) => effect.Effect<
+export const restoreClusterFromSnapshot: API.OperationMethod<
+  RestoreClusterFromSnapshotInput,
   RestoreClusterFromSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -1373,9 +1356,8 @@ export const restoreClusterFromSnapshot: (
 /**
  * Restarts the stopped elastic cluster that is specified by `clusterARN`.
  */
-export const startCluster: (
-  input: StartClusterInput,
-) => effect.Effect<
+export const startCluster: API.OperationMethod<
+  StartClusterInput,
   StartClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1399,9 +1381,8 @@ export const startCluster: (
  * Stops the running elastic cluster that is specified by `clusterArn`.
  * The elastic cluster must be in the *available* state.
  */
-export const stopCluster: (
-  input: StopClusterInput,
-) => effect.Effect<
+export const stopCluster: API.OperationMethod<
+  StopClusterInput,
   StopClusterOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1424,9 +1405,8 @@ export const stopCluster: (
 /**
  * Adds metadata tags to an elastic cluster resource
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1447,9 +1427,8 @@ export const tagResource: (
 /**
  * Removes metadata tags from an elastic cluster resource
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1471,9 +1450,8 @@ export const untagResource: (
  * Modifies an elastic cluster. This includes updating admin-username/password,
  * upgrading the API version, and setting up a backup window and maintenance window
  */
-export const updateCluster: (
-  input: UpdateClusterInput,
-) => effect.Effect<
+export const updateCluster: API.OperationMethod<
+  UpdateClusterInput,
   UpdateClusterOutput,
   | AccessDeniedException
   | ConflictException

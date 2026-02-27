@@ -2621,9 +2621,8 @@ export class InvalidTagException extends S.TaggedErrorClass<InvalidTagException>
 /**
  * Associates a FirewallRuleGroup with a VPC, to provide DNS filtering for the VPC.
  */
-export const associateFirewallRuleGroup: (
-  input: AssociateFirewallRuleGroupRequest,
-) => effect.Effect<
+export const associateFirewallRuleGroup: API.OperationMethod<
+  AssociateFirewallRuleGroupRequest,
   AssociateFirewallRuleGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2654,9 +2653,8 @@ export const associateFirewallRuleGroup: (
  * To remove an IP address from an endpoint, see
  * DisassociateResolverEndpointIpAddress.
  */
-export const associateResolverEndpointIpAddress: (
-  input: AssociateResolverEndpointIpAddressRequest,
-) => effect.Effect<
+export const associateResolverEndpointIpAddress: API.OperationMethod<
+  AssociateResolverEndpointIpAddressRequest,
   AssociateResolverEndpointIpAddressResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -2690,9 +2688,8 @@ export const associateResolverEndpointIpAddress: (
  * To remove a VPC from a query logging configuration, see
  * DisassociateResolverQueryLogConfig.
  */
-export const associateResolverQueryLogConfig: (
-  input: AssociateResolverQueryLogConfigRequest,
-) => effect.Effect<
+export const associateResolverQueryLogConfig: API.OperationMethod<
+  AssociateResolverQueryLogConfigRequest,
   AssociateResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2724,9 +2721,8 @@ export const associateResolverQueryLogConfig: (
  * IP addresses for the DNS resolvers that are specified in the rule. For more information about rules, see
  * CreateResolverRule.
  */
-export const associateResolverRule: (
-  input: AssociateResolverRuleRequest,
-) => effect.Effect<
+export const associateResolverRule: API.OperationMethod<
+  AssociateResolverRuleRequest,
   AssociateResolverRuleResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -2755,9 +2751,8 @@ export const associateResolverRule: (
 /**
  * Creates an empty firewall domain list for use in DNS Firewall rules. You can populate the domains for the new list with a file, using ImportFirewallDomains, or with domain strings, using UpdateFirewallDomains.
  */
-export const createFirewallDomainList: (
-  input: CreateFirewallDomainListRequest,
-) => effect.Effect<
+export const createFirewallDomainList: API.OperationMethod<
+  CreateFirewallDomainListRequest,
   CreateFirewallDomainListResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2780,9 +2775,8 @@ export const createFirewallDomainList: (
 /**
  * Creates a single DNS Firewall rule in the specified rule group, using the specified domain list.
  */
-export const createFirewallRule: (
-  input: CreateFirewallRuleRequest,
-) => effect.Effect<
+export const createFirewallRule: API.OperationMethod<
+  CreateFirewallRuleRequest,
   CreateFirewallRuleResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2808,9 +2802,8 @@ export const createFirewallRule: (
  * Creates an empty DNS Firewall rule group for filtering DNS network traffic in a VPC. You can add rules to the new rule group
  * by calling CreateFirewallRule.
  */
-export const createFirewallRuleGroup: (
-  input: CreateFirewallRuleGroupRequest,
-) => effect.Effect<
+export const createFirewallRuleGroup: API.OperationMethod<
+  CreateFirewallRuleGroupRequest,
   CreateFirewallRuleGroupResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2833,9 +2826,8 @@ export const createFirewallRuleGroup: (
 /**
  * Creates a Route 53 Resolver on an Outpost.
  */
-export const createOutpostResolver: (
-  input: CreateOutpostResolverRequest,
-) => effect.Effect<
+export const createOutpostResolver: API.OperationMethod<
+  CreateOutpostResolverRequest,
   CreateOutpostResolverResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2866,9 +2858,8 @@ export const createOutpostResolver: (
  * - An *outbound Resolver endpoint* forwards DNS queries from the DNS service for a VPC
  * to your network.
  */
-export const createResolverEndpoint: (
-  input: CreateResolverEndpointRequest,
-) => effect.Effect<
+export const createResolverEndpoint: API.OperationMethod<
+  CreateResolverEndpointRequest,
   CreateResolverEndpointResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2905,9 +2896,8 @@ export const createResolverEndpoint: (
  * can then associate VPCs with the configuration. The query logs that Resolver creates for a configuration include all DNS queries that originate in all
  * VPCs that are associated with the configuration.
  */
-export const createResolverQueryLogConfig: (
-  input: CreateResolverQueryLogConfigRequest,
-) => effect.Effect<
+export const createResolverQueryLogConfig: API.OperationMethod<
+  CreateResolverQueryLogConfigRequest,
   CreateResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2937,9 +2927,8 @@ export const createResolverQueryLogConfig: (
  * For DNS queries that originate in your VPCs, specifies which Resolver endpoint the queries pass through,
  * one domain name that you want to forward to your network, and the IP addresses of the DNS resolvers in your network.
  */
-export const createResolverRule: (
-  input: CreateResolverRuleRequest,
-) => effect.Effect<
+export const createResolverRule: API.OperationMethod<
+  CreateResolverRuleRequest,
   CreateResolverRuleResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -2970,9 +2959,8 @@ export const createResolverRule: (
 /**
  * Deletes the specified domain list.
  */
-export const deleteFirewallDomainList: (
-  input: DeleteFirewallDomainListRequest,
-) => effect.Effect<
+export const deleteFirewallDomainList: API.OperationMethod<
+  DeleteFirewallDomainListRequest,
   DeleteFirewallDomainListResponse,
   | AccessDeniedException
   | ConflictException
@@ -2995,9 +2983,8 @@ export const deleteFirewallDomainList: (
 /**
  * Deletes the specified firewall rule.
  */
-export const deleteFirewallRule: (
-  input: DeleteFirewallRuleRequest,
-) => effect.Effect<
+export const deleteFirewallRule: API.OperationMethod<
+  DeleteFirewallRuleRequest,
   DeleteFirewallRuleResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3020,9 +3007,8 @@ export const deleteFirewallRule: (
 /**
  * Deletes the specified firewall rule group.
  */
-export const deleteFirewallRuleGroup: (
-  input: DeleteFirewallRuleGroupRequest,
-) => effect.Effect<
+export const deleteFirewallRuleGroup: API.OperationMethod<
+  DeleteFirewallRuleGroupRequest,
   DeleteFirewallRuleGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -3047,9 +3033,8 @@ export const deleteFirewallRuleGroup: (
 /**
  * Deletes a Resolver on the Outpost.
  */
-export const deleteOutpostResolver: (
-  input: DeleteOutpostResolverRequest,
-) => effect.Effect<
+export const deleteOutpostResolver: API.OperationMethod<
+  DeleteOutpostResolverRequest,
   DeleteOutpostResolverResponse,
   | AccessDeniedException
   | ConflictException
@@ -3080,9 +3065,8 @@ export const deleteOutpostResolver: (
  *
  * - **Outbound**: DNS queries from a VPC are no longer routed to your network.
  */
-export const deleteResolverEndpoint: (
-  input: DeleteResolverEndpointRequest,
-) => effect.Effect<
+export const deleteResolverEndpoint: API.OperationMethod<
+  DeleteResolverEndpointRequest,
   DeleteResolverEndpointResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3115,9 +3099,8 @@ export const deleteResolverEndpoint: (
  * that they associated with the configuration, but that's not necessary. If you stop sharing the configuration, those VPCs are automatically
  * disassociated from the configuration.
  */
-export const deleteResolverQueryLogConfig: (
-  input: DeleteResolverQueryLogConfigRequest,
-) => effect.Effect<
+export const deleteResolverQueryLogConfig: API.OperationMethod<
+  DeleteResolverQueryLogConfigRequest,
   DeleteResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3144,9 +3127,8 @@ export const deleteResolverQueryLogConfig: (
  * associated the Resolver rule with. For more information, see
  * DisassociateResolverRule.
  */
-export const deleteResolverRule: (
-  input: DeleteResolverRuleRequest,
-) => effect.Effect<
+export const deleteResolverRule: API.OperationMethod<
+  DeleteResolverRuleRequest,
   DeleteResolverRuleResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3169,9 +3151,8 @@ export const deleteResolverRule: (
 /**
  * Disassociates a FirewallRuleGroup from a VPC, to remove DNS filtering from the VPC.
  */
-export const disassociateFirewallRuleGroup: (
-  input: DisassociateFirewallRuleGroupRequest,
-) => effect.Effect<
+export const disassociateFirewallRuleGroup: API.OperationMethod<
+  DisassociateFirewallRuleGroupRequest,
   DisassociateFirewallRuleGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -3200,9 +3181,8 @@ export const disassociateFirewallRuleGroup: (
  * To add an IP address to an endpoint, see
  * AssociateResolverEndpointIpAddress.
  */
-export const disassociateResolverEndpointIpAddress: (
-  input: DisassociateResolverEndpointIpAddressRequest,
-) => effect.Effect<
+export const disassociateResolverEndpointIpAddress: API.OperationMethod<
+  DisassociateResolverEndpointIpAddressRequest,
   DisassociateResolverEndpointIpAddressResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3236,9 +3216,8 @@ export const disassociateResolverEndpointIpAddress: (
  *
  * - You can stop sharing the configuration.
  */
-export const disassociateResolverQueryLogConfig: (
-  input: DisassociateResolverQueryLogConfigRequest,
-) => effect.Effect<
+export const disassociateResolverQueryLogConfig: API.OperationMethod<
+  DisassociateResolverQueryLogConfigRequest,
   DisassociateResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3266,9 +3245,8 @@ export const disassociateResolverQueryLogConfig: (
  * If you disassociate a Resolver rule from a VPC, Resolver stops forwarding DNS queries for the
  * domain name that you specified in the Resolver rule.
  */
-export const disassociateResolverRule: (
-  input: DisassociateResolverRuleRequest,
-) => effect.Effect<
+export const disassociateResolverRule: API.OperationMethod<
+  DisassociateResolverRuleRequest,
   DisassociateResolverRuleResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3290,9 +3268,8 @@ export const disassociateResolverRule: (
  * Retrieves the configuration of the firewall behavior provided by DNS Firewall for a
  * single VPC from Amazon Virtual Private Cloud (Amazon VPC).
  */
-export const getFirewallConfig: (
-  input: GetFirewallConfigRequest,
-) => effect.Effect<
+export const getFirewallConfig: API.OperationMethod<
+  GetFirewallConfigRequest,
   GetFirewallConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3315,9 +3292,8 @@ export const getFirewallConfig: (
 /**
  * Retrieves the specified firewall domain list.
  */
-export const getFirewallDomainList: (
-  input: GetFirewallDomainListRequest,
-) => effect.Effect<
+export const getFirewallDomainList: API.OperationMethod<
+  GetFirewallDomainListRequest,
   GetFirewallDomainListResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3338,9 +3314,8 @@ export const getFirewallDomainList: (
 /**
  * Retrieves the specified firewall rule group.
  */
-export const getFirewallRuleGroup: (
-  input: GetFirewallRuleGroupRequest,
-) => effect.Effect<
+export const getFirewallRuleGroup: API.OperationMethod<
+  GetFirewallRuleGroupRequest,
   GetFirewallRuleGroupResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3361,9 +3336,8 @@ export const getFirewallRuleGroup: (
 /**
  * Retrieves a firewall rule group association, which enables DNS filtering for a VPC with one rule group. A VPC can have more than one firewall rule group association, and a rule group can be associated with more than one VPC.
  */
-export const getFirewallRuleGroupAssociation: (
-  input: GetFirewallRuleGroupAssociationRequest,
-) => effect.Effect<
+export const getFirewallRuleGroupAssociation: API.OperationMethod<
+  GetFirewallRuleGroupAssociationRequest,
   GetFirewallRuleGroupAssociationResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3385,9 +3359,8 @@ export const getFirewallRuleGroupAssociation: (
  * Returns the Identity and Access Management (Amazon Web Services IAM) policy for sharing the
  * specified rule group. You can use the policy to share the rule group using Resource Access Manager (RAM).
  */
-export const getFirewallRuleGroupPolicy: (
-  input: GetFirewallRuleGroupPolicyRequest,
-) => effect.Effect<
+export const getFirewallRuleGroupPolicy: API.OperationMethod<
+  GetFirewallRuleGroupPolicyRequest,
   GetFirewallRuleGroupPolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3411,9 +3384,8 @@ export const getFirewallRuleGroupPolicy: (
  * Gets information about a specified Resolver on the Outpost, such as its instance count and
  * type, name, and the current status of the Resolver.
  */
-export const getOutpostResolver: (
-  input: GetOutpostResolverRequest,
-) => effect.Effect<
+export const getOutpostResolver: API.OperationMethod<
+  GetOutpostResolverRequest,
   GetOutpostResolverResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3437,9 +3409,8 @@ export const getOutpostResolver: (
  * Retrieves the behavior configuration of Route 53 Resolver behavior for a single VPC from
  * Amazon Virtual Private Cloud.
  */
-export const getResolverConfig: (
-  input: GetResolverConfigRequest,
-) => effect.Effect<
+export const getResolverConfig: API.OperationMethod<
+  GetResolverConfigRequest,
   GetResolverConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3464,9 +3435,8 @@ export const getResolverConfig: (
 /**
  * Gets DNSSEC validation information for a specified resource.
  */
-export const getResolverDnssecConfig: (
-  input: GetResolverDnssecConfigRequest,
-) => effect.Effect<
+export const getResolverDnssecConfig: API.OperationMethod<
+  GetResolverDnssecConfigRequest,
   GetResolverDnssecConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3492,9 +3462,8 @@ export const getResolverDnssecConfig: (
  * Gets information about a specified Resolver endpoint, such as whether it's an inbound or an outbound Resolver endpoint, and the
  * current status of the endpoint.
  */
-export const getResolverEndpoint: (
-  input: GetResolverEndpointRequest,
-) => effect.Effect<
+export const getResolverEndpoint: API.OperationMethod<
+  GetResolverEndpointRequest,
   GetResolverEndpointResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3516,9 +3485,8 @@ export const getResolverEndpoint: (
  * Gets information about a specified Resolver query logging configuration, such as the number of VPCs that the configuration
  * is logging queries for and the location that logs are sent to.
  */
-export const getResolverQueryLogConfig: (
-  input: GetResolverQueryLogConfigRequest,
-) => effect.Effect<
+export const getResolverQueryLogConfig: API.OperationMethod<
+  GetResolverQueryLogConfigRequest,
   GetResolverQueryLogConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3544,9 +3512,8 @@ export const getResolverQueryLogConfig: (
  * Gets information about a specified association between a Resolver query logging configuration and an Amazon VPC. When you associate a VPC
  * with a query logging configuration, Resolver logs DNS queries that originate in that VPC.
  */
-export const getResolverQueryLogConfigAssociation: (
-  input: GetResolverQueryLogConfigAssociationRequest,
-) => effect.Effect<
+export const getResolverQueryLogConfigAssociation: API.OperationMethod<
+  GetResolverQueryLogConfigAssociationRequest,
   GetResolverQueryLogConfigAssociationResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3572,9 +3539,8 @@ export const getResolverQueryLogConfigAssociation: (
  * Gets information about a query logging policy. A query logging policy specifies the Resolver query logging
  * operations and resources that you want to allow another Amazon Web Services account to be able to use.
  */
-export const getResolverQueryLogConfigPolicy: (
-  input: GetResolverQueryLogConfigPolicyRequest,
-) => effect.Effect<
+export const getResolverQueryLogConfigPolicy: API.OperationMethod<
+  GetResolverQueryLogConfigPolicyRequest,
   GetResolverQueryLogConfigPolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3598,9 +3564,8 @@ export const getResolverQueryLogConfigPolicy: (
  * Gets information about a specified Resolver rule, such as the domain name that the rule forwards DNS queries for and the ID of the
  * outbound Resolver endpoint that the rule is associated with.
  */
-export const getResolverRule: (
-  input: GetResolverRuleRequest,
-) => effect.Effect<
+export const getResolverRule: API.OperationMethod<
+  GetResolverRuleRequest,
   GetResolverRuleResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3622,9 +3587,8 @@ export const getResolverRule: (
  * Gets information about an association between a specified Resolver rule and a VPC. You associate a Resolver rule and a VPC using
  * AssociateResolverRule.
  */
-export const getResolverRuleAssociation: (
-  input: GetResolverRuleAssociationRequest,
-) => effect.Effect<
+export const getResolverRuleAssociation: API.OperationMethod<
+  GetResolverRuleAssociationRequest,
   GetResolverRuleAssociationResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -3646,9 +3610,8 @@ export const getResolverRuleAssociation: (
  * Gets information about the Resolver rule policy for a specified rule. A Resolver rule policy includes the rule that you want to share
  * with another account, the account that you want to share the rule with, and the Resolver operations that you want to allow the account to use.
  */
-export const getResolverRulePolicy: (
-  input: GetResolverRulePolicyRequest,
-) => effect.Effect<
+export const getResolverRulePolicy: API.OperationMethod<
+  GetResolverRulePolicyRequest,
   GetResolverRulePolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -3680,9 +3643,8 @@ export const getResolverRulePolicy: (
  *
  * - It must be from 1-255 characters in length.
  */
-export const importFirewallDomains: (
-  input: ImportFirewallDomainsRequest,
-) => effect.Effect<
+export const importFirewallDomains: API.OperationMethod<
+  ImportFirewallDomainsRequest,
   ImportFirewallDomainsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3711,18 +3673,16 @@ export const importFirewallDomains: (
  *
  * A single call might return only a partial list of the configurations. For information, see `MaxResults`.
  */
-export const listFirewallConfigs: {
-  (
-    input: ListFirewallConfigsRequest,
-  ): effect.Effect<
-    ListFirewallConfigsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFirewallConfigs: API.OperationMethod<
+  ListFirewallConfigsRequest,
+  ListFirewallConfigsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallConfigsRequest,
   ) => stream.Stream<
@@ -3766,18 +3726,16 @@ export const listFirewallConfigs: {
  *
  * A single call to this list operation might return only a partial list of the domain lists. For information, see `MaxResults`.
  */
-export const listFirewallDomainLists: {
-  (
-    input: ListFirewallDomainListsRequest,
-  ): effect.Effect<
-    ListFirewallDomainListsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFirewallDomainLists: API.OperationMethod<
+  ListFirewallDomainListsRequest,
+  ListFirewallDomainListsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallDomainListsRequest,
   ) => stream.Stream<
@@ -3821,19 +3779,17 @@ export const listFirewallDomainLists: {
  *
  * A single call might return only a partial list of the domains. For information, see `MaxResults`.
  */
-export const listFirewallDomains: {
-  (
-    input: ListFirewallDomainsRequest,
-  ): effect.Effect<
-    ListFirewallDomainsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFirewallDomains: API.OperationMethod<
+  ListFirewallDomainsRequest,
+  ListFirewallDomainsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallDomainsRequest,
   ) => stream.Stream<
@@ -3880,18 +3836,16 @@ export const listFirewallDomains: {
  *
  * A single call might return only a partial list of the associations. For information, see `MaxResults`.
  */
-export const listFirewallRuleGroupAssociations: {
-  (
-    input: ListFirewallRuleGroupAssociationsRequest,
-  ): effect.Effect<
-    ListFirewallRuleGroupAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFirewallRuleGroupAssociations: API.OperationMethod<
+  ListFirewallRuleGroupAssociationsRequest,
+  ListFirewallRuleGroupAssociationsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallRuleGroupAssociationsRequest,
   ) => stream.Stream<
@@ -3935,18 +3889,16 @@ export const listFirewallRuleGroupAssociations: {
  *
  * A single call might return only a partial list of the rule groups. For information, see `MaxResults`.
  */
-export const listFirewallRuleGroups: {
-  (
-    input: ListFirewallRuleGroupsRequest,
-  ): effect.Effect<
-    ListFirewallRuleGroupsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFirewallRuleGroups: API.OperationMethod<
+  ListFirewallRuleGroupsRequest,
+  ListFirewallRuleGroupsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallRuleGroupsRequest,
   ) => stream.Stream<
@@ -3990,19 +3942,17 @@ export const listFirewallRuleGroups: {
  *
  * A single call might return only a partial list of the rules. For information, see `MaxResults`.
  */
-export const listFirewallRules: {
-  (
-    input: ListFirewallRulesRequest,
-  ): effect.Effect<
-    ListFirewallRulesResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFirewallRules: API.OperationMethod<
+  ListFirewallRulesRequest,
+  ListFirewallRulesResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallRulesRequest,
   ) => stream.Stream<
@@ -4047,19 +3997,17 @@ export const listFirewallRules: {
 /**
  * Lists all the Resolvers on Outposts that were created using the current Amazon Web Services account.
  */
-export const listOutpostResolvers: {
-  (
-    input: ListOutpostResolversRequest,
-  ): effect.Effect<
-    ListOutpostResolversResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOutpostResolvers: API.OperationMethod<
+  ListOutpostResolversRequest,
+  ListOutpostResolversResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOutpostResolversRequest,
   ) => stream.Stream<
@@ -4105,21 +4053,19 @@ export const listOutpostResolvers: {
  * Retrieves the Resolver configurations that you have defined.
  * Route 53 Resolver uses the configurations to manage DNS resolution behavior for your VPCs.
  */
-export const listResolverConfigs: {
-  (
-    input: ListResolverConfigsRequest,
-  ): effect.Effect<
-    ListResolverConfigsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolverConfigs: API.OperationMethod<
+  ListResolverConfigsRequest,
+  ListResolverConfigsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolverConfigsRequest,
   ) => stream.Stream<
@@ -4170,20 +4116,18 @@ export const listResolverConfigs: {
 /**
  * Lists the configurations for DNSSEC validation that are associated with the current Amazon Web Services account.
  */
-export const listResolverDnssecConfigs: {
-  (
-    input: ListResolverDnssecConfigsRequest,
-  ): effect.Effect<
-    ListResolverDnssecConfigsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolverDnssecConfigs: API.OperationMethod<
+  ListResolverDnssecConfigsRequest,
+  ListResolverDnssecConfigsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolverDnssecConfigsRequest,
   ) => stream.Stream<
@@ -4231,19 +4175,17 @@ export const listResolverDnssecConfigs: {
 /**
  * Gets the IP addresses for a specified Resolver endpoint.
  */
-export const listResolverEndpointIpAddresses: {
-  (
-    input: ListResolverEndpointIpAddressesRequest,
-  ): effect.Effect<
-    ListResolverEndpointIpAddressesResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolverEndpointIpAddresses: API.OperationMethod<
+  ListResolverEndpointIpAddressesRequest,
+  ListResolverEndpointIpAddressesResponse,
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolverEndpointIpAddressesRequest,
   ) => stream.Stream<
@@ -4288,19 +4230,17 @@ export const listResolverEndpointIpAddresses: {
 /**
  * Lists all the Resolver endpoints that were created using the current Amazon Web Services account.
  */
-export const listResolverEndpoints: {
-  (
-    input: ListResolverEndpointsRequest,
-  ): effect.Effect<
-    ListResolverEndpointsResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolverEndpoints: API.OperationMethod<
+  ListResolverEndpointsRequest,
+  ListResolverEndpointsResponse,
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolverEndpointsRequest,
   ) => stream.Stream<
@@ -4345,20 +4285,18 @@ export const listResolverEndpoints: {
 /**
  * Lists information about associations between Amazon VPCs and query logging configurations.
  */
-export const listResolverQueryLogConfigAssociations: {
-  (
-    input: ListResolverQueryLogConfigAssociationsRequest,
-  ): effect.Effect<
-    ListResolverQueryLogConfigAssociationsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidParameterException
-    | InvalidRequestException
-    | LimitExceededException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolverQueryLogConfigAssociations: API.OperationMethod<
+  ListResolverQueryLogConfigAssociationsRequest,
+  ListResolverQueryLogConfigAssociationsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidParameterException
+  | InvalidRequestException
+  | LimitExceededException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolverQueryLogConfigAssociationsRequest,
   ) => stream.Stream<
@@ -4407,20 +4345,18 @@ export const listResolverQueryLogConfigAssociations: {
  * Lists information about the specified query logging configurations. Each configuration defines where you want Resolver to save
  * DNS query logs and specifies the VPCs that you want to log queries for.
  */
-export const listResolverQueryLogConfigs: {
-  (
-    input: ListResolverQueryLogConfigsRequest,
-  ): effect.Effect<
-    ListResolverQueryLogConfigsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolverQueryLogConfigs: API.OperationMethod<
+  ListResolverQueryLogConfigsRequest,
+  ListResolverQueryLogConfigsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolverQueryLogConfigsRequest,
   ) => stream.Stream<
@@ -4468,19 +4404,17 @@ export const listResolverQueryLogConfigs: {
 /**
  * Lists the associations that were created between Resolver rules and VPCs using the current Amazon Web Services account.
  */
-export const listResolverRuleAssociations: {
-  (
-    input: ListResolverRuleAssociationsRequest,
-  ): effect.Effect<
-    ListResolverRuleAssociationsResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolverRuleAssociations: API.OperationMethod<
+  ListResolverRuleAssociationsRequest,
+  ListResolverRuleAssociationsResponse,
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolverRuleAssociationsRequest,
   ) => stream.Stream<
@@ -4525,19 +4459,17 @@ export const listResolverRuleAssociations: {
 /**
  * Lists the Resolver rules that were created using the current Amazon Web Services account.
  */
-export const listResolverRules: {
-  (
-    input: ListResolverRulesRequest,
-  ): effect.Effect<
-    ListResolverRulesResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResolverRules: API.OperationMethod<
+  ListResolverRulesRequest,
+  ListResolverRulesResponse,
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResolverRulesRequest,
   ) => stream.Stream<
@@ -4582,20 +4514,18 @@ export const listResolverRules: {
 /**
  * Lists the tags that you associated with the specified resource.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | InternalServiceErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | InternalServiceErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -4645,9 +4575,8 @@ export const listTagsForResource: {
  * group. You can use the policy to share the rule group using Resource Access Manager
  * (RAM).
  */
-export const putFirewallRuleGroupPolicy: (
-  input: PutFirewallRuleGroupPolicyRequest,
-) => effect.Effect<
+export const putFirewallRuleGroupPolicy: API.OperationMethod<
+  PutFirewallRuleGroupPolicyRequest,
   PutFirewallRuleGroupPolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4671,9 +4600,8 @@ export const putFirewallRuleGroupPolicy: (
  * Specifies an Amazon Web Services account that you want to share a query logging configuration with, the query logging configuration that you want to share,
  * and the operations that you want the account to be able to perform on the configuration.
  */
-export const putResolverQueryLogConfigPolicy: (
-  input: PutResolverQueryLogConfigPolicyRequest,
-) => effect.Effect<
+export const putResolverQueryLogConfigPolicy: API.OperationMethod<
+  PutResolverQueryLogConfigPolicyRequest,
   PutResolverQueryLogConfigPolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4699,9 +4627,8 @@ export const putResolverQueryLogConfigPolicy: (
  * Specifies an Amazon Web Services rule that you want to share with another account, the account that you want to share the rule with,
  * and the operations that you want the account to be able to perform on the rule.
  */
-export const putResolverRulePolicy: (
-  input: PutResolverRulePolicyRequest,
-) => effect.Effect<
+export const putResolverRulePolicy: API.OperationMethod<
+  PutResolverRulePolicyRequest,
   PutResolverRulePolicyResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4724,9 +4651,8 @@ export const putResolverRulePolicy: (
 /**
  * Adds one or more tags to a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -4753,9 +4679,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceErrorException
   | InvalidParameterException
@@ -4779,9 +4704,8 @@ export const untagResource: (
  * Updates the configuration of the firewall behavior provided by DNS Firewall for a single
  * VPC from Amazon Virtual Private Cloud (Amazon VPC).
  */
-export const updateFirewallConfig: (
-  input: UpdateFirewallConfigRequest,
-) => effect.Effect<
+export const updateFirewallConfig: API.OperationMethod<
+  UpdateFirewallConfigRequest,
   UpdateFirewallConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4804,9 +4728,8 @@ export const updateFirewallConfig: (
 /**
  * Updates the firewall domain list from an array of domain specifications.
  */
-export const updateFirewallDomains: (
-  input: UpdateFirewallDomainsRequest,
-) => effect.Effect<
+export const updateFirewallDomains: API.OperationMethod<
+  UpdateFirewallDomainsRequest,
   UpdateFirewallDomainsResponse,
   | AccessDeniedException
   | ConflictException
@@ -4833,9 +4756,8 @@ export const updateFirewallDomains: (
 /**
  * Updates the specified firewall rule.
  */
-export const updateFirewallRule: (
-  input: UpdateFirewallRuleRequest,
-) => effect.Effect<
+export const updateFirewallRule: API.OperationMethod<
+  UpdateFirewallRuleRequest,
   UpdateFirewallRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -4860,9 +4782,8 @@ export const updateFirewallRule: (
 /**
  * Changes the association of a FirewallRuleGroup with a VPC. The association enables DNS filtering for the VPC.
  */
-export const updateFirewallRuleGroupAssociation: (
-  input: UpdateFirewallRuleGroupAssociationRequest,
-) => effect.Effect<
+export const updateFirewallRuleGroupAssociation: API.OperationMethod<
+  UpdateFirewallRuleGroupAssociationRequest,
   UpdateFirewallRuleGroupAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -4887,9 +4808,8 @@ export const updateFirewallRuleGroupAssociation: (
 /**
  * You can use `UpdateOutpostResolver` to update the instance count, type, or name of a Resolver on an Outpost.
  */
-export const updateOutpostResolver: (
-  input: UpdateOutpostResolverRequest,
-) => effect.Effect<
+export const updateOutpostResolver: API.OperationMethod<
+  UpdateOutpostResolverRequest,
   UpdateOutpostResolverResponse,
   | AccessDeniedException
   | ConflictException
@@ -4917,9 +4837,8 @@ export const updateOutpostResolver: (
  * Updates the behavior configuration of Route 53 Resolver behavior for a single VPC from
  * Amazon Virtual Private Cloud.
  */
-export const updateResolverConfig: (
-  input: UpdateResolverConfigRequest,
-) => effect.Effect<
+export const updateResolverConfig: API.OperationMethod<
+  UpdateResolverConfigRequest,
   UpdateResolverConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4950,9 +4869,8 @@ export const updateResolverConfig: (
 /**
  * Updates an existing DNSSEC validation configuration. If there is no existing DNSSEC validation configuration, one is created.
  */
-export const updateResolverDnssecConfig: (
-  input: UpdateResolverDnssecConfigRequest,
-) => effect.Effect<
+export const updateResolverDnssecConfig: API.OperationMethod<
+  UpdateResolverDnssecConfigRequest,
   UpdateResolverDnssecConfigResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -4978,9 +4896,8 @@ export const updateResolverDnssecConfig: (
  * Updates the name, or endpoint type for an inbound or an outbound Resolver endpoint.
  * You can only update between IPV4 and DUALSTACK, IPV6 endpoint type can't be updated to other type.
  */
-export const updateResolverEndpoint: (
-  input: UpdateResolverEndpointRequest,
-) => effect.Effect<
+export const updateResolverEndpoint: API.OperationMethod<
+  UpdateResolverEndpointRequest,
   UpdateResolverEndpointResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -5006,9 +4923,8 @@ export const updateResolverEndpoint: (
  * Updates settings for a specified Resolver rule. `ResolverRuleId` is required, and all other parameters are optional.
  * If you don't specify a parameter, it retains its current value.
  */
-export const updateResolverRule: (
-  input: UpdateResolverRuleRequest,
-) => effect.Effect<
+export const updateResolverRule: API.OperationMethod<
+  UpdateResolverRuleRequest,
   UpdateResolverRuleResponse,
   | AccessDeniedException
   | InternalServiceErrorException

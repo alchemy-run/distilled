@@ -6056,9 +6056,8 @@ export class MediaTooLargeException extends S.TaggedErrorClass<MediaTooLargeExce
 /**
  * Adds or updates a permission policy for a Amazon Q Business application, allowing cross-account access for an ISV. This operation creates a new policy statement for the specified Amazon Q Business application. The policy statement defines the IAM actions that the ISV is allowed to perform on the Amazon Q Business application's resources.
  */
-export const associatePermission: (
-  input: AssociatePermissionRequest,
-) => effect.Effect<
+export const associatePermission: API.OperationMethod<
+  AssociatePermissionRequest,
   AssociatePermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6087,9 +6086,8 @@ export const associatePermission: (
  *
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
-export const batchDeleteDocument: (
-  input: BatchDeleteDocumentRequest,
-) => effect.Effect<
+export const batchDeleteDocument: API.OperationMethod<
+  BatchDeleteDocumentRequest,
   BatchDeleteDocumentResponse,
   | AccessDeniedException
   | ConflictException
@@ -6124,9 +6122,8 @@ export const batchDeleteDocument: (
  *
  * You can see the progress of the deletion, and any error messages related to the process, by using CloudWatch.
  */
-export const batchPutDocument: (
-  input: BatchPutDocumentRequest,
-) => effect.Effect<
+export const batchPutDocument: API.OperationMethod<
+  BatchPutDocumentRequest,
   BatchPutDocumentResponse,
   | AccessDeniedException
   | ConflictException
@@ -6153,9 +6150,8 @@ export const batchPutDocument: (
 /**
  * Unsubscribes a user or a group from their pricing tier in an Amazon Q Business application. An unsubscribed user or group loses all Amazon Q Business feature access at the start of next month.
  */
-export const cancelSubscription: (
-  input: CancelSubscriptionRequest,
-) => effect.Effect<
+export const cancelSubscription: API.OperationMethod<
+  CancelSubscriptionRequest,
   CancelSubscriptionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6178,9 +6174,8 @@ export const cancelSubscription: (
 /**
  * Starts or continues a streaming Amazon Q Business conversation.
  */
-export const chat: (
-  input: ChatInput,
-) => effect.Effect<
+export const chat: API.OperationMethod<
+  ChatInput,
   ChatOutput,
   | AccessDeniedException
   | ConflictException
@@ -6209,9 +6204,8 @@ export const chat: (
 /**
  * Starts or continues a non-streaming Amazon Q Business conversation.
  */
-export const chatSync: (
-  input: ChatSyncInput,
-) => effect.Effect<
+export const chatSync: API.OperationMethod<
+  ChatSyncInput,
   ChatSyncOutput,
   | AccessDeniedException
   | ConflictException
@@ -6240,9 +6234,8 @@ export const chatSync: (
 /**
  * Verifies if a user has access permissions for a specified document and returns the actual ACL attached to the document. Resolves user access on the document via user aliases and groups when verifying user access.
  */
-export const checkDocumentAccess: (
-  input: CheckDocumentAccessRequest,
-) => effect.Effect<
+export const checkDocumentAccess: API.OperationMethod<
+  CheckDocumentAccessRequest,
   CheckDocumentAccessResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6265,9 +6258,8 @@ export const checkDocumentAccess: (
 /**
  * Creates a unique URL for anonymous Amazon Q Business web experience. This URL can only be used once and must be used within 5 minutes after it's generated.
  */
-export const createAnonymousWebExperienceUrl: (
-  input: CreateAnonymousWebExperienceUrlRequest,
-) => effect.Effect<
+export const createAnonymousWebExperienceUrl: API.OperationMethod<
+  CreateAnonymousWebExperienceUrlRequest,
   CreateAnonymousWebExperienceUrlResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6292,9 +6284,8 @@ export const createAnonymousWebExperienceUrl: (
 /**
  * Creates a new chat response configuration for an Amazon Q Business application. This operation establishes a set of parameters that define how the system generates and formats responses to user queries in chat interactions.
  */
-export const createChatResponseConfiguration: (
-  input: CreateChatResponseConfigurationRequest,
-) => effect.Effect<
+export const createChatResponseConfiguration: API.OperationMethod<
+  CreateChatResponseConfigurationRequest,
   CreateChatResponseConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6325,9 +6316,8 @@ export const createChatResponseConfiguration: (
  *
  * For an example IAM role policy for assigning subscriptions, see Set up required permissions in the Amazon Q Business User Guide.
  */
-export const createSubscription: (
-  input: CreateSubscriptionRequest,
-) => effect.Effect<
+export const createSubscription: API.OperationMethod<
+  CreateSubscriptionRequest,
   CreateSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6352,9 +6342,8 @@ export const createSubscription: (
 /**
  * Creates a universally unique identifier (UUID) mapped to a list of local user ids within an application.
  */
-export const createUser: (
-  input: CreateUserRequest,
-) => effect.Effect<
+export const createUser: API.OperationMethod<
+  CreateUserRequest,
   CreateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -6381,9 +6370,8 @@ export const createUser: (
 /**
  * Deletes an attachment associated with a specific Amazon Q Business conversation.
  */
-export const deleteAttachment: (
-  input: DeleteAttachmentRequest,
-) => effect.Effect<
+export const deleteAttachment: API.OperationMethod<
+  DeleteAttachmentRequest,
   DeleteAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6408,9 +6396,8 @@ export const deleteAttachment: (
 /**
  * Deletes chat controls configured for an existing Amazon Q Business application.
  */
-export const deleteChatControlsConfiguration: (
-  input: DeleteChatControlsConfigurationRequest,
-) => effect.Effect<
+export const deleteChatControlsConfiguration: API.OperationMethod<
+  DeleteChatControlsConfigurationRequest,
   DeleteChatControlsConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6433,9 +6420,8 @@ export const deleteChatControlsConfiguration: (
 /**
  * Deletes a specified chat response configuration from an Amazon Q Business application.
  */
-export const deleteChatResponseConfiguration: (
-  input: DeleteChatResponseConfigurationRequest,
-) => effect.Effect<
+export const deleteChatResponseConfiguration: API.OperationMethod<
+  DeleteChatResponseConfigurationRequest,
   DeleteChatResponseConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6460,9 +6446,8 @@ export const deleteChatResponseConfiguration: (
 /**
  * Deletes an Amazon Q Business web experience conversation.
  */
-export const deleteConversation: (
-  input: DeleteConversationRequest,
-) => effect.Effect<
+export const deleteConversation: API.OperationMethod<
+  DeleteConversationRequest,
   DeleteConversationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6491,9 +6476,8 @@ export const deleteConversation: (
  *
  * If you want to delete, update, or replace users or sub groups of a group, you need to use the `PutGroup` operation. For example, if a user in the group "Engineering" leaves the engineering team and another user takes their place, you provide an updated list of users or sub groups that belong to the "Engineering" group when calling `PutGroup`.
  */
-export const deleteGroup: (
-  input: DeleteGroupRequest,
-) => effect.Effect<
+export const deleteGroup: API.OperationMethod<
+  DeleteGroupRequest,
   DeleteGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -6518,9 +6502,8 @@ export const deleteGroup: (
 /**
  * Deletes a user by email id.
  */
-export const deleteUser: (
-  input: DeleteUserRequest,
-) => effect.Effect<
+export const deleteUser: API.OperationMethod<
+  DeleteUserRequest,
   DeleteUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -6545,9 +6528,8 @@ export const deleteUser: (
 /**
  * Removes a permission policy from a Amazon Q Business application, revoking the cross-account access that was previously granted to an ISV. This operation deletes the specified policy statement from the application's permission policy.
  */
-export const disassociatePermission: (
-  input: DisassociatePermissionRequest,
-) => effect.Effect<
+export const disassociatePermission: API.OperationMethod<
+  DisassociatePermissionRequest,
   DisassociatePermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6572,19 +6554,17 @@ export const disassociatePermission: (
 /**
  * Gets information about chat controls configured for an existing Amazon Q Business application.
  */
-export const getChatControlsConfiguration: {
-  (
-    input: GetChatControlsConfigurationRequest,
-  ): effect.Effect<
-    GetChatControlsConfigurationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getChatControlsConfiguration: API.OperationMethod<
+  GetChatControlsConfigurationRequest,
+  GetChatControlsConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetChatControlsConfigurationRequest,
   ) => stream.Stream<
@@ -6629,9 +6609,8 @@ export const getChatControlsConfiguration: {
 /**
  * Retrieves detailed information about a specific chat response configuration from an Amazon Q Business application. This operation returns the complete configuration settings and metadata.
  */
-export const getChatResponseConfiguration: (
-  input: GetChatResponseConfigurationRequest,
-) => effect.Effect<
+export const getChatResponseConfiguration: API.OperationMethod<
+  GetChatResponseConfigurationRequest,
   GetChatResponseConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6654,9 +6633,8 @@ export const getChatResponseConfiguration: (
 /**
  * Retrieves the content of a document that was ingested into Amazon Q Business. This API validates user authorization against document ACLs before returning a pre-signed URL for secure document access. You can download or view source documents referenced in chat responses through the URL.
  */
-export const getDocumentContent: (
-  input: GetDocumentContentRequest,
-) => effect.Effect<
+export const getDocumentContent: API.OperationMethod<
+  GetDocumentContentRequest,
   GetDocumentContentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6679,9 +6657,8 @@ export const getDocumentContent: (
 /**
  * Describes a group by group name.
  */
-export const getGroup: (
-  input: GetGroupRequest,
-) => effect.Effect<
+export const getGroup: API.OperationMethod<
+  GetGroupRequest,
   GetGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -6708,9 +6685,8 @@ export const getGroup: (
  *
  * For more information, see Extracting semantic meaning from images and visuals.
  */
-export const getMedia: (
-  input: GetMediaRequest,
-) => effect.Effect<
+export const getMedia: API.OperationMethod<
+  GetMediaRequest,
   GetMediaResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6737,9 +6713,8 @@ export const getMedia: (
 /**
  * Retrieves the current permission policy for a Amazon Q Business application. The policy is returned as a JSON-formatted string and defines the IAM actions that are allowed or denied for the application's resources.
  */
-export const getPolicy: (
-  input: GetPolicyRequest,
-) => effect.Effect<
+export const getPolicy: API.OperationMethod<
+  GetPolicyRequest,
   GetPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6762,9 +6737,8 @@ export const getPolicy: (
 /**
  * Describes the universally unique identifier (UUID) associated with a local user in a data source.
  */
-export const getUser: (
-  input: GetUserRequest,
-) => effect.Effect<
+export const getUser: API.OperationMethod<
+  GetUserRequest,
   GetUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -6789,20 +6763,18 @@ export const getUser: (
 /**
  * Gets a list of attachments associated with an Amazon Q Business web experience or a list of attachements associated with a specific Amazon Q Business conversation.
  */
-export const listAttachments: {
-  (
-    input: ListAttachmentsRequest,
-  ): effect.Effect<
-    ListAttachmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LicenseNotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttachments: API.OperationMethod<
+  ListAttachmentsRequest,
+  ListAttachmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LicenseNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttachmentsRequest,
   ) => stream.Stream<
@@ -6850,19 +6822,17 @@ export const listAttachments: {
 /**
  * Retrieves a list of all chat response configurations available in a specified Amazon Q Business application. This operation returns summary information about each configuration to help administrators manage and select appropriate response settings.
  */
-export const listChatResponseConfigurations: {
-  (
-    input: ListChatResponseConfigurationsRequest,
-  ): effect.Effect<
-    ListChatResponseConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChatResponseConfigurations: API.OperationMethod<
+  ListChatResponseConfigurationsRequest,
+  ListChatResponseConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChatResponseConfigurationsRequest,
   ) => stream.Stream<
@@ -6907,20 +6877,18 @@ export const listChatResponseConfigurations: {
 /**
  * Lists one or more Amazon Q Business conversations.
  */
-export const listConversations: {
-  (
-    input: ListConversationsRequest,
-  ): effect.Effect<
-    ListConversationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LicenseNotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConversations: API.OperationMethod<
+  ListConversationsRequest,
+  ListConversationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LicenseNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConversationsRequest,
   ) => stream.Stream<
@@ -6968,20 +6936,18 @@ export const listConversations: {
 /**
  * Get information about an Amazon Q Business data source connector synchronization.
  */
-export const listDataSourceSyncJobs: {
-  (
-    input: ListDataSourceSyncJobsRequest,
-  ): effect.Effect<
-    ListDataSourceSyncJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSourceSyncJobs: API.OperationMethod<
+  ListDataSourceSyncJobsRequest,
+  ListDataSourceSyncJobsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourceSyncJobsRequest,
   ) => stream.Stream<
@@ -7029,19 +6995,17 @@ export const listDataSourceSyncJobs: {
 /**
  * A list of documents attached to an index.
  */
-export const listDocuments: {
-  (
-    input: ListDocumentsRequest,
-  ): effect.Effect<
-    ListDocumentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDocuments: API.OperationMethod<
+  ListDocumentsRequest,
+  ListDocumentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDocumentsRequest,
   ) => stream.Stream<
@@ -7086,20 +7050,18 @@ export const listDocuments: {
 /**
  * Provides a list of groups that are mapped to users.
  */
-export const listGroups: {
-  (
-    input: ListGroupsRequest,
-  ): effect.Effect<
-    ListGroupsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGroups: API.OperationMethod<
+  ListGroupsRequest,
+  ListGroupsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGroupsRequest,
   ) => stream.Stream<
@@ -7147,20 +7109,18 @@ export const listGroups: {
 /**
  * Gets a list of messages associated with an Amazon Q Business web experience.
  */
-export const listMessages: {
-  (
-    input: ListMessagesRequest,
-  ): effect.Effect<
-    ListMessagesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LicenseNotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMessages: API.OperationMethod<
+  ListMessagesRequest,
+  ListMessagesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LicenseNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMessagesRequest,
   ) => stream.Stream<
@@ -7208,19 +7168,17 @@ export const listMessages: {
 /**
  * Lists configured Amazon Q Business actions for a specific plugin in an Amazon Q Business application.
  */
-export const listPluginActions: {
-  (
-    input: ListPluginActionsRequest,
-  ): effect.Effect<
-    ListPluginActionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPluginActions: API.OperationMethod<
+  ListPluginActionsRequest,
+  ListPluginActionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPluginActionsRequest,
   ) => stream.Stream<
@@ -7265,18 +7223,16 @@ export const listPluginActions: {
 /**
  * Lists configured Amazon Q Business actions for any plugin type—both built-in and custom.
  */
-export const listPluginTypeActions: {
-  (
-    input: ListPluginTypeActionsRequest,
-  ): effect.Effect<
-    ListPluginTypeActionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPluginTypeActions: API.OperationMethod<
+  ListPluginTypeActionsRequest,
+  ListPluginTypeActionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPluginTypeActionsRequest,
   ) => stream.Stream<
@@ -7318,18 +7274,16 @@ export const listPluginTypeActions: {
 /**
  * Lists metadata for all Amazon Q Business plugin types.
  */
-export const listPluginTypeMetadata: {
-  (
-    input: ListPluginTypeMetadataRequest,
-  ): effect.Effect<
-    ListPluginTypeMetadataResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPluginTypeMetadata: API.OperationMethod<
+  ListPluginTypeMetadataRequest,
+  ListPluginTypeMetadataResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPluginTypeMetadataRequest,
   ) => stream.Stream<
@@ -7371,20 +7325,18 @@ export const listPluginTypeMetadata: {
 /**
  * Lists all subscriptions created in an Amazon Q Business application.
  */
-export const listSubscriptions: {
-  (
-    input: ListSubscriptionsRequest,
-  ): effect.Effect<
-    ListSubscriptionsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSubscriptions: API.OperationMethod<
+  ListSubscriptionsRequest,
+  ListSubscriptionsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubscriptionsRequest,
   ) => stream.Stream<
@@ -7432,9 +7384,8 @@ export const listSubscriptions: {
 /**
  * Gets a list of tags associated with a specified resource. Amazon Q Business applications and data sources can have tags associated with them.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7457,9 +7408,8 @@ export const listTagsForResource: (
 /**
  * Enables your end user to provide feedback on their Amazon Q Business generated chat responses.
  */
-export const putFeedback: (
-  input: PutFeedbackRequest,
-) => effect.Effect<
+export const putFeedback: API.OperationMethod<
+  PutFeedbackRequest,
   PutFeedbackResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7486,9 +7436,8 @@ export const putFeedback: (
  *
  * There are two options for creating groups, either passing group members inline or using an S3 file via the S3PathForGroupMembers field. For inline groups, there is a limit of 1000 members per group and for provided S3 files there is a limit of 100 thousand members. When creating a group using an S3 file, you provide both an S3 file and a `RoleArn` for Amazon Q Buisness to access the file.
  */
-export const putGroup: (
-  input: PutGroupRequest,
-) => effect.Effect<
+export const putGroup: API.OperationMethod<
+  PutGroupRequest,
   PutGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -7515,20 +7464,18 @@ export const putGroup: (
 /**
  * Searches for relevant content in a Amazon Q Business application based on a query. This operation takes a search query text, the Amazon Q Business application identifier, and optional filters (such as content source and maximum results) as input. It returns a list of relevant content items, where each item includes the content text, the unique document identifier, the document title, the document URI, any relevant document attributes, and score attributes indicating the confidence level of the relevance.
  */
-export const searchRelevantContent: {
-  (
-    input: SearchRelevantContentRequest,
-  ): effect.Effect<
-    SearchRelevantContentResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | LicenseNotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchRelevantContent: API.OperationMethod<
+  SearchRelevantContentRequest,
+  SearchRelevantContentResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | LicenseNotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchRelevantContentRequest,
   ) => stream.Stream<
@@ -7576,9 +7523,8 @@ export const searchRelevantContent: {
 /**
  * Starts a data source connector synchronization job. If a synchronization job is already in progress, Amazon Q Business returns a `ConflictException`.
  */
-export const startDataSourceSyncJob: (
-  input: StartDataSourceSyncJobRequest,
-) => effect.Effect<
+export const startDataSourceSyncJob: API.OperationMethod<
+  StartDataSourceSyncJobRequest,
   StartDataSourceSyncJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -7605,9 +7551,8 @@ export const startDataSourceSyncJob: (
 /**
  * Stops an Amazon Q Business data source connector synchronization job already in progress.
  */
-export const stopDataSourceSyncJob: (
-  input: StopDataSourceSyncJobRequest,
-) => effect.Effect<
+export const stopDataSourceSyncJob: API.OperationMethod<
+  StopDataSourceSyncJobRequest,
   StopDataSourceSyncJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -7632,9 +7577,8 @@ export const stopDataSourceSyncJob: (
 /**
  * Adds the specified tag to the specified Amazon Q Business application or data source resource. If the tag already exists, the existing value is replaced with the new value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -7659,9 +7603,8 @@ export const tagResource: (
 /**
  * Removes a tag from an Amazon Q Business application or a data source.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7684,9 +7627,8 @@ export const untagResource: (
 /**
  * Updates a set of chat controls configured for an existing Amazon Q Business application.
  */
-export const updateChatControlsConfiguration: (
-  input: UpdateChatControlsConfigurationRequest,
-) => effect.Effect<
+export const updateChatControlsConfiguration: API.OperationMethod<
+  UpdateChatControlsConfigurationRequest,
   UpdateChatControlsConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7713,9 +7655,8 @@ export const updateChatControlsConfiguration: (
 /**
  * Updates an existing chat response configuration in an Amazon Q Business application. This operation allows administrators to modify configuration settings, display name, and response parameters to refine how the system generates responses.
  */
-export const updateChatResponseConfiguration: (
-  input: UpdateChatResponseConfigurationRequest,
-) => effect.Effect<
+export const updateChatResponseConfiguration: API.OperationMethod<
+  UpdateChatResponseConfigurationRequest,
   UpdateChatResponseConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7740,9 +7681,8 @@ export const updateChatResponseConfiguration: (
 /**
  * Updates the pricing tier for an Amazon Q Business subscription. Upgrades are instant. Downgrades apply at the start of the next month. Subscription tier determines feature access for the user. For more information on subscriptions and pricing tiers, see Amazon Q Business pricing.
  */
-export const updateSubscription: (
-  input: UpdateSubscriptionRequest,
-) => effect.Effect<
+export const updateSubscription: API.OperationMethod<
+  UpdateSubscriptionRequest,
   UpdateSubscriptionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7767,9 +7707,8 @@ export const updateSubscription: (
 /**
  * Updates a information associated with a user id.
  */
-export const updateUser: (
-  input: UpdateUserRequest,
-) => effect.Effect<
+export const updateUser: API.OperationMethod<
+  UpdateUserRequest,
   UpdateUserResponse,
   | AccessDeniedException
   | ConflictException
@@ -7802,9 +7741,8 @@ export const updateUser: (
  *
  * When you create an application, Amazon Q Business may securely transmit data for processing from your selected Amazon Web Services region, but within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7831,9 +7769,8 @@ export const createApplication: (
 /**
  * Gets information about an existing Amazon Q Business application.
  */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
   GetApplicationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7860,9 +7797,8 @@ export const getApplication: (
  *
  * An Amazon Q Apps service-linked role will be created if it's absent in the Amazon Web Services account when `QAppsConfiguration` is enabled in the request. For more information, see Using service-linked roles for Q Apps.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7887,9 +7823,8 @@ export const updateApplication: (
 /**
  * Deletes an Amazon Q Business application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7916,18 +7851,16 @@ export const deleteApplication: (
  *
  * Amazon Q Business applications may securely transmit data for processing across Amazon Web Services Regions within your geography. For more information, see Cross region inference in Amazon Q Business.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -7969,9 +7902,8 @@ export const listApplications: {
 /**
  * Creates a new data accessor for an ISV to access data from a Amazon Q Business application. The data accessor is an entity that represents the ISV's access to the Amazon Q Business application's data. It includes the IAM role ARN for the ISV, a friendly name, and a set of action configurations that define the specific actions the ISV is allowed to perform and any associated data filters. When the data accessor is created, an IAM Identity Center application is also created to manage the ISV's identity and authentication for accessing the Amazon Q Business application.
  */
-export const createDataAccessor: (
-  input: CreateDataAccessorRequest,
-) => effect.Effect<
+export const createDataAccessor: API.OperationMethod<
+  CreateDataAccessorRequest,
   CreateDataAccessorResponse,
   | AccessDeniedException
   | ConflictException
@@ -7998,9 +7930,8 @@ export const createDataAccessor: (
 /**
  * Retrieves information about a specified data accessor. This operation returns details about the data accessor, including its display name, unique identifier, Amazon Resource Name (ARN), the associated Amazon Q Business application and IAM Identity Center application, the IAM role for the ISV, the action configurations, and the timestamps for when the data accessor was created and last updated.
  */
-export const getDataAccessor: (
-  input: GetDataAccessorRequest,
-) => effect.Effect<
+export const getDataAccessor: API.OperationMethod<
+  GetDataAccessorRequest,
   GetDataAccessorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8023,9 +7954,8 @@ export const getDataAccessor: (
 /**
  * Updates an existing data accessor. This operation allows modifying the action configurations (the allowed actions and associated filters) and the display name of the data accessor. It does not allow changing the IAM role associated with the data accessor or other core properties of the data accessor.
  */
-export const updateDataAccessor: (
-  input: UpdateDataAccessorRequest,
-) => effect.Effect<
+export const updateDataAccessor: API.OperationMethod<
+  UpdateDataAccessorRequest,
   UpdateDataAccessorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8050,9 +7980,8 @@ export const updateDataAccessor: (
 /**
  * Deletes a specified data accessor. This operation permanently removes the data accessor and its associated IAM Identity Center application. Any access granted to the ISV through this data accessor will be revoked.
  */
-export const deleteDataAccessor: (
-  input: DeleteDataAccessorRequest,
-) => effect.Effect<
+export const deleteDataAccessor: API.OperationMethod<
+  DeleteDataAccessorRequest,
   DeleteDataAccessorResponse,
   | AccessDeniedException
   | ConflictException
@@ -8077,19 +8006,17 @@ export const deleteDataAccessor: (
 /**
  * Lists the data accessors for a Amazon Q Business application. This operation returns a paginated list of data accessor summaries, including the friendly name, unique identifier, ARN, associated IAM role, and creation/update timestamps for each data accessor.
  */
-export const listDataAccessors: {
-  (
-    input: ListDataAccessorsRequest,
-  ): effect.Effect<
-    ListDataAccessorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataAccessors: API.OperationMethod<
+  ListDataAccessorsRequest,
+  ListDataAccessorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataAccessorsRequest,
   ) => stream.Stream<
@@ -8138,9 +8065,8 @@ export const listDataAccessors: {
  *
  * Once the index is active, you can index your documents using the `BatchPutDocument` API or the `CreateDataSource` API.
  */
-export const createIndex: (
-  input: CreateIndexRequest,
-) => effect.Effect<
+export const createIndex: API.OperationMethod<
+  CreateIndexRequest,
   CreateIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -8167,9 +8093,8 @@ export const createIndex: (
 /**
  * Gets information about an existing Amazon Q Business index.
  */
-export const getIndex: (
-  input: GetIndexRequest,
-) => effect.Effect<
+export const getIndex: API.OperationMethod<
+  GetIndexRequest,
   GetIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8192,9 +8117,8 @@ export const getIndex: (
 /**
  * Updates an Amazon Q Business index.
  */
-export const updateIndex: (
-  input: UpdateIndexRequest,
-) => effect.Effect<
+export const updateIndex: API.OperationMethod<
+  UpdateIndexRequest,
   UpdateIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -8221,9 +8145,8 @@ export const updateIndex: (
 /**
  * Deletes an Amazon Q Business index.
  */
-export const deleteIndex: (
-  input: DeleteIndexRequest,
-) => effect.Effect<
+export const deleteIndex: API.OperationMethod<
+  DeleteIndexRequest,
   DeleteIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -8248,19 +8171,17 @@ export const deleteIndex: (
 /**
  * Lists the Amazon Q Business indices you have created.
  */
-export const listIndices: {
-  (
-    input: ListIndicesRequest,
-  ): effect.Effect<
-    ListIndicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIndices: API.OperationMethod<
+  ListIndicesRequest,
+  ListIndicesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIndicesRequest,
   ) => stream.Stream<
@@ -8307,9 +8228,8 @@ export const listIndices: {
  *
  * `CreateDataSource` is a synchronous operation. The operation returns 200 if the data source was successfully created. Otherwise, an exception is raised.
  */
-export const createDataSource: (
-  input: CreateDataSourceRequest,
-) => effect.Effect<
+export const createDataSource: API.OperationMethod<
+  CreateDataSourceRequest,
   CreateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8336,9 +8256,8 @@ export const createDataSource: (
 /**
  * Gets information about an existing Amazon Q Business data source connector.
  */
-export const getDataSource: (
-  input: GetDataSourceRequest,
-) => effect.Effect<
+export const getDataSource: API.OperationMethod<
+  GetDataSourceRequest,
   GetDataSourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8361,9 +8280,8 @@ export const getDataSource: (
 /**
  * Updates an existing Amazon Q Business data source connector.
  */
-export const updateDataSource: (
-  input: UpdateDataSourceRequest,
-) => effect.Effect<
+export const updateDataSource: API.OperationMethod<
+  UpdateDataSourceRequest,
   UpdateDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8388,9 +8306,8 @@ export const updateDataSource: (
 /**
  * Deletes an Amazon Q Business data source connector. While the data source is being deleted, the `Status` field returned by a call to the `DescribeDataSource` API is set to `DELETING`.
  */
-export const deleteDataSource: (
-  input: DeleteDataSourceRequest,
-) => effect.Effect<
+export const deleteDataSource: API.OperationMethod<
+  DeleteDataSourceRequest,
   DeleteDataSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8415,19 +8332,17 @@ export const deleteDataSource: (
 /**
  * Lists the Amazon Q Business data source connectors that you have created.
  */
-export const listDataSources: {
-  (
-    input: ListDataSourcesRequest,
-  ): effect.Effect<
-    ListDataSourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataSources: API.OperationMethod<
+  ListDataSourcesRequest,
+  ListDataSourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataSourcesRequest,
   ) => stream.Stream<
@@ -8472,9 +8387,8 @@ export const listDataSources: {
 /**
  * Creates an Amazon Q Business plugin.
  */
-export const createPlugin: (
-  input: CreatePluginRequest,
-) => effect.Effect<
+export const createPlugin: API.OperationMethod<
+  CreatePluginRequest,
   CreatePluginResponse,
   | AccessDeniedException
   | ConflictException
@@ -8501,9 +8415,8 @@ export const createPlugin: (
 /**
  * Gets information about an existing Amazon Q Business plugin.
  */
-export const getPlugin: (
-  input: GetPluginRequest,
-) => effect.Effect<
+export const getPlugin: API.OperationMethod<
+  GetPluginRequest,
   GetPluginResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8526,9 +8439,8 @@ export const getPlugin: (
 /**
  * Updates an Amazon Q Business plugin.
  */
-export const updatePlugin: (
-  input: UpdatePluginRequest,
-) => effect.Effect<
+export const updatePlugin: API.OperationMethod<
+  UpdatePluginRequest,
   UpdatePluginResponse,
   | AccessDeniedException
   | ConflictException
@@ -8555,9 +8467,8 @@ export const updatePlugin: (
 /**
  * Deletes an Amazon Q Business plugin.
  */
-export const deletePlugin: (
-  input: DeletePluginRequest,
-) => effect.Effect<
+export const deletePlugin: API.OperationMethod<
+  DeletePluginRequest,
   DeletePluginResponse,
   | AccessDeniedException
   | ConflictException
@@ -8582,19 +8493,17 @@ export const deletePlugin: (
 /**
  * Lists configured Amazon Q Business plugins.
  */
-export const listPlugins: {
-  (
-    input: ListPluginsRequest,
-  ): effect.Effect<
-    ListPluginsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPlugins: API.OperationMethod<
+  ListPluginsRequest,
+  ListPluginsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPluginsRequest,
   ) => stream.Stream<
@@ -8639,9 +8548,8 @@ export const listPlugins: {
 /**
  * Adds a retriever to your Amazon Q Business application.
  */
-export const createRetriever: (
-  input: CreateRetrieverRequest,
-) => effect.Effect<
+export const createRetriever: API.OperationMethod<
+  CreateRetrieverRequest,
   CreateRetrieverResponse,
   | AccessDeniedException
   | ConflictException
@@ -8668,9 +8576,8 @@ export const createRetriever: (
 /**
  * Gets information about an existing retriever used by an Amazon Q Business application.
  */
-export const getRetriever: (
-  input: GetRetrieverRequest,
-) => effect.Effect<
+export const getRetriever: API.OperationMethod<
+  GetRetrieverRequest,
   GetRetrieverResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8693,9 +8600,8 @@ export const getRetriever: (
 /**
  * Updates the retriever used for your Amazon Q Business application.
  */
-export const updateRetriever: (
-  input: UpdateRetrieverRequest,
-) => effect.Effect<
+export const updateRetriever: API.OperationMethod<
+  UpdateRetrieverRequest,
   UpdateRetrieverResponse,
   | AccessDeniedException
   | ConflictException
@@ -8722,9 +8628,8 @@ export const updateRetriever: (
 /**
  * Deletes the retriever used by an Amazon Q Business application.
  */
-export const deleteRetriever: (
-  input: DeleteRetrieverRequest,
-) => effect.Effect<
+export const deleteRetriever: API.OperationMethod<
+  DeleteRetrieverRequest,
   DeleteRetrieverResponse,
   | AccessDeniedException
   | ConflictException
@@ -8749,19 +8654,17 @@ export const deleteRetriever: (
 /**
  * Lists the retriever used by an Amazon Q Business application.
  */
-export const listRetrievers: {
-  (
-    input: ListRetrieversRequest,
-  ): effect.Effect<
-    ListRetrieversResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRetrievers: API.OperationMethod<
+  ListRetrieversRequest,
+  ListRetrieversResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRetrieversRequest,
   ) => stream.Stream<
@@ -8806,9 +8709,8 @@ export const listRetrievers: {
 /**
  * Creates an Amazon Q Business web experience.
  */
-export const createWebExperience: (
-  input: CreateWebExperienceRequest,
-) => effect.Effect<
+export const createWebExperience: API.OperationMethod<
+  CreateWebExperienceRequest,
   CreateWebExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8835,9 +8737,8 @@ export const createWebExperience: (
 /**
  * Gets information about an existing Amazon Q Business web experience.
  */
-export const getWebExperience: (
-  input: GetWebExperienceRequest,
-) => effect.Effect<
+export const getWebExperience: API.OperationMethod<
+  GetWebExperienceRequest,
   GetWebExperienceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8860,9 +8761,8 @@ export const getWebExperience: (
 /**
  * Updates an Amazon Q Business web experience.
  */
-export const updateWebExperience: (
-  input: UpdateWebExperienceRequest,
-) => effect.Effect<
+export const updateWebExperience: API.OperationMethod<
+  UpdateWebExperienceRequest,
   UpdateWebExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8887,9 +8787,8 @@ export const updateWebExperience: (
 /**
  * Deletes an Amazon Q Business web experience.
  */
-export const deleteWebExperience: (
-  input: DeleteWebExperienceRequest,
-) => effect.Effect<
+export const deleteWebExperience: API.OperationMethod<
+  DeleteWebExperienceRequest,
   DeleteWebExperienceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8914,19 +8813,17 @@ export const deleteWebExperience: (
 /**
  * Lists one or more Amazon Q Business Web Experiences.
  */
-export const listWebExperiences: {
-  (
-    input: ListWebExperiencesRequest,
-  ): effect.Effect<
-    ListWebExperiencesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWebExperiences: API.OperationMethod<
+  ListWebExperiencesRequest,
+  ListWebExperiencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWebExperiencesRequest,
   ) => stream.Stream<

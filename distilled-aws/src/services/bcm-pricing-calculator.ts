@@ -2436,9 +2436,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
 /**
  * Retrieves the current preferences for Pricing Calculator.
  */
-export const getPreferences: (
-  input: GetPreferencesRequest,
-) => effect.Effect<
+export const getPreferences: API.OperationMethod<
+  GetPreferencesRequest,
   GetPreferencesResponse,
   DataUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2450,9 +2449,8 @@ export const getPreferences: (
 /**
  * Lists all tags associated with a specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2464,9 +2462,8 @@ export const listTagsForResource: (
 /**
  * Adds one or more tags to a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   ResourceNotFoundException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2478,9 +2475,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2492,9 +2488,8 @@ export const untagResource: (
 /**
  * Updates the preferences for Pricing Calculator.
  */
-export const updatePreferences: (
-  input: UpdatePreferencesRequest,
-) => effect.Effect<
+export const updatePreferences: API.OperationMethod<
+  UpdatePreferencesRequest,
   UpdatePreferencesResponse,
   DataUnavailableException | ServiceQuotaExceededException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2506,9 +2501,8 @@ export const updatePreferences: (
 /**
  * Create a Bill estimate from a Bill scenario. In the Bill scenario you can model usage addition, usage changes, and usage removal. You can also model commitment addition and commitment removal. After all changes in a Bill scenario is made satisfactorily, you can call this API with a Bill scenario ID to generate the Bill estimate. Bill estimate calculates the pre-tax cost for your consolidated billing family, incorporating all modeled usage and commitments alongside existing usage and commitments from your most recent completed anniversary bill, with any applicable discounts applied.
  */
-export const createBillEstimate: (
-  input: CreateBillEstimateRequest,
-) => effect.Effect<
+export const createBillEstimate: API.OperationMethod<
+  CreateBillEstimateRequest,
   CreateBillEstimateResponse,
   | ConflictException
   | DataUnavailableException
@@ -2527,9 +2521,8 @@ export const createBillEstimate: (
 /**
  * Retrieves details of a specific bill estimate.
  */
-export const getBillEstimate: (
-  input: GetBillEstimateRequest,
-) => effect.Effect<
+export const getBillEstimate: API.OperationMethod<
+  GetBillEstimateRequest,
   GetBillEstimateResponse,
   DataUnavailableException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2541,9 +2534,8 @@ export const getBillEstimate: (
 /**
  * Updates an existing bill estimate.
  */
-export const updateBillEstimate: (
-  input: UpdateBillEstimateRequest,
-) => effect.Effect<
+export const updateBillEstimate: API.OperationMethod<
+  UpdateBillEstimateRequest,
   UpdateBillEstimateResponse,
   | ConflictException
   | DataUnavailableException
@@ -2562,9 +2554,8 @@ export const updateBillEstimate: (
 /**
  * Deletes an existing bill estimate.
  */
-export const deleteBillEstimate: (
-  input: DeleteBillEstimateRequest,
-) => effect.Effect<
+export const deleteBillEstimate: API.OperationMethod<
+  DeleteBillEstimateRequest,
   DeleteBillEstimateResponse,
   ConflictException | DataUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2576,14 +2567,12 @@ export const deleteBillEstimate: (
 /**
  * Lists all bill estimates for the account.
  */
-export const listBillEstimates: {
-  (
-    input: ListBillEstimatesRequest,
-  ): effect.Effect<
-    ListBillEstimatesResponse,
-    DataUnavailableException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillEstimates: API.OperationMethod<
+  ListBillEstimatesRequest,
+  ListBillEstimatesResponse,
+  DataUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillEstimatesRequest,
   ) => stream.Stream<
@@ -2612,14 +2601,12 @@ export const listBillEstimates: {
 /**
  * Lists the commitments associated with a bill estimate.
  */
-export const listBillEstimateCommitments: {
-  (
-    input: ListBillEstimateCommitmentsRequest,
-  ): effect.Effect<
-    ListBillEstimateCommitmentsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillEstimateCommitments: API.OperationMethod<
+  ListBillEstimateCommitmentsRequest,
+  ListBillEstimateCommitmentsResponse,
+  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillEstimateCommitmentsRequest,
   ) => stream.Stream<
@@ -2648,14 +2635,12 @@ export const listBillEstimateCommitments: {
 /**
  * Lists the input commitment modifications associated with a bill estimate.
  */
-export const listBillEstimateInputCommitmentModifications: {
-  (
-    input: ListBillEstimateInputCommitmentModificationsRequest,
-  ): effect.Effect<
-    ListBillEstimateInputCommitmentModificationsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillEstimateInputCommitmentModifications: API.OperationMethod<
+  ListBillEstimateInputCommitmentModificationsRequest,
+  ListBillEstimateInputCommitmentModificationsResponse,
+  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillEstimateInputCommitmentModificationsRequest,
   ) => stream.Stream<
@@ -2684,14 +2669,12 @@ export const listBillEstimateInputCommitmentModifications: {
 /**
  * Lists the input usage modifications associated with a bill estimate.
  */
-export const listBillEstimateInputUsageModifications: {
-  (
-    input: ListBillEstimateInputUsageModificationsRequest,
-  ): effect.Effect<
-    ListBillEstimateInputUsageModificationsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillEstimateInputUsageModifications: API.OperationMethod<
+  ListBillEstimateInputUsageModificationsRequest,
+  ListBillEstimateInputUsageModificationsResponse,
+  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillEstimateInputUsageModificationsRequest,
   ) => stream.Stream<
@@ -2720,14 +2703,12 @@ export const listBillEstimateInputUsageModifications: {
 /**
  * Lists the line items associated with a bill estimate.
  */
-export const listBillEstimateLineItems: {
-  (
-    input: ListBillEstimateLineItemsRequest,
-  ): effect.Effect<
-    ListBillEstimateLineItemsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillEstimateLineItems: API.OperationMethod<
+  ListBillEstimateLineItemsRequest,
+  ListBillEstimateLineItemsResponse,
+  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillEstimateLineItemsRequest,
   ) => stream.Stream<
@@ -2756,9 +2737,8 @@ export const listBillEstimateLineItems: {
 /**
  * Creates a new bill scenario to model potential changes to Amazon Web Services usage and costs.
  */
-export const createBillScenario: (
-  input: CreateBillScenarioRequest,
-) => effect.Effect<
+export const createBillScenario: API.OperationMethod<
+  CreateBillScenarioRequest,
   CreateBillScenarioResponse,
   | ConflictException
   | DataUnavailableException
@@ -2777,9 +2757,8 @@ export const createBillScenario: (
 /**
  * Retrieves details of a specific bill scenario.
  */
-export const getBillScenario: (
-  input: GetBillScenarioRequest,
-) => effect.Effect<
+export const getBillScenario: API.OperationMethod<
+  GetBillScenarioRequest,
   GetBillScenarioResponse,
   DataUnavailableException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2791,9 +2770,8 @@ export const getBillScenario: (
 /**
  * Updates an existing bill scenario.
  */
-export const updateBillScenario: (
-  input: UpdateBillScenarioRequest,
-) => effect.Effect<
+export const updateBillScenario: API.OperationMethod<
+  UpdateBillScenarioRequest,
   UpdateBillScenarioResponse,
   | ConflictException
   | DataUnavailableException
@@ -2812,9 +2790,8 @@ export const updateBillScenario: (
 /**
  * Deletes an existing bill scenario.
  */
-export const deleteBillScenario: (
-  input: DeleteBillScenarioRequest,
-) => effect.Effect<
+export const deleteBillScenario: API.OperationMethod<
+  DeleteBillScenarioRequest,
   DeleteBillScenarioResponse,
   ConflictException | DataUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2826,14 +2803,12 @@ export const deleteBillScenario: (
 /**
  * Lists all bill scenarios for the account.
  */
-export const listBillScenarios: {
-  (
-    input: ListBillScenariosRequest,
-  ): effect.Effect<
-    ListBillScenariosResponse,
-    DataUnavailableException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillScenarios: API.OperationMethod<
+  ListBillScenariosRequest,
+  ListBillScenariosResponse,
+  DataUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillScenariosRequest,
   ) => stream.Stream<
@@ -2862,14 +2837,12 @@ export const listBillScenarios: {
 /**
  * Lists the commitment modifications associated with a bill scenario.
  */
-export const listBillScenarioCommitmentModifications: {
-  (
-    input: ListBillScenarioCommitmentModificationsRequest,
-  ): effect.Effect<
-    ListBillScenarioCommitmentModificationsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillScenarioCommitmentModifications: API.OperationMethod<
+  ListBillScenarioCommitmentModificationsRequest,
+  ListBillScenarioCommitmentModificationsResponse,
+  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillScenarioCommitmentModificationsRequest,
   ) => stream.Stream<
@@ -2900,9 +2873,8 @@ export const listBillScenarioCommitmentModifications: {
  *
  * The `BatchCreateBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateBillScenarioCommitmentModification` in your policies.
  */
-export const batchCreateBillScenarioCommitmentModification: (
-  input: BatchCreateBillScenarioCommitmentModificationRequest,
-) => effect.Effect<
+export const batchCreateBillScenarioCommitmentModification: API.OperationMethod<
+  BatchCreateBillScenarioCommitmentModificationRequest,
   BatchCreateBillScenarioCommitmentModificationResponse,
   | ConflictException
   | DataUnavailableException
@@ -2923,9 +2895,8 @@ export const batchCreateBillScenarioCommitmentModification: (
  *
  * The `BatchDeleteBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioCommitmentModification` in your policies.
  */
-export const batchDeleteBillScenarioCommitmentModification: (
-  input: BatchDeleteBillScenarioCommitmentModificationRequest,
-) => effect.Effect<
+export const batchDeleteBillScenarioCommitmentModification: API.OperationMethod<
+  BatchDeleteBillScenarioCommitmentModificationRequest,
   BatchDeleteBillScenarioCommitmentModificationResponse,
   | ConflictException
   | DataUnavailableException
@@ -2946,9 +2917,8 @@ export const batchDeleteBillScenarioCommitmentModification: (
  *
  * The `BatchUpdateBillScenarioCommitmentModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateBillScenarioCommitmentModification` in your policies.
  */
-export const batchUpdateBillScenarioCommitmentModification: (
-  input: BatchUpdateBillScenarioCommitmentModificationRequest,
-) => effect.Effect<
+export const batchUpdateBillScenarioCommitmentModification: API.OperationMethod<
+  BatchUpdateBillScenarioCommitmentModificationRequest,
   BatchUpdateBillScenarioCommitmentModificationResponse,
   | ConflictException
   | DataUnavailableException
@@ -2967,14 +2937,12 @@ export const batchUpdateBillScenarioCommitmentModification: (
 /**
  * Lists the usage modifications associated with a bill scenario.
  */
-export const listBillScenarioUsageModifications: {
-  (
-    input: ListBillScenarioUsageModificationsRequest,
-  ): effect.Effect<
-    ListBillScenarioUsageModificationsResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBillScenarioUsageModifications: API.OperationMethod<
+  ListBillScenarioUsageModificationsRequest,
+  ListBillScenarioUsageModificationsResponse,
+  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBillScenarioUsageModificationsRequest,
   ) => stream.Stream<
@@ -3005,9 +2973,8 @@ export const listBillScenarioUsageModifications: {
  *
  * The `BatchCreateBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateBillScenarioUsageModification` in your policies.
  */
-export const batchCreateBillScenarioUsageModification: (
-  input: BatchCreateBillScenarioUsageModificationRequest,
-) => effect.Effect<
+export const batchCreateBillScenarioUsageModification: API.OperationMethod<
+  BatchCreateBillScenarioUsageModificationRequest,
   BatchCreateBillScenarioUsageModificationResponse,
   | ConflictException
   | DataUnavailableException
@@ -3030,9 +2997,8 @@ export const batchCreateBillScenarioUsageModification: (
  *
  * The `BatchDeleteBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteBillScenarioUsageModification` in your policies.
  */
-export const batchDeleteBillScenarioUsageModification: (
-  input: BatchDeleteBillScenarioUsageModificationRequest,
-) => effect.Effect<
+export const batchDeleteBillScenarioUsageModification: API.OperationMethod<
+  BatchDeleteBillScenarioUsageModificationRequest,
   BatchDeleteBillScenarioUsageModificationResponse,
   | ConflictException
   | DataUnavailableException
@@ -3055,9 +3021,8 @@ export const batchDeleteBillScenarioUsageModification: (
  *
  * The `BatchUpdateBillScenarioUsageModification` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateBillScenarioUsageModification` in your policies.
  */
-export const batchUpdateBillScenarioUsageModification: (
-  input: BatchUpdateBillScenarioUsageModificationRequest,
-) => effect.Effect<
+export const batchUpdateBillScenarioUsageModification: API.OperationMethod<
+  BatchUpdateBillScenarioUsageModificationRequest,
   BatchUpdateBillScenarioUsageModificationResponse,
   | ConflictException
   | DataUnavailableException
@@ -3078,9 +3043,8 @@ export const batchUpdateBillScenarioUsageModification: (
 /**
  * Creates a new workload estimate to model costs for a specific workload.
  */
-export const createWorkloadEstimate: (
-  input: CreateWorkloadEstimateRequest,
-) => effect.Effect<
+export const createWorkloadEstimate: API.OperationMethod<
+  CreateWorkloadEstimateRequest,
   CreateWorkloadEstimateResponse,
   | ConflictException
   | DataUnavailableException
@@ -3099,9 +3063,8 @@ export const createWorkloadEstimate: (
 /**
  * Retrieves details of a specific workload estimate.
  */
-export const getWorkloadEstimate: (
-  input: GetWorkloadEstimateRequest,
-) => effect.Effect<
+export const getWorkloadEstimate: API.OperationMethod<
+  GetWorkloadEstimateRequest,
   GetWorkloadEstimateResponse,
   DataUnavailableException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3113,9 +3076,8 @@ export const getWorkloadEstimate: (
 /**
  * Updates an existing workload estimate.
  */
-export const updateWorkloadEstimate: (
-  input: UpdateWorkloadEstimateRequest,
-) => effect.Effect<
+export const updateWorkloadEstimate: API.OperationMethod<
+  UpdateWorkloadEstimateRequest,
   UpdateWorkloadEstimateResponse,
   | ConflictException
   | DataUnavailableException
@@ -3134,9 +3096,8 @@ export const updateWorkloadEstimate: (
 /**
  * Deletes an existing workload estimate.
  */
-export const deleteWorkloadEstimate: (
-  input: DeleteWorkloadEstimateRequest,
-) => effect.Effect<
+export const deleteWorkloadEstimate: API.OperationMethod<
+  DeleteWorkloadEstimateRequest,
   DeleteWorkloadEstimateResponse,
   DataUnavailableException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3148,14 +3109,12 @@ export const deleteWorkloadEstimate: (
 /**
  * Lists all workload estimates for the account.
  */
-export const listWorkloadEstimates: {
-  (
-    input: ListWorkloadEstimatesRequest,
-  ): effect.Effect<
-    ListWorkloadEstimatesResponse,
-    DataUnavailableException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkloadEstimates: API.OperationMethod<
+  ListWorkloadEstimatesRequest,
+  ListWorkloadEstimatesResponse,
+  DataUnavailableException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkloadEstimatesRequest,
   ) => stream.Stream<
@@ -3184,14 +3143,12 @@ export const listWorkloadEstimates: {
 /**
  * Lists the usage associated with a workload estimate.
  */
-export const listWorkloadEstimateUsage: {
-  (
-    input: ListWorkloadEstimateUsageRequest,
-  ): effect.Effect<
-    ListWorkloadEstimateUsageResponse,
-    DataUnavailableException | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkloadEstimateUsage: API.OperationMethod<
+  ListWorkloadEstimateUsageRequest,
+  ListWorkloadEstimateUsageResponse,
+  DataUnavailableException | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkloadEstimateUsageRequest,
   ) => stream.Stream<
@@ -3222,9 +3179,8 @@ export const listWorkloadEstimateUsage: {
  *
  * The `BatchCreateWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:CreateWorkloadEstimateUsage` in your policies.
  */
-export const batchCreateWorkloadEstimateUsage: (
-  input: BatchCreateWorkloadEstimateUsageRequest,
-) => effect.Effect<
+export const batchCreateWorkloadEstimateUsage: API.OperationMethod<
+  BatchCreateWorkloadEstimateUsageRequest,
   BatchCreateWorkloadEstimateUsageResponse,
   | ConflictException
   | DataUnavailableException
@@ -3247,9 +3203,8 @@ export const batchCreateWorkloadEstimateUsage: (
  *
  * The `BatchDeleteWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:DeleteWorkloadEstimateUsage` in your policies.
  */
-export const batchDeleteWorkloadEstimateUsage: (
-  input: BatchDeleteWorkloadEstimateUsageRequest,
-) => effect.Effect<
+export const batchDeleteWorkloadEstimateUsage: API.OperationMethod<
+  BatchDeleteWorkloadEstimateUsageRequest,
   BatchDeleteWorkloadEstimateUsageResponse,
   | DataUnavailableException
   | ResourceNotFoundException
@@ -3270,9 +3225,8 @@ export const batchDeleteWorkloadEstimateUsage: (
  *
  * The `BatchUpdateWorkloadEstimateUsage` operation doesn't have its own IAM permission. To authorize this operation for Amazon Web Services principals, include the permission `bcm-pricing-calculator:UpdateWorkloadEstimateUsage` in your policies.
  */
-export const batchUpdateWorkloadEstimateUsage: (
-  input: BatchUpdateWorkloadEstimateUsageRequest,
-) => effect.Effect<
+export const batchUpdateWorkloadEstimateUsage: API.OperationMethod<
+  BatchUpdateWorkloadEstimateUsageRequest,
   BatchUpdateWorkloadEstimateUsageResponse,
   | DataUnavailableException
   | ResourceNotFoundException

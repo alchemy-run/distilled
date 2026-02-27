@@ -3408,9 +3408,8 @@ export class TooManyTagKeysException extends S.TaggedErrorClass<TooManyTagKeysEx
  *
  * You can't get batch recommendations with the Trending-Now or Next-Best-Action recipes.
  */
-export const createBatchInferenceJob: (
-  input: CreateBatchInferenceJobRequest,
-) => effect.Effect<
+export const createBatchInferenceJob: API.OperationMethod<
+  CreateBatchInferenceJobRequest,
   CreateBatchInferenceJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3437,9 +3436,8 @@ export const createBatchInferenceJob: (
  * input file must be in JSON format. For more information, see
  * Getting batch recommendations and user segments.
  */
-export const createBatchSegmentJob: (
-  input: CreateBatchSegmentJobRequest,
-) => effect.Effect<
+export const createBatchSegmentJob: API.OperationMethod<
+  CreateBatchSegmentJobRequest,
   CreateBatchSegmentJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3518,9 +3516,8 @@ export const createBatchSegmentJob: (
  *
  * - DeleteCampaign
  */
-export const createCampaign: (
-  input: CreateCampaignRequest,
-) => effect.Effect<
+export const createCampaign: API.OperationMethod<
+  CreateCampaignRequest,
   CreateCampaignResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3579,9 +3576,8 @@ export const createCampaign: (
  *
  * - DescribeDataDeletionJob
  */
-export const createDataDeletionJob: (
-  input: CreateDataDeletionJobRequest,
-) => effect.Effect<
+export const createDataDeletionJob: API.OperationMethod<
+  CreateDataDeletionJobRequest,
   CreateDataDeletionJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3643,9 +3639,8 @@ export const createDataDeletionJob: (
  *
  * - DeleteDataset
  */
-export const createDataset: (
-  input: CreateDatasetRequest,
-) => effect.Effect<
+export const createDataset: API.OperationMethod<
+  CreateDatasetRequest,
   CreateDatasetResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3686,9 +3681,8 @@ export const createDataset: (
  * includes a `failureReason` key, which describes why the job
  * failed.
  */
-export const createDatasetExportJob: (
-  input: CreateDatasetExportJobRequest,
-) => effect.Effect<
+export const createDatasetExportJob: API.OperationMethod<
+  CreateDatasetExportJobRequest,
   CreateDatasetExportJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3767,9 +3761,8 @@ export const createDatasetExportJob: (
  *
  * - DeleteDatasetGroup
  */
-export const createDatasetGroup: (
-  input: CreateDatasetGroupRequest,
-) => effect.Effect<
+export const createDatasetGroup: API.OperationMethod<
+  CreateDatasetGroupRequest,
   CreateDatasetGroupResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3827,9 +3820,8 @@ export const createDatasetGroup: (
  *
  * - DescribeDatasetImportJob
  */
-export const createDatasetImportJob: (
-  input: CreateDatasetImportJobRequest,
-) => effect.Effect<
+export const createDatasetImportJob: API.OperationMethod<
+  CreateDatasetImportJobRequest,
   CreateDatasetImportJobResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3883,9 +3875,8 @@ export const createDatasetImportJob: (
  *
  * - DeleteEventTracker
  */
-export const createEventTracker: (
-  input: CreateEventTrackerRequest,
-) => effect.Effect<
+export const createEventTracker: API.OperationMethod<
+  CreateEventTrackerRequest,
   CreateEventTrackerResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3910,9 +3901,8 @@ export const createEventTracker: (
 /**
  * Creates a recommendation filter. For more information, see Filtering recommendations and user segments.
  */
-export const createFilter: (
-  input: CreateFilterRequest,
-) => effect.Effect<
+export const createFilter: API.OperationMethod<
+  CreateFilterRequest,
   CreateFilterResponse,
   | InvalidInputException
   | LimitExceededException
@@ -3937,9 +3927,8 @@ export const createFilter: (
  * A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you imported the data, you can view reports in Amazon CloudWatch or Amazon S3.
  * For more information, see Measuring impact of recommendations.
  */
-export const createMetricAttribution: (
-  input: CreateMetricAttributionRequest,
-) => effect.Effect<
+export const createMetricAttribution: API.OperationMethod<
+  CreateMetricAttributionRequest,
   CreateMetricAttributionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4015,9 +4004,8 @@ export const createMetricAttribution: (
  *
  * - DeleteRecommender
  */
-export const createRecommender: (
-  input: CreateRecommenderRequest,
-) => effect.Effect<
+export const createRecommender: API.OperationMethod<
+  CreateRecommenderRequest,
   CreateRecommenderResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4056,9 +4044,8 @@ export const createRecommender: (
  *
  * - DeleteSchema
  */
-export const createSchema: (
-  input: CreateSchemaRequest,
-) => effect.Effect<
+export const createSchema: API.OperationMethod<
+  CreateSchemaRequest,
   CreateSchemaResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4133,9 +4120,8 @@ export const createSchema: (
  *
  * - DescribeSolutionVersion
  */
-export const createSolution: (
-  input: CreateSolutionRequest,
-) => effect.Effect<
+export const createSolution: API.OperationMethod<
+  CreateSolutionRequest,
   CreateSolutionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4199,9 +4185,8 @@ export const createSolution: (
  *
  * - DeleteSolution
  */
-export const createSolutionVersion: (
-  input: CreateSolutionVersionRequest,
-) => effect.Effect<
+export const createSolutionVersion: API.OperationMethod<
+  CreateSolutionVersionRequest,
   CreateSolutionVersionResponse,
   | InvalidInputException
   | LimitExceededException
@@ -4231,9 +4216,8 @@ export const createSolutionVersion: (
  * request.
  * For information on creating campaigns, see CreateCampaign.
  */
-export const deleteCampaign: (
-  input: DeleteCampaignRequest,
-) => effect.Effect<
+export const deleteCampaign: API.OperationMethod<
+  DeleteCampaignRequest,
   DeleteCampaignResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4255,9 +4239,8 @@ export const deleteCampaign: (
  * CREATE PENDING or IN PROGRESS state. For more information about deleting datasets,
  * see Deleting a dataset.
  */
-export const deleteDataset: (
-  input: DeleteDatasetRequest,
-) => effect.Effect<
+export const deleteDataset: API.OperationMethod<
+  DeleteDatasetRequest,
   DeleteDatasetResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4283,9 +4266,8 @@ export const deleteDataset: (
  *
  * - All datasets in the dataset group.
  */
-export const deleteDatasetGroup: (
-  input: DeleteDatasetGroupRequest,
-) => effect.Effect<
+export const deleteDatasetGroup: API.OperationMethod<
+  DeleteDatasetGroupRequest,
   DeleteDatasetGroupResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4306,9 +4288,8 @@ export const deleteDatasetGroup: (
  * the dataset group. For more
  * information on event trackers, see CreateEventTracker.
  */
-export const deleteEventTracker: (
-  input: DeleteEventTrackerRequest,
-) => effect.Effect<
+export const deleteEventTracker: API.OperationMethod<
+  DeleteEventTrackerRequest,
   DeleteEventTrackerResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4327,9 +4308,8 @@ export const deleteEventTracker: (
 /**
  * Deletes a filter.
  */
-export const deleteFilter: (
-  input: DeleteFilterRequest,
-) => effect.Effect<
+export const deleteFilter: API.OperationMethod<
+  DeleteFilterRequest,
   DeleteFilterResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4348,9 +4328,8 @@ export const deleteFilter: (
 /**
  * Deletes a metric attribution.
  */
-export const deleteMetricAttribution: (
-  input: DeleteMetricAttributionRequest,
-) => effect.Effect<
+export const deleteMetricAttribution: API.OperationMethod<
+  DeleteMetricAttributionRequest,
   DeleteMetricAttributionResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4370,9 +4349,8 @@ export const deleteMetricAttribution: (
  * Deactivates and removes a recommender. A deleted recommender can no longer be specified in a GetRecommendations
  * request.
  */
-export const deleteRecommender: (
-  input: DeleteRecommenderRequest,
-) => effect.Effect<
+export const deleteRecommender: API.OperationMethod<
+  DeleteRecommenderRequest,
   DeleteRecommenderResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4393,9 +4371,8 @@ export const deleteRecommender: (
  * datasets referencing the schema. For more information on schemas, see
  * CreateSchema.
  */
-export const deleteSchema: (
-  input: DeleteSchemaRequest,
-) => effect.Effect<
+export const deleteSchema: API.OperationMethod<
+  DeleteSchemaRequest,
   DeleteSchemaResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4420,9 +4397,8 @@ export const deleteSchema: (
  * CREATE PENDING or IN PROGRESS state.
  * For more information on solutions, see CreateSolution.
  */
-export const deleteSolution: (
-  input: DeleteSolutionRequest,
-) => effect.Effect<
+export const deleteSolution: API.OperationMethod<
+  DeleteSolutionRequest,
   DeleteSolutionResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4441,9 +4417,8 @@ export const deleteSolution: (
 /**
  * Describes the given algorithm.
  */
-export const describeAlgorithm: (
-  input: DescribeAlgorithmRequest,
-) => effect.Effect<
+export const describeAlgorithm: API.OperationMethod<
+  DescribeAlgorithmRequest,
   DescribeAlgorithmResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4457,9 +4432,8 @@ export const describeAlgorithm: (
  * status, input and output configurations, and the ARN of the solution version used to generate
  * the recommendations.
  */
-export const describeBatchInferenceJob: (
-  input: DescribeBatchInferenceJobRequest,
-) => effect.Effect<
+export const describeBatchInferenceJob: API.OperationMethod<
+  DescribeBatchInferenceJobRequest,
   DescribeBatchInferenceJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4473,9 +4447,8 @@ export const describeBatchInferenceJob: (
  * status, input and output configurations, and the ARN of the solution version used to generate
  * segments.
  */
-export const describeBatchSegmentJob: (
-  input: DescribeBatchSegmentJobRequest,
-) => effect.Effect<
+export const describeBatchSegmentJob: API.OperationMethod<
+  DescribeBatchSegmentJobRequest,
   DescribeBatchSegmentJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4498,9 +4471,8 @@ export const describeBatchSegmentJob: (
  *
  * For more information on campaigns, see CreateCampaign.
  */
-export const describeCampaign: (
-  input: DescribeCampaignRequest,
-) => effect.Effect<
+export const describeCampaign: API.OperationMethod<
+  DescribeCampaignRequest,
   DescribeCampaignResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4512,9 +4484,8 @@ export const describeCampaign: (
 /**
  * Describes the data deletion job created by CreateDataDeletionJob, including the job status.
  */
-export const describeDataDeletionJob: (
-  input: DescribeDataDeletionJobRequest,
-) => effect.Effect<
+export const describeDataDeletionJob: API.OperationMethod<
+  DescribeDataDeletionJobRequest,
   DescribeDataDeletionJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4527,9 +4498,8 @@ export const describeDataDeletionJob: (
  * Describes the given dataset. For more information on datasets, see
  * CreateDataset.
  */
-export const describeDataset: (
-  input: DescribeDatasetRequest,
-) => effect.Effect<
+export const describeDataset: API.OperationMethod<
+  DescribeDatasetRequest,
   DescribeDatasetResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4541,9 +4511,8 @@ export const describeDataset: (
 /**
  * Describes the dataset export job created by CreateDatasetExportJob, including the export job status.
  */
-export const describeDatasetExportJob: (
-  input: DescribeDatasetExportJobRequest,
-) => effect.Effect<
+export const describeDatasetExportJob: API.OperationMethod<
+  DescribeDatasetExportJobRequest,
   DescribeDatasetExportJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4556,9 +4525,8 @@ export const describeDatasetExportJob: (
  * Describes the given dataset group. For more information on dataset
  * groups, see CreateDatasetGroup.
  */
-export const describeDatasetGroup: (
-  input: DescribeDatasetGroupRequest,
-) => effect.Effect<
+export const describeDatasetGroup: API.OperationMethod<
+  DescribeDatasetGroupRequest,
   DescribeDatasetGroupResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4570,9 +4538,8 @@ export const describeDatasetGroup: (
 /**
  * Describes the dataset import job created by CreateDatasetImportJob, including the import job status.
  */
-export const describeDatasetImportJob: (
-  input: DescribeDatasetImportJobRequest,
-) => effect.Effect<
+export const describeDatasetImportJob: API.OperationMethod<
+  DescribeDatasetImportJobRequest,
   DescribeDatasetImportJobResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4586,9 +4553,8 @@ export const describeDatasetImportJob: (
  * `status` of the event tracker.
  * For more information on event trackers, see CreateEventTracker.
  */
-export const describeEventTracker: (
-  input: DescribeEventTrackerRequest,
-) => effect.Effect<
+export const describeEventTracker: API.OperationMethod<
+  DescribeEventTrackerRequest,
   DescribeEventTrackerResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4600,9 +4566,8 @@ export const describeEventTracker: (
 /**
  * Describes the given feature transformation.
  */
-export const describeFeatureTransformation: (
-  input: DescribeFeatureTransformationRequest,
-) => effect.Effect<
+export const describeFeatureTransformation: API.OperationMethod<
+  DescribeFeatureTransformationRequest,
   DescribeFeatureTransformationResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4614,9 +4579,8 @@ export const describeFeatureTransformation: (
 /**
  * Describes a filter's properties.
  */
-export const describeFilter: (
-  input: DescribeFilterRequest,
-) => effect.Effect<
+export const describeFilter: API.OperationMethod<
+  DescribeFilterRequest,
   DescribeFilterResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4628,9 +4592,8 @@ export const describeFilter: (
 /**
  * Describes a metric attribution.
  */
-export const describeMetricAttribution: (
-  input: DescribeMetricAttributionRequest,
-) => effect.Effect<
+export const describeMetricAttribution: API.OperationMethod<
+  DescribeMetricAttributionRequest,
   DescribeMetricAttributionResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4657,9 +4620,8 @@ export const describeMetricAttribution: (
  * can provide recommendations using the
  * GetRecommendations API.
  */
-export const describeRecipe: (
-  input: DescribeRecipeRequest,
-) => effect.Effect<
+export const describeRecipe: API.OperationMethod<
+  DescribeRecipeRequest,
   DescribeRecipeResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4687,9 +4649,8 @@ export const describeRecipe: (
  *
  * For more information on recommenders, see CreateRecommender.
  */
-export const describeRecommender: (
-  input: DescribeRecommenderRequest,
-) => effect.Effect<
+export const describeRecommender: API.OperationMethod<
+  DescribeRecommenderRequest,
   DescribeRecommenderResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4702,9 +4663,8 @@ export const describeRecommender: (
  * Describes a schema. For more information on schemas, see
  * CreateSchema.
  */
-export const describeSchema: (
-  input: DescribeSchemaRequest,
-) => effect.Effect<
+export const describeSchema: API.OperationMethod<
+  DescribeSchemaRequest,
   DescribeSchemaResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4717,9 +4677,8 @@ export const describeSchema: (
  * Describes a solution.
  * For more information on solutions, see CreateSolution.
  */
-export const describeSolution: (
-  input: DescribeSolutionRequest,
-) => effect.Effect<
+export const describeSolution: API.OperationMethod<
+  DescribeSolutionRequest,
   DescribeSolutionResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4731,9 +4690,8 @@ export const describeSolution: (
 /**
  * Describes a specific version of a solution. For more information on solutions, see CreateSolution
  */
-export const describeSolutionVersion: (
-  input: DescribeSolutionVersionRequest,
-) => effect.Effect<
+export const describeSolutionVersion: API.OperationMethod<
+  DescribeSolutionVersionRequest,
   DescribeSolutionVersionResponse,
   InvalidInputException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4745,9 +4703,8 @@ export const describeSolutionVersion: (
 /**
  * Gets the metrics for the specified solution version.
  */
-export const getSolutionMetrics: (
-  input: GetSolutionMetricsRequest,
-) => effect.Effect<
+export const getSolutionMetrics: API.OperationMethod<
+  GetSolutionMetricsRequest,
   GetSolutionMetricsResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -4767,14 +4724,12 @@ export const getSolutionMetrics: (
  * Gets a list of the batch inference jobs that have been performed off of a solution
  * version.
  */
-export const listBatchInferenceJobs: {
-  (
-    input: ListBatchInferenceJobsRequest,
-  ): effect.Effect<
-    ListBatchInferenceJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBatchInferenceJobs: API.OperationMethod<
+  ListBatchInferenceJobsRequest,
+  ListBatchInferenceJobsResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBatchInferenceJobsRequest,
   ) => stream.Stream<
@@ -4804,14 +4759,12 @@ export const listBatchInferenceJobs: {
  * Gets a list of the batch segment jobs that have been performed off of a solution
  * version that you specify.
  */
-export const listBatchSegmentJobs: {
-  (
-    input: ListBatchSegmentJobsRequest,
-  ): effect.Effect<
-    ListBatchSegmentJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBatchSegmentJobs: API.OperationMethod<
+  ListBatchSegmentJobsRequest,
+  ListBatchSegmentJobsResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBatchSegmentJobsRequest,
   ) => stream.Stream<
@@ -4843,14 +4796,12 @@ export const listBatchSegmentJobs: {
  * The response provides the properties for each campaign, including the Amazon Resource Name (ARN).
  * For more information on campaigns, see CreateCampaign.
  */
-export const listCampaigns: {
-  (
-    input: ListCampaignsRequest,
-  ): effect.Effect<
-    ListCampaignsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCampaigns: API.OperationMethod<
+  ListCampaignsRequest,
+  ListCampaignsResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCampaignsRequest,
   ) => stream.Stream<
@@ -4885,9 +4836,8 @@ export const listCampaigns: {
  * job, including the Amazon Resource Name (ARN). For more
  * information on data deletion jobs, see Deleting users.
  */
-export const listDataDeletionJobs: (
-  input: ListDataDeletionJobsRequest,
-) => effect.Effect<
+export const listDataDeletionJobs: API.OperationMethod<
+  ListDataDeletionJobsRequest,
   ListDataDeletionJobsResponse,
   InvalidInputException | InvalidNextTokenException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4904,14 +4854,12 @@ export const listDataDeletionJobs: (
  * information on dataset export jobs, see CreateDatasetExportJob. For more information on datasets, see
  * CreateDataset.
  */
-export const listDatasetExportJobs: {
-  (
-    input: ListDatasetExportJobsRequest,
-  ): effect.Effect<
-    ListDatasetExportJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasetExportJobs: API.OperationMethod<
+  ListDatasetExportJobsRequest,
+  ListDatasetExportJobsResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetExportJobsRequest,
   ) => stream.Stream<
@@ -4942,14 +4890,12 @@ export const listDatasetExportJobs: {
  * for each dataset group, including the Amazon Resource Name (ARN). For more
  * information on dataset groups, see CreateDatasetGroup.
  */
-export const listDatasetGroups: {
-  (
-    input: ListDatasetGroupsRequest,
-  ): effect.Effect<
-    ListDatasetGroupsResponse,
-    InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasetGroups: API.OperationMethod<
+  ListDatasetGroupsRequest,
+  ListDatasetGroupsResponse,
+  InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetGroupsRequest,
   ) => stream.Stream<
@@ -4983,14 +4929,12 @@ export const listDatasetGroups: {
  * information on dataset import jobs, see CreateDatasetImportJob. For more information on datasets, see
  * CreateDataset.
  */
-export const listDatasetImportJobs: {
-  (
-    input: ListDatasetImportJobsRequest,
-  ): effect.Effect<
-    ListDatasetImportJobsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasetImportJobs: API.OperationMethod<
+  ListDatasetImportJobsRequest,
+  ListDatasetImportJobsResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetImportJobsRequest,
   ) => stream.Stream<
@@ -5021,14 +4965,12 @@ export const listDatasetImportJobs: {
  * response provides the properties for each dataset, including the Amazon
  * Resource Name (ARN). For more information on datasets, see CreateDataset.
  */
-export const listDatasets: {
-  (
-    input: ListDatasetsRequest,
-  ): effect.Effect<
-    ListDatasetsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasets: API.OperationMethod<
+  ListDatasetsRequest,
+  ListDatasetsResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
@@ -5060,14 +5002,12 @@ export const listDatasets: {
  * Name (ARN) and tracking ID. For more
  * information on event trackers, see CreateEventTracker.
  */
-export const listEventTrackers: {
-  (
-    input: ListEventTrackersRequest,
-  ): effect.Effect<
-    ListEventTrackersResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventTrackers: API.OperationMethod<
+  ListEventTrackersRequest,
+  ListEventTrackersResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventTrackersRequest,
   ) => stream.Stream<
@@ -5096,14 +5036,12 @@ export const listEventTrackers: {
 /**
  * Lists all filters that belong to a given dataset group.
  */
-export const listFilters: {
-  (
-    input: ListFiltersRequest,
-  ): effect.Effect<
-    ListFiltersResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFilters: API.OperationMethod<
+  ListFiltersRequest,
+  ListFiltersResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFiltersRequest,
   ) => stream.Stream<
@@ -5132,14 +5070,12 @@ export const listFilters: {
 /**
  * Lists the metrics for the metric attribution.
  */
-export const listMetricAttributionMetrics: {
-  (
-    input: ListMetricAttributionMetricsRequest,
-  ): effect.Effect<
-    ListMetricAttributionMetricsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMetricAttributionMetrics: API.OperationMethod<
+  ListMetricAttributionMetricsRequest,
+  ListMetricAttributionMetricsResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMetricAttributionMetricsRequest,
   ) => stream.Stream<
@@ -5168,14 +5104,12 @@ export const listMetricAttributionMetrics: {
 /**
  * Lists metric attributions.
  */
-export const listMetricAttributions: {
-  (
-    input: ListMetricAttributionsRequest,
-  ): effect.Effect<
-    ListMetricAttributionsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMetricAttributions: API.OperationMethod<
+  ListMetricAttributionsRequest,
+  ListMetricAttributionsResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMetricAttributionsRequest,
   ) => stream.Stream<
@@ -5205,14 +5139,12 @@ export const listMetricAttributions: {
  * Returns a list of available recipes. The response provides the properties
  * for each recipe, including the recipe's Amazon Resource Name (ARN).
  */
-export const listRecipes: {
-  (
-    input: ListRecipesRequest,
-  ): effect.Effect<
-    ListRecipesResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecipes: API.OperationMethod<
+  ListRecipesRequest,
+  ListRecipesResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecipesRequest,
   ) => stream.Stream<
@@ -5244,14 +5176,12 @@ export const listRecipes: {
  * The response provides the properties for each recommender, including the Amazon Resource Name (ARN).
  * For more information on recommenders, see CreateRecommender.
  */
-export const listRecommenders: {
-  (
-    input: ListRecommendersRequest,
-  ): effect.Effect<
-    ListRecommendersResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommenders: API.OperationMethod<
+  ListRecommendersRequest,
+  ListRecommendersResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendersRequest,
   ) => stream.Stream<
@@ -5282,14 +5212,12 @@ export const listRecommenders: {
  * properties for each schema, including the Amazon Resource Name (ARN).
  * For more information on schemas, see CreateSchema.
  */
-export const listSchemas: {
-  (
-    input: ListSchemasRequest,
-  ): effect.Effect<
-    ListSchemasResponse,
-    InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemas: API.OperationMethod<
+  ListSchemasRequest,
+  ListSchemasResponse,
+  InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemasRequest,
   ) => stream.Stream<
@@ -5321,14 +5249,12 @@ export const listSchemas: {
  * The response provides the properties for each solution, including the Amazon Resource Name (ARN).
  * For more information on solutions, see CreateSolution.
  */
-export const listSolutions: {
-  (
-    input: ListSolutionsRequest,
-  ): effect.Effect<
-    ListSolutionsResponse,
-    InvalidInputException | InvalidNextTokenException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSolutions: API.OperationMethod<
+  ListSolutionsRequest,
+  ListSolutionsResponse,
+  InvalidInputException | InvalidNextTokenException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSolutionsRequest,
   ) => stream.Stream<
@@ -5359,17 +5285,15 @@ export const listSolutions: {
  * specified, all the solution versions associated with the account are listed. The response
  * provides the properties for each solution version, including the Amazon Resource Name (ARN).
  */
-export const listSolutionVersions: {
-  (
-    input: ListSolutionVersionsRequest,
-  ): effect.Effect<
-    ListSolutionVersionsResponse,
-    | InvalidInputException
-    | InvalidNextTokenException
-    | ResourceNotFoundException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSolutionVersions: API.OperationMethod<
+  ListSolutionVersionsRequest,
+  ListSolutionVersionsResponse,
+  | InvalidInputException
+  | InvalidNextTokenException
+  | ResourceNotFoundException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSolutionVersionsRequest,
   ) => stream.Stream<
@@ -5408,9 +5332,8 @@ export const listSolutionVersions: {
 /**
  * Get a list of tags attached to a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -5430,9 +5353,8 @@ export const listTagsForResource: (
  * Starts a recommender that is INACTIVE. Starting a recommender does not
  * create any new models, but resumes billing and automatic retraining for the recommender.
  */
-export const startRecommender: (
-  input: StartRecommenderRequest,
-) => effect.Effect<
+export const startRecommender: API.OperationMethod<
+  StartRecommenderRequest,
   StartRecommenderResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -5451,9 +5373,8 @@ export const startRecommender: (
 /**
  * Stops a recommender that is ACTIVE. Stopping a recommender halts billing and automatic retraining for the recommender.
  */
-export const stopRecommender: (
-  input: StopRecommenderRequest,
-) => effect.Effect<
+export const stopRecommender: API.OperationMethod<
+  StopRecommenderRequest,
   StopRecommenderResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -5483,9 +5404,8 @@ export const stopRecommender: (
  * You are billed for all of the training completed up
  * until you stop the solution version creation. You cannot resume creating a solution version once it has been stopped.
  */
-export const stopSolutionVersionCreation: (
-  input: StopSolutionVersionCreationRequest,
-) => effect.Effect<
+export const stopSolutionVersionCreation: API.OperationMethod<
+  StopSolutionVersionCreationRequest,
   StopSolutionVersionCreationResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -5504,9 +5424,8 @@ export const stopSolutionVersionCreation: (
 /**
  * Add a list of tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidInputException
   | LimitExceededException
@@ -5529,9 +5448,8 @@ export const tagResource: (
 /**
  * Removes the specified tags that are attached to a resource. For more information, see Removing tags from Amazon Personalize resources.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -5569,9 +5487,8 @@ export const untagResource: (
  * For more information about updating a campaign, including code samples, see Updating a campaign.
  * For more information about campaigns, see Creating a campaign.
  */
-export const updateCampaign: (
-  input: UpdateCampaignRequest,
-) => effect.Effect<
+export const updateCampaign: API.OperationMethod<
+  UpdateCampaignRequest,
   UpdateCampaignResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -5590,9 +5507,8 @@ export const updateCampaign: (
 /**
  * Update a dataset to replace its schema with a new or existing one. For more information, see Replacing a dataset's schema.
  */
-export const updateDataset: (
-  input: UpdateDatasetRequest,
-) => effect.Effect<
+export const updateDataset: API.OperationMethod<
+  UpdateDatasetRequest,
   UpdateDatasetResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -5611,9 +5527,8 @@ export const updateDataset: (
 /**
  * Updates a metric attribution.
  */
-export const updateMetricAttribution: (
-  input: UpdateMetricAttributionRequest,
-) => effect.Effect<
+export const updateMetricAttribution: API.OperationMethod<
+  UpdateMetricAttributionRequest,
   UpdateMetricAttributionResponse,
   | InvalidInputException
   | ResourceAlreadyExistsException
@@ -5640,9 +5555,8 @@ export const updateMetricAttribution: (
  * use the `latestRecommenderUpdate` returned in the DescribeRecommender
  * operation.
  */
-export const updateRecommender: (
-  input: UpdateRecommenderRequest,
-) => effect.Effect<
+export const updateRecommender: API.OperationMethod<
+  UpdateRecommenderRequest,
   UpdateRecommenderResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -5673,9 +5587,8 @@ export const updateRecommender: (
  * DescribeSolution API operation and find the status
  * in the `latestSolutionUpdate`.
  */
-export const updateSolution: (
-  input: UpdateSolutionRequest,
-) => effect.Effect<
+export const updateSolution: API.OperationMethod<
+  UpdateSolutionRequest,
   UpdateSolutionResponse,
   | InvalidInputException
   | LimitExceededException

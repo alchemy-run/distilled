@@ -4015,9 +4015,8 @@ export class UnsupportedSettingsException extends S.TaggedErrorClass<Unsupported
 /**
  * Accepts a directory sharing request that was sent from the directory owner account.
  */
-export const acceptSharedDirectory: (
-  input: AcceptSharedDirectoryRequest,
-) => effect.Effect<
+export const acceptSharedDirectory: API.OperationMethod<
+  AcceptSharedDirectoryRequest,
   AcceptSharedDirectoryResult,
   | ClientException
   | DirectoryAlreadySharedException
@@ -4048,9 +4047,8 @@ export const acceptSharedDirectory: (
  * permissions have been explicitly granted through a policy. For details about what
  * permissions are required to run the *AddIpRoutes* operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const addIpRoutes: (
-  input: AddIpRoutesRequest,
-) => effect.Effect<
+export const addIpRoutes: API.OperationMethod<
+  AddIpRoutesRequest,
   AddIpRoutesResult,
   | ClientException
   | DirectoryUnavailableException
@@ -4077,9 +4075,8 @@ export const addIpRoutes: (
 /**
  * Adds two domain controllers in the specified Region for the specified directory.
  */
-export const addRegion: (
-  input: AddRegionRequest,
-) => effect.Effect<
+export const addRegion: API.OperationMethod<
+  AddRegionRequest,
   AddRegionResult,
   | AccessDeniedException
   | ClientException
@@ -4114,9 +4111,8 @@ export const addRegion: (
  * have a maximum of 50 tags. Each tag consists of a key and optional value. Tag keys must be
  * unique to each resource.
  */
-export const addTagsToResource: (
-  input: AddTagsToResourceRequest,
-) => effect.Effect<
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceRequest,
   AddTagsToResourceResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4143,9 +4139,8 @@ export const addTagsToResource: (
  * `Initializing`, `CreatingSnapshot`, and
  * `UpdatingSchema`.
  */
-export const cancelSchemaExtension: (
-  input: CancelSchemaExtensionRequest,
-) => effect.Effect<
+export const cancelSchemaExtension: API.OperationMethod<
+  CancelSchemaExtensionRequest,
   CancelSchemaExtensionResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4164,9 +4159,8 @@ export const cancelSchemaExtension: (
  * have been explicitly granted through a policy. For details about what permissions are required
  * to run the `ConnectDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const connectDirectory: (
-  input: ConnectDirectoryRequest,
-) => effect.Effect<
+export const connectDirectory: API.OperationMethod<
+  ConnectDirectoryRequest,
   ConnectDirectoryResult,
   | ClientException
   | DirectoryLimitExceededException
@@ -4191,9 +4185,8 @@ export const connectDirectory: (
  *
  * After an alias has been created, it cannot be deleted or reused, so this operation should only be used when absolutely necessary.
  */
-export const createAlias: (
-  input: CreateAliasRequest,
-) => effect.Effect<
+export const createAlias: API.OperationMethod<
+  CreateAliasRequest,
   CreateAliasResult,
   | ClientException
   | EntityAlreadyExistsException
@@ -4216,9 +4209,8 @@ export const createAlias: (
 /**
  * Creates an Active Directory computer object in the specified directory.
  */
-export const createComputer: (
-  input: CreateComputerRequest,
-) => effect.Effect<
+export const createComputer: API.OperationMethod<
+  CreateComputerRequest,
   CreateComputerResult,
   | AuthenticationFailedException
   | ClientException
@@ -4249,9 +4241,8 @@ export const createComputer: (
  * forwarders are required in order to set up a trust relationship with another domain. The
  * conditional forwarder points to the trusted domain.
  */
-export const createConditionalForwarder: (
-  input: CreateConditionalForwarderRequest,
-) => effect.Effect<
+export const createConditionalForwarder: API.OperationMethod<
+  CreateConditionalForwarderRequest,
   CreateConditionalForwarderResult,
   | ClientException
   | DirectoryUnavailableException
@@ -4282,9 +4273,8 @@ export const createConditionalForwarder: (
  * have been explicitly granted through a policy. For details about what permissions are required
  * to run the `CreateDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const createDirectory: (
-  input: CreateDirectoryRequest,
-) => effect.Effect<
+export const createDirectory: API.OperationMethod<
+  CreateDirectoryRequest,
   CreateDirectoryResult,
   | ClientException
   | DirectoryLimitExceededException
@@ -4312,9 +4302,8 @@ export const createDirectory: (
  * Updates are applied asynchronously. Use DescribeDirectories to
  * monitor the progress of directory creation.
  */
-export const createHybridAD: (
-  input: CreateHybridADRequest,
-) => effect.Effect<
+export const createHybridAD: API.OperationMethod<
+  CreateHybridADRequest,
   CreateHybridADResult,
   | ADAssessmentLimitExceededException
   | ClientException
@@ -4342,9 +4331,8 @@ export const createHybridAD: (
  * Creates a subscription to forward real-time Directory Service domain controller security
  * logs to the specified Amazon CloudWatch log group in your Amazon Web Services account.
  */
-export const createLogSubscription: (
-  input: CreateLogSubscriptionRequest,
-) => effect.Effect<
+export const createLogSubscription: API.OperationMethod<
+  CreateLogSubscriptionRequest,
   CreateLogSubscriptionResult,
   | ClientException
   | EntityAlreadyExistsException
@@ -4373,9 +4361,8 @@ export const createLogSubscription: (
  * permissions have been explicitly granted through a policy. For details about what permissions
  * are required to run the *CreateMicrosoftAD* operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const createMicrosoftAD: (
-  input: CreateMicrosoftADRequest,
-) => effect.Effect<
+export const createMicrosoftAD: API.OperationMethod<
+  CreateMicrosoftADRequest,
   CreateMicrosoftADResult,
   | ClientException
   | DirectoryLimitExceededException
@@ -4400,9 +4387,8 @@ export const createMicrosoftAD: (
  *
  * You cannot take snapshots of AD Connector directories.
  */
-export const createSnapshot: (
-  input: CreateSnapshotRequest,
-) => effect.Effect<
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotRequest,
   CreateSnapshotResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4432,9 +4418,8 @@ export const createSnapshot: (
  * Managed Microsoft AD directory and an external domain. You can create either a forest trust or an
  * external trust.
  */
-export const createTrust: (
-  input: CreateTrustRequest,
-) => effect.Effect<
+export const createTrust: API.OperationMethod<
+  CreateTrustRequest,
   CreateTrustResult,
   | ClientException
   | EntityAlreadyExistsException
@@ -4464,9 +4449,8 @@ export const createTrust: (
  * You cannot delete system-initiated assessments. You can delete customer-created
  * assessments even if they are in progress.
  */
-export const deleteADAssessment: (
-  input: DeleteADAssessmentRequest,
-) => effect.Effect<
+export const deleteADAssessment: API.OperationMethod<
+  DeleteADAssessmentRequest,
   DeleteADAssessmentResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4490,9 +4474,8 @@ export const deleteADAssessment: (
  * Deletes a conditional forwarder that has been set up for your Amazon Web Services
  * directory.
  */
-export const deleteConditionalForwarder: (
-  input: DeleteConditionalForwarderRequest,
-) => effect.Effect<
+export const deleteConditionalForwarder: API.OperationMethod<
+  DeleteConditionalForwarderRequest,
   DeleteConditionalForwarderResult,
   | ClientException
   | DirectoryUnavailableException
@@ -4521,9 +4504,8 @@ export const deleteConditionalForwarder: (
  * have been explicitly granted through a policy. For details about what permissions are required
  * to run the `DeleteDirectory` operation, see Directory Service API Permissions: Actions, Resources, and Conditions Reference.
  */
-export const deleteDirectory: (
-  input: DeleteDirectoryRequest,
-) => effect.Effect<
+export const deleteDirectory: API.OperationMethod<
+  DeleteDirectoryRequest,
   DeleteDirectoryResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4538,9 +4520,8 @@ export const deleteDirectory: (
 /**
  * Deletes the specified log subscription.
  */
-export const deleteLogSubscription: (
-  input: DeleteLogSubscriptionRequest,
-) => effect.Effect<
+export const deleteLogSubscription: API.OperationMethod<
+  DeleteLogSubscriptionRequest,
   DeleteLogSubscriptionResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4561,9 +4542,8 @@ export const deleteLogSubscription: (
 /**
  * Deletes a directory snapshot.
  */
-export const deleteSnapshot: (
-  input: DeleteSnapshotRequest,
-) => effect.Effect<
+export const deleteSnapshot: API.OperationMethod<
+  DeleteSnapshotRequest,
   DeleteSnapshotResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4585,9 +4565,8 @@ export const deleteSnapshot: (
  * Deletes an existing trust relationship between your Managed Microsoft AD directory and an external
  * domain.
  */
-export const deleteTrust: (
-  input: DeleteTrustRequest,
-) => effect.Effect<
+export const deleteTrust: API.OperationMethod<
+  DeleteTrustRequest,
   DeleteTrustResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4611,9 +4590,8 @@ export const deleteTrust: (
  * Deletes from the system the certificate that was registered for secure LDAP or client
  * certificate authentication.
  */
-export const deregisterCertificate: (
-  input: DeregisterCertificateRequest,
-) => effect.Effect<
+export const deregisterCertificate: API.OperationMethod<
+  DeregisterCertificateRequest,
   DeregisterCertificateResult,
   | CertificateDoesNotExistException
   | CertificateInUseException
@@ -4642,9 +4620,8 @@ export const deregisterCertificate: (
 /**
  * Removes the specified directory as a publisher to the specified Amazon SNS topic.
  */
-export const deregisterEventTopic: (
-  input: DeregisterEventTopicRequest,
-) => effect.Effect<
+export const deregisterEventTopic: API.OperationMethod<
+  DeregisterEventTopicRequest,
   DeregisterEventTopicResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4667,9 +4644,8 @@ export const deregisterEventTopic: (
  * status, validation results, and configuration details. Use this operation to monitor
  * assessment progress and review results.
  */
-export const describeADAssessment: (
-  input: DescribeADAssessmentRequest,
-) => effect.Effect<
+export const describeADAssessment: API.OperationMethod<
+  DescribeADAssessmentRequest,
   DescribeADAssessmentResult,
   | ClientException
   | EntityDoesNotExistException
@@ -4694,9 +4670,8 @@ export const describeADAssessment: (
  * the specified directory. This policy determines how client certificates are automatically enrolled and
  * managed through Amazon Web Services Private Certificate Authority.
  */
-export const describeCAEnrollmentPolicy: (
-  input: DescribeCAEnrollmentPolicyRequest,
-) => effect.Effect<
+export const describeCAEnrollmentPolicy: API.OperationMethod<
+  DescribeCAEnrollmentPolicyRequest,
   DescribeCAEnrollmentPolicyResult,
   | ClientException
   | DirectoryDoesNotExistException
@@ -4718,9 +4693,8 @@ export const describeCAEnrollmentPolicy: (
  * Displays information about the certificate registered for secure LDAP or client
  * certificate authentication.
  */
-export const describeCertificate: (
-  input: DescribeCertificateRequest,
-) => effect.Effect<
+export const describeCertificate: API.OperationMethod<
+  DescribeCertificateRequest,
   DescribeCertificateResult,
   | CertificateDoesNotExistException
   | ClientException
@@ -4748,20 +4722,18 @@ export const describeCertificate: (
  * types that are supported for the specified directory is retrieved. Currently, only
  * `SmartCard` is supported.
  */
-export const describeClientAuthenticationSettings: {
-  (
-    input: DescribeClientAuthenticationSettingsRequest,
-  ): effect.Effect<
-    DescribeClientAuthenticationSettingsResult,
-    | AccessDeniedException
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClientAuthenticationSettings: API.OperationMethod<
+  DescribeClientAuthenticationSettingsRequest,
+  DescribeClientAuthenticationSettingsResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClientAuthenticationSettingsRequest,
   ) => stream.Stream<
@@ -4812,9 +4784,8 @@ export const describeClientAuthenticationSettings: {
  * If no input parameters are provided for RemoteDomainNames, this request describes all
  * conditional forwarders for the specified directory ID.
  */
-export const describeConditionalForwarders: (
-  input: DescribeConditionalForwardersRequest,
-) => effect.Effect<
+export const describeConditionalForwarders: API.OperationMethod<
+  DescribeConditionalForwardersRequest,
   DescribeConditionalForwardersResult,
   | ClientException
   | DirectoryUnavailableException
@@ -4852,19 +4823,17 @@ export const describeConditionalForwarders: (
  * You can also specify a maximum number of return results with the `Limit`
  * parameter.
  */
-export const describeDirectories: {
-  (
-    input: DescribeDirectoriesRequest,
-  ): effect.Effect<
-    DescribeDirectoriesResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDirectories: API.OperationMethod<
+  DescribeDirectoriesRequest,
+  DescribeDirectoriesResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDirectoriesRequest,
   ) => stream.Stream<
@@ -4910,9 +4879,8 @@ export const describeDirectories: {
  * Obtains status of directory data access enablement through the Directory Service Data API for the
  * specified directory.
  */
-export const describeDirectoryDataAccess: (
-  input: DescribeDirectoryDataAccessRequest,
-) => effect.Effect<
+export const describeDirectoryDataAccess: API.OperationMethod<
+  DescribeDirectoryDataAccessRequest,
   DescribeDirectoryDataAccessResult,
   | AccessDeniedException
   | ClientException
@@ -4935,20 +4903,18 @@ export const describeDirectoryDataAccess: (
 /**
  * Provides information about any domain controllers in your directory.
  */
-export const describeDomainControllers: {
-  (
-    input: DescribeDomainControllersRequest,
-  ): effect.Effect<
-    DescribeDomainControllersResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDomainControllers: API.OperationMethod<
+  DescribeDomainControllersRequest,
+  DescribeDomainControllersResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDomainControllersRequest,
   ) => stream.Stream<
@@ -4999,9 +4965,8 @@ export const describeDomainControllers: {
  * If no input parameters are provided, such as DirectoryId or TopicName, this request
  * describes all of the associations in the account.
  */
-export const describeEventTopics: (
-  input: DescribeEventTopicsRequest,
-) => effect.Effect<
+export const describeEventTopics: API.OperationMethod<
+  DescribeEventTopicsRequest,
   DescribeEventTopicsResult,
   | ClientException
   | EntityDoesNotExistException
@@ -5024,9 +4989,8 @@ export const describeEventTopics: (
  * provides details about configuration changes, administrator account updates, and
  * self-managed instance settings (IDs and DNS IPs).
  */
-export const describeHybridADUpdate: (
-  input: DescribeHybridADUpdateRequest,
-) => effect.Effect<
+export const describeHybridADUpdate: API.OperationMethod<
+  DescribeHybridADUpdateRequest,
   DescribeHybridADUpdateResult,
   | ClientException
   | DirectoryDoesNotExistException
@@ -5051,20 +5015,18 @@ export const describeHybridADUpdate: (
 /**
  * Describes the status of LDAP security for the specified directory.
  */
-export const describeLDAPSSettings: {
-  (
-    input: DescribeLDAPSSettingsRequest,
-  ): effect.Effect<
-    DescribeLDAPSSettingsResult,
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLDAPSSettings: API.OperationMethod<
+  DescribeLDAPSSettingsRequest,
+  DescribeLDAPSSettingsResult,
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLDAPSSettingsRequest,
   ) => stream.Stream<
@@ -5113,21 +5075,19 @@ export const describeLDAPSSettings: {
  * Provides information about the Regions that are configured for multi-Region
  * replication.
  */
-export const describeRegions: {
-  (
-    input: DescribeRegionsRequest,
-  ): effect.Effect<
-    DescribeRegionsResult,
-    | AccessDeniedException
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRegions: API.OperationMethod<
+  DescribeRegionsRequest,
+  DescribeRegionsResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRegionsRequest,
   ) => stream.Stream<
@@ -5177,9 +5137,8 @@ export const describeRegions: {
 /**
  * Retrieves information about the configurable settings for the specified directory.
  */
-export const describeSettings: (
-  input: DescribeSettingsRequest,
-) => effect.Effect<
+export const describeSettings: API.OperationMethod<
+  DescribeSettingsRequest,
   DescribeSettingsResult,
   | ClientException
   | DirectoryDoesNotExistException
@@ -5204,20 +5163,18 @@ export const describeSettings: (
 /**
  * Returns the shared directories in your account.
  */
-export const describeSharedDirectories: {
-  (
-    input: DescribeSharedDirectoriesRequest,
-  ): effect.Effect<
-    DescribeSharedDirectoriesResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSharedDirectories: API.OperationMethod<
+  DescribeSharedDirectoriesRequest,
+  DescribeSharedDirectoriesResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSharedDirectoriesRequest,
   ) => stream.Stream<
@@ -5273,19 +5230,17 @@ export const describeSharedDirectories: {
  * You can also specify a maximum number of return results with the *Limit*
  * parameter.
  */
-export const describeSnapshots: {
-  (
-    input: DescribeSnapshotsRequest,
-  ): effect.Effect<
-    DescribeSnapshotsResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSnapshots: API.OperationMethod<
+  DescribeSnapshotsRequest,
+  DescribeSnapshotsResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSnapshotsRequest,
   ) => stream.Stream<
@@ -5333,20 +5288,18 @@ export const describeSnapshots: {
  * If no input parameters are provided, such as DirectoryId or TrustIds, this request
  * describes all the trust relationships belonging to the account.
  */
-export const describeTrusts: {
-  (
-    input: DescribeTrustsRequest,
-  ): effect.Effect<
-    DescribeTrustsResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTrusts: API.OperationMethod<
+  DescribeTrustsRequest,
+  DescribeTrustsResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTrustsRequest,
   ) => stream.Stream<
@@ -5394,20 +5347,18 @@ export const describeTrusts: {
 /**
  * Describes the updates of a directory for a particular update type.
  */
-export const describeUpdateDirectory: {
-  (
-    input: DescribeUpdateDirectoryRequest,
-  ): effect.Effect<
-    DescribeUpdateDirectoryResult,
-    | AccessDeniedException
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeUpdateDirectory: API.OperationMethod<
+  DescribeUpdateDirectoryRequest,
+  DescribeUpdateDirectoryResult,
+  | AccessDeniedException
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeUpdateDirectoryRequest,
   ) => stream.Stream<
@@ -5459,9 +5410,8 @@ export const describeUpdateDirectory: {
  * Disabling the CA enrollment policy prevents new certificates from being automatically
  * enrolled, but existing certificates remain valid and functional until they expire.
  */
-export const disableCAEnrollmentPolicy: (
-  input: DisableCAEnrollmentPolicyRequest,
-) => effect.Effect<
+export const disableCAEnrollmentPolicy: API.OperationMethod<
+  DisableCAEnrollmentPolicyRequest,
   DisableCAEnrollmentPolicyResult,
   | AccessDeniedException
   | ClientException
@@ -5490,9 +5440,8 @@ export const disableCAEnrollmentPolicy: (
 /**
  * Disables alternative client authentication methods for the specified directory.
  */
-export const disableClientAuthentication: (
-  input: DisableClientAuthenticationRequest,
-) => effect.Effect<
+export const disableClientAuthentication: API.OperationMethod<
+  DisableClientAuthenticationRequest,
   DisableClientAuthenticationResult,
   | AccessDeniedException
   | ClientException
@@ -5518,9 +5467,8 @@ export const disableClientAuthentication: (
  * Deactivates access to directory data via the Directory Service Data API for the specified directory. For
  * more information, see Directory Service Data API Reference.
  */
-export const disableDirectoryDataAccess: (
-  input: DisableDirectoryDataAccessRequest,
-) => effect.Effect<
+export const disableDirectoryDataAccess: API.OperationMethod<
+  DisableDirectoryDataAccessRequest,
   DisableDirectoryDataAccessResult,
   | AccessDeniedException
   | ClientException
@@ -5547,9 +5495,8 @@ export const disableDirectoryDataAccess: (
 /**
  * Deactivates LDAP secure calls for the specified directory.
  */
-export const disableLDAPS: (
-  input: DisableLDAPSRequest,
-) => effect.Effect<
+export const disableLDAPS: API.OperationMethod<
+  DisableLDAPSRequest,
   DisableLDAPSResult,
   | ClientException
   | DirectoryDoesNotExistException
@@ -5577,9 +5524,8 @@ export const disableLDAPS: (
  * Disables multi-factor authentication (MFA) with the Remote Authentication Dial In User
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
  */
-export const disableRadius: (
-  input: DisableRadiusRequest,
-) => effect.Effect<
+export const disableRadius: API.OperationMethod<
+  DisableRadiusRequest,
   DisableRadiusResult,
   | ClientException
   | EntityDoesNotExistException
@@ -5594,9 +5540,8 @@ export const disableRadius: (
 /**
  * Disables single-sign on for a directory.
  */
-export const disableSso: (
-  input: DisableSsoRequest,
-) => effect.Effect<
+export const disableSso: API.OperationMethod<
+  DisableSsoRequest,
   DisableSsoResult,
   | AuthenticationFailedException
   | ClientException
@@ -5625,9 +5570,8 @@ export const disableSso: (
  * accessible from the directory. The connector must be in an active state and have the
  * necessary permissions.
  */
-export const enableCAEnrollmentPolicy: (
-  input: EnableCAEnrollmentPolicyRequest,
-) => effect.Effect<
+export const enableCAEnrollmentPolicy: API.OperationMethod<
+  EnableCAEnrollmentPolicyRequest,
   EnableCAEnrollmentPolicyResult,
   | AccessDeniedException
   | ClientException
@@ -5658,9 +5602,8 @@ export const enableCAEnrollmentPolicy: (
 /**
  * Enables alternative client authentication methods for the specified directory.
  */
-export const enableClientAuthentication: (
-  input: EnableClientAuthenticationRequest,
-) => effect.Effect<
+export const enableClientAuthentication: API.OperationMethod<
+  EnableClientAuthenticationRequest,
   EnableClientAuthenticationResult,
   | AccessDeniedException
   | ClientException
@@ -5688,9 +5631,8 @@ export const enableClientAuthentication: (
  * Enables access to directory data via the Directory Service Data API for the specified directory. For
  * more information, see Directory Service Data API Reference.
  */
-export const enableDirectoryDataAccess: (
-  input: EnableDirectoryDataAccessRequest,
-) => effect.Effect<
+export const enableDirectoryDataAccess: API.OperationMethod<
+  EnableDirectoryDataAccessRequest,
   EnableDirectoryDataAccessResult,
   | AccessDeniedException
   | ClientException
@@ -5717,9 +5659,8 @@ export const enableDirectoryDataAccess: (
 /**
  * Activates the switch for the specific directory to always use LDAP secure calls.
  */
-export const enableLDAPS: (
-  input: EnableLDAPSRequest,
-) => effect.Effect<
+export const enableLDAPS: API.OperationMethod<
+  EnableLDAPSRequest,
   EnableLDAPSResult,
   | ClientException
   | DirectoryDoesNotExistException
@@ -5749,9 +5690,8 @@ export const enableLDAPS: (
  * Enables multi-factor authentication (MFA) with the Remote Authentication Dial In User
  * Service (RADIUS) server for an AD Connector or Microsoft AD directory.
  */
-export const enableRadius: (
-  input: EnableRadiusRequest,
-) => effect.Effect<
+export const enableRadius: API.OperationMethod<
+  EnableRadiusRequest,
   EnableRadiusResult,
   | ClientException
   | EntityAlreadyExistsException
@@ -5776,9 +5716,8 @@ export const enableRadius: (
  * access certain Amazon Web Services services from a computer joined to the directory without having to enter
  * their credentials separately.
  */
-export const enableSso: (
-  input: EnableSsoRequest,
-) => effect.Effect<
+export const enableSso: API.OperationMethod<
+  EnableSsoRequest,
   EnableSsoResult,
   | AuthenticationFailedException
   | ClientException
@@ -5801,9 +5740,8 @@ export const enableSso: (
 /**
  * Obtains directory limit information for the current Region.
  */
-export const getDirectoryLimits: (
-  input: GetDirectoryLimitsRequest,
-) => effect.Effect<
+export const getDirectoryLimits: API.OperationMethod<
+  GetDirectoryLimitsRequest,
   GetDirectoryLimitsResult,
   | ClientException
   | EntityDoesNotExistException
@@ -5818,9 +5756,8 @@ export const getDirectoryLimits: (
 /**
  * Obtains the manual snapshot limits for a directory.
  */
-export const getSnapshotLimits: (
-  input: GetSnapshotLimitsRequest,
-) => effect.Effect<
+export const getSnapshotLimits: API.OperationMethod<
+  GetSnapshotLimitsRequest,
   GetSnapshotLimitsResult,
   | ClientException
   | EntityDoesNotExistException
@@ -5837,19 +5774,17 @@ export const getSnapshotLimits: (
  * assessments in your account. Use this operation to monitor assessment status and manage
  * multiple assessments.
  */
-export const listADAssessments: {
-  (
-    input: ListADAssessmentsRequest,
-  ): effect.Effect<
-    ListADAssessmentsResult,
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listADAssessments: API.OperationMethod<
+  ListADAssessmentsRequest,
+  ListADAssessmentsResult,
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListADAssessmentsRequest,
   ) => stream.Stream<
@@ -5895,20 +5830,18 @@ export const listADAssessments: {
  * For the specified directory, lists all the certificates registered for a secure LDAP or
  * client certificate authentication.
  */
-export const listCertificates: {
-  (
-    input: ListCertificatesRequest,
-  ): effect.Effect<
-    ListCertificatesResult,
-    | ClientException
-    | DirectoryDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | UnsupportedOperationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCertificates: API.OperationMethod<
+  ListCertificatesRequest,
+  ListCertificatesResult,
+  | ClientException
+  | DirectoryDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | UnsupportedOperationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCertificatesRequest,
   ) => stream.Stream<
@@ -5956,19 +5889,17 @@ export const listCertificates: {
 /**
  * Lists the address blocks that you have added to a directory.
  */
-export const listIpRoutes: {
-  (
-    input: ListIpRoutesRequest,
-  ): effect.Effect<
-    ListIpRoutesResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIpRoutes: API.OperationMethod<
+  ListIpRoutesRequest,
+  ListIpRoutesResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIpRoutesRequest,
   ) => stream.Stream<
@@ -6013,18 +5944,16 @@ export const listIpRoutes: {
 /**
  * Lists the active log subscriptions for the Amazon Web Services account.
  */
-export const listLogSubscriptions: {
-  (
-    input: ListLogSubscriptionsRequest,
-  ): effect.Effect<
-    ListLogSubscriptionsResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | ServiceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLogSubscriptions: API.OperationMethod<
+  ListLogSubscriptionsRequest,
+  ListLogSubscriptionsResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | ServiceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLogSubscriptionsRequest,
   ) => stream.Stream<
@@ -6066,18 +5995,16 @@ export const listLogSubscriptions: {
 /**
  * Lists all schema extensions applied to a Microsoft AD Directory.
  */
-export const listSchemaExtensions: {
-  (
-    input: ListSchemaExtensionsRequest,
-  ): effect.Effect<
-    ListSchemaExtensionsResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | ServiceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemaExtensions: API.OperationMethod<
+  ListSchemaExtensionsRequest,
+  ListSchemaExtensionsResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | ServiceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemaExtensionsRequest,
   ) => stream.Stream<
@@ -6119,19 +6046,17 @@ export const listSchemaExtensions: {
 /**
  * Lists all tags on a directory.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResult,
-    | ClientException
-    | EntityDoesNotExistException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServiceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResult,
+  | ClientException
+  | EntityDoesNotExistException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServiceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -6176,9 +6101,8 @@ export const listTagsForResource: {
 /**
  * Registers a certificate for a secure LDAP or client certificate authentication.
  */
-export const registerCertificate: (
-  input: RegisterCertificateRequest,
-) => effect.Effect<
+export const registerCertificate: API.OperationMethod<
+  RegisterCertificateRequest,
   RegisterCertificateResult,
   | CertificateAlreadyExistsException
   | CertificateLimitExceededException
@@ -6213,9 +6137,8 @@ export const registerCertificate: (
  * status to an Impaired or Inoperable status. You also receive a notification when the directory
  * returns to an Active status.
  */
-export const registerEventTopic: (
-  input: RegisterEventTopicRequest,
-) => effect.Effect<
+export const registerEventTopic: API.OperationMethod<
+  RegisterEventTopicRequest,
   RegisterEventTopicResult,
   | ClientException
   | EntityDoesNotExistException
@@ -6236,9 +6159,8 @@ export const registerEventTopic: (
 /**
  * Rejects a directory sharing request that was sent from the directory owner account.
  */
-export const rejectSharedDirectory: (
-  input: RejectSharedDirectoryRequest,
-) => effect.Effect<
+export const rejectSharedDirectory: API.OperationMethod<
+  RejectSharedDirectoryRequest,
   RejectSharedDirectoryResult,
   | ClientException
   | DirectoryAlreadySharedException
@@ -6261,9 +6183,8 @@ export const rejectSharedDirectory: (
 /**
  * Removes IP address blocks from a directory.
  */
-export const removeIpRoutes: (
-  input: RemoveIpRoutesRequest,
-) => effect.Effect<
+export const removeIpRoutes: API.OperationMethod<
+  RemoveIpRoutesRequest,
   RemoveIpRoutesResult,
   | ClientException
   | DirectoryUnavailableException
@@ -6288,9 +6209,8 @@ export const removeIpRoutes: (
  * cannot remove the primary Region with this operation. Instead, use the
  * `DeleteDirectory` API.
  */
-export const removeRegion: (
-  input: RemoveRegionRequest,
-) => effect.Effect<
+export const removeRegion: API.OperationMethod<
+  RemoveRegionRequest,
   RemoveRegionResult,
   | AccessDeniedException
   | ClientException
@@ -6315,9 +6235,8 @@ export const removeRegion: (
 /**
  * Removes tags from a directory.
  */
-export const removeTagsFromResource: (
-  input: RemoveTagsFromResourceRequest,
-) => effect.Effect<
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceRequest,
   RemoveTagsFromResourceResult,
   | ClientException
   | EntityDoesNotExistException
@@ -6353,9 +6272,8 @@ export const removeTagsFromResource: (
  * directory, see What Gets Created in the Directory Service Administration
  * Guide.
  */
-export const resetUserPassword: (
-  input: ResetUserPasswordRequest,
-) => effect.Effect<
+export const resetUserPassword: API.OperationMethod<
+  ResetUserPasswordRequest,
   ResetUserPasswordResult,
   | ClientException
   | DirectoryUnavailableException
@@ -6389,9 +6307,8 @@ export const resetUserPassword: (
  * the directory identifier. When the **DirectoryDescription.Stage** value changes to
  * `Active`, the restore operation is complete.
  */
-export const restoreFromSnapshot: (
-  input: RestoreFromSnapshotRequest,
-) => effect.Effect<
+export const restoreFromSnapshot: API.OperationMethod<
+  RestoreFromSnapshotRequest,
   RestoreFromSnapshotResult,
   | ClientException
   | EntityDoesNotExistException
@@ -6427,9 +6344,8 @@ export const restoreFromSnapshot: (
  * The `ShareNotes` parameter is only used when `HANDSHAKE` is called,
  * which sends a directory sharing request to the directory consumer.
  */
-export const shareDirectory: (
-  input: ShareDirectoryRequest,
-) => effect.Effect<
+export const shareDirectory: API.OperationMethod<
+  ShareDirectoryRequest,
   ShareDirectoryResult,
   | AccessDeniedException
   | ClientException
@@ -6482,9 +6398,8 @@ export const shareDirectory: (
  * Note: You must provide exactly one `DirectoryId` or
  * `AssessmentConfiguration`.
  */
-export const startADAssessment: (
-  input: StartADAssessmentRequest,
-) => effect.Effect<
+export const startADAssessment: API.OperationMethod<
+  StartADAssessmentRequest,
   StartADAssessmentResult,
   | ADAssessmentLimitExceededException
   | ClientException
@@ -6509,9 +6424,8 @@ export const startADAssessment: (
 /**
  * Applies a schema extension to a Microsoft AD directory.
  */
-export const startSchemaExtension: (
-  input: StartSchemaExtensionRequest,
-) => effect.Effect<
+export const startSchemaExtension: API.OperationMethod<
+  StartSchemaExtensionRequest,
   StartSchemaExtensionResult,
   | ClientException
   | DirectoryUnavailableException
@@ -6536,9 +6450,8 @@ export const startSchemaExtension: (
 /**
  * Stops the directory sharing between the directory owner and consumer accounts.
  */
-export const unshareDirectory: (
-  input: UnshareDirectoryRequest,
-) => effect.Effect<
+export const unshareDirectory: API.OperationMethod<
+  UnshareDirectoryRequest,
   UnshareDirectoryResult,
   | ClientException
   | DirectoryNotSharedException
@@ -6562,9 +6475,8 @@ export const unshareDirectory: (
  * Updates a conditional forwarder that has been set up for your Amazon Web Services
  * directory.
  */
-export const updateConditionalForwarder: (
-  input: UpdateConditionalForwarderRequest,
-) => effect.Effect<
+export const updateConditionalForwarder: API.OperationMethod<
+  UpdateConditionalForwarderRequest,
   UpdateConditionalForwarderResult,
   | ClientException
   | DirectoryUnavailableException
@@ -6589,9 +6501,8 @@ export const updateConditionalForwarder: (
 /**
  * Updates directory configuration for the specified update type.
  */
-export const updateDirectorySetup: (
-  input: UpdateDirectorySetupRequest,
-) => effect.Effect<
+export const updateDirectorySetup: API.OperationMethod<
+  UpdateDirectorySetupRequest,
   UpdateDirectorySetupResult,
   | AccessDeniedException
   | ClientException
@@ -6635,9 +6546,8 @@ export const updateDirectorySetup: (
  *
  * You must provide at least one update to UpdateHybridADRequest$HybridAdministratorAccountUpdate or UpdateHybridADRequest$SelfManagedInstancesSettings.
  */
-export const updateHybridAD: (
-  input: UpdateHybridADRequest,
-) => effect.Effect<
+export const updateHybridAD: API.OperationMethod<
+  UpdateHybridADRequest,
   UpdateHybridADResult,
   | ADAssessmentLimitExceededException
   | ClientException
@@ -6666,9 +6576,8 @@ export const updateHybridAD: (
  * fully active once the requested number of domain controllers is updated. During this time, you
  * cannot make another update request.
  */
-export const updateNumberOfDomainControllers: (
-  input: UpdateNumberOfDomainControllersRequest,
-) => effect.Effect<
+export const updateNumberOfDomainControllers: API.OperationMethod<
+  UpdateNumberOfDomainControllersRequest,
   UpdateNumberOfDomainControllersResult,
   | ClientException
   | DirectoryUnavailableException
@@ -6696,9 +6605,8 @@ export const updateNumberOfDomainControllers: (
  * Updates the Remote Authentication Dial In User Service (RADIUS) server information for
  * an AD Connector or Microsoft AD directory.
  */
-export const updateRadius: (
-  input: UpdateRadiusRequest,
-) => effect.Effect<
+export const updateRadius: API.OperationMethod<
+  UpdateRadiusRequest,
   UpdateRadiusResult,
   | ClientException
   | EntityDoesNotExistException
@@ -6719,9 +6627,8 @@ export const updateRadius: (
 /**
  * Updates the configurable settings for the specified directory.
  */
-export const updateSettings: (
-  input: UpdateSettingsRequest,
-) => effect.Effect<
+export const updateSettings: API.OperationMethod<
+  UpdateSettingsRequest,
   UpdateSettingsResult,
   | ClientException
   | DirectoryDoesNotExistException
@@ -6751,9 +6658,8 @@ export const updateSettings: (
  * Updates the trust that has been set up between your Managed Microsoft AD directory and an
  * self-managed Active Directory.
  */
-export const updateTrust: (
-  input: UpdateTrustRequest,
-) => effect.Effect<
+export const updateTrust: API.OperationMethod<
+  UpdateTrustRequest,
   UpdateTrustResult,
   | ClientException
   | EntityDoesNotExistException
@@ -6778,9 +6684,8 @@ export const updateTrust: (
  * This action verifies a trust relationship between your Managed Microsoft AD directory and an
  * external domain.
  */
-export const verifyTrust: (
-  input: VerifyTrustRequest,
-) => effect.Effect<
+export const verifyTrust: API.OperationMethod<
+  VerifyTrustRequest,
   VerifyTrustResult,
   | ClientException
   | EntityDoesNotExistException

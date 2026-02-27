@@ -976,9 +976,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * If you create a default policy, you can specify the request parameters either in
  * the request body, or in the PolicyDetails request structure, but not both.
  */
-export const createLifecyclePolicy: (
-  input: CreateLifecyclePolicyRequest,
-) => effect.Effect<
+export const createLifecyclePolicy: API.OperationMethod<
+  CreateLifecyclePolicyRequest,
   CreateLifecyclePolicyResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1001,9 +1000,8 @@ export const createLifecyclePolicy: (
  * For more information about deleting a policy, see Delete lifecycle
  * policies.
  */
-export const deleteLifecyclePolicy: (
-  input: DeleteLifecyclePolicyRequest,
-) => effect.Effect<
+export const deleteLifecyclePolicy: API.OperationMethod<
+  DeleteLifecyclePolicyRequest,
   DeleteLifecyclePolicyResponse,
   | InternalServerException
   | LimitExceededException
@@ -1024,9 +1022,8 @@ export const deleteLifecyclePolicy: (
  *
  * To get complete information about a policy, use GetLifecyclePolicy.
  */
-export const getLifecyclePolicies: (
-  input: GetLifecyclePoliciesRequest,
-) => effect.Effect<
+export const getLifecyclePolicies: API.OperationMethod<
+  GetLifecyclePoliciesRequest,
   GetLifecyclePoliciesResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1047,9 +1044,8 @@ export const getLifecyclePolicies: (
 /**
  * Gets detailed information about the specified lifecycle policy.
  */
-export const getLifecyclePolicy: (
-  input: GetLifecyclePolicyRequest,
-) => effect.Effect<
+export const getLifecyclePolicy: API.OperationMethod<
+  GetLifecyclePolicyRequest,
   GetLifecyclePolicyResponse,
   | InternalServerException
   | LimitExceededException
@@ -1068,9 +1064,8 @@ export const getLifecyclePolicy: (
 /**
  * Lists the tags for the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1089,9 +1084,8 @@ export const listTagsForResource: (
 /**
  * Adds the specified tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1110,9 +1104,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1134,9 +1127,8 @@ export const untagResource: (
  * For more information about updating a policy, see Modify lifecycle
  * policies.
  */
-export const updateLifecyclePolicy: (
-  input: UpdateLifecyclePolicyRequest,
-) => effect.Effect<
+export const updateLifecyclePolicy: API.OperationMethod<
+  UpdateLifecyclePolicyRequest,
   UpdateLifecyclePolicyResponse,
   | InternalServerException
   | InvalidRequestException

@@ -879,9 +879,8 @@ export class PolicyErrorException extends S.TaggedErrorClass<PolicyErrorExceptio
  * - Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance,
  * or DMS endpoint, etc.
  */
-export const associateCreatedArtifact: (
-  input: AssociateCreatedArtifactRequest,
-) => effect.Effect<
+export const associateCreatedArtifact: API.OperationMethod<
+  AssociateCreatedArtifactRequest,
   AssociateCreatedArtifactResult,
   | AccessDeniedException
   | DryRunOperation
@@ -913,9 +912,8 @@ export const associateCreatedArtifact: (
  * Associates a discovered resource ID from Application Discovery Service with a migration
  * task.
  */
-export const associateDiscoveredResource: (
-  input: AssociateDiscoveredResourceRequest,
-) => effect.Effect<
+export const associateDiscoveredResource: API.OperationMethod<
+  AssociateDiscoveredResourceRequest,
   AssociateDiscoveredResourceResult,
   | AccessDeniedException
   | DryRunOperation
@@ -949,9 +947,8 @@ export const associateDiscoveredResource: (
  * Associates a source resource with a migration task. For example, the source resource can
  * be a source server, an application, or a migration wave.
  */
-export const associateSourceResource: (
-  input: AssociateSourceResourceRequest,
-) => effect.Effect<
+export const associateSourceResource: API.OperationMethod<
+  AssociateSourceResourceRequest,
   AssociateSourceResourceResult,
   | AccessDeniedException
   | DryRunOperation
@@ -984,9 +981,8 @@ export const associateSourceResource: (
  * tool; however, it does not need to be unique for each AWS account because it is scoped to
  * the AWS account.
  */
-export const createProgressUpdateStream: (
-  input: CreateProgressUpdateStreamRequest,
-) => effect.Effect<
+export const createProgressUpdateStream: API.OperationMethod<
+  CreateProgressUpdateStreamRequest,
   CreateProgressUpdateStreamResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1037,9 +1033,8 @@ export const createProgressUpdateStream: (
  * succeed, and that stream will be an entirely new logical resource (without any
  * resources associated with the old stream).
  */
-export const deleteProgressUpdateStream: (
-  input: DeleteProgressUpdateStreamRequest,
-) => effect.Effect<
+export const deleteProgressUpdateStream: API.OperationMethod<
+  DeleteProgressUpdateStreamRequest,
   DeleteProgressUpdateStreamResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1070,9 +1065,8 @@ export const deleteProgressUpdateStream: (
 /**
  * Gets the migration status of an application.
  */
-export const describeApplicationState: (
-  input: DescribeApplicationStateRequest,
-) => effect.Effect<
+export const describeApplicationState: API.OperationMethod<
+  DescribeApplicationStateRequest,
   DescribeApplicationStateResult,
   | AccessDeniedException
   | HomeRegionNotSetException
@@ -1101,9 +1095,8 @@ export const describeApplicationState: (
 /**
  * Retrieves a list of all attributes associated with a specific migration task.
  */
-export const describeMigrationTask: (
-  input: DescribeMigrationTaskRequest,
-) => effect.Effect<
+export const describeMigrationTask: API.OperationMethod<
+  DescribeMigrationTaskRequest,
   DescribeMigrationTaskResult,
   | AccessDeniedException
   | HomeRegionNotSetException
@@ -1141,9 +1134,8 @@ export const describeMigrationTask: (
  * - Examples of the AWS resource behind the created artifact are, AMI's, EC2 instance,
  * or RDS instance, etc.
  */
-export const disassociateCreatedArtifact: (
-  input: DisassociateCreatedArtifactRequest,
-) => effect.Effect<
+export const disassociateCreatedArtifact: API.OperationMethod<
+  DisassociateCreatedArtifactRequest,
   DisassociateCreatedArtifactResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1175,9 +1167,8 @@ export const disassociateCreatedArtifact: (
  * Disassociate an Application Discovery Service discovered resource from a migration
  * task.
  */
-export const disassociateDiscoveredResource: (
-  input: DisassociateDiscoveredResourceRequest,
-) => effect.Effect<
+export const disassociateDiscoveredResource: API.OperationMethod<
+  DisassociateDiscoveredResourceRequest,
   DisassociateDiscoveredResourceResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1208,9 +1199,8 @@ export const disassociateDiscoveredResource: (
 /**
  * Removes the association between a source resource and a migration task.
  */
-export const disassociateSourceResource: (
-  input: DisassociateSourceResourceRequest,
-) => effect.Effect<
+export const disassociateSourceResource: API.OperationMethod<
+  DisassociateSourceResourceRequest,
   DisassociateSourceResourceResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1243,9 +1233,8 @@ export const disassociateSourceResource: (
  * This API is a prerequisite to calling the `NotifyMigrationTaskState` API as
  * the migration tool must first register the migration task with Migration Hub.
  */
-export const importMigrationTask: (
-  input: ImportMigrationTaskRequest,
-) => effect.Effect<
+export const importMigrationTask: API.OperationMethod<
+  ImportMigrationTaskRequest,
   ImportMigrationTaskResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1278,20 +1267,18 @@ export const importMigrationTask: (
  * `ApplicationIds` parameter, only the migration statuses for those
  * applications will be returned.
  */
-export const listApplicationStates: {
-  (
-    input: ListApplicationStatesRequest,
-  ): effect.Effect<
-    ListApplicationStatesResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplicationStates: API.OperationMethod<
+  ListApplicationStatesRequest,
+  ListApplicationStatesResult,
+  | AccessDeniedException
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationStatesRequest,
   ) => stream.Stream<
@@ -1348,21 +1335,19 @@ export const listApplicationStates: {
  *
  * - Lists created artifacts in a paginated interface.
  */
-export const listCreatedArtifacts: {
-  (
-    input: ListCreatedArtifactsRequest,
-  ): effect.Effect<
-    ListCreatedArtifactsResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCreatedArtifacts: API.OperationMethod<
+  ListCreatedArtifactsRequest,
+  ListCreatedArtifactsResult,
+  | AccessDeniedException
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCreatedArtifactsRequest,
   ) => stream.Stream<
@@ -1413,21 +1398,19 @@ export const listCreatedArtifacts: {
 /**
  * Lists discovered resources associated with the given `MigrationTask`.
  */
-export const listDiscoveredResources: {
-  (
-    input: ListDiscoveredResourcesRequest,
-  ): effect.Effect<
-    ListDiscoveredResourcesResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDiscoveredResources: API.OperationMethod<
+  ListDiscoveredResourcesRequest,
+  ListDiscoveredResourcesResult,
+  | AccessDeniedException
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDiscoveredResourcesRequest,
   ) => stream.Stream<
@@ -1486,22 +1469,20 @@ export const listDiscoveredResources: {
  *
  * - Lists migration tasks in a paginated interface.
  */
-export const listMigrationTasks: {
-  (
-    input: ListMigrationTasksRequest,
-  ): effect.Effect<
-    ListMigrationTasksResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | PolicyErrorException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMigrationTasks: API.OperationMethod<
+  ListMigrationTasksRequest,
+  ListMigrationTasksResult,
+  | AccessDeniedException
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | PolicyErrorException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMigrationTasksRequest,
   ) => stream.Stream<
@@ -1556,20 +1537,18 @@ export const listMigrationTasks: {
  * This is a paginated API that returns all the migration-task states for the specified
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
-export const listMigrationTaskUpdates: {
-  (
-    input: ListMigrationTaskUpdatesRequest,
-  ): effect.Effect<
-    ListMigrationTaskUpdatesResult,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMigrationTaskUpdates: API.OperationMethod<
+  ListMigrationTaskUpdatesRequest,
+  ListMigrationTaskUpdatesResult,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMigrationTaskUpdatesRequest,
   ) => stream.Stream<
@@ -1617,20 +1596,18 @@ export const listMigrationTaskUpdates: {
 /**
  * Lists progress update streams associated with the user account making this call.
  */
-export const listProgressUpdateStreams: {
-  (
-    input: ListProgressUpdateStreamsRequest,
-  ): effect.Effect<
-    ListProgressUpdateStreamsResult,
-    | AccessDeniedException
-    | HomeRegionNotSetException
-    | InternalServerError
-    | InvalidInputException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProgressUpdateStreams: API.OperationMethod<
+  ListProgressUpdateStreamsRequest,
+  ListProgressUpdateStreamsResult,
+  | AccessDeniedException
+  | HomeRegionNotSetException
+  | InternalServerError
+  | InvalidInputException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProgressUpdateStreamsRequest,
   ) => stream.Stream<
@@ -1679,20 +1656,18 @@ export const listProgressUpdateStreams: {
  * Lists all the source resource that are associated with the specified
  * `MigrationTaskName` and `ProgressUpdateStream`.
  */
-export const listSourceResources: {
-  (
-    input: ListSourceResourcesRequest,
-  ): effect.Effect<
-    ListSourceResourcesResult,
-    | AccessDeniedException
-    | InternalServerError
-    | InvalidInputException
-    | ResourceNotFoundException
-    | ServiceUnavailableException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSourceResources: API.OperationMethod<
+  ListSourceResourcesRequest,
+  ListSourceResourcesResult,
+  | AccessDeniedException
+  | InternalServerError
+  | InvalidInputException
+  | ResourceNotFoundException
+  | ServiceUnavailableException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSourceResourcesRequest,
   ) => stream.Stream<
@@ -1743,9 +1718,8 @@ export const listSourceResources: {
  * three values to `Status`: NOT_STARTED | IN_PROGRESS |
  * COMPLETED.
  */
-export const notifyApplicationState: (
-  input: NotifyApplicationStateRequest,
-) => effect.Effect<
+export const notifyApplicationState: API.OperationMethod<
+  NotifyApplicationStateRequest,
   NotifyApplicationStateResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1788,9 +1762,8 @@ export const notifyApplicationState: (
  * - `ProgressUpdateStream` is used for access control and to provide a
  * namespace for each migration tool.
  */
-export const notifyMigrationTaskState: (
-  input: NotifyMigrationTaskStateRequest,
-) => effect.Effect<
+export const notifyMigrationTaskState: API.OperationMethod<
+  NotifyMigrationTaskStateRequest,
   NotifyMigrationTaskStateResult,
   | AccessDeniedException
   | DryRunOperation
@@ -1838,9 +1811,8 @@ export const notifyMigrationTaskState: (
  * association occurs or not. To confirm if an association was found based on the provided
  * details, call `ListDiscoveredResources`.
  */
-export const putResourceAttributes: (
-  input: PutResourceAttributesRequest,
-) => effect.Effect<
+export const putResourceAttributes: API.OperationMethod<
+  PutResourceAttributesRequest,
   PutResourceAttributesResult,
   | AccessDeniedException
   | DryRunOperation

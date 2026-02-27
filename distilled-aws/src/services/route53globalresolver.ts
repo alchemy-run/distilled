@@ -2857,9 +2857,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Disassociates a Route 53 private hosted zone from a Route 53 Global Resolver resource.
  */
-export const disassociateHostedZone: (
-  input: DisassociateHostedZoneInput,
-) => effect.Effect<
+export const disassociateHostedZone: API.OperationMethod<
+  DisassociateHostedZoneInput,
   DisassociateHostedZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -2884,9 +2883,8 @@ export const disassociateHostedZone: (
 /**
  * Lists the tags associated with a Route 53 Global Resolver resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2898,9 +2896,8 @@ export const listTagsForResource: (
 /**
  * Adds or updates tags for a Route 53 Global Resolver resource. Tags are key-value pairs that help you organize and identify your resources.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -2919,9 +2916,8 @@ export const tagResource: (
 /**
  * Removes tags from a Route 53 Global Resolver resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Rgn | HttpClient.HttpClient
@@ -2933,9 +2929,8 @@ export const untagResource: (
 /**
  * Creates an access source for a DNS view. Access sources define IP addresses or CIDR ranges that are allowed to send DNS queries to the Route 53 Global Resolver, along with the permitted DNS protocols.
  */
-export const createAccessSource: (
-  input: CreateAccessSourceInput,
-) => effect.Effect<
+export const createAccessSource: API.OperationMethod<
+  CreateAccessSourceInput,
   CreateAccessSourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -2962,9 +2957,8 @@ export const createAccessSource: (
 /**
  * Retrieves information about an access source.
  */
-export const getAccessSource: (
-  input: GetAccessSourceInput,
-) => effect.Effect<
+export const getAccessSource: API.OperationMethod<
+  GetAccessSourceInput,
   GetAccessSourceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -2987,9 +2981,8 @@ export const getAccessSource: (
 /**
  * Updates the configuration of an access source.
  */
-export const updateAccessSource: (
-  input: UpdateAccessSourceInput,
-) => effect.Effect<
+export const updateAccessSource: API.OperationMethod<
+  UpdateAccessSourceInput,
   UpdateAccessSourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -3016,9 +3009,8 @@ export const updateAccessSource: (
 /**
  * Deletes an access source. This operation cannot be undone.
  */
-export const deleteAccessSource: (
-  input: DeleteAccessSourceInput,
-) => effect.Effect<
+export const deleteAccessSource: API.OperationMethod<
+  DeleteAccessSourceInput,
   DeleteAccessSourceOutput,
   | AccessDeniedException
   | ConflictException
@@ -3043,18 +3035,16 @@ export const deleteAccessSource: (
 /**
  * Lists all access sources with pagination support.
  */
-export const listAccessSources: {
-  (
-    input: ListAccessSourcesInput,
-  ): effect.Effect<
-    ListAccessSourcesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAccessSources: API.OperationMethod<
+  ListAccessSourcesInput,
+  ListAccessSourcesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessSourcesInput,
   ) => stream.Stream<
@@ -3096,9 +3086,8 @@ export const listAccessSources: {
 /**
  * Creates an access token for a DNS view. Access tokens provide token-based authentication for DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) connections to the Route 53 Global Resolver.
  */
-export const createAccessToken: (
-  input: CreateAccessTokenInput,
-) => effect.Effect<
+export const createAccessToken: API.OperationMethod<
+  CreateAccessTokenInput,
   CreateAccessTokenOutput,
   | AccessDeniedException
   | ConflictException
@@ -3125,9 +3114,8 @@ export const createAccessToken: (
 /**
  * Retrieves information about an access token.
  */
-export const getAccessToken: (
-  input: GetAccessTokenInput,
-) => effect.Effect<
+export const getAccessToken: API.OperationMethod<
+  GetAccessTokenInput,
   GetAccessTokenOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3150,9 +3138,8 @@ export const getAccessToken: (
 /**
  * Updates the configuration of an access token.
  */
-export const updateAccessToken: (
-  input: UpdateAccessTokenInput,
-) => effect.Effect<
+export const updateAccessToken: API.OperationMethod<
+  UpdateAccessTokenInput,
   UpdateAccessTokenOutput,
   | AccessDeniedException
   | ConflictException
@@ -3177,9 +3164,8 @@ export const updateAccessToken: (
 /**
  * Deletes an access token. This operation cannot be undone.
  */
-export const deleteAccessToken: (
-  input: DeleteAccessTokenInput,
-) => effect.Effect<
+export const deleteAccessToken: API.OperationMethod<
+  DeleteAccessTokenInput,
   DeleteAccessTokenOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3202,19 +3188,17 @@ export const deleteAccessToken: (
 /**
  * Lists all access tokens for a DNS view with pagination support.
  */
-export const listAccessTokens: {
-  (
-    input: ListAccessTokensInput,
-  ): effect.Effect<
-    ListAccessTokensOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listAccessTokens: API.OperationMethod<
+  ListAccessTokensInput,
+  ListAccessTokensOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessTokensInput,
   ) => stream.Stream<
@@ -3259,9 +3243,8 @@ export const listAccessTokens: {
 /**
  * Creates a DNS view within a Route 53 Global Resolver. A DNS view models end users, user groups, networks, and devices, and serves as a parent resource that holds configurations controlling access, authorization, DNS firewall rules, and forwarding rules.
  */
-export const createDNSView: (
-  input: CreateDNSViewInput,
-) => effect.Effect<
+export const createDNSView: API.OperationMethod<
+  CreateDNSViewInput,
   CreateDNSViewOutput,
   | AccessDeniedException
   | ConflictException
@@ -3288,9 +3271,8 @@ export const createDNSView: (
 /**
  * Retrieves information about a DNS view.
  */
-export const getDNSView: (
-  input: GetDNSViewInput,
-) => effect.Effect<
+export const getDNSView: API.OperationMethod<
+  GetDNSViewInput,
   GetDNSViewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3313,9 +3295,8 @@ export const getDNSView: (
 /**
  * Updates the configuration of a DNS view.
  */
-export const updateDNSView: (
-  input: UpdateDNSViewInput,
-) => effect.Effect<
+export const updateDNSView: API.OperationMethod<
+  UpdateDNSViewInput,
   UpdateDNSViewOutput,
   | AccessDeniedException
   | ConflictException
@@ -3340,9 +3321,8 @@ export const updateDNSView: (
 /**
  * Deletes a DNS view. This operation cannot be undone.
  */
-export const deleteDNSView: (
-  input: DeleteDNSViewInput,
-) => effect.Effect<
+export const deleteDNSView: API.OperationMethod<
+  DeleteDNSViewInput,
   DeleteDNSViewOutput,
   | AccessDeniedException
   | ConflictException
@@ -3367,19 +3347,17 @@ export const deleteDNSView: (
 /**
  * Lists all DNS views for a Route 53 Global Resolver with pagination support.
  */
-export const listDNSViews: {
-  (
-    input: ListDNSViewsInput,
-  ): effect.Effect<
-    ListDNSViewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDNSViews: API.OperationMethod<
+  ListDNSViewsInput,
+  ListDNSViewsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDNSViewsInput,
   ) => stream.Stream<
@@ -3424,9 +3402,8 @@ export const listDNSViews: {
 /**
  * Disables a DNS view, preventing it from serving DNS queries.
  */
-export const disableDNSView: (
-  input: DisableDNSViewInput,
-) => effect.Effect<
+export const disableDNSView: API.OperationMethod<
+  DisableDNSViewInput,
   DisableDNSViewOutput,
   | AccessDeniedException
   | ConflictException
@@ -3451,9 +3428,8 @@ export const disableDNSView: (
 /**
  * Enables a disabled DNS view, allowing it to serve DNS queries again.
  */
-export const enableDNSView: (
-  input: EnableDNSViewInput,
-) => effect.Effect<
+export const enableDNSView: API.OperationMethod<
+  EnableDNSViewInput,
   EnableDNSViewOutput,
   | AccessDeniedException
   | ConflictException
@@ -3478,9 +3454,8 @@ export const enableDNSView: (
 /**
  * Creates a firewall domain list. Domain lists are reusable sets of domain specifications that you use in DNS firewall rules to allow, block, or alert on DNS queries to specific domains.
  */
-export const createFirewallDomainList: (
-  input: CreateFirewallDomainListInput,
-) => effect.Effect<
+export const createFirewallDomainList: API.OperationMethod<
+  CreateFirewallDomainListInput,
   CreateFirewallDomainListOutput,
   | AccessDeniedException
   | ConflictException
@@ -3507,9 +3482,8 @@ export const createFirewallDomainList: (
 /**
  * Retrieves information about a firewall domain list.
  */
-export const getFirewallDomainList: (
-  input: GetFirewallDomainListInput,
-) => effect.Effect<
+export const getFirewallDomainList: API.OperationMethod<
+  GetFirewallDomainListInput,
   GetFirewallDomainListOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3532,9 +3506,8 @@ export const getFirewallDomainList: (
 /**
  * Deletes a firewall domain list. This operation cannot be undone.
  */
-export const deleteFirewallDomainList: (
-  input: DeleteFirewallDomainListInput,
-) => effect.Effect<
+export const deleteFirewallDomainList: API.OperationMethod<
+  DeleteFirewallDomainListInput,
   DeleteFirewallDomainListOutput,
   | AccessDeniedException
   | ConflictException
@@ -3559,19 +3532,17 @@ export const deleteFirewallDomainList: (
 /**
  * Lists all firewall domain lists for a Route 53 Global Resolver with pagination support.
  */
-export const listFirewallDomainLists: {
-  (
-    input: ListFirewallDomainListsInput,
-  ): effect.Effect<
-    ListFirewallDomainListsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listFirewallDomainLists: API.OperationMethod<
+  ListFirewallDomainListsInput,
+  ListFirewallDomainListsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallDomainListsInput,
   ) => stream.Stream<
@@ -3616,9 +3587,8 @@ export const listFirewallDomainLists: {
 /**
  * Imports a list of domains from an Amazon S3 file into a firewall domain list. The file should contain one domain per line.
  */
-export const importFirewallDomains: (
-  input: ImportFirewallDomainsInput,
-) => effect.Effect<
+export const importFirewallDomains: API.OperationMethod<
+  ImportFirewallDomainsInput,
   ImportFirewallDomainsOutput,
   | AccessDeniedException
   | ConflictException
@@ -3643,19 +3613,17 @@ export const importFirewallDomains: (
 /**
  * Lists all the domains in DNS Firewall domain list you have created.
  */
-export const listFirewallDomains: {
-  (
-    input: ListFirewallDomainsInput,
-  ): effect.Effect<
-    ListFirewallDomainsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listFirewallDomains: API.OperationMethod<
+  ListFirewallDomainsInput,
+  ListFirewallDomainsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallDomainsInput,
   ) => stream.Stream<
@@ -3700,9 +3668,8 @@ export const listFirewallDomains: {
 /**
  * Updates a DNS Firewall domain list from an array of specified domains.
  */
-export const updateFirewallDomains: (
-  input: UpdateFirewallDomainsInput,
-) => effect.Effect<
+export const updateFirewallDomains: API.OperationMethod<
+  UpdateFirewallDomainsInput,
   UpdateFirewallDomainsOutput,
   | AccessDeniedException
   | ConflictException
@@ -3727,9 +3694,8 @@ export const updateFirewallDomains: (
 /**
  * Creates a DNS firewall rule. Firewall rules define actions (ALLOW, BLOCK, or ALERT) to take on DNS queries that match specified domain lists, managed domain lists, or advanced threat protections.
  */
-export const createFirewallRule: (
-  input: CreateFirewallRuleInput,
-) => effect.Effect<
+export const createFirewallRule: API.OperationMethod<
+  CreateFirewallRuleInput,
   CreateFirewallRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -3756,9 +3722,8 @@ export const createFirewallRule: (
 /**
  * Retrieves information about a DNS firewall rule.
  */
-export const getFirewallRule: (
-  input: GetFirewallRuleInput,
-) => effect.Effect<
+export const getFirewallRule: API.OperationMethod<
+  GetFirewallRuleInput,
   GetFirewallRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3781,9 +3746,8 @@ export const getFirewallRule: (
 /**
  * Updates the configuration of a DNS firewall rule.
  */
-export const updateFirewallRule: (
-  input: UpdateFirewallRuleInput,
-) => effect.Effect<
+export const updateFirewallRule: API.OperationMethod<
+  UpdateFirewallRuleInput,
   UpdateFirewallRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -3808,9 +3772,8 @@ export const updateFirewallRule: (
 /**
  * Deletes a DNS firewall rule. This operation cannot be undone.
  */
-export const deleteFirewallRule: (
-  input: DeleteFirewallRuleInput,
-) => effect.Effect<
+export const deleteFirewallRule: API.OperationMethod<
+  DeleteFirewallRuleInput,
   DeleteFirewallRuleOutput,
   | AccessDeniedException
   | ConflictException
@@ -3835,19 +3798,17 @@ export const deleteFirewallRule: (
 /**
  * Lists all DNS firewall rules for a DNS view with pagination support.
  */
-export const listFirewallRules: {
-  (
-    input: ListFirewallRulesInput,
-  ): effect.Effect<
-    ListFirewallRulesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listFirewallRules: API.OperationMethod<
+  ListFirewallRulesInput,
+  ListFirewallRulesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFirewallRulesInput,
   ) => stream.Stream<
@@ -3892,9 +3853,8 @@ export const listFirewallRules: {
 /**
  * Creates multiple DNS firewall rules in a single operation. This is more efficient than creating rules individually when you need to set up multiple rules at once.
  */
-export const batchCreateFirewallRule: (
-  input: BatchCreateFirewallRuleInput,
-) => effect.Effect<
+export const batchCreateFirewallRule: API.OperationMethod<
+  BatchCreateFirewallRuleInput,
   BatchCreateFirewallRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3915,9 +3875,8 @@ export const batchCreateFirewallRule: (
 /**
  * Deletes multiple DNS firewall rules in a single operation. This is more efficient than deleting rules individually.
  */
-export const batchDeleteFirewallRule: (
-  input: BatchDeleteFirewallRuleInput,
-) => effect.Effect<
+export const batchDeleteFirewallRule: API.OperationMethod<
+  BatchDeleteFirewallRuleInput,
   BatchDeleteFirewallRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3938,9 +3897,8 @@ export const batchDeleteFirewallRule: (
 /**
  * Updates multiple DNS firewall rules in a single operation. This is more efficient than updating rules individually.
  */
-export const batchUpdateFirewallRule: (
-  input: BatchUpdateFirewallRuleInput,
-) => effect.Effect<
+export const batchUpdateFirewallRule: API.OperationMethod<
+  BatchUpdateFirewallRuleInput,
   BatchUpdateFirewallRuleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -3961,9 +3919,8 @@ export const batchUpdateFirewallRule: (
 /**
  * Creates a new Route 53 Global Resolver instance. A Route 53 Global Resolver is a global, internet-accessible DNS resolver that provides secure DNS resolution for both public and private domains through global anycast IP addresses.
  */
-export const createGlobalResolver: (
-  input: CreateGlobalResolverInput,
-) => effect.Effect<
+export const createGlobalResolver: API.OperationMethod<
+  CreateGlobalResolverInput,
   CreateGlobalResolverOutput,
   | AccessDeniedException
   | ConflictException
@@ -3988,9 +3945,8 @@ export const createGlobalResolver: (
 /**
  * Retrieves information about a Route 53 Global Resolver instance.
  */
-export const getGlobalResolver: (
-  input: GetGlobalResolverInput,
-) => effect.Effect<
+export const getGlobalResolver: API.OperationMethod<
+  GetGlobalResolverInput,
   GetGlobalResolverOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4013,9 +3969,8 @@ export const getGlobalResolver: (
 /**
  * Updates the configuration of a Route 53 Global Resolver instance. You can modify the name, description, and observability region.
  */
-export const updateGlobalResolver: (
-  input: UpdateGlobalResolverInput,
-) => effect.Effect<
+export const updateGlobalResolver: API.OperationMethod<
+  UpdateGlobalResolverInput,
   UpdateGlobalResolverOutput,
   | AccessDeniedException
   | ConflictException
@@ -4040,9 +3995,8 @@ export const updateGlobalResolver: (
 /**
  * Deletes a Route 53 Global Resolver instance. This operation cannot be undone. All associated DNS views, access sources, tokens, and firewall rules are also deleted.
  */
-export const deleteGlobalResolver: (
-  input: DeleteGlobalResolverInput,
-) => effect.Effect<
+export const deleteGlobalResolver: API.OperationMethod<
+  DeleteGlobalResolverInput,
   DeleteGlobalResolverOutput,
   | AccessDeniedException
   | ConflictException
@@ -4067,18 +4021,16 @@ export const deleteGlobalResolver: (
 /**
  * Lists all Route 53 Global Resolver instances in your account with pagination support.
  */
-export const listGlobalResolvers: {
-  (
-    input: ListGlobalResolversInput,
-  ): effect.Effect<
-    ListGlobalResolversOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listGlobalResolvers: API.OperationMethod<
+  ListGlobalResolversInput,
+  ListGlobalResolversOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGlobalResolversInput,
   ) => stream.Stream<
@@ -4120,9 +4072,8 @@ export const listGlobalResolvers: {
 /**
  * Associates a Route 53 private hosted zone with a Route 53 Global Resolver resource. This allows the resolver to resolve DNS queries for the private hosted zone from anywhere globally.
  */
-export const associateHostedZone: (
-  input: AssociateHostedZoneInput,
-) => effect.Effect<
+export const associateHostedZone: API.OperationMethod<
+  AssociateHostedZoneInput,
   AssociateHostedZoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -4149,9 +4100,8 @@ export const associateHostedZone: (
 /**
  * Retrieves information about a hosted zone association.
  */
-export const getHostedZoneAssociation: (
-  input: GetHostedZoneAssociationInput,
-) => effect.Effect<
+export const getHostedZoneAssociation: API.OperationMethod<
+  GetHostedZoneAssociationInput,
   GetHostedZoneAssociationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4174,9 +4124,8 @@ export const getHostedZoneAssociation: (
 /**
  * Updates the configuration of a hosted zone association.
  */
-export const updateHostedZoneAssociation: (
-  input: UpdateHostedZoneAssociationInput,
-) => effect.Effect<
+export const updateHostedZoneAssociation: API.OperationMethod<
+  UpdateHostedZoneAssociationInput,
   UpdateHostedZoneAssociationOutput,
   | AccessDeniedException
   | ConflictException
@@ -4201,19 +4150,17 @@ export const updateHostedZoneAssociation: (
 /**
  * Lists all hosted zone associations for a Route 53 Global Resolver resource with pagination support.
  */
-export const listHostedZoneAssociations: {
-  (
-    input: ListHostedZoneAssociationsInput,
-  ): effect.Effect<
-    ListHostedZoneAssociationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listHostedZoneAssociations: API.OperationMethod<
+  ListHostedZoneAssociationsInput,
+  ListHostedZoneAssociationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHostedZoneAssociationsInput,
   ) => stream.Stream<
@@ -4258,9 +4205,8 @@ export const listHostedZoneAssociations: {
 /**
  * Retrieves information about an AWS-managed firewall domain list. Managed domain lists contain domains associated with malicious activity, content categories, or specific threats.
  */
-export const getManagedFirewallDomainList: (
-  input: GetManagedFirewallDomainListInput,
-) => effect.Effect<
+export const getManagedFirewallDomainList: API.OperationMethod<
+  GetManagedFirewallDomainListInput,
   GetManagedFirewallDomainListOutput,
   | AccessDeniedException
   | InternalServerException
@@ -4283,18 +4229,16 @@ export const getManagedFirewallDomainList: (
 /**
  * Returns a paginated list of the AWS Managed DNS Lists and the categories for DNS Firewall. The categories are either `THREAT` or `CONTENT`.
  */
-export const listManagedFirewallDomainLists: {
-  (
-    input: ListManagedFirewallDomainListsInput,
-  ): effect.Effect<
-    ListManagedFirewallDomainListsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listManagedFirewallDomainLists: API.OperationMethod<
+  ListManagedFirewallDomainListsInput,
+  ListManagedFirewallDomainListsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedFirewallDomainListsInput,
   ) => stream.Stream<

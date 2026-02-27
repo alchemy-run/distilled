@@ -1185,9 +1185,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Shows the tags associated with this resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServiceException
   | ResourceNotFoundException
@@ -1206,9 +1205,8 @@ export const listTagsForResource: (
 /**
  * Add a tag to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServiceException
   | ResourceNotFoundException
@@ -1227,9 +1225,8 @@ export const tagResource: (
 /**
  * Remove tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServiceException
   | ResourceNotFoundException
@@ -1250,9 +1247,8 @@ export const untagResource: (
  *
  * For backwards compatibility with older versions of BraketSchemas, OpenQASM information is omitted from GetDevice API calls. To get this information the user-agent needs to present a recent version of the BraketSchemas (1.8.0 or later). The Braket SDK automatically reports this for you. If you do not see OpenQASM results in the GetDevice response when using a Braket SDK, you may need to set AWS_EXECUTION_ENV environment variable to configure user-agent. See the code examples provided below for how to do this for the AWS CLI, Boto3, and the Go, Java, and JavaScript/TypeScript SDKs.
  */
-export const getDevice: (
-  input: GetDeviceRequest,
-) => effect.Effect<
+export const getDevice: API.OperationMethod<
+  GetDeviceRequest,
   GetDeviceResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1275,18 +1271,16 @@ export const getDevice: (
 /**
  * Searches for devices using the specified filters.
  */
-export const searchDevices: {
-  (
-    input: SearchDevicesRequest,
-  ): effect.Effect<
-    SearchDevicesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchDevices: API.OperationMethod<
+  SearchDevicesRequest,
+  SearchDevicesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchDevicesRequest,
   ) => stream.Stream<
@@ -1328,9 +1322,8 @@ export const searchDevices: {
 /**
  * Creates an Amazon Braket hybrid job.
  */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
   CreateJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -1359,9 +1352,8 @@ export const createJob: (
 /**
  * Retrieves the specified Amazon Braket hybrid job.
  */
-export const getJob: (
-  input: GetJobRequest,
-) => effect.Effect<
+export const getJob: API.OperationMethod<
+  GetJobRequest,
   GetJobResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1384,9 +1376,8 @@ export const getJob: (
 /**
  * Cancels an Amazon Braket hybrid job.
  */
-export const cancelJob: (
-  input: CancelJobRequest,
-) => effect.Effect<
+export const cancelJob: API.OperationMethod<
+  CancelJobRequest,
   CancelJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -1411,18 +1402,16 @@ export const cancelJob: (
 /**
  * Searches for Amazon Braket hybrid jobs that match the specified filter values.
  */
-export const searchJobs: {
-  (
-    input: SearchJobsRequest,
-  ): effect.Effect<
-    SearchJobsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchJobs: API.OperationMethod<
+  SearchJobsRequest,
+  SearchJobsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchJobsRequest,
   ) => stream.Stream<
@@ -1464,9 +1453,8 @@ export const searchJobs: {
 /**
  * Creates a quantum task.
  */
-export const createQuantumTask: (
-  input: CreateQuantumTaskRequest,
-) => effect.Effect<
+export const createQuantumTask: API.OperationMethod<
+  CreateQuantumTaskRequest,
   CreateQuantumTaskResponse,
   | AccessDeniedException
   | DeviceOfflineException
@@ -1493,9 +1481,8 @@ export const createQuantumTask: (
 /**
  * Retrieves the specified quantum task.
  */
-export const getQuantumTask: (
-  input: GetQuantumTaskRequest,
-) => effect.Effect<
+export const getQuantumTask: API.OperationMethod<
+  GetQuantumTaskRequest,
   GetQuantumTaskResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1518,9 +1505,8 @@ export const getQuantumTask: (
 /**
  * Cancels the specified task.
  */
-export const cancelQuantumTask: (
-  input: CancelQuantumTaskRequest,
-) => effect.Effect<
+export const cancelQuantumTask: API.OperationMethod<
+  CancelQuantumTaskRequest,
   CancelQuantumTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -1545,18 +1531,16 @@ export const cancelQuantumTask: (
 /**
  * Searches for tasks that match the specified filter values.
  */
-export const searchQuantumTasks: {
-  (
-    input: SearchQuantumTasksRequest,
-  ): effect.Effect<
-    SearchQuantumTasksResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchQuantumTasks: API.OperationMethod<
+  SearchQuantumTasksRequest,
+  SearchQuantumTasksResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchQuantumTasksRequest,
   ) => stream.Stream<
@@ -1598,9 +1582,8 @@ export const searchQuantumTasks: {
 /**
  * Creates a spending limit for a specified quantum device. Spending limits help you control costs by setting maximum amounts that can be spent on quantum computing tasks within a specified time period. Simulators do not support spending limits.
  */
-export const createSpendingLimit: (
-  input: CreateSpendingLimitRequest,
-) => effect.Effect<
+export const createSpendingLimit: API.OperationMethod<
+  CreateSpendingLimitRequest,
   CreateSpendingLimitResponse,
   | AccessDeniedException
   | DeviceRetiredException
@@ -1623,9 +1606,8 @@ export const createSpendingLimit: (
 /**
  * Updates an existing spending limit. You can modify the spending amount or time period. Changes take effect immediately.
  */
-export const updateSpendingLimit: (
-  input: UpdateSpendingLimitRequest,
-) => effect.Effect<
+export const updateSpendingLimit: API.OperationMethod<
+  UpdateSpendingLimitRequest,
   UpdateSpendingLimitResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1648,9 +1630,8 @@ export const updateSpendingLimit: (
 /**
  * Deletes an existing spending limit. This operation permanently removes the spending limit and cannot be undone. After deletion, the associated device becomes unrestricted for spending.
  */
-export const deleteSpendingLimit: (
-  input: DeleteSpendingLimitRequest,
-) => effect.Effect<
+export const deleteSpendingLimit: API.OperationMethod<
+  DeleteSpendingLimitRequest,
   DeleteSpendingLimitResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -1673,18 +1654,16 @@ export const deleteSpendingLimit: (
 /**
  * Searches and lists spending limits based on specified filters. This operation supports pagination and allows filtering by various criteria to find specific spending limits. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
-export const searchSpendingLimits: {
-  (
-    input: SearchSpendingLimitsRequest,
-  ): effect.Effect<
-    SearchSpendingLimitsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchSpendingLimits: API.OperationMethod<
+  SearchSpendingLimitsRequest,
+  SearchSpendingLimitsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchSpendingLimitsRequest,
   ) => stream.Stream<

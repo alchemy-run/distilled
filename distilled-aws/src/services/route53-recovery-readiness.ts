@@ -1735,9 +1735,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 /**
  * Creates a cell in an account.
  */
-export const createCell: (
-  input: CreateCellRequest,
-) => effect.Effect<
+export const createCell: API.OperationMethod<
+  CreateCellRequest,
   CreateCellResponse,
   | AccessDeniedException
   | ConflictException
@@ -1760,9 +1759,8 @@ export const createCell: (
 /**
  * Creates a cross-account readiness authorization. This lets you authorize another account to work with Route 53 Application Recovery Controller, for example, to check the readiness status of resources in a separate account.
  */
-export const createCrossAccountAuthorization: (
-  input: CreateCrossAccountAuthorizationRequest,
-) => effect.Effect<
+export const createCrossAccountAuthorization: API.OperationMethod<
+  CreateCrossAccountAuthorizationRequest,
   CreateCrossAccountAuthorizationResponse,
   | AccessDeniedException
   | ConflictException
@@ -1785,9 +1783,8 @@ export const createCrossAccountAuthorization: (
 /**
  * Creates a readiness check in an account. A readiness check monitors a resource set in your application, such as a set of Amazon Aurora instances, that Application Recovery Controller is auditing recovery readiness for. The audits run once every minute on every resource that's associated with a readiness check.
  */
-export const createReadinessCheck: (
-  input: CreateReadinessCheckRequest,
-) => effect.Effect<
+export const createReadinessCheck: API.OperationMethod<
+  CreateReadinessCheckRequest,
   CreateReadinessCheckResponse,
   | AccessDeniedException
   | ConflictException
@@ -1810,9 +1807,8 @@ export const createReadinessCheck: (
 /**
  * Creates a recovery group in an account. A recovery group corresponds to an application and includes a list of the cells that make up the application.
  */
-export const createRecoveryGroup: (
-  input: CreateRecoveryGroupRequest,
-) => effect.Effect<
+export const createRecoveryGroup: API.OperationMethod<
+  CreateRecoveryGroupRequest,
   CreateRecoveryGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -1835,9 +1831,8 @@ export const createRecoveryGroup: (
 /**
  * Creates a resource set. A resource set is a set of resources of one type that span multiple cells. You can associate a resource set with a readiness check to monitor the resources for failover readiness.
  */
-export const createResourceSet: (
-  input: CreateResourceSetRequest,
-) => effect.Effect<
+export const createResourceSet: API.OperationMethod<
+  CreateResourceSetRequest,
   CreateResourceSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -1860,9 +1855,8 @@ export const createResourceSet: (
 /**
  * Delete a cell. When successful, the response code is 204, with no response body.
  */
-export const deleteCell: (
-  input: DeleteCellRequest,
-) => effect.Effect<
+export const deleteCell: API.OperationMethod<
+  DeleteCellRequest,
   DeleteCellResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1885,9 +1879,8 @@ export const deleteCell: (
 /**
  * Deletes cross account readiness authorization.
  */
-export const deleteCrossAccountAuthorization: (
-  input: DeleteCrossAccountAuthorizationRequest,
-) => effect.Effect<
+export const deleteCrossAccountAuthorization: API.OperationMethod<
+  DeleteCrossAccountAuthorizationRequest,
   DeleteCrossAccountAuthorizationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1908,9 +1901,8 @@ export const deleteCrossAccountAuthorization: (
 /**
  * Deletes a readiness check.
  */
-export const deleteReadinessCheck: (
-  input: DeleteReadinessCheckRequest,
-) => effect.Effect<
+export const deleteReadinessCheck: API.OperationMethod<
+  DeleteReadinessCheckRequest,
   DeleteReadinessCheckResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1933,9 +1925,8 @@ export const deleteReadinessCheck: (
 /**
  * Deletes a recovery group.
  */
-export const deleteRecoveryGroup: (
-  input: DeleteRecoveryGroupRequest,
-) => effect.Effect<
+export const deleteRecoveryGroup: API.OperationMethod<
+  DeleteRecoveryGroupRequest,
   DeleteRecoveryGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1958,9 +1949,8 @@ export const deleteRecoveryGroup: (
 /**
  * Deletes a resource set.
  */
-export const deleteResourceSet: (
-  input: DeleteResourceSetRequest,
-) => effect.Effect<
+export const deleteResourceSet: API.OperationMethod<
+  DeleteResourceSetRequest,
   DeleteResourceSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1983,9 +1973,8 @@ export const deleteResourceSet: (
 /**
  * Gets recommendations about architecture designs for improving resiliency for an application, based on a recovery group.
  */
-export const getArchitectureRecommendations: (
-  input: GetArchitectureRecommendationsRequest,
-) => effect.Effect<
+export const getArchitectureRecommendations: API.OperationMethod<
+  GetArchitectureRecommendationsRequest,
   GetArchitectureRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2008,9 +1997,8 @@ export const getArchitectureRecommendations: (
 /**
  * Gets information about a cell including cell name, cell Amazon Resource Name (ARN), ARNs of nested cells for this cell, and a list of those cell ARNs with their associated recovery group ARNs.
  */
-export const getCell: (
-  input: GetCellRequest,
-) => effect.Effect<
+export const getCell: API.OperationMethod<
+  GetCellRequest,
   GetCellResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2033,19 +2021,17 @@ export const getCell: (
 /**
  * Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
  */
-export const getCellReadinessSummary: {
-  (
-    input: GetCellReadinessSummaryRequest,
-  ): effect.Effect<
-    GetCellReadinessSummaryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCellReadinessSummary: API.OperationMethod<
+  GetCellReadinessSummaryRequest,
+  GetCellReadinessSummaryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCellReadinessSummaryRequest,
   ) => stream.Stream<
@@ -2090,9 +2076,8 @@ export const getCellReadinessSummary: {
 /**
  * Gets details about a readiness check.
  */
-export const getReadinessCheck: (
-  input: GetReadinessCheckRequest,
-) => effect.Effect<
+export const getReadinessCheck: API.OperationMethod<
+  GetReadinessCheckRequest,
   GetReadinessCheckResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2115,19 +2100,17 @@ export const getReadinessCheck: (
 /**
  * Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
  */
-export const getReadinessCheckResourceStatus: {
-  (
-    input: GetReadinessCheckResourceStatusRequest,
-  ): effect.Effect<
-    GetReadinessCheckResourceStatusResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getReadinessCheckResourceStatus: API.OperationMethod<
+  GetReadinessCheckResourceStatusRequest,
+  GetReadinessCheckResourceStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetReadinessCheckResourceStatusRequest,
   ) => stream.Stream<
@@ -2172,19 +2155,17 @@ export const getReadinessCheckResourceStatus: {
 /**
  * Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
  */
-export const getReadinessCheckStatus: {
-  (
-    input: GetReadinessCheckStatusRequest,
-  ): effect.Effect<
-    GetReadinessCheckStatusResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getReadinessCheckStatus: API.OperationMethod<
+  GetReadinessCheckStatusRequest,
+  GetReadinessCheckStatusResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetReadinessCheckStatusRequest,
   ) => stream.Stream<
@@ -2229,9 +2210,8 @@ export const getReadinessCheckStatus: {
 /**
  * Gets details about a recovery group, including a list of the cells that are included in it.
  */
-export const getRecoveryGroup: (
-  input: GetRecoveryGroupRequest,
-) => effect.Effect<
+export const getRecoveryGroup: API.OperationMethod<
+  GetRecoveryGroupRequest,
   GetRecoveryGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2254,19 +2234,17 @@ export const getRecoveryGroup: (
 /**
  * Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
  */
-export const getRecoveryGroupReadinessSummary: {
-  (
-    input: GetRecoveryGroupReadinessSummaryRequest,
-  ): effect.Effect<
-    GetRecoveryGroupReadinessSummaryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getRecoveryGroupReadinessSummary: API.OperationMethod<
+  GetRecoveryGroupReadinessSummaryRequest,
+  GetRecoveryGroupReadinessSummaryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetRecoveryGroupReadinessSummaryRequest,
   ) => stream.Stream<
@@ -2311,9 +2289,8 @@ export const getRecoveryGroupReadinessSummary: {
 /**
  * Displays the details about a resource set, including a list of the resources in the set.
  */
-export const getResourceSet: (
-  input: GetResourceSetRequest,
-) => effect.Effect<
+export const getResourceSet: API.OperationMethod<
+  GetResourceSetRequest,
   GetResourceSetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2336,18 +2313,16 @@ export const getResourceSet: (
 /**
  * Lists the cells for an account.
  */
-export const listCells: {
-  (
-    input: ListCellsRequest,
-  ): effect.Effect<
-    ListCellsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCells: API.OperationMethod<
+  ListCellsRequest,
+  ListCellsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCellsRequest,
   ) => stream.Stream<
@@ -2389,18 +2364,16 @@ export const listCells: {
 /**
  * Lists the cross-account readiness authorizations that are in place for an account.
  */
-export const listCrossAccountAuthorizations: {
-  (
-    input: ListCrossAccountAuthorizationsRequest,
-  ): effect.Effect<
-    ListCrossAccountAuthorizationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCrossAccountAuthorizations: API.OperationMethod<
+  ListCrossAccountAuthorizationsRequest,
+  ListCrossAccountAuthorizationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCrossAccountAuthorizationsRequest,
   ) => stream.Stream<
@@ -2442,18 +2415,16 @@ export const listCrossAccountAuthorizations: {
 /**
  * Lists the readiness checks for an account.
  */
-export const listReadinessChecks: {
-  (
-    input: ListReadinessChecksRequest,
-  ): effect.Effect<
-    ListReadinessChecksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReadinessChecks: API.OperationMethod<
+  ListReadinessChecksRequest,
+  ListReadinessChecksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReadinessChecksRequest,
   ) => stream.Stream<
@@ -2495,18 +2466,16 @@ export const listReadinessChecks: {
 /**
  * Lists the recovery groups in an account.
  */
-export const listRecoveryGroups: {
-  (
-    input: ListRecoveryGroupsRequest,
-  ): effect.Effect<
-    ListRecoveryGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecoveryGroups: API.OperationMethod<
+  ListRecoveryGroupsRequest,
+  ListRecoveryGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecoveryGroupsRequest,
   ) => stream.Stream<
@@ -2548,18 +2517,16 @@ export const listRecoveryGroups: {
 /**
  * Lists the resource sets in an account.
  */
-export const listResourceSets: {
-  (
-    input: ListResourceSetsRequest,
-  ): effect.Effect<
-    ListResourceSetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceSets: API.OperationMethod<
+  ListResourceSetsRequest,
+  ListResourceSetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceSetsRequest,
   ) => stream.Stream<
@@ -2601,18 +2568,16 @@ export const listResourceSets: {
 /**
  * Lists all readiness rules, or lists the readiness rules for a specific resource type.
  */
-export const listRules: {
-  (
-    input: ListRulesRequest,
-  ): effect.Effect<
-    ListRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
+  ListRulesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRulesRequest,
   ) => stream.Stream<
@@ -2654,9 +2619,8 @@ export const listRules: {
 /**
  * Lists the tags for a resource.
  */
-export const listTagsForResources: (
-  input: ListTagsForResourcesRequest,
-) => effect.Effect<
+export const listTagsForResources: API.OperationMethod<
+  ListTagsForResourcesRequest,
   ListTagsForResourcesResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2675,9 +2639,8 @@ export const listTagsForResources: (
 /**
  * Adds a tag to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2696,9 +2659,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2717,9 +2679,8 @@ export const untagResource: (
 /**
  * Updates a cell to replace the list of nested cells with a new list of nested cells.
  */
-export const updateCell: (
-  input: UpdateCellRequest,
-) => effect.Effect<
+export const updateCell: API.OperationMethod<
+  UpdateCellRequest,
   UpdateCellResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2742,9 +2703,8 @@ export const updateCell: (
 /**
  * Updates a readiness check.
  */
-export const updateReadinessCheck: (
-  input: UpdateReadinessCheckRequest,
-) => effect.Effect<
+export const updateReadinessCheck: API.OperationMethod<
+  UpdateReadinessCheckRequest,
   UpdateReadinessCheckResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2767,9 +2727,8 @@ export const updateReadinessCheck: (
 /**
  * Updates a recovery group.
  */
-export const updateRecoveryGroup: (
-  input: UpdateRecoveryGroupRequest,
-) => effect.Effect<
+export const updateRecoveryGroup: API.OperationMethod<
+  UpdateRecoveryGroupRequest,
   UpdateRecoveryGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2792,9 +2751,8 @@ export const updateRecoveryGroup: (
 /**
  * Updates a resource set.
  */
-export const updateResourceSet: (
-  input: UpdateResourceSetRequest,
-) => effect.Effect<
+export const updateResourceSet: API.OperationMethod<
+  UpdateResourceSetRequest,
   UpdateResourceSetResponse,
   | AccessDeniedException
   | InternalServerException

@@ -2043,9 +2043,8 @@ export class UnmatchedPolicyPermissionException extends S.TaggedErrorClass<Unmat
  * invitation, the resources included in the resource share are available to interact with in the
  * relevant Amazon Web Services Management Consoles and tools.
  */
-export const acceptResourceShareInvitation: (
-  input: AcceptResourceShareInvitationRequest,
-) => effect.Effect<
+export const acceptResourceShareInvitation: API.OperationMethod<
+  AcceptResourceShareInvitationRequest,
   AcceptResourceShareInvitationResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2080,9 +2079,8 @@ export const acceptResourceShareInvitation: (
  * already have access to this resource share immediately receive access to the added resources.
  * Newly added principals immediately receive access to the resources shared in this resource share.
  */
-export const associateResourceShare: (
-  input: AssociateResourceShareRequest,
-) => effect.Effect<
+export const associateResourceShare: API.OperationMethod<
+  AssociateResourceShareRequest,
   AssociateResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2120,9 +2118,8 @@ export const associateResourceShare: (
  * a new RAM permission only if there are currently no resources of that resource type
  * currently in the resource share.
  */
-export const associateResourceSharePermission: (
-  input: AssociateResourceSharePermissionRequest,
-) => effect.Effect<
+export const associateResourceSharePermission: API.OperationMethod<
+  AssociateResourceSharePermissionRequest,
   AssociateResourceSharePermissionResponse,
   | InvalidClientTokenException
   | InvalidParameterException
@@ -2150,9 +2147,8 @@ export const associateResourceSharePermission: (
  * Creates a customer managed permission for a specified resource type that you can attach to resource shares.
  * It is created in the Amazon Web Services Region in which you call the operation.
  */
-export const createPermission: (
-  input: CreatePermissionRequest,
-) => effect.Effect<
+export const createPermission: API.OperationMethod<
+  CreatePermissionRequest,
   CreatePermissionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2191,9 +2187,8 @@ export const createPermission: (
  * If the specified customer managed permission already has the maximum of 5 versions, then
  * you must delete one of the existing versions before you can create a new one.
  */
-export const createPermissionVersion: (
-  input: CreatePermissionVersionRequest,
-) => effect.Effect<
+export const createPermissionVersion: API.OperationMethod<
+  CreatePermissionVersionRequest,
   CreatePermissionVersionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2232,9 +2227,8 @@ export const createPermissionVersion: (
  * Amazon Web Services account that created the resource. Sharing doesn't change any permissions or
  * quotas that apply to the resource in the account that created it.
  */
-export const createResourceShare: (
-  input: CreateResourceShareRequest,
-) => effect.Effect<
+export const createResourceShare: API.OperationMethod<
+  CreateResourceShareRequest,
   CreateResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2275,9 +2269,8 @@ export const createResourceShare: (
  * can delete a customer managed permission only if it isn't attached to any resource share. The operation deletes all
  * versions associated with the customer managed permission.
  */
-export const deletePermission: (
-  input: DeletePermissionRequest,
-) => effect.Effect<
+export const deletePermission: API.OperationMethod<
+  DeletePermissionRequest,
   DeletePermissionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2308,9 +2301,8 @@ export const deletePermission: (
  * If a customer managed permission has the maximum of 5 versions, then you must delete at
  * least one version before you can create another.
  */
-export const deletePermissionVersion: (
-  input: DeletePermissionVersionRequest,
-) => effect.Effect<
+export const deletePermissionVersion: API.OperationMethod<
+  DeletePermissionVersionRequest,
   DeletePermissionVersionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2342,9 +2334,8 @@ export const deletePermissionVersion: (
  * This doesn't delete any of the resources that were associated with the resource share; it
  * only stops the sharing of those resources through this resource share.
  */
-export const deleteResourceShare: (
-  input: DeleteResourceShareRequest,
-) => effect.Effect<
+export const deleteResourceShare: API.OperationMethod<
+  DeleteResourceShareRequest,
   DeleteResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2378,9 +2369,8 @@ export const deleteResourceShare: (
  * Removes the specified principals, resources, or source constraints from participating in the specified
  * resource share.
  */
-export const disassociateResourceShare: (
-  input: DisassociateResourceShareRequest,
-) => effect.Effect<
+export const disassociateResourceShare: API.OperationMethod<
+  DisassociateResourceShareRequest,
   DisassociateResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -2417,9 +2407,8 @@ export const disassociateResourceShare: (
  * remove a managed permission from a resource share only if there are currently no resources of the relevant
  * resource type currently attached to the resource share.
  */
-export const disassociateResourceSharePermission: (
-  input: DisassociateResourceSharePermissionRequest,
-) => effect.Effect<
+export const disassociateResourceSharePermission: API.OperationMethod<
+  DisassociateResourceSharePermissionRequest,
   DisassociateResourceSharePermissionResponse,
   | InvalidClientTokenException
   | InvalidParameterException
@@ -2458,9 +2447,8 @@ export const disassociateResourceSharePermission: (
  * You must call this operation from an IAM role or user in the organization's
  * management account.
  */
-export const enableSharingWithAwsOrganization: (
-  input: EnableSharingWithAwsOrganizationRequest,
-) => effect.Effect<
+export const enableSharingWithAwsOrganization: API.OperationMethod<
+  EnableSharingWithAwsOrganizationRequest,
   EnableSharingWithAwsOrganizationResponse,
   | OperationNotPermittedException
   | ServerInternalException
@@ -2479,9 +2467,8 @@ export const enableSharingWithAwsOrganization: (
 /**
  * Retrieves the contents of a managed permission in JSON format.
  */
-export const getPermission: (
-  input: GetPermissionRequest,
-) => effect.Effect<
+export const getPermission: API.OperationMethod<
+  GetPermissionRequest,
   GetPermissionResponse,
   | InvalidParameterException
   | MalformedArnException
@@ -2513,20 +2500,18 @@ export const getPermission: (
  * *only*
  * when there are no more results to display.
  */
-export const getResourcePolicies: {
-  (
-    input: GetResourcePoliciesRequest,
-  ): effect.Effect<
-    GetResourcePoliciesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ResourceArnNotFoundException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourcePolicies: API.OperationMethod<
+  GetResourcePoliciesRequest,
+  GetResourcePoliciesResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ResourceArnNotFoundException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourcePoliciesRequest,
   ) => stream.Stream<
@@ -2580,21 +2565,19 @@ export const getResourcePolicies: {
  * *only*
  * when there are no more results to display.
  */
-export const getResourceShareAssociations: {
-  (
-    input: GetResourceShareAssociationsRequest,
-  ): effect.Effect<
-    GetResourceShareAssociationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourceShareAssociations: API.OperationMethod<
+  GetResourceShareAssociationsRequest,
+  GetResourceShareAssociationsResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourceShareAssociationsRequest,
   ) => stream.Stream<
@@ -2650,22 +2633,20 @@ export const getResourceShareAssociations: {
  * *only*
  * when there are no more results to display.
  */
-export const getResourceShareInvitations: {
-  (
-    input: GetResourceShareInvitationsRequest,
-  ): effect.Effect<
-    GetResourceShareInvitationsResponse,
-    | InvalidMaxResultsException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ResourceShareInvitationArnNotFoundException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourceShareInvitations: API.OperationMethod<
+  GetResourceShareInvitationsRequest,
+  GetResourceShareInvitationsResponse,
+  | InvalidMaxResultsException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ResourceShareInvitationArnNotFoundException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourceShareInvitationsRequest,
   ) => stream.Stream<
@@ -2724,20 +2705,18 @@ export const getResourceShareInvitations: {
  * *only*
  * when there are no more results to display.
  */
-export const getResourceShares: {
-  (
-    input: GetResourceSharesRequest,
-  ): effect.Effect<
-    GetResourceSharesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourceShares: API.OperationMethod<
+  GetResourceSharesRequest,
+  GetResourceSharesResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourceSharesRequest,
   ) => stream.Stream<
@@ -2792,23 +2771,21 @@ export const getResourceShares: {
  * *only*
  * when there are no more results to display.
  */
-export const listPendingInvitationResources: {
-  (
-    input: ListPendingInvitationResourcesRequest,
-  ): effect.Effect<
-    ListPendingInvitationResourcesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | MissingRequiredParameterException
-    | ResourceShareInvitationAlreadyRejectedException
-    | ResourceShareInvitationArnNotFoundException
-    | ResourceShareInvitationExpiredException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPendingInvitationResources: API.OperationMethod<
+  ListPendingInvitationResourcesRequest,
+  ListPendingInvitationResourcesResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | MissingRequiredParameterException
+  | ResourceShareInvitationAlreadyRejectedException
+  | ResourceShareInvitationArnNotFoundException
+  | ResourceShareInvitationExpiredException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPendingInvitationResourcesRequest,
   ) => stream.Stream<
@@ -2872,19 +2849,17 @@ export const listPendingInvitationResources: {
  * *only*
  * when there are no more results to display.
  */
-export const listPermissionAssociations: {
-  (
-    input: ListPermissionAssociationsRequest,
-  ): effect.Effect<
-    ListPermissionAssociationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPermissionAssociations: API.OperationMethod<
+  ListPermissionAssociationsRequest,
+  ListPermissionAssociationsResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPermissionAssociationsRequest,
   ) => stream.Stream<
@@ -2935,19 +2910,17 @@ export const listPermissionAssociations: {
  * *only*
  * when there are no more results to display.
  */
-export const listPermissions: {
-  (
-    input: ListPermissionsRequest,
-  ): effect.Effect<
-    ListPermissionsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPermissions: API.OperationMethod<
+  ListPermissionsRequest,
+  ListPermissionsResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPermissionsRequest,
   ) => stream.Stream<
@@ -2997,21 +2970,19 @@ export const listPermissions: {
  * *only*
  * when there are no more results to display.
  */
-export const listPermissionVersions: {
-  (
-    input: ListPermissionVersionsRequest,
-  ): effect.Effect<
-    ListPermissionVersionsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPermissionVersions: API.OperationMethod<
+  ListPermissionVersionsRequest,
+  ListPermissionVersionsResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPermissionVersionsRequest,
   ) => stream.Stream<
@@ -3068,20 +3039,18 @@ export const listPermissionVersions: {
  * *only*
  * when there are no more results to display.
  */
-export const listPrincipals: {
-  (
-    input: ListPrincipalsRequest,
-  ): effect.Effect<
-    ListPrincipalsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPrincipals: API.OperationMethod<
+  ListPrincipalsRequest,
+  ListPrincipalsResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPrincipalsRequest,
   ) => stream.Stream<
@@ -3135,18 +3104,16 @@ export const listPrincipals: {
  * *only*
  * when there are no more results to display.
  */
-export const listReplacePermissionAssociationsWork: {
-  (
-    input: ListReplacePermissionAssociationsWorkRequest,
-  ): effect.Effect<
-    ListReplacePermissionAssociationsWorkResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReplacePermissionAssociationsWork: API.OperationMethod<
+  ListReplacePermissionAssociationsWorkRequest,
+  ListReplacePermissionAssociationsWorkResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReplacePermissionAssociationsWorkRequest,
   ) => stream.Stream<
@@ -3194,21 +3161,19 @@ export const listReplacePermissionAssociationsWork: {
  * *only*
  * when there are no more results to display.
  */
-export const listResources: {
-  (
-    input: ListResourcesRequest,
-  ): effect.Effect<
-    ListResourcesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | InvalidResourceTypeException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResources: API.OperationMethod<
+  ListResourcesRequest,
+  ListResourcesResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | InvalidResourceTypeException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourcesRequest,
   ) => stream.Stream<
@@ -3264,21 +3229,19 @@ export const listResources: {
  * *only*
  * when there are no more results to display.
  */
-export const listResourceSharePermissions: {
-  (
-    input: ListResourceSharePermissionsRequest,
-  ): effect.Effect<
-    ListResourceSharePermissionsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | OperationNotPermittedException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceSharePermissions: API.OperationMethod<
+  ListResourceSharePermissionsRequest,
+  ListResourceSharePermissionsResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | OperationNotPermittedException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceSharePermissionsRequest,
   ) => stream.Stream<
@@ -3328,18 +3291,16 @@ export const listResourceSharePermissions: {
 /**
  * Lists the resource types that can be shared by RAM.
  */
-export const listResourceTypes: {
-  (
-    input: ListResourceTypesRequest,
-  ): effect.Effect<
-    ListResourceTypesResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceTypes: API.OperationMethod<
+  ListResourceTypesRequest,
+  ListResourceTypesResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceTypesRequest,
   ) => stream.Stream<
@@ -3382,20 +3343,18 @@ export const listResourceTypes: {
  *
  * You can filter the results by resource share Amazon Resource Name (ARN), source ID, source type, or association status. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
-export const listSourceAssociations: {
-  (
-    input: ListSourceAssociationsRequest,
-  ): effect.Effect<
-    ListSourceAssociationsResponse,
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | MalformedArnException
-    | ServerInternalException
-    | ServiceUnavailableException
-    | UnknownResourceException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSourceAssociations: API.OperationMethod<
+  ListSourceAssociationsRequest,
+  ListSourceAssociationsResponse,
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | MalformedArnException
+  | ServerInternalException
+  | ServiceUnavailableException
+  | UnknownResourceException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSourceAssociationsRequest,
   ) => stream.Stream<
@@ -3469,9 +3428,8 @@ export const listSourceAssociations: {
  * managed permission has no other associations to A resource share, then RAM automatically deletes
  * it.
  */
-export const promotePermissionCreatedFromPolicy: (
-  input: PromotePermissionCreatedFromPolicyRequest,
-) => effect.Effect<
+export const promotePermissionCreatedFromPolicy: API.OperationMethod<
+  PromotePermissionCreatedFromPolicyRequest,
   PromotePermissionCreatedFromPolicyResponse,
   | InvalidParameterException
   | InvalidPolicyException
@@ -3513,9 +3471,8 @@ export const promotePermissionCreatedFromPolicy: (
  * this operation can't find a managed permission that exactly matches the existing
  * `CREATED_FROM_POLICY` permission, then this operation fails.
  */
-export const promoteResourceShareCreatedFromPolicy: (
-  input: PromoteResourceShareCreatedFromPolicyRequest,
-) => effect.Effect<
+export const promoteResourceShareCreatedFromPolicy: API.OperationMethod<
+  PromoteResourceShareCreatedFromPolicyRequest,
   PromoteResourceShareCreatedFromPolicyResponse,
   | InvalidParameterException
   | InvalidStateTransitionException
@@ -3548,9 +3505,8 @@ export const promoteResourceShareCreatedFromPolicy: (
 /**
  * Rejects an invitation to a resource share from another Amazon Web Services account.
  */
-export const rejectResourceShareInvitation: (
-  input: RejectResourceShareInvitationRequest,
-) => effect.Effect<
+export const rejectResourceShareInvitation: API.OperationMethod<
+  RejectResourceShareInvitationRequest,
   RejectResourceShareInvitationResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -3598,9 +3554,8 @@ export const rejectResourceShareInvitation: (
  * To successfully perform this operation, you must have permission to update the
  * resource-based policy on all affected resource types.
  */
-export const replacePermissionAssociations: (
-  input: ReplacePermissionAssociationsRequest,
-) => effect.Effect<
+export const replacePermissionAssociations: API.OperationMethod<
+  ReplacePermissionAssociationsRequest,
   ReplacePermissionAssociationsResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -3631,9 +3586,8 @@ export const replacePermissionAssociations: (
  * customer managed permission. New resource shares automatically use this new default permission. Existing
  * resource shares continue to use their original permission version, but you can use ReplacePermissionAssociations to update them.
  */
-export const setDefaultPermissionVersion: (
-  input: SetDefaultPermissionVersionRequest,
-) => effect.Effect<
+export const setDefaultPermissionVersion: API.OperationMethod<
+  SetDefaultPermissionVersionRequest,
   SetDefaultPermissionVersionResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException
@@ -3663,9 +3617,8 @@ export const setDefaultPermissionVersion: (
  *
  * The tags on a managed permission are the same for all versions of the managed permission.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InvalidParameterException
   | MalformedArnException
@@ -3694,9 +3647,8 @@ export const tagResource: (
 /**
  * Removes the specified tag key and value pairs from the specified resource share or managed permission.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InvalidParameterException
   | MalformedArnException
@@ -3719,9 +3671,8 @@ export const untagResource: (
 /**
  * Modifies some of the properties of the specified resource share.
  */
-export const updateResourceShare: (
-  input: UpdateResourceShareRequest,
-) => effect.Effect<
+export const updateResourceShare: API.OperationMethod<
+  UpdateResourceShareRequest,
   UpdateResourceShareResponse,
   | IdempotentParameterMismatchException
   | InvalidClientTokenException

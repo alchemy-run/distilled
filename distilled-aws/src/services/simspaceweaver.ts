@@ -778,9 +778,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists all tags on a SimSpace Weaver resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -793,9 +792,8 @@ export const listTagsForResource: (
  * Adds tags to a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the
  * *Amazon Web Services General Reference*.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | ResourceNotFoundException
   | TooManyTagsException
@@ -815,9 +813,8 @@ export const tagResource: (
  * Removes tags from a SimSpace Weaver resource. For more information about tags, see Tagging Amazon Web Services resources in the
  * *Amazon Web Services General Reference*.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   ResourceNotFoundException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -834,9 +831,8 @@ export const untagResource: (
  * For more information about snapshots, see Snapshots
  * in the *SimSpace Weaver User Guide*.
  */
-export const startSimulation: (
-  input: StartSimulationInput,
-) => effect.Effect<
+export const startSimulation: API.OperationMethod<
+  StartSimulationInput,
   StartSimulationOutput,
   | AccessDeniedException
   | ConflictException
@@ -859,9 +855,8 @@ export const startSimulation: (
 /**
  * Returns the current state of the given simulation.
  */
-export const describeSimulation: (
-  input: DescribeSimulationInput,
-) => effect.Effect<
+export const describeSimulation: API.OperationMethod<
+  DescribeSimulationInput,
   DescribeSimulationOutput,
   | AccessDeniedException
   | InternalServerException
@@ -885,9 +880,8 @@ export const describeSimulation: (
  * You can't restart a simulation after you stop it. If you want to restart a simulation, then
  * you must stop it, delete it, and start a new instance of it.
  */
-export const stopSimulation: (
-  input: StopSimulationInput,
-) => effect.Effect<
+export const stopSimulation: API.OperationMethod<
+  StopSimulationInput,
   StopSimulationOutput,
   | AccessDeniedException
   | ConflictException
@@ -913,9 +907,8 @@ export const stopSimulation: (
  * Your simulation uses resources in other Amazon Web Services. This API operation doesn't delete
  * resources in other Amazon Web Services.
  */
-export const deleteSimulation: (
-  input: DeleteSimulationInput,
-) => effect.Effect<
+export const deleteSimulation: API.OperationMethod<
+  DeleteSimulationInput,
   DeleteSimulationOutput,
   | AccessDeniedException
   | ConflictException
@@ -938,17 +931,15 @@ export const deleteSimulation: (
 /**
  * Lists the SimSpace Weaver simulations in the Amazon Web Services account used to make the API call.
  */
-export const listSimulations: {
-  (
-    input: ListSimulationsInput,
-  ): effect.Effect<
-    ListSimulationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSimulations: API.OperationMethod<
+  ListSimulationsInput,
+  ListSimulationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSimulationsInput,
   ) => stream.Stream<
@@ -1023,9 +1014,8 @@ export const listSimulations: {
  * *ss*
  * is the 2-digit seconds
  */
-export const createSnapshot: (
-  input: CreateSnapshotInput,
-) => effect.Effect<
+export const createSnapshot: API.OperationMethod<
+  CreateSnapshotInput,
   CreateSnapshotOutput,
   | AccessDeniedException
   | ConflictException
@@ -1048,9 +1038,8 @@ export const createSnapshot: (
 /**
  * Deletes the instance of the given custom app.
  */
-export const deleteApp: (
-  input: DeleteAppInput,
-) => effect.Effect<
+export const deleteApp: API.OperationMethod<
+  DeleteAppInput,
   DeleteAppOutput,
   | AccessDeniedException
   | ConflictException
@@ -1073,9 +1062,8 @@ export const deleteApp: (
 /**
  * Returns the state of the given custom app.
  */
-export const describeApp: (
-  input: DescribeAppInput,
-) => effect.Effect<
+export const describeApp: API.OperationMethod<
+  DescribeAppInput,
   DescribeAppOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1096,18 +1084,16 @@ export const describeApp: (
 /**
  * Lists all custom apps or service apps for the given simulation and domain.
  */
-export const listApps: {
-  (
-    input: ListAppsInput,
-  ): effect.Effect<
-    ListAppsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApps: API.OperationMethod<
+  ListAppsInput,
+  ListAppsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppsInput,
   ) => stream.Stream<
@@ -1148,9 +1134,8 @@ export const listApps: {
 /**
  * Starts a custom app with the configuration specified in the simulation schema.
  */
-export const startApp: (
-  input: StartAppInput,
-) => effect.Effect<
+export const startApp: API.OperationMethod<
+  StartAppInput,
   StartAppOutput,
   | AccessDeniedException
   | ConflictException
@@ -1173,9 +1158,8 @@ export const startApp: (
 /**
  * Starts the simulation clock.
  */
-export const startClock: (
-  input: StartClockInput,
-) => effect.Effect<
+export const startClock: API.OperationMethod<
+  StartClockInput,
   StartClockOutput,
   | AccessDeniedException
   | ConflictException
@@ -1198,9 +1182,8 @@ export const startClock: (
 /**
  * Stops the given custom app and shuts down all of its allocated compute resources.
  */
-export const stopApp: (
-  input: StopAppInput,
-) => effect.Effect<
+export const stopApp: API.OperationMethod<
+  StopAppInput,
   StopAppOutput,
   | AccessDeniedException
   | ConflictException
@@ -1223,9 +1206,8 @@ export const stopApp: (
 /**
  * Stops the simulation clock.
  */
-export const stopClock: (
-  input: StopClockInput,
-) => effect.Effect<
+export const stopClock: API.OperationMethod<
+  StopClockInput,
   StopClockOutput,
   | AccessDeniedException
   | ConflictException

@@ -3599,9 +3599,8 @@ export class PriorRequestNotCompleteException extends S.TaggedErrorClass<PriorRe
  * certificates in the *Application Load Balancers Guide* or Server
  * certificates in the *Network Load Balancers Guide*.
  */
-export const addListenerCertificates: (
-  input: AddListenerCertificatesInput,
-) => effect.Effect<
+export const addListenerCertificates: API.OperationMethod<
+  AddListenerCertificatesInput,
   AddListenerCertificatesOutput,
   | CertificateNotFoundException
   | ListenerNotFoundException
@@ -3625,9 +3624,8 @@ export const addListenerCertificates: (
  * Each tag consists of a key and an optional value. If a resource already has a tag with the
  * same key, `AddTags` updates its value.
  */
-export const addTags: (
-  input: AddTagsInput,
-) => effect.Effect<
+export const addTags: API.OperationMethod<
+  AddTagsInput,
   AddTagsOutput,
   | DuplicateTagKeysException
   | ListenerNotFoundException
@@ -3654,9 +3652,8 @@ export const addTags: (
 /**
  * Adds the specified revocation file to the specified trust store.
  */
-export const addTrustStoreRevocations: (
-  input: AddTrustStoreRevocationsInput,
-) => effect.Effect<
+export const addTrustStoreRevocations: API.OperationMethod<
+  AddTrustStoreRevocationsInput,
   AddTrustStoreRevocationsOutput,
   | InvalidRevocationContentException
   | RevocationContentNotFoundException
@@ -3692,9 +3689,8 @@ export const addTrustStoreRevocations: (
  * This operation is idempotent, which means that it completes at most one time. If you
  * attempt to create multiple listeners with the same settings, each call succeeds.
  */
-export const createListener: (
-  input: CreateListenerInput,
-) => effect.Effect<
+export const createListener: API.OperationMethod<
+  CreateListenerInput,
   CreateListenerOutput,
   | ALPNPolicyNotSupportedException
   | CertificateNotFoundException
@@ -3761,9 +3757,8 @@ export const createListener: (
  * This operation is idempotent, which means that it completes at most one time. If you
  * attempt to create multiple load balancers with the same settings, each call succeeds.
  */
-export const createLoadBalancer: (
-  input: CreateLoadBalancerInput,
-) => effect.Effect<
+export const createLoadBalancer: API.OperationMethod<
+  CreateLoadBalancerInput,
   CreateLoadBalancerOutput,
   | AllocationIdNotFoundException
   | AvailabilityZoneNotSupportedException
@@ -3809,9 +3804,8 @@ export const createLoadBalancer: (
  * If the conditions for no rules are met, the actions for the default rule are performed.
  * For more information, see Listener rules in the *Application Load Balancers Guide*.
  */
-export const createRule: (
-  input: CreateRuleInput,
-) => effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleInput,
   CreateRuleOutput,
   | IncompatibleProtocolsException
   | InvalidConfigurationRequestException
@@ -3868,9 +3862,8 @@ export const createRule: (
  * This operation is idempotent, which means that it completes at most one time. If you
  * attempt to create multiple target groups with the same settings, each call succeeds.
  */
-export const createTargetGroup: (
-  input: CreateTargetGroupInput,
-) => effect.Effect<
+export const createTargetGroup: API.OperationMethod<
+  CreateTargetGroupInput,
   CreateTargetGroupOutput,
   | DuplicateTargetGroupNameException
   | InvalidConfigurationRequestException
@@ -3893,9 +3886,8 @@ export const createTargetGroup: (
  *
  * For more information, see Mutual TLS for Application Load Balancers.
  */
-export const createTrustStore: (
-  input: CreateTrustStoreInput,
-) => effect.Effect<
+export const createTrustStore: API.OperationMethod<
+  CreateTrustStoreInput,
   CreateTrustStoreOutput,
   | CaCertificatesBundleNotFoundException
   | DuplicateTagKeysException
@@ -3923,9 +3915,8 @@ export const createTrustStore: (
  * Alternatively, your listener is deleted when you delete the load balancer to which it is
  * attached.
  */
-export const deleteListener: (
-  input: DeleteListenerInput,
-) => effect.Effect<
+export const deleteListener: API.OperationMethod<
+  DeleteListenerInput,
   DeleteListenerOutput,
   ListenerNotFoundException | ResourceInUseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3945,9 +3936,8 @@ export const deleteListener: (
  * instances continue to run and are still registered to their target groups. If you no longer
  * need these EC2 instances, you can stop or terminate them.
  */
-export const deleteLoadBalancer: (
-  input: DeleteLoadBalancerInput,
-) => effect.Effect<
+export const deleteLoadBalancer: API.OperationMethod<
+  DeleteLoadBalancerInput,
   DeleteLoadBalancerOutput,
   | LoadBalancerNotFoundException
   | OperationNotPermittedException
@@ -3968,9 +3958,8 @@ export const deleteLoadBalancer: (
  *
  * You can't delete the default rule.
  */
-export const deleteRule: (
-  input: DeleteRuleInput,
-) => effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleInput,
   DeleteRuleOutput,
   OperationNotPermittedException | RuleNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3982,9 +3971,8 @@ export const deleteRule: (
 /**
  * Deletes a shared trust store association.
  */
-export const deleteSharedTrustStoreAssociation: (
-  input: DeleteSharedTrustStoreAssociationInput,
-) => effect.Effect<
+export const deleteSharedTrustStoreAssociation: API.OperationMethod<
+  DeleteSharedTrustStoreAssociationInput,
   DeleteSharedTrustStoreAssociationOutput,
   | DeleteAssociationSameAccountException
   | TrustStoreAssociationNotFoundException
@@ -4008,9 +3996,8 @@ export const deleteSharedTrustStoreAssociation: (
  * registered targets. For example, any EC2 instances continue to run until you stop or terminate
  * them.
  */
-export const deleteTargetGroup: (
-  input: DeleteTargetGroupInput,
-) => effect.Effect<
+export const deleteTargetGroup: API.OperationMethod<
+  DeleteTargetGroupInput,
   DeleteTargetGroupOutput,
   ResourceInUseException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4022,9 +4009,8 @@ export const deleteTargetGroup: (
 /**
  * Deletes a trust store.
  */
-export const deleteTrustStore: (
-  input: DeleteTrustStoreInput,
-) => effect.Effect<
+export const deleteTrustStore: API.OperationMethod<
+  DeleteTrustStoreInput,
   DeleteTrustStoreOutput,
   TrustStoreInUseException | TrustStoreNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4054,9 +4040,8 @@ export const deleteTrustStore: (
  *
  * Note: If the specified target does not exist, the action returns successfully.
  */
-export const deregisterTargets: (
-  input: DeregisterTargetsInput,
-) => effect.Effect<
+export const deregisterTargets: API.OperationMethod<
+  DeregisterTargetsInput,
   DeregisterTargetsOutput,
   InvalidTargetException | TargetGroupNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4080,14 +4065,12 @@ export const deregisterTargets: (
  * - Quotas for your Gateway
  * Load Balancers
  */
-export const describeAccountLimits: {
-  (
-    input: DescribeAccountLimitsInput,
-  ): effect.Effect<
-    DescribeAccountLimitsOutput,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAccountLimits: API.OperationMethod<
+  DescribeAccountLimitsInput,
+  DescribeAccountLimitsOutput,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAccountLimitsInput,
   ) => stream.Stream<
@@ -4115,9 +4098,8 @@ export const describeAccountLimits: {
 /**
  * Describes the capacity reservation status for the specified load balancer.
  */
-export const describeCapacityReservation: (
-  input: DescribeCapacityReservationInput,
-) => effect.Effect<
+export const describeCapacityReservation: API.OperationMethod<
+  DescribeCapacityReservationInput,
   DescribeCapacityReservationOutput,
   LoadBalancerNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4129,9 +4111,8 @@ export const describeCapacityReservation: (
 /**
  * Describes the attributes for the specified listener.
  */
-export const describeListenerAttributes: (
-  input: DescribeListenerAttributesInput,
-) => effect.Effect<
+export const describeListenerAttributes: API.OperationMethod<
+  DescribeListenerAttributesInput,
   DescribeListenerAttributesOutput,
   ListenerNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4152,14 +4133,12 @@ export const describeListenerAttributes: (
  * Server certificates in the Network Load Balancers
  * Guide.
  */
-export const describeListenerCertificates: {
-  (
-    input: DescribeListenerCertificatesInput,
-  ): effect.Effect<
-    DescribeListenerCertificatesOutput,
-    ListenerNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeListenerCertificates: API.OperationMethod<
+  DescribeListenerCertificatesInput,
+  DescribeListenerCertificatesOutput,
+  ListenerNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeListenerCertificatesInput,
   ) => stream.Stream<
@@ -4189,17 +4168,15 @@ export const describeListenerCertificates: {
  * Balancer, Network Load Balancer, or Gateway Load Balancer. You must specify either a load
  * balancer or one or more listeners.
  */
-export const describeListeners: {
-  (
-    input: DescribeListenersInput,
-  ): effect.Effect<
-    DescribeListenersOutput,
-    | ListenerNotFoundException
-    | LoadBalancerNotFoundException
-    | UnsupportedProtocolException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeListeners: API.OperationMethod<
+  DescribeListenersInput,
+  DescribeListenersOutput,
+  | ListenerNotFoundException
+  | LoadBalancerNotFoundException
+  | UnsupportedProtocolException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeListenersInput,
   ) => stream.Stream<
@@ -4249,9 +4226,8 @@ export const describeListeners: {
  * - Load balancer attributes in the Gateway Load Balancers
  * Guide
  */
-export const describeLoadBalancerAttributes: (
-  input: DescribeLoadBalancerAttributesInput,
-) => effect.Effect<
+export const describeLoadBalancerAttributes: API.OperationMethod<
+  DescribeLoadBalancerAttributesInput,
   DescribeLoadBalancerAttributesOutput,
   LoadBalancerNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4263,14 +4239,12 @@ export const describeLoadBalancerAttributes: (
 /**
  * Describes the specified load balancers or all of your load balancers.
  */
-export const describeLoadBalancers: {
-  (
-    input: DescribeLoadBalancersInput,
-  ): effect.Effect<
-    DescribeLoadBalancersOutput,
-    LoadBalancerNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeLoadBalancers: API.OperationMethod<
+  DescribeLoadBalancersInput,
+  DescribeLoadBalancersOutput,
+  LoadBalancerNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeLoadBalancersInput,
   ) => stream.Stream<
@@ -4299,17 +4273,15 @@ export const describeLoadBalancers: {
  * Describes the specified rules or the rules for the specified listener. You must specify
  * either a listener or rules.
  */
-export const describeRules: {
-  (
-    input: DescribeRulesInput,
-  ): effect.Effect<
-    DescribeRulesOutput,
-    | ListenerNotFoundException
-    | RuleNotFoundException
-    | UnsupportedProtocolException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeRules: API.OperationMethod<
+  DescribeRulesInput,
+  DescribeRulesOutput,
+  | ListenerNotFoundException
+  | RuleNotFoundException
+  | UnsupportedProtocolException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeRulesInput,
   ) => stream.Stream<
@@ -4350,9 +4322,8 @@ export const describeRules: {
  * For more information, see Security policies in the *Application Load Balancers Guide* and
  * Security policies in the *Network Load Balancers Guide*.
  */
-export const describeSSLPolicies: (
-  input: DescribeSSLPoliciesInput,
-) => effect.Effect<
+export const describeSSLPolicies: API.OperationMethod<
+  DescribeSSLPoliciesInput,
   DescribeSSLPoliciesOutput,
   SSLPolicyNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4366,9 +4337,8 @@ export const describeSSLPolicies: (
  * the tags for one or more Application Load Balancers, Network Load Balancers, Gateway Load
  * Balancers, target groups, listeners, or rules.
  */
-export const describeTags: (
-  input: DescribeTagsInput,
-) => effect.Effect<
+export const describeTags: API.OperationMethod<
+  DescribeTagsInput,
   DescribeTagsOutput,
   | ListenerNotFoundException
   | LoadBalancerNotFoundException
@@ -4402,9 +4372,8 @@ export const describeTags: (
  * - Target group attributes in the Gateway Load Balancers
  * Guide
  */
-export const describeTargetGroupAttributes: (
-  input: DescribeTargetGroupAttributesInput,
-) => effect.Effect<
+export const describeTargetGroupAttributes: API.OperationMethod<
+  DescribeTargetGroupAttributesInput,
   DescribeTargetGroupAttributesOutput,
   TargetGroupNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4419,14 +4388,12 @@ export const describeTargetGroupAttributes: (
  * results: the ARN of the load balancer, the names of one or more target groups, or the ARNs of
  * one or more target groups.
  */
-export const describeTargetGroups: {
-  (
-    input: DescribeTargetGroupsInput,
-  ): effect.Effect<
-    DescribeTargetGroupsOutput,
-    LoadBalancerNotFoundException | TargetGroupNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTargetGroups: API.OperationMethod<
+  DescribeTargetGroupsInput,
+  DescribeTargetGroupsOutput,
+  LoadBalancerNotFoundException | TargetGroupNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTargetGroupsInput,
   ) => stream.Stream<
@@ -4454,9 +4421,8 @@ export const describeTargetGroups: {
 /**
  * Describes the health of the specified targets or all of your targets.
  */
-export const describeTargetHealth: (
-  input: DescribeTargetHealthInput,
-) => effect.Effect<
+export const describeTargetHealth: API.OperationMethod<
+  DescribeTargetHealthInput,
   DescribeTargetHealthOutput,
   | HealthUnavailableException
   | InvalidTargetException
@@ -4475,14 +4441,12 @@ export const describeTargetHealth: (
 /**
  * Describes all resources associated with the specified trust store.
  */
-export const describeTrustStoreAssociations: {
-  (
-    input: DescribeTrustStoreAssociationsInput,
-  ): effect.Effect<
-    DescribeTrustStoreAssociationsOutput,
-    TrustStoreNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTrustStoreAssociations: API.OperationMethod<
+  DescribeTrustStoreAssociationsInput,
+  DescribeTrustStoreAssociationsOutput,
+  TrustStoreNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTrustStoreAssociationsInput,
   ) => stream.Stream<
@@ -4512,14 +4476,12 @@ export const describeTrustStoreAssociations: {
  * Describes the revocation files in use by the specified trust store or revocation
  * files.
  */
-export const describeTrustStoreRevocations: {
-  (
-    input: DescribeTrustStoreRevocationsInput,
-  ): effect.Effect<
-    DescribeTrustStoreRevocationsOutput,
-    RevocationIdNotFoundException | TrustStoreNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTrustStoreRevocations: API.OperationMethod<
+  DescribeTrustStoreRevocationsInput,
+  DescribeTrustStoreRevocationsOutput,
+  RevocationIdNotFoundException | TrustStoreNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTrustStoreRevocationsInput,
   ) => stream.Stream<
@@ -4548,14 +4510,12 @@ export const describeTrustStoreRevocations: {
 /**
  * Describes all trust stores for the specified account.
  */
-export const describeTrustStores: {
-  (
-    input: DescribeTrustStoresInput,
-  ): effect.Effect<
-    DescribeTrustStoresOutput,
-    TrustStoreNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTrustStores: API.OperationMethod<
+  DescribeTrustStoresInput,
+  DescribeTrustStoresOutput,
+  TrustStoreNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTrustStoresInput,
   ) => stream.Stream<
@@ -4584,9 +4544,8 @@ export const describeTrustStores: {
 /**
  * Retrieves the resource policy for a specified resource.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyInput,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyInput,
   GetResourcePolicyOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4601,9 +4560,8 @@ export const getResourcePolicy: (
  * This action returns a pre-signed S3 URI which is
  * active for ten minutes.
  */
-export const getTrustStoreCaCertificatesBundle: (
-  input: GetTrustStoreCaCertificatesBundleInput,
-) => effect.Effect<
+export const getTrustStoreCaCertificatesBundle: API.OperationMethod<
+  GetTrustStoreCaCertificatesBundleInput,
   GetTrustStoreCaCertificatesBundleOutput,
   TrustStoreNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4618,9 +4576,8 @@ export const getTrustStoreCaCertificatesBundle: (
  * This action returns a pre-signed S3 URI which is
  * active for ten minutes.
  */
-export const getTrustStoreRevocationContent: (
-  input: GetTrustStoreRevocationContentInput,
-) => effect.Effect<
+export const getTrustStoreRevocationContent: API.OperationMethod<
+  GetTrustStoreRevocationContentInput,
   GetTrustStoreRevocationContentOutput,
   RevocationIdNotFoundException | TrustStoreNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4635,9 +4592,8 @@ export const getTrustStoreRevocationContent: (
  * When modifying capacity reservation, you must include at least one `MinimumLoadBalancerCapacity`
  * or `ResetCapacityReservation`.
  */
-export const modifyCapacityReservation: (
-  input: ModifyCapacityReservationInput,
-) => effect.Effect<
+export const modifyCapacityReservation: API.OperationMethod<
+  ModifyCapacityReservationInput,
   ModifyCapacityReservationOutput,
   | CapacityDecreaseRequestsLimitExceededException
   | CapacityReservationPendingException
@@ -4666,9 +4622,8 @@ export const modifyCapacityReservation: (
 /**
  * [Application Load Balancers] Modify the IP pool associated to a load balancer.
  */
-export const modifyIpPools: (
-  input: ModifyIpPoolsInput,
-) => effect.Effect<
+export const modifyIpPools: API.OperationMethod<
+  ModifyIpPoolsInput,
   ModifyIpPoolsOutput,
   LoadBalancerNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4689,9 +4644,8 @@ export const modifyIpPools: (
  * must provide the entire list. For example, to add an action, specify a list with the current
  * actions plus the new action.
  */
-export const modifyListener: (
-  input: ModifyListenerInput,
-) => effect.Effect<
+export const modifyListener: API.OperationMethod<
+  ModifyListenerInput,
   ModifyListenerOutput,
   | ALPNPolicyNotSupportedException
   | CertificateNotFoundException
@@ -4742,9 +4696,8 @@ export const modifyListener: (
 /**
  * Modifies the specified attributes of the specified listener.
  */
-export const modifyListenerAttributes: (
-  input: ModifyListenerAttributesInput,
-) => effect.Effect<
+export const modifyListenerAttributes: API.OperationMethod<
+  ModifyListenerAttributesInput,
   ModifyListenerAttributesOutput,
   | InvalidConfigurationRequestException
   | ListenerNotFoundException
@@ -4762,9 +4715,8 @@ export const modifyListenerAttributes: (
  * If any of the specified attributes can't be modified as requested, the call fails. Any
  * existing attributes that you do not modify retain their current values.
  */
-export const modifyLoadBalancerAttributes: (
-  input: ModifyLoadBalancerAttributesInput,
-) => effect.Effect<
+export const modifyLoadBalancerAttributes: API.OperationMethod<
+  ModifyLoadBalancerAttributesInput,
   ModifyLoadBalancerAttributesOutput,
   | InvalidConfigurationRequestException
   | LoadBalancerNotFoundException
@@ -4783,9 +4735,8 @@ export const modifyLoadBalancerAttributes: (
  * must provide the entire list. For example, to add an action, specify a list with the current
  * actions plus the new action.
  */
-export const modifyRule: (
-  input: ModifyRuleInput,
-) => effect.Effect<
+export const modifyRule: API.OperationMethod<
+  ModifyRuleInput,
   ModifyRuleOutput,
   | IncompatibleProtocolsException
   | InvalidLoadBalancerActionException
@@ -4821,9 +4772,8 @@ export const modifyRule: (
  * Modifies the health checks used when evaluating the health state of the targets in the
  * specified target group.
  */
-export const modifyTargetGroup: (
-  input: ModifyTargetGroupInput,
-) => effect.Effect<
+export const modifyTargetGroup: API.OperationMethod<
+  ModifyTargetGroupInput,
   ModifyTargetGroupOutput,
   | InvalidConfigurationRequestException
   | TargetGroupNotFoundException
@@ -4837,9 +4787,8 @@ export const modifyTargetGroup: (
 /**
  * Modifies the specified attributes of the specified target group.
  */
-export const modifyTargetGroupAttributes: (
-  input: ModifyTargetGroupAttributesInput,
-) => effect.Effect<
+export const modifyTargetGroupAttributes: API.OperationMethod<
+  ModifyTargetGroupAttributesInput,
   ModifyTargetGroupAttributesOutput,
   | InvalidConfigurationRequestException
   | TargetGroupNotFoundException
@@ -4853,9 +4802,8 @@ export const modifyTargetGroupAttributes: (
 /**
  * Update the ca certificate bundle for the specified trust store.
  */
-export const modifyTrustStore: (
-  input: ModifyTrustStoreInput,
-) => effect.Effect<
+export const modifyTrustStore: API.OperationMethod<
+  ModifyTrustStoreInput,
   ModifyTrustStoreOutput,
   | CaCertificatesBundleNotFoundException
   | InvalidCaCertificatesBundleException
@@ -4893,9 +4841,8 @@ export const modifyTrustStore: (
  * - Register targets for your
  * Gateway Load Balancer
  */
-export const registerTargets: (
-  input: RegisterTargetsInput,
-) => effect.Effect<
+export const registerTargets: API.OperationMethod<
+  RegisterTargetsInput,
   RegisterTargetsOutput,
   | InvalidTargetException
   | TargetGroupNotFoundException
@@ -4917,9 +4864,8 @@ export const registerTargets: (
  * Removes the specified certificate from the certificate list for the specified HTTPS or TLS
  * listener.
  */
-export const removeListenerCertificates: (
-  input: RemoveListenerCertificatesInput,
-) => effect.Effect<
+export const removeListenerCertificates: API.OperationMethod<
+  RemoveListenerCertificatesInput,
   RemoveListenerCertificatesOutput,
   ListenerNotFoundException | OperationNotPermittedException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4933,9 +4879,8 @@ export const removeListenerCertificates: (
  * remove the tags for one or more Application Load Balancers, Network Load Balancers, Gateway
  * Load Balancers, target groups, listeners, or rules.
  */
-export const removeTags: (
-  input: RemoveTagsInput,
-) => effect.Effect<
+export const removeTags: API.OperationMethod<
+  RemoveTagsInput,
   RemoveTagsOutput,
   | ListenerNotFoundException
   | LoadBalancerNotFoundException
@@ -4960,9 +4905,8 @@ export const removeTags: (
 /**
  * Removes the specified revocation file from the specified trust store.
  */
-export const removeTrustStoreRevocations: (
-  input: RemoveTrustStoreRevocationsInput,
-) => effect.Effect<
+export const removeTrustStoreRevocations: API.OperationMethod<
+  RemoveTrustStoreRevocationsInput,
   RemoveTrustStoreRevocationsOutput,
   RevocationIdNotFoundException | TrustStoreNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4974,9 +4918,8 @@ export const removeTrustStoreRevocations: (
 /**
  * Sets the type of IP addresses used by the subnets of the specified load balancer.
  */
-export const setIpAddressType: (
-  input: SetIpAddressTypeInput,
-) => effect.Effect<
+export const setIpAddressType: API.OperationMethod<
+  SetIpAddressTypeInput,
   SetIpAddressTypeOutput,
   | InvalidConfigurationRequestException
   | InvalidSubnetException
@@ -4998,9 +4941,8 @@ export const setIpAddressType: (
  * You can reorder the rules as long as there are no priority conflicts in the new order. Any
  * existing rules that you do not specify retain their current priority.
  */
-export const setRulePriorities: (
-  input: SetRulePrioritiesInput,
-) => effect.Effect<
+export const setRulePriorities: API.OperationMethod<
+  SetRulePrioritiesInput,
   SetRulePrioritiesOutput,
   | OperationNotPermittedException
   | PriorityInUseException
@@ -5026,9 +4968,8 @@ export const setRulePriorities: (
  *
  * You can't associate a security group with a Gateway Load Balancer.
  */
-export const setSecurityGroups: (
-  input: SetSecurityGroupsInput,
-) => effect.Effect<
+export const setSecurityGroups: API.OperationMethod<
+  SetSecurityGroupsInput,
   SetSecurityGroupsOutput,
   | InvalidConfigurationRequestException
   | InvalidSecurityGroupException
@@ -5049,9 +4990,8 @@ export const setSecurityGroups: (
  * Application Load Balancer, Network Load Balancer or Gateway Load Balancer. The specified subnets
  * replace the previously enabled subnets.
  */
-export const setSubnets: (
-  input: SetSubnetsInput,
-) => effect.Effect<
+export const setSubnets: API.OperationMethod<
+  SetSubnetsInput,
   SetSubnetsOutput,
   | AllocationIdNotFoundException
   | AvailabilityZoneNotSupportedException

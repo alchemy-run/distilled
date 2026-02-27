@@ -2547,9 +2547,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * For example, it contains the location of the data source, the data schema, and other
  * information. A dataset also contains any tags associated with the ingested data.
  */
-export const createDataset: (
-  input: CreateDatasetRequest,
-) => effect.Effect<
+export const createDataset: API.OperationMethod<
+  CreateDatasetRequest,
   CreateDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2578,9 +2577,8 @@ export const createDataset: (
  * entries in the data, set an offset delay if desired, and set the frequency of inferencing.
  * You must also provide an S3 bucket location for the output data.
  */
-export const createInferenceScheduler: (
-  input: CreateInferenceSchedulerRequest,
-) => effect.Effect<
+export const createInferenceScheduler: API.OperationMethod<
+  CreateInferenceSchedulerRequest,
   CreateInferenceSchedulerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2607,9 +2605,8 @@ export const createInferenceScheduler: (
 /**
  * Creates a label for an event.
  */
-export const createLabel: (
-  input: CreateLabelRequest,
-) => effect.Effect<
+export const createLabel: API.OperationMethod<
+  CreateLabelRequest,
   CreateLabelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2636,9 +2633,8 @@ export const createLabel: (
 /**
  * Creates a group of labels.
  */
-export const createLabelGroup: (
-  input: CreateLabelGroupRequest,
-) => effect.Effect<
+export const createLabelGroup: API.OperationMethod<
+  CreateLabelGroupRequest,
   CreateLabelGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2673,9 +2669,8 @@ export const createLabelGroup: (
  * to learn patterns of normal behavior and abnormal patterns that lead to equipment failure.
  * Another portion of the data is used to evaluate the model's accuracy.
  */
-export const createModel: (
-  input: CreateModelRequest,
-) => effect.Effect<
+export const createModel: API.OperationMethod<
+  CreateModelRequest,
   CreateModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2702,9 +2697,8 @@ export const createModel: (
 /**
  * Creates a retraining scheduler on the specified model.
  */
-export const createRetrainingScheduler: (
-  input: CreateRetrainingSchedulerRequest,
-) => effect.Effect<
+export const createRetrainingScheduler: API.OperationMethod<
+  CreateRetrainingSchedulerRequest,
   CreateRetrainingSchedulerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2733,9 +2727,8 @@ export const createRetrainingScheduler: (
  * This does not affect any models that used this dataset for training and evaluation, but
  * does prevent it from being used in the future.
  */
-export const deleteDataset: (
-  input: DeleteDatasetRequest,
-) => effect.Effect<
+export const deleteDataset: API.OperationMethod<
+  DeleteDatasetRequest,
   DeleteDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -2761,9 +2754,8 @@ export const deleteDataset: (
  * Deletes an inference scheduler that has been set up. Prior inference results will not be
  * deleted.
  */
-export const deleteInferenceScheduler: (
-  input: DeleteInferenceSchedulerRequest,
-) => effect.Effect<
+export const deleteInferenceScheduler: API.OperationMethod<
+  DeleteInferenceSchedulerRequest,
   DeleteInferenceSchedulerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2788,9 +2780,8 @@ export const deleteInferenceScheduler: (
 /**
  * Deletes a label.
  */
-export const deleteLabel: (
-  input: DeleteLabelRequest,
-) => effect.Effect<
+export const deleteLabel: API.OperationMethod<
+  DeleteLabelRequest,
   DeleteLabelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2815,9 +2806,8 @@ export const deleteLabel: (
 /**
  * Deletes a group of labels.
  */
-export const deleteLabelGroup: (
-  input: DeleteLabelGroupRequest,
-) => effect.Effect<
+export const deleteLabelGroup: API.OperationMethod<
+  DeleteLabelGroupRequest,
   DeleteLabelGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -2843,9 +2833,8 @@ export const deleteLabelGroup: (
  * Deletes a machine learning model currently available for Amazon Lookout for Equipment. This will prevent it
  * from being used with an inference scheduler, even one that is already set up.
  */
-export const deleteModel: (
-  input: DeleteModelRequest,
-) => effect.Effect<
+export const deleteModel: API.OperationMethod<
+  DeleteModelRequest,
   DeleteModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -2870,9 +2859,8 @@ export const deleteModel: (
 /**
  * Deletes the resource policy attached to the resource.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -2898,9 +2886,8 @@ export const deleteResourcePolicy: (
  * Deletes a retraining scheduler from a model. The retraining scheduler must be in the
  * `STOPPED` status.
  */
-export const deleteRetrainingScheduler: (
-  input: DeleteRetrainingSchedulerRequest,
-) => effect.Effect<
+export const deleteRetrainingScheduler: API.OperationMethod<
+  DeleteRetrainingSchedulerRequest,
   DeleteRetrainingSchedulerResponse,
   | AccessDeniedException
   | ConflictException
@@ -2926,9 +2913,8 @@ export const deleteRetrainingScheduler: (
  * Provides information on a specific data ingestion job such as creation time, dataset
  * ARN, and status.
  */
-export const describeDataIngestionJob: (
-  input: DescribeDataIngestionJobRequest,
-) => effect.Effect<
+export const describeDataIngestionJob: API.OperationMethod<
+  DescribeDataIngestionJobRequest,
   DescribeDataIngestionJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2952,9 +2938,8 @@ export const describeDataIngestionJob: (
  * Provides a JSON description of the data in each time series dataset, including names,
  * column names, and data types.
  */
-export const describeDataset: (
-  input: DescribeDatasetRequest,
-) => effect.Effect<
+export const describeDataset: API.OperationMethod<
+  DescribeDatasetRequest,
   DescribeDatasetResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2978,9 +2963,8 @@ export const describeDataset: (
  * Specifies information about the inference scheduler being used, including name, model,
  * status, and associated metadata
  */
-export const describeInferenceScheduler: (
-  input: DescribeInferenceSchedulerRequest,
-) => effect.Effect<
+export const describeInferenceScheduler: API.OperationMethod<
+  DescribeInferenceSchedulerRequest,
   DescribeInferenceSchedulerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3003,9 +2987,8 @@ export const describeInferenceScheduler: (
 /**
  * Returns the name of the label.
  */
-export const describeLabel: (
-  input: DescribeLabelRequest,
-) => effect.Effect<
+export const describeLabel: API.OperationMethod<
+  DescribeLabelRequest,
   DescribeLabelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3028,9 +3011,8 @@ export const describeLabel: (
 /**
  * Returns information about the label group.
  */
-export const describeLabelGroup: (
-  input: DescribeLabelGroupRequest,
-) => effect.Effect<
+export const describeLabelGroup: API.OperationMethod<
+  DescribeLabelGroupRequest,
   DescribeLabelGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3055,9 +3037,8 @@ export const describeLabelGroup: (
  * model, including model name and ARN, dataset, training and evaluation information, status,
  * and so on.
  */
-export const describeModel: (
-  input: DescribeModelRequest,
-) => effect.Effect<
+export const describeModel: API.OperationMethod<
+  DescribeModelRequest,
   DescribeModelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3080,9 +3061,8 @@ export const describeModel: (
 /**
  * Retrieves information about a specific machine learning model version.
  */
-export const describeModelVersion: (
-  input: DescribeModelVersionRequest,
-) => effect.Effect<
+export const describeModelVersion: API.OperationMethod<
+  DescribeModelVersionRequest,
   DescribeModelVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3105,9 +3085,8 @@ export const describeModelVersion: (
 /**
  * Provides the details of a resource policy attached to a resource.
  */
-export const describeResourcePolicy: (
-  input: DescribeResourcePolicyRequest,
-) => effect.Effect<
+export const describeResourcePolicy: API.OperationMethod<
+  DescribeResourcePolicyRequest,
   DescribeResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3131,9 +3110,8 @@ export const describeResourcePolicy: (
  * Provides a description of the retraining scheduler, including information such as the
  * model name and retraining parameters.
  */
-export const describeRetrainingScheduler: (
-  input: DescribeRetrainingSchedulerRequest,
-) => effect.Effect<
+export const describeRetrainingScheduler: API.OperationMethod<
+  DescribeRetrainingSchedulerRequest,
   DescribeRetrainingSchedulerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3156,9 +3134,8 @@ export const describeRetrainingScheduler: (
 /**
  * Imports a dataset.
  */
-export const importDataset: (
-  input: ImportDatasetRequest,
-) => effect.Effect<
+export const importDataset: API.OperationMethod<
+  ImportDatasetRequest,
   ImportDatasetResponse,
   | AccessDeniedException
   | ConflictException
@@ -3185,9 +3162,8 @@ export const importDataset: (
 /**
  * Imports a model that has been trained successfully.
  */
-export const importModelVersion: (
-  input: ImportModelVersionRequest,
-) => effect.Effect<
+export const importModelVersion: API.OperationMethod<
+  ImportModelVersionRequest,
   ImportModelVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3215,18 +3191,16 @@ export const importModelVersion: (
  * Provides a list of all data ingestion jobs, including dataset name and ARN, S3 location
  * of the input data, status, and so on.
  */
-export const listDataIngestionJobs: {
-  (
-    input: ListDataIngestionJobsRequest,
-  ): effect.Effect<
-    ListDataIngestionJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataIngestionJobs: API.OperationMethod<
+  ListDataIngestionJobsRequest,
+  ListDataIngestionJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataIngestionJobsRequest,
   ) => stream.Stream<
@@ -3267,18 +3241,16 @@ export const listDataIngestionJobs: {
 /**
  * Lists all datasets currently available in your account, filtering on the dataset name.
  */
-export const listDatasets: {
-  (
-    input: ListDatasetsRequest,
-  ): effect.Effect<
-    ListDatasetsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDatasets: API.OperationMethod<
+  ListDatasetsRequest,
+  ListDatasetsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDatasetsRequest,
   ) => stream.Stream<
@@ -3319,19 +3291,17 @@ export const listDatasets: {
 /**
  * Lists all inference events that have been found for the specified inference scheduler.
  */
-export const listInferenceEvents: {
-  (
-    input: ListInferenceEventsRequest,
-  ): effect.Effect<
-    ListInferenceEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInferenceEvents: API.OperationMethod<
+  ListInferenceEventsRequest,
+  ListInferenceEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInferenceEventsRequest,
   ) => stream.Stream<
@@ -3376,19 +3346,17 @@ export const listInferenceEvents: {
  * Lists all inference executions that have been performed by the specified inference
  * scheduler.
  */
-export const listInferenceExecutions: {
-  (
-    input: ListInferenceExecutionsRequest,
-  ): effect.Effect<
-    ListInferenceExecutionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInferenceExecutions: API.OperationMethod<
+  ListInferenceExecutionsRequest,
+  ListInferenceExecutionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInferenceExecutionsRequest,
   ) => stream.Stream<
@@ -3432,18 +3400,16 @@ export const listInferenceExecutions: {
 /**
  * Retrieves a list of all inference schedulers currently available for your account.
  */
-export const listInferenceSchedulers: {
-  (
-    input: ListInferenceSchedulersRequest,
-  ): effect.Effect<
-    ListInferenceSchedulersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInferenceSchedulers: API.OperationMethod<
+  ListInferenceSchedulersRequest,
+  ListInferenceSchedulersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInferenceSchedulersRequest,
   ) => stream.Stream<
@@ -3484,18 +3450,16 @@ export const listInferenceSchedulers: {
 /**
  * Returns a list of the label groups.
  */
-export const listLabelGroups: {
-  (
-    input: ListLabelGroupsRequest,
-  ): effect.Effect<
-    ListLabelGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLabelGroups: API.OperationMethod<
+  ListLabelGroupsRequest,
+  ListLabelGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLabelGroupsRequest,
   ) => stream.Stream<
@@ -3536,18 +3500,16 @@ export const listLabelGroups: {
 /**
  * Provides a list of labels.
  */
-export const listLabels: {
-  (
-    input: ListLabelsRequest,
-  ): effect.Effect<
-    ListLabelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLabels: API.OperationMethod<
+  ListLabelsRequest,
+  ListLabelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLabelsRequest,
   ) => stream.Stream<
@@ -3589,18 +3551,16 @@ export const listLabels: {
  * Generates a list of all models in the account, including model name and ARN, dataset,
  * and status.
  */
-export const listModels: {
-  (
-    input: ListModelsRequest,
-  ): effect.Effect<
-    ListModelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModels: API.OperationMethod<
+  ListModelsRequest,
+  ListModelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelsRequest,
   ) => stream.Stream<
@@ -3643,19 +3603,17 @@ export const listModels: {
  * model version ARN, and status. To list a subset of versions, use the
  * `MaxModelVersion` and `MinModelVersion` fields.
  */
-export const listModelVersions: {
-  (
-    input: ListModelVersionsRequest,
-  ): effect.Effect<
-    ListModelVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelVersions: API.OperationMethod<
+  ListModelVersionsRequest,
+  ListModelVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelVersionsRequest,
   ) => stream.Stream<
@@ -3700,18 +3658,16 @@ export const listModelVersions: {
  * Lists all retraining schedulers in your account, filtering by model name prefix and
  * status.
  */
-export const listRetrainingSchedulers: {
-  (
-    input: ListRetrainingSchedulersRequest,
-  ): effect.Effect<
-    ListRetrainingSchedulersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRetrainingSchedulers: API.OperationMethod<
+  ListRetrainingSchedulersRequest,
+  ListRetrainingSchedulersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRetrainingSchedulersRequest,
   ) => stream.Stream<
@@ -3754,19 +3710,17 @@ export const listRetrainingSchedulers: {
  * successfully ingested in the particular dataset. Can also be used to retreive Sensor
  * Statistics for a previous ingestion job.
  */
-export const listSensorStatistics: {
-  (
-    input: ListSensorStatisticsRequest,
-  ): effect.Effect<
-    ListSensorStatisticsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSensorStatistics: API.OperationMethod<
+  ListSensorStatisticsRequest,
+  ListSensorStatisticsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSensorStatisticsRequest,
   ) => stream.Stream<
@@ -3810,9 +3764,8 @@ export const listSensorStatistics: {
 /**
  * Lists all the tags for a specified resource, including key and value.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3835,9 +3788,8 @@ export const listTagsForResource: (
 /**
  * Creates a resource control policy for a given resource.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -3864,9 +3816,8 @@ export const putResourcePolicy: (
 /**
  * Starts a data ingestion job. Amazon Lookout for Equipment returns the job status.
  */
-export const startDataIngestionJob: (
-  input: StartDataIngestionJobRequest,
-) => effect.Effect<
+export const startDataIngestionJob: API.OperationMethod<
+  StartDataIngestionJobRequest,
   StartDataIngestionJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -3893,9 +3844,8 @@ export const startDataIngestionJob: (
 /**
  * Starts an inference scheduler.
  */
-export const startInferenceScheduler: (
-  input: StartInferenceSchedulerRequest,
-) => effect.Effect<
+export const startInferenceScheduler: API.OperationMethod<
+  StartInferenceSchedulerRequest,
   StartInferenceSchedulerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3920,9 +3870,8 @@ export const startInferenceScheduler: (
 /**
  * Starts a retraining scheduler.
  */
-export const startRetrainingScheduler: (
-  input: StartRetrainingSchedulerRequest,
-) => effect.Effect<
+export const startRetrainingScheduler: API.OperationMethod<
+  StartRetrainingSchedulerRequest,
   StartRetrainingSchedulerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3947,9 +3896,8 @@ export const startRetrainingScheduler: (
 /**
  * Stops an inference scheduler.
  */
-export const stopInferenceScheduler: (
-  input: StopInferenceSchedulerRequest,
-) => effect.Effect<
+export const stopInferenceScheduler: API.OperationMethod<
+  StopInferenceSchedulerRequest,
   StopInferenceSchedulerResponse,
   | AccessDeniedException
   | ConflictException
@@ -3974,9 +3922,8 @@ export const stopInferenceScheduler: (
 /**
  * Stops a retraining scheduler.
  */
-export const stopRetrainingScheduler: (
-  input: StopRetrainingSchedulerRequest,
-) => effect.Effect<
+export const stopRetrainingScheduler: API.OperationMethod<
+  StopRetrainingSchedulerRequest,
   StopRetrainingSchedulerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4005,9 +3952,8 @@ export const stopRetrainingScheduler: (
  * a resource, either when you create it, or later. Up to 50 tags can be associated with each
  * resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4032,9 +3978,8 @@ export const tagResource: (
 /**
  * Removes a specific tag from a given resource. The tag is specified by its key.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4057,9 +4002,8 @@ export const untagResource: (
 /**
  * Sets the active model version for a given machine learning model.
  */
-export const updateActiveModelVersion: (
-  input: UpdateActiveModelVersionRequest,
-) => effect.Effect<
+export const updateActiveModelVersion: API.OperationMethod<
+  UpdateActiveModelVersionRequest,
   UpdateActiveModelVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -4084,9 +4028,8 @@ export const updateActiveModelVersion: (
 /**
  * Updates an inference scheduler.
  */
-export const updateInferenceScheduler: (
-  input: UpdateInferenceSchedulerRequest,
-) => effect.Effect<
+export const updateInferenceScheduler: API.OperationMethod<
+  UpdateInferenceSchedulerRequest,
   UpdateInferenceSchedulerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4111,9 +4054,8 @@ export const updateInferenceScheduler: (
 /**
  * Updates the label group.
  */
-export const updateLabelGroup: (
-  input: UpdateLabelGroupRequest,
-) => effect.Effect<
+export const updateLabelGroup: API.OperationMethod<
+  UpdateLabelGroupRequest,
   UpdateLabelGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -4138,9 +4080,8 @@ export const updateLabelGroup: (
 /**
  * Updates a model in the account.
  */
-export const updateModel: (
-  input: UpdateModelRequest,
-) => effect.Effect<
+export const updateModel: API.OperationMethod<
+  UpdateModelRequest,
   UpdateModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -4165,9 +4106,8 @@ export const updateModel: (
 /**
  * Updates a retraining scheduler.
  */
-export const updateRetrainingScheduler: (
-  input: UpdateRetrainingSchedulerRequest,
-) => effect.Effect<
+export const updateRetrainingScheduler: API.OperationMethod<
+  UpdateRetrainingSchedulerRequest,
   UpdateRetrainingSchedulerResponse,
   | AccessDeniedException
   | ConflictException

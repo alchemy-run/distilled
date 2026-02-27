@@ -3883,9 +3883,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Accepts the resource grouping recommendations suggested by Resilience Hub for your application.
  */
-export const acceptResourceGroupingRecommendations: (
-  input: AcceptResourceGroupingRecommendationsRequest,
-) => effect.Effect<
+export const acceptResourceGroupingRecommendations: API.OperationMethod<
+  AcceptResourceGroupingRecommendationsRequest,
   AcceptResourceGroupingRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3913,9 +3912,8 @@ export const acceptResourceGroupingRecommendations: (
  * Step
  * 2: How is your application managed? in the Resilience Hub User Guide.
  */
-export const addDraftAppVersionResourceMappings: (
-  input: AddDraftAppVersionResourceMappingsRequest,
-) => effect.Effect<
+export const addDraftAppVersionResourceMappings: API.OperationMethod<
+  AddDraftAppVersionResourceMappingsRequest,
   AddDraftAppVersionResourceMappingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -3942,9 +3940,8 @@ export const addDraftAppVersionResourceMappings: (
 /**
  * Enables you to include or exclude one or more operational recommendations.
  */
-export const batchUpdateRecommendationStatus: (
-  input: BatchUpdateRecommendationStatusRequest,
-) => effect.Effect<
+export const batchUpdateRecommendationStatus: API.OperationMethod<
+  BatchUpdateRecommendationStatusRequest,
   BatchUpdateRecommendationStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3978,9 +3975,8 @@ export const batchUpdateRecommendationStatus: (
  * until you achieve your goals for recovery time objective (RTO) and recovery point objective
  * (RPO).
  */
-export const createApp: (
-  input: CreateAppRequest,
-) => effect.Effect<
+export const createApp: API.OperationMethod<
+  CreateAppRequest,
   CreateAppResponse,
   | AccessDeniedException
   | ConflictException
@@ -4011,9 +4007,8 @@ export const createApp: (
  * Application Component for running assessments, you must publish the Resilience Hub
  * application using the `PublishAppVersion` API.
  */
-export const createAppVersionAppComponent: (
-  input: CreateAppVersionAppComponentRequest,
-) => effect.Effect<
+export const createAppVersionAppComponent: API.OperationMethod<
+  CreateAppVersionAppComponentRequest,
   CreateAppVersionAppComponentResponse,
   | AccessDeniedException
   | ConflictException
@@ -4051,9 +4046,8 @@ export const createAppVersionAppComponent: (
  * - To update application version with new `physicalResourceID`, you must
  * call `ResolveAppVersionResources` API.
  */
-export const createAppVersionResource: (
-  input: CreateAppVersionResourceRequest,
-) => effect.Effect<
+export const createAppVersionResource: API.OperationMethod<
+  CreateAppVersionResourceRequest,
   CreateAppVersionResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4080,9 +4074,8 @@ export const createAppVersionResource: (
 /**
  * Creates a new recommendation template for the Resilience Hub application.
  */
-export const createRecommendationTemplate: (
-  input: CreateRecommendationTemplateRequest,
-) => effect.Effect<
+export const createRecommendationTemplate: API.OperationMethod<
+  CreateRecommendationTemplateRequest,
   CreateRecommendationTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -4117,9 +4110,8 @@ export const createRecommendationTemplate: (
  * status for your application will be set to Policy
  * breached.
  */
-export const createResiliencyPolicy: (
-  input: CreateResiliencyPolicyRequest,
-) => effect.Effect<
+export const createResiliencyPolicy: API.OperationMethod<
+  CreateResiliencyPolicyRequest,
   CreateResiliencyPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -4145,9 +4137,8 @@ export const createResiliencyPolicy: (
  * Deletes an Resilience Hub application. This is a destructive action that can't be
  * undone.
  */
-export const deleteApp: (
-  input: DeleteAppRequest,
-) => effect.Effect<
+export const deleteApp: API.OperationMethod<
+  DeleteAppRequest,
   DeleteAppResponse,
   | ConflictException
   | InternalServerException
@@ -4171,9 +4162,8 @@ export const deleteApp: (
  * Deletes an Resilience Hub application assessment. This is a destructive action
  * that can't be undone.
  */
-export const deleteAppAssessment: (
-  input: DeleteAppAssessmentRequest,
-) => effect.Effect<
+export const deleteAppAssessment: API.OperationMethod<
+  DeleteAppAssessmentRequest,
   DeleteAppAssessmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -4199,9 +4189,8 @@ export const deleteAppAssessment: (
  * Deletes the input source and all of its imported resources from the Resilience Hub
  * application.
  */
-export const deleteAppInputSource: (
-  input: DeleteAppInputSourceRequest,
-) => effect.Effect<
+export const deleteAppInputSource: API.OperationMethod<
+  DeleteAppInputSourceRequest,
   DeleteAppInputSourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4233,9 +4222,8 @@ export const deleteAppInputSource: (
  * - You will not be able to delete an Application Component if it has resources associated
  * with it.
  */
-export const deleteAppVersionAppComponent: (
-  input: DeleteAppVersionAppComponentRequest,
-) => effect.Effect<
+export const deleteAppVersionAppComponent: API.OperationMethod<
+  DeleteAppVersionAppComponentRequest,
   DeleteAppVersionAppComponentResponse,
   | AccessDeniedException
   | ConflictException
@@ -4269,9 +4257,8 @@ export const deleteAppVersionAppComponent: (
  * resource for running resiliency assessments, you must publish the Resilience Hub
  * application using the `PublishAppVersion` API.
  */
-export const deleteAppVersionResource: (
-  input: DeleteAppVersionResourceRequest,
-) => effect.Effect<
+export const deleteAppVersionResource: API.OperationMethod<
+  DeleteAppVersionResourceRequest,
   DeleteAppVersionResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4297,9 +4284,8 @@ export const deleteAppVersionResource: (
  * Deletes a recommendation template. This is a destructive action that can't be
  * undone.
  */
-export const deleteRecommendationTemplate: (
-  input: DeleteRecommendationTemplateRequest,
-) => effect.Effect<
+export const deleteRecommendationTemplate: API.OperationMethod<
+  DeleteRecommendationTemplateRequest,
   DeleteRecommendationTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4322,9 +4308,8 @@ export const deleteRecommendationTemplate: (
 /**
  * Deletes a resiliency policy. This is a destructive action that can't be undone.
  */
-export const deleteResiliencyPolicy: (
-  input: DeleteResiliencyPolicyRequest,
-) => effect.Effect<
+export const deleteResiliencyPolicy: API.OperationMethod<
+  DeleteResiliencyPolicyRequest,
   DeleteResiliencyPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -4349,9 +4334,8 @@ export const deleteResiliencyPolicy: (
 /**
  * Describes an Resilience Hub application.
  */
-export const describeApp: (
-  input: DescribeAppRequest,
-) => effect.Effect<
+export const describeApp: API.OperationMethod<
+  DescribeAppRequest,
   DescribeAppResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4374,9 +4358,8 @@ export const describeApp: (
 /**
  * Describes an assessment for an Resilience Hub application.
  */
-export const describeAppAssessment: (
-  input: DescribeAppAssessmentRequest,
-) => effect.Effect<
+export const describeAppAssessment: API.OperationMethod<
+  DescribeAppAssessmentRequest,
   DescribeAppAssessmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4399,9 +4382,8 @@ export const describeAppAssessment: (
 /**
  * Describes the Resilience Hub application version.
  */
-export const describeAppVersion: (
-  input: DescribeAppVersionRequest,
-) => effect.Effect<
+export const describeAppVersion: API.OperationMethod<
+  DescribeAppVersionRequest,
   DescribeAppVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4424,9 +4406,8 @@ export const describeAppVersion: (
 /**
  * Describes an Application Component in the Resilience Hub application.
  */
-export const describeAppVersionAppComponent: (
-  input: DescribeAppVersionAppComponentRequest,
-) => effect.Effect<
+export const describeAppVersionAppComponent: API.OperationMethod<
+  DescribeAppVersionAppComponentRequest,
   DescribeAppVersionAppComponentResponse,
   | AccessDeniedException
   | ConflictException
@@ -4460,9 +4441,8 @@ export const describeAppVersionAppComponent: (
  * - `physicalResourceId` (Along with `physicalResourceId`, you can
  * also provide `awsAccountId`, and `awsRegion`)
  */
-export const describeAppVersionResource: (
-  input: DescribeAppVersionResourceRequest,
-) => effect.Effect<
+export const describeAppVersionResource: API.OperationMethod<
+  DescribeAppVersionResourceRequest,
   DescribeAppVersionResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4489,9 +4469,8 @@ export const describeAppVersionResource: (
  * version. If `resolutionId` is not specified, the current resolution status is
  * returned.
  */
-export const describeAppVersionResourcesResolutionStatus: (
-  input: DescribeAppVersionResourcesResolutionStatusRequest,
-) => effect.Effect<
+export const describeAppVersionResourcesResolutionStatus: API.OperationMethod<
+  DescribeAppVersionResourcesResolutionStatusRequest,
   DescribeAppVersionResourcesResolutionStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4514,9 +4493,8 @@ export const describeAppVersionResourcesResolutionStatus: (
 /**
  * Describes details about an Resilience Hub application.
  */
-export const describeAppVersionTemplate: (
-  input: DescribeAppVersionTemplateRequest,
-) => effect.Effect<
+export const describeAppVersionTemplate: API.OperationMethod<
+  DescribeAppVersionTemplateRequest,
   DescribeAppVersionTemplateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4545,9 +4523,8 @@ export const describeAppVersionTemplate: (
  * calling `describeDraftAppVersionResourcesImportStatus` to obtain the
  * status.
  */
-export const describeDraftAppVersionResourcesImportStatus: (
-  input: DescribeDraftAppVersionResourcesImportStatusRequest,
-) => effect.Effect<
+export const describeDraftAppVersionResourcesImportStatus: API.OperationMethod<
+  DescribeDraftAppVersionResourcesImportStatusRequest,
   DescribeDraftAppVersionResourcesImportStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4570,9 +4547,8 @@ export const describeDraftAppVersionResourcesImportStatus: (
 /**
  * Describes the metrics of the application configuration being exported.
  */
-export const describeMetricsExport: (
-  input: DescribeMetricsExportRequest,
-) => effect.Effect<
+export const describeMetricsExport: API.OperationMethod<
+  DescribeMetricsExportRequest,
   DescribeMetricsExportResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4597,9 +4573,8 @@ export const describeMetricsExport: (
  * returned policy object includes creation time, data location constraints, the Amazon Resource
  * Name (ARN) for the policy, tags, tier, and more.
  */
-export const describeResiliencyPolicy: (
-  input: DescribeResiliencyPolicyRequest,
-) => effect.Effect<
+export const describeResiliencyPolicy: API.OperationMethod<
+  DescribeResiliencyPolicyRequest,
   DescribeResiliencyPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4622,9 +4597,8 @@ export const describeResiliencyPolicy: (
 /**
  * Describes the resource grouping recommendation tasks run by Resilience Hub for your application.
  */
-export const describeResourceGroupingRecommendationTask: (
-  input: DescribeResourceGroupingRecommendationTaskRequest,
-) => effect.Effect<
+export const describeResourceGroupingRecommendationTask: API.OperationMethod<
+  DescribeResourceGroupingRecommendationTaskRequest,
   DescribeResourceGroupingRecommendationTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4649,9 +4623,8 @@ export const describeResourceGroupingRecommendationTask: (
  * sources. For more information about the input sources supported by Resilience Hub, see
  * Discover the structure and describe your Resilience Hub application.
  */
-export const importResourcesToDraftAppVersion: (
-  input: ImportResourcesToDraftAppVersionRequest,
-) => effect.Effect<
+export const importResourcesToDraftAppVersion: API.OperationMethod<
+  ImportResourcesToDraftAppVersionRequest,
   ImportResourcesToDraftAppVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -4678,19 +4651,17 @@ export const importResourcesToDraftAppVersion: (
 /**
  * Lists the alarm recommendations for an Resilience Hub application.
  */
-export const listAlarmRecommendations: {
-  (
-    input: ListAlarmRecommendationsRequest,
-  ): effect.Effect<
-    ListAlarmRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAlarmRecommendations: API.OperationMethod<
+  ListAlarmRecommendationsRequest,
+  ListAlarmRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAlarmRecommendationsRequest,
   ) => stream.Stream<
@@ -4735,18 +4706,16 @@ export const listAlarmRecommendations: {
  * List of compliance drifts that were detected while running an
  * assessment.
  */
-export const listAppAssessmentComplianceDrifts: {
-  (
-    input: ListAppAssessmentComplianceDriftsRequest,
-  ): effect.Effect<
-    ListAppAssessmentComplianceDriftsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppAssessmentComplianceDrifts: API.OperationMethod<
+  ListAppAssessmentComplianceDriftsRequest,
+  ListAppAssessmentComplianceDriftsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppAssessmentComplianceDriftsRequest,
   ) => stream.Stream<
@@ -4788,18 +4757,16 @@ export const listAppAssessmentComplianceDrifts: {
  * List of resource drifts that were detected while running an
  * assessment.
  */
-export const listAppAssessmentResourceDrifts: {
-  (
-    input: ListAppAssessmentResourceDriftsRequest,
-  ): effect.Effect<
-    ListAppAssessmentResourceDriftsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppAssessmentResourceDrifts: API.OperationMethod<
+  ListAppAssessmentResourceDriftsRequest,
+  ListAppAssessmentResourceDriftsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppAssessmentResourceDriftsRequest,
   ) => stream.Stream<
@@ -4842,19 +4809,17 @@ export const listAppAssessmentResourceDrifts: {
  * Lists the assessments for an Resilience Hub application. You can use request
  * parameters to refine the results for the response object.
  */
-export const listAppAssessments: {
-  (
-    input: ListAppAssessmentsRequest,
-  ): effect.Effect<
-    ListAppAssessmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppAssessments: API.OperationMethod<
+  ListAppAssessmentsRequest,
+  ListAppAssessmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppAssessmentsRequest,
   ) => stream.Stream<
@@ -4898,19 +4863,17 @@ export const listAppAssessments: {
 /**
  * Lists the compliances for an Resilience Hub Application Component.
  */
-export const listAppComponentCompliances: {
-  (
-    input: ListAppComponentCompliancesRequest,
-  ): effect.Effect<
-    ListAppComponentCompliancesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppComponentCompliances: API.OperationMethod<
+  ListAppComponentCompliancesRequest,
+  ListAppComponentCompliancesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppComponentCompliancesRequest,
   ) => stream.Stream<
@@ -4954,19 +4917,17 @@ export const listAppComponentCompliances: {
 /**
  * Lists the recommendations for an Resilience Hub Application Component.
  */
-export const listAppComponentRecommendations: {
-  (
-    input: ListAppComponentRecommendationsRequest,
-  ): effect.Effect<
-    ListAppComponentRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppComponentRecommendations: API.OperationMethod<
+  ListAppComponentRecommendationsRequest,
+  ListAppComponentRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppComponentRecommendationsRequest,
   ) => stream.Stream<
@@ -5012,19 +4973,17 @@ export const listAppComponentRecommendations: {
  * information about the input sources supported by Resilience Hub, see Discover
  * the structure and describe your Resilience Hub application.
  */
-export const listAppInputSources: {
-  (
-    input: ListAppInputSourcesRequest,
-  ): effect.Effect<
-    ListAppInputSourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppInputSources: API.OperationMethod<
+  ListAppInputSourcesRequest,
+  ListAppInputSourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppInputSourcesRequest,
   ) => stream.Stream<
@@ -5075,18 +5034,16 @@ export const listAppInputSources: {
  * An error occurred (ValidationException) when calling the ListApps operation: Only
  * one filter is supported for this operation.
  */
-export const listApps: {
-  (
-    input: ListAppsRequest,
-  ): effect.Effect<
-    ListAppsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApps: API.OperationMethod<
+  ListAppsRequest,
+  ListAppsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppsRequest,
   ) => stream.Stream<
@@ -5127,20 +5084,18 @@ export const listApps: {
 /**
  * Lists all the Application Components in the Resilience Hub application.
  */
-export const listAppVersionAppComponents: {
-  (
-    input: ListAppVersionAppComponentsRequest,
-  ): effect.Effect<
-    ListAppVersionAppComponentsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppVersionAppComponents: API.OperationMethod<
+  ListAppVersionAppComponentsRequest,
+  ListAppVersionAppComponentsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppVersionAppComponentsRequest,
   ) => stream.Stream<
@@ -5189,19 +5144,17 @@ export const listAppVersionAppComponents: {
  * physical resource identifiers, CloudFormation stacks, resource-groups, or an application registry
  * app.
  */
-export const listAppVersionResourceMappings: {
-  (
-    input: ListAppVersionResourceMappingsRequest,
-  ): effect.Effect<
-    ListAppVersionResourceMappingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppVersionResourceMappings: API.OperationMethod<
+  ListAppVersionResourceMappingsRequest,
+  ListAppVersionResourceMappingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppVersionResourceMappingsRequest,
   ) => stream.Stream<
@@ -5245,20 +5198,18 @@ export const listAppVersionResourceMappings: {
 /**
  * Lists all the resources in an Resilience Hub application.
  */
-export const listAppVersionResources: {
-  (
-    input: ListAppVersionResourcesRequest,
-  ): effect.Effect<
-    ListAppVersionResourcesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppVersionResources: API.OperationMethod<
+  ListAppVersionResourcesRequest,
+  ListAppVersionResourcesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppVersionResourcesRequest,
   ) => stream.Stream<
@@ -5305,18 +5256,16 @@ export const listAppVersionResources: {
 /**
  * Lists the different versions for the Resilience Hub applications.
  */
-export const listAppVersions: {
-  (
-    input: ListAppVersionsRequest,
-  ): effect.Effect<
-    ListAppVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAppVersions: API.OperationMethod<
+  ListAppVersionsRequest,
+  ListAppVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAppVersionsRequest,
   ) => stream.Stream<
@@ -5357,18 +5306,16 @@ export const listAppVersions: {
 /**
  * Lists the metrics that can be exported.
  */
-export const listMetrics: {
-  (
-    input: ListMetricsRequest,
-  ): effect.Effect<
-    ListMetricsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMetrics: API.OperationMethod<
+  ListMetricsRequest,
+  ListMetricsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMetricsRequest,
   ) => stream.Stream<
@@ -5410,18 +5357,16 @@ export const listMetrics: {
 /**
  * Lists the recommendation templates for the Resilience Hub applications.
  */
-export const listRecommendationTemplates: {
-  (
-    input: ListRecommendationTemplatesRequest,
-  ): effect.Effect<
-    ListRecommendationTemplatesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommendationTemplates: API.OperationMethod<
+  ListRecommendationTemplatesRequest,
+  ListRecommendationTemplatesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendationTemplatesRequest,
   ) => stream.Stream<
@@ -5462,19 +5407,17 @@ export const listRecommendationTemplates: {
 /**
  * Lists the resiliency policies for the Resilience Hub applications.
  */
-export const listResiliencyPolicies: {
-  (
-    input: ListResiliencyPoliciesRequest,
-  ): effect.Effect<
-    ListResiliencyPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResiliencyPolicies: API.OperationMethod<
+  ListResiliencyPoliciesRequest,
+  ListResiliencyPoliciesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResiliencyPoliciesRequest,
   ) => stream.Stream<
@@ -5518,19 +5461,17 @@ export const listResiliencyPolicies: {
 /**
  * Lists the resource grouping recommendations suggested by Resilience Hub for your application.
  */
-export const listResourceGroupingRecommendations: {
-  (
-    input: ListResourceGroupingRecommendationsRequest,
-  ): effect.Effect<
-    ListResourceGroupingRecommendationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listResourceGroupingRecommendations: API.OperationMethod<
+  ListResourceGroupingRecommendationsRequest,
+  ListResourceGroupingRecommendationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListResourceGroupingRecommendationsRequest,
   ) => stream.Stream<
@@ -5575,20 +5516,18 @@ export const listResourceGroupingRecommendations: {
 /**
  * Lists the standard operating procedure (SOP) recommendations for the Resilience Hub applications.
  */
-export const listSopRecommendations: {
-  (
-    input: ListSopRecommendationsRequest,
-  ): effect.Effect<
-    ListSopRecommendationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSopRecommendations: API.OperationMethod<
+  ListSopRecommendationsRequest,
+  ListSopRecommendationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSopRecommendationsRequest,
   ) => stream.Stream<
@@ -5636,19 +5575,17 @@ export const listSopRecommendations: {
  * Lists the suggested resiliency policies for the Resilience Hub
  * applications.
  */
-export const listSuggestedResiliencyPolicies: {
-  (
-    input: ListSuggestedResiliencyPoliciesRequest,
-  ): effect.Effect<
-    ListSuggestedResiliencyPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSuggestedResiliencyPolicies: API.OperationMethod<
+  ListSuggestedResiliencyPoliciesRequest,
+  ListSuggestedResiliencyPoliciesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSuggestedResiliencyPoliciesRequest,
   ) => stream.Stream<
@@ -5692,9 +5629,8 @@ export const listSuggestedResiliencyPolicies: {
 /**
  * Lists the tags for your resources in your Resilience Hub applications.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5717,20 +5653,18 @@ export const listTagsForResource: (
 /**
  * Lists the test recommendations for the Resilience Hub application.
  */
-export const listTestRecommendations: {
-  (
-    input: ListTestRecommendationsRequest,
-  ): effect.Effect<
-    ListTestRecommendationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTestRecommendations: API.OperationMethod<
+  ListTestRecommendationsRequest,
+  ListTestRecommendationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTestRecommendationsRequest,
   ) => stream.Stream<
@@ -5779,20 +5713,18 @@ export const listTestRecommendations: {
  * unsupported resource is a resource that exists in the object that was used to create an app,
  * but is not supported by Resilience Hub.
  */
-export const listUnsupportedAppVersionResources: {
-  (
-    input: ListUnsupportedAppVersionResourcesRequest,
-  ): effect.Effect<
-    ListUnsupportedAppVersionResourcesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUnsupportedAppVersionResources: API.OperationMethod<
+  ListUnsupportedAppVersionResourcesRequest,
+  ListUnsupportedAppVersionResourcesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUnsupportedAppVersionResourcesRequest,
   ) => stream.Stream<
@@ -5839,9 +5771,8 @@ export const listUnsupportedAppVersionResources: {
 /**
  * Publishes a new version of a specific Resilience Hub application.
  */
-export const publishAppVersion: (
-  input: PublishAppVersionRequest,
-) => effect.Effect<
+export const publishAppVersion: API.OperationMethod<
+  PublishAppVersionRequest,
   PublishAppVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -5867,9 +5798,8 @@ export const publishAppVersion: (
  * Adds or updates the app template for an Resilience Hub application draft
  * version.
  */
-export const putDraftAppVersionTemplate: (
-  input: PutDraftAppVersionTemplateRequest,
-) => effect.Effect<
+export const putDraftAppVersionTemplate: API.OperationMethod<
+  PutDraftAppVersionTemplateRequest,
   PutDraftAppVersionTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -5894,9 +5824,8 @@ export const putDraftAppVersionTemplate: (
 /**
  * Rejects resource grouping recommendations.
  */
-export const rejectResourceGroupingRecommendations: (
-  input: RejectResourceGroupingRecommendationsRequest,
-) => effect.Effect<
+export const rejectResourceGroupingRecommendations: API.OperationMethod<
+  RejectResourceGroupingRecommendationsRequest,
   RejectResourceGroupingRecommendationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5919,9 +5848,8 @@ export const rejectResourceGroupingRecommendations: (
 /**
  * Removes resource mappings from a draft application version.
  */
-export const removeDraftAppVersionResourceMappings: (
-  input: RemoveDraftAppVersionResourceMappingsRequest,
-) => effect.Effect<
+export const removeDraftAppVersionResourceMappings: API.OperationMethod<
+  RemoveDraftAppVersionResourceMappingsRequest,
   RemoveDraftAppVersionResourceMappingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -5946,9 +5874,8 @@ export const removeDraftAppVersionResourceMappings: (
 /**
  * Resolves the resources for an application version.
  */
-export const resolveAppVersionResources: (
-  input: ResolveAppVersionResourcesRequest,
-) => effect.Effect<
+export const resolveAppVersionResources: API.OperationMethod<
+  ResolveAppVersionResourcesRequest,
   ResolveAppVersionResourcesResponse,
   | AccessDeniedException
   | ConflictException
@@ -5973,9 +5900,8 @@ export const resolveAppVersionResources: (
 /**
  * Creates a new application assessment for an application.
  */
-export const startAppAssessment: (
-  input: StartAppAssessmentRequest,
-) => effect.Effect<
+export const startAppAssessment: API.OperationMethod<
+  StartAppAssessmentRequest,
   StartAppAssessmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -6002,9 +5928,8 @@ export const startAppAssessment: (
 /**
  * Initiates the export task of metrics.
  */
-export const startMetricsExport: (
-  input: StartMetricsExportRequest,
-) => effect.Effect<
+export const startMetricsExport: API.OperationMethod<
+  StartMetricsExportRequest,
   StartMetricsExportResponse,
   | AccessDeniedException
   | ConflictException
@@ -6029,9 +5954,8 @@ export const startMetricsExport: (
 /**
  * Starts grouping recommendation task.
  */
-export const startResourceGroupingRecommendationTask: (
-  input: StartResourceGroupingRecommendationTaskRequest,
-) => effect.Effect<
+export const startResourceGroupingRecommendationTask: API.OperationMethod<
+  StartResourceGroupingRecommendationTaskRequest,
   StartResourceGroupingRecommendationTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -6056,9 +5980,8 @@ export const startResourceGroupingRecommendationTask: (
 /**
  * Applies one or more tags to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6081,9 +6004,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6106,9 +6028,8 @@ export const untagResource: (
 /**
  * Updates an application.
  */
-export const updateApp: (
-  input: UpdateAppRequest,
-) => effect.Effect<
+export const updateApp: API.OperationMethod<
+  UpdateAppRequest,
   UpdateAppResponse,
   | AccessDeniedException
   | ConflictException
@@ -6137,9 +6058,8 @@ export const updateApp: (
  * information for running resiliency assessments, you must publish the Resilience Hub
  * application using the `PublishAppVersion` API.
  */
-export const updateAppVersion: (
-  input: UpdateAppVersionRequest,
-) => effect.Effect<
+export const updateAppVersion: API.OperationMethod<
+  UpdateAppVersionRequest,
   UpdateAppVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6168,9 +6088,8 @@ export const updateAppVersion: (
  * Application Component for running assessments, you must publish the Resilience Hub
  * application using the `PublishAppVersion` API.
  */
-export const updateAppVersionAppComponent: (
-  input: UpdateAppVersionAppComponentRequest,
-) => effect.Effect<
+export const updateAppVersionAppComponent: API.OperationMethod<
+  UpdateAppVersionAppComponentRequest,
   UpdateAppVersionAppComponentResponse,
   | AccessDeniedException
   | ConflictException
@@ -6204,9 +6123,8 @@ export const updateAppVersionAppComponent: (
  * - To update application version with new `physicalResourceID`, you must
  * call `ResolveAppVersionResources` API.
  */
-export const updateAppVersionResource: (
-  input: UpdateAppVersionResourceRequest,
-) => effect.Effect<
+export const updateAppVersionResource: API.OperationMethod<
+  UpdateAppVersionResourceRequest,
   UpdateAppVersionResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6241,9 +6159,8 @@ export const updateAppVersionResource: (
  * status for your application will be set to Policy
  * breached.
  */
-export const updateResiliencyPolicy: (
-  input: UpdateResiliencyPolicyRequest,
-) => effect.Effect<
+export const updateResiliencyPolicy: API.OperationMethod<
+  UpdateResiliencyPolicyRequest,
   UpdateResiliencyPolicyResponse,
   | AccessDeniedException
   | ConflictException

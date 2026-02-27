@@ -923,9 +923,8 @@ export class ResourceLimitException extends S.TaggedErrorClass<ResourceLimitExce
 /**
  * Lists the tags associated with a specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -944,9 +943,8 @@ export const listTagsForResource: (
 /**
  * Adds the specified tags to the given resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -965,9 +963,8 @@ export const tagResource: (
 /**
  * Removes the specified tags from the given resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -986,9 +983,8 @@ export const untagResource: (
 /**
  * Creates a deployment for the given workload. Deployments created by this operation are not available in the Launch Wizard console to use the `Clone deployment` action on.
  */
-export const createDeployment: (
-  input: CreateDeploymentInput,
-) => effect.Effect<
+export const createDeployment: API.OperationMethod<
+  CreateDeploymentInput,
   CreateDeploymentOutput,
   | InternalServerException
   | ResourceLimitException
@@ -1009,9 +1005,8 @@ export const createDeployment: (
 /**
  * Returns information about the deployment.
  */
-export const getDeployment: (
-  input: GetDeploymentInput,
-) => effect.Effect<
+export const getDeployment: API.OperationMethod<
+  GetDeploymentInput,
   GetDeploymentOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1030,9 +1025,8 @@ export const getDeployment: (
 /**
  * Updates a deployment.
  */
-export const updateDeployment: (
-  input: UpdateDeploymentInput,
-) => effect.Effect<
+export const updateDeployment: API.OperationMethod<
+  UpdateDeploymentInput,
   UpdateDeploymentOutput,
   | InternalServerException
   | ResourceLimitException
@@ -1053,9 +1047,8 @@ export const updateDeployment: (
 /**
  * Deletes a deployment.
  */
-export const deleteDeployment: (
-  input: DeleteDeploymentInput,
-) => effect.Effect<
+export const deleteDeployment: API.OperationMethod<
+  DeleteDeploymentInput,
   DeleteDeploymentOutput,
   | InternalServerException
   | ResourceLimitException
@@ -1076,14 +1069,12 @@ export const deleteDeployment: (
 /**
  * Lists the deployments that have been created.
  */
-export const listDeployments: {
-  (
-    input: ListDeploymentsInput,
-  ): effect.Effect<
-    ListDeploymentsOutput,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeployments: API.OperationMethod<
+  ListDeploymentsInput,
+  ListDeploymentsOutput,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentsInput,
   ) => stream.Stream<
@@ -1112,17 +1103,15 @@ export const listDeployments: {
 /**
  * Lists the events of a deployment.
  */
-export const listDeploymentEvents: {
-  (
-    input: ListDeploymentEventsInput,
-  ): effect.Effect<
-    ListDeploymentEventsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeploymentEvents: API.OperationMethod<
+  ListDeploymentEventsInput,
+  ListDeploymentEventsOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentEventsInput,
   ) => stream.Stream<
@@ -1161,9 +1150,8 @@ export const listDeploymentEvents: {
 /**
  * Returns information about a workload.
  */
-export const getWorkload: (
-  input: GetWorkloadInput,
-) => effect.Effect<
+export const getWorkload: API.OperationMethod<
+  GetWorkloadInput,
   GetWorkloadOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1182,14 +1170,12 @@ export const getWorkload: (
 /**
  * Lists the available workload names. You can use the ListWorkloadDeploymentPatterns operation to discover the available deployment patterns for a given workload.
  */
-export const listWorkloads: {
-  (
-    input: ListWorkloadsInput,
-  ): effect.Effect<
-    ListWorkloadsOutput,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkloads: API.OperationMethod<
+  ListWorkloadsInput,
+  ListWorkloadsOutput,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkloadsInput,
   ) => stream.Stream<
@@ -1218,9 +1204,8 @@ export const listWorkloads: {
 /**
  * Returns details for a given workload and deployment pattern, including the available specifications. You can use the ListWorkloads operation to discover the available workload names and the ListWorkloadDeploymentPatterns operation to discover the available deployment pattern names of a given workload.
  */
-export const getWorkloadDeploymentPattern: (
-  input: GetWorkloadDeploymentPatternInput,
-) => effect.Effect<
+export const getWorkloadDeploymentPattern: API.OperationMethod<
+  GetWorkloadDeploymentPatternInput,
   GetWorkloadDeploymentPatternOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1239,17 +1224,15 @@ export const getWorkloadDeploymentPattern: (
 /**
  * Lists the workload deployment patterns for a given workload name. You can use the ListWorkloads operation to discover the available workload names.
  */
-export const listWorkloadDeploymentPatterns: {
-  (
-    input: ListWorkloadDeploymentPatternsInput,
-  ): effect.Effect<
-    ListWorkloadDeploymentPatternsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkloadDeploymentPatterns: API.OperationMethod<
+  ListWorkloadDeploymentPatternsInput,
+  ListWorkloadDeploymentPatternsOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkloadDeploymentPatternsInput,
   ) => stream.Stream<
@@ -1288,9 +1271,8 @@ export const listWorkloadDeploymentPatterns: {
 /**
  * Returns information about a deployment pattern version.
  */
-export const getDeploymentPatternVersion: (
-  input: GetDeploymentPatternVersionInput,
-) => effect.Effect<
+export const getDeploymentPatternVersion: API.OperationMethod<
+  GetDeploymentPatternVersionInput,
   GetDeploymentPatternVersionOutput,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1302,17 +1284,15 @@ export const getDeploymentPatternVersion: (
 /**
  * Lists the deployment pattern versions.
  */
-export const listDeploymentPatternVersions: {
-  (
-    input: ListDeploymentPatternVersionsInput,
-  ): effect.Effect<
-    ListDeploymentPatternVersionsOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeploymentPatternVersions: API.OperationMethod<
+  ListDeploymentPatternVersionsInput,
+  ListDeploymentPatternVersionsOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeploymentPatternVersionsInput,
   ) => stream.Stream<

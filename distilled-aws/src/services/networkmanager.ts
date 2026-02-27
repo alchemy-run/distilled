@@ -5379,9 +5379,8 @@ export class CoreNetworkPolicyException extends S.TaggedErrorClass<CoreNetworkPo
  * Once the attachment request is accepted by a core network owner, the attachment is
  * created and connected to a core network.
  */
-export const acceptAttachment: (
-  input: AcceptAttachmentRequest,
-) => effect.Effect<
+export const acceptAttachment: API.OperationMethod<
+  AcceptAttachmentRequest,
   AcceptAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -5410,9 +5409,8 @@ export const acceptAttachment: (
  * associate core network Connect peers that have been created on a core network Connect
  * attachment on a core network.
  */
-export const associateConnectPeer: (
-  input: AssociateConnectPeerRequest,
-) => effect.Effect<
+export const associateConnectPeer: API.OperationMethod<
+  AssociateConnectPeerRequest,
   AssociateConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5449,9 +5447,8 @@ export const associateConnectPeer: (
  *
  * You cannot associate a customer gateway with more than one device and link.
  */
-export const associateCustomerGateway: (
-  input: AssociateCustomerGatewayRequest,
-) => effect.Effect<
+export const associateCustomerGateway: API.OperationMethod<
+  AssociateCustomerGatewayRequest,
   AssociateCustomerGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -5478,9 +5475,8 @@ export const associateCustomerGateway: (
 /**
  * Associates a link to a device. A device can be associated to multiple links and a link can be associated to multiple devices. The device and link must be in the same global network and the same site.
  */
-export const associateLink: (
-  input: AssociateLinkRequest,
-) => effect.Effect<
+export const associateLink: API.OperationMethod<
+  AssociateLinkRequest,
   AssociateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5513,9 +5509,8 @@ export const associateLink: (
  *
  * You cannot associate a transit gateway Connect peer with more than one device and link.
  */
-export const associateTransitGatewayConnectPeer: (
-  input: AssociateTransitGatewayConnectPeerRequest,
-) => effect.Effect<
+export const associateTransitGatewayConnectPeer: API.OperationMethod<
+  AssociateTransitGatewayConnectPeerRequest,
   AssociateTransitGatewayConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5546,9 +5541,8 @@ export const associateTransitGatewayConnectPeer: (
  * establish a connection between a core network and an appliance. A core network Connect
  * attachment uses an existing VPC attachment as the underlying transport mechanism.
  */
-export const createConnectAttachment: (
-  input: CreateConnectAttachmentRequest,
-) => effect.Effect<
+export const createConnectAttachment: API.OperationMethod<
+  CreateConnectAttachmentRequest,
   CreateConnectAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -5573,9 +5567,8 @@ export const createConnectAttachment: (
 /**
  * Creates a connection between two devices. The devices can be a physical or virtual appliance that connects to a third-party appliance in a VPC, or a physical appliance that connects to another physical appliance in an on-premises network.
  */
-export const createConnection: (
-  input: CreateConnectionRequest,
-) => effect.Effect<
+export const createConnection: API.OperationMethod<
+  CreateConnectionRequest,
   CreateConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -5601,9 +5594,8 @@ export const createConnection: (
  * Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance.
  * The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
  */
-export const createConnectPeer: (
-  input: CreateConnectPeerRequest,
-) => effect.Effect<
+export const createConnectPeer: API.OperationMethod<
+  CreateConnectPeerRequest,
   CreateConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5628,9 +5620,8 @@ export const createConnectPeer: (
 /**
  * Creates a core network as part of your global network, and optionally, with a core network policy.
  */
-export const createCoreNetwork: (
-  input: CreateCoreNetworkRequest,
-) => effect.Effect<
+export const createCoreNetwork: API.OperationMethod<
+  CreateCoreNetworkRequest,
   CreateCoreNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5657,9 +5648,8 @@ export const createCoreNetwork: (
 /**
  * Creates an association between a core network and a prefix list for routing control.
  */
-export const createCoreNetworkPrefixListAssociation: (
-  input: CreateCoreNetworkPrefixListAssociationRequest,
-) => effect.Effect<
+export const createCoreNetworkPrefixListAssociation: API.OperationMethod<
+  CreateCoreNetworkPrefixListAssociationRequest,
   CreateCoreNetworkPrefixListAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -5687,9 +5677,8 @@ export const createCoreNetworkPrefixListAssociation: (
  * Creates a new device in a global network. If you specify both a site ID and a
  * location, the location of the site is used for visualization in the Network Manager console.
  */
-export const createDevice: (
-  input: CreateDeviceRequest,
-) => effect.Effect<
+export const createDevice: API.OperationMethod<
+  CreateDeviceRequest,
   CreateDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -5716,9 +5705,8 @@ export const createDevice: (
 /**
  * Creates an Amazon Web Services Direct Connect gateway attachment
  */
-export const createDirectConnectGatewayAttachment: (
-  input: CreateDirectConnectGatewayAttachmentRequest,
-) => effect.Effect<
+export const createDirectConnectGatewayAttachment: API.OperationMethod<
+  CreateDirectConnectGatewayAttachmentRequest,
   CreateDirectConnectGatewayAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -5743,9 +5731,8 @@ export const createDirectConnectGatewayAttachment: (
 /**
  * Creates a new, empty global network.
  */
-export const createGlobalNetwork: (
-  input: CreateGlobalNetworkRequest,
-) => effect.Effect<
+export const createGlobalNetwork: API.OperationMethod<
+  CreateGlobalNetworkRequest,
   CreateGlobalNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5770,9 +5757,8 @@ export const createGlobalNetwork: (
 /**
  * Creates a new link for a specified site.
  */
-export const createLink: (
-  input: CreateLinkRequest,
-) => effect.Effect<
+export const createLink: API.OperationMethod<
+  CreateLinkRequest,
   CreateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -5799,9 +5785,8 @@ export const createLink: (
 /**
  * Creates a new site in a global network.
  */
-export const createSite: (
-  input: CreateSiteRequest,
-) => effect.Effect<
+export const createSite: API.OperationMethod<
+  CreateSiteRequest,
   CreateSiteResponse,
   | AccessDeniedException
   | ConflictException
@@ -5828,9 +5813,8 @@ export const createSite: (
 /**
  * Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
  */
-export const createSiteToSiteVpnAttachment: (
-  input: CreateSiteToSiteVpnAttachmentRequest,
-) => effect.Effect<
+export const createSiteToSiteVpnAttachment: API.OperationMethod<
+  CreateSiteToSiteVpnAttachmentRequest,
   CreateSiteToSiteVpnAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -5855,9 +5839,8 @@ export const createSiteToSiteVpnAttachment: (
 /**
  * Creates a transit gateway peering connection.
  */
-export const createTransitGatewayPeering: (
-  input: CreateTransitGatewayPeeringRequest,
-) => effect.Effect<
+export const createTransitGatewayPeering: API.OperationMethod<
+  CreateTransitGatewayPeeringRequest,
   CreateTransitGatewayPeeringResponse,
   | AccessDeniedException
   | ConflictException
@@ -5882,9 +5865,8 @@ export const createTransitGatewayPeering: (
 /**
  * Creates a transit gateway route table attachment.
  */
-export const createTransitGatewayRouteTableAttachment: (
-  input: CreateTransitGatewayRouteTableAttachmentRequest,
-) => effect.Effect<
+export const createTransitGatewayRouteTableAttachment: API.OperationMethod<
+  CreateTransitGatewayRouteTableAttachmentRequest,
   CreateTransitGatewayRouteTableAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -5909,9 +5891,8 @@ export const createTransitGatewayRouteTableAttachment: (
 /**
  * Creates a VPC attachment on an edge location of a core network.
  */
-export const createVpcAttachment: (
-  input: CreateVpcAttachmentRequest,
-) => effect.Effect<
+export const createVpcAttachment: API.OperationMethod<
+  CreateVpcAttachmentRequest,
   CreateVpcAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -5936,9 +5917,8 @@ export const createVpcAttachment: (
 /**
  * Deletes an attachment. Supports all attachment types.
  */
-export const deleteAttachment: (
-  input: DeleteAttachmentRequest,
-) => effect.Effect<
+export const deleteAttachment: API.OperationMethod<
+  DeleteAttachmentRequest,
   DeleteAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -5963,9 +5943,8 @@ export const deleteAttachment: (
 /**
  * Deletes the specified connection in your global network.
  */
-export const deleteConnection: (
-  input: DeleteConnectionRequest,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
   DeleteConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -5990,9 +5969,8 @@ export const deleteConnection: (
 /**
  * Deletes a Connect peer.
  */
-export const deleteConnectPeer: (
-  input: DeleteConnectPeerRequest,
-) => effect.Effect<
+export const deleteConnectPeer: API.OperationMethod<
+  DeleteConnectPeerRequest,
   DeleteConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -6017,9 +5995,8 @@ export const deleteConnectPeer: (
 /**
  * Deletes a core network along with all core network policies. This can only be done if there are no attachments on a core network.
  */
-export const deleteCoreNetwork: (
-  input: DeleteCoreNetworkRequest,
-) => effect.Effect<
+export const deleteCoreNetwork: API.OperationMethod<
+  DeleteCoreNetworkRequest,
   DeleteCoreNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -6044,9 +6021,8 @@ export const deleteCoreNetwork: (
 /**
  * Deletes a policy version from a core network. You can't delete the current LIVE policy.
  */
-export const deleteCoreNetworkPolicyVersion: (
-  input: DeleteCoreNetworkPolicyVersionRequest,
-) => effect.Effect<
+export const deleteCoreNetworkPolicyVersion: API.OperationMethod<
+  DeleteCoreNetworkPolicyVersionRequest,
   DeleteCoreNetworkPolicyVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6071,9 +6047,8 @@ export const deleteCoreNetworkPolicyVersion: (
 /**
  * Deletes an association between a core network and a prefix list.
  */
-export const deleteCoreNetworkPrefixListAssociation: (
-  input: DeleteCoreNetworkPrefixListAssociationRequest,
-) => effect.Effect<
+export const deleteCoreNetworkPrefixListAssociation: API.OperationMethod<
+  DeleteCoreNetworkPrefixListAssociationRequest,
   DeleteCoreNetworkPrefixListAssociationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6101,9 +6076,8 @@ export const deleteCoreNetworkPrefixListAssociation: (
  * Deletes an existing device. You must first disassociate the device from any links and
  * customer gateways.
  */
-export const deleteDevice: (
-  input: DeleteDeviceRequest,
-) => effect.Effect<
+export const deleteDevice: API.OperationMethod<
+  DeleteDeviceRequest,
   DeleteDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6129,9 +6103,8 @@ export const deleteDevice: (
  * Deletes an existing global network. You must first delete all global network objects
  * (devices, links, and sites), deregister all transit gateways, and delete any core networks.
  */
-export const deleteGlobalNetwork: (
-  input: DeleteGlobalNetworkRequest,
-) => effect.Effect<
+export const deleteGlobalNetwork: API.OperationMethod<
+  DeleteGlobalNetworkRequest,
   DeleteGlobalNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -6157,9 +6130,8 @@ export const deleteGlobalNetwork: (
  * Deletes an existing link. You must first disassociate the link from any devices and
  * customer gateways.
  */
-export const deleteLink: (
-  input: DeleteLinkRequest,
-) => effect.Effect<
+export const deleteLink: API.OperationMethod<
+  DeleteLinkRequest,
   DeleteLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -6184,9 +6156,8 @@ export const deleteLink: (
 /**
  * Deletes an existing peering connection.
  */
-export const deletePeering: (
-  input: DeletePeeringRequest,
-) => effect.Effect<
+export const deletePeering: API.OperationMethod<
+  DeletePeeringRequest,
   DeletePeeringResponse,
   | AccessDeniedException
   | ConflictException
@@ -6211,9 +6182,8 @@ export const deletePeering: (
 /**
  * Deletes a resource policy for the specified resource. This revokes the access of the principals specified in the resource policy.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -6236,9 +6206,8 @@ export const deleteResourcePolicy: (
 /**
  * Deletes an existing site. The site cannot be associated with any device or link.
  */
-export const deleteSite: (
-  input: DeleteSiteRequest,
-) => effect.Effect<
+export const deleteSite: API.OperationMethod<
+  DeleteSiteRequest,
   DeleteSiteResponse,
   | AccessDeniedException
   | ConflictException
@@ -6264,9 +6233,8 @@ export const deleteSite: (
  * Deregisters a transit gateway from your global network. This action does not delete
  * your transit gateway, or modify any of its attachments. This action removes any customer gateway associations.
  */
-export const deregisterTransitGateway: (
-  input: DeregisterTransitGatewayRequest,
-) => effect.Effect<
+export const deregisterTransitGateway: API.OperationMethod<
+  DeregisterTransitGatewayRequest,
   DeregisterTransitGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -6294,19 +6262,17 @@ export const deregisterTransitGateway: (
  * `Get*` action. For example, to list the transit gateways in your global
  * network, use GetTransitGatewayRegistrations.
  */
-export const describeGlobalNetworks: {
-  (
-    input: DescribeGlobalNetworksRequest,
-  ): effect.Effect<
-    DescribeGlobalNetworksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGlobalNetworks: API.OperationMethod<
+  DescribeGlobalNetworksRequest,
+  DescribeGlobalNetworksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGlobalNetworksRequest,
   ) => stream.Stream<
@@ -6351,9 +6317,8 @@ export const describeGlobalNetworks: {
 /**
  * Disassociates a core network Connect peer from a device and a link.
  */
-export const disassociateConnectPeer: (
-  input: DisassociateConnectPeerRequest,
-) => effect.Effect<
+export const disassociateConnectPeer: API.OperationMethod<
+  DisassociateConnectPeerRequest,
   DisassociateConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -6378,9 +6343,8 @@ export const disassociateConnectPeer: (
 /**
  * Disassociates a customer gateway from a device and a link.
  */
-export const disassociateCustomerGateway: (
-  input: DisassociateCustomerGatewayRequest,
-) => effect.Effect<
+export const disassociateCustomerGateway: API.OperationMethod<
+  DisassociateCustomerGatewayRequest,
   DisassociateCustomerGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -6406,9 +6370,8 @@ export const disassociateCustomerGateway: (
  * Disassociates an existing device from a link. You must first disassociate any customer
  * gateways that are associated with the link.
  */
-export const disassociateLink: (
-  input: DisassociateLinkRequest,
-) => effect.Effect<
+export const disassociateLink: API.OperationMethod<
+  DisassociateLinkRequest,
   DisassociateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -6433,9 +6396,8 @@ export const disassociateLink: (
 /**
  * Disassociates a transit gateway Connect peer from a device and link.
  */
-export const disassociateTransitGatewayConnectPeer: (
-  input: DisassociateTransitGatewayConnectPeerRequest,
-) => effect.Effect<
+export const disassociateTransitGatewayConnectPeer: API.OperationMethod<
+  DisassociateTransitGatewayConnectPeerRequest,
   DisassociateTransitGatewayConnectPeerResponse,
   | AccessDeniedException
   | ConflictException
@@ -6460,9 +6422,8 @@ export const disassociateTransitGatewayConnectPeer: (
 /**
  * Executes a change set on your core network. Deploys changes globally based on the policy submitted..
  */
-export const executeCoreNetworkChangeSet: (
-  input: ExecuteCoreNetworkChangeSetRequest,
-) => effect.Effect<
+export const executeCoreNetworkChangeSet: API.OperationMethod<
+  ExecuteCoreNetworkChangeSetRequest,
   ExecuteCoreNetworkChangeSetResponse,
   | AccessDeniedException
   | ConflictException
@@ -6487,9 +6448,8 @@ export const executeCoreNetworkChangeSet: (
 /**
  * Returns information about a core network Connect attachment.
  */
-export const getConnectAttachment: (
-  input: GetConnectAttachmentRequest,
-) => effect.Effect<
+export const getConnectAttachment: API.OperationMethod<
+  GetConnectAttachmentRequest,
   GetConnectAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6512,19 +6472,17 @@ export const getConnectAttachment: (
 /**
  * Gets information about one or more of your connections in a global network.
  */
-export const getConnections: {
-  (
-    input: GetConnectionsRequest,
-  ): effect.Effect<
-    GetConnectionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getConnections: API.OperationMethod<
+  GetConnectionsRequest,
+  GetConnectionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetConnectionsRequest,
   ) => stream.Stream<
@@ -6569,9 +6527,8 @@ export const getConnections: {
 /**
  * Returns information about a core network Connect peer.
  */
-export const getConnectPeer: (
-  input: GetConnectPeerRequest,
-) => effect.Effect<
+export const getConnectPeer: API.OperationMethod<
+  GetConnectPeerRequest,
   GetConnectPeerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6594,20 +6551,18 @@ export const getConnectPeer: (
 /**
  * Returns information about a core network Connect peer associations.
  */
-export const getConnectPeerAssociations: {
-  (
-    input: GetConnectPeerAssociationsRequest,
-  ): effect.Effect<
-    GetConnectPeerAssociationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getConnectPeerAssociations: API.OperationMethod<
+  GetConnectPeerAssociationsRequest,
+  GetConnectPeerAssociationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetConnectPeerAssociationsRequest,
   ) => stream.Stream<
@@ -6655,9 +6610,8 @@ export const getConnectPeerAssociations: {
 /**
  * Returns information about the LIVE policy for a core network.
  */
-export const getCoreNetwork: (
-  input: GetCoreNetworkRequest,
-) => effect.Effect<
+export const getCoreNetwork: API.OperationMethod<
+  GetCoreNetworkRequest,
   GetCoreNetworkResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6680,19 +6634,17 @@ export const getCoreNetwork: (
 /**
  * Returns information about a core network change event.
  */
-export const getCoreNetworkChangeEvents: {
-  (
-    input: GetCoreNetworkChangeEventsRequest,
-  ): effect.Effect<
-    GetCoreNetworkChangeEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCoreNetworkChangeEvents: API.OperationMethod<
+  GetCoreNetworkChangeEventsRequest,
+  GetCoreNetworkChangeEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCoreNetworkChangeEventsRequest,
   ) => stream.Stream<
@@ -6737,19 +6689,17 @@ export const getCoreNetworkChangeEvents: {
 /**
  * Returns a change set between the LIVE core network policy and a submitted policy.
  */
-export const getCoreNetworkChangeSet: {
-  (
-    input: GetCoreNetworkChangeSetRequest,
-  ): effect.Effect<
-    GetCoreNetworkChangeSetResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCoreNetworkChangeSet: API.OperationMethod<
+  GetCoreNetworkChangeSetRequest,
+  GetCoreNetworkChangeSetResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCoreNetworkChangeSetRequest,
   ) => stream.Stream<
@@ -6794,9 +6744,8 @@ export const getCoreNetworkChangeSet: {
 /**
  * Returns details about a core network policy. You can get details about your current live policy or any previous policy version.
  */
-export const getCoreNetworkPolicy: (
-  input: GetCoreNetworkPolicyRequest,
-) => effect.Effect<
+export const getCoreNetworkPolicy: API.OperationMethod<
+  GetCoreNetworkPolicyRequest,
   GetCoreNetworkPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6820,20 +6769,18 @@ export const getCoreNetworkPolicy: (
  * Gets the association information for customer gateways that are associated with
  * devices and links in your global network.
  */
-export const getCustomerGatewayAssociations: {
-  (
-    input: GetCustomerGatewayAssociationsRequest,
-  ): effect.Effect<
-    GetCustomerGatewayAssociationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCustomerGatewayAssociations: API.OperationMethod<
+  GetCustomerGatewayAssociationsRequest,
+  GetCustomerGatewayAssociationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCustomerGatewayAssociationsRequest,
   ) => stream.Stream<
@@ -6881,19 +6828,17 @@ export const getCustomerGatewayAssociations: {
 /**
  * Gets information about one or more of your devices in a global network.
  */
-export const getDevices: {
-  (
-    input: GetDevicesRequest,
-  ): effect.Effect<
-    GetDevicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDevices: API.OperationMethod<
+  GetDevicesRequest,
+  GetDevicesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDevicesRequest,
   ) => stream.Stream<
@@ -6938,9 +6883,8 @@ export const getDevices: {
 /**
  * Returns information about a specific Amazon Web Services Direct Connect gateway attachment.
  */
-export const getDirectConnectGatewayAttachment: (
-  input: GetDirectConnectGatewayAttachmentRequest,
-) => effect.Effect<
+export const getDirectConnectGatewayAttachment: API.OperationMethod<
+  GetDirectConnectGatewayAttachmentRequest,
   GetDirectConnectGatewayAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6964,19 +6908,17 @@ export const getDirectConnectGatewayAttachment: (
  * Gets the link associations for a device or a link. Either the device ID or the link ID
  * must be specified.
  */
-export const getLinkAssociations: {
-  (
-    input: GetLinkAssociationsRequest,
-  ): effect.Effect<
-    GetLinkAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getLinkAssociations: API.OperationMethod<
+  GetLinkAssociationsRequest,
+  GetLinkAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetLinkAssociationsRequest,
   ) => stream.Stream<
@@ -7023,19 +6965,17 @@ export const getLinkAssociations: {
  *
  * If you specify the site ID, you cannot specify the type or provider in the same request. You can specify the type and provider in the same request.
  */
-export const getLinks: {
-  (
-    input: GetLinksRequest,
-  ): effect.Effect<
-    GetLinksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getLinks: API.OperationMethod<
+  GetLinksRequest,
+  GetLinksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetLinksRequest,
   ) => stream.Stream<
@@ -7080,18 +7020,16 @@ export const getLinks: {
 /**
  * Gets the count of network resources, by resource type, for the specified global network.
  */
-export const getNetworkResourceCounts: {
-  (
-    input: GetNetworkResourceCountsRequest,
-  ): effect.Effect<
-    GetNetworkResourceCountsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getNetworkResourceCounts: API.OperationMethod<
+  GetNetworkResourceCountsRequest,
+  GetNetworkResourceCountsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetNetworkResourceCountsRequest,
   ) => stream.Stream<
@@ -7133,19 +7071,17 @@ export const getNetworkResourceCounts: {
 /**
  * Gets the network resource relationships for the specified global network.
  */
-export const getNetworkResourceRelationships: {
-  (
-    input: GetNetworkResourceRelationshipsRequest,
-  ): effect.Effect<
-    GetNetworkResourceRelationshipsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getNetworkResourceRelationships: API.OperationMethod<
+  GetNetworkResourceRelationshipsRequest,
+  GetNetworkResourceRelationshipsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetNetworkResourceRelationshipsRequest,
   ) => stream.Stream<
@@ -7192,19 +7128,17 @@ export const getNetworkResourceRelationships: {
  *
  * The results include information from the corresponding Describe call for the resource, minus any sensitive information such as pre-shared keys.
  */
-export const getNetworkResources: {
-  (
-    input: GetNetworkResourcesRequest,
-  ): effect.Effect<
-    GetNetworkResourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getNetworkResources: API.OperationMethod<
+  GetNetworkResourcesRequest,
+  GetNetworkResourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetNetworkResourcesRequest,
   ) => stream.Stream<
@@ -7249,9 +7183,8 @@ export const getNetworkResources: {
 /**
  * Gets the network routes of the specified global network.
  */
-export const getNetworkRoutes: (
-  input: GetNetworkRoutesRequest,
-) => effect.Effect<
+export const getNetworkRoutes: API.OperationMethod<
+  GetNetworkRoutesRequest,
   GetNetworkRoutesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7274,19 +7207,17 @@ export const getNetworkRoutes: (
 /**
  * Gets the network telemetry of the specified global network.
  */
-export const getNetworkTelemetry: {
-  (
-    input: GetNetworkTelemetryRequest,
-  ): effect.Effect<
-    GetNetworkTelemetryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getNetworkTelemetry: API.OperationMethod<
+  GetNetworkTelemetryRequest,
+  GetNetworkTelemetryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetNetworkTelemetryRequest,
   ) => stream.Stream<
@@ -7331,9 +7262,8 @@ export const getNetworkTelemetry: {
 /**
  * Returns information about a resource policy.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7354,9 +7284,8 @@ export const getResourcePolicy: (
 /**
  * Gets information about the specified route analysis.
  */
-export const getRouteAnalysis: (
-  input: GetRouteAnalysisRequest,
-) => effect.Effect<
+export const getRouteAnalysis: API.OperationMethod<
+  GetRouteAnalysisRequest,
   GetRouteAnalysisResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7379,19 +7308,17 @@ export const getRouteAnalysis: (
 /**
  * Gets information about one or more of your sites in a global network.
  */
-export const getSites: {
-  (
-    input: GetSitesRequest,
-  ): effect.Effect<
-    GetSitesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getSites: API.OperationMethod<
+  GetSitesRequest,
+  GetSitesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSitesRequest,
   ) => stream.Stream<
@@ -7436,9 +7363,8 @@ export const getSites: {
 /**
  * Returns information about a site-to-site VPN attachment.
  */
-export const getSiteToSiteVpnAttachment: (
-  input: GetSiteToSiteVpnAttachmentRequest,
-) => effect.Effect<
+export const getSiteToSiteVpnAttachment: API.OperationMethod<
+  GetSiteToSiteVpnAttachmentRequest,
   GetSiteToSiteVpnAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7461,20 +7387,18 @@ export const getSiteToSiteVpnAttachment: (
 /**
  * Gets information about one or more of your transit gateway Connect peer associations in a global network.
  */
-export const getTransitGatewayConnectPeerAssociations: {
-  (
-    input: GetTransitGatewayConnectPeerAssociationsRequest,
-  ): effect.Effect<
-    GetTransitGatewayConnectPeerAssociationsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getTransitGatewayConnectPeerAssociations: API.OperationMethod<
+  GetTransitGatewayConnectPeerAssociationsRequest,
+  GetTransitGatewayConnectPeerAssociationsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTransitGatewayConnectPeerAssociationsRequest,
   ) => stream.Stream<
@@ -7522,9 +7446,8 @@ export const getTransitGatewayConnectPeerAssociations: {
 /**
  * Returns information about a transit gateway peer.
  */
-export const getTransitGatewayPeering: (
-  input: GetTransitGatewayPeeringRequest,
-) => effect.Effect<
+export const getTransitGatewayPeering: API.OperationMethod<
+  GetTransitGatewayPeeringRequest,
   GetTransitGatewayPeeringResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7548,19 +7471,17 @@ export const getTransitGatewayPeering: (
  * Gets information about the transit gateway registrations in a specified
  * global network.
  */
-export const getTransitGatewayRegistrations: {
-  (
-    input: GetTransitGatewayRegistrationsRequest,
-  ): effect.Effect<
-    GetTransitGatewayRegistrationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getTransitGatewayRegistrations: API.OperationMethod<
+  GetTransitGatewayRegistrationsRequest,
+  GetTransitGatewayRegistrationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTransitGatewayRegistrationsRequest,
   ) => stream.Stream<
@@ -7605,9 +7526,8 @@ export const getTransitGatewayRegistrations: {
 /**
  * Returns information about a transit gateway route table attachment.
  */
-export const getTransitGatewayRouteTableAttachment: (
-  input: GetTransitGatewayRouteTableAttachmentRequest,
-) => effect.Effect<
+export const getTransitGatewayRouteTableAttachment: API.OperationMethod<
+  GetTransitGatewayRouteTableAttachmentRequest,
   GetTransitGatewayRouteTableAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7630,9 +7550,8 @@ export const getTransitGatewayRouteTableAttachment: (
 /**
  * Returns information about a VPC attachment.
  */
-export const getVpcAttachment: (
-  input: GetVpcAttachmentRequest,
-) => effect.Effect<
+export const getVpcAttachment: API.OperationMethod<
+  GetVpcAttachmentRequest,
   GetVpcAttachmentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7655,19 +7574,17 @@ export const getVpcAttachment: (
 /**
  * Lists the routing policy associations for attachments in a core network.
  */
-export const listAttachmentRoutingPolicyAssociations: {
-  (
-    input: ListAttachmentRoutingPolicyAssociationsRequest,
-  ): effect.Effect<
-    ListAttachmentRoutingPolicyAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttachmentRoutingPolicyAssociations: API.OperationMethod<
+  ListAttachmentRoutingPolicyAssociationsRequest,
+  ListAttachmentRoutingPolicyAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttachmentRoutingPolicyAssociationsRequest,
   ) => stream.Stream<
@@ -7712,18 +7629,16 @@ export const listAttachmentRoutingPolicyAssociations: {
 /**
  * Returns a list of core network attachments.
  */
-export const listAttachments: {
-  (
-    input: ListAttachmentsRequest,
-  ): effect.Effect<
-    ListAttachmentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttachments: API.OperationMethod<
+  ListAttachmentsRequest,
+  ListAttachmentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttachmentsRequest,
   ) => stream.Stream<
@@ -7765,18 +7680,16 @@ export const listAttachments: {
 /**
  * Returns a list of core network Connect peers.
  */
-export const listConnectPeers: {
-  (
-    input: ListConnectPeersRequest,
-  ): effect.Effect<
-    ListConnectPeersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectPeers: API.OperationMethod<
+  ListConnectPeersRequest,
+  ListConnectPeersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectPeersRequest,
   ) => stream.Stream<
@@ -7818,19 +7731,17 @@ export const listConnectPeers: {
 /**
  * Returns a list of core network policy versions.
  */
-export const listCoreNetworkPolicyVersions: {
-  (
-    input: ListCoreNetworkPolicyVersionsRequest,
-  ): effect.Effect<
-    ListCoreNetworkPolicyVersionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCoreNetworkPolicyVersions: API.OperationMethod<
+  ListCoreNetworkPolicyVersionsRequest,
+  ListCoreNetworkPolicyVersionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCoreNetworkPolicyVersionsRequest,
   ) => stream.Stream<
@@ -7875,19 +7786,17 @@ export const listCoreNetworkPolicyVersions: {
 /**
  * Lists the prefix list associations for a core network.
  */
-export const listCoreNetworkPrefixListAssociations: {
-  (
-    input: ListCoreNetworkPrefixListAssociationsRequest,
-  ): effect.Effect<
-    ListCoreNetworkPrefixListAssociationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCoreNetworkPrefixListAssociations: API.OperationMethod<
+  ListCoreNetworkPrefixListAssociationsRequest,
+  ListCoreNetworkPrefixListAssociationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCoreNetworkPrefixListAssociationsRequest,
   ) => stream.Stream<
@@ -7932,19 +7841,17 @@ export const listCoreNetworkPrefixListAssociations: {
 /**
  * Lists routing information for a core network, including routes and their attributes.
  */
-export const listCoreNetworkRoutingInformation: {
-  (
-    input: ListCoreNetworkRoutingInformationRequest,
-  ): effect.Effect<
-    ListCoreNetworkRoutingInformationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCoreNetworkRoutingInformation: API.OperationMethod<
+  ListCoreNetworkRoutingInformationRequest,
+  ListCoreNetworkRoutingInformationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCoreNetworkRoutingInformationRequest,
   ) => stream.Stream<
@@ -7989,18 +7896,16 @@ export const listCoreNetworkRoutingInformation: {
 /**
  * Returns a list of owned and shared core networks.
  */
-export const listCoreNetworks: {
-  (
-    input: ListCoreNetworksRequest,
-  ): effect.Effect<
-    ListCoreNetworksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCoreNetworks: API.OperationMethod<
+  ListCoreNetworksRequest,
+  ListCoreNetworksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCoreNetworksRequest,
   ) => stream.Stream<
@@ -8042,9 +7947,8 @@ export const listCoreNetworks: {
 /**
  * Gets the status of the Service Linked Role (SLR) deployment for the accounts in a given Amazon Web Services Organization.
  */
-export const listOrganizationServiceAccessStatus: (
-  input: ListOrganizationServiceAccessStatusRequest,
-) => effect.Effect<
+export const listOrganizationServiceAccessStatus: API.OperationMethod<
+  ListOrganizationServiceAccessStatusRequest,
   ListOrganizationServiceAccessStatusResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -8056,18 +7960,16 @@ export const listOrganizationServiceAccessStatus: (
 /**
  * Lists the peerings for a core network.
  */
-export const listPeerings: {
-  (
-    input: ListPeeringsRequest,
-  ): effect.Effect<
-    ListPeeringsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPeerings: API.OperationMethod<
+  ListPeeringsRequest,
+  ListPeeringsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPeeringsRequest,
   ) => stream.Stream<
@@ -8109,9 +8011,8 @@ export const listPeerings: {
 /**
  * Lists the tags for a specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8134,9 +8035,8 @@ export const listTagsForResource: (
 /**
  * Applies a routing policy label to an attachment for traffic routing decisions.
  */
-export const putAttachmentRoutingPolicyLabel: (
-  input: PutAttachmentRoutingPolicyLabelRequest,
-) => effect.Effect<
+export const putAttachmentRoutingPolicyLabel: API.OperationMethod<
+  PutAttachmentRoutingPolicyLabelRequest,
   PutAttachmentRoutingPolicyLabelResponse,
   | AccessDeniedException
   | ConflictException
@@ -8163,9 +8063,8 @@ export const putAttachmentRoutingPolicyLabel: (
 /**
  * Creates a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and the submitted policy.
  */
-export const putCoreNetworkPolicy: (
-  input: PutCoreNetworkPolicyRequest,
-) => effect.Effect<
+export const putCoreNetworkPolicy: API.OperationMethod<
+  PutCoreNetworkPolicyRequest,
   PutCoreNetworkPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -8192,9 +8091,8 @@ export const putCoreNetworkPolicy: (
 /**
  * Creates or updates a resource policy.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -8223,9 +8121,8 @@ export const putResourcePolicy: (
  * Amazon Web Services Regions, but it must be owned by the same Amazon Web Services account that owns the global
  * network. You cannot register a transit gateway in more than one global network.
  */
-export const registerTransitGateway: (
-  input: RegisterTransitGatewayRequest,
-) => effect.Effect<
+export const registerTransitGateway: API.OperationMethod<
+  RegisterTransitGatewayRequest,
   RegisterTransitGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -8250,9 +8147,8 @@ export const registerTransitGateway: (
 /**
  * Rejects a core network attachment request.
  */
-export const rejectAttachment: (
-  input: RejectAttachmentRequest,
-) => effect.Effect<
+export const rejectAttachment: API.OperationMethod<
+  RejectAttachmentRequest,
   RejectAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8277,9 +8173,8 @@ export const rejectAttachment: (
 /**
  * Removes a routing policy label from an attachment.
  */
-export const removeAttachmentRoutingPolicyLabel: (
-  input: RemoveAttachmentRoutingPolicyLabelRequest,
-) => effect.Effect<
+export const removeAttachmentRoutingPolicyLabel: API.OperationMethod<
+  RemoveAttachmentRoutingPolicyLabelRequest,
   RemoveAttachmentRoutingPolicyLabelResponse,
   | AccessDeniedException
   | ConflictException
@@ -8306,9 +8201,8 @@ export const removeAttachmentRoutingPolicyLabel: (
 /**
  * Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
  */
-export const restoreCoreNetworkPolicyVersion: (
-  input: RestoreCoreNetworkPolicyVersionRequest,
-) => effect.Effect<
+export const restoreCoreNetworkPolicyVersion: API.OperationMethod<
+  RestoreCoreNetworkPolicyVersionRequest,
   RestoreCoreNetworkPolicyVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8333,9 +8227,8 @@ export const restoreCoreNetworkPolicyVersion: (
 /**
  * Enables the Network Manager service for an Amazon Web Services Organization. This can only be called by a management account within the organization.
  */
-export const startOrganizationServiceAccessUpdate: (
-  input: StartOrganizationServiceAccessUpdateRequest,
-) => effect.Effect<
+export const startOrganizationServiceAccessUpdate: API.OperationMethod<
+  StartOrganizationServiceAccessUpdateRequest,
   StartOrganizationServiceAccessUpdateResponse,
   | AccessDeniedException
   | ConflictException
@@ -8361,9 +8254,8 @@ export const startOrganizationServiceAccessUpdate: (
  * Starts analyzing the routing path between the specified source and destination. For more information,
  * see Route Analyzer.
  */
-export const startRouteAnalysis: (
-  input: StartRouteAnalysisRequest,
-) => effect.Effect<
+export const startRouteAnalysis: API.OperationMethod<
+  StartRouteAnalysisRequest,
   StartRouteAnalysisResponse,
   | AccessDeniedException
   | ConflictException
@@ -8388,9 +8280,8 @@ export const startRouteAnalysis: (
 /**
  * Tags a specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8417,9 +8308,8 @@ export const tagResource: (
 /**
  * Removes tags from a specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8445,9 +8335,8 @@ export const untagResource: (
  * Updates the information for an existing connection. To remove information for any of the parameters,
  * specify an empty string.
  */
-export const updateConnection: (
-  input: UpdateConnectionRequest,
-) => effect.Effect<
+export const updateConnection: API.OperationMethod<
+  UpdateConnectionRequest,
   UpdateConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8472,9 +8361,8 @@ export const updateConnection: (
 /**
  * Updates the description of a core network.
  */
-export const updateCoreNetwork: (
-  input: UpdateCoreNetworkRequest,
-) => effect.Effect<
+export const updateCoreNetwork: API.OperationMethod<
+  UpdateCoreNetworkRequest,
   UpdateCoreNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -8500,9 +8388,8 @@ export const updateCoreNetwork: (
  * Updates the details for an existing device. To remove information for any of the
  * parameters, specify an empty string.
  */
-export const updateDevice: (
-  input: UpdateDeviceRequest,
-) => effect.Effect<
+export const updateDevice: API.OperationMethod<
+  UpdateDeviceRequest,
   UpdateDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -8527,9 +8414,8 @@ export const updateDevice: (
 /**
  * Updates the edge locations associated with an Amazon Web Services Direct Connect gateway attachment.
  */
-export const updateDirectConnectGatewayAttachment: (
-  input: UpdateDirectConnectGatewayAttachmentRequest,
-) => effect.Effect<
+export const updateDirectConnectGatewayAttachment: API.OperationMethod<
+  UpdateDirectConnectGatewayAttachmentRequest,
   UpdateDirectConnectGatewayAttachmentResponse,
   | AccessDeniedException
   | ConflictException
@@ -8555,9 +8441,8 @@ export const updateDirectConnectGatewayAttachment: (
  * Updates an existing global network. To remove information for any of the parameters,
  * specify an empty string.
  */
-export const updateGlobalNetwork: (
-  input: UpdateGlobalNetworkRequest,
-) => effect.Effect<
+export const updateGlobalNetwork: API.OperationMethod<
+  UpdateGlobalNetworkRequest,
   UpdateGlobalNetworkResponse,
   | AccessDeniedException
   | ConflictException
@@ -8583,9 +8468,8 @@ export const updateGlobalNetwork: (
  * Updates the details for an existing link. To remove information for any of the
  * parameters, specify an empty string.
  */
-export const updateLink: (
-  input: UpdateLinkRequest,
-) => effect.Effect<
+export const updateLink: API.OperationMethod<
+  UpdateLinkRequest,
   UpdateLinkResponse,
   | AccessDeniedException
   | ConflictException
@@ -8612,9 +8496,8 @@ export const updateLink: (
 /**
  * Updates the resource metadata for the specified global network.
  */
-export const updateNetworkResourceMetadata: (
-  input: UpdateNetworkResourceMetadataRequest,
-) => effect.Effect<
+export const updateNetworkResourceMetadata: API.OperationMethod<
+  UpdateNetworkResourceMetadataRequest,
   UpdateNetworkResourceMetadataResponse,
   | AccessDeniedException
   | ConflictException
@@ -8640,9 +8523,8 @@ export const updateNetworkResourceMetadata: (
  * Updates the information for an existing site. To remove information for any of the
  * parameters, specify an empty string.
  */
-export const updateSite: (
-  input: UpdateSiteRequest,
-) => effect.Effect<
+export const updateSite: API.OperationMethod<
+  UpdateSiteRequest,
   UpdateSiteResponse,
   | AccessDeniedException
   | ConflictException
@@ -8667,9 +8549,8 @@ export const updateSite: (
 /**
  * Updates a VPC attachment.
  */
-export const updateVpcAttachment: (
-  input: UpdateVpcAttachmentRequest,
-) => effect.Effect<
+export const updateVpcAttachment: API.OperationMethod<
+  UpdateVpcAttachmentRequest,
   UpdateVpcAttachmentResponse,
   | AccessDeniedException
   | ConflictException

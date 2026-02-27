@@ -652,9 +652,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * For more information, see
  * Create Recycle Bin retention rules in the *Amazon EBS User Guide*.
  */
-export const createRule: (
-  input: CreateRuleRequest,
-) => effect.Effect<
+export const createRule: API.OperationMethod<
+  CreateRuleRequest,
   CreateRuleResponse,
   | InternalServerException
   | ServiceQuotaExceededException
@@ -674,9 +673,8 @@ export const createRule: (
  * Deletes a Recycle Bin retention rule. For more information, see
  * Delete Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   | ConflictException
   | InternalServerException
@@ -697,9 +695,8 @@ export const deleteRule: (
 /**
  * Gets information about a Recycle Bin retention rule.
  */
-export const getRule: (
-  input: GetRuleRequest,
-) => effect.Effect<
+export const getRule: API.OperationMethod<
+  GetRuleRequest,
   GetRuleResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -718,14 +715,12 @@ export const getRule: (
 /**
  * Lists the Recycle Bin retention rules in the Region.
  */
-export const listRules: {
-  (
-    input: ListRulesRequest,
-  ): effect.Effect<
-    ListRulesResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
+  ListRulesResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRulesRequest,
   ) => stream.Stream<
@@ -754,9 +749,8 @@ export const listRules: {
 /**
  * Lists the tags assigned to a retention rule.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -779,9 +773,8 @@ export const listTagsForResource: (
  * You can't lock tag-level retention rules, or Region-level retention rules that
  * have exclusion tags.
  */
-export const lockRule: (
-  input: LockRuleRequest,
-) => effect.Effect<
+export const lockRule: API.OperationMethod<
+  LockRuleRequest,
   LockRuleResponse,
   | ConflictException
   | InternalServerException
@@ -802,9 +795,8 @@ export const lockRule: (
 /**
  * Assigns tags to the specified retention rule.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -826,9 +818,8 @@ export const tagResource: (
  * Unlocks a retention rule. After a retention rule is unlocked, it can be modified or deleted
  * only after the unlock delay period expires.
  */
-export const unlockRule: (
-  input: UnlockRuleRequest,
-) => effect.Effect<
+export const unlockRule: API.OperationMethod<
+  UnlockRuleRequest,
   UnlockRuleResponse,
   | ConflictException
   | InternalServerException
@@ -849,9 +840,8 @@ export const unlockRule: (
 /**
  * Unassigns a tag from a retention rule.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -873,9 +863,8 @@ export const untagResource: (
  * resource type after creation. For more information, see
  * Update Recycle Bin retention rules in the *Amazon Elastic Compute Cloud User Guide*.
  */
-export const updateRule: (
-  input: UpdateRuleRequest,
-) => effect.Effect<
+export const updateRule: API.OperationMethod<
+  UpdateRuleRequest,
   UpdateRuleResponse,
   | ConflictException
   | InternalServerException

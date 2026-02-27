@@ -1483,9 +1483,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
  * Creates the specified notification subscription in Amazon Security Lake for the organization
  * you specify. The notification subscription is created for exceptions that cannot be resolved by Security Lake automatically.
  */
-export const createDataLakeExceptionSubscription: (
-  input: CreateDataLakeExceptionSubscriptionRequest,
-) => effect.Effect<
+export const createDataLakeExceptionSubscription: API.OperationMethod<
+  CreateDataLakeExceptionSubscriptionRequest,
   CreateDataLakeExceptionSubscriptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1511,9 +1510,8 @@ export const createDataLakeExceptionSubscription: (
  * Deletes the specified notification subscription in Amazon Security Lake for the organization
  * you specify.
  */
-export const deleteDataLakeExceptionSubscription: (
-  input: DeleteDataLakeExceptionSubscriptionRequest,
-) => effect.Effect<
+export const deleteDataLakeExceptionSubscription: API.OperationMethod<
+  DeleteDataLakeExceptionSubscriptionRequest,
   DeleteDataLakeExceptionSubscriptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1540,9 +1538,8 @@ export const deleteDataLakeExceptionSubscription: (
  * can only be called by the organization management account. The organization management
  * account cannot be the delegated administrator account.
  */
-export const deregisterDataLakeDelegatedAdministrator: (
-  input: DeregisterDataLakeDelegatedAdministratorRequest,
-) => effect.Effect<
+export const deregisterDataLakeDelegatedAdministrator: API.OperationMethod<
+  DeregisterDataLakeDelegatedAdministratorRequest,
   DeregisterDataLakeDelegatedAdministratorResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1567,9 +1564,8 @@ export const deregisterDataLakeDelegatedAdministrator: (
 /**
  * Retrieves the protocol and endpoint that were provided when subscribing to Amazon SNS topics for exception notifications.
  */
-export const getDataLakeExceptionSubscription: (
-  input: GetDataLakeExceptionSubscriptionRequest,
-) => effect.Effect<
+export const getDataLakeExceptionSubscription: API.OperationMethod<
+  GetDataLakeExceptionSubscriptionRequest,
   GetDataLakeExceptionSubscriptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1595,20 +1591,18 @@ export const getDataLakeExceptionSubscription: (
  * Lists the Amazon Security Lake exceptions that you can use to find the source of problems and
  * fix them.
  */
-export const listDataLakeExceptions: {
-  (
-    input: ListDataLakeExceptionsRequest,
-  ): effect.Effect<
-    ListDataLakeExceptionsResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDataLakeExceptions: API.OperationMethod<
+  ListDataLakeExceptionsRequest,
+  ListDataLakeExceptionsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataLakeExceptionsRequest,
   ) => stream.Stream<
@@ -1657,9 +1651,8 @@ export const listDataLakeExceptions: {
  * Retrieves the tags (keys and values) that are associated with an Amazon Security Lake resource: a subscriber, or the data lake configuration for
  * your Amazon Web Services account in a particular Amazon Web Services Region.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1686,9 +1679,8 @@ export const listTagsForResource: (
  * API can only be called by the organization management account. The organization management
  * account cannot be the delegated administrator account.
  */
-export const registerDataLakeDelegatedAdministrator: (
-  input: RegisterDataLakeDelegatedAdministratorRequest,
-) => effect.Effect<
+export const registerDataLakeDelegatedAdministrator: API.OperationMethod<
+  RegisterDataLakeDelegatedAdministratorRequest,
   RegisterDataLakeDelegatedAdministratorResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1720,9 +1712,8 @@ export const registerDataLakeDelegatedAdministrator: (
  * Tagging Amazon Security Lake resources in the
  * *Amazon Security Lake User Guide*.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1748,9 +1739,8 @@ export const tagResource: (
  * Removes one or more tags (keys and values) from an Amazon Security Lake resource: a subscriber, or the data lake configuration for your
  * Amazon Web Services account in a particular Amazon Web Services Region.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1776,9 +1766,8 @@ export const untagResource: (
  * Updates the specified notification subscription in Amazon Security Lake for the organization
  * you specify.
  */
-export const updateDataLakeExceptionSubscription: (
-  input: UpdateDataLakeExceptionSubscriptionRequest,
-) => effect.Effect<
+export const updateDataLakeExceptionSubscription: API.OperationMethod<
+  UpdateDataLakeExceptionSubscriptionRequest,
   UpdateDataLakeExceptionSubscriptionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1810,9 +1799,8 @@ export const updateDataLakeExceptionSubscription: (
  * source. Use `CreateCustomLogSource` to enable data collection from a custom
  * source.
  */
-export const createAwsLogSource: (
-  input: CreateAwsLogSourceRequest,
-) => effect.Effect<
+export const createAwsLogSource: API.OperationMethod<
+  CreateAwsLogSourceRequest,
   CreateAwsLogSourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1843,9 +1831,8 @@ export const createAwsLogSource: (
  * location for log files from the custom source. In addition, this operation also creates an
  * associated Glue table and an Glue crawler.
  */
-export const createCustomLogSource: (
-  input: CreateCustomLogSourceRequest,
-) => effect.Effect<
+export const createCustomLogSource: API.OperationMethod<
+  CreateCustomLogSourceRequest,
   CreateCustomLogSourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1884,9 +1871,8 @@ export const createCustomLogSource: (
  * more information, see the Amazon Security Lake User
  * Guide.
  */
-export const createDataLake: (
-  input: CreateDataLakeRequest,
-) => effect.Effect<
+export const createDataLake: API.OperationMethod<
+  CreateDataLakeRequest,
   CreateDataLakeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1915,9 +1901,8 @@ export const createDataLake: (
  *
  * This operation merges the new data lake organization configuration with the existing configuration for Security Lake in your organization. If you want to create a new data lake organization configuration, you must delete the existing one using DeleteDataLakeOrganizationConfiguration.
  */
-export const createDataLakeOrganizationConfiguration: (
-  input: CreateDataLakeOrganizationConfigurationRequest,
-) => effect.Effect<
+export const createDataLakeOrganizationConfiguration: API.OperationMethod<
+  CreateDataLakeOrganizationConfigurationRequest,
   CreateDataLakeOrganizationConfigurationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1949,9 +1934,8 @@ export const createDataLakeOrganizationConfiguration: (
  * You can choose any source type in any Amazon Web Services Region for either accounts that
  * are part of a trusted organization or standalone accounts.
  */
-export const deleteAwsLogSource: (
-  input: DeleteAwsLogSourceRequest,
-) => effect.Effect<
+export const deleteAwsLogSource: API.OperationMethod<
+  DeleteAwsLogSourceRequest,
   DeleteAwsLogSourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -1977,9 +1961,8 @@ export const deleteAwsLogSource: (
  * Removes a custom log source from Amazon Security Lake, to stop sending data from the custom
  * source to Security Lake.
  */
-export const deleteCustomLogSource: (
-  input: DeleteCustomLogSourceRequest,
-) => effect.Effect<
+export const deleteCustomLogSource: API.OperationMethod<
+  DeleteCustomLogSourceRequest,
   DeleteCustomLogSourceResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2012,9 +1995,8 @@ export const deleteCustomLogSource: (
  * information, see the Amazon Security Lake User
  * Guide.
  */
-export const deleteDataLake: (
-  input: DeleteDataLakeRequest,
-) => effect.Effect<
+export const deleteDataLake: API.OperationMethod<
+  DeleteDataLakeRequest,
   DeleteDataLakeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2041,9 +2023,8 @@ export const deleteDataLake: (
  * Security Lake administrator for an organization can perform this operation. If the delegated Security Lake administrator performs this operation, new member
  * accounts won't automatically contribute data to the data lake.
  */
-export const deleteDataLakeOrganizationConfiguration: (
-  input: DeleteDataLakeOrganizationConfigurationRequest,
-) => effect.Effect<
+export const deleteDataLakeOrganizationConfiguration: API.OperationMethod<
+  DeleteDataLakeOrganizationConfigurationRequest,
   DeleteDataLakeOrganizationConfigurationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2070,9 +2051,8 @@ export const deleteDataLakeOrganizationConfiguration: (
  * organization after the organization has onboarded to Amazon Security Lake. This API does not take
  * input parameters.
  */
-export const getDataLakeOrganizationConfiguration: (
-  input: GetDataLakeOrganizationConfigurationRequest,
-) => effect.Effect<
+export const getDataLakeOrganizationConfiguration: API.OperationMethod<
+  GetDataLakeOrganizationConfigurationRequest,
   GetDataLakeOrganizationConfigurationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2098,20 +2078,18 @@ export const getDataLakeOrganizationConfiguration: (
  * Retrieves a snapshot of the current Region, including whether Amazon Security Lake is enabled
  * for those accounts and which sources Security Lake is collecting data from.
  */
-export const getDataLakeSources: {
-  (
-    input: GetDataLakeSourcesRequest,
-  ): effect.Effect<
-    GetDataLakeSourcesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const getDataLakeSources: API.OperationMethod<
+  GetDataLakeSourcesRequest,
+  GetDataLakeSourcesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDataLakeSourcesRequest,
   ) => stream.Stream<
@@ -2160,9 +2138,8 @@ export const getDataLakeSources: {
  * Retrieves the Amazon Security Lake configuration object for the specified Amazon Web Services Regions. You can use this operation to determine whether
  * Security Lake is enabled for a Region.
  */
-export const listDataLakes: (
-  input: ListDataLakesRequest,
-) => effect.Effect<
+export const listDataLakes: API.OperationMethod<
+  ListDataLakesRequest,
   ListDataLakesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2187,20 +2164,18 @@ export const listDataLakes: (
 /**
  * Retrieves the log sources.
  */
-export const listLogSources: {
-  (
-    input: ListLogSourcesRequest,
-  ): effect.Effect<
-    ListLogSourcesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listLogSources: API.OperationMethod<
+  ListLogSourcesRequest,
+  ListLogSourcesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLogSourcesRequest,
   ) => stream.Stream<
@@ -2260,9 +2235,8 @@ export const listLogSources: {
  *
  * For more details about lifecycle management and how to update retention settings for one or more Regions after enabling Security Lake, see the Amazon Security Lake User Guide.
  */
-export const updateDataLake: (
-  input: UpdateDataLakeRequest,
-) => effect.Effect<
+export const updateDataLake: API.OperationMethod<
+  UpdateDataLakeRequest,
   UpdateDataLakeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2288,9 +2262,8 @@ export const updateDataLake: (
  * Creates a subscriber for accounts that are already enabled in Amazon Security Lake. You can
  * create a subscriber with access to data in the current Amazon Web Services Region.
  */
-export const createSubscriber: (
-  input: CreateSubscriberRequest,
-) => effect.Effect<
+export const createSubscriber: API.OperationMethod<
+  CreateSubscriberRequest,
   CreateSubscriberResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2316,9 +2289,8 @@ export const createSubscriber: (
  * Retrieves the subscription information for the specified subscription ID. You can get
  * information about a specific subscriber.
  */
-export const getSubscriber: (
-  input: GetSubscriberRequest,
-) => effect.Effect<
+export const getSubscriber: API.OperationMethod<
+  GetSubscriberRequest,
   GetSubscriberResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2344,9 +2316,8 @@ export const getSubscriber: (
  * Updates an existing subscription for the given Amazon Security Lake account ID. You can update
  * a subscriber by changing the sources that the subscriber consumes data from.
  */
-export const updateSubscriber: (
-  input: UpdateSubscriberRequest,
-) => effect.Effect<
+export const updateSubscriber: API.OperationMethod<
+  UpdateSubscriberRequest,
   UpdateSubscriberResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2374,9 +2345,8 @@ export const updateSubscriber: (
  * subscriber will no longer consume data from Security Lake and the subscriber is removed. This
  * operation deletes the subscriber and removes access to data in the current Amazon Web Services Region.
  */
-export const deleteSubscriber: (
-  input: DeleteSubscriberRequest,
-) => effect.Effect<
+export const deleteSubscriber: API.OperationMethod<
+  DeleteSubscriberRequest,
   DeleteSubscriberResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2402,20 +2372,18 @@ export const deleteSubscriber: (
  * Lists all subscribers for the specific Amazon Security Lake account ID. You can retrieve a list
  * of subscriptions associated with a specific organization or Amazon Web Services account.
  */
-export const listSubscribers: {
-  (
-    input: ListSubscribersRequest,
-  ): effect.Effect<
-    ListSubscribersResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listSubscribers: API.OperationMethod<
+  ListSubscribersRequest,
+  ListSubscribersResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSubscribersRequest,
   ) => stream.Stream<
@@ -2465,9 +2433,8 @@ export const listSubscribers: {
  * the subscriber consumes in Security Lake. You can create only one subscriber notification per
  * subscriber.
  */
-export const createSubscriberNotification: (
-  input: CreateSubscriberNotificationRequest,
-) => effect.Effect<
+export const createSubscriberNotification: API.OperationMethod<
+  CreateSubscriberNotificationRequest,
   CreateSubscriberNotificationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2493,9 +2460,8 @@ export const createSubscriberNotification: (
  * Deletes the specified subscription notification in Amazon Security Lake for the organization
  * you specify.
  */
-export const deleteSubscriberNotification: (
-  input: DeleteSubscriberNotificationRequest,
-) => effect.Effect<
+export const deleteSubscriberNotification: API.OperationMethod<
+  DeleteSubscriberNotificationRequest,
   DeleteSubscriberNotificationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -2521,9 +2487,8 @@ export const deleteSubscriberNotification: (
  * Updates an existing notification method for the subscription (SQS or HTTPs endpoint) or
  * switches the notification subscription endpoint for a subscriber.
  */
-export const updateSubscriberNotification: (
-  input: UpdateSubscriberNotificationRequest,
-) => effect.Effect<
+export const updateSubscriberNotification: API.OperationMethod<
+  UpdateSubscriberNotificationRequest,
   UpdateSubscriberNotificationResponse,
   | AccessDeniedException
   | BadRequestException

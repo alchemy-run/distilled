@@ -2092,9 +2092,8 @@ export const GetSubscriptionResponse = S.suspend(() =>
 /**
  * Returns information about a user.
  */
-export const getUserDetails: (
-  input: GetUserDetailsRequest,
-) => effect.Effect<
+export const getUserDetails: API.OperationMethod<
+  GetUserDetailsRequest,
   GetUserDetailsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2106,9 +2105,8 @@ export const getUserDetails: (
 /**
  * Verifies whether the calling user has a valid Amazon CodeCatalyst login and session. If successful, this returns the ID of the user in Amazon CodeCatalyst.
  */
-export const verifySession: (
-  input: VerifySessionRequest,
-) => effect.Effect<
+export const verifySession: API.OperationMethod<
+  VerifySessionRequest,
   VerifySessionResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2124,9 +2122,8 @@ export const verifySession: (
  * PATs represent you in Amazon CodeCatalyst and you can manage them in your user settings.For more information, see
  * Managing personal access tokens in Amazon CodeCatalyst.
  */
-export const createAccessToken: (
-  input: CreateAccessTokenRequest,
-) => effect.Effect<
+export const createAccessToken: API.OperationMethod<
+  CreateAccessTokenRequest,
   CreateAccessTokenResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2138,9 +2135,8 @@ export const createAccessToken: (
 /**
  * Deletes a specified personal access token (PAT). A personal access token can only be deleted by the user who created it.
  */
-export const deleteAccessToken: (
-  input: DeleteAccessTokenRequest,
-) => effect.Effect<
+export const deleteAccessToken: API.OperationMethod<
+  DeleteAccessTokenRequest,
   DeleteAccessTokenResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2152,14 +2148,12 @@ export const deleteAccessToken: (
 /**
  * Lists all personal access tokens (PATs) associated with the user who calls the API. You can only list PATs associated with your Amazon Web Services Builder ID.
  */
-export const listAccessTokens: {
-  (
-    input: ListAccessTokensRequest,
-  ): effect.Effect<
-    ListAccessTokensResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessTokens: API.OperationMethod<
+  ListAccessTokensRequest,
+  ListAccessTokensResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessTokensRequest,
   ) => stream.Stream<
@@ -2188,9 +2182,8 @@ export const listAccessTokens: {
 /**
  * Returns information about an space.
  */
-export const getSpace: (
-  input: GetSpaceRequest,
-) => effect.Effect<
+export const getSpace: API.OperationMethod<
+  GetSpaceRequest,
   GetSpaceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2202,9 +2195,8 @@ export const getSpace: (
 /**
  * Changes one or more values for a space.
  */
-export const updateSpace: (
-  input: UpdateSpaceRequest,
-) => effect.Effect<
+export const updateSpace: API.OperationMethod<
+  UpdateSpaceRequest,
   UpdateSpaceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2218,9 +2210,8 @@ export const updateSpace: (
  *
  * Deleting a space cannot be undone. Additionally, since space names must be unique across Amazon CodeCatalyst, you cannot reuse names of deleted spaces.
  */
-export const deleteSpace: (
-  input: DeleteSpaceRequest,
-) => effect.Effect<
+export const deleteSpace: API.OperationMethod<
+  DeleteSpaceRequest,
   DeleteSpaceResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2232,14 +2223,12 @@ export const deleteSpace: (
 /**
  * Retrieves a list of spaces.
  */
-export const listSpaces: {
-  (
-    input: ListSpacesRequest,
-  ): effect.Effect<
-    ListSpacesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSpaces: API.OperationMethod<
+  ListSpacesRequest,
+  ListSpacesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSpacesRequest,
   ) => stream.Stream<
@@ -2267,14 +2256,12 @@ export const listSpaces: {
 /**
  * Retrieves a list of Dev Environments in a project.
  */
-export const listDevEnvironments: {
-  (
-    input: ListDevEnvironmentsRequest,
-  ): effect.Effect<
-    ListDevEnvironmentsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevEnvironments: API.OperationMethod<
+  ListDevEnvironmentsRequest,
+  ListDevEnvironmentsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevEnvironmentsRequest,
   ) => stream.Stream<
@@ -2311,14 +2298,12 @@ export const listDevEnvironments: {
  * and maintain a record of events that extends past 90 days. For more information, see Working with CloudTrail Event History and Working with
  * CloudTrail trails.
  */
-export const listEventLogs: {
-  (
-    input: ListEventLogsRequest,
-  ): effect.Effect<
-    ListEventLogsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventLogs: API.OperationMethod<
+  ListEventLogsRequest,
+  ListEventLogsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventLogsRequest,
   ) => stream.Stream<
@@ -2347,9 +2332,8 @@ export const listEventLogs: {
 /**
  * Creates a project in a specified space.
  */
-export const createProject: (
-  input: CreateProjectRequest,
-) => effect.Effect<
+export const createProject: API.OperationMethod<
+  CreateProjectRequest,
   CreateProjectResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2361,9 +2345,8 @@ export const createProject: (
 /**
  * Returns information about a project.
  */
-export const getProject: (
-  input: GetProjectRequest,
-) => effect.Effect<
+export const getProject: API.OperationMethod<
+  GetProjectRequest,
   GetProjectResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2375,9 +2358,8 @@ export const getProject: (
 /**
  * Changes one or more values for a project.
  */
-export const updateProject: (
-  input: UpdateProjectRequest,
-) => effect.Effect<
+export const updateProject: API.OperationMethod<
+  UpdateProjectRequest,
   UpdateProjectResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2389,9 +2371,8 @@ export const updateProject: (
 /**
  * Deletes a project in a space.
  */
-export const deleteProject: (
-  input: DeleteProjectRequest,
-) => effect.Effect<
+export const deleteProject: API.OperationMethod<
+  DeleteProjectRequest,
   DeleteProjectResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2403,14 +2384,12 @@ export const deleteProject: (
 /**
  * Retrieves a list of projects.
  */
-export const listProjects: {
-  (
-    input: ListProjectsRequest,
-  ): effect.Effect<
-    ListProjectsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProjects: API.OperationMethod<
+  ListProjectsRequest,
+  ListProjectsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProjectsRequest,
   ) => stream.Stream<
@@ -2443,9 +2422,8 @@ export const listProjects: {
  * When created in the Amazon CodeCatalyst console, by default a Dev Environment is configured to have a 2 core processor, 4GB of RAM, and 16GB of persistent storage. None of these
  * defaults apply to a Dev Environment created programmatically.
  */
-export const createDevEnvironment: (
-  input: CreateDevEnvironmentRequest,
-) => effect.Effect<
+export const createDevEnvironment: API.OperationMethod<
+  CreateDevEnvironmentRequest,
   CreateDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2457,9 +2435,8 @@ export const createDevEnvironment: (
 /**
  * Returns information about a Dev Environment for a source repository in a project. Dev Environments are specific to the user who creates them.
  */
-export const getDevEnvironment: (
-  input: GetDevEnvironmentRequest,
-) => effect.Effect<
+export const getDevEnvironment: API.OperationMethod<
+  GetDevEnvironmentRequest,
   GetDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2471,9 +2448,8 @@ export const getDevEnvironment: (
 /**
  * Changes one or more values for a Dev Environment. Updating certain values of the Dev Environment will cause a restart.
  */
-export const updateDevEnvironment: (
-  input: UpdateDevEnvironmentRequest,
-) => effect.Effect<
+export const updateDevEnvironment: API.OperationMethod<
+  UpdateDevEnvironmentRequest,
   UpdateDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2485,9 +2461,8 @@ export const updateDevEnvironment: (
 /**
  * Deletes a Dev Environment.
  */
-export const deleteDevEnvironment: (
-  input: DeleteDevEnvironmentRequest,
-) => effect.Effect<
+export const deleteDevEnvironment: API.OperationMethod<
+  DeleteDevEnvironmentRequest,
   DeleteDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2499,14 +2474,12 @@ export const deleteDevEnvironment: (
 /**
  * Retrieves a list of active sessions for a Dev Environment in a project.
  */
-export const listDevEnvironmentSessions: {
-  (
-    input: ListDevEnvironmentSessionsRequest,
-  ): effect.Effect<
-    ListDevEnvironmentSessionsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevEnvironmentSessions: API.OperationMethod<
+  ListDevEnvironmentSessionsRequest,
+  ListDevEnvironmentSessionsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevEnvironmentSessionsRequest,
   ) => stream.Stream<
@@ -2535,9 +2508,8 @@ export const listDevEnvironmentSessions: {
 /**
  * Starts a specified Dev Environment and puts it into an active state.
  */
-export const startDevEnvironment: (
-  input: StartDevEnvironmentRequest,
-) => effect.Effect<
+export const startDevEnvironment: API.OperationMethod<
+  StartDevEnvironmentRequest,
   StartDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2549,9 +2521,8 @@ export const startDevEnvironment: (
 /**
  * Starts a session for a specified Dev Environment.
  */
-export const startDevEnvironmentSession: (
-  input: StartDevEnvironmentSessionRequest,
-) => effect.Effect<
+export const startDevEnvironmentSession: API.OperationMethod<
+  StartDevEnvironmentSessionRequest,
   StartDevEnvironmentSessionResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2563,9 +2534,8 @@ export const startDevEnvironmentSession: (
 /**
  * Pauses a specified Dev Environment and places it in a non-running state. Stopped Dev Environments do not consume compute minutes.
  */
-export const stopDevEnvironment: (
-  input: StopDevEnvironmentRequest,
-) => effect.Effect<
+export const stopDevEnvironment: API.OperationMethod<
+  StopDevEnvironmentRequest,
   StopDevEnvironmentResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2577,9 +2547,8 @@ export const stopDevEnvironment: (
 /**
  * Stops a session for a specified Dev Environment.
  */
-export const stopDevEnvironmentSession: (
-  input: StopDevEnvironmentSessionRequest,
-) => effect.Effect<
+export const stopDevEnvironmentSession: API.OperationMethod<
+  StopDevEnvironmentSessionRequest,
   StopDevEnvironmentSessionResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2592,9 +2561,8 @@ export const stopDevEnvironmentSession: (
  * Creates an empty Git-based source repository in a specified project. The repository is
  * created with an initial empty commit with a default branch named `main`.
  */
-export const createSourceRepository: (
-  input: CreateSourceRepositoryRequest,
-) => effect.Effect<
+export const createSourceRepository: API.OperationMethod<
+  CreateSourceRepositoryRequest,
   CreateSourceRepositoryResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2606,9 +2574,8 @@ export const createSourceRepository: (
 /**
  * Returns information about a source repository.
  */
-export const getSourceRepository: (
-  input: GetSourceRepositoryRequest,
-) => effect.Effect<
+export const getSourceRepository: API.OperationMethod<
+  GetSourceRepositoryRequest,
   GetSourceRepositoryResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2620,9 +2587,8 @@ export const getSourceRepository: (
 /**
  * Deletes a source repository in Amazon CodeCatalyst. You cannot use this API to delete a linked repository. It can only be used to delete a Amazon CodeCatalyst source repository.
  */
-export const deleteSourceRepository: (
-  input: DeleteSourceRepositoryRequest,
-) => effect.Effect<
+export const deleteSourceRepository: API.OperationMethod<
+  DeleteSourceRepositoryRequest,
   DeleteSourceRepositoryResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2634,14 +2600,12 @@ export const deleteSourceRepository: (
 /**
  * Retrieves a list of source repositories in a project.
  */
-export const listSourceRepositories: {
-  (
-    input: ListSourceRepositoriesRequest,
-  ): effect.Effect<
-    ListSourceRepositoriesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSourceRepositories: API.OperationMethod<
+  ListSourceRepositoriesRequest,
+  ListSourceRepositoriesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSourceRepositoriesRequest,
   ) => stream.Stream<
@@ -2671,9 +2635,8 @@ export const listSourceRepositories: {
  * Returns information about the URLs that can be used with a Git client to clone a source
  * repository.
  */
-export const getSourceRepositoryCloneUrls: (
-  input: GetSourceRepositoryCloneUrlsRequest,
-) => effect.Effect<
+export const getSourceRepositoryCloneUrls: API.OperationMethod<
+  GetSourceRepositoryCloneUrlsRequest,
   GetSourceRepositoryCloneUrlsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2687,9 +2650,8 @@ export const getSourceRepositoryCloneUrls: (
  *
  * This API only creates a branch in a source repository hosted in Amazon CodeCatalyst. You cannot use this API to create a branch in a linked repository.
  */
-export const createSourceRepositoryBranch: (
-  input: CreateSourceRepositoryBranchRequest,
-) => effect.Effect<
+export const createSourceRepositoryBranch: API.OperationMethod<
+  CreateSourceRepositoryBranchRequest,
   CreateSourceRepositoryBranchResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2701,14 +2663,12 @@ export const createSourceRepositoryBranch: (
 /**
  * Retrieves a list of branches in a specified source repository.
  */
-export const listSourceRepositoryBranches: {
-  (
-    input: ListSourceRepositoryBranchesRequest,
-  ): effect.Effect<
-    ListSourceRepositoryBranchesResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSourceRepositoryBranches: API.OperationMethod<
+  ListSourceRepositoryBranchesRequest,
+  ListSourceRepositoryBranchesResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSourceRepositoryBranchesRequest,
   ) => stream.Stream<
@@ -2737,9 +2697,8 @@ export const listSourceRepositoryBranches: {
 /**
  * Returns information about a workflow.
  */
-export const getWorkflow: (
-  input: GetWorkflowRequest,
-) => effect.Effect<
+export const getWorkflow: API.OperationMethod<
+  GetWorkflowRequest,
   GetWorkflowResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2751,14 +2710,12 @@ export const getWorkflow: (
 /**
  * Retrieves a list of workflows in a specified project.
  */
-export const listWorkflows: {
-  (
-    input: ListWorkflowsRequest,
-  ): effect.Effect<
-    ListWorkflowsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflows: API.OperationMethod<
+  ListWorkflowsRequest,
+  ListWorkflowsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowsRequest,
   ) => stream.Stream<
@@ -2787,9 +2744,8 @@ export const listWorkflows: {
 /**
  * Begins a run of a specified workflow.
  */
-export const startWorkflowRun: (
-  input: StartWorkflowRunRequest,
-) => effect.Effect<
+export const startWorkflowRun: API.OperationMethod<
+  StartWorkflowRunRequest,
   StartWorkflowRunResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2801,9 +2757,8 @@ export const startWorkflowRun: (
 /**
  * Returns information about a specified run of a workflow.
  */
-export const getWorkflowRun: (
-  input: GetWorkflowRunRequest,
-) => effect.Effect<
+export const getWorkflowRun: API.OperationMethod<
+  GetWorkflowRunRequest,
   GetWorkflowRunResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2815,14 +2770,12 @@ export const getWorkflowRun: (
 /**
  * Retrieves a list of workflow runs of a specified workflow.
  */
-export const listWorkflowRuns: {
-  (
-    input: ListWorkflowRunsRequest,
-  ): effect.Effect<
-    ListWorkflowRunsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflowRuns: API.OperationMethod<
+  ListWorkflowRunsRequest,
+  ListWorkflowRunsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowRunsRequest,
   ) => stream.Stream<
@@ -2852,9 +2805,8 @@ export const listWorkflowRuns: {
  * Returns information about the Amazon Web Services account used for billing purposes
  * and the billing plan for the space.
  */
-export const getSubscription: (
-  input: GetSubscriptionRequest,
-) => effect.Effect<
+export const getSubscription: API.OperationMethod<
+  GetSubscriptionRequest,
   GetSubscriptionResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient

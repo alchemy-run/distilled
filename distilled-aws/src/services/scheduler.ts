@@ -877,9 +877,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Lists the tags associated with the Scheduler resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -900,9 +899,8 @@ export const listTagsForResource: (
 /**
  * Assigns one or more tags (key-value pairs) to the specified EventBridge Scheduler resource. You can only assign tags to schedule groups.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | ConflictException
   | InternalServerException
@@ -925,9 +923,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified EventBridge Scheduler schedule group.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | ConflictException
   | InternalServerException
@@ -950,9 +947,8 @@ export const untagResource: (
 /**
  * Creates the specified schedule.
  */
-export const createSchedule: (
-  input: CreateScheduleInput,
-) => effect.Effect<
+export const createSchedule: API.OperationMethod<
+  CreateScheduleInput,
   CreateScheduleOutput,
   | ConflictException
   | InternalServerException
@@ -977,9 +973,8 @@ export const createSchedule: (
 /**
  * Retrieves the specified schedule.
  */
-export const getSchedule: (
-  input: GetScheduleInput,
-) => effect.Effect<
+export const getSchedule: API.OperationMethod<
+  GetScheduleInput,
   GetScheduleOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1005,9 +1000,8 @@ export const getSchedule: (
  * Before calling this operation, we recommend that you call the `GetSchedule` API operation and make a note of all optional parameters
  * for your `UpdateSchedule` call.
  */
-export const updateSchedule: (
-  input: UpdateScheduleInput,
-) => effect.Effect<
+export const updateSchedule: API.OperationMethod<
+  UpdateScheduleInput,
   UpdateScheduleOutput,
   | ConflictException
   | InternalServerException
@@ -1030,9 +1024,8 @@ export const updateSchedule: (
 /**
  * Deletes the specified schedule.
  */
-export const deleteSchedule: (
-  input: DeleteScheduleInput,
-) => effect.Effect<
+export const deleteSchedule: API.OperationMethod<
+  DeleteScheduleInput,
   DeleteScheduleOutput,
   | ConflictException
   | InternalServerException
@@ -1055,18 +1048,16 @@ export const deleteSchedule: (
 /**
  * Returns a paginated list of your EventBridge Scheduler schedules.
  */
-export const listSchedules: {
-  (
-    input: ListSchedulesInput,
-  ): effect.Effect<
-    ListSchedulesOutput,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchedules: API.OperationMethod<
+  ListSchedulesInput,
+  ListSchedulesOutput,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchedulesInput,
   ) => stream.Stream<
@@ -1108,9 +1099,8 @@ export const listSchedules: {
 /**
  * Creates the specified schedule group.
  */
-export const createScheduleGroup: (
-  input: CreateScheduleGroupInput,
-) => effect.Effect<
+export const createScheduleGroup: API.OperationMethod<
+  CreateScheduleGroupInput,
   CreateScheduleGroupOutput,
   | ConflictException
   | InternalServerException
@@ -1133,9 +1123,8 @@ export const createScheduleGroup: (
 /**
  * Retrieves the specified schedule group.
  */
-export const getScheduleGroup: (
-  input: GetScheduleGroupInput,
-) => effect.Effect<
+export const getScheduleGroup: API.OperationMethod<
+  GetScheduleGroupInput,
   GetScheduleGroupOutput,
   | InternalServerException
   | ResourceNotFoundException
@@ -1161,9 +1150,8 @@ export const getScheduleGroup: (
  *
  * This operation is eventually consistent.
  */
-export const deleteScheduleGroup: (
-  input: DeleteScheduleGroupInput,
-) => effect.Effect<
+export const deleteScheduleGroup: API.OperationMethod<
+  DeleteScheduleGroupInput,
   DeleteScheduleGroupOutput,
   | ConflictException
   | InternalServerException
@@ -1186,17 +1174,15 @@ export const deleteScheduleGroup: (
 /**
  * Returns a paginated list of your schedule groups.
  */
-export const listScheduleGroups: {
-  (
-    input: ListScheduleGroupsInput,
-  ): effect.Effect<
-    ListScheduleGroupsOutput,
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listScheduleGroups: API.OperationMethod<
+  ListScheduleGroupsInput,
+  ListScheduleGroupsOutput,
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListScheduleGroupsInput,
   ) => stream.Stream<

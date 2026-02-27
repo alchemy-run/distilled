@@ -347,9 +347,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * For more information about recording action interactions, see Recording action interaction events.
  * For more information about actions in an Actions dataset, see Actions dataset.
  */
-export const putActionInteractions: (
-  input: PutActionInteractionsRequest,
-) => effect.Effect<
+export const putActionInteractions: API.OperationMethod<
+  PutActionInteractionsRequest,
   PutActionInteractionsResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -369,9 +368,8 @@ export const putActionInteractions: (
  * Adds one or more actions to an Actions dataset. For more information see
  * Importing actions individually.
  */
-export const putActions: (
-  input: PutActionsRequest,
-) => effect.Effect<
+export const putActions: API.OperationMethod<
+  PutActionsRequest,
   PutActionsResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -391,9 +389,8 @@ export const putActions: (
  * Records item interaction event data. For more information see
  * Recording item interaction events.
  */
-export const putEvents: (
-  input: PutEventsRequest,
-) => effect.Effect<
+export const putEvents: API.OperationMethod<
+  PutEventsRequest,
   PutEventsResponse,
   InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -406,9 +403,8 @@ export const putEvents: (
  * Adds one or more items to an Items dataset. For more information see
  * Importing items individually.
  */
-export const putItems: (
-  input: PutItemsRequest,
-) => effect.Effect<
+export const putItems: API.OperationMethod<
+  PutItemsRequest,
   PutItemsResponse,
   | InvalidInputException
   | ResourceInUseException
@@ -428,9 +424,8 @@ export const putItems: (
  * Adds one or more users to a Users dataset. For more information see
  * Importing users individually.
  */
-export const putUsers: (
-  input: PutUsersRequest,
-) => effect.Effect<
+export const putUsers: API.OperationMethod<
+  PutUsersRequest,
   PutUsersResponse,
   | InvalidInputException
   | ResourceInUseException

@@ -8873,9 +8873,8 @@ export class ServiceUnavailableException extends S.TaggedErrorClass<ServiceUnava
 /**
  * Get usecase for model access.
  */
-export const getUseCaseForModelAccess: (
-  input: GetUseCaseForModelAccessRequest,
-) => effect.Effect<
+export const getUseCaseForModelAccess: API.OperationMethod<
+  GetUseCaseForModelAccessRequest,
   GetUseCaseForModelAccessResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -8896,9 +8895,8 @@ export const getUseCaseForModelAccess: (
 /**
  * Put usecase for model access.
  */
-export const putUseCaseForModelAccess: (
-  input: PutUseCaseForModelAccessRequest,
-) => effect.Effect<
+export const putUseCaseForModelAccess: API.OperationMethod<
+  PutUseCaseForModelAccessRequest,
   PutUseCaseForModelAccessResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8921,9 +8919,8 @@ export const putUseCaseForModelAccess: (
  *
  * To create a policy, you upload a source document that describes the rules that you're encoding. Automated Reasoning extracts important concepts from the source document that will become variables in the policy and infers policy rules.
  */
-export const createAutomatedReasoningPolicy: (
-  input: CreateAutomatedReasoningPolicyRequest,
-) => effect.Effect<
+export const createAutomatedReasoningPolicy: API.OperationMethod<
+  CreateAutomatedReasoningPolicyRequest,
   CreateAutomatedReasoningPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -8952,9 +8949,8 @@ export const createAutomatedReasoningPolicy: (
 /**
  * Retrieves details about an Automated Reasoning policy or policy version. Returns information including the policy definition, metadata, and timestamps.
  */
-export const getAutomatedReasoningPolicy: (
-  input: GetAutomatedReasoningPolicyRequest,
-) => effect.Effect<
+export const getAutomatedReasoningPolicy: API.OperationMethod<
+  GetAutomatedReasoningPolicyRequest,
   GetAutomatedReasoningPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8977,9 +8973,8 @@ export const getAutomatedReasoningPolicy: (
 /**
  * Updates an existing Automated Reasoning policy with new rules, variables, or configuration. This creates a new version of the policy while preserving the previous version.
  */
-export const updateAutomatedReasoningPolicy: (
-  input: UpdateAutomatedReasoningPolicyRequest,
-) => effect.Effect<
+export const updateAutomatedReasoningPolicy: API.OperationMethod<
+  UpdateAutomatedReasoningPolicyRequest,
   UpdateAutomatedReasoningPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -9006,9 +9001,8 @@ export const updateAutomatedReasoningPolicy: (
 /**
  * Deletes an Automated Reasoning policy or policy version. This operation is idempotent. If you delete a policy more than once, each call succeeds. Deleting a policy removes it permanently and cannot be undone.
  */
-export const deleteAutomatedReasoningPolicy: (
-  input: DeleteAutomatedReasoningPolicyRequest,
-) => effect.Effect<
+export const deleteAutomatedReasoningPolicy: API.OperationMethod<
+  DeleteAutomatedReasoningPolicyRequest,
   DeleteAutomatedReasoningPolicyResponse,
   | AccessDeniedException
   | ConflictException
@@ -9035,19 +9029,17 @@ export const deleteAutomatedReasoningPolicy: (
 /**
  * Lists all Automated Reasoning policies in your account, with optional filtering by policy ARN. This helps you manage and discover existing policies.
  */
-export const listAutomatedReasoningPolicies: {
-  (
-    input: ListAutomatedReasoningPoliciesRequest,
-  ): effect.Effect<
-    ListAutomatedReasoningPoliciesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomatedReasoningPolicies: API.OperationMethod<
+  ListAutomatedReasoningPoliciesRequest,
+  ListAutomatedReasoningPoliciesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomatedReasoningPoliciesRequest,
   ) => stream.Stream<
@@ -9092,9 +9084,8 @@ export const listAutomatedReasoningPolicies: {
 /**
  * Cancels a running Automated Reasoning policy build workflow. This stops the policy generation process and prevents further processing of the source documents.
  */
-export const cancelAutomatedReasoningPolicyBuildWorkflow: (
-  input: CancelAutomatedReasoningPolicyBuildWorkflowRequest,
-) => effect.Effect<
+export const cancelAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
+  CancelAutomatedReasoningPolicyBuildWorkflowRequest,
   CancelAutomatedReasoningPolicyBuildWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9117,9 +9108,8 @@ export const cancelAutomatedReasoningPolicyBuildWorkflow: (
 /**
  * Creates a test for an Automated Reasoning policy. Tests validate that your policy works as expected by providing sample inputs and expected outcomes. Use tests to verify policy behavior before deploying to production.
  */
-export const createAutomatedReasoningPolicyTestCase: (
-  input: CreateAutomatedReasoningPolicyTestCaseRequest,
-) => effect.Effect<
+export const createAutomatedReasoningPolicyTestCase: API.OperationMethod<
+  CreateAutomatedReasoningPolicyTestCaseRequest,
   CreateAutomatedReasoningPolicyTestCaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9146,9 +9136,8 @@ export const createAutomatedReasoningPolicyTestCase: (
 /**
  * Creates a new version of an existing Automated Reasoning policy. This allows you to iterate on your policy rules while maintaining previous versions for rollback or comparison purposes.
  */
-export const createAutomatedReasoningPolicyVersion: (
-  input: CreateAutomatedReasoningPolicyVersionRequest,
-) => effect.Effect<
+export const createAutomatedReasoningPolicyVersion: API.OperationMethod<
+  CreateAutomatedReasoningPolicyVersionRequest,
   CreateAutomatedReasoningPolicyVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -9177,9 +9166,8 @@ export const createAutomatedReasoningPolicyVersion: (
 /**
  * Deletes an Automated Reasoning policy build workflow and its associated artifacts. This permanently removes the workflow history and any generated assets.
  */
-export const deleteAutomatedReasoningPolicyBuildWorkflow: (
-  input: DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
-) => effect.Effect<
+export const deleteAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
+  DeleteAutomatedReasoningPolicyBuildWorkflowRequest,
   DeleteAutomatedReasoningPolicyBuildWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9206,9 +9194,8 @@ export const deleteAutomatedReasoningPolicyBuildWorkflow: (
 /**
  * Deletes an Automated Reasoning policy test. This operation is idempotent; if you delete a test more than once, each call succeeds.
  */
-export const deleteAutomatedReasoningPolicyTestCase: (
-  input: DeleteAutomatedReasoningPolicyTestCaseRequest,
-) => effect.Effect<
+export const deleteAutomatedReasoningPolicyTestCase: API.OperationMethod<
+  DeleteAutomatedReasoningPolicyTestCaseRequest,
   DeleteAutomatedReasoningPolicyTestCaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9235,9 +9222,8 @@ export const deleteAutomatedReasoningPolicyTestCase: (
 /**
  * Exports the policy definition for an Automated Reasoning policy version. Returns the complete policy definition including rules, variables, and custom variable types in a structured format.
  */
-export const exportAutomatedReasoningPolicyVersion: (
-  input: ExportAutomatedReasoningPolicyVersionRequest,
-) => effect.Effect<
+export const exportAutomatedReasoningPolicyVersion: API.OperationMethod<
+  ExportAutomatedReasoningPolicyVersionRequest,
   ExportAutomatedReasoningPolicyVersionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9260,9 +9246,8 @@ export const exportAutomatedReasoningPolicyVersion: (
 /**
  * Retrieves the current annotations for an Automated Reasoning policy build workflow. Annotations contain corrections to the rules, variables and types to be applied to the policy.
  */
-export const getAutomatedReasoningPolicyAnnotations: (
-  input: GetAutomatedReasoningPolicyAnnotationsRequest,
-) => effect.Effect<
+export const getAutomatedReasoningPolicyAnnotations: API.OperationMethod<
+  GetAutomatedReasoningPolicyAnnotationsRequest,
   GetAutomatedReasoningPolicyAnnotationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9285,9 +9270,8 @@ export const getAutomatedReasoningPolicyAnnotations: (
 /**
  * Retrieves detailed information about an Automated Reasoning policy build workflow, including its status, configuration, and metadata.
  */
-export const getAutomatedReasoningPolicyBuildWorkflow: (
-  input: GetAutomatedReasoningPolicyBuildWorkflowRequest,
-) => effect.Effect<
+export const getAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
+  GetAutomatedReasoningPolicyBuildWorkflowRequest,
   GetAutomatedReasoningPolicyBuildWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9310,9 +9294,8 @@ export const getAutomatedReasoningPolicyBuildWorkflow: (
 /**
  * Retrieves the resulting assets from a completed Automated Reasoning policy build workflow, including build logs, quality reports, and generated policy artifacts.
  */
-export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: (
-  input: GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
-) => effect.Effect<
+export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: API.OperationMethod<
+  GetAutomatedReasoningPolicyBuildWorkflowResultAssetsRequest,
   GetAutomatedReasoningPolicyBuildWorkflowResultAssetsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9335,9 +9318,8 @@ export const getAutomatedReasoningPolicyBuildWorkflowResultAssets: (
 /**
  * Retrieves the next test scenario for validating an Automated Reasoning policy. This is used during the interactive policy refinement process to test policy behavior.
  */
-export const getAutomatedReasoningPolicyNextScenario: (
-  input: GetAutomatedReasoningPolicyNextScenarioRequest,
-) => effect.Effect<
+export const getAutomatedReasoningPolicyNextScenario: API.OperationMethod<
+  GetAutomatedReasoningPolicyNextScenarioRequest,
   GetAutomatedReasoningPolicyNextScenarioResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9360,9 +9342,8 @@ export const getAutomatedReasoningPolicyNextScenario: (
 /**
  * Retrieves details about a specific Automated Reasoning policy test.
  */
-export const getAutomatedReasoningPolicyTestCase: (
-  input: GetAutomatedReasoningPolicyTestCaseRequest,
-) => effect.Effect<
+export const getAutomatedReasoningPolicyTestCase: API.OperationMethod<
+  GetAutomatedReasoningPolicyTestCaseRequest,
   GetAutomatedReasoningPolicyTestCaseResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9385,9 +9366,8 @@ export const getAutomatedReasoningPolicyTestCase: (
 /**
  * Retrieves the test result for a specific Automated Reasoning policy test. Returns detailed validation findings and execution status.
  */
-export const getAutomatedReasoningPolicyTestResult: (
-  input: GetAutomatedReasoningPolicyTestResultRequest,
-) => effect.Effect<
+export const getAutomatedReasoningPolicyTestResult: API.OperationMethod<
+  GetAutomatedReasoningPolicyTestResultRequest,
   GetAutomatedReasoningPolicyTestResultResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9410,19 +9390,17 @@ export const getAutomatedReasoningPolicyTestResult: (
 /**
  * Lists all build workflows for an Automated Reasoning policy, showing the history of policy creation and modification attempts.
  */
-export const listAutomatedReasoningPolicyBuildWorkflows: {
-  (
-    input: ListAutomatedReasoningPolicyBuildWorkflowsRequest,
-  ): effect.Effect<
-    ListAutomatedReasoningPolicyBuildWorkflowsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomatedReasoningPolicyBuildWorkflows: API.OperationMethod<
+  ListAutomatedReasoningPolicyBuildWorkflowsRequest,
+  ListAutomatedReasoningPolicyBuildWorkflowsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomatedReasoningPolicyBuildWorkflowsRequest,
   ) => stream.Stream<
@@ -9467,19 +9445,17 @@ export const listAutomatedReasoningPolicyBuildWorkflows: {
 /**
  * Lists tests for an Automated Reasoning policy. We recommend using pagination to ensure that the operation returns quickly and successfully.
  */
-export const listAutomatedReasoningPolicyTestCases: {
-  (
-    input: ListAutomatedReasoningPolicyTestCasesRequest,
-  ): effect.Effect<
-    ListAutomatedReasoningPolicyTestCasesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomatedReasoningPolicyTestCases: API.OperationMethod<
+  ListAutomatedReasoningPolicyTestCasesRequest,
+  ListAutomatedReasoningPolicyTestCasesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomatedReasoningPolicyTestCasesRequest,
   ) => stream.Stream<
@@ -9524,20 +9500,18 @@ export const listAutomatedReasoningPolicyTestCases: {
 /**
  * Lists test results for an Automated Reasoning policy, showing how the policy performed against various test scenarios and validation checks.
  */
-export const listAutomatedReasoningPolicyTestResults: {
-  (
-    input: ListAutomatedReasoningPolicyTestResultsRequest,
-  ): effect.Effect<
-    ListAutomatedReasoningPolicyTestResultsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAutomatedReasoningPolicyTestResults: API.OperationMethod<
+  ListAutomatedReasoningPolicyTestResultsRequest,
+  ListAutomatedReasoningPolicyTestResultsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAutomatedReasoningPolicyTestResultsRequest,
   ) => stream.Stream<
@@ -9585,9 +9559,8 @@ export const listAutomatedReasoningPolicyTestResults: {
 /**
  * Starts a new build workflow for an Automated Reasoning policy. This initiates the process of analyzing source documents and generating policy rules, variables, and types.
  */
-export const startAutomatedReasoningPolicyBuildWorkflow: (
-  input: StartAutomatedReasoningPolicyBuildWorkflowRequest,
-) => effect.Effect<
+export const startAutomatedReasoningPolicyBuildWorkflow: API.OperationMethod<
+  StartAutomatedReasoningPolicyBuildWorkflowRequest,
   StartAutomatedReasoningPolicyBuildWorkflowResponse,
   | AccessDeniedException
   | ConflictException
@@ -9616,9 +9589,8 @@ export const startAutomatedReasoningPolicyBuildWorkflow: (
 /**
  * Initiates a test workflow to validate Automated Reasoning policy tests. The workflow executes the specified tests against the policy and generates validation results.
  */
-export const startAutomatedReasoningPolicyTestWorkflow: (
-  input: StartAutomatedReasoningPolicyTestWorkflowRequest,
-) => effect.Effect<
+export const startAutomatedReasoningPolicyTestWorkflow: API.OperationMethod<
+  StartAutomatedReasoningPolicyTestWorkflowRequest,
   StartAutomatedReasoningPolicyTestWorkflowResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9643,9 +9615,8 @@ export const startAutomatedReasoningPolicyTestWorkflow: (
 /**
  * Updates the annotations for an Automated Reasoning policy build workflow. This allows you to modify extracted rules, variables, and types before finalizing the policy.
  */
-export const updateAutomatedReasoningPolicyAnnotations: (
-  input: UpdateAutomatedReasoningPolicyAnnotationsRequest,
-) => effect.Effect<
+export const updateAutomatedReasoningPolicyAnnotations: API.OperationMethod<
+  UpdateAutomatedReasoningPolicyAnnotationsRequest,
   UpdateAutomatedReasoningPolicyAnnotationsResponse,
   | AccessDeniedException
   | ConflictException
@@ -9670,9 +9641,8 @@ export const updateAutomatedReasoningPolicyAnnotations: (
 /**
  * Updates an existing Automated Reasoning policy test. You can modify the content, query, expected result, and confidence threshold.
  */
-export const updateAutomatedReasoningPolicyTestCase: (
-  input: UpdateAutomatedReasoningPolicyTestCaseRequest,
-) => effect.Effect<
+export const updateAutomatedReasoningPolicyTestCase: API.OperationMethod<
+  UpdateAutomatedReasoningPolicyTestCaseRequest,
   UpdateAutomatedReasoningPolicyTestCaseResponse,
   | AccessDeniedException
   | ConflictException
@@ -9699,9 +9669,8 @@ export const updateAutomatedReasoningPolicyTestCase: (
 /**
  * Creates an endpoint for a model from Amazon Bedrock Marketplace. The endpoint is hosted by Amazon SageMaker.
  */
-export const createMarketplaceModelEndpoint: (
-  input: CreateMarketplaceModelEndpointRequest,
-) => effect.Effect<
+export const createMarketplaceModelEndpoint: API.OperationMethod<
+  CreateMarketplaceModelEndpointRequest,
   CreateMarketplaceModelEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -9728,9 +9697,8 @@ export const createMarketplaceModelEndpoint: (
 /**
  * Deletes an endpoint for a model from Amazon Bedrock Marketplace.
  */
-export const deleteMarketplaceModelEndpoint: (
-  input: DeleteMarketplaceModelEndpointRequest,
-) => effect.Effect<
+export const deleteMarketplaceModelEndpoint: API.OperationMethod<
+  DeleteMarketplaceModelEndpointRequest,
   DeleteMarketplaceModelEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9753,9 +9721,8 @@ export const deleteMarketplaceModelEndpoint: (
 /**
  * Deregisters an endpoint for a model from Amazon Bedrock Marketplace. This operation removes the endpoint's association with Amazon Bedrock but does not delete the underlying Amazon SageMaker endpoint.
  */
-export const deregisterMarketplaceModelEndpoint: (
-  input: DeregisterMarketplaceModelEndpointRequest,
-) => effect.Effect<
+export const deregisterMarketplaceModelEndpoint: API.OperationMethod<
+  DeregisterMarketplaceModelEndpointRequest,
   DeregisterMarketplaceModelEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9780,9 +9747,8 @@ export const deregisterMarketplaceModelEndpoint: (
 /**
  * Retrieves details about a specific endpoint for a model from Amazon Bedrock Marketplace.
  */
-export const getMarketplaceModelEndpoint: (
-  input: GetMarketplaceModelEndpointRequest,
-) => effect.Effect<
+export const getMarketplaceModelEndpoint: API.OperationMethod<
+  GetMarketplaceModelEndpointRequest,
   GetMarketplaceModelEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9805,19 +9771,17 @@ export const getMarketplaceModelEndpoint: (
 /**
  * Lists the endpoints for models from Amazon Bedrock Marketplace in your Amazon Web Services account.
  */
-export const listMarketplaceModelEndpoints: {
-  (
-    input: ListMarketplaceModelEndpointsRequest,
-  ): effect.Effect<
-    ListMarketplaceModelEndpointsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMarketplaceModelEndpoints: API.OperationMethod<
+  ListMarketplaceModelEndpointsRequest,
+  ListMarketplaceModelEndpointsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMarketplaceModelEndpointsRequest,
   ) => stream.Stream<
@@ -9862,9 +9826,8 @@ export const listMarketplaceModelEndpoints: {
 /**
  * Registers an existing Amazon SageMaker endpoint with Amazon Bedrock Marketplace, allowing it to be used with Amazon Bedrock APIs.
  */
-export const registerMarketplaceModelEndpoint: (
-  input: RegisterMarketplaceModelEndpointRequest,
-) => effect.Effect<
+export const registerMarketplaceModelEndpoint: API.OperationMethod<
+  RegisterMarketplaceModelEndpointRequest,
   RegisterMarketplaceModelEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9889,9 +9852,8 @@ export const registerMarketplaceModelEndpoint: (
 /**
  * Updates the configuration of an existing endpoint for a model from Amazon Bedrock Marketplace.
  */
-export const updateMarketplaceModelEndpoint: (
-  input: UpdateMarketplaceModelEndpointRequest,
-) => effect.Effect<
+export const updateMarketplaceModelEndpoint: API.OperationMethod<
+  UpdateMarketplaceModelEndpointRequest,
   UpdateMarketplaceModelEndpointResponse,
   | AccessDeniedException
   | ConflictException
@@ -9928,9 +9890,8 @@ export const updateMarketplaceModelEndpoint: (
  *
  * - DeleteCustomModelDeployment
  */
-export const createCustomModelDeployment: (
-  input: CreateCustomModelDeploymentRequest,
-) => effect.Effect<
+export const createCustomModelDeployment: API.OperationMethod<
+  CreateCustomModelDeploymentRequest,
   CreateCustomModelDeploymentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9965,9 +9926,8 @@ export const createCustomModelDeployment: (
  *
  * - ListCustomModelDeployments
  */
-export const deleteCustomModelDeployment: (
-  input: DeleteCustomModelDeploymentRequest,
-) => effect.Effect<
+export const deleteCustomModelDeployment: API.OperationMethod<
+  DeleteCustomModelDeploymentRequest,
   DeleteCustomModelDeploymentResponse,
   | AccessDeniedException
   | ConflictException
@@ -10000,9 +9960,8 @@ export const deleteCustomModelDeployment: (
  *
  * - DeleteCustomModelDeployment
  */
-export const getCustomModelDeployment: (
-  input: GetCustomModelDeploymentRequest,
-) => effect.Effect<
+export const getCustomModelDeployment: API.OperationMethod<
+  GetCustomModelDeploymentRequest,
   GetCustomModelDeploymentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10035,18 +9994,16 @@ export const getCustomModelDeployment: (
  *
  * - DeleteCustomModelDeployment
  */
-export const listCustomModelDeployments: {
-  (
-    input: ListCustomModelDeploymentsRequest,
-  ): effect.Effect<
-    ListCustomModelDeploymentsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomModelDeployments: API.OperationMethod<
+  ListCustomModelDeploymentsRequest,
+  ListCustomModelDeploymentsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomModelDeploymentsRequest,
   ) => stream.Stream<
@@ -10088,9 +10045,8 @@ export const listCustomModelDeployments: {
 /**
  * Updates a custom model deployment with a new custom model. This allows you to deploy updated models without creating new deployment endpoints.
  */
-export const updateCustomModelDeployment: (
-  input: UpdateCustomModelDeploymentRequest,
-) => effect.Effect<
+export const updateCustomModelDeployment: API.OperationMethod<
+  UpdateCustomModelDeploymentRequest,
   UpdateCustomModelDeploymentResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10131,9 +10087,8 @@ export const updateCustomModelDeployment: (
  *
  * - DeleteCustomModel
  */
-export const createCustomModel: (
-  input: CreateCustomModelRequest,
-) => effect.Effect<
+export const createCustomModel: API.OperationMethod<
+  CreateCustomModelRequest,
   CreateCustomModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -10162,9 +10117,8 @@ export const createCustomModel: (
 /**
  * Deletes a custom model that you created earlier. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
-export const deleteCustomModel: (
-  input: DeleteCustomModelRequest,
-) => effect.Effect<
+export const deleteCustomModel: API.OperationMethod<
+  DeleteCustomModelRequest,
   DeleteCustomModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -10189,9 +10143,8 @@ export const deleteCustomModel: (
 /**
  * Get the properties associated with a Amazon Bedrock custom model that you have created. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
-export const getCustomModel: (
-  input: GetCustomModelRequest,
-) => effect.Effect<
+export const getCustomModel: API.OperationMethod<
+  GetCustomModelRequest,
   GetCustomModelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10216,18 +10169,16 @@ export const getCustomModel: (
  *
  * For more information, see Custom models in the Amazon Bedrock User Guide.
  */
-export const listCustomModels: {
-  (
-    input: ListCustomModelsRequest,
-  ): effect.Effect<
-    ListCustomModelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomModels: API.OperationMethod<
+  ListCustomModelsRequest,
+  ListCustomModelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomModelsRequest,
   ) => stream.Stream<
@@ -10269,9 +10220,8 @@ export const listCustomModels: {
 /**
  * Deletes the account-level enforced guardrail configuration.
  */
-export const deleteEnforcedGuardrailConfiguration: (
-  input: DeleteEnforcedGuardrailConfigurationRequest,
-) => effect.Effect<
+export const deleteEnforcedGuardrailConfiguration: API.OperationMethod<
+  DeleteEnforcedGuardrailConfigurationRequest,
   DeleteEnforcedGuardrailConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10294,19 +10244,17 @@ export const deleteEnforcedGuardrailConfiguration: (
 /**
  * Lists the account-level enforced guardrail configurations.
  */
-export const listEnforcedGuardrailsConfiguration: {
-  (
-    input: ListEnforcedGuardrailsConfigurationRequest,
-  ): effect.Effect<
-    ListEnforcedGuardrailsConfigurationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEnforcedGuardrailsConfiguration: API.OperationMethod<
+  ListEnforcedGuardrailsConfigurationRequest,
+  ListEnforcedGuardrailsConfigurationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEnforcedGuardrailsConfigurationRequest,
   ) => stream.Stream<
@@ -10350,9 +10298,8 @@ export const listEnforcedGuardrailsConfiguration: {
 /**
  * Sets the account-level enforced guardrail configuration.
  */
-export const putEnforcedGuardrailConfiguration: (
-  input: PutEnforcedGuardrailConfigurationRequest,
-) => effect.Effect<
+export const putEnforcedGuardrailConfiguration: API.OperationMethod<
+  PutEnforcedGuardrailConfigurationRequest,
   PutEnforcedGuardrailConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -10377,9 +10324,8 @@ export const putEnforcedGuardrailConfiguration: (
 /**
  * Deletes a batch of evaluation jobs. An evaluation job can only be deleted if it has following status `FAILED`, `COMPLETED`, and `STOPPED`. You can request up to 25 model evaluation jobs be deleted in a single request.
  */
-export const batchDeleteEvaluationJob: (
-  input: BatchDeleteEvaluationJobRequest,
-) => effect.Effect<
+export const batchDeleteEvaluationJob: API.OperationMethod<
+  BatchDeleteEvaluationJobRequest,
   BatchDeleteEvaluationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -10404,9 +10350,8 @@ export const batchDeleteEvaluationJob: (
 /**
  * Creates an evaluation job.
  */
-export const createEvaluationJob: (
-  input: CreateEvaluationJobRequest,
-) => effect.Effect<
+export const createEvaluationJob: API.OperationMethod<
+  CreateEvaluationJobRequest,
   CreateEvaluationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -10433,9 +10378,8 @@ export const createEvaluationJob: (
 /**
  * Gets information about an evaluation job, such as the status of the job.
  */
-export const getEvaluationJob: (
-  input: GetEvaluationJobRequest,
-) => effect.Effect<
+export const getEvaluationJob: API.OperationMethod<
+  GetEvaluationJobRequest,
   GetEvaluationJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10458,18 +10402,16 @@ export const getEvaluationJob: (
 /**
  * Lists all existing evaluation jobs.
  */
-export const listEvaluationJobs: {
-  (
-    input: ListEvaluationJobsRequest,
-  ): effect.Effect<
-    ListEvaluationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEvaluationJobs: API.OperationMethod<
+  ListEvaluationJobsRequest,
+  ListEvaluationJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEvaluationJobsRequest,
   ) => stream.Stream<
@@ -10511,9 +10453,8 @@ export const listEvaluationJobs: {
 /**
  * Stops an evaluation job that is current being created or running.
  */
-export const stopEvaluationJob: (
-  input: StopEvaluationJobRequest,
-) => effect.Effect<
+export const stopEvaluationJob: API.OperationMethod<
+  StopEvaluationJobRequest,
   StopEvaluationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -10552,9 +10493,8 @@ export const stopEvaluationJob: (
  *
  * For more information, see Amazon Bedrock Guardrails in the *Amazon Bedrock User Guide*.
  */
-export const createGuardrail: (
-  input: CreateGuardrailRequest,
-) => effect.Effect<
+export const createGuardrail: API.OperationMethod<
+  CreateGuardrailRequest,
   CreateGuardrailResponse,
   | AccessDeniedException
   | ConflictException
@@ -10583,9 +10523,8 @@ export const createGuardrail: (
 /**
  * Gets details about a guardrail. If you don't specify a version, the response returns details for the `DRAFT` version.
  */
-export const getGuardrail: (
-  input: GetGuardrailRequest,
-) => effect.Effect<
+export const getGuardrail: API.OperationMethod<
+  GetGuardrailRequest,
   GetGuardrailResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10628,9 +10567,8 @@ export const getGuardrail: (
  *
  * - (Optional) For security, include the ARN of a KMS key in the `kmsKeyId` field.
  */
-export const updateGuardrail: (
-  input: UpdateGuardrailRequest,
-) => effect.Effect<
+export const updateGuardrail: API.OperationMethod<
+  UpdateGuardrailRequest,
   UpdateGuardrailResponse,
   | AccessDeniedException
   | ConflictException
@@ -10661,9 +10599,8 @@ export const updateGuardrail: (
  *
  * - To delete a version of a guardrail, specify the ARN of the guardrail in the `guardrailIdentifier` field and the version in the `guardrailVersion` field.
  */
-export const deleteGuardrail: (
-  input: DeleteGuardrailRequest,
-) => effect.Effect<
+export const deleteGuardrail: API.OperationMethod<
+  DeleteGuardrailRequest,
   DeleteGuardrailResponse,
   | AccessDeniedException
   | ConflictException
@@ -10690,19 +10627,17 @@ export const deleteGuardrail: (
  *
  * You can set the maximum number of results to return in a response in the `maxResults` field. If there are more results than the number you set, the response returns a `nextToken` that you can send in another `ListGuardrails` request to see the next batch of results.
  */
-export const listGuardrails: {
-  (
-    input: ListGuardrailsRequest,
-  ): effect.Effect<
-    ListGuardrailsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGuardrails: API.OperationMethod<
+  ListGuardrailsRequest,
+  ListGuardrailsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGuardrailsRequest,
   ) => stream.Stream<
@@ -10747,9 +10682,8 @@ export const listGuardrails: {
 /**
  * Creates a version of the guardrail. Use this API to create a snapshot of the guardrail when you are satisfied with a configuration, or to compare the configuration with another version.
  */
-export const createGuardrailVersion: (
-  input: CreateGuardrailVersionRequest,
-) => effect.Effect<
+export const createGuardrailVersion: API.OperationMethod<
+  CreateGuardrailVersionRequest,
   CreateGuardrailVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -10776,9 +10710,8 @@ export const createGuardrailVersion: (
 /**
  * Creates an application inference profile to track metrics and costs when invoking a model. To create an application inference profile for a foundation model in one region, specify the ARN of the model in that region. To create an application inference profile for a foundation model across multiple regions, specify the ARN of the system-defined inference profile that contains the regions that you want to route requests to. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
-export const createInferenceProfile: (
-  input: CreateInferenceProfileRequest,
-) => effect.Effect<
+export const createInferenceProfile: API.OperationMethod<
+  CreateInferenceProfileRequest,
   CreateInferenceProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -10807,9 +10740,8 @@ export const createInferenceProfile: (
 /**
  * Gets information about an inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
-export const getInferenceProfile: (
-  input: GetInferenceProfileRequest,
-) => effect.Effect<
+export const getInferenceProfile: API.OperationMethod<
+  GetInferenceProfileRequest,
   GetInferenceProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10832,9 +10764,8 @@ export const getInferenceProfile: (
 /**
  * Deletes an application inference profile. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
-export const deleteInferenceProfile: (
-  input: DeleteInferenceProfileRequest,
-) => effect.Effect<
+export const deleteInferenceProfile: API.OperationMethod<
+  DeleteInferenceProfileRequest,
   DeleteInferenceProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -10859,18 +10790,16 @@ export const deleteInferenceProfile: (
 /**
  * Returns a list of inference profiles that you can use. For more information, see Increase throughput and resilience with cross-region inference in Amazon Bedrock. in the Amazon Bedrock User Guide.
  */
-export const listInferenceProfiles: {
-  (
-    input: ListInferenceProfilesRequest,
-  ): effect.Effect<
-    ListInferenceProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInferenceProfiles: API.OperationMethod<
+  ListInferenceProfilesRequest,
+  ListInferenceProfilesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInferenceProfilesRequest,
   ) => stream.Stream<
@@ -10912,9 +10841,8 @@ export const listInferenceProfiles: {
 /**
  * Delete the invocation logging.
  */
-export const deleteModelInvocationLoggingConfiguration: (
-  input: DeleteModelInvocationLoggingConfigurationRequest,
-) => effect.Effect<
+export const deleteModelInvocationLoggingConfiguration: API.OperationMethod<
+  DeleteModelInvocationLoggingConfigurationRequest,
   DeleteModelInvocationLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10929,9 +10857,8 @@ export const deleteModelInvocationLoggingConfiguration: (
 /**
  * Get the current configuration values for model invocation logging.
  */
-export const getModelInvocationLoggingConfiguration: (
-  input: GetModelInvocationLoggingConfigurationRequest,
-) => effect.Effect<
+export const getModelInvocationLoggingConfiguration: API.OperationMethod<
+  GetModelInvocationLoggingConfigurationRequest,
   GetModelInvocationLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10946,9 +10873,8 @@ export const getModelInvocationLoggingConfiguration: (
 /**
  * Set the configuration values for model invocation logging.
  */
-export const putModelInvocationLoggingConfiguration: (
-  input: PutModelInvocationLoggingConfigurationRequest,
-) => effect.Effect<
+export const putModelInvocationLoggingConfiguration: API.OperationMethod<
+  PutModelInvocationLoggingConfigurationRequest,
   PutModelInvocationLoggingConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10969,9 +10895,8 @@ export const putModelInvocationLoggingConfiguration: (
 /**
  * Copies a model to another region so that it can be used there. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
-export const createModelCopyJob: (
-  input: CreateModelCopyJobRequest,
-) => effect.Effect<
+export const createModelCopyJob: API.OperationMethod<
+  CreateModelCopyJobRequest,
   CreateModelCopyJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -10992,9 +10917,8 @@ export const createModelCopyJob: (
 /**
  * Retrieves information about a model copy job. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
-export const getModelCopyJob: (
-  input: GetModelCopyJobRequest,
-) => effect.Effect<
+export const getModelCopyJob: API.OperationMethod<
+  GetModelCopyJobRequest,
   GetModelCopyJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11017,19 +10941,17 @@ export const getModelCopyJob: (
 /**
  * Returns a list of model copy jobs that you have submitted. You can filter the jobs to return based on one or more criteria. For more information, see Copy models to be used in other regions in the Amazon Bedrock User Guide.
  */
-export const listModelCopyJobs: {
-  (
-    input: ListModelCopyJobsRequest,
-  ): effect.Effect<
-    ListModelCopyJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelCopyJobs: API.OperationMethod<
+  ListModelCopyJobsRequest,
+  ListModelCopyJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelCopyJobsRequest,
   ) => stream.Stream<
@@ -11074,9 +10996,8 @@ export const listModelCopyJobs: {
 /**
  * Creates a model import job to import model that you have customized in other environments, such as Amazon SageMaker. For more information, see Import a customized model
  */
-export const createModelImportJob: (
-  input: CreateModelImportJobRequest,
-) => effect.Effect<
+export const createModelImportJob: API.OperationMethod<
+  CreateModelImportJobRequest,
   CreateModelImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -11105,9 +11026,8 @@ export const createModelImportJob: (
 /**
  * Deletes a custom model that you imported earlier. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
-export const deleteImportedModel: (
-  input: DeleteImportedModelRequest,
-) => effect.Effect<
+export const deleteImportedModel: API.OperationMethod<
+  DeleteImportedModelRequest,
   DeleteImportedModelResponse,
   | AccessDeniedException
   | ConflictException
@@ -11132,9 +11052,8 @@ export const deleteImportedModel: (
 /**
  * Gets properties associated with a customized model you imported.
  */
-export const getImportedModel: (
-  input: GetImportedModelRequest,
-) => effect.Effect<
+export const getImportedModel: API.OperationMethod<
+  GetImportedModelRequest,
   GetImportedModelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11157,9 +11076,8 @@ export const getImportedModel: (
 /**
  * Retrieves the properties associated with import model job, including the status of the job. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
-export const getModelImportJob: (
-  input: GetModelImportJobRequest,
-) => effect.Effect<
+export const getModelImportJob: API.OperationMethod<
+  GetModelImportJobRequest,
   GetModelImportJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11182,18 +11100,16 @@ export const getModelImportJob: (
 /**
  * Returns a list of models you've imported. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
-export const listImportedModels: {
-  (
-    input: ListImportedModelsRequest,
-  ): effect.Effect<
-    ListImportedModelsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listImportedModels: API.OperationMethod<
+  ListImportedModelsRequest,
+  ListImportedModelsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListImportedModelsRequest,
   ) => stream.Stream<
@@ -11235,18 +11151,16 @@ export const listImportedModels: {
 /**
  * Returns a list of import jobs you've submitted. You can filter the results to return based on one or more criteria. For more information, see Import a customized model in the Amazon Bedrock User Guide.
  */
-export const listModelImportJobs: {
-  (
-    input: ListModelImportJobsRequest,
-  ): effect.Effect<
-    ListModelImportJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelImportJobs: API.OperationMethod<
+  ListModelImportJobsRequest,
+  ListModelImportJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelImportJobsRequest,
   ) => stream.Stream<
@@ -11290,9 +11204,8 @@ export const listModelImportJobs: {
  *
  * The response returns a `jobArn` that you can use to stop or get details about the job.
  */
-export const createModelInvocationJob: (
-  input: CreateModelInvocationJobRequest,
-) => effect.Effect<
+export const createModelInvocationJob: API.OperationMethod<
+  CreateModelInvocationJobRequest,
   CreateModelInvocationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -11319,9 +11232,8 @@ export const createModelInvocationJob: (
 /**
  * Gets details about a batch inference job. For more information, see Monitor batch inference jobs
  */
-export const getModelInvocationJob: (
-  input: GetModelInvocationJobRequest,
-) => effect.Effect<
+export const getModelInvocationJob: API.OperationMethod<
+  GetModelInvocationJobRequest,
   GetModelInvocationJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11344,18 +11256,16 @@ export const getModelInvocationJob: (
 /**
  * Lists all batch inference jobs in the account. For more information, see View details about a batch inference job.
  */
-export const listModelInvocationJobs: {
-  (
-    input: ListModelInvocationJobsRequest,
-  ): effect.Effect<
-    ListModelInvocationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelInvocationJobs: API.OperationMethod<
+  ListModelInvocationJobsRequest,
+  ListModelInvocationJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelInvocationJobsRequest,
   ) => stream.Stream<
@@ -11397,9 +11307,8 @@ export const listModelInvocationJobs: {
 /**
  * Stops a batch inference job. You're only charged for tokens that were already processed. For more information, see Stop a batch inference job.
  */
-export const stopModelInvocationJob: (
-  input: StopModelInvocationJobRequest,
-) => effect.Effect<
+export const stopModelInvocationJob: API.OperationMethod<
+  StopModelInvocationJobRequest,
   StopModelInvocationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -11424,9 +11333,8 @@ export const stopModelInvocationJob: (
 /**
  * Get details about a Amazon Bedrock foundation model.
  */
-export const getFoundationModel: (
-  input: GetFoundationModelRequest,
-) => effect.Effect<
+export const getFoundationModel: API.OperationMethod<
+  GetFoundationModelRequest,
   GetFoundationModelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11449,9 +11357,8 @@ export const getFoundationModel: (
 /**
  * Lists Amazon Bedrock foundation models that you can use. You can filter the results with the request parameters. For more information, see Foundation models in the Amazon Bedrock User Guide.
  */
-export const listFoundationModels: (
-  input: ListFoundationModelsRequest,
-) => effect.Effect<
+export const listFoundationModels: API.OperationMethod<
+  ListFoundationModelsRequest,
   ListFoundationModelsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11472,9 +11379,8 @@ export const listFoundationModels: (
 /**
  * Creates a prompt router that manages the routing of requests between multiple foundation models based on the routing criteria.
  */
-export const createPromptRouter: (
-  input: CreatePromptRouterRequest,
-) => effect.Effect<
+export const createPromptRouter: API.OperationMethod<
+  CreatePromptRouterRequest,
   CreatePromptRouterResponse,
   | AccessDeniedException
   | ConflictException
@@ -11503,9 +11409,8 @@ export const createPromptRouter: (
 /**
  * Retrieves details about a prompt router.
  */
-export const getPromptRouter: (
-  input: GetPromptRouterRequest,
-) => effect.Effect<
+export const getPromptRouter: API.OperationMethod<
+  GetPromptRouterRequest,
   GetPromptRouterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11528,9 +11433,8 @@ export const getPromptRouter: (
 /**
  * Deletes a specified prompt router. This action cannot be undone.
  */
-export const deletePromptRouter: (
-  input: DeletePromptRouterRequest,
-) => effect.Effect<
+export const deletePromptRouter: API.OperationMethod<
+  DeletePromptRouterRequest,
   DeletePromptRouterResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11553,18 +11457,16 @@ export const deletePromptRouter: (
 /**
  * Retrieves a list of prompt routers.
  */
-export const listPromptRouters: {
-  (
-    input: ListPromptRoutersRequest,
-  ): effect.Effect<
-    ListPromptRoutersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPromptRouters: API.OperationMethod<
+  ListPromptRoutersRequest,
+  ListPromptRoutersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPromptRoutersRequest,
   ) => stream.Stream<
@@ -11606,9 +11508,8 @@ export const listPromptRouters: {
 /**
  * Creates dedicated throughput for a base or custom model with the model units and for the duration that you specify. For pricing details, see Amazon Bedrock Pricing. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
-export const createProvisionedModelThroughput: (
-  input: CreateProvisionedModelThroughputRequest,
-) => effect.Effect<
+export const createProvisionedModelThroughput: API.OperationMethod<
+  CreateProvisionedModelThroughputRequest,
   CreateProvisionedModelThroughputResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11635,9 +11536,8 @@ export const createProvisionedModelThroughput: (
 /**
  * Deletes a Provisioned Throughput. You can't delete a Provisioned Throughput before the commitment term is over. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
-export const deleteProvisionedModelThroughput: (
-  input: DeleteProvisionedModelThroughputRequest,
-) => effect.Effect<
+export const deleteProvisionedModelThroughput: API.OperationMethod<
+  DeleteProvisionedModelThroughputRequest,
   DeleteProvisionedModelThroughputResponse,
   | AccessDeniedException
   | ConflictException
@@ -11662,9 +11562,8 @@ export const deleteProvisionedModelThroughput: (
 /**
  * Returns details for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
-export const getProvisionedModelThroughput: (
-  input: GetProvisionedModelThroughputRequest,
-) => effect.Effect<
+export const getProvisionedModelThroughput: API.OperationMethod<
+  GetProvisionedModelThroughputRequest,
   GetProvisionedModelThroughputResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11687,18 +11586,16 @@ export const getProvisionedModelThroughput: (
 /**
  * Lists the Provisioned Throughputs in the account. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
-export const listProvisionedModelThroughputs: {
-  (
-    input: ListProvisionedModelThroughputsRequest,
-  ): effect.Effect<
-    ListProvisionedModelThroughputsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProvisionedModelThroughputs: API.OperationMethod<
+  ListProvisionedModelThroughputsRequest,
+  ListProvisionedModelThroughputsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProvisionedModelThroughputsRequest,
   ) => stream.Stream<
@@ -11740,9 +11637,8 @@ export const listProvisionedModelThroughputs: {
 /**
  * Updates the name or associated model for a Provisioned Throughput. For more information, see Provisioned Throughput in the Amazon Bedrock User Guide.
  */
-export const updateProvisionedModelThroughput: (
-  input: UpdateProvisionedModelThroughputRequest,
-) => effect.Effect<
+export const updateProvisionedModelThroughput: API.OperationMethod<
+  UpdateProvisionedModelThroughputRequest,
   UpdateProvisionedModelThroughputResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11765,9 +11661,8 @@ export const updateProvisionedModelThroughput: (
 /**
  * Request a model access agreement for the specified model.
  */
-export const createFoundationModelAgreement: (
-  input: CreateFoundationModelAgreementRequest,
-) => effect.Effect<
+export const createFoundationModelAgreement: API.OperationMethod<
+  CreateFoundationModelAgreementRequest,
   CreateFoundationModelAgreementResponse,
   | AccessDeniedException
   | ConflictException
@@ -11792,9 +11687,8 @@ export const createFoundationModelAgreement: (
 /**
  * Delete the model access agreement for the specified model.
  */
-export const deleteFoundationModelAgreement: (
-  input: DeleteFoundationModelAgreementRequest,
-) => effect.Effect<
+export const deleteFoundationModelAgreement: API.OperationMethod<
+  DeleteFoundationModelAgreementRequest,
   DeleteFoundationModelAgreementResponse,
   | AccessDeniedException
   | ConflictException
@@ -11819,9 +11713,8 @@ export const deleteFoundationModelAgreement: (
 /**
  * Get information about the Foundation model availability.
  */
-export const getFoundationModelAvailability: (
-  input: GetFoundationModelAvailabilityRequest,
-) => effect.Effect<
+export const getFoundationModelAvailability: API.OperationMethod<
+  GetFoundationModelAvailabilityRequest,
   GetFoundationModelAvailabilityResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11844,9 +11737,8 @@ export const getFoundationModelAvailability: (
 /**
  * Get the offers associated with the specified model.
  */
-export const listFoundationModelAgreementOffers: (
-  input: ListFoundationModelAgreementOffersRequest,
-) => effect.Effect<
+export const listFoundationModelAgreementOffers: API.OperationMethod<
+  ListFoundationModelAgreementOffersRequest,
   ListFoundationModelAgreementOffersResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11871,9 +11763,8 @@ export const listFoundationModelAgreementOffers: (
  *
  * For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11896,9 +11787,8 @@ export const listTagsForResource: (
 /**
  * Associate tags with a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11923,9 +11813,8 @@ export const tagResource: (
 /**
  * Remove one or more tags from a resource. For more information, see Tagging resources in the Amazon Bedrock User Guide.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -11956,9 +11845,8 @@ export const untagResource: (
  *
  * For more information, see Custom models in the Amazon Bedrock User Guide.
  */
-export const createModelCustomizationJob: (
-  input: CreateModelCustomizationJobRequest,
-) => effect.Effect<
+export const createModelCustomizationJob: API.OperationMethod<
+  CreateModelCustomizationJobRequest,
   CreateModelCustomizationJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -11987,9 +11875,8 @@ export const createModelCustomizationJob: (
 /**
  * Retrieves the properties associated with a model-customization job, including the status of the job. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
-export const getModelCustomizationJob: (
-  input: GetModelCustomizationJobRequest,
-) => effect.Effect<
+export const getModelCustomizationJob: API.OperationMethod<
+  GetModelCustomizationJobRequest,
   GetModelCustomizationJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -12014,18 +11901,16 @@ export const getModelCustomizationJob: (
  *
  * For more information, see Custom models in the Amazon Bedrock User Guide.
  */
-export const listModelCustomizationJobs: {
-  (
-    input: ListModelCustomizationJobsRequest,
-  ): effect.Effect<
-    ListModelCustomizationJobsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listModelCustomizationJobs: API.OperationMethod<
+  ListModelCustomizationJobsRequest,
+  ListModelCustomizationJobsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListModelCustomizationJobsRequest,
   ) => stream.Stream<
@@ -12067,9 +11952,8 @@ export const listModelCustomizationJobs: {
 /**
  * Stops an active model customization job. For more information, see Custom models in the Amazon Bedrock User Guide.
  */
-export const stopModelCustomizationJob: (
-  input: StopModelCustomizationJobRequest,
-) => effect.Effect<
+export const stopModelCustomizationJob: API.OperationMethod<
+  StopModelCustomizationJobRequest,
   StopModelCustomizationJobResponse,
   | AccessDeniedException
   | ConflictException

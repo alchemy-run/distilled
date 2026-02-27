@@ -16667,9 +16667,8 @@ export class VersionMismatchException extends S.TaggedErrorClass<VersionMismatch
 /**
  * Creates one or more partitions in a batch operation.
  */
-export const batchCreatePartition: (
-  input: BatchCreatePartitionRequest,
-) => effect.Effect<
+export const batchCreatePartition: API.OperationMethod<
+  BatchCreatePartitionRequest,
   BatchCreatePartitionResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -16696,9 +16695,8 @@ export const batchCreatePartition: (
 /**
  * Deletes a list of connection definitions from the Data Catalog.
  */
-export const batchDeleteConnection: (
-  input: BatchDeleteConnectionRequest,
-) => effect.Effect<
+export const batchDeleteConnection: API.OperationMethod<
+  BatchDeleteConnectionRequest,
   BatchDeleteConnectionResponse,
   InternalServiceException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -16710,9 +16708,8 @@ export const batchDeleteConnection: (
 /**
  * Deletes one or more partitions in a batch operation.
  */
-export const batchDeletePartition: (
-  input: BatchDeletePartitionRequest,
-) => effect.Effect<
+export const batchDeletePartition: API.OperationMethod<
+  BatchDeletePartitionRequest,
   BatchDeletePartitionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -16743,9 +16740,8 @@ export const batchDeletePartition: (
  * `BatchDeletePartition`, to delete any resources that belong to the
  * table.
  */
-export const batchDeleteTable: (
-  input: BatchDeleteTableRequest,
-) => effect.Effect<
+export const batchDeleteTable: API.OperationMethod<
+  BatchDeleteTableRequest,
   BatchDeleteTableResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -16770,9 +16766,8 @@ export const batchDeleteTable: (
 /**
  * Deletes a specified batch of versions of a table.
  */
-export const batchDeleteTableVersion: (
-  input: BatchDeleteTableVersionRequest,
-) => effect.Effect<
+export const batchDeleteTableVersion: API.OperationMethod<
+  BatchDeleteTableVersionRequest,
   BatchDeleteTableVersionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -16793,9 +16788,8 @@ export const batchDeleteTableVersion: (
 /**
  * Retrieves information about a list of blueprints.
  */
-export const batchGetBlueprints: (
-  input: BatchGetBlueprintsRequest,
-) => effect.Effect<
+export const batchGetBlueprints: API.OperationMethod<
+  BatchGetBlueprintsRequest,
   BatchGetBlueprintsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -16814,9 +16808,8 @@ export const batchGetBlueprints: (
 /**
  * Returns a list of resource metadata for a given list of crawler names. After calling the `ListCrawlers` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
-export const batchGetCrawlers: (
-  input: BatchGetCrawlersRequest,
-) => effect.Effect<
+export const batchGetCrawlers: API.OperationMethod<
+  BatchGetCrawlersRequest,
   BatchGetCrawlersResponse,
   InvalidInputException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -16828,9 +16821,8 @@ export const batchGetCrawlers: (
 /**
  * Retrieves the details for the custom patterns specified by a list of names.
  */
-export const batchGetCustomEntityTypes: (
-  input: BatchGetCustomEntityTypesRequest,
-) => effect.Effect<
+export const batchGetCustomEntityTypes: API.OperationMethod<
+  BatchGetCustomEntityTypesRequest,
   BatchGetCustomEntityTypesResponse,
   | InternalServiceException
   | InvalidInputException
@@ -16849,9 +16841,8 @@ export const batchGetCustomEntityTypes: (
 /**
  * Retrieves a list of data quality results for the specified result IDs.
  */
-export const batchGetDataQualityResult: (
-  input: BatchGetDataQualityResultRequest,
-) => effect.Effect<
+export const batchGetDataQualityResult: API.OperationMethod<
+  BatchGetDataQualityResultRequest,
   BatchGetDataQualityResultResponse,
   | InternalServiceException
   | InvalidInputException
@@ -16873,9 +16864,8 @@ export const batchGetDataQualityResult: (
  * data to which you have been granted permissions. This operation supports all IAM permissions,
  * including permission conditions that uses tags.
  */
-export const batchGetDevEndpoints: (
-  input: BatchGetDevEndpointsRequest,
-) => effect.Effect<
+export const batchGetDevEndpoints: API.OperationMethod<
+  BatchGetDevEndpointsRequest,
   BatchGetDevEndpointsResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -16896,9 +16886,8 @@ export const batchGetDevEndpoints: (
 /**
  * Returns a list of resource metadata for a given list of job names. After calling the `ListJobs` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
-export const batchGetJobs: (
-  input: BatchGetJobsRequest,
-) => effect.Effect<
+export const batchGetJobs: API.OperationMethod<
+  BatchGetJobsRequest,
   BatchGetJobsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -16917,9 +16906,8 @@ export const batchGetJobs: (
 /**
  * Retrieves partitions in a batch request.
  */
-export const batchGetPartition: (
-  input: BatchGetPartitionRequest,
-) => effect.Effect<
+export const batchGetPartition: API.OperationMethod<
+  BatchGetPartitionRequest,
   BatchGetPartitionResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -16948,9 +16936,8 @@ export const batchGetPartition: (
 /**
  * Returns the configuration for the specified table optimizers.
  */
-export const batchGetTableOptimizer: (
-  input: BatchGetTableOptimizerRequest,
-) => effect.Effect<
+export const batchGetTableOptimizer: API.OperationMethod<
+  BatchGetTableOptimizerRequest,
   BatchGetTableOptimizerResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -16973,9 +16960,8 @@ export const batchGetTableOptimizer: (
 /**
  * Returns a list of resource metadata for a given list of trigger names. After calling the `ListTriggers` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
-export const batchGetTriggers: (
-  input: BatchGetTriggersRequest,
-) => effect.Effect<
+export const batchGetTriggers: API.OperationMethod<
+  BatchGetTriggersRequest,
   BatchGetTriggersResponse,
   | InternalServiceException
   | InvalidInputException
@@ -16994,9 +16980,8 @@ export const batchGetTriggers: (
 /**
  * Returns a list of resource metadata for a given list of workflow names. After calling the `ListWorkflows` operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
  */
-export const batchGetWorkflows: (
-  input: BatchGetWorkflowsRequest,
-) => effect.Effect<
+export const batchGetWorkflows: API.OperationMethod<
+  BatchGetWorkflowsRequest,
   BatchGetWorkflowsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -17017,9 +17002,8 @@ export const batchGetWorkflows: (
  * The API requires both profileID and statisticID as part of the InclusionAnnotation input.
  * The API only works for a single statisticId across multiple profiles.
  */
-export const batchPutDataQualityStatisticAnnotation: (
-  input: BatchPutDataQualityStatisticAnnotationRequest,
-) => effect.Effect<
+export const batchPutDataQualityStatisticAnnotation: API.OperationMethod<
+  BatchPutDataQualityStatisticAnnotationRequest,
   BatchPutDataQualityStatisticAnnotationResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17040,9 +17024,8 @@ export const batchPutDataQualityStatisticAnnotation: (
 /**
  * Stops one or more job runs for a specified job definition.
  */
-export const batchStopJobRun: (
-  input: BatchStopJobRunRequest,
-) => effect.Effect<
+export const batchStopJobRun: API.OperationMethod<
+  BatchStopJobRunRequest,
   BatchStopJobRunResponse,
   | InternalServiceException
   | InvalidInputException
@@ -17061,9 +17044,8 @@ export const batchStopJobRun: (
 /**
  * Updates one or more partitions in a batch operation.
  */
-export const batchUpdatePartition: (
-  input: BatchUpdatePartitionRequest,
-) => effect.Effect<
+export const batchUpdatePartition: API.OperationMethod<
+  BatchUpdatePartitionRequest,
   BatchUpdatePartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -17086,9 +17068,8 @@ export const batchUpdatePartition: (
 /**
  * Cancels the specified recommendation run that was being used to generate rules.
  */
-export const cancelDataQualityRuleRecommendationRun: (
-  input: CancelDataQualityRuleRecommendationRunRequest,
-) => effect.Effect<
+export const cancelDataQualityRuleRecommendationRun: API.OperationMethod<
+  CancelDataQualityRuleRecommendationRunRequest,
   CancelDataQualityRuleRecommendationRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17109,9 +17090,8 @@ export const cancelDataQualityRuleRecommendationRun: (
 /**
  * Cancels a run where a ruleset is being evaluated against a data source.
  */
-export const cancelDataQualityRulesetEvaluationRun: (
-  input: CancelDataQualityRulesetEvaluationRunRequest,
-) => effect.Effect<
+export const cancelDataQualityRulesetEvaluationRun: API.OperationMethod<
+  CancelDataQualityRulesetEvaluationRunRequest,
   CancelDataQualityRulesetEvaluationRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17134,9 +17114,8 @@ export const cancelDataQualityRulesetEvaluationRun: (
  * machine learning task run at any time by calling `CancelMLTaskRun` with a task
  * run's parent transform's `TransformID` and the task run's `TaskRunId`.
  */
-export const cancelMLTaskRun: (
-  input: CancelMLTaskRunRequest,
-) => effect.Effect<
+export const cancelMLTaskRun: API.OperationMethod<
+  CancelMLTaskRunRequest,
   CancelMLTaskRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -17157,9 +17136,8 @@ export const cancelMLTaskRun: (
 /**
  * Cancels the statement.
  */
-export const cancelStatement: (
-  input: CancelStatementRequest,
-) => effect.Effect<
+export const cancelStatement: API.OperationMethod<
+  CancelStatementRequest,
   CancelStatementResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -17184,9 +17162,8 @@ export const cancelStatement: (
 /**
  * Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using `DataFormat` as the format. Since it does not take a schema set name, no compatibility checks are performed.
  */
-export const checkSchemaVersionValidity: (
-  input: CheckSchemaVersionValidityInput,
-) => effect.Effect<
+export const checkSchemaVersionValidity: API.OperationMethod<
+  CheckSchemaVersionValidityInput,
   CheckSchemaVersionValidityResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -17205,9 +17182,8 @@ export const checkSchemaVersionValidity: (
 /**
  * Registers a blueprint with Glue.
  */
-export const createBlueprint: (
-  input: CreateBlueprintRequest,
-) => effect.Effect<
+export const createBlueprint: API.OperationMethod<
+  CreateBlueprintRequest,
   CreateBlueprintResponse,
   | AlreadyExistsException
   | InternalServiceException
@@ -17230,9 +17206,8 @@ export const createBlueprint: (
 /**
  * Creates a new catalog in the Glue Data Catalog.
  */
-export const createCatalog: (
-  input: CreateCatalogRequest,
-) => effect.Effect<
+export const createCatalog: API.OperationMethod<
+  CreateCatalogRequest,
   CreateCatalogResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17269,9 +17244,8 @@ export const createCatalog: (
  * `XMLClassifier`, a `JsonClassifier`, or a `CsvClassifier`,
  * depending on which field of the request is present.
  */
-export const createClassifier: (
-  input: CreateClassifierRequest,
-) => effect.Effect<
+export const createClassifier: API.OperationMethod<
+  CreateClassifierRequest,
   CreateClassifierResponse,
   | AlreadyExistsException
   | InvalidInputException
@@ -17290,9 +17264,8 @@ export const createClassifier: (
 /**
  * Creates settings for a column statistics task.
  */
-export const createColumnStatisticsTaskSettings: (
-  input: CreateColumnStatisticsTaskSettingsRequest,
-) => effect.Effect<
+export const createColumnStatisticsTaskSettings: API.OperationMethod<
+  CreateColumnStatisticsTaskSettingsRequest,
   CreateColumnStatisticsTaskSettingsResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17321,9 +17294,8 @@ export const createColumnStatisticsTaskSettings: (
  *
  * Connections used for creating federated resources require the IAM `glue:PassConnection` permission.
  */
-export const createConnection: (
-  input: CreateConnectionRequest,
-) => effect.Effect<
+export const createConnection: API.OperationMethod<
+  CreateConnectionRequest,
   CreateConnectionResponse,
   | AlreadyExistsException
   | GlueEncryptionException
@@ -17348,9 +17320,8 @@ export const createConnection: (
  * At least one crawl target must be specified, in the `s3Targets` field, the
  * `jdbcTargets` field, or the `DynamoDBTargets` field.
  */
-export const createCrawler: (
-  input: CreateCrawlerRequest,
-) => effect.Effect<
+export const createCrawler: API.OperationMethod<
+  CreateCrawlerRequest,
   CreateCrawlerResponse,
   | AlreadyExistsException
   | InvalidInputException
@@ -17373,9 +17344,8 @@ export const createCrawler: (
  *
  * Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
  */
-export const createCustomEntityType: (
-  input: CreateCustomEntityTypeRequest,
-) => effect.Effect<
+export const createCustomEntityType: API.OperationMethod<
+  CreateCustomEntityTypeRequest,
   CreateCustomEntityTypeResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17402,9 +17372,8 @@ export const createCustomEntityType: (
 /**
  * Creates a new database in a Data Catalog.
  */
-export const createDatabase: (
-  input: CreateDatabaseRequest,
-) => effect.Effect<
+export const createDatabase: API.OperationMethod<
+  CreateDatabaseRequest,
   CreateDatabaseResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -17439,9 +17408,8 @@ export const createDatabase: (
  *
  * You create the ruleset using the Data Quality Definition Language (DQDL). For more information, see the Glue developer guide.
  */
-export const createDataQualityRuleset: (
-  input: CreateDataQualityRulesetRequest,
-) => effect.Effect<
+export const createDataQualityRuleset: API.OperationMethod<
+  CreateDataQualityRulesetRequest,
   CreateDataQualityRulesetResponse,
   | AlreadyExistsException
   | InternalServiceException
@@ -17464,9 +17432,8 @@ export const createDataQualityRuleset: (
 /**
  * Creates a new development endpoint.
  */
-export const createDevEndpoint: (
-  input: CreateDevEndpointRequest,
-) => effect.Effect<
+export const createDevEndpoint: API.OperationMethod<
+  CreateDevEndpointRequest,
   CreateDevEndpointResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17496,9 +17463,8 @@ export const createDevEndpoint: (
  * Creates a new Glue Identity Center configuration to enable integration between Glue and Amazon Web Services IAM
  * Identity Center for authentication and authorization.
  */
-export const createGlueIdentityCenterConfiguration: (
-  input: CreateGlueIdentityCenterConfigurationRequest,
-) => effect.Effect<
+export const createGlueIdentityCenterConfiguration: API.OperationMethod<
+  CreateGlueIdentityCenterConfigurationRequest,
   CreateGlueIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17523,9 +17489,8 @@ export const createGlueIdentityCenterConfiguration: (
 /**
  * Creates a Zero-ETL integration in the caller's account between two resources with Amazon Resource Names (ARNs): the `SourceArn` and `TargetArn`.
  */
-export const createIntegration: (
-  input: CreateIntegrationRequest,
-) => effect.Effect<
+export const createIntegration: API.OperationMethod<
+  CreateIntegrationRequest,
   CreateIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -17562,9 +17527,8 @@ export const createIntegration: (
 /**
  * This API can be used for setting up the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. To set both source and target properties the same API needs to be invoked with the Glue connection ARN as `ResourceArn` with `SourceProcessingProperties` and the Glue database ARN as `ResourceArn` with `TargetProcessingProperties` respectively.
  */
-export const createIntegrationResourceProperty: (
-  input: CreateIntegrationResourcePropertyRequest,
-) => effect.Effect<
+export const createIntegrationResourceProperty: API.OperationMethod<
+  CreateIntegrationResourcePropertyRequest,
   CreateIntegrationResourcePropertyResponse,
   | AccessDeniedException
   | ConflictException
@@ -17593,9 +17557,8 @@ export const createIntegrationResourceProperty: (
 /**
  * This API is used to provide optional override properties for the the tables that need to be replicated. These properties can include properties for filtering and partitioning for the source and target tables. To set both source and target properties the same API need to be invoked with the Glue connection ARN as `ResourceArn` with `SourceTableConfig`, and the Glue database ARN as `ResourceArn` with `TargetTableConfig` respectively.
  */
-export const createIntegrationTableProperties: (
-  input: CreateIntegrationTablePropertiesRequest,
-) => effect.Effect<
+export const createIntegrationTableProperties: API.OperationMethod<
+  CreateIntegrationTablePropertiesRequest,
   CreateIntegrationTablePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -17622,9 +17585,8 @@ export const createIntegrationTableProperties: (
 /**
  * Creates a new job definition.
  */
-export const createJob: (
-  input: CreateJobRequest,
-) => effect.Effect<
+export const createJob: API.OperationMethod<
+  CreateJobRequest,
   CreateJobResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -17663,9 +17625,8 @@ export const createJob: (
  * `AllocatedCapacity`, `Timeout`, and `MaxRetries`. For more
  * information, see Jobs.
  */
-export const createMLTransform: (
-  input: CreateMLTransformRequest,
-) => effect.Effect<
+export const createMLTransform: API.OperationMethod<
+  CreateMLTransformRequest,
   CreateMLTransformResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17692,9 +17653,8 @@ export const createMLTransform: (
 /**
  * Creates a new partition.
  */
-export const createPartition: (
-  input: CreatePartitionRequest,
-) => effect.Effect<
+export const createPartition: API.OperationMethod<
+  CreatePartitionRequest,
   CreatePartitionResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -17721,9 +17681,8 @@ export const createPartition: (
 /**
  * Creates a specified partition index in an existing table.
  */
-export const createPartitionIndex: (
-  input: CreatePartitionIndexRequest,
-) => effect.Effect<
+export const createPartitionIndex: API.OperationMethod<
+  CreatePartitionIndexRequest,
   CreatePartitionIndexResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -17750,9 +17709,8 @@ export const createPartitionIndex: (
 /**
  * Creates a new registry which may be used to hold a collection of schemas.
  */
-export const createRegistry: (
-  input: CreateRegistryInput,
-) => effect.Effect<
+export const createRegistry: API.OperationMethod<
+  CreateRegistryInput,
   CreateRegistryResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17781,9 +17739,8 @@ export const createRegistry: (
  *
  * When this API is called without a `RegistryId`, this will create an entry for a "default-registry" in the registry database tables, if it is not already present.
  */
-export const createSchema: (
-  input: CreateSchemaInput,
-) => effect.Effect<
+export const createSchema: API.OperationMethod<
+  CreateSchemaInput,
   CreateSchemaResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17810,9 +17767,8 @@ export const createSchema: (
 /**
  * Transforms a directed acyclic graph (DAG) into code.
  */
-export const createScript: (
-  input: CreateScriptRequest,
-) => effect.Effect<
+export const createScript: API.OperationMethod<
+  CreateScriptRequest,
   CreateScriptResponse,
   | InternalServiceException
   | InvalidInputException
@@ -17831,9 +17787,8 @@ export const createScript: (
 /**
  * Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
  */
-export const createSecurityConfiguration: (
-  input: CreateSecurityConfigurationRequest,
-) => effect.Effect<
+export const createSecurityConfiguration: API.OperationMethod<
+  CreateSecurityConfigurationRequest,
   CreateSecurityConfigurationResponse,
   | AlreadyExistsException
   | InternalServiceException
@@ -17856,9 +17811,8 @@ export const createSecurityConfiguration: (
 /**
  * Creates a new session.
  */
-export const createSession: (
-  input: CreateSessionRequest,
-) => effect.Effect<
+export const createSession: API.OperationMethod<
+  CreateSessionRequest,
   CreateSessionResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17887,9 +17841,8 @@ export const createSession: (
 /**
  * Creates a new table definition in the Data Catalog.
  */
-export const createTable: (
-  input: CreateTableRequest,
-) => effect.Effect<
+export const createTable: API.OperationMethod<
+  CreateTableRequest,
   CreateTableResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -17924,9 +17877,8 @@ export const createTable: (
 /**
  * Creates a new table optimizer for a specific function.
  */
-export const createTableOptimizer: (
-  input: CreateTableOptimizerRequest,
-) => effect.Effect<
+export const createTableOptimizer: API.OperationMethod<
+  CreateTableOptimizerRequest,
   CreateTableOptimizerResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -17955,9 +17907,8 @@ export const createTableOptimizer: (
  *
  * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
  */
-export const createTrigger: (
-  input: CreateTriggerRequest,
-) => effect.Effect<
+export const createTrigger: API.OperationMethod<
+  CreateTriggerRequest,
   CreateTriggerResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -17986,9 +17937,8 @@ export const createTrigger: (
 /**
  * Creates an Glue usage profile.
  */
-export const createUsageProfile: (
-  input: CreateUsageProfileRequest,
-) => effect.Effect<
+export const createUsageProfile: API.OperationMethod<
+  CreateUsageProfileRequest,
   CreateUsageProfileResponse,
   | AlreadyExistsException
   | InternalServiceException
@@ -18013,9 +17963,8 @@ export const createUsageProfile: (
 /**
  * Creates a new function definition in the Data Catalog.
  */
-export const createUserDefinedFunction: (
-  input: CreateUserDefinedFunctionRequest,
-) => effect.Effect<
+export const createUserDefinedFunction: API.OperationMethod<
+  CreateUserDefinedFunctionRequest,
   CreateUserDefinedFunctionResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -18042,9 +17991,8 @@ export const createUserDefinedFunction: (
 /**
  * Creates a new workflow.
  */
-export const createWorkflow: (
-  input: CreateWorkflowRequest,
-) => effect.Effect<
+export const createWorkflow: API.OperationMethod<
+  CreateWorkflowRequest,
   CreateWorkflowResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -18069,9 +18017,8 @@ export const createWorkflow: (
 /**
  * Deletes an existing blueprint.
  */
-export const deleteBlueprint: (
-  input: DeleteBlueprintRequest,
-) => effect.Effect<
+export const deleteBlueprint: API.OperationMethod<
+  DeleteBlueprintRequest,
   DeleteBlueprintResponse,
   | InternalServiceException
   | InvalidInputException
@@ -18094,9 +18041,8 @@ export const deleteBlueprint: (
  *
  * To ensure the immediate deletion of all related resources before calling the `DeleteCatalog` operation, use `DeleteTableVersion` (or `BatchDeleteTableVersion`), `DeletePartition` (or `BatchDeletePartition`), `DeleteTable` (or `BatchDeleteTable`), `DeleteUserDefinedFunction` and `DeleteDatabase` to delete any resources that belong to the catalog.
  */
-export const deleteCatalog: (
-  input: DeleteCatalogRequest,
-) => effect.Effect<
+export const deleteCatalog: API.OperationMethod<
+  DeleteCatalogRequest,
   DeleteCatalogResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18125,9 +18071,8 @@ export const deleteCatalog: (
 /**
  * Removes a classifier from the Data Catalog.
  */
-export const deleteClassifier: (
-  input: DeleteClassifierRequest,
-) => effect.Effect<
+export const deleteClassifier: API.OperationMethod<
+  DeleteClassifierRequest,
   DeleteClassifierResponse,
   EntityNotFoundException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -18141,9 +18086,8 @@ export const deleteClassifier: (
  *
  * The Identity and Access Management (IAM) permission required for this operation is `DeletePartition`.
  */
-export const deleteColumnStatisticsForPartition: (
-  input: DeleteColumnStatisticsForPartitionRequest,
-) => effect.Effect<
+export const deleteColumnStatisticsForPartition: API.OperationMethod<
+  DeleteColumnStatisticsForPartitionRequest,
   DeleteColumnStatisticsForPartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -18168,9 +18112,8 @@ export const deleteColumnStatisticsForPartition: (
  *
  * The Identity and Access Management (IAM) permission required for this operation is `DeleteTable`.
  */
-export const deleteColumnStatisticsForTable: (
-  input: DeleteColumnStatisticsForTableRequest,
-) => effect.Effect<
+export const deleteColumnStatisticsForTable: API.OperationMethod<
+  DeleteColumnStatisticsForTableRequest,
   DeleteColumnStatisticsForTableResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -18193,9 +18136,8 @@ export const deleteColumnStatisticsForTable: (
 /**
  * Deletes settings for a column statistics task.
  */
-export const deleteColumnStatisticsTaskSettings: (
-  input: DeleteColumnStatisticsTaskSettingsRequest,
-) => effect.Effect<
+export const deleteColumnStatisticsTaskSettings: API.OperationMethod<
+  DeleteColumnStatisticsTaskSettingsRequest,
   DeleteColumnStatisticsTaskSettingsResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -18214,9 +18156,8 @@ export const deleteColumnStatisticsTaskSettings: (
 /**
  * Deletes a connection from the Data Catalog.
  */
-export const deleteConnection: (
-  input: DeleteConnectionRequest,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
   DeleteConnectionResponse,
   EntityNotFoundException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -18230,9 +18171,8 @@ export const deleteConnection: (
  *
  * The connection type must exist and be registered before it can be deleted. This operation supports cleanup of connection type resources and helps maintain proper lifecycle management of custom connection types.
  */
-export const deleteConnectionType: (
-  input: DeleteConnectionTypeRequest,
-) => effect.Effect<
+export const deleteConnectionType: API.OperationMethod<
+  DeleteConnectionTypeRequest,
   DeleteConnectionTypeResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -18258,9 +18198,8 @@ export const deleteConnectionType: (
  * Removes a specified crawler from the Glue Data Catalog, unless the crawler state is
  * `RUNNING`.
  */
-export const deleteCrawler: (
-  input: DeleteCrawlerRequest,
-) => effect.Effect<
+export const deleteCrawler: API.OperationMethod<
+  DeleteCrawlerRequest,
   DeleteCrawlerResponse,
   | CrawlerRunningException
   | EntityNotFoundException
@@ -18281,9 +18220,8 @@ export const deleteCrawler: (
 /**
  * Deletes a custom pattern by specifying its name.
  */
-export const deleteCustomEntityType: (
-  input: DeleteCustomEntityTypeRequest,
-) => effect.Effect<
+export const deleteCustomEntityType: API.OperationMethod<
+  DeleteCustomEntityTypeRequest,
   DeleteCustomEntityTypeResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -18318,9 +18256,8 @@ export const deleteCustomEntityType: (
  * `DeleteTable` or `BatchDeleteTable`, to delete any resources that
  * belong to the database.
  */
-export const deleteDatabase: (
-  input: DeleteDatabaseRequest,
-) => effect.Effect<
+export const deleteDatabase: API.OperationMethod<
+  DeleteDatabaseRequest,
   DeleteDatabaseResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -18347,9 +18284,8 @@ export const deleteDatabase: (
 /**
  * Deletes a data quality ruleset.
  */
-export const deleteDataQualityRuleset: (
-  input: DeleteDataQualityRulesetRequest,
-) => effect.Effect<
+export const deleteDataQualityRuleset: API.OperationMethod<
+  DeleteDataQualityRulesetRequest,
   DeleteDataQualityRulesetResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18370,9 +18306,8 @@ export const deleteDataQualityRuleset: (
 /**
  * Deletes a specified development endpoint.
  */
-export const deleteDevEndpoint: (
-  input: DeleteDevEndpointRequest,
-) => effect.Effect<
+export const deleteDevEndpoint: API.OperationMethod<
+  DeleteDevEndpointRequest,
   DeleteDevEndpointResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18394,9 +18329,8 @@ export const deleteDevEndpoint: (
  * Deletes the existing Glue Identity Center configuration, removing the integration between Glue and
  * Amazon Web Services IAM Identity Center.
  */
-export const deleteGlueIdentityCenterConfiguration: (
-  input: DeleteGlueIdentityCenterConfigurationRequest,
-) => effect.Effect<
+export const deleteGlueIdentityCenterConfiguration: API.OperationMethod<
+  DeleteGlueIdentityCenterConfigurationRequest,
   DeleteGlueIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18421,9 +18355,8 @@ export const deleteGlueIdentityCenterConfiguration: (
 /**
  * Deletes the specified Zero-ETL integration.
  */
-export const deleteIntegration: (
-  input: DeleteIntegrationRequest,
-) => effect.Effect<
+export const deleteIntegration: API.OperationMethod<
+  DeleteIntegrationRequest,
   DeleteIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -18458,9 +18391,8 @@ export const deleteIntegration: (
 /**
  * This API is used for deleting the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target).
  */
-export const deleteIntegrationResourceProperty: (
-  input: DeleteIntegrationResourcePropertyRequest,
-) => effect.Effect<
+export const deleteIntegrationResourceProperty: API.OperationMethod<
+  DeleteIntegrationResourcePropertyRequest,
   DeleteIntegrationResourcePropertyResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -18487,9 +18419,8 @@ export const deleteIntegrationResourceProperty: (
 /**
  * Deletes the table properties that have been created for the tables that need to be replicated.
  */
-export const deleteIntegrationTableProperties: (
-  input: DeleteIntegrationTablePropertiesRequest,
-) => effect.Effect<
+export const deleteIntegrationTableProperties: API.OperationMethod<
+  DeleteIntegrationTablePropertiesRequest,
   DeleteIntegrationTablePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -18517,9 +18448,8 @@ export const deleteIntegrationTableProperties: (
  * Deletes a specified job definition. If the job definition
  * is not found, no exception is thrown.
  */
-export const deleteJob: (
-  input: DeleteJobRequest,
-) => effect.Effect<
+export const deleteJob: API.OperationMethod<
+  DeleteJobRequest,
   DeleteJobResponse,
   | InternalServiceException
   | InvalidInputException
@@ -18543,9 +18473,8 @@ export const deleteJob: (
  * `DeleteMLTransforms`. However, any Glue jobs that still reference the deleted
  * transform will no longer succeed.
  */
-export const deleteMLTransform: (
-  input: DeleteMLTransformRequest,
-) => effect.Effect<
+export const deleteMLTransform: API.OperationMethod<
+  DeleteMLTransformRequest,
   DeleteMLTransformResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18566,9 +18495,8 @@ export const deleteMLTransform: (
 /**
  * Deletes a specified partition.
  */
-export const deletePartition: (
-  input: DeletePartitionRequest,
-) => effect.Effect<
+export const deletePartition: API.OperationMethod<
+  DeletePartitionRequest,
   DeletePartitionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18589,9 +18517,8 @@ export const deletePartition: (
 /**
  * Deletes a specified partition index from an existing table.
  */
-export const deletePartitionIndex: (
-  input: DeletePartitionIndexRequest,
-) => effect.Effect<
+export const deletePartitionIndex: API.OperationMethod<
+  DeletePartitionIndexRequest,
   DeletePartitionIndexResponse,
   | ConflictException
   | EntityNotFoundException
@@ -18616,9 +18543,8 @@ export const deletePartitionIndex: (
 /**
  * Delete the entire registry including schema and all of its versions. To get the status of the delete operation, you can call the `GetRegistry` API after the asynchronous call. Deleting a registry will deactivate all online operations for the registry such as the `UpdateRegistry`, `CreateSchema`, `UpdateSchema`, and `RegisterSchemaVersion` APIs.
  */
-export const deleteRegistry: (
-  input: DeleteRegistryInput,
-) => effect.Effect<
+export const deleteRegistry: API.OperationMethod<
+  DeleteRegistryInput,
   DeleteRegistryResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18639,9 +18565,8 @@ export const deleteRegistry: (
 /**
  * Deletes a specified policy.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | ConditionCheckFailureException
   | EntityNotFoundException
@@ -18664,9 +18589,8 @@ export const deleteResourcePolicy: (
 /**
  * Deletes the entire schema set, including the schema set and all of its versions. To get the status of the delete operation, you can call `GetSchema` API after the asynchronous call. Deleting a registry will deactivate all online operations for the schema, such as the `GetSchemaByDefinition`, and `RegisterSchemaVersion` APIs.
  */
-export const deleteSchema: (
-  input: DeleteSchemaInput,
-) => effect.Effect<
+export const deleteSchema: API.OperationMethod<
+  DeleteSchemaInput,
   DeleteSchemaResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18693,9 +18617,8 @@ export const deleteSchema: (
  *
  * If the compatibility mode forbids deleting of a version that is necessary, such as BACKWARDS_FULL, an error is returned.
  */
-export const deleteSchemaVersions: (
-  input: DeleteSchemaVersionsInput,
-) => effect.Effect<
+export const deleteSchemaVersions: API.OperationMethod<
+  DeleteSchemaVersionsInput,
   DeleteSchemaVersionsResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18716,9 +18639,8 @@ export const deleteSchemaVersions: (
 /**
  * Deletes a specified security configuration.
  */
-export const deleteSecurityConfiguration: (
-  input: DeleteSecurityConfigurationRequest,
-) => effect.Effect<
+export const deleteSecurityConfiguration: API.OperationMethod<
+  DeleteSecurityConfigurationRequest,
   DeleteSecurityConfigurationResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18739,9 +18661,8 @@ export const deleteSecurityConfiguration: (
 /**
  * Deletes the session.
  */
-export const deleteSession: (
-  input: DeleteSessionRequest,
-) => effect.Effect<
+export const deleteSession: API.OperationMethod<
+  DeleteSessionRequest,
   DeleteSessionResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -18776,9 +18697,8 @@ export const deleteSession: (
  * `BatchDeletePartition`, to delete any resources that belong to the
  * table.
  */
-export const deleteTable: (
-  input: DeleteTableRequest,
-) => effect.Effect<
+export const deleteTable: API.OperationMethod<
+  DeleteTableRequest,
   DeleteTableResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -18807,9 +18727,8 @@ export const deleteTable: (
 /**
  * Deletes an optimizer and all associated metadata for a table. The optimization will no longer be performed on the table.
  */
-export const deleteTableOptimizer: (
-  input: DeleteTableOptimizerRequest,
-) => effect.Effect<
+export const deleteTableOptimizer: API.OperationMethod<
+  DeleteTableOptimizerRequest,
   DeleteTableOptimizerResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -18832,9 +18751,8 @@ export const deleteTableOptimizer: (
 /**
  * Deletes a specified version of a table.
  */
-export const deleteTableVersion: (
-  input: DeleteTableVersionRequest,
-) => effect.Effect<
+export const deleteTableVersion: API.OperationMethod<
+  DeleteTableVersionRequest,
   DeleteTableVersionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18856,9 +18774,8 @@ export const deleteTableVersion: (
  * Deletes a specified trigger. If the trigger is not found, no
  * exception is thrown.
  */
-export const deleteTrigger: (
-  input: DeleteTriggerRequest,
-) => effect.Effect<
+export const deleteTrigger: API.OperationMethod<
+  DeleteTriggerRequest,
   DeleteTriggerResponse,
   | ConcurrentModificationException
   | InternalServiceException
@@ -18879,9 +18796,8 @@ export const deleteTrigger: (
 /**
  * Deletes the Glue specified usage profile.
  */
-export const deleteUsageProfile: (
-  input: DeleteUsageProfileRequest,
-) => effect.Effect<
+export const deleteUsageProfile: API.OperationMethod<
+  DeleteUsageProfileRequest,
   DeleteUsageProfileResponse,
   | InternalServiceException
   | InvalidInputException
@@ -18902,9 +18818,8 @@ export const deleteUsageProfile: (
 /**
  * Deletes an existing function definition from the Data Catalog.
  */
-export const deleteUserDefinedFunction: (
-  input: DeleteUserDefinedFunctionRequest,
-) => effect.Effect<
+export const deleteUserDefinedFunction: API.OperationMethod<
+  DeleteUserDefinedFunctionRequest,
   DeleteUserDefinedFunctionResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -18925,9 +18840,8 @@ export const deleteUserDefinedFunction: (
 /**
  * Deletes a workflow.
  */
-export const deleteWorkflow: (
-  input: DeleteWorkflowRequest,
-) => effect.Effect<
+export const deleteWorkflow: API.OperationMethod<
+  DeleteWorkflowRequest,
   DeleteWorkflowResponse,
   | ConcurrentModificationException
   | InternalServiceException
@@ -18950,9 +18864,8 @@ export const deleteWorkflow: (
  *
  * See also: `ListConnectionTypes`, `RegisterConnectionType`, `DeleteConnectionType`
  */
-export const describeConnectionType: (
-  input: DescribeConnectionTypeRequest,
-) => effect.Effect<
+export const describeConnectionType: API.OperationMethod<
+  DescribeConnectionTypeRequest,
   DescribeConnectionTypeResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -18975,21 +18888,19 @@ export const describeConnectionType: (
  *
  * The response includes all the fields which make up the entity.
  */
-export const describeEntity: {
-  (
-    input: DescribeEntityRequest,
-  ): effect.Effect<
-    DescribeEntityResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | FederationSourceException
-    | GlueEncryptionException
-    | InvalidInputException
-    | OperationTimeoutException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEntity: API.OperationMethod<
+  DescribeEntityRequest,
+  DescribeEntityResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | FederationSourceException
+  | GlueEncryptionException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEntityRequest,
   ) => stream.Stream<
@@ -19039,9 +18950,8 @@ export const describeEntity: {
 /**
  * Returns a list of inbound integrations for the specified integration.
  */
-export const describeInboundIntegrations: (
-  input: DescribeInboundIntegrationsRequest,
-) => effect.Effect<
+export const describeInboundIntegrations: API.OperationMethod<
+  DescribeInboundIntegrationsRequest,
   DescribeInboundIntegrationsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19072,9 +18982,8 @@ export const describeInboundIntegrations: (
 /**
  * The API is used to retrieve a list of integrations.
  */
-export const describeIntegrations: (
-  input: DescribeIntegrationsRequest,
-) => effect.Effect<
+export const describeIntegrations: API.OperationMethod<
+  DescribeIntegrationsRequest,
   DescribeIntegrationsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19101,9 +19010,8 @@ export const describeIntegrations: (
 /**
  * Retrieves the details of a blueprint.
  */
-export const getBlueprint: (
-  input: GetBlueprintRequest,
-) => effect.Effect<
+export const getBlueprint: API.OperationMethod<
+  GetBlueprintRequest,
   GetBlueprintResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19124,9 +19032,8 @@ export const getBlueprint: (
 /**
  * Retrieves the details of a blueprint run.
  */
-export const getBlueprintRun: (
-  input: GetBlueprintRunRequest,
-) => effect.Effect<
+export const getBlueprintRun: API.OperationMethod<
+  GetBlueprintRunRequest,
   GetBlueprintRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19145,18 +19052,16 @@ export const getBlueprintRun: (
 /**
  * Retrieves the details of blueprint runs for a specified blueprint.
  */
-export const getBlueprintRuns: {
-  (
-    input: GetBlueprintRunsRequest,
-  ): effect.Effect<
-    GetBlueprintRunsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getBlueprintRuns: API.OperationMethod<
+  GetBlueprintRunsRequest,
+  GetBlueprintRunsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetBlueprintRunsRequest,
   ) => stream.Stream<
@@ -19197,9 +19102,8 @@ export const getBlueprintRuns: {
 /**
  * The name of the Catalog to retrieve. This should be all lowercase.
  */
-export const getCatalog: (
-  input: GetCatalogRequest,
-) => effect.Effect<
+export const getCatalog: API.OperationMethod<
+  GetCatalogRequest,
   GetCatalogResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19228,9 +19132,8 @@ export const getCatalog: (
 /**
  * Retrieves the status of a migration operation.
  */
-export const getCatalogImportStatus: (
-  input: GetCatalogImportStatusRequest,
-) => effect.Effect<
+export const getCatalogImportStatus: API.OperationMethod<
+  GetCatalogImportStatusRequest,
   GetCatalogImportStatusResponse,
   InternalServiceException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -19242,9 +19145,8 @@ export const getCatalogImportStatus: (
 /**
  * Retrieves all catalogs defined in a catalog in the Glue Data Catalog. For a Redshift-federated catalog use case, this operation returns the list of catalogs mapped to Redshift databases in the Redshift namespace catalog.
  */
-export const getCatalogs: (
-  input: GetCatalogsRequest,
-) => effect.Effect<
+export const getCatalogs: API.OperationMethod<
+  GetCatalogsRequest,
   GetCatalogsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19273,9 +19175,8 @@ export const getCatalogs: (
 /**
  * Retrieve a classifier by name.
  */
-export const getClassifier: (
-  input: GetClassifierRequest,
-) => effect.Effect<
+export const getClassifier: API.OperationMethod<
+  GetClassifierRequest,
   GetClassifierResponse,
   EntityNotFoundException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -19287,14 +19188,12 @@ export const getClassifier: (
 /**
  * Lists all classifier objects in the Data Catalog.
  */
-export const getClassifiers: {
-  (
-    input: GetClassifiersRequest,
-  ): effect.Effect<
-    GetClassifiersResponse,
-    OperationTimeoutException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getClassifiers: API.OperationMethod<
+  GetClassifiersRequest,
+  GetClassifiersResponse,
+  OperationTimeoutException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetClassifiersRequest,
   ) => stream.Stream<
@@ -19324,9 +19223,8 @@ export const getClassifiers: {
  *
  * The Identity and Access Management (IAM) permission required for this operation is `GetPartition`.
  */
-export const getColumnStatisticsForPartition: (
-  input: GetColumnStatisticsForPartitionRequest,
-) => effect.Effect<
+export const getColumnStatisticsForPartition: API.OperationMethod<
+  GetColumnStatisticsForPartitionRequest,
   GetColumnStatisticsForPartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -19351,9 +19249,8 @@ export const getColumnStatisticsForPartition: (
  *
  * The Identity and Access Management (IAM) permission required for this operation is `GetTable`.
  */
-export const getColumnStatisticsForTable: (
-  input: GetColumnStatisticsForTableRequest,
-) => effect.Effect<
+export const getColumnStatisticsForTable: API.OperationMethod<
+  GetColumnStatisticsForTableRequest,
   GetColumnStatisticsForTableResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -19376,9 +19273,8 @@ export const getColumnStatisticsForTable: (
 /**
  * Get the associated metadata/information for a task run, given a task run ID.
  */
-export const getColumnStatisticsTaskRun: (
-  input: GetColumnStatisticsTaskRunRequest,
-) => effect.Effect<
+export const getColumnStatisticsTaskRun: API.OperationMethod<
+  GetColumnStatisticsTaskRunRequest,
   GetColumnStatisticsTaskRunResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -19397,14 +19293,12 @@ export const getColumnStatisticsTaskRun: (
 /**
  * Retrieves information about all runs associated with the specified table.
  */
-export const getColumnStatisticsTaskRuns: {
-  (
-    input: GetColumnStatisticsTaskRunsRequest,
-  ): effect.Effect<
-    GetColumnStatisticsTaskRunsResponse,
-    OperationTimeoutException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getColumnStatisticsTaskRuns: API.OperationMethod<
+  GetColumnStatisticsTaskRunsRequest,
+  GetColumnStatisticsTaskRunsResponse,
+  OperationTimeoutException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetColumnStatisticsTaskRunsRequest,
   ) => stream.Stream<
@@ -19432,9 +19326,8 @@ export const getColumnStatisticsTaskRuns: {
 /**
  * Gets settings for a column statistics task.
  */
-export const getColumnStatisticsTaskSettings: (
-  input: GetColumnStatisticsTaskSettingsRequest,
-) => effect.Effect<
+export const getColumnStatisticsTaskSettings: API.OperationMethod<
+  GetColumnStatisticsTaskSettingsRequest,
   GetColumnStatisticsTaskSettingsResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -19453,9 +19346,8 @@ export const getColumnStatisticsTaskSettings: (
 /**
  * Retrieves a connection definition from the Data Catalog.
  */
-export const getConnection: (
-  input: GetConnectionRequest,
-) => effect.Effect<
+export const getConnection: API.OperationMethod<
+  GetConnectionRequest,
   GetConnectionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -19476,18 +19368,16 @@ export const getConnection: (
 /**
  * Retrieves a list of connection definitions from the Data Catalog.
  */
-export const getConnections: {
-  (
-    input: GetConnectionsRequest,
-  ): effect.Effect<
-    GetConnectionsResponse,
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getConnections: API.OperationMethod<
+  GetConnectionsRequest,
+  GetConnectionsResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetConnectionsRequest,
   ) => stream.Stream<
@@ -19528,9 +19418,8 @@ export const getConnections: {
 /**
  * Retrieves metadata for a specified crawler.
  */
-export const getCrawler: (
-  input: GetCrawlerRequest,
-) => effect.Effect<
+export const getCrawler: API.OperationMethod<
+  GetCrawlerRequest,
   GetCrawlerResponse,
   EntityNotFoundException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -19542,14 +19431,12 @@ export const getCrawler: (
 /**
  * Retrieves metrics about specified crawlers.
  */
-export const getCrawlerMetrics: {
-  (
-    input: GetCrawlerMetricsRequest,
-  ): effect.Effect<
-    GetCrawlerMetricsResponse,
-    OperationTimeoutException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCrawlerMetrics: API.OperationMethod<
+  GetCrawlerMetricsRequest,
+  GetCrawlerMetricsResponse,
+  OperationTimeoutException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCrawlerMetricsRequest,
   ) => stream.Stream<
@@ -19578,14 +19465,12 @@ export const getCrawlerMetrics: {
  * Retrieves metadata for all crawlers defined in the customer
  * account.
  */
-export const getCrawlers: {
-  (
-    input: GetCrawlersRequest,
-  ): effect.Effect<
-    GetCrawlersResponse,
-    OperationTimeoutException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getCrawlers: API.OperationMethod<
+  GetCrawlersRequest,
+  GetCrawlersResponse,
+  OperationTimeoutException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetCrawlersRequest,
   ) => stream.Stream<
@@ -19613,9 +19498,8 @@ export const getCrawlers: {
 /**
  * Retrieves the details of a custom pattern by specifying its name.
  */
-export const getCustomEntityType: (
-  input: GetCustomEntityTypeRequest,
-) => effect.Effect<
+export const getCustomEntityType: API.OperationMethod<
+  GetCustomEntityTypeRequest,
   GetCustomEntityTypeResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -19638,9 +19522,8 @@ export const getCustomEntityType: (
 /**
  * Retrieves the definition of a specified database.
  */
-export const getDatabase: (
-  input: GetDatabaseRequest,
-) => effect.Effect<
+export const getDatabase: API.OperationMethod<
+  GetDatabaseRequest,
   GetDatabaseResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -19667,21 +19550,19 @@ export const getDatabase: (
 /**
  * Retrieves all databases defined in a given Data Catalog.
  */
-export const getDatabases: {
-  (
-    input: GetDatabasesRequest,
-  ): effect.Effect<
-    GetDatabasesResponse,
-    | EntityNotFoundException
-    | FederationSourceException
-    | FederationSourceRetryableException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDatabases: API.OperationMethod<
+  GetDatabasesRequest,
+  GetDatabasesResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDatabasesRequest,
   ) => stream.Stream<
@@ -19731,9 +19612,8 @@ export const getDatabases: {
 /**
  * Retrieves the security configuration for a specified catalog.
  */
-export const getDataCatalogEncryptionSettings: (
-  input: GetDataCatalogEncryptionSettingsRequest,
-) => effect.Effect<
+export const getDataCatalogEncryptionSettings: API.OperationMethod<
+  GetDataCatalogEncryptionSettingsRequest,
   GetDataCatalogEncryptionSettingsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -19752,9 +19632,8 @@ export const getDataCatalogEncryptionSettings: (
 /**
  * Transforms a Python script into a directed acyclic graph (DAG).
  */
-export const getDataflowGraph: (
-  input: GetDataflowGraphRequest,
-) => effect.Effect<
+export const getDataflowGraph: API.OperationMethod<
+  GetDataflowGraphRequest,
   GetDataflowGraphResponse,
   | InternalServiceException
   | InvalidInputException
@@ -19773,9 +19652,8 @@ export const getDataflowGraph: (
 /**
  * Retrieve the training status of the model along with more information (CompletedOn, StartedOn, FailureReason).
  */
-export const getDataQualityModel: (
-  input: GetDataQualityModelRequest,
-) => effect.Effect<
+export const getDataQualityModel: API.OperationMethod<
+  GetDataQualityModelRequest,
   GetDataQualityModelResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19796,9 +19674,8 @@ export const getDataQualityModel: (
 /**
  * Retrieve a statistic's predictions for a given Profile ID.
  */
-export const getDataQualityModelResult: (
-  input: GetDataQualityModelResultRequest,
-) => effect.Effect<
+export const getDataQualityModelResult: API.OperationMethod<
+  GetDataQualityModelResultRequest,
   GetDataQualityModelResultResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19819,9 +19696,8 @@ export const getDataQualityModelResult: (
 /**
  * Retrieves the result of a data quality rule evaluation.
  */
-export const getDataQualityResult: (
-  input: GetDataQualityResultRequest,
-) => effect.Effect<
+export const getDataQualityResult: API.OperationMethod<
+  GetDataQualityResultRequest,
   GetDataQualityResultResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19842,9 +19718,8 @@ export const getDataQualityResult: (
 /**
  * Gets the specified recommendation run that was used to generate rules.
  */
-export const getDataQualityRuleRecommendationRun: (
-  input: GetDataQualityRuleRecommendationRunRequest,
-) => effect.Effect<
+export const getDataQualityRuleRecommendationRun: API.OperationMethod<
+  GetDataQualityRuleRecommendationRunRequest,
   GetDataQualityRuleRecommendationRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19865,9 +19740,8 @@ export const getDataQualityRuleRecommendationRun: (
 /**
  * Returns an existing ruleset by identifier or name.
  */
-export const getDataQualityRuleset: (
-  input: GetDataQualityRulesetRequest,
-) => effect.Effect<
+export const getDataQualityRuleset: API.OperationMethod<
+  GetDataQualityRulesetRequest,
   GetDataQualityRulesetResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19888,9 +19762,8 @@ export const getDataQualityRuleset: (
 /**
  * Retrieves a specific run where a ruleset is evaluated against a data source.
  */
-export const getDataQualityRulesetEvaluationRun: (
-  input: GetDataQualityRulesetEvaluationRunRequest,
-) => effect.Effect<
+export const getDataQualityRulesetEvaluationRun: API.OperationMethod<
+  GetDataQualityRulesetEvaluationRunRequest,
   GetDataQualityRulesetEvaluationRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19915,9 +19788,8 @@ export const getDataQualityRulesetEvaluationRun: (
  * a private IP address, and the public IP address field is not populated. When you create a
  * non-VPC development endpoint, Glue returns only a public IP address.
  */
-export const getDevEndpoint: (
-  input: GetDevEndpointRequest,
-) => effect.Effect<
+export const getDevEndpoint: API.OperationMethod<
+  GetDevEndpointRequest,
   GetDevEndpointResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -19942,18 +19814,16 @@ export const getDevEndpoint: (
  * and the public IP address field is not populated. When you create a non-VPC development
  * endpoint, Glue returns only a public IP address.
  */
-export const getDevEndpoints: {
-  (
-    input: GetDevEndpointsRequest,
-  ): effect.Effect<
-    GetDevEndpointsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDevEndpoints: API.OperationMethod<
+  GetDevEndpointsRequest,
+  GetDevEndpointsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDevEndpointsRequest,
   ) => stream.Stream<
@@ -19998,9 +19868,8 @@ export const getDevEndpoints: {
  *
  * Spark connectors generate schemas according to the same data type mapping as in the `DescribeEntity` API. Spark connectors convert data to the appropriate data types matching the schema when returning rows.
  */
-export const getEntityRecords: (
-  input: GetEntityRecordsRequest,
-) => effect.Effect<
+export const getEntityRecords: API.OperationMethod<
+  GetEntityRecordsRequest,
   GetEntityRecordsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20028,9 +19897,8 @@ export const getEntityRecords: (
  * Retrieves the current Glue Identity Center configuration details, including the associated Identity Center instance and
  * application information.
  */
-export const getGlueIdentityCenterConfiguration: (
-  input: GetGlueIdentityCenterConfigurationRequest,
-) => effect.Effect<
+export const getGlueIdentityCenterConfiguration: API.OperationMethod<
+  GetGlueIdentityCenterConfigurationRequest,
   GetGlueIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -20055,9 +19923,8 @@ export const getGlueIdentityCenterConfiguration: (
 /**
  * This API is used for fetching the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target)
  */
-export const getIntegrationResourceProperty: (
-  input: GetIntegrationResourcePropertyRequest,
-) => effect.Effect<
+export const getIntegrationResourceProperty: API.OperationMethod<
+  GetIntegrationResourcePropertyRequest,
   GetIntegrationResourcePropertyResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20084,9 +19951,8 @@ export const getIntegrationResourceProperty: (
 /**
  * This API is used to retrieve optional override properties for the tables that need to be replicated. These properties can include properties for filtering and partition for source and target tables.
  */
-export const getIntegrationTableProperties: (
-  input: GetIntegrationTablePropertiesRequest,
-) => effect.Effect<
+export const getIntegrationTableProperties: API.OperationMethod<
+  GetIntegrationTablePropertiesRequest,
   GetIntegrationTablePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20113,9 +19979,8 @@ export const getIntegrationTableProperties: (
 /**
  * Retrieves an existing job definition.
  */
-export const getJob: (
-  input: GetJobRequest,
-) => effect.Effect<
+export const getJob: API.OperationMethod<
+  GetJobRequest,
   GetJobResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20144,9 +20009,8 @@ export const getJob: (
  *
  * - Job structure
  */
-export const getJobBookmark: (
-  input: GetJobBookmarkRequest,
-) => effect.Effect<
+export const getJobBookmark: API.OperationMethod<
+  GetJobBookmarkRequest,
   GetJobBookmarkResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20169,9 +20033,8 @@ export const getJobBookmark: (
 /**
  * Retrieves the metadata for a given job run. Job run history is accessible for 365 days for your workflow and job run.
  */
-export const getJobRun: (
-  input: GetJobRunRequest,
-) => effect.Effect<
+export const getJobRun: API.OperationMethod<
+  GetJobRunRequest,
   GetJobRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20194,18 +20057,16 @@ export const getJobRun: (
  *
  * `GetJobRuns` returns the job runs in chronological order, with the newest jobs returned first.
  */
-export const getJobRuns: {
-  (
-    input: GetJobRunsRequest,
-  ): effect.Effect<
-    GetJobRunsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getJobRuns: API.OperationMethod<
+  GetJobRunsRequest,
+  GetJobRunsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetJobRunsRequest,
   ) => stream.Stream<
@@ -20247,18 +20108,16 @@ export const getJobRuns: {
 /**
  * Retrieves all current job definitions.
  */
-export const getJobs: {
-  (
-    input: GetJobsRequest,
-  ): effect.Effect<
-    GetJobsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getJobs: API.OperationMethod<
+  GetJobsRequest,
+  GetJobsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetJobsRequest,
   ) => stream.Stream<
@@ -20300,9 +20159,8 @@ export const getJobs: {
 /**
  * Creates mappings.
  */
-export const getMapping: (
-  input: GetMappingRequest,
-) => effect.Effect<
+export const getMapping: API.OperationMethod<
+  GetMappingRequest,
   GetMappingResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20323,9 +20181,8 @@ export const getMapping: (
 /**
  * Get the associated metadata/information for a task run, given a task run ID.
  */
-export const getMaterializedViewRefreshTaskRun: (
-  input: GetMaterializedViewRefreshTaskRunRequest,
-) => effect.Effect<
+export const getMaterializedViewRefreshTaskRun: API.OperationMethod<
+  GetMaterializedViewRefreshTaskRunRequest,
   GetMaterializedViewRefreshTaskRunResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20350,9 +20207,8 @@ export const getMaterializedViewRefreshTaskRun: (
  * `GetMLTaskRun` with the `TaskRunID` and its parent transform's
  * `TransformID`.
  */
-export const getMLTaskRun: (
-  input: GetMLTaskRunRequest,
-) => effect.Effect<
+export const getMLTaskRun: API.OperationMethod<
+  GetMLTaskRunRequest,
   GetMLTaskRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20379,18 +20235,16 @@ export const getMLTaskRun: (
  *
  * This operation returns a list of historic runs and must be paginated.
  */
-export const getMLTaskRuns: {
-  (
-    input: GetMLTaskRunsRequest,
-  ): effect.Effect<
-    GetMLTaskRunsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getMLTaskRuns: API.OperationMethod<
+  GetMLTaskRunsRequest,
+  GetMLTaskRunsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetMLTaskRunsRequest,
   ) => stream.Stream<
@@ -20435,9 +20289,8 @@ export const getMLTaskRuns: {
  * humans. These transformations are then saved by Glue. You can retrieve their metadata by
  * calling `GetMLTransform`.
  */
-export const getMLTransform: (
-  input: GetMLTransformRequest,
-) => effect.Effect<
+export const getMLTransform: API.OperationMethod<
+  GetMLTransformRequest,
   GetMLTransformResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20462,18 +20315,16 @@ export const getMLTransform: (
  * These transformations are then saved by Glue, and you can retrieve their metadata by
  * calling `GetMLTransforms`.
  */
-export const getMLTransforms: {
-  (
-    input: GetMLTransformsRequest,
-  ): effect.Effect<
-    GetMLTransformsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getMLTransforms: API.OperationMethod<
+  GetMLTransformsRequest,
+  GetMLTransformsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetMLTransformsRequest,
   ) => stream.Stream<
@@ -20514,9 +20365,8 @@ export const getMLTransforms: {
 /**
  * Retrieves information about a specified partition.
  */
-export const getPartition: (
-  input: GetPartitionRequest,
-) => effect.Effect<
+export const getPartition: API.OperationMethod<
+  GetPartitionRequest,
   GetPartitionResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -20543,19 +20393,17 @@ export const getPartition: (
 /**
  * Retrieves the partition indexes associated with a table.
  */
-export const getPartitionIndexes: {
-  (
-    input: GetPartitionIndexesRequest,
-  ): effect.Effect<
-    GetPartitionIndexesResponse,
-    | ConflictException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getPartitionIndexes: API.OperationMethod<
+  GetPartitionIndexesRequest,
+  GetPartitionIndexesResponse,
+  | ConflictException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetPartitionIndexesRequest,
   ) => stream.Stream<
@@ -20599,23 +20447,21 @@ export const getPartitionIndexes: {
 /**
  * Retrieves information about the partitions in a table.
  */
-export const getPartitions: {
-  (
-    input: GetPartitionsRequest,
-  ): effect.Effect<
-    GetPartitionsResponse,
-    | EntityNotFoundException
-    | FederationSourceException
-    | FederationSourceRetryableException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | InvalidStateException
-    | OperationTimeoutException
-    | ResourceNotReadyException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getPartitions: API.OperationMethod<
+  GetPartitionsRequest,
+  GetPartitionsResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | InvalidStateException
+  | OperationTimeoutException
+  | ResourceNotReadyException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetPartitionsRequest,
   ) => stream.Stream<
@@ -20671,9 +20517,8 @@ export const getPartitions: {
 /**
  * Gets code to perform a specified mapping.
  */
-export const getPlan: (
-  input: GetPlanRequest,
-) => effect.Effect<
+export const getPlan: API.OperationMethod<
+  GetPlanRequest,
   GetPlanResponse,
   | InternalServiceException
   | InvalidInputException
@@ -20692,9 +20537,8 @@ export const getPlan: (
 /**
  * Describes the specified registry in detail.
  */
-export const getRegistry: (
-  input: GetRegistryInput,
-) => effect.Effect<
+export const getRegistry: API.OperationMethod<
+  GetRegistryInput,
   GetRegistryResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20721,18 +20565,16 @@ export const getRegistry: (
  * permission on the KMS key, the operation can't return the Data Catalog resource
  * policy.
  */
-export const getResourcePolicies: {
-  (
-    input: GetResourcePoliciesRequest,
-  ): effect.Effect<
-    GetResourcePoliciesResponse,
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getResourcePolicies: API.OperationMethod<
+  GetResourcePoliciesRequest,
+  GetResourcePoliciesResponse,
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetResourcePoliciesRequest,
   ) => stream.Stream<
@@ -20774,9 +20616,8 @@ export const getResourcePolicies: {
 /**
  * Retrieves a specified resource policy.
  */
-export const getResourcePolicy: (
-  input: GetResourcePolicyRequest,
-) => effect.Effect<
+export const getResourcePolicy: API.OperationMethod<
+  GetResourcePolicyRequest,
   GetResourcePolicyResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20797,9 +20638,8 @@ export const getResourcePolicy: (
 /**
  * Describes the specified schema in detail.
  */
-export const getSchema: (
-  input: GetSchemaInput,
-) => effect.Effect<
+export const getSchema: API.OperationMethod<
+  GetSchemaInput,
   GetSchemaResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20820,9 +20660,8 @@ export const getSchema: (
 /**
  * Retrieves a schema by the `SchemaDefinition`. The schema definition is sent to the Schema Registry, canonicalized, and hashed. If the hash is matched within the scope of the `SchemaName` or ARN (or the default registry, if none is supplied), that schema’s metadata is returned. Otherwise, a 404 or NotFound error is returned. Schema versions in `Deleted` statuses will not be included in the results.
  */
-export const getSchemaByDefinition: (
-  input: GetSchemaByDefinitionInput,
-) => effect.Effect<
+export const getSchemaByDefinition: API.OperationMethod<
+  GetSchemaByDefinitionInput,
   GetSchemaByDefinitionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20843,9 +20682,8 @@ export const getSchemaByDefinition: (
 /**
  * Get the specified schema by its unique ID assigned when a version of the schema is created or registered. Schema versions in Deleted status will not be included in the results.
  */
-export const getSchemaVersion: (
-  input: GetSchemaVersionInput,
-) => effect.Effect<
+export const getSchemaVersion: API.OperationMethod<
+  GetSchemaVersionInput,
   GetSchemaVersionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20868,9 +20706,8 @@ export const getSchemaVersion: (
  *
  * This API allows you to compare two schema versions between two schema definitions under the same schema.
  */
-export const getSchemaVersionsDiff: (
-  input: GetSchemaVersionsDiffInput,
-) => effect.Effect<
+export const getSchemaVersionsDiff: API.OperationMethod<
+  GetSchemaVersionsDiffInput,
   GetSchemaVersionsDiffResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20891,9 +20728,8 @@ export const getSchemaVersionsDiff: (
 /**
  * Retrieves a specified security configuration.
  */
-export const getSecurityConfiguration: (
-  input: GetSecurityConfigurationRequest,
-) => effect.Effect<
+export const getSecurityConfiguration: API.OperationMethod<
+  GetSecurityConfigurationRequest,
   GetSecurityConfigurationResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -20914,18 +20750,16 @@ export const getSecurityConfiguration: (
 /**
  * Retrieves a list of all security configurations.
  */
-export const getSecurityConfigurations: {
-  (
-    input: GetSecurityConfigurationsRequest,
-  ): effect.Effect<
-    GetSecurityConfigurationsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getSecurityConfigurations: API.OperationMethod<
+  GetSecurityConfigurationsRequest,
+  GetSecurityConfigurationsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSecurityConfigurationsRequest,
   ) => stream.Stream<
@@ -20967,9 +20801,8 @@ export const getSecurityConfigurations: {
 /**
  * Retrieves the session.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -20992,9 +20825,8 @@ export const getSession: (
 /**
  * Retrieves the statement.
  */
-export const getStatement: (
-  input: GetStatementRequest,
-) => effect.Effect<
+export const getStatement: API.OperationMethod<
+  GetStatementRequest,
   GetStatementResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21020,9 +20852,8 @@ export const getStatement: (
  * Retrieves the `Table` definition in a Data Catalog for
  * a specified table.
  */
-export const getTable: (
-  input: GetTableRequest,
-) => effect.Effect<
+export const getTable: API.OperationMethod<
+  GetTableRequest,
   GetTableResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -21051,9 +20882,8 @@ export const getTable: (
 /**
  * Returns the configuration of all optimizers associated with a specified table.
  */
-export const getTableOptimizer: (
-  input: GetTableOptimizerRequest,
-) => effect.Effect<
+export const getTableOptimizer: API.OperationMethod<
+  GetTableOptimizerRequest,
   GetTableOptimizerResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -21077,21 +20907,19 @@ export const getTableOptimizer: (
  * Retrieves the definitions of some or all of the tables in a given
  * `Database`.
  */
-export const getTables: {
-  (
-    input: GetTablesRequest,
-  ): effect.Effect<
-    GetTablesResponse,
-    | EntityNotFoundException
-    | FederationSourceException
-    | FederationSourceRetryableException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getTables: API.OperationMethod<
+  GetTablesRequest,
+  GetTablesResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTablesRequest,
   ) => stream.Stream<
@@ -21141,9 +20969,8 @@ export const getTables: {
 /**
  * Retrieves a specified version of a table.
  */
-export const getTableVersion: (
-  input: GetTableVersionRequest,
-) => effect.Effect<
+export const getTableVersion: API.OperationMethod<
+  GetTableVersionRequest,
   GetTableVersionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -21167,19 +20994,17 @@ export const getTableVersion: (
  * Retrieves a list of strings that identify available versions of
  * a specified table.
  */
-export const getTableVersions: {
-  (
-    input: GetTableVersionsRequest,
-  ): effect.Effect<
-    GetTableVersionsResponse,
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getTableVersions: API.OperationMethod<
+  GetTableVersionsRequest,
+  GetTableVersionsResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTableVersionsRequest,
   ) => stream.Stream<
@@ -21223,9 +21048,8 @@ export const getTableVersions: {
 /**
  * Retrieves a list of tags associated with a resource.
  */
-export const getTags: (
-  input: GetTagsRequest,
-) => effect.Effect<
+export const getTags: API.OperationMethod<
+  GetTagsRequest,
   GetTagsResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -21246,9 +21070,8 @@ export const getTags: (
 /**
  * Retrieves the definition of a trigger.
  */
-export const getTrigger: (
-  input: GetTriggerRequest,
-) => effect.Effect<
+export const getTrigger: API.OperationMethod<
+  GetTriggerRequest,
   GetTriggerResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -21269,18 +21092,16 @@ export const getTrigger: (
 /**
  * Gets all the triggers associated with a job.
  */
-export const getTriggers: {
-  (
-    input: GetTriggersRequest,
-  ): effect.Effect<
-    GetTriggersResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getTriggers: API.OperationMethod<
+  GetTriggersRequest,
+  GetTriggersResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetTriggersRequest,
   ) => stream.Stream<
@@ -21325,9 +21146,8 @@ export const getTriggers: {
  *
  * For IAM authorization, the public IAM action associated with this API is `glue:GetPartition`.
  */
-export const getUnfilteredPartitionMetadata: (
-  input: GetUnfilteredPartitionMetadataRequest,
-) => effect.Effect<
+export const getUnfilteredPartitionMetadata: API.OperationMethod<
+  GetUnfilteredPartitionMetadataRequest,
   GetUnfilteredPartitionMetadataResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -21359,22 +21179,20 @@ export const getUnfilteredPartitionMetadata: (
  *
  * For IAM authorization, the public IAM action associated with this API is `glue:GetPartitions`.
  */
-export const getUnfilteredPartitionsMetadata: {
-  (
-    input: GetUnfilteredPartitionsMetadataRequest,
-  ): effect.Effect<
-    GetUnfilteredPartitionsMetadataResponse,
-    | EntityNotFoundException
-    | FederationSourceException
-    | FederationSourceRetryableException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | PermissionTypeMismatchException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getUnfilteredPartitionsMetadata: API.OperationMethod<
+  GetUnfilteredPartitionsMetadataRequest,
+  GetUnfilteredPartitionsMetadataResponse,
+  | EntityNotFoundException
+  | FederationSourceException
+  | FederationSourceRetryableException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | PermissionTypeMismatchException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetUnfilteredPartitionsMetadataRequest,
   ) => stream.Stream<
@@ -21429,9 +21247,8 @@ export const getUnfilteredPartitionsMetadata: {
  *
  * For IAM authorization, the public IAM action associated with this API is `glue:GetTable`.
  */
-export const getUnfilteredTableMetadata: (
-  input: GetUnfilteredTableMetadataRequest,
-) => effect.Effect<
+export const getUnfilteredTableMetadata: API.OperationMethod<
+  GetUnfilteredTableMetadataRequest,
   GetUnfilteredTableMetadataResponse,
   | EntityNotFoundException
   | FederationSourceException
@@ -21460,9 +21277,8 @@ export const getUnfilteredTableMetadata: (
 /**
  * Retrieves information about the specified Glue usage profile.
  */
-export const getUsageProfile: (
-  input: GetUsageProfileRequest,
-) => effect.Effect<
+export const getUsageProfile: API.OperationMethod<
+  GetUsageProfileRequest,
   GetUsageProfileResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -21485,9 +21301,8 @@ export const getUsageProfile: (
 /**
  * Retrieves a specified function definition from the Data Catalog.
  */
-export const getUserDefinedFunction: (
-  input: GetUserDefinedFunctionRequest,
-) => effect.Effect<
+export const getUserDefinedFunction: API.OperationMethod<
+  GetUserDefinedFunctionRequest,
   GetUserDefinedFunctionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -21510,19 +21325,17 @@ export const getUserDefinedFunction: (
 /**
  * Retrieves multiple function definitions from the Data Catalog.
  */
-export const getUserDefinedFunctions: {
-  (
-    input: GetUserDefinedFunctionsRequest,
-  ): effect.Effect<
-    GetUserDefinedFunctionsResponse,
-    | EntityNotFoundException
-    | GlueEncryptionException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getUserDefinedFunctions: API.OperationMethod<
+  GetUserDefinedFunctionsRequest,
+  GetUserDefinedFunctionsResponse,
+  | EntityNotFoundException
+  | GlueEncryptionException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetUserDefinedFunctionsRequest,
   ) => stream.Stream<
@@ -21566,9 +21379,8 @@ export const getUserDefinedFunctions: {
 /**
  * Retrieves resource metadata for a workflow.
  */
-export const getWorkflow: (
-  input: GetWorkflowRequest,
-) => effect.Effect<
+export const getWorkflow: API.OperationMethod<
+  GetWorkflowRequest,
   GetWorkflowResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -21589,9 +21401,8 @@ export const getWorkflow: (
 /**
  * Retrieves the metadata for a given workflow run. Job run history is accessible for 90 days for your workflow and job run.
  */
-export const getWorkflowRun: (
-  input: GetWorkflowRunRequest,
-) => effect.Effect<
+export const getWorkflowRun: API.OperationMethod<
+  GetWorkflowRunRequest,
   GetWorkflowRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -21612,9 +21423,8 @@ export const getWorkflowRun: (
 /**
  * Retrieves the workflow run properties which were set during the run.
  */
-export const getWorkflowRunProperties: (
-  input: GetWorkflowRunPropertiesRequest,
-) => effect.Effect<
+export const getWorkflowRunProperties: API.OperationMethod<
+  GetWorkflowRunPropertiesRequest,
   GetWorkflowRunPropertiesResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -21635,18 +21445,16 @@ export const getWorkflowRunProperties: (
 /**
  * Retrieves metadata for all runs of a given workflow.
  */
-export const getWorkflowRuns: {
-  (
-    input: GetWorkflowRunsRequest,
-  ): effect.Effect<
-    GetWorkflowRunsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getWorkflowRuns: API.OperationMethod<
+  GetWorkflowRunsRequest,
+  GetWorkflowRunsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetWorkflowRunsRequest,
   ) => stream.Stream<
@@ -21688,9 +21496,8 @@ export const getWorkflowRuns: {
 /**
  * Imports an existing Amazon Athena Data Catalog to Glue.
  */
-export const importCatalogToGlue: (
-  input: ImportCatalogToGlueRequest,
-) => effect.Effect<
+export const importCatalogToGlue: API.OperationMethod<
+  ImportCatalogToGlueRequest,
   ImportCatalogToGlueResponse,
   InternalServiceException | OperationTimeoutException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -21702,17 +21509,15 @@ export const importCatalogToGlue: (
 /**
  * Lists all the blueprint names in an account.
  */
-export const listBlueprints: {
-  (
-    input: ListBlueprintsRequest,
-  ): effect.Effect<
-    ListBlueprintsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listBlueprints: API.OperationMethod<
+  ListBlueprintsRequest,
+  ListBlueprintsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListBlueprintsRequest,
   ) => stream.Stream<
@@ -21751,14 +21556,12 @@ export const listBlueprints: {
 /**
  * List all task runs for a particular account.
  */
-export const listColumnStatisticsTaskRuns: {
-  (
-    input: ListColumnStatisticsTaskRunsRequest,
-  ): effect.Effect<
-    ListColumnStatisticsTaskRunsResponse,
-    OperationTimeoutException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listColumnStatisticsTaskRuns: API.OperationMethod<
+  ListColumnStatisticsTaskRunsRequest,
+  ListColumnStatisticsTaskRunsResponse,
+  OperationTimeoutException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListColumnStatisticsTaskRunsRequest,
   ) => stream.Stream<
@@ -21788,14 +21591,12 @@ export const listColumnStatisticsTaskRuns: {
  *
  * See also: `DescribeConnectionType`, `RegisterConnectionType`, `DeleteConnectionType`
  */
-export const listConnectionTypes: {
-  (
-    input: ListConnectionTypesRequest,
-  ): effect.Effect<
-    ListConnectionTypesResponse,
-    AccessDeniedException | InternalServiceException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectionTypes: API.OperationMethod<
+  ListConnectionTypesRequest,
+  ListConnectionTypesResponse,
+  AccessDeniedException | InternalServiceException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectionTypesRequest,
   ) => stream.Stream<
@@ -21830,14 +21631,12 @@ export const listConnectionTypes: {
  * the response so that tagged resources can be retrieved as a group. If you choose to use tags
  * filtering, only resources with the tag are retrieved.
  */
-export const listCrawlers: {
-  (
-    input: ListCrawlersRequest,
-  ): effect.Effect<
-    ListCrawlersResponse,
-    OperationTimeoutException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCrawlers: API.OperationMethod<
+  ListCrawlersRequest,
+  ListCrawlersResponse,
+  OperationTimeoutException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCrawlersRequest,
   ) => stream.Stream<
@@ -21875,9 +21674,8 @@ export const listCrawlers: {
  *
  * - Retrieve all the crawls of a specified crawler with a particular state, crawl ID, or DPU hour value.
  */
-export const listCrawls: (
-  input: ListCrawlsRequest,
-) => effect.Effect<
+export const listCrawls: API.OperationMethod<
+  ListCrawlsRequest,
   ListCrawlsResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -21896,17 +21694,15 @@ export const listCrawls: (
 /**
  * Lists all the custom patterns that have been created.
  */
-export const listCustomEntityTypes: {
-  (
-    input: ListCustomEntityTypesRequest,
-  ): effect.Effect<
-    ListCustomEntityTypesResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomEntityTypes: API.OperationMethod<
+  ListCustomEntityTypesRequest,
+  ListCustomEntityTypesResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomEntityTypesRequest,
   ) => stream.Stream<
@@ -21944,17 +21740,15 @@ export const listCustomEntityTypes: {
 /**
  * Returns all data quality execution results for your account.
  */
-export const listDataQualityResults: {
-  (
-    input: ListDataQualityResultsRequest,
-  ): effect.Effect<
-    ListDataQualityResultsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataQualityResults: API.OperationMethod<
+  ListDataQualityResultsRequest,
+  ListDataQualityResultsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataQualityResultsRequest,
   ) => stream.Stream<
@@ -21992,17 +21786,15 @@ export const listDataQualityResults: {
 /**
  * Lists the recommendation runs meeting the filter criteria.
  */
-export const listDataQualityRuleRecommendationRuns: {
-  (
-    input: ListDataQualityRuleRecommendationRunsRequest,
-  ): effect.Effect<
-    ListDataQualityRuleRecommendationRunsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataQualityRuleRecommendationRuns: API.OperationMethod<
+  ListDataQualityRuleRecommendationRunsRequest,
+  ListDataQualityRuleRecommendationRunsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataQualityRuleRecommendationRunsRequest,
   ) => stream.Stream<
@@ -22040,17 +21832,15 @@ export const listDataQualityRuleRecommendationRuns: {
 /**
  * Lists all the runs meeting the filter criteria, where a ruleset is evaluated against a data source.
  */
-export const listDataQualityRulesetEvaluationRuns: {
-  (
-    input: ListDataQualityRulesetEvaluationRunsRequest,
-  ): effect.Effect<
-    ListDataQualityRulesetEvaluationRunsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataQualityRulesetEvaluationRuns: API.OperationMethod<
+  ListDataQualityRulesetEvaluationRunsRequest,
+  ListDataQualityRulesetEvaluationRunsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataQualityRulesetEvaluationRunsRequest,
   ) => stream.Stream<
@@ -22088,18 +21878,16 @@ export const listDataQualityRulesetEvaluationRuns: {
 /**
  * Returns a paginated list of rulesets for the specified list of Glue tables.
  */
-export const listDataQualityRulesets: {
-  (
-    input: ListDataQualityRulesetsRequest,
-  ): effect.Effect<
-    ListDataQualityRulesetsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDataQualityRulesets: API.OperationMethod<
+  ListDataQualityRulesetsRequest,
+  ListDataQualityRulesetsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDataQualityRulesetsRequest,
   ) => stream.Stream<
@@ -22140,9 +21928,8 @@ export const listDataQualityRulesets: {
 /**
  * Retrieve annotations for a data quality statistic.
  */
-export const listDataQualityStatisticAnnotations: (
-  input: ListDataQualityStatisticAnnotationsRequest,
-) => effect.Effect<
+export const listDataQualityStatisticAnnotations: API.OperationMethod<
+  ListDataQualityStatisticAnnotationsRequest,
   ListDataQualityStatisticAnnotationsResponse,
   InternalServiceException | InvalidInputException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -22154,9 +21941,8 @@ export const listDataQualityStatisticAnnotations: (
 /**
  * Retrieves a list of data quality statistics.
  */
-export const listDataQualityStatistics: (
-  input: ListDataQualityStatisticsRequest,
-) => effect.Effect<
+export const listDataQualityStatistics: API.OperationMethod<
+  ListDataQualityStatisticsRequest,
   ListDataQualityStatisticsResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -22181,18 +21967,16 @@ export const listDataQualityStatistics: (
  * the response so that tagged resources can be retrieved as a group. If you choose to use tags
  * filtering, only resources with the tag are retrieved.
  */
-export const listDevEndpoints: {
-  (
-    input: ListDevEndpointsRequest,
-  ): effect.Effect<
-    ListDevEndpointsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevEndpoints: API.OperationMethod<
+  ListDevEndpointsRequest,
+  ListDevEndpointsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevEndpointsRequest,
   ) => stream.Stream<
@@ -22233,21 +22017,19 @@ export const listDevEndpoints: {
 /**
  * Returns the available entities supported by the connection type.
  */
-export const listEntities: {
-  (
-    input: ListEntitiesRequest,
-  ): effect.Effect<
-    ListEntitiesResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | FederationSourceException
-    | GlueEncryptionException
-    | InvalidInputException
-    | OperationTimeoutException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntities: API.OperationMethod<
+  ListEntitiesRequest,
+  ListEntitiesResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | FederationSourceException
+  | GlueEncryptionException
+  | InvalidInputException
+  | OperationTimeoutException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntitiesRequest,
   ) => stream.Stream<
@@ -22297,9 +22079,8 @@ export const listEntities: {
 /**
  * List integration resource properties for a single customer. It supports the filters, maxRecords and markers.
  */
-export const listIntegrationResourceProperties: (
-  input: ListIntegrationResourcePropertiesRequest,
-) => effect.Effect<
+export const listIntegrationResourceProperties: API.OperationMethod<
+  ListIntegrationResourcePropertiesRequest,
   ListIntegrationResourcePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -22330,18 +22111,16 @@ export const listIntegrationResourceProperties: (
  * the response so that tagged resources can be retrieved as a group. If you choose to use tags
  * filtering, only resources with the tag are retrieved.
  */
-export const listJobs: {
-  (
-    input: ListJobsRequest,
-  ): effect.Effect<
-    ListJobsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listJobs: API.OperationMethod<
+  ListJobsRequest,
+  ListJobsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListJobsRequest,
   ) => stream.Stream<
@@ -22383,17 +22162,15 @@ export const listJobs: {
 /**
  * List all task runs for a particular account.
  */
-export const listMaterializedViewRefreshTaskRuns: {
-  (
-    input: ListMaterializedViewRefreshTaskRunsRequest,
-  ): effect.Effect<
-    ListMaterializedViewRefreshTaskRunsResponse,
-    | AccessDeniedException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMaterializedViewRefreshTaskRuns: API.OperationMethod<
+  ListMaterializedViewRefreshTaskRunsRequest,
+  ListMaterializedViewRefreshTaskRunsResponse,
+  | AccessDeniedException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMaterializedViewRefreshTaskRunsRequest,
   ) => stream.Stream<
@@ -22435,18 +22212,16 @@ export const listMaterializedViewRefreshTaskRuns: {
  * a filter of the responses so that tagged resources can be retrieved as a group. If you choose to use tag
  * filtering, only resources with the tags are retrieved.
  */
-export const listMLTransforms: {
-  (
-    input: ListMLTransformsRequest,
-  ): effect.Effect<
-    ListMLTransformsResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMLTransforms: API.OperationMethod<
+  ListMLTransformsRequest,
+  ListMLTransformsResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMLTransformsRequest,
   ) => stream.Stream<
@@ -22487,17 +22262,15 @@ export const listMLTransforms: {
 /**
  * Returns a list of registries that you have created, with minimal registry information. Registries in the `Deleting` status will not be included in the results. Empty results will be returned if there are no registries available.
  */
-export const listRegistries: {
-  (
-    input: ListRegistriesInput,
-  ): effect.Effect<
-    ListRegistriesResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRegistries: API.OperationMethod<
+  ListRegistriesInput,
+  ListRegistriesResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRegistriesInput,
   ) => stream.Stream<
@@ -22538,18 +22311,16 @@ export const listRegistries: {
  *
  * When the `RegistryId` is not provided, all the schemas across registries will be part of the API response.
  */
-export const listSchemas: {
-  (
-    input: ListSchemasInput,
-  ): effect.Effect<
-    ListSchemasResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemas: API.OperationMethod<
+  ListSchemasInput,
+  ListSchemasResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemasInput,
   ) => stream.Stream<
@@ -22591,18 +22362,16 @@ export const listSchemas: {
 /**
  * Returns a list of schema versions that you have created, with minimal information. Schema versions in Deleted status will not be included in the results. Empty results will be returned if there are no schema versions available.
  */
-export const listSchemaVersions: {
-  (
-    input: ListSchemaVersionsInput,
-  ): effect.Effect<
-    ListSchemaVersionsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSchemaVersions: API.OperationMethod<
+  ListSchemaVersionsInput,
+  ListSchemaVersionsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSchemaVersionsInput,
   ) => stream.Stream<
@@ -22644,18 +22413,16 @@ export const listSchemaVersions: {
 /**
  * Retrieve a list of sessions.
  */
-export const listSessions: {
-  (
-    input: ListSessionsRequest,
-  ): effect.Effect<
-    ListSessionsResponse,
-    | AccessDeniedException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSessions: API.OperationMethod<
+  ListSessionsRequest,
+  ListSessionsResponse,
+  | AccessDeniedException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSessionsRequest,
   ) => stream.Stream<
@@ -22696,9 +22463,8 @@ export const listSessions: {
 /**
  * Lists statements for the session.
  */
-export const listStatements: (
-  input: ListStatementsRequest,
-) => effect.Effect<
+export const listStatements: API.OperationMethod<
+  ListStatementsRequest,
   ListStatementsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -22723,20 +22489,18 @@ export const listStatements: (
 /**
  * Lists the history of previous optimizer runs for a specific table.
  */
-export const listTableOptimizerRuns: {
-  (
-    input: ListTableOptimizerRunsRequest,
-  ): effect.Effect<
-    ListTableOptimizerRunsResponse,
-    | AccessDeniedException
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTableOptimizerRuns: API.OperationMethod<
+  ListTableOptimizerRunsRequest,
+  ListTableOptimizerRunsResponse,
+  | AccessDeniedException
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTableOptimizerRunsRequest,
   ) => stream.Stream<
@@ -22788,18 +22552,16 @@ export const listTableOptimizerRuns: {
  * the response so that tagged resources can be retrieved as a group. If you choose to use tags
  * filtering, only resources with the tag are retrieved.
  */
-export const listTriggers: {
-  (
-    input: ListTriggersRequest,
-  ): effect.Effect<
-    ListTriggersResponse,
-    | EntityNotFoundException
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTriggers: API.OperationMethod<
+  ListTriggersRequest,
+  ListTriggersResponse,
+  | EntityNotFoundException
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTriggersRequest,
   ) => stream.Stream<
@@ -22841,18 +22603,16 @@ export const listTriggers: {
 /**
  * List all the Glue usage profiles.
  */
-export const listUsageProfiles: {
-  (
-    input: ListUsageProfilesRequest,
-  ): effect.Effect<
-    ListUsageProfilesResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationNotSupportedException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUsageProfiles: API.OperationMethod<
+  ListUsageProfilesRequest,
+  ListUsageProfilesResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationNotSupportedException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUsageProfilesRequest,
   ) => stream.Stream<
@@ -22894,17 +22654,15 @@ export const listUsageProfiles: {
 /**
  * Lists names of workflows created in the account.
  */
-export const listWorkflows: {
-  (
-    input: ListWorkflowsRequest,
-  ): effect.Effect<
-    ListWorkflowsResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkflows: API.OperationMethod<
+  ListWorkflowsRequest,
+  ListWorkflowsResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkflowsRequest,
   ) => stream.Stream<
@@ -22943,9 +22701,8 @@ export const listWorkflows: {
 /**
  * Modifies a Zero-ETL integration in the caller's account.
  */
-export const modifyIntegration: (
-  input: ModifyIntegrationRequest,
-) => effect.Effect<
+export const modifyIntegration: API.OperationMethod<
+  ModifyIntegrationRequest,
   ModifyIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -22981,9 +22738,8 @@ export const modifyIntegration: (
  * Sets the security configuration for a specified catalog. After the configuration has been
  * set, the specified encryption is applied to every catalog write thereafter.
  */
-export const putDataCatalogEncryptionSettings: (
-  input: PutDataCatalogEncryptionSettingsRequest,
-) => effect.Effect<
+export const putDataCatalogEncryptionSettings: API.OperationMethod<
+  PutDataCatalogEncryptionSettingsRequest,
   PutDataCatalogEncryptionSettingsResponse,
   | InternalServiceException
   | InvalidInputException
@@ -23002,9 +22758,8 @@ export const putDataCatalogEncryptionSettings: (
 /**
  * Annotate all datapoints for a Profile.
  */
-export const putDataQualityProfileAnnotation: (
-  input: PutDataQualityProfileAnnotationRequest,
-) => effect.Effect<
+export const putDataQualityProfileAnnotation: API.OperationMethod<
+  PutDataQualityProfileAnnotationRequest,
   PutDataQualityProfileAnnotationResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -23023,9 +22778,8 @@ export const putDataQualityProfileAnnotation: (
 /**
  * Sets the Data Catalog resource policy for access control.
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | ConditionCheckFailureException
   | EntityNotFoundException
@@ -23048,9 +22802,8 @@ export const putResourcePolicy: (
 /**
  * Puts the metadata key value pair for a specified schema version ID. A maximum of 10 key value pairs will be allowed per schema version. They can be added over one or more calls.
  */
-export const putSchemaVersionMetadata: (
-  input: PutSchemaVersionMetadataInput,
-) => effect.Effect<
+export const putSchemaVersionMetadata: API.OperationMethod<
+  PutSchemaVersionMetadataInput,
   PutSchemaVersionMetadataResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -23073,9 +22826,8 @@ export const putSchemaVersionMetadata: (
 /**
  * Puts the specified workflow run properties for the given workflow run. If a property already exists for the specified run, then it overrides the value otherwise adds the property to existing properties.
  */
-export const putWorkflowRunProperties: (
-  input: PutWorkflowRunPropertiesRequest,
-) => effect.Effect<
+export const putWorkflowRunProperties: API.OperationMethod<
+  PutWorkflowRunPropertiesRequest,
   PutWorkflowRunPropertiesResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -23102,9 +22854,8 @@ export const putWorkflowRunProperties: (
 /**
  * Queries for the schema version metadata information.
  */
-export const querySchemaVersionMetadata: (
-  input: QuerySchemaVersionMetadataInput,
-) => effect.Effect<
+export const querySchemaVersionMetadata: API.OperationMethod<
+  QuerySchemaVersionMetadataInput,
   QuerySchemaVersionMetadataResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -23127,9 +22878,8 @@ export const querySchemaVersionMetadata: (
  *
  * Supports multiple authentication types including Basic, OAuth2 (Client Credentials, JWT Bearer, Authorization Code), and Custom Auth configurations.
  */
-export const registerConnectionType: (
-  input: RegisterConnectionTypeRequest,
-) => effect.Effect<
+export const registerConnectionType: API.OperationMethod<
+  RegisterConnectionTypeRequest,
   RegisterConnectionTypeResponse,
   | AccessDeniedException
   | InternalServiceException
@@ -23158,9 +22908,8 @@ export const registerConnectionType: (
  *
  * If the same schema definition is already stored in Schema Registry as a version, the schema ID of the existing schema is returned to the caller.
  */
-export const registerSchemaVersion: (
-  input: RegisterSchemaVersionInput,
-) => effect.Effect<
+export const registerSchemaVersion: API.OperationMethod<
+  RegisterSchemaVersionInput,
   RegisterSchemaVersionResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -23185,9 +22934,8 @@ export const registerSchemaVersion: (
 /**
  * Removes a key value pair from the schema version metadata for the specified schema version ID.
  */
-export const removeSchemaVersionMetadata: (
-  input: RemoveSchemaVersionMetadataInput,
-) => effect.Effect<
+export const removeSchemaVersionMetadata: API.OperationMethod<
+  RemoveSchemaVersionMetadataInput,
   RemoveSchemaVersionMetadataResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -23214,9 +22962,8 @@ export const removeSchemaVersionMetadata: (
  *
  * - Job structure
  */
-export const resetJobBookmark: (
-  input: ResetJobBookmarkRequest,
-) => effect.Effect<
+export const resetJobBookmark: API.OperationMethod<
+  ResetJobBookmarkRequest,
   ResetJobBookmarkResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -23237,9 +22984,8 @@ export const resetJobBookmark: (
 /**
  * Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
  */
-export const resumeWorkflowRun: (
-  input: ResumeWorkflowRunRequest,
-) => effect.Effect<
+export const resumeWorkflowRun: API.OperationMethod<
+  ResumeWorkflowRunRequest,
   ResumeWorkflowRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -23264,9 +23010,8 @@ export const resumeWorkflowRun: (
 /**
  * Executes the statement.
  */
-export const runStatement: (
-  input: RunStatementRequest,
-) => effect.Effect<
+export const runStatement: API.OperationMethod<
+  RunStatementRequest,
   RunStatementResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -23297,17 +23042,15 @@ export const runStatement: (
  *
  * You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
  */
-export const searchTables: {
-  (
-    input: SearchTablesRequest,
-  ): effect.Effect<
-    SearchTablesResponse,
-    | InternalServiceException
-    | InvalidInputException
-    | OperationTimeoutException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const searchTables: API.OperationMethod<
+  SearchTablesRequest,
+  SearchTablesResponse,
+  | InternalServiceException
+  | InvalidInputException
+  | OperationTimeoutException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: SearchTablesRequest,
   ) => stream.Stream<
@@ -23345,9 +23088,8 @@ export const searchTables: {
 /**
  * Starts a new run of the specified blueprint.
  */
-export const startBlueprintRun: (
-  input: StartBlueprintRunRequest,
-) => effect.Effect<
+export const startBlueprintRun: API.OperationMethod<
+  StartBlueprintRunRequest,
   StartBlueprintRunResponse,
   | EntityNotFoundException
   | IllegalBlueprintStateException
@@ -23372,9 +23114,8 @@ export const startBlueprintRun: (
 /**
  * Starts a column statistics task run, for a specified table and columns.
  */
-export const startColumnStatisticsTaskRun: (
-  input: StartColumnStatisticsTaskRunRequest,
-) => effect.Effect<
+export const startColumnStatisticsTaskRun: API.OperationMethod<
+  StartColumnStatisticsTaskRunRequest,
   StartColumnStatisticsTaskRunResponse,
   | AccessDeniedException
   | ColumnStatisticsTaskRunningException
@@ -23399,9 +23140,8 @@ export const startColumnStatisticsTaskRun: (
 /**
  * Starts a column statistics task run schedule.
  */
-export const startColumnStatisticsTaskRunSchedule: (
-  input: StartColumnStatisticsTaskRunScheduleRequest,
-) => effect.Effect<
+export const startColumnStatisticsTaskRunSchedule: API.OperationMethod<
+  StartColumnStatisticsTaskRunScheduleRequest,
   StartColumnStatisticsTaskRunScheduleResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -23424,9 +23164,8 @@ export const startColumnStatisticsTaskRunSchedule: (
  * of what is scheduled. If the crawler is already running, returns a
  * CrawlerRunningException.
  */
-export const startCrawler: (
-  input: StartCrawlerRequest,
-) => effect.Effect<
+export const startCrawler: API.OperationMethod<
+  StartCrawlerRequest,
   StartCrawlerResponse,
   | CrawlerRunningException
   | EntityNotFoundException
@@ -23447,9 +23186,8 @@ export const startCrawler: (
  * `SCHEDULED`, unless the crawler is already running or the
  * schedule state is already `SCHEDULED`.
  */
-export const startCrawlerSchedule: (
-  input: StartCrawlerScheduleRequest,
-) => effect.Effect<
+export const startCrawlerSchedule: API.OperationMethod<
+  StartCrawlerScheduleRequest,
   StartCrawlerScheduleResponse,
   | EntityNotFoundException
   | NoScheduleException
@@ -23474,9 +23212,8 @@ export const startCrawlerSchedule: (
  *
  * Recommendation runs are automatically deleted after 90 days.
  */
-export const startDataQualityRuleRecommendationRun: (
-  input: StartDataQualityRuleRecommendationRunRequest,
-) => effect.Effect<
+export const startDataQualityRuleRecommendationRun: API.OperationMethod<
+  StartDataQualityRuleRecommendationRunRequest,
   StartDataQualityRuleRecommendationRunResponse,
   | ConflictException
   | InternalServiceException
@@ -23497,9 +23234,8 @@ export const startDataQualityRuleRecommendationRun: (
 /**
  * Once you have a ruleset definition (either recommended or your own), you call this operation to evaluate the ruleset against a data source (Glue table). The evaluation computes results which you can retrieve with the `GetDataQualityResult` API.
  */
-export const startDataQualityRulesetEvaluationRun: (
-  input: StartDataQualityRulesetEvaluationRunRequest,
-) => effect.Effect<
+export const startDataQualityRulesetEvaluationRun: API.OperationMethod<
+  StartDataQualityRulesetEvaluationRunRequest,
   StartDataQualityRulesetEvaluationRunResponse,
   | ConflictException
   | EntityNotFoundException
@@ -23530,9 +23266,8 @@ export const startDataQualityRulesetEvaluationRun: (
  * `TaskRunId`. You can check on the status of your task run by calling the
  * `GetMLTaskRun` API.
  */
-export const startExportLabelsTaskRun: (
-  input: StartExportLabelsTaskRunRequest,
-) => effect.Effect<
+export const startExportLabelsTaskRun: API.OperationMethod<
+  StartExportLabelsTaskRunRequest,
   StartExportLabelsTaskRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -23577,9 +23312,8 @@ export const startExportLabelsTaskRun: (
  * You can check on the status of your task run by calling the `GetMLTaskRun`
  * operation.
  */
-export const startImportLabelsTaskRun: (
-  input: StartImportLabelsTaskRunRequest,
-) => effect.Effect<
+export const startImportLabelsTaskRun: API.OperationMethod<
+  StartImportLabelsTaskRunRequest,
   StartImportLabelsTaskRunResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -23602,9 +23336,8 @@ export const startImportLabelsTaskRun: (
 /**
  * Starts a job run using a job definition.
  */
-export const startJobRun: (
-  input: StartJobRunRequest,
-) => effect.Effect<
+export const startJobRun: API.OperationMethod<
+  StartJobRunRequest,
   StartJobRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -23629,9 +23362,8 @@ export const startJobRun: (
 /**
  * Starts a materialized view refresh task run, for a specified table and columns.
  */
-export const startMaterializedViewRefreshTaskRun: (
-  input: StartMaterializedViewRefreshTaskRunRequest,
-) => effect.Effect<
+export const startMaterializedViewRefreshTaskRun: API.OperationMethod<
+  StartMaterializedViewRefreshTaskRunRequest,
   StartMaterializedViewRefreshTaskRunResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -23663,9 +23395,8 @@ export const startMaterializedViewRefreshTaskRun: (
  * Returns a unique identifier for the run. You can call `GetMLTaskRun` to get more
  * information about the stats of the `EvaluationTaskRun`.
  */
-export const startMLEvaluationTaskRun: (
-  input: StartMLEvaluationTaskRunRequest,
-) => effect.Effect<
+export const startMLEvaluationTaskRun: API.OperationMethod<
+  StartMLEvaluationTaskRunRequest,
   StartMLEvaluationTaskRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -23706,9 +23437,8 @@ export const startMLEvaluationTaskRun: (
  * Note: The role used to write the generated labeling set to the `OutputS3Path` is the role
  * associated with the Machine Learning Transform, specified in the `CreateMLTransform` API.
  */
-export const startMLLabelingSetGenerationTaskRun: (
-  input: StartMLLabelingSetGenerationTaskRunRequest,
-) => effect.Effect<
+export const startMLLabelingSetGenerationTaskRun: API.OperationMethod<
+  StartMLLabelingSetGenerationTaskRunRequest,
   StartMLLabelingSetGenerationTaskRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -23733,9 +23463,8 @@ export const startMLLabelingSetGenerationTaskRun: (
  * Jobs for information about how different types of trigger are
  * started.
  */
-export const startTrigger: (
-  input: StartTriggerRequest,
-) => effect.Effect<
+export const startTrigger: API.OperationMethod<
+  StartTriggerRequest,
   StartTriggerResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -23760,9 +23489,8 @@ export const startTrigger: (
 /**
  * Starts a new run of the specified workflow.
  */
-export const startWorkflowRun: (
-  input: StartWorkflowRunRequest,
-) => effect.Effect<
+export const startWorkflowRun: API.OperationMethod<
+  StartWorkflowRunRequest,
   StartWorkflowRunResponse,
   | ConcurrentRunsExceededException
   | EntityNotFoundException
@@ -23787,9 +23515,8 @@ export const startWorkflowRun: (
 /**
  * Stops a task run for the specified table.
  */
-export const stopColumnStatisticsTaskRun: (
-  input: StopColumnStatisticsTaskRunRequest,
-) => effect.Effect<
+export const stopColumnStatisticsTaskRun: API.OperationMethod<
+  StopColumnStatisticsTaskRunRequest,
   StopColumnStatisticsTaskRunResponse,
   | ColumnStatisticsTaskNotRunningException
   | ColumnStatisticsTaskStoppingException
@@ -23810,9 +23537,8 @@ export const stopColumnStatisticsTaskRun: (
 /**
  * Stops a column statistics task run schedule.
  */
-export const stopColumnStatisticsTaskRunSchedule: (
-  input: StopColumnStatisticsTaskRunScheduleRequest,
-) => effect.Effect<
+export const stopColumnStatisticsTaskRunSchedule: API.OperationMethod<
+  StopColumnStatisticsTaskRunScheduleRequest,
   StopColumnStatisticsTaskRunScheduleResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -23831,9 +23557,8 @@ export const stopColumnStatisticsTaskRunSchedule: (
 /**
  * If the specified crawler is running, stops the crawl.
  */
-export const stopCrawler: (
-  input: StopCrawlerRequest,
-) => effect.Effect<
+export const stopCrawler: API.OperationMethod<
+  StopCrawlerRequest,
   StopCrawlerResponse,
   | CrawlerNotRunningException
   | CrawlerStoppingException
@@ -23856,9 +23581,8 @@ export const stopCrawler: (
  * `NOT_SCHEDULED`, but does not stop the crawler if it is
  * already running.
  */
-export const stopCrawlerSchedule: (
-  input: StopCrawlerScheduleRequest,
-) => effect.Effect<
+export const stopCrawlerSchedule: API.OperationMethod<
+  StopCrawlerScheduleRequest,
   StopCrawlerScheduleResponse,
   | EntityNotFoundException
   | OperationTimeoutException
@@ -23879,9 +23603,8 @@ export const stopCrawlerSchedule: (
 /**
  * Stops a materialized view refresh task run, for a specified table and columns.
  */
-export const stopMaterializedViewRefreshTaskRun: (
-  input: StopMaterializedViewRefreshTaskRunRequest,
-) => effect.Effect<
+export const stopMaterializedViewRefreshTaskRun: API.OperationMethod<
+  StopMaterializedViewRefreshTaskRunRequest,
   StopMaterializedViewRefreshTaskRunResponse,
   | AccessDeniedException
   | InvalidInputException
@@ -23904,9 +23627,8 @@ export const stopMaterializedViewRefreshTaskRun: (
 /**
  * Stops the session.
  */
-export const stopSession: (
-  input: StopSessionRequest,
-) => effect.Effect<
+export const stopSession: API.OperationMethod<
+  StopSessionRequest,
   StopSessionResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -23931,9 +23653,8 @@ export const stopSession: (
 /**
  * Stops a specified trigger.
  */
-export const stopTrigger: (
-  input: StopTriggerRequest,
-) => effect.Effect<
+export const stopTrigger: API.OperationMethod<
+  StopTriggerRequest,
   StopTriggerResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -23956,9 +23677,8 @@ export const stopTrigger: (
 /**
  * Stops the execution of the specified workflow run.
  */
-export const stopWorkflowRun: (
-  input: StopWorkflowRunRequest,
-) => effect.Effect<
+export const stopWorkflowRun: API.OperationMethod<
+  StopWorkflowRunRequest,
   StopWorkflowRunResponse,
   | EntityNotFoundException
   | IllegalWorkflowStateException
@@ -23983,9 +23703,8 @@ export const stopWorkflowRun: (
  * In Glue, you can tag only certain resources. For information about what
  * resources you can tag, see Amazon Web Services Tags in Glue.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -24010,9 +23729,8 @@ export const tagResource: (
  *
  * If the action is successful, the service sends back an HTTP 200 response.
  */
-export const testConnection: (
-  input: TestConnectionRequest,
-) => effect.Effect<
+export const testConnection: API.OperationMethod<
+  TestConnectionRequest,
   TestConnectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -24043,9 +23761,8 @@ export const testConnection: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -24066,9 +23783,8 @@ export const untagResource: (
 /**
  * Updates a registered blueprint.
  */
-export const updateBlueprint: (
-  input: UpdateBlueprintRequest,
-) => effect.Effect<
+export const updateBlueprint: API.OperationMethod<
+  UpdateBlueprintRequest,
   UpdateBlueprintResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -24093,9 +23809,8 @@ export const updateBlueprint: (
 /**
  * Updates an existing catalog's properties in the Glue Data Catalog.
  */
-export const updateCatalog: (
-  input: UpdateCatalogRequest,
-) => effect.Effect<
+export const updateCatalog: API.OperationMethod<
+  UpdateCatalogRequest,
   UpdateCatalogResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -24126,9 +23841,8 @@ export const updateCatalog: (
  * an `XMLClassifier`, a `JsonClassifier`, or a `CsvClassifier`, depending on
  * which field is present).
  */
-export const updateClassifier: (
-  input: UpdateClassifierRequest,
-) => effect.Effect<
+export const updateClassifier: API.OperationMethod<
+  UpdateClassifierRequest,
   UpdateClassifierResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -24151,9 +23865,8 @@ export const updateClassifier: (
  *
  * The Identity and Access Management (IAM) permission required for this operation is `UpdatePartition`.
  */
-export const updateColumnStatisticsForPartition: (
-  input: UpdateColumnStatisticsForPartitionRequest,
-) => effect.Effect<
+export const updateColumnStatisticsForPartition: API.OperationMethod<
+  UpdateColumnStatisticsForPartitionRequest,
   UpdateColumnStatisticsForPartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -24178,9 +23891,8 @@ export const updateColumnStatisticsForPartition: (
  *
  * The Identity and Access Management (IAM) permission required for this operation is `UpdateTable`.
  */
-export const updateColumnStatisticsForTable: (
-  input: UpdateColumnStatisticsForTableRequest,
-) => effect.Effect<
+export const updateColumnStatisticsForTable: API.OperationMethod<
+  UpdateColumnStatisticsForTableRequest,
   UpdateColumnStatisticsForTableResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -24203,9 +23915,8 @@ export const updateColumnStatisticsForTable: (
 /**
  * Updates settings for a column statistics task.
  */
-export const updateColumnStatisticsTaskSettings: (
-  input: UpdateColumnStatisticsTaskSettingsRequest,
-) => effect.Effect<
+export const updateColumnStatisticsTaskSettings: API.OperationMethod<
+  UpdateColumnStatisticsTaskSettingsRequest,
   UpdateColumnStatisticsTaskSettingsResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -24228,9 +23939,8 @@ export const updateColumnStatisticsTaskSettings: (
 /**
  * Updates a connection definition in the Data Catalog.
  */
-export const updateConnection: (
-  input: UpdateConnectionRequest,
-) => effect.Effect<
+export const updateConnection: API.OperationMethod<
+  UpdateConnectionRequest,
   UpdateConnectionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -24253,9 +23963,8 @@ export const updateConnection: (
  * running, you must stop it using `StopCrawler` before updating
  * it.
  */
-export const updateCrawler: (
-  input: UpdateCrawlerRequest,
-) => effect.Effect<
+export const updateCrawler: API.OperationMethod<
+  UpdateCrawlerRequest,
   UpdateCrawlerResponse,
   | CrawlerRunningException
   | EntityNotFoundException
@@ -24278,9 +23987,8 @@ export const updateCrawler: (
 /**
  * Updates the schedule of a crawler using a `cron` expression.
  */
-export const updateCrawlerSchedule: (
-  input: UpdateCrawlerScheduleRequest,
-) => effect.Effect<
+export const updateCrawlerSchedule: API.OperationMethod<
+  UpdateCrawlerScheduleRequest,
   UpdateCrawlerScheduleResponse,
   | EntityNotFoundException
   | InvalidInputException
@@ -24303,9 +24011,8 @@ export const updateCrawlerSchedule: (
 /**
  * Updates an existing database definition in a Data Catalog.
  */
-export const updateDatabase: (
-  input: UpdateDatabaseRequest,
-) => effect.Effect<
+export const updateDatabase: API.OperationMethod<
+  UpdateDatabaseRequest,
   UpdateDatabaseResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -24336,9 +24043,8 @@ export const updateDatabase: (
 /**
  * Updates the specified data quality ruleset.
  */
-export const updateDataQualityRuleset: (
-  input: UpdateDataQualityRulesetRequest,
-) => effect.Effect<
+export const updateDataQualityRuleset: API.OperationMethod<
+  UpdateDataQualityRulesetRequest,
   UpdateDataQualityRulesetResponse,
   | AlreadyExistsException
   | EntityNotFoundException
@@ -24365,9 +24071,8 @@ export const updateDataQualityRuleset: (
 /**
  * Updates a specified development endpoint.
  */
-export const updateDevEndpoint: (
-  input: UpdateDevEndpointRequest,
-) => effect.Effect<
+export const updateDevEndpoint: API.OperationMethod<
+  UpdateDevEndpointRequest,
   UpdateDevEndpointResponse,
   | EntityNotFoundException
   | InternalServiceException
@@ -24390,9 +24095,8 @@ export const updateDevEndpoint: (
 /**
  * Updates the existing Glue Identity Center configuration, allowing modification of scopes and permissions for the integration.
  */
-export const updateGlueIdentityCenterConfiguration: (
-  input: UpdateGlueIdentityCenterConfigurationRequest,
-) => effect.Effect<
+export const updateGlueIdentityCenterConfiguration: API.OperationMethod<
+  UpdateGlueIdentityCenterConfigurationRequest,
   UpdateGlueIdentityCenterConfigurationResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -24417,9 +24121,8 @@ export const updateGlueIdentityCenterConfiguration: (
 /**
  * This API can be used for updating the `ResourceProperty` of the Glue connection (for the source) or Glue database ARN (for the target). These properties can include the role to access the connection or database. Since the same resource can be used across multiple integrations, updating resource properties will impact all the integrations using it.
  */
-export const updateIntegrationResourceProperty: (
-  input: UpdateIntegrationResourcePropertyRequest,
-) => effect.Effect<
+export const updateIntegrationResourceProperty: API.OperationMethod<
+  UpdateIntegrationResourcePropertyRequest,
   UpdateIntegrationResourcePropertyResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -24448,9 +24151,8 @@ export const updateIntegrationResourceProperty: (
  *
  * The override will be reflected across all the integrations using same `ResourceArn` and source table.
  */
-export const updateIntegrationTableProperties: (
-  input: UpdateIntegrationTablePropertiesRequest,
-) => effect.Effect<
+export const updateIntegrationTableProperties: API.OperationMethod<
+  UpdateIntegrationTablePropertiesRequest,
   UpdateIntegrationTablePropertiesResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -24477,9 +24179,8 @@ export const updateIntegrationTableProperties: (
 /**
  * Updates an existing job definition. The previous job definition is completely overwritten by this information.
  */
-export const updateJob: (
-  input: UpdateJobRequest,
-) => effect.Effect<
+export const updateJob: API.OperationMethod<
+  UpdateJobRequest,
   UpdateJobResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -24504,9 +24205,8 @@ export const updateJob: (
  *
  * This API supports optional parameters which take in the repository information.
  */
-export const updateJobFromSourceControl: (
-  input: UpdateJobFromSourceControlRequest,
-) => effect.Effect<
+export const updateJobFromSourceControl: API.OperationMethod<
+  UpdateJobFromSourceControlRequest,
   UpdateJobFromSourceControlResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -24537,9 +24237,8 @@ export const updateJobFromSourceControl: (
  * operation to assess how well your new parameters achieved your goals (such as improving the
  * quality of your machine learning transform, or making it more cost-effective).
  */
-export const updateMLTransform: (
-  input: UpdateMLTransformRequest,
-) => effect.Effect<
+export const updateMLTransform: API.OperationMethod<
+  UpdateMLTransformRequest,
   UpdateMLTransformResponse,
   | AccessDeniedException
   | EntityNotFoundException
@@ -24562,9 +24261,8 @@ export const updateMLTransform: (
 /**
  * Updates a partition.
  */
-export const updatePartition: (
-  input: UpdatePartitionRequest,
-) => effect.Effect<
+export const updatePartition: API.OperationMethod<
+  UpdatePartitionRequest,
   UpdatePartitionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -24587,9 +24285,8 @@ export const updatePartition: (
 /**
  * Updates an existing registry which is used to hold a collection of schemas. The updated properties relate to the registry, and do not modify any of the schemas within the registry.
  */
-export const updateRegistry: (
-  input: UpdateRegistryInput,
-) => effect.Effect<
+export const updateRegistry: API.OperationMethod<
+  UpdateRegistryInput,
   UpdateRegistryResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -24618,9 +24315,8 @@ export const updateRegistry: (
  *
  * This update will happen only if the schema is in the AVAILABLE state.
  */
-export const updateSchema: (
-  input: UpdateSchemaInput,
-) => effect.Effect<
+export const updateSchema: API.OperationMethod<
+  UpdateSchemaInput,
   UpdateSchemaResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -24645,9 +24341,8 @@ export const updateSchema: (
  *
  * This API supports optional parameters which take in the repository information.
  */
-export const updateSourceControlFromJob: (
-  input: UpdateSourceControlFromJobRequest,
-) => effect.Effect<
+export const updateSourceControlFromJob: API.OperationMethod<
+  UpdateSourceControlFromJobRequest,
   UpdateSourceControlFromJobResponse,
   | AccessDeniedException
   | AlreadyExistsException
@@ -24674,9 +24369,8 @@ export const updateSourceControlFromJob: (
 /**
  * Updates a metadata table in the Data Catalog.
  */
-export const updateTable: (
-  input: UpdateTableRequest,
-) => effect.Effect<
+export const updateTable: API.OperationMethod<
+  UpdateTableRequest,
   UpdateTableResponse,
   | AlreadyExistsException
   | ConcurrentModificationException
@@ -24711,9 +24405,8 @@ export const updateTable: (
 /**
  * Updates the configuration for an existing table optimizer.
  */
-export const updateTableOptimizer: (
-  input: UpdateTableOptimizerRequest,
-) => effect.Effect<
+export const updateTableOptimizer: API.OperationMethod<
+  UpdateTableOptimizerRequest,
   UpdateTableOptimizerResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -24742,9 +24435,8 @@ export const updateTableOptimizer: (
  *
  * Job arguments may be logged. Do not pass plaintext secrets as arguments. Retrieve secrets from a Glue Connection, Amazon Web Services Secrets Manager or other secret management mechanism if you intend to keep them within the Job.
  */
-export const updateTrigger: (
-  input: UpdateTriggerRequest,
-) => effect.Effect<
+export const updateTrigger: API.OperationMethod<
+  UpdateTriggerRequest,
   UpdateTriggerResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -24767,9 +24459,8 @@ export const updateTrigger: (
 /**
  * Update an Glue usage profile.
  */
-export const updateUsageProfile: (
-  input: UpdateUsageProfileRequest,
-) => effect.Effect<
+export const updateUsageProfile: API.OperationMethod<
+  UpdateUsageProfileRequest,
   UpdateUsageProfileResponse,
   | ConcurrentModificationException
   | EntityNotFoundException
@@ -24794,9 +24485,8 @@ export const updateUsageProfile: (
 /**
  * Updates an existing function definition in the Data Catalog.
  */
-export const updateUserDefinedFunction: (
-  input: UpdateUserDefinedFunctionRequest,
-) => effect.Effect<
+export const updateUserDefinedFunction: API.OperationMethod<
+  UpdateUserDefinedFunctionRequest,
   UpdateUserDefinedFunctionResponse,
   | EntityNotFoundException
   | GlueEncryptionException
@@ -24819,9 +24509,8 @@ export const updateUserDefinedFunction: (
 /**
  * Updates an existing workflow.
  */
-export const updateWorkflow: (
-  input: UpdateWorkflowRequest,
-) => effect.Effect<
+export const updateWorkflow: API.OperationMethod<
+  UpdateWorkflowRequest,
   UpdateWorkflowResponse,
   | ConcurrentModificationException
   | EntityNotFoundException

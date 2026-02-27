@@ -2141,9 +2141,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
 /**
  * Creates an application instance and deploys it to a device.
  */
-export const createApplicationInstance: (
-  input: CreateApplicationInstanceRequest,
-) => effect.Effect<
+export const createApplicationInstance: API.OperationMethod<
+  CreateApplicationInstanceRequest,
   CreateApplicationInstanceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2164,9 +2163,8 @@ export const createApplicationInstance: (
 /**
  * Creates a job to run on a device. A job can update a device's software or reboot it.
  */
-export const createJobForDevices: (
-  input: CreateJobForDevicesRequest,
-) => effect.Effect<
+export const createJobForDevices: API.OperationMethod<
+  CreateJobForDevicesRequest,
   CreateJobForDevicesResponse,
   | AccessDeniedException
   | ConflictException
@@ -2189,9 +2187,8 @@ export const createJobForDevices: (
 /**
  * Creates a camera stream node.
  */
-export const createNodeFromTemplateJob: (
-  input: CreateNodeFromTemplateJobRequest,
-) => effect.Effect<
+export const createNodeFromTemplateJob: API.OperationMethod<
+  CreateNodeFromTemplateJobRequest,
   CreateNodeFromTemplateJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2212,9 +2209,8 @@ export const createNodeFromTemplateJob: (
 /**
  * Creates a package and storage location in an Amazon S3 access point.
  */
-export const createPackage: (
-  input: CreatePackageRequest,
-) => effect.Effect<
+export const createPackage: API.OperationMethod<
+  CreatePackageRequest,
   CreatePackageResponse,
   | AccessDeniedException
   | ConflictException
@@ -2235,9 +2231,8 @@ export const createPackage: (
 /**
  * Imports a node package.
  */
-export const createPackageImportJob: (
-  input: CreatePackageImportJobRequest,
-) => effect.Effect<
+export const createPackageImportJob: API.OperationMethod<
+  CreatePackageImportJobRequest,
   CreatePackageImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2258,9 +2253,8 @@ export const createPackageImportJob: (
 /**
  * Deletes a device.
  */
-export const deleteDevice: (
-  input: DeleteDeviceRequest,
-) => effect.Effect<
+export const deleteDevice: API.OperationMethod<
+  DeleteDeviceRequest,
   DeleteDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2286,9 +2280,8 @@ export const deleteDevice: (
  * To delete a package, you need permission to call `s3:DeleteObject` in addition to permissions for
  * the AWS Panorama API.
  */
-export const deletePackage: (
-  input: DeletePackageRequest,
-) => effect.Effect<
+export const deletePackage: API.OperationMethod<
+  DeletePackageRequest,
   DeletePackageResponse,
   | AccessDeniedException
   | ConflictException
@@ -2311,9 +2304,8 @@ export const deletePackage: (
 /**
  * Deregisters a package version.
  */
-export const deregisterPackageVersion: (
-  input: DeregisterPackageVersionRequest,
-) => effect.Effect<
+export const deregisterPackageVersion: API.OperationMethod<
+  DeregisterPackageVersionRequest,
   DeregisterPackageVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2336,9 +2328,8 @@ export const deregisterPackageVersion: (
 /**
  * Returns information about an application instance on a device.
  */
-export const describeApplicationInstance: (
-  input: DescribeApplicationInstanceRequest,
-) => effect.Effect<
+export const describeApplicationInstance: API.OperationMethod<
+  DescribeApplicationInstanceRequest,
   DescribeApplicationInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -2361,9 +2352,8 @@ export const describeApplicationInstance: (
 /**
  * Returns information about an application instance's configuration manifest.
  */
-export const describeApplicationInstanceDetails: (
-  input: DescribeApplicationInstanceDetailsRequest,
-) => effect.Effect<
+export const describeApplicationInstanceDetails: API.OperationMethod<
+  DescribeApplicationInstanceDetailsRequest,
   DescribeApplicationInstanceDetailsResponse,
   | AccessDeniedException
   | ConflictException
@@ -2386,9 +2376,8 @@ export const describeApplicationInstanceDetails: (
 /**
  * Returns information about a device.
  */
-export const describeDevice: (
-  input: DescribeDeviceRequest,
-) => effect.Effect<
+export const describeDevice: API.OperationMethod<
+  DescribeDeviceRequest,
   DescribeDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -2409,9 +2398,8 @@ export const describeDevice: (
 /**
  * Returns information about a device job.
  */
-export const describeDeviceJob: (
-  input: DescribeDeviceJobRequest,
-) => effect.Effect<
+export const describeDeviceJob: API.OperationMethod<
+  DescribeDeviceJobRequest,
   DescribeDeviceJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2434,9 +2422,8 @@ export const describeDeviceJob: (
 /**
  * Returns information about a node.
  */
-export const describeNode: (
-  input: DescribeNodeRequest,
-) => effect.Effect<
+export const describeNode: API.OperationMethod<
+  DescribeNodeRequest,
   DescribeNodeResponse,
   | AccessDeniedException
   | ConflictException
@@ -2459,9 +2446,8 @@ export const describeNode: (
 /**
  * Returns information about a job to create a camera stream node.
  */
-export const describeNodeFromTemplateJob: (
-  input: DescribeNodeFromTemplateJobRequest,
-) => effect.Effect<
+export const describeNodeFromTemplateJob: API.OperationMethod<
+  DescribeNodeFromTemplateJobRequest,
   DescribeNodeFromTemplateJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2482,9 +2468,8 @@ export const describeNodeFromTemplateJob: (
 /**
  * Returns information about a package.
  */
-export const describePackage: (
-  input: DescribePackageRequest,
-) => effect.Effect<
+export const describePackage: API.OperationMethod<
+  DescribePackageRequest,
   DescribePackageResponse,
   | AccessDeniedException
   | ConflictException
@@ -2507,9 +2492,8 @@ export const describePackage: (
 /**
  * Returns information about a package import job.
  */
-export const describePackageImportJob: (
-  input: DescribePackageImportJobRequest,
-) => effect.Effect<
+export const describePackageImportJob: API.OperationMethod<
+  DescribePackageImportJobRequest,
   DescribePackageImportJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -2530,9 +2514,8 @@ export const describePackageImportJob: (
 /**
  * Returns information about a package version.
  */
-export const describePackageVersion: (
-  input: DescribePackageVersionRequest,
-) => effect.Effect<
+export const describePackageVersion: API.OperationMethod<
+  DescribePackageVersionRequest,
   DescribePackageVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -2555,14 +2538,12 @@ export const describePackageVersion: (
 /**
  * Returns a list of application instance dependencies.
  */
-export const listApplicationInstanceDependencies: {
-  (
-    input: ListApplicationInstanceDependenciesRequest,
-  ): effect.Effect<
-    ListApplicationInstanceDependenciesResponse,
-    AccessDeniedException | InternalServerException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listApplicationInstanceDependencies: API.OperationMethod<
+  ListApplicationInstanceDependenciesRequest,
+  ListApplicationInstanceDependenciesResponse,
+  AccessDeniedException | InternalServerException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationInstanceDependenciesRequest,
   ) => stream.Stream<
@@ -2590,14 +2571,12 @@ export const listApplicationInstanceDependencies: {
 /**
  * Returns a list of application node instances.
  */
-export const listApplicationInstanceNodeInstances: {
-  (
-    input: ListApplicationInstanceNodeInstancesRequest,
-  ): effect.Effect<
-    ListApplicationInstanceNodeInstancesResponse,
-    AccessDeniedException | InternalServerException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listApplicationInstanceNodeInstances: API.OperationMethod<
+  ListApplicationInstanceNodeInstancesRequest,
+  ListApplicationInstanceNodeInstancesResponse,
+  AccessDeniedException | InternalServerException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationInstanceNodeInstancesRequest,
   ) => stream.Stream<
@@ -2625,14 +2604,12 @@ export const listApplicationInstanceNodeInstances: {
 /**
  * Returns a list of application instances.
  */
-export const listApplicationInstances: {
-  (
-    input: ListApplicationInstancesRequest,
-  ): effect.Effect<
-    ListApplicationInstancesResponse,
-    AccessDeniedException | InternalServerException | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listApplicationInstances: API.OperationMethod<
+  ListApplicationInstancesRequest,
+  ListApplicationInstancesResponse,
+  AccessDeniedException | InternalServerException | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationInstancesRequest,
   ) => stream.Stream<
@@ -2660,18 +2637,16 @@ export const listApplicationInstances: {
 /**
  * Returns a list of devices.
  */
-export const listDevices: {
-  (
-    input: ListDevicesRequest,
-  ): effect.Effect<
-    ListDevicesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDevices: API.OperationMethod<
+  ListDevicesRequest,
+  ListDevicesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevicesRequest,
   ) => stream.Stream<
@@ -2712,19 +2687,17 @@ export const listDevices: {
 /**
  * Returns a list of jobs.
  */
-export const listDevicesJobs: {
-  (
-    input: ListDevicesJobsRequest,
-  ): effect.Effect<
-    ListDevicesJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listDevicesJobs: API.OperationMethod<
+  ListDevicesJobsRequest,
+  ListDevicesJobsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevicesJobsRequest,
   ) => stream.Stream<
@@ -2768,18 +2741,16 @@ export const listDevicesJobs: {
 /**
  * Returns a list of camera stream node jobs.
  */
-export const listNodeFromTemplateJobs: {
-  (
-    input: ListNodeFromTemplateJobsRequest,
-  ): effect.Effect<
-    ListNodeFromTemplateJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listNodeFromTemplateJobs: API.OperationMethod<
+  ListNodeFromTemplateJobsRequest,
+  ListNodeFromTemplateJobsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNodeFromTemplateJobsRequest,
   ) => stream.Stream<
@@ -2820,17 +2791,15 @@ export const listNodeFromTemplateJobs: {
 /**
  * Returns a list of nodes.
  */
-export const listNodes: {
-  (
-    input: ListNodesRequest,
-  ): effect.Effect<
-    ListNodesResponse,
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listNodes: API.OperationMethod<
+  ListNodesRequest,
+  ListNodesResponse,
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNodesRequest,
   ) => stream.Stream<
@@ -2864,18 +2833,16 @@ export const listNodes: {
 /**
  * Returns a list of package import jobs.
  */
-export const listPackageImportJobs: {
-  (
-    input: ListPackageImportJobsRequest,
-  ): effect.Effect<
-    ListPackageImportJobsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPackageImportJobs: API.OperationMethod<
+  ListPackageImportJobsRequest,
+  ListPackageImportJobsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackageImportJobsRequest,
   ) => stream.Stream<
@@ -2916,19 +2883,17 @@ export const listPackageImportJobs: {
 /**
  * Returns a list of packages.
  */
-export const listPackages: {
-  (
-    input: ListPackagesRequest,
-  ): effect.Effect<
-    ListPackagesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Rgn | HttpClient.HttpClient
-  >;
+export const listPackages: API.OperationMethod<
+  ListPackagesRequest,
+  ListPackagesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Rgn | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPackagesRequest,
   ) => stream.Stream<
@@ -2972,9 +2937,8 @@ export const listPackages: {
 /**
  * Returns a list of tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -2996,9 +2960,8 @@ export const listTagsForResource: (
  * `certificates-omni_*device-name*.zip` and transfer it to the device within 5
  * minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
  */
-export const provisionDevice: (
-  input: ProvisionDeviceRequest,
-) => effect.Effect<
+export const provisionDevice: API.OperationMethod<
+  ProvisionDeviceRequest,
   ProvisionDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3021,9 +2984,8 @@ export const provisionDevice: (
 /**
  * Registers a package version.
  */
-export const registerPackageVersion: (
-  input: RegisterPackageVersionRequest,
-) => effect.Effect<
+export const registerPackageVersion: API.OperationMethod<
+  RegisterPackageVersionRequest,
   RegisterPackageVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3044,9 +3006,8 @@ export const registerPackageVersion: (
 /**
  * Removes an application instance.
  */
-export const removeApplicationInstance: (
-  input: RemoveApplicationInstanceRequest,
-) => effect.Effect<
+export const removeApplicationInstance: API.OperationMethod<
+  RemoveApplicationInstanceRequest,
   RemoveApplicationInstanceResponse,
   | AccessDeniedException
   | ConflictException
@@ -3069,9 +3030,8 @@ export const removeApplicationInstance: (
 /**
  * Signal camera nodes to stop or resume.
  */
-export const signalApplicationInstanceNodeInstances: (
-  input: SignalApplicationInstanceNodeInstancesRequest,
-) => effect.Effect<
+export const signalApplicationInstanceNodeInstances: API.OperationMethod<
+  SignalApplicationInstanceNodeInstancesRequest,
   SignalApplicationInstanceNodeInstancesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3092,9 +3052,8 @@ export const signalApplicationInstanceNodeInstances: (
 /**
  * Tags a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3113,9 +3072,8 @@ export const tagResource: (
 /**
  * Removes tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -3134,9 +3092,8 @@ export const untagResource: (
 /**
  * Updates a device's metadata.
  */
-export const updateDeviceMetadata: (
-  input: UpdateDeviceMetadataRequest,
-) => effect.Effect<
+export const updateDeviceMetadata: API.OperationMethod<
+  UpdateDeviceMetadataRequest,
   UpdateDeviceMetadataResponse,
   | AccessDeniedException
   | ConflictException

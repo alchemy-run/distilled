@@ -3633,9 +3633,8 @@ export class PolicyLengthExceededException extends S.TaggedErrorClass<PolicyLeng
  * Activates a partner event source that has been deactivated. Once activated, your matching
  * event bus will start receiving events from the event source.
  */
-export const activateEventSource: (
-  input: ActivateEventSourceRequest,
-) => effect.Effect<
+export const activateEventSource: API.OperationMethod<
+  ActivateEventSourceRequest,
   ActivateEventSourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3658,9 +3657,8 @@ export const activateEventSource: (
 /**
  * Cancels the specified replay.
  */
-export const cancelReplay: (
-  input: CancelReplayRequest,
-) => effect.Effect<
+export const cancelReplay: API.OperationMethod<
+  CancelReplayRequest,
   CancelReplayResponse,
   | ConcurrentModificationException
   | IllegalStatusException
@@ -3688,9 +3686,8 @@ export const cancelReplay: (
  * For more information, see API destinations in the
  * *EventBridge User Guide*.
  */
-export const createApiDestination: (
-  input: CreateApiDestinationRequest,
-) => effect.Effect<
+export const createApiDestination: API.OperationMethod<
+  CreateApiDestinationRequest,
   CreateApiDestinationResponse,
   | InternalException
   | LimitExceededException
@@ -3720,9 +3717,8 @@ export const createApiDestination: (
  *
  * For more information, see Encrypting archives in the *Amazon EventBridge User Guide*.
  */
-export const createArchive: (
-  input: CreateArchiveRequest,
-) => effect.Effect<
+export const createArchive: API.OperationMethod<
+  CreateArchiveRequest,
   CreateArchiveResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3750,9 +3746,8 @@ export const createArchive: (
  *
  * For more information, see Connections for endpoint targets in the *Amazon EventBridge User Guide*.
  */
-export const createConnection: (
-  input: CreateConnectionRequest,
-) => effect.Effect<
+export const createConnection: API.OperationMethod<
+  CreateConnectionRequest,
   CreateConnectionResponse,
   | AccessDeniedException
   | InternalException
@@ -3782,9 +3777,8 @@ export const createConnection: (
  * encountered and events will be routed back to the primary Region when the health check reports
  * a "healthy" state.
  */
-export const createEndpoint: (
-  input: CreateEndpointRequest,
-) => effect.Effect<
+export const createEndpoint: API.OperationMethod<
+  CreateEndpointRequest,
   CreateEndpointResponse,
   | InternalException
   | LimitExceededException
@@ -3805,9 +3799,8 @@ export const createEndpoint: (
  * use to receive events from your custom applications and services, or it can be a partner event
  * bus which can be matched to a partner event source.
  */
-export const createEventBus: (
-  input: CreateEventBusRequest,
-) => effect.Effect<
+export const createEventBus: API.OperationMethod<
+  CreateEventBusRequest,
   CreateEventBusResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3868,9 +3861,8 @@ export const createEventBus: (
  * *event_name* should help Amazon Web Services customers decide whether to
  * create an event bus to receive these events.
  */
-export const createPartnerEventSource: (
-  input: CreatePartnerEventSourceRequest,
-) => effect.Effect<
+export const createPartnerEventSource: API.OperationMethod<
+  CreatePartnerEventSourceRequest,
   CreatePartnerEventSourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3899,9 +3891,8 @@ export const createPartnerEventSource: (
  *
  * To activate a deactivated partner event source, use ActivateEventSource.
  */
-export const deactivateEventSource: (
-  input: DeactivateEventSourceRequest,
-) => effect.Effect<
+export const deactivateEventSource: API.OperationMethod<
+  DeactivateEventSourceRequest,
   DeactivateEventSourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3925,9 +3916,8 @@ export const deactivateEventSource: (
  * Removes all authorization parameters from the connection. This lets you remove the secret
  * from the connection so you can reuse it without having to create a new connection.
  */
-export const deauthorizeConnection: (
-  input: DeauthorizeConnectionRequest,
-) => effect.Effect<
+export const deauthorizeConnection: API.OperationMethod<
+  DeauthorizeConnectionRequest,
   DeauthorizeConnectionResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3946,9 +3936,8 @@ export const deauthorizeConnection: (
 /**
  * Deletes the specified API destination.
  */
-export const deleteApiDestination: (
-  input: DeleteApiDestinationRequest,
-) => effect.Effect<
+export const deleteApiDestination: API.OperationMethod<
+  DeleteApiDestinationRequest,
   DeleteApiDestinationResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3967,9 +3956,8 @@ export const deleteApiDestination: (
 /**
  * Deletes the specified archive.
  */
-export const deleteArchive: (
-  input: DeleteArchiveRequest,
-) => effect.Effect<
+export const deleteArchive: API.OperationMethod<
+  DeleteArchiveRequest,
   DeleteArchiveResponse,
   | ConcurrentModificationException
   | InternalException
@@ -3988,9 +3976,8 @@ export const deleteArchive: (
 /**
  * Deletes a connection.
  */
-export const deleteConnection: (
-  input: DeleteConnectionRequest,
-) => effect.Effect<
+export const deleteConnection: API.OperationMethod<
+  DeleteConnectionRequest,
   DeleteConnectionResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4013,9 +4000,8 @@ export const deleteConnection: (
  * *Amazon EventBridge User Guide*
  * .
  */
-export const deleteEndpoint: (
-  input: DeleteEndpointRequest,
-) => effect.Effect<
+export const deleteEndpoint: API.OperationMethod<
+  DeleteEndpointRequest,
   DeleteEndpointResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4035,9 +4021,8 @@ export const deleteEndpoint: (
  * Deletes the specified custom event bus or partner event bus. All rules associated with
  * this event bus need to be deleted. You can't delete your account's default event bus.
  */
-export const deleteEventBus: (
-  input: DeleteEventBusRequest,
-) => effect.Effect<
+export const deleteEventBus: API.OperationMethod<
+  DeleteEventBusRequest,
   DeleteEventBusResponse,
   ConcurrentModificationException | InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4053,9 +4038,8 @@ export const deleteEventBus: (
  * When you delete an event source, the status of the corresponding partner event bus in the
  * Amazon Web Services customer account becomes DELETED.
  */
-export const deletePartnerEventSource: (
-  input: DeletePartnerEventSourceRequest,
-) => effect.Effect<
+export const deletePartnerEventSource: API.OperationMethod<
+  DeletePartnerEventSourceRequest,
   DeletePartnerEventSourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4089,9 +4073,8 @@ export const deletePartnerEventSource: (
  * option, but you should do so only if you are sure the other service is not still using that
  * rule.
  */
-export const deleteRule: (
-  input: DeleteRuleRequest,
-) => effect.Effect<
+export const deleteRule: API.OperationMethod<
+  DeleteRuleRequest,
   DeleteRuleResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4112,9 +4095,8 @@ export const deleteRule: (
 /**
  * Retrieves details about an API destination.
  */
-export const describeApiDestination: (
-  input: DescribeApiDestinationRequest,
-) => effect.Effect<
+export const describeApiDestination: API.OperationMethod<
+  DescribeApiDestinationRequest,
   DescribeApiDestinationResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4126,9 +4108,8 @@ export const describeApiDestination: (
 /**
  * Retrieves details about an archive.
  */
-export const describeArchive: (
-  input: DescribeArchiveRequest,
-) => effect.Effect<
+export const describeArchive: API.OperationMethod<
+  DescribeArchiveRequest,
   DescribeArchiveResponse,
   | InternalException
   | ResourceAlreadyExistsException
@@ -4147,9 +4128,8 @@ export const describeArchive: (
 /**
  * Retrieves details about a connection.
  */
-export const describeConnection: (
-  input: DescribeConnectionRequest,
-) => effect.Effect<
+export const describeConnection: API.OperationMethod<
+  DescribeConnectionRequest,
   DescribeConnectionResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4166,9 +4146,8 @@ export const describeConnection: (
  * *Amazon EventBridge User Guide*
  * .
  */
-export const describeEndpoint: (
-  input: DescribeEndpointRequest,
-) => effect.Effect<
+export const describeEndpoint: API.OperationMethod<
+  DescribeEndpointRequest,
   DescribeEndpointResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4187,9 +4166,8 @@ export const describeEndpoint: (
  *
  * For more information about partner event buses, see CreateEventBus.
  */
-export const describeEventBus: (
-  input: DescribeEventBusRequest,
-) => effect.Effect<
+export const describeEventBus: API.OperationMethod<
+  DescribeEventBusRequest,
   DescribeEventBusResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4202,9 +4180,8 @@ export const describeEventBus: (
  * This operation lists details about a partner event source that is shared with your
  * account.
  */
-export const describeEventSource: (
-  input: DescribeEventSourceRequest,
-) => effect.Effect<
+export const describeEventSource: API.OperationMethod<
+  DescribeEventSourceRequest,
   DescribeEventSourceResponse,
   | InternalException
   | OperationDisabledException
@@ -4225,9 +4202,8 @@ export const describeEventSource: (
  * they have created. Amazon Web Services customers do not use this operation. Instead, Amazon Web Services customers can use DescribeEventSource to see details about a partner event source that is shared with
  * them.
  */
-export const describePartnerEventSource: (
-  input: DescribePartnerEventSourceRequest,
-) => effect.Effect<
+export const describePartnerEventSource: API.OperationMethod<
+  DescribePartnerEventSourceRequest,
   DescribePartnerEventSourceResponse,
   | InternalException
   | OperationDisabledException
@@ -4254,9 +4230,8 @@ export const describePartnerEventSource: (
  * `EventLastReplayedTime` indicates the time within the specified time range
  * associated with the last event replayed.
  */
-export const describeReplay: (
-  input: DescribeReplayRequest,
-) => effect.Effect<
+export const describeReplay: API.OperationMethod<
+  DescribeReplayRequest,
   DescribeReplayResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4271,9 +4246,8 @@ export const describeReplay: (
  * DescribeRule does not list the targets of a rule. To see the targets associated with a
  * rule, use ListTargetsByRule.
  */
-export const describeRule: (
-  input: DescribeRuleRequest,
-) => effect.Effect<
+export const describeRule: API.OperationMethod<
+  DescribeRuleRequest,
   DescribeRuleResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4289,9 +4263,8 @@ export const describeRule: (
  * When you disable a rule, incoming events might continue to match to the disabled rule.
  * Allow a short period of time for changes to take effect.
  */
-export const disableRule: (
-  input: DisableRuleRequest,
-) => effect.Effect<
+export const disableRule: API.OperationMethod<
+  DisableRuleRequest,
   DisableRuleResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4315,9 +4288,8 @@ export const disableRule: (
  * When you enable a rule, incoming events might not immediately start matching to a newly
  * enabled rule. Allow a short period of time for changes to take effect.
  */
-export const enableRule: (
-  input: EnableRuleRequest,
-) => effect.Effect<
+export const enableRule: API.OperationMethod<
+  EnableRuleRequest,
   EnableRuleResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4338,9 +4310,8 @@ export const enableRule: (
 /**
  * Retrieves a list of API destination in the account in the current Region.
  */
-export const listApiDestinations: (
-  input: ListApiDestinationsRequest,
-) => effect.Effect<
+export const listApiDestinations: API.OperationMethod<
+  ListApiDestinationsRequest,
   ListApiDestinationsResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4353,9 +4324,8 @@ export const listApiDestinations: (
  * Lists your archives. You can either list all the archives or you can provide a prefix to
  * match to the archive names. Filter parameters are exclusive.
  */
-export const listArchives: (
-  input: ListArchivesRequest,
-) => effect.Effect<
+export const listArchives: API.OperationMethod<
+  ListArchivesRequest,
   ListArchivesResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4367,9 +4337,8 @@ export const listArchives: (
 /**
  * Retrieves a list of connections from the account.
  */
-export const listConnections: (
-  input: ListConnectionsRequest,
-) => effect.Effect<
+export const listConnections: API.OperationMethod<
+  ListConnectionsRequest,
   ListConnectionsResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4386,9 +4355,8 @@ export const listConnections: (
  * *Amazon EventBridge User Guide*
  * .
  */
-export const listEndpoints: (
-  input: ListEndpointsRequest,
-) => effect.Effect<
+export const listEndpoints: API.OperationMethod<
+  ListEndpointsRequest,
   ListEndpointsResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4401,9 +4369,8 @@ export const listEndpoints: (
  * Lists all the event buses in your account, including the default event bus, custom event
  * buses, and partner event buses.
  */
-export const listEventBuses: (
-  input: ListEventBusesRequest,
-) => effect.Effect<
+export const listEventBuses: API.OperationMethod<
+  ListEventBusesRequest,
   ListEventBusesResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4416,9 +4383,8 @@ export const listEventBuses: (
  * You can use this to see all the partner event sources that have been shared with your
  * Amazon Web Services account. For more information about partner event sources, see CreateEventBus.
  */
-export const listEventSources: (
-  input: ListEventSourcesRequest,
-) => effect.Effect<
+export const listEventSources: API.OperationMethod<
+  ListEventSourcesRequest,
   ListEventSourcesResponse,
   InternalException | OperationDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4431,9 +4397,8 @@ export const listEventSources: (
  * An SaaS partner can use this operation to display the Amazon Web Services account ID that a
  * particular partner event source name is associated with. This operation is not used by Amazon Web Services customers.
  */
-export const listPartnerEventSourceAccounts: (
-  input: ListPartnerEventSourceAccountsRequest,
-) => effect.Effect<
+export const listPartnerEventSourceAccounts: API.OperationMethod<
+  ListPartnerEventSourceAccountsRequest,
   ListPartnerEventSourceAccountsResponse,
   | InternalException
   | OperationDisabledException
@@ -4453,9 +4418,8 @@ export const listPartnerEventSourceAccounts: (
  * An SaaS partner can use this operation to list all the partner event source names that
  * they have created. This operation is not used by Amazon Web Services customers.
  */
-export const listPartnerEventSources: (
-  input: ListPartnerEventSourcesRequest,
-) => effect.Effect<
+export const listPartnerEventSources: API.OperationMethod<
+  ListPartnerEventSourcesRequest,
   ListPartnerEventSourcesResponse,
   InternalException | OperationDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4468,9 +4432,8 @@ export const listPartnerEventSources: (
  * Lists your replays. You can either list all the replays or you can provide a prefix to
  * match to the replay names. Filter parameters are exclusive.
  */
-export const listReplays: (
-  input: ListReplaysRequest,
-) => effect.Effect<
+export const listReplays: API.OperationMethod<
+  ListReplaysRequest,
   ListReplaysResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4485,9 +4448,8 @@ export const listReplays: (
  *
  * The maximum number of results per page for requests is 100.
  */
-export const listRuleNamesByTarget: (
-  input: ListRuleNamesByTargetRequest,
-) => effect.Effect<
+export const listRuleNamesByTarget: API.OperationMethod<
+  ListRuleNamesByTargetRequest,
   ListRuleNamesByTargetResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4505,9 +4467,8 @@ export const listRuleNamesByTarget: (
  * ListRules does not list the targets of a rule. To see the targets associated with a rule,
  * use ListTargetsByRule.
  */
-export const listRules: (
-  input: ListRulesRequest,
-) => effect.Effect<
+export const listRules: API.OperationMethod<
+  ListRulesRequest,
   ListRulesResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4520,9 +4481,8 @@ export const listRules: (
  * Displays the tags associated with an EventBridge resource. In EventBridge, rules and event
  * buses can be tagged.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4536,9 +4496,8 @@ export const listTagsForResource: (
  *
  * The maximum number of results per page for requests is 100.
  */
-export const listTargetsByRule: (
-  input: ListTargetsByRuleRequest,
-) => effect.Effect<
+export const listTargetsByRule: API.OperationMethod<
+  ListTargetsByRuleRequest,
   ListTargetsByRuleResponse,
   InternalException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4563,9 +4522,8 @@ export const listTargetsByRule: (
  *
  * PutEvents will only process nested JSON up to 1000 levels deep.
  */
-export const putEvents: (
-  input: PutEventsRequest,
-) => effect.Effect<
+export const putEvents: API.OperationMethod<
+  PutEventsRequest,
   PutEventsResponse,
   InternalException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4580,9 +4538,8 @@ export const putEvents: (
  * For information on calculating event batch size, see Calculating EventBridge PutEvents event
  * entry size in the *EventBridge User Guide*.
  */
-export const putPartnerEvents: (
-  input: PutPartnerEventsRequest,
-) => effect.Effect<
+export const putPartnerEvents: API.OperationMethod<
+  PutPartnerEventsRequest,
   PutPartnerEventsResponse,
   InternalException | OperationDisabledException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4613,9 +4570,8 @@ export const putPartnerEvents: (
  *
  * The permission policy on the event bus cannot exceed 10 KB in size.
  */
-export const putPermission: (
-  input: PutPermissionRequest,
-) => effect.Effect<
+export const putPermission: API.OperationMethod<
+  PutPermissionRequest,
   PutPermissionResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4690,9 +4646,8 @@ export const putPermission: (
  * Receiving read-only management events from Amazon Web Services services in the
  * *EventBridge User Guide*.
  */
-export const putRule: (
-  input: PutRuleRequest,
-) => effect.Effect<
+export const putRule: API.OperationMethod<
+  PutRuleRequest,
   PutRuleResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4814,9 +4769,8 @@ export const putRule: (
  * happens, `FailedEntryCount` is non-zero in the response and each entry in
  * `FailedEntries` provides the ID of the failed target and the error code.
  */
-export const putTargets: (
-  input: PutTargetsRequest,
-) => effect.Effect<
+export const putTargets: API.OperationMethod<
+  PutTargetsRequest,
   PutTargetsResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4842,9 +4796,8 @@ export const putTargets: (
  * that you associated with the account when you granted it permission with
  * `PutPermission`. You can find the `StatementId` by using DescribeEventBus.
  */
-export const removePermission: (
-  input: RemovePermissionRequest,
-) => effect.Effect<
+export const removePermission: API.OperationMethod<
+  RemovePermissionRequest,
   RemovePermissionResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4878,9 +4831,8 @@ export const removePermission: (
  *
  * The maximum number of entries per request is 10.
  */
-export const removeTargets: (
-  input: RemoveTargetsRequest,
-) => effect.Effect<
+export const removeTargets: API.OperationMethod<
+  RemoveTargetsRequest,
   RemoveTargetsResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4909,9 +4861,8 @@ export const removeTargets: (
  * indicates the time within the specified time range associated with the last event
  * replayed.
  */
-export const startReplay: (
-  input: StartReplayRequest,
-) => effect.Effect<
+export const startReplay: API.OperationMethod<
+  StartReplayRequest,
   StartReplayResponse,
   | InternalException
   | InvalidEventPatternException
@@ -4947,9 +4898,8 @@ export const startReplay: (
  *
  * You can associate as many as 50 tags with a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -4975,9 +4925,8 @@ export const tagResource: (
  * sure to use the correct ARN characters when creating event patterns so that they match the ARN
  * syntax in the event you want to match.
  */
-export const testEventPattern: (
-  input: TestEventPatternRequest,
-) => effect.Effect<
+export const testEventPattern: API.OperationMethod<
+  TestEventPatternRequest,
   TestEventPatternResponse,
   InternalException | InvalidEventPatternException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4989,9 +4938,8 @@ export const testEventPattern: (
 /**
  * Removes one or more tags from the specified EventBridge resource. In Amazon EventBridge, rules and event buses can be tagged.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConcurrentModificationException
   | InternalException
@@ -5012,9 +4960,8 @@ export const untagResource: (
 /**
  * Updates an API destination.
  */
-export const updateApiDestination: (
-  input: UpdateApiDestinationRequest,
-) => effect.Effect<
+export const updateApiDestination: API.OperationMethod<
+  UpdateApiDestinationRequest,
   UpdateApiDestinationResponse,
   | ConcurrentModificationException
   | InternalException
@@ -5035,9 +4982,8 @@ export const updateApiDestination: (
 /**
  * Updates the specified archive.
  */
-export const updateArchive: (
-  input: UpdateArchiveRequest,
-) => effect.Effect<
+export const updateArchive: API.OperationMethod<
+  UpdateArchiveRequest,
   UpdateArchiveResponse,
   | ConcurrentModificationException
   | InternalException
@@ -5060,9 +5006,8 @@ export const updateArchive: (
 /**
  * Updates settings for a connection.
  */
-export const updateConnection: (
-  input: UpdateConnectionRequest,
-) => effect.Effect<
+export const updateConnection: API.OperationMethod<
+  UpdateConnectionRequest,
   UpdateConnectionResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -5091,9 +5036,8 @@ export const updateConnection: (
  * *Amazon EventBridge User Guide*
  * .
  */
-export const updateEndpoint: (
-  input: UpdateEndpointRequest,
-) => effect.Effect<
+export const updateEndpoint: API.OperationMethod<
+  UpdateEndpointRequest,
   UpdateEndpointResponse,
   | ConcurrentModificationException
   | InternalException
@@ -5112,9 +5056,8 @@ export const updateEndpoint: (
 /**
  * Updates the specified event bus.
  */
-export const updateEventBus: (
-  input: UpdateEventBusRequest,
-) => effect.Effect<
+export const updateEventBus: API.OperationMethod<
+  UpdateEventBusRequest,
   UpdateEventBusResponse,
   | ConcurrentModificationException
   | InternalException

@@ -1893,9 +1893,8 @@ export class ConflictException extends S.TaggedErrorClass<ConflictException>()(
  *
  * For more information about SLO error budgets, see SLO concepts.
  */
-export const batchGetServiceLevelObjectiveBudgetReport: (
-  input: BatchGetServiceLevelObjectiveBudgetReportInput,
-) => effect.Effect<
+export const batchGetServiceLevelObjectiveBudgetReport: API.OperationMethod<
+  BatchGetServiceLevelObjectiveBudgetReportInput,
   BatchGetServiceLevelObjectiveBudgetReportOutput,
   ThrottlingException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1907,9 +1906,8 @@ export const batchGetServiceLevelObjectiveBudgetReport: (
 /**
  * Add or remove time window exclusions for one or more Service Level Objectives (SLOs).
  */
-export const batchUpdateExclusionWindows: (
-  input: BatchUpdateExclusionWindowsInput,
-) => effect.Effect<
+export const batchUpdateExclusionWindows: API.OperationMethod<
+  BatchUpdateExclusionWindowsInput,
   BatchUpdateExclusionWindowsOutput,
   | ResourceNotFoundException
   | ThrottlingException
@@ -1924,9 +1922,8 @@ export const batchUpdateExclusionWindows: (
 /**
  * Deletes the grouping configuration for this account. This removes all custom grouping attribute definitions that were previously configured.
  */
-export const deleteGroupingConfiguration: (
-  input: DeleteGroupingConfigurationRequest,
-) => effect.Effect<
+export const deleteGroupingConfiguration: API.OperationMethod<
+  DeleteGroupingConfigurationRequest,
   DeleteGroupingConfigurationOutput,
   | AccessDeniedException
   | ThrottlingException
@@ -1941,9 +1938,8 @@ export const deleteGroupingConfiguration: (
 /**
  * Returns information about a service discovered by Application Signals.
  */
-export const getService: (
-  input: GetServiceInput,
-) => effect.Effect<
+export const getService: API.OperationMethod<
+  GetServiceInput,
   GetServiceOutput,
   ThrottlingException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1955,9 +1951,8 @@ export const getService: (
 /**
  * Returns a list of audit findings that provide automated analysis of service behavior and root cause analysis. These findings help identify the most significant observations about your services, including performance issues, anomalies, and potential problems. The findings are generated using heuristic algorithms based on established troubleshooting patterns.
  */
-export const listAuditFindings: (
-  input: ListAuditFindingsInput,
-) => effect.Effect<
+export const listAuditFindings: API.OperationMethod<
+  ListAuditFindingsInput,
   ListAuditFindingsOutput,
   ThrottlingException | ValidationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1969,14 +1964,12 @@ export const listAuditFindings: (
 /**
  * Returns a list of change events for a specific entity, such as deployments, configuration changes, or other state-changing activities. This operation helps track the history of changes that may have affected service performance.
  */
-export const listEntityEvents: {
-  (
-    input: ListEntityEventsInput,
-  ): effect.Effect<
-    ListEntityEventsOutput,
-    ThrottlingException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEntityEvents: API.OperationMethod<
+  ListEntityEventsInput,
+  ListEntityEventsOutput,
+  ThrottlingException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEntityEventsInput,
   ) => stream.Stream<
@@ -2005,9 +1998,8 @@ export const listEntityEvents: {
 /**
  * Returns the current grouping configuration for this account, including all custom grouping attribute definitions that have been configured. These definitions determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings.
  */
-export const listGroupingAttributeDefinitions: (
-  input: ListGroupingAttributeDefinitionsInput,
-) => effect.Effect<
+export const listGroupingAttributeDefinitions: API.OperationMethod<
+  ListGroupingAttributeDefinitionsInput,
   ListGroupingAttributeDefinitionsOutput,
   | AccessDeniedException
   | ThrottlingException
@@ -2022,14 +2014,12 @@ export const listGroupingAttributeDefinitions: (
 /**
  * Returns a list of service dependencies of the service that you specify. A dependency is an infrastructure component that an operation of this service connects with. Dependencies can include Amazon Web Services services, Amazon Web Services resources, and third-party services.
  */
-export const listServiceDependencies: {
-  (
-    input: ListServiceDependenciesInput,
-  ): effect.Effect<
-    ListServiceDependenciesOutput,
-    ThrottlingException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceDependencies: API.OperationMethod<
+  ListServiceDependenciesInput,
+  ListServiceDependenciesOutput,
+  ThrottlingException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceDependenciesInput,
   ) => stream.Stream<
@@ -2058,14 +2048,12 @@ export const listServiceDependencies: {
 /**
  * Returns the list of dependents that invoked the specified service during the provided time range. Dependents include other services, CloudWatch Synthetics canaries, and clients that are instrumented with CloudWatch RUM app monitors.
  */
-export const listServiceDependents: {
-  (
-    input: ListServiceDependentsInput,
-  ): effect.Effect<
-    ListServiceDependentsOutput,
-    ThrottlingException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceDependents: API.OperationMethod<
+  ListServiceDependentsInput,
+  ListServiceDependentsOutput,
+  ThrottlingException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceDependentsInput,
   ) => stream.Stream<
@@ -2094,17 +2082,15 @@ export const listServiceDependents: {
 /**
  * Retrieves all exclusion windows configured for a specific SLO.
  */
-export const listServiceLevelObjectiveExclusionWindows: {
-  (
-    input: ListServiceLevelObjectiveExclusionWindowsInput,
-  ): effect.Effect<
-    ListServiceLevelObjectiveExclusionWindowsOutput,
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceLevelObjectiveExclusionWindows: API.OperationMethod<
+  ListServiceLevelObjectiveExclusionWindowsInput,
+  ListServiceLevelObjectiveExclusionWindowsOutput,
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceLevelObjectiveExclusionWindowsInput,
   ) => stream.Stream<
@@ -2139,14 +2125,12 @@ export const listServiceLevelObjectiveExclusionWindows: {
 /**
  * Returns a list of the *operations* of this service that have been discovered by Application Signals. Only the operations that were invoked during the specified time range are returned.
  */
-export const listServiceOperations: {
-  (
-    input: ListServiceOperationsInput,
-  ): effect.Effect<
-    ListServiceOperationsOutput,
-    ThrottlingException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceOperations: API.OperationMethod<
+  ListServiceOperationsInput,
+  ListServiceOperationsOutput,
+  ThrottlingException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceOperationsInput,
   ) => stream.Stream<
@@ -2175,14 +2159,12 @@ export const listServiceOperations: {
 /**
  * Returns a list of services that have been discovered by Application Signals. A service represents a minimum logical and transactional unit that completes a business function. Services are discovered through Application Signals instrumentation.
  */
-export const listServices: {
-  (
-    input: ListServicesInput,
-  ): effect.Effect<
-    ListServicesOutput,
-    ThrottlingException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServices: API.OperationMethod<
+  ListServicesInput,
+  ListServicesOutput,
+  ThrottlingException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServicesInput,
   ) => stream.Stream<
@@ -2211,14 +2193,12 @@ export const listServices: {
 /**
  * Returns information about the last deployment and other change states of services. This API provides visibility into recent changes that may have affected service performance, helping with troubleshooting and change correlation.
  */
-export const listServiceStates: {
-  (
-    input: ListServiceStatesInput,
-  ): effect.Effect<
-    ListServiceStatesOutput,
-    ThrottlingException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceStates: API.OperationMethod<
+  ListServiceStatesInput,
+  ListServiceStatesOutput,
+  ThrottlingException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceStatesInput,
   ) => stream.Stream<
@@ -2247,9 +2227,8 @@ export const listServiceStates: {
 /**
  * Displays the tags associated with a CloudWatch resource. Tags can be assigned to service level objectives.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   ResourceNotFoundException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2261,9 +2240,8 @@ export const listTagsForResource: (
 /**
  * Creates or updates the grouping configuration for this account. This operation allows you to define custom grouping attributes that determine how services are logically grouped based on telemetry attributes, Amazon Web Services tags, or predefined mappings. These grouping attributes can then be used to organize and filter services in the Application Signals console and APIs.
  */
-export const putGroupingConfiguration: (
-  input: PutGroupingConfigurationInput,
-) => effect.Effect<
+export const putGroupingConfiguration: API.OperationMethod<
+  PutGroupingConfigurationInput,
   PutGroupingConfigurationOutput,
   | AccessDeniedException
   | ThrottlingException
@@ -2296,9 +2274,8 @@ export const putGroupingConfiguration: (
  *
  * After completing this step, you still need to instrument your Java and Python applications to send data to Application Signals. For more information, see Enabling Application Signals.
  */
-export const startDiscovery: (
-  input: StartDiscoveryInput,
-) => effect.Effect<
+export const startDiscovery: API.OperationMethod<
+  StartDiscoveryInput,
   StartDiscoveryOutput,
   | AccessDeniedException
   | ThrottlingException
@@ -2321,9 +2298,8 @@ export const startDiscovery: (
  *
  * You can associate as many as 50 tags with a CloudWatch resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ResourceNotFoundException
   | ServiceQuotaExceededException
@@ -2342,9 +2318,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   ResourceNotFoundException | ThrottlingException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2398,9 +2373,8 @@ export const untagResource: (
  *
  * - `autoscaling:DescribeAutoScalingGroups`
  */
-export const createServiceLevelObjective: (
-  input: CreateServiceLevelObjectiveInput,
-) => effect.Effect<
+export const createServiceLevelObjective: API.OperationMethod<
+  CreateServiceLevelObjectiveInput,
   CreateServiceLevelObjectiveOutput,
   | AccessDeniedException
   | ConflictException
@@ -2423,9 +2397,8 @@ export const createServiceLevelObjective: (
 /**
  * Returns information about one SLO created in the account.
  */
-export const getServiceLevelObjective: (
-  input: GetServiceLevelObjectiveInput,
-) => effect.Effect<
+export const getServiceLevelObjective: API.OperationMethod<
+  GetServiceLevelObjectiveInput,
   GetServiceLevelObjectiveOutput,
   | ResourceNotFoundException
   | ThrottlingException
@@ -2442,9 +2415,8 @@ export const getServiceLevelObjective: (
  *
  * You cannot change from a period-based SLO to a request-based SLO, or change from a request-based SLO to a period-based SLO.
  */
-export const updateServiceLevelObjective: (
-  input: UpdateServiceLevelObjectiveInput,
-) => effect.Effect<
+export const updateServiceLevelObjective: API.OperationMethod<
+  UpdateServiceLevelObjectiveInput,
   UpdateServiceLevelObjectiveOutput,
   | ResourceNotFoundException
   | ThrottlingException
@@ -2459,9 +2431,8 @@ export const updateServiceLevelObjective: (
 /**
  * Deletes the specified service level objective.
  */
-export const deleteServiceLevelObjective: (
-  input: DeleteServiceLevelObjectiveInput,
-) => effect.Effect<
+export const deleteServiceLevelObjective: API.OperationMethod<
+  DeleteServiceLevelObjectiveInput,
   DeleteServiceLevelObjectiveOutput,
   | ResourceNotFoundException
   | ThrottlingException
@@ -2476,14 +2447,12 @@ export const deleteServiceLevelObjective: (
 /**
  * Returns a list of SLOs created in this account.
  */
-export const listServiceLevelObjectives: {
-  (
-    input: ListServiceLevelObjectivesInput,
-  ): effect.Effect<
-    ListServiceLevelObjectivesOutput,
-    ThrottlingException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceLevelObjectives: API.OperationMethod<
+  ListServiceLevelObjectivesInput,
+  ListServiceLevelObjectivesOutput,
+  ThrottlingException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceLevelObjectivesInput,
   ) => stream.Stream<

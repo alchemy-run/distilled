@@ -1244,9 +1244,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
  * with the group's attributes. This feature enables applications to be described with
  * user-defined details that are machine-readable, such as third-party integrations.
  */
-export const associateAttributeGroup: (
-  input: AssociateAttributeGroupRequest,
-) => effect.Effect<
+export const associateAttributeGroup: API.OperationMethod<
+  AssociateAttributeGroupRequest,
   AssociateAttributeGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1291,9 +1290,8 @@ export const associateAttributeGroup: (
  * In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource.
  * For more information, see TagResources in the *Resource Groups Tagging API Reference*.
  */
-export const associateResource: (
-  input: AssociateResourceRequest,
-) => effect.Effect<
+export const associateResource: API.OperationMethod<
+  AssociateResourceRequest,
   AssociateResourceResponse,
   | ConflictException
   | InternalServerException
@@ -1318,9 +1316,8 @@ export const associateResource: (
 /**
  * Creates a new application that is the top-level node in a hierarchy of related cloud resource abstractions.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | ConflictException
   | InternalServerException
@@ -1346,9 +1343,8 @@ export const createApplication: (
  * machine-readable format to facilitate integration with automated workflows and third-party
  * tools.
  */
-export const createAttributeGroup: (
-  input: CreateAttributeGroupRequest,
-) => effect.Effect<
+export const createAttributeGroup: API.OperationMethod<
+  CreateAttributeGroupRequest,
   CreateAttributeGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1369,9 +1365,8 @@ export const createAttributeGroup: (
 /**
  * Deletes an application that is specified either by its application ID, name, or ARN. All associated attribute groups and resources must be disassociated from it before deleting an application.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1390,9 +1385,8 @@ export const deleteApplication: (
 /**
  * Deletes an attribute group, specified either by its attribute group ID, name, or ARN.
  */
-export const deleteAttributeGroup: (
-  input: DeleteAttributeGroupRequest,
-) => effect.Effect<
+export const deleteAttributeGroup: API.OperationMethod<
+  DeleteAttributeGroupRequest,
   DeleteAttributeGroupResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1411,9 +1405,8 @@ export const deleteAttributeGroup: (
 /**
  * Disassociates an attribute group from an application to remove the extra attributes contained in the attribute group from the application's metadata. This operation reverts `AssociateAttributeGroup`.
  */
-export const disassociateAttributeGroup: (
-  input: DisassociateAttributeGroupRequest,
-) => effect.Effect<
+export const disassociateAttributeGroup: API.OperationMethod<
+  DisassociateAttributeGroupRequest,
   DisassociateAttributeGroupResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1453,9 +1446,8 @@ export const disassociateAttributeGroup: (
  * In addition, you must have the tagging permission defined by the Amazon Web Services service that creates the resource.
  * For more information, see UntagResources in the *Resource Groups Tagging API Reference*.
  */
-export const disassociateResource: (
-  input: DisassociateResourceRequest,
-) => effect.Effect<
+export const disassociateResource: API.OperationMethod<
+  DisassociateResourceRequest,
   DisassociateResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1492,9 +1484,8 @@ export const disassociateResource: (
  * that the exact same application is returned or a `ResourceNotFoundException` is thrown,
  * avoiding the ABA addressing problem.
  */
-export const getApplication: (
-  input: GetApplicationRequest,
-) => effect.Effect<
+export const getApplication: API.OperationMethod<
+  GetApplicationRequest,
   GetApplicationResponse,
   | ConflictException
   | InternalServerException
@@ -1515,9 +1506,8 @@ export const getApplication: (
 /**
  * Gets the resource associated with the application.
  */
-export const getAssociatedResource: (
-  input: GetAssociatedResourceRequest,
-) => effect.Effect<
+export const getAssociatedResource: API.OperationMethod<
+  GetAssociatedResourceRequest,
   GetAssociatedResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1539,9 +1529,8 @@ export const getAssociatedResource: (
  * The attribute group can be specified
  * by its ARN, ID, or name.
  */
-export const getAttributeGroup: (
-  input: GetAttributeGroupRequest,
-) => effect.Effect<
+export const getAttributeGroup: API.OperationMethod<
+  GetAttributeGroupRequest,
   GetAttributeGroupResponse,
   | ConflictException
   | InternalServerException
@@ -1563,9 +1552,8 @@ export const getAttributeGroup: (
  * Retrieves a `TagKey` configuration
  * from an account.
  */
-export const getConfiguration: (
-  input: GetConfigurationRequest,
-) => effect.Effect<
+export const getConfiguration: API.OperationMethod<
+  GetConfigurationRequest,
   GetConfigurationResponse,
   InternalServerException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1577,14 +1565,12 @@ export const getConfiguration: (
 /**
  * Retrieves a list of all of your applications. Results are paginated.
  */
-export const listApplications: {
-  (
-    input: ListApplicationsRequest,
-  ): effect.Effect<
-    ListApplicationsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
+  ListApplicationsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListApplicationsRequest,
   ) => stream.Stream<
@@ -1613,17 +1599,15 @@ export const listApplications: {
 /**
  * Lists all attribute groups that are associated with specified application. Results are paginated.
  */
-export const listAssociatedAttributeGroups: {
-  (
-    input: ListAssociatedAttributeGroupsRequest,
-  ): effect.Effect<
-    ListAssociatedAttributeGroupsResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociatedAttributeGroups: API.OperationMethod<
+  ListAssociatedAttributeGroupsRequest,
+  ListAssociatedAttributeGroupsResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociatedAttributeGroupsRequest,
   ) => stream.Stream<
@@ -1677,17 +1661,15 @@ export const listAssociatedAttributeGroups: {
  * with it
  * using this API.
  */
-export const listAssociatedResources: {
-  (
-    input: ListAssociatedResourcesRequest,
-  ): effect.Effect<
-    ListAssociatedResourcesResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociatedResources: API.OperationMethod<
+  ListAssociatedResourcesRequest,
+  ListAssociatedResourcesResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociatedResourcesRequest,
   ) => stream.Stream<
@@ -1726,14 +1708,12 @@ export const listAssociatedResources: {
 /**
  * Lists all attribute groups which you have access to. Results are paginated.
  */
-export const listAttributeGroups: {
-  (
-    input: ListAttributeGroupsRequest,
-  ): effect.Effect<
-    ListAttributeGroupsResponse,
-    InternalServerException | ValidationException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttributeGroups: API.OperationMethod<
+  ListAttributeGroupsRequest,
+  ListAttributeGroupsResponse,
+  InternalServerException | ValidationException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttributeGroupsRequest,
   ) => stream.Stream<
@@ -1762,17 +1742,15 @@ export const listAttributeGroups: {
 /**
  * Lists the details of all attribute groups associated with a specific application. The results display in pages.
  */
-export const listAttributeGroupsForApplication: {
-  (
-    input: ListAttributeGroupsForApplicationRequest,
-  ): effect.Effect<
-    ListAttributeGroupsForApplicationResponse,
-    | InternalServerException
-    | ResourceNotFoundException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAttributeGroupsForApplication: API.OperationMethod<
+  ListAttributeGroupsForApplicationRequest,
+  ListAttributeGroupsForApplicationResponse,
+  | InternalServerException
+  | ResourceNotFoundException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAttributeGroupsForApplicationRequest,
   ) => stream.Stream<
@@ -1811,9 +1789,8 @@ export const listAttributeGroupsForApplication: {
 /**
  * Lists all of the tags on the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1833,9 +1810,8 @@ export const listTagsForResource: (
  * Associates a `TagKey` configuration
  * to an account.
  */
-export const putConfiguration: (
-  input: PutConfigurationRequest,
-) => effect.Effect<
+export const putConfiguration: API.OperationMethod<
+  PutConfigurationRequest,
   PutConfigurationResponse,
   | ConflictException
   | InternalServerException
@@ -1852,9 +1828,8 @@ export const putConfiguration: (
  *
  * Specifically, the resource’s AppRegistry system tags sync with its associated application. We remove the resource's AppRegistry system tags if it does not associate with the application. The caller must have permissions to read and update the resource.
  */
-export const syncResource: (
-  input: SyncResourceRequest,
-) => effect.Effect<
+export const syncResource: API.OperationMethod<
+  SyncResourceRequest,
   SyncResourceResponse,
   | ConflictException
   | InternalServerException
@@ -1881,9 +1856,8 @@ export const syncResource: (
  *
  * This operation returns an empty response if the call was successful.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1904,9 +1878,8 @@ export const tagResource: (
  *
  * This operation returns an empty response if the call was successful.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -1925,9 +1898,8 @@ export const untagResource: (
 /**
  * Updates an existing application with new attributes.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | ConflictException
   | InternalServerException
@@ -1950,9 +1922,8 @@ export const updateApplication: (
 /**
  * Updates an existing attribute group with new details.
  */
-export const updateAttributeGroup: (
-  input: UpdateAttributeGroupRequest,
-) => effect.Effect<
+export const updateAttributeGroup: API.OperationMethod<
+  UpdateAttributeGroupRequest,
   UpdateAttributeGroupResponse,
   | ConflictException
   | InternalServerException

@@ -4428,9 +4428,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  * you acknowledge that custom lenses created by other users and shared with you are
  * Third Party Content as defined in the Amazon Web Services Customer Agreement.
  */
-export const associateLenses: (
-  input: AssociateLensesInput,
-) => effect.Effect<
+export const associateLenses: API.OperationMethod<
+  AssociateLensesInput,
   AssociateLensesResponse,
   | AccessDeniedException
   | ConflictException
@@ -4455,9 +4454,8 @@ export const associateLenses: (
 /**
  * Associate a profile with a workload.
  */
-export const associateProfiles: (
-  input: AssociateProfilesInput,
-) => effect.Effect<
+export const associateProfiles: API.OperationMethod<
+  AssociateProfilesInput,
   AssociateProfilesResponse,
   | AccessDeniedException
   | ConflictException
@@ -4503,9 +4501,8 @@ export const associateProfiles: (
  * from your own Amazon Web Services account or terminate
  * your Amazon Web Services account.
  */
-export const createLensShare: (
-  input: CreateLensShareInput,
-) => effect.Effect<
+export const createLensShare: API.OperationMethod<
+  CreateLensShareInput,
   CreateLensShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -4539,9 +4536,8 @@ export const createLensShare: (
  * The owner of a lens can share the lens with other
  * Amazon Web Services accounts and users in the same Amazon Web Services Region. Only the owner of a lens can delete it.
  */
-export const createLensVersion: (
-  input: CreateLensVersionInput,
-) => effect.Effect<
+export const createLensVersion: API.OperationMethod<
+  CreateLensVersionInput,
   CreateLensVersionOutput,
   | AccessDeniedException
   | ConflictException
@@ -4568,9 +4564,8 @@ export const createLensVersion: (
 /**
  * Create a milestone for an existing workload.
  */
-export const createMilestone: (
-  input: CreateMilestoneInput,
-) => effect.Effect<
+export const createMilestone: API.OperationMethod<
+  CreateMilestoneInput,
   CreateMilestoneOutput,
   | AccessDeniedException
   | ConflictException
@@ -4597,9 +4592,8 @@ export const createMilestone: (
 /**
  * Create a profile.
  */
-export const createProfile: (
-  input: CreateProfileInput,
-) => effect.Effect<
+export const createProfile: API.OperationMethod<
+  CreateProfileInput,
   CreateProfileOutput,
   | AccessDeniedException
   | ConflictException
@@ -4624,9 +4618,8 @@ export const createProfile: (
 /**
  * Create a profile share.
  */
-export const createProfileShare: (
-  input: CreateProfileShareInput,
-) => effect.Effect<
+export const createProfileShare: API.OperationMethod<
+  CreateProfileShareInput,
   CreateProfileShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -4662,9 +4655,8 @@ export const createProfileShare: (
  * with applicable law, providing adequate privacy notices, and obtaining necessary
  * consents for processing such data.
  */
-export const createReviewTemplate: (
-  input: CreateReviewTemplateInput,
-) => effect.Effect<
+export const createReviewTemplate: API.OperationMethod<
+  CreateReviewTemplateInput,
   CreateReviewTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -4706,9 +4698,8 @@ export const createReviewTemplate: (
  * acknowledge that Amazon Web Services will make your review template available to
  * those other accounts.
  */
-export const createTemplateShare: (
-  input: CreateTemplateShareInput,
-) => effect.Effect<
+export const createTemplateShare: API.OperationMethod<
+  CreateTemplateShareInput,
   CreateTemplateShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -4758,9 +4749,8 @@ export const createTemplateShare: (
  *
  * - `wellarchitected:GetReviewTemplateLensReview`
  */
-export const createWorkload: (
-  input: CreateWorkloadInput,
-) => effect.Effect<
+export const createWorkload: API.OperationMethod<
+  CreateWorkloadInput,
   CreateWorkloadOutput,
   | AccessDeniedException
   | ConflictException
@@ -4797,9 +4787,8 @@ export const createWorkload: (
  * For more information, see Sharing a workload in the
  * *Well-Architected Tool User Guide*.
  */
-export const createWorkloadShare: (
-  input: CreateWorkloadShareInput,
-) => effect.Effect<
+export const createWorkloadShare: API.OperationMethod<
+  CreateWorkloadShareInput,
   CreateWorkloadShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -4838,9 +4827,8 @@ export const createWorkloadShare: (
  * from your own Amazon Web Services account or terminate
  * your Amazon Web Services account.
  */
-export const deleteLens: (
-  input: DeleteLensInput,
-) => effect.Effect<
+export const deleteLens: API.OperationMethod<
+  DeleteLensInput,
   DeleteLensResponse,
   | AccessDeniedException
   | ConflictException
@@ -4878,9 +4866,8 @@ export const deleteLens: (
  * from your own Amazon Web Services account or terminate
  * your Amazon Web Services account.
  */
-export const deleteLensShare: (
-  input: DeleteLensShareInput,
-) => effect.Effect<
+export const deleteLensShare: API.OperationMethod<
+  DeleteLensShareInput,
   DeleteLensShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -4914,9 +4901,8 @@ export const deleteLensShare: (
  * from your own Amazon Web Services account or terminate
  * your Amazon Web Services account.
  */
-export const deleteProfile: (
-  input: DeleteProfileInput,
-) => effect.Effect<
+export const deleteProfile: API.OperationMethod<
+  DeleteProfileInput,
   DeleteProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -4941,9 +4927,8 @@ export const deleteProfile: (
 /**
  * Delete a profile share.
  */
-export const deleteProfileShare: (
-  input: DeleteProfileShareInput,
-) => effect.Effect<
+export const deleteProfileShare: API.OperationMethod<
+  DeleteProfileShareInput,
   DeleteProfileShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -4974,9 +4959,8 @@ export const deleteProfileShare: (
  * organizations, and organizational units (OUs) that you shared the review template with
  * will no longer be able to apply it to new workloads.
  */
-export const deleteReviewTemplate: (
-  input: DeleteReviewTemplateInput,
-) => effect.Effect<
+export const deleteReviewTemplate: API.OperationMethod<
+  DeleteReviewTemplateInput,
   DeleteReviewTemplateResponse,
   | AccessDeniedException
   | ConflictException
@@ -5005,9 +4989,8 @@ export const deleteReviewTemplate: (
  * organizations, and organizational units (OUs) that you shared the review template with
  * will no longer be able to apply it to new workloads.
  */
-export const deleteTemplateShare: (
-  input: DeleteTemplateShareInput,
-) => effect.Effect<
+export const deleteTemplateShare: API.OperationMethod<
+  DeleteTemplateShareInput,
   DeleteTemplateShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -5032,9 +5015,8 @@ export const deleteTemplateShare: (
 /**
  * Delete an existing workload.
  */
-export const deleteWorkload: (
-  input: DeleteWorkloadInput,
-) => effect.Effect<
+export const deleteWorkload: API.OperationMethod<
+  DeleteWorkloadInput,
   DeleteWorkloadResponse,
   | AccessDeniedException
   | ConflictException
@@ -5059,9 +5041,8 @@ export const deleteWorkload: (
 /**
  * Delete a workload share.
  */
-export const deleteWorkloadShare: (
-  input: DeleteWorkloadShareInput,
-) => effect.Effect<
+export const deleteWorkloadShare: API.OperationMethod<
+  DeleteWorkloadShareInput,
   DeleteWorkloadShareResponse,
   | AccessDeniedException
   | ConflictException
@@ -5091,9 +5072,8 @@ export const deleteWorkloadShare: (
  * The Amazon Web Services Well-Architected Framework lens (`wellarchitected`) cannot be
  * removed from a workload.
  */
-export const disassociateLenses: (
-  input: DisassociateLensesInput,
-) => effect.Effect<
+export const disassociateLenses: API.OperationMethod<
+  DisassociateLensesInput,
   DisassociateLensesResponse,
   | AccessDeniedException
   | ConflictException
@@ -5118,9 +5098,8 @@ export const disassociateLenses: (
 /**
  * Disassociate a profile from a workload.
  */
-export const disassociateProfiles: (
-  input: DisassociateProfilesInput,
-) => effect.Effect<
+export const disassociateProfiles: API.OperationMethod<
+  DisassociateProfilesInput,
   DisassociateProfilesResponse,
   | AccessDeniedException
   | ConflictException
@@ -5160,9 +5139,8 @@ export const disassociateProfiles: (
  * with applicable law, providing adequate privacy notices, and obtaining necessary
  * consents for processing such data.
  */
-export const exportLens: (
-  input: ExportLensInput,
-) => effect.Effect<
+export const exportLens: API.OperationMethod<
+  ExportLensInput,
   ExportLensOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5185,9 +5163,8 @@ export const exportLens: (
 /**
  * Get the answer to a specific question in a workload review.
  */
-export const getAnswer: (
-  input: GetAnswerInput,
-) => effect.Effect<
+export const getAnswer: API.OperationMethod<
+  GetAnswerInput,
   GetAnswerOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5212,19 +5189,17 @@ export const getAnswer: (
  *
  * You can optionally choose to include workloads that have been shared with you.
  */
-export const getConsolidatedReport: {
-  (
-    input: GetConsolidatedReportInput,
-  ): effect.Effect<
-    GetConsolidatedReportOutput,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getConsolidatedReport: API.OperationMethod<
+  GetConsolidatedReportInput,
+  GetConsolidatedReportOutput,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetConsolidatedReportInput,
   ) => stream.Stream<
@@ -5268,9 +5243,8 @@ export const getConsolidatedReport: {
 /**
  * Global settings for all workloads.
  */
-export const getGlobalSettings: (
-  input: GetGlobalSettingsRequest,
-) => effect.Effect<
+export const getGlobalSettings: API.OperationMethod<
+  GetGlobalSettingsRequest,
   GetGlobalSettingsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5291,9 +5265,8 @@ export const getGlobalSettings: (
 /**
  * Get an existing lens.
  */
-export const getLens: (
-  input: GetLensInput,
-) => effect.Effect<
+export const getLens: API.OperationMethod<
+  GetLensInput,
   GetLensOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5316,9 +5289,8 @@ export const getLens: (
 /**
  * Get lens review.
  */
-export const getLensReview: (
-  input: GetLensReviewInput,
-) => effect.Effect<
+export const getLensReview: API.OperationMethod<
+  GetLensReviewInput,
   GetLensReviewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5341,9 +5313,8 @@ export const getLensReview: (
 /**
  * Get lens review report.
  */
-export const getLensReviewReport: (
-  input: GetLensReviewReportInput,
-) => effect.Effect<
+export const getLensReviewReport: API.OperationMethod<
+  GetLensReviewReportInput,
   GetLensReviewReportOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5366,9 +5337,8 @@ export const getLensReviewReport: (
 /**
  * Get lens version differences.
  */
-export const getLensVersionDifference: (
-  input: GetLensVersionDifferenceInput,
-) => effect.Effect<
+export const getLensVersionDifference: API.OperationMethod<
+  GetLensVersionDifferenceInput,
   GetLensVersionDifferenceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5391,9 +5361,8 @@ export const getLensVersionDifference: (
 /**
  * Get a milestone for an existing workload.
  */
-export const getMilestone: (
-  input: GetMilestoneInput,
-) => effect.Effect<
+export const getMilestone: API.OperationMethod<
+  GetMilestoneInput,
   GetMilestoneOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5416,9 +5385,8 @@ export const getMilestone: (
 /**
  * Get profile information.
  */
-export const getProfile: (
-  input: GetProfileInput,
-) => effect.Effect<
+export const getProfile: API.OperationMethod<
+  GetProfileInput,
   GetProfileOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5441,9 +5409,8 @@ export const getProfile: (
 /**
  * Get profile template.
  */
-export const getProfileTemplate: (
-  input: GetProfileTemplateInput,
-) => effect.Effect<
+export const getProfileTemplate: API.OperationMethod<
+  GetProfileTemplateInput,
   GetProfileTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5466,9 +5433,8 @@ export const getProfileTemplate: (
 /**
  * Get review template.
  */
-export const getReviewTemplate: (
-  input: GetReviewTemplateInput,
-) => effect.Effect<
+export const getReviewTemplate: API.OperationMethod<
+  GetReviewTemplateInput,
   GetReviewTemplateOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5491,9 +5457,8 @@ export const getReviewTemplate: (
 /**
  * Get review template answer.
  */
-export const getReviewTemplateAnswer: (
-  input: GetReviewTemplateAnswerInput,
-) => effect.Effect<
+export const getReviewTemplateAnswer: API.OperationMethod<
+  GetReviewTemplateAnswerInput,
   GetReviewTemplateAnswerOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5516,9 +5481,8 @@ export const getReviewTemplateAnswer: (
 /**
  * Get a lens review associated with a review template.
  */
-export const getReviewTemplateLensReview: (
-  input: GetReviewTemplateLensReviewInput,
-) => effect.Effect<
+export const getReviewTemplateLensReview: API.OperationMethod<
+  GetReviewTemplateLensReviewInput,
   GetReviewTemplateLensReviewOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5541,9 +5505,8 @@ export const getReviewTemplateLensReview: (
 /**
  * Get an existing workload.
  */
-export const getWorkload: (
-  input: GetWorkloadInput,
-) => effect.Effect<
+export const getWorkload: API.OperationMethod<
+  GetWorkloadInput,
   GetWorkloadOutput,
   | AccessDeniedException
   | InternalServerException
@@ -5587,9 +5550,8 @@ export const getWorkload: (
  * with applicable law, providing adequate privacy notices, and obtaining necessary
  * consents for processing such data.
  */
-export const importLens: (
-  input: ImportLensInput,
-) => effect.Effect<
+export const importLens: API.OperationMethod<
+  ImportLensInput,
   ImportLensOutput,
   | AccessDeniedException
   | ConflictException
@@ -5616,19 +5578,17 @@ export const importLens: (
 /**
  * List of answers for a particular workload and lens.
  */
-export const listAnswers: {
-  (
-    input: ListAnswersInput,
-  ): effect.Effect<
-    ListAnswersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnswers: API.OperationMethod<
+  ListAnswersInput,
+  ListAnswersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnswersInput,
   ) => stream.Stream<
@@ -5672,19 +5632,17 @@ export const listAnswers: {
 /**
  * List of Trusted Advisor check details by account related to the workload.
  */
-export const listCheckDetails: {
-  (
-    input: ListCheckDetailsInput,
-  ): effect.Effect<
-    ListCheckDetailsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCheckDetails: API.OperationMethod<
+  ListCheckDetailsInput,
+  ListCheckDetailsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCheckDetailsInput,
   ) => stream.Stream<
@@ -5728,19 +5686,17 @@ export const listCheckDetails: {
 /**
  * List of Trusted Advisor checks summarized for all accounts related to the workload.
  */
-export const listCheckSummaries: {
-  (
-    input: ListCheckSummariesInput,
-  ): effect.Effect<
-    ListCheckSummariesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCheckSummaries: API.OperationMethod<
+  ListCheckSummariesInput,
+  ListCheckSummariesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCheckSummariesInput,
   ) => stream.Stream<
@@ -5784,18 +5740,16 @@ export const listCheckSummaries: {
 /**
  * List the available lenses.
  */
-export const listLenses: {
-  (
-    input: ListLensesInput,
-  ): effect.Effect<
-    ListLensesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLenses: API.OperationMethod<
+  ListLensesInput,
+  ListLensesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLensesInput,
   ) => stream.Stream<
@@ -5836,19 +5790,17 @@ export const listLenses: {
 /**
  * List the improvements of a particular lens review.
  */
-export const listLensReviewImprovements: {
-  (
-    input: ListLensReviewImprovementsInput,
-  ): effect.Effect<
-    ListLensReviewImprovementsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLensReviewImprovements: API.OperationMethod<
+  ListLensReviewImprovementsInput,
+  ListLensReviewImprovementsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLensReviewImprovementsInput,
   ) => stream.Stream<
@@ -5892,19 +5844,17 @@ export const listLensReviewImprovements: {
 /**
  * List lens reviews for a particular workload.
  */
-export const listLensReviews: {
-  (
-    input: ListLensReviewsInput,
-  ): effect.Effect<
-    ListLensReviewsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLensReviews: API.OperationMethod<
+  ListLensReviewsInput,
+  ListLensReviewsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLensReviewsInput,
   ) => stream.Stream<
@@ -5948,19 +5898,17 @@ export const listLensReviews: {
 /**
  * List the lens shares associated with the lens.
  */
-export const listLensShares: {
-  (
-    input: ListLensSharesInput,
-  ): effect.Effect<
-    ListLensSharesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listLensShares: API.OperationMethod<
+  ListLensSharesInput,
+  ListLensSharesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListLensSharesInput,
   ) => stream.Stream<
@@ -6004,19 +5952,17 @@ export const listLensShares: {
 /**
  * List all milestones for an existing workload.
  */
-export const listMilestones: {
-  (
-    input: ListMilestonesInput,
-  ): effect.Effect<
-    ListMilestonesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMilestones: API.OperationMethod<
+  ListMilestonesInput,
+  ListMilestonesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMilestonesInput,
   ) => stream.Stream<
@@ -6060,18 +6006,16 @@ export const listMilestones: {
 /**
  * List lens notifications.
  */
-export const listNotifications: {
-  (
-    input: ListNotificationsInput,
-  ): effect.Effect<
-    ListNotificationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNotifications: API.OperationMethod<
+  ListNotificationsInput,
+  ListNotificationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNotificationsInput,
   ) => stream.Stream<
@@ -6112,18 +6056,16 @@ export const listNotifications: {
 /**
  * List profile notifications.
  */
-export const listProfileNotifications: {
-  (
-    input: ListProfileNotificationsInput,
-  ): effect.Effect<
-    ListProfileNotificationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfileNotifications: API.OperationMethod<
+  ListProfileNotificationsInput,
+  ListProfileNotificationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfileNotificationsInput,
   ) => stream.Stream<
@@ -6164,18 +6106,16 @@ export const listProfileNotifications: {
 /**
  * List profiles.
  */
-export const listProfiles: {
-  (
-    input: ListProfilesInput,
-  ): effect.Effect<
-    ListProfilesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfiles: API.OperationMethod<
+  ListProfilesInput,
+  ListProfilesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfilesInput,
   ) => stream.Stream<
@@ -6216,19 +6156,17 @@ export const listProfiles: {
 /**
  * List profile shares.
  */
-export const listProfileShares: {
-  (
-    input: ListProfileSharesInput,
-  ): effect.Effect<
-    ListProfileSharesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProfileShares: API.OperationMethod<
+  ListProfileSharesInput,
+  ListProfileSharesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProfileSharesInput,
   ) => stream.Stream<
@@ -6272,19 +6210,17 @@ export const listProfileShares: {
 /**
  * List the answers of a review template.
  */
-export const listReviewTemplateAnswers: {
-  (
-    input: ListReviewTemplateAnswersInput,
-  ): effect.Effect<
-    ListReviewTemplateAnswersOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReviewTemplateAnswers: API.OperationMethod<
+  ListReviewTemplateAnswersInput,
+  ListReviewTemplateAnswersOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReviewTemplateAnswersInput,
   ) => stream.Stream<
@@ -6328,18 +6264,16 @@ export const listReviewTemplateAnswers: {
 /**
  * List review templates.
  */
-export const listReviewTemplates: {
-  (
-    input: ListReviewTemplatesInput,
-  ): effect.Effect<
-    ListReviewTemplatesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listReviewTemplates: API.OperationMethod<
+  ListReviewTemplatesInput,
+  ListReviewTemplatesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListReviewTemplatesInput,
   ) => stream.Stream<
@@ -6384,18 +6318,16 @@ export const listReviewTemplates: {
  * `ProfileNamePrefix`, and `TemplateNamePrefix` are mutually
  * exclusive. Use the parameter that matches your `ShareResourceType`.
  */
-export const listShareInvitations: {
-  (
-    input: ListShareInvitationsInput,
-  ): effect.Effect<
-    ListShareInvitationsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listShareInvitations: API.OperationMethod<
+  ListShareInvitationsInput,
+  ListShareInvitationsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListShareInvitationsInput,
   ) => stream.Stream<
@@ -6438,9 +6370,8 @@ export const listShareInvitations: {
  *
  * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6452,19 +6383,17 @@ export const listTagsForResource: (
 /**
  * List review template shares.
  */
-export const listTemplateShares: {
-  (
-    input: ListTemplateSharesInput,
-  ): effect.Effect<
-    ListTemplateSharesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTemplateShares: API.OperationMethod<
+  ListTemplateSharesInput,
+  ListTemplateSharesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTemplateSharesInput,
   ) => stream.Stream<
@@ -6508,18 +6437,16 @@ export const listTemplateShares: {
 /**
  * Paginated list of workloads.
  */
-export const listWorkloads: {
-  (
-    input: ListWorkloadsInput,
-  ): effect.Effect<
-    ListWorkloadsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkloads: API.OperationMethod<
+  ListWorkloadsInput,
+  ListWorkloadsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkloadsInput,
   ) => stream.Stream<
@@ -6560,19 +6487,17 @@ export const listWorkloads: {
 /**
  * List the workload shares associated with the workload.
  */
-export const listWorkloadShares: {
-  (
-    input: ListWorkloadSharesInput,
-  ): effect.Effect<
-    ListWorkloadSharesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkloadShares: API.OperationMethod<
+  ListWorkloadSharesInput,
+  ListWorkloadSharesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkloadSharesInput,
   ) => stream.Stream<
@@ -6618,9 +6543,8 @@ export const listWorkloadShares: {
  *
  * The WorkloadArn parameter can be a workload ARN, a custom lens ARN, a profile ARN, or review template ARN.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6638,9 +6562,8 @@ export const tagResource: (
  *
  * `DELETE /tags/WorkloadArn?tagKeys=key1&tagKeys=key2`
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   InternalServerException | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6652,9 +6575,8 @@ export const untagResource: (
 /**
  * Update the answer to a specific question in a workload review.
  */
-export const updateAnswer: (
-  input: UpdateAnswerInput,
-) => effect.Effect<
+export const updateAnswer: API.OperationMethod<
+  UpdateAnswerInput,
   UpdateAnswerOutput,
   | AccessDeniedException
   | ConflictException
@@ -6679,9 +6601,8 @@ export const updateAnswer: (
 /**
  * Update whether the Amazon Web Services account is opted into organization sharing and discovery integration features.
  */
-export const updateGlobalSettings: (
-  input: UpdateGlobalSettingsInput,
-) => effect.Effect<
+export const updateGlobalSettings: API.OperationMethod<
+  UpdateGlobalSettingsInput,
   UpdateGlobalSettingsResponse,
   | AccessDeniedException
   | ConflictException
@@ -6704,9 +6625,8 @@ export const updateGlobalSettings: (
 /**
  * Update integration features.
  */
-export const updateIntegration: (
-  input: UpdateIntegrationInput,
-) => effect.Effect<
+export const updateIntegration: API.OperationMethod<
+  UpdateIntegrationInput,
   UpdateIntegrationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6731,9 +6651,8 @@ export const updateIntegration: (
 /**
  * Update lens review for a particular workload.
  */
-export const updateLensReview: (
-  input: UpdateLensReviewInput,
-) => effect.Effect<
+export const updateLensReview: API.OperationMethod<
+  UpdateLensReviewInput,
   UpdateLensReviewOutput,
   | AccessDeniedException
   | ConflictException
@@ -6758,9 +6677,8 @@ export const updateLensReview: (
 /**
  * Update a profile.
  */
-export const updateProfile: (
-  input: UpdateProfileInput,
-) => effect.Effect<
+export const updateProfile: API.OperationMethod<
+  UpdateProfileInput,
   UpdateProfileOutput,
   | AccessDeniedException
   | ConflictException
@@ -6785,9 +6703,8 @@ export const updateProfile: (
 /**
  * Update a review template.
  */
-export const updateReviewTemplate: (
-  input: UpdateReviewTemplateInput,
-) => effect.Effect<
+export const updateReviewTemplate: API.OperationMethod<
+  UpdateReviewTemplateInput,
   UpdateReviewTemplateOutput,
   | AccessDeniedException
   | ConflictException
@@ -6812,9 +6729,8 @@ export const updateReviewTemplate: (
 /**
  * Update a review template answer.
  */
-export const updateReviewTemplateAnswer: (
-  input: UpdateReviewTemplateAnswerInput,
-) => effect.Effect<
+export const updateReviewTemplateAnswer: API.OperationMethod<
+  UpdateReviewTemplateAnswerInput,
   UpdateReviewTemplateAnswerOutput,
   | AccessDeniedException
   | ConflictException
@@ -6839,9 +6755,8 @@ export const updateReviewTemplateAnswer: (
 /**
  * Update a lens review associated with a review template.
  */
-export const updateReviewTemplateLensReview: (
-  input: UpdateReviewTemplateLensReviewInput,
-) => effect.Effect<
+export const updateReviewTemplateLensReview: API.OperationMethod<
+  UpdateReviewTemplateLensReviewInput,
   UpdateReviewTemplateLensReviewOutput,
   | AccessDeniedException
   | ConflictException
@@ -6868,9 +6783,8 @@ export const updateReviewTemplateLensReview: (
  *
  * This API operation can be called independently of any resource. Previous documentation implied that a workload ARN must be specified.
  */
-export const updateShareInvitation: (
-  input: UpdateShareInvitationInput,
-) => effect.Effect<
+export const updateShareInvitation: API.OperationMethod<
+  UpdateShareInvitationInput,
   UpdateShareInvitationOutput,
   | AccessDeniedException
   | ConflictException
@@ -6895,9 +6809,8 @@ export const updateShareInvitation: (
 /**
  * Update an existing workload.
  */
-export const updateWorkload: (
-  input: UpdateWorkloadInput,
-) => effect.Effect<
+export const updateWorkload: API.OperationMethod<
+  UpdateWorkloadInput,
   UpdateWorkloadOutput,
   | AccessDeniedException
   | ConflictException
@@ -6922,9 +6835,8 @@ export const updateWorkload: (
 /**
  * Update a workload share.
  */
-export const updateWorkloadShare: (
-  input: UpdateWorkloadShareInput,
-) => effect.Effect<
+export const updateWorkloadShare: API.OperationMethod<
+  UpdateWorkloadShareInput,
   UpdateWorkloadShareOutput,
   | AccessDeniedException
   | ConflictException
@@ -6949,9 +6861,8 @@ export const updateWorkloadShare: (
 /**
  * Upgrade lens review for a particular workload.
  */
-export const upgradeLensReview: (
-  input: UpgradeLensReviewInput,
-) => effect.Effect<
+export const upgradeLensReview: API.OperationMethod<
+  UpgradeLensReviewInput,
   UpgradeLensReviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -6978,9 +6889,8 @@ export const upgradeLensReview: (
 /**
  * Upgrade a profile.
  */
-export const upgradeProfileVersion: (
-  input: UpgradeProfileVersionInput,
-) => effect.Effect<
+export const upgradeProfileVersion: API.OperationMethod<
+  UpgradeProfileVersionInput,
   UpgradeProfileVersionResponse,
   | AccessDeniedException
   | ConflictException
@@ -7007,9 +6917,8 @@ export const upgradeProfileVersion: (
 /**
  * Upgrade the lens review of a review template.
  */
-export const upgradeReviewTemplateLensReview: (
-  input: UpgradeReviewTemplateLensReviewInput,
-) => effect.Effect<
+export const upgradeReviewTemplateLensReview: API.OperationMethod<
+  UpgradeReviewTemplateLensReviewInput,
   UpgradeReviewTemplateLensReviewResponse,
   | AccessDeniedException
   | ConflictException

@@ -6849,9 +6849,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
  * A profile object can have a single unique key and any number of additional keys that can
  * be used to identify the profile that it belongs to.
  */
-export const addProfileKey: (
-  input: AddProfileKeyRequest,
-) => effect.Effect<
+export const addProfileKey: API.OperationMethod<
+  AddProfileKeyRequest,
   AddProfileKeyResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6874,9 +6873,8 @@ export const addProfileKey: (
 /**
  * Fetch the possible attribute values given the attribute name.
  */
-export const batchGetCalculatedAttributeForProfile: (
-  input: BatchGetCalculatedAttributeForProfileRequest,
-) => effect.Effect<
+export const batchGetCalculatedAttributeForProfile: API.OperationMethod<
+  BatchGetCalculatedAttributeForProfileRequest,
   BatchGetCalculatedAttributeForProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6899,9 +6897,8 @@ export const batchGetCalculatedAttributeForProfile: (
 /**
  * Get a batch of profiles.
  */
-export const batchGetProfile: (
-  input: BatchGetProfileRequest,
-) => effect.Effect<
+export const batchGetProfile: API.OperationMethod<
+  BatchGetProfileRequest,
   BatchGetProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6929,9 +6926,8 @@ export const batchGetProfile: (
  * one `ObjectType` and at most, two fields from that
  * `ObjectType`.
  */
-export const createCalculatedAttributeDefinition: (
-  input: CreateCalculatedAttributeDefinitionRequest,
-) => effect.Effect<
+export const createCalculatedAttributeDefinition: API.OperationMethod<
+  CreateCalculatedAttributeDefinitionRequest,
   CreateCalculatedAttributeDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6973,9 +6969,8 @@ export const createCalculatedAttributeDefinition: (
  * Each Amazon Connect instance can be associated with only one domain. Multiple Amazon Connect instances
  * can be associated with one domain.
  */
-export const createDomain: (
-  input: CreateDomainRequest,
-) => effect.Effect<
+export const createDomain: API.OperationMethod<
+  CreateDomainRequest,
   CreateDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -6999,9 +6994,8 @@ export const createDomain: (
  * Creates the layout to view data for a specific domain. This API can only be invoked from
  * the Amazon Connect admin website.
  */
-export const createDomainLayout: (
-  input: CreateDomainLayoutRequest,
-) => effect.Effect<
+export const createDomainLayout: API.OperationMethod<
+  CreateDomainLayoutRequest,
   CreateDomainLayoutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7028,9 +7022,8 @@ export const createDomainLayout: (
  * Each event stream can be associated with only one Kinesis Data Stream destination in the
  * same region and Amazon Web Services account as the customer profiles domain
  */
-export const createEventStream: (
-  input: CreateEventStreamRequest,
-) => effect.Effect<
+export const createEventStream: API.OperationMethod<
+  CreateEventStreamRequest,
   CreateEventStreamResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7057,9 +7050,8 @@ export const createEventStream: (
  * Each event stream can be associated with only one integration in the same region and AWS
  * account as the event stream.
  */
-export const createEventTrigger: (
-  input: CreateEventTriggerRequest,
-) => effect.Effect<
+export const createEventTrigger: API.OperationMethod<
+  CreateEventTriggerRequest,
   CreateEventTriggerResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7083,9 +7075,8 @@ export const createEventTrigger: (
  * Creates an integration workflow. An integration workflow is an async process which
  * ingests historic data and sets up an integration for ongoing updates. The supported Amazon AppFlow sources are Salesforce, ServiceNow, and Marketo.
  */
-export const createIntegrationWorkflow: (
-  input: CreateIntegrationWorkflowRequest,
-) => effect.Effect<
+export const createIntegrationWorkflow: API.OperationMethod<
+  CreateIntegrationWorkflowRequest,
   CreateIntegrationWorkflowResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7111,9 +7102,8 @@ export const createIntegrationWorkflow: (
  * A standard profile represents the following attributes for a customer profile in a
  * domain.
  */
-export const createProfile: (
-  input: CreateProfileRequest,
-) => effect.Effect<
+export const createProfile: API.OperationMethod<
+  CreateProfileRequest,
   CreateProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7136,9 +7126,8 @@ export const createProfile: (
 /**
  * Creates a recommender
  */
-export const createRecommender: (
-  input: CreateRecommenderRequest,
-) => effect.Effect<
+export const createRecommender: API.OperationMethod<
+  CreateRecommenderRequest,
   CreateRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7161,9 +7150,8 @@ export const createRecommender: (
 /**
  * Creates a segment definition associated to the given domain.
  */
-export const createSegmentDefinition: (
-  input: CreateSegmentDefinitionRequest,
-) => effect.Effect<
+export const createSegmentDefinition: API.OperationMethod<
+  CreateSegmentDefinitionRequest,
   CreateSegmentDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7186,9 +7174,8 @@ export const createSegmentDefinition: (
 /**
  * Creates a segment estimate query.
  */
-export const createSegmentEstimate: (
-  input: CreateSegmentEstimateRequest,
-) => effect.Effect<
+export const createSegmentEstimate: API.OperationMethod<
+  CreateSegmentEstimateRequest,
   CreateSegmentEstimateResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7211,9 +7198,8 @@ export const createSegmentEstimate: (
 /**
  * Triggers a job to export a segment to a specified destination.
  */
-export const createSegmentSnapshot: (
-  input: CreateSegmentSnapshotRequest,
-) => effect.Effect<
+export const createSegmentSnapshot: API.OperationMethod<
+  CreateSegmentSnapshotRequest,
   CreateSegmentSnapshotResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7237,9 +7223,8 @@ export const createSegmentSnapshot: (
  * Creates an Upload job to ingest data for segment imports. The metadata is created for
  * the job with the provided field mapping and unique key.
  */
-export const createUploadJob: (
-  input: CreateUploadJobRequest,
-) => effect.Effect<
+export const createUploadJob: API.OperationMethod<
+  CreateUploadJobRequest,
   CreateUploadJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7265,9 +7250,8 @@ export const createUploadJob: (
  * action and will need to recreate it on your own using the
  * CreateCalculatedAttributeDefinition API if you want it back.
  */
-export const deleteCalculatedAttributeDefinition: (
-  input: DeleteCalculatedAttributeDefinitionRequest,
-) => effect.Effect<
+export const deleteCalculatedAttributeDefinition: API.OperationMethod<
+  DeleteCalculatedAttributeDefinitionRequest,
   DeleteCalculatedAttributeDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7291,9 +7275,8 @@ export const deleteCalculatedAttributeDefinition: (
  * Deletes a specific domain and all of its customer data, such as customer profile
  * attributes and their related objects.
  */
-export const deleteDomain: (
-  input: DeleteDomainRequest,
-) => effect.Effect<
+export const deleteDomain: API.OperationMethod<
+  DeleteDomainRequest,
   DeleteDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7317,9 +7300,8 @@ export const deleteDomain: (
  * Deletes the layout used to view data for a specific domain. This API can only be invoked
  * from the Amazon Connect admin website.
  */
-export const deleteDomainLayout: (
-  input: DeleteDomainLayoutRequest,
-) => effect.Effect<
+export const deleteDomainLayout: API.OperationMethod<
+  DeleteDomainLayoutRequest,
   DeleteDomainLayoutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7342,9 +7324,8 @@ export const deleteDomainLayout: (
 /**
  * Delete a DomainObjectType for the given Domain and ObjectType name.
  */
-export const deleteDomainObjectType: (
-  input: DeleteDomainObjectTypeRequest,
-) => effect.Effect<
+export const deleteDomainObjectType: API.OperationMethod<
+  DeleteDomainObjectTypeRequest,
   DeleteDomainObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7367,9 +7348,8 @@ export const deleteDomainObjectType: (
 /**
  * Disables and deletes the specified event stream.
  */
-export const deleteEventStream: (
-  input: DeleteEventStreamRequest,
-) => effect.Effect<
+export const deleteEventStream: API.OperationMethod<
+  DeleteEventStreamRequest,
   DeleteEventStreamResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7394,9 +7374,8 @@ export const deleteEventStream: (
  *
  * You cannot delete an Event Trigger with an active Integration associated.
  */
-export const deleteEventTrigger: (
-  input: DeleteEventTriggerRequest,
-) => effect.Effect<
+export const deleteEventTrigger: API.OperationMethod<
+  DeleteEventTriggerRequest,
   DeleteEventTriggerResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7419,9 +7398,8 @@ export const deleteEventTrigger: (
 /**
  * Removes an integration from a specific domain.
  */
-export const deleteIntegration: (
-  input: DeleteIntegrationRequest,
-) => effect.Effect<
+export const deleteIntegration: API.OperationMethod<
+  DeleteIntegrationRequest,
   DeleteIntegrationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7444,9 +7422,8 @@ export const deleteIntegration: (
 /**
  * Deletes the standard customer profile and all data pertaining to the profile.
  */
-export const deleteProfile: (
-  input: DeleteProfileRequest,
-) => effect.Effect<
+export const deleteProfile: API.OperationMethod<
+  DeleteProfileRequest,
   DeleteProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7469,9 +7446,8 @@ export const deleteProfile: (
 /**
  * Removes a searchable key from a customer profile.
  */
-export const deleteProfileKey: (
-  input: DeleteProfileKeyRequest,
-) => effect.Effect<
+export const deleteProfileKey: API.OperationMethod<
+  DeleteProfileKeyRequest,
   DeleteProfileKeyResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7494,9 +7470,8 @@ export const deleteProfileKey: (
 /**
  * Removes an object associated with a profile of a given ProfileObjectType.
  */
-export const deleteProfileObject: (
-  input: DeleteProfileObjectRequest,
-) => effect.Effect<
+export const deleteProfileObject: API.OperationMethod<
+  DeleteProfileObjectRequest,
   DeleteProfileObjectResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7522,9 +7497,8 @@ export const deleteProfileObject: (
  * ProfileObjectType. In addition, it scrubs all of the fields of the standard profile that
  * were populated from this ProfileObjectType.
  */
-export const deleteProfileObjectType: (
-  input: DeleteProfileObjectTypeRequest,
-) => effect.Effect<
+export const deleteProfileObjectType: API.OperationMethod<
+  DeleteProfileObjectTypeRequest,
   DeleteProfileObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7547,9 +7521,8 @@ export const deleteProfileObjectType: (
 /**
  * Deletes a recommender.
  */
-export const deleteRecommender: (
-  input: DeleteRecommenderRequest,
-) => effect.Effect<
+export const deleteRecommender: API.OperationMethod<
+  DeleteRecommenderRequest,
   DeleteRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7572,9 +7545,8 @@ export const deleteRecommender: (
 /**
  * Deletes a segment definition from the domain.
  */
-export const deleteSegmentDefinition: (
-  input: DeleteSegmentDefinitionRequest,
-) => effect.Effect<
+export const deleteSegmentDefinition: API.OperationMethod<
+  DeleteSegmentDefinitionRequest,
   DeleteSegmentDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7598,9 +7570,8 @@ export const deleteSegmentDefinition: (
  * Deletes the specified workflow and all its corresponding resources. This is an async
  * process.
  */
-export const deleteWorkflow: (
-  input: DeleteWorkflowRequest,
-) => effect.Effect<
+export const deleteWorkflow: API.OperationMethod<
+  DeleteWorkflowRequest,
   DeleteWorkflowResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7623,9 +7594,8 @@ export const deleteWorkflow: (
 /**
  * The process of detecting profile object type mapping by using given objects.
  */
-export const detectProfileObjectType: (
-  input: DetectProfileObjectTypeRequest,
-) => effect.Effect<
+export const detectProfileObjectType: API.OperationMethod<
+  DetectProfileObjectTypeRequest,
   DetectProfileObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7660,9 +7630,8 @@ export const detectProfileObjectType: (
  * `FirstName` or only `LastName`), there may be a large number of
  * matches. This increases the chances of erroneous merges.
  */
-export const getAutoMergingPreview: (
-  input: GetAutoMergingPreviewRequest,
-) => effect.Effect<
+export const getAutoMergingPreview: API.OperationMethod<
+  GetAutoMergingPreviewRequest,
   GetAutoMergingPreviewResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7686,9 +7655,8 @@ export const getAutoMergingPreview: (
  * Provides more information on a calculated attribute definition for Customer
  * Profiles.
  */
-export const getCalculatedAttributeDefinition: (
-  input: GetCalculatedAttributeDefinitionRequest,
-) => effect.Effect<
+export const getCalculatedAttributeDefinition: API.OperationMethod<
+  GetCalculatedAttributeDefinitionRequest,
   GetCalculatedAttributeDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7711,9 +7679,8 @@ export const getCalculatedAttributeDefinition: (
 /**
  * Retrieve a calculated attribute for a customer profile.
  */
-export const getCalculatedAttributeForProfile: (
-  input: GetCalculatedAttributeForProfileRequest,
-) => effect.Effect<
+export const getCalculatedAttributeForProfile: API.OperationMethod<
+  GetCalculatedAttributeForProfileRequest,
   GetCalculatedAttributeForProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7736,9 +7703,8 @@ export const getCalculatedAttributeForProfile: (
 /**
  * Returns information about a specific domain.
  */
-export const getDomain: (
-  input: GetDomainRequest,
-) => effect.Effect<
+export const getDomain: API.OperationMethod<
+  GetDomainRequest,
   GetDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7762,9 +7728,8 @@ export const getDomain: (
  * Gets the layout to view data for a specific domain. This API can only be invoked from
  * the Amazon Connect admin website.
  */
-export const getDomainLayout: (
-  input: GetDomainLayoutRequest,
-) => effect.Effect<
+export const getDomainLayout: API.OperationMethod<
+  GetDomainLayoutRequest,
   GetDomainLayoutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7787,9 +7752,8 @@ export const getDomainLayout: (
 /**
  * Return a DomainObjectType for the input Domain and ObjectType names.
  */
-export const getDomainObjectType: (
-  input: GetDomainObjectTypeRequest,
-) => effect.Effect<
+export const getDomainObjectType: API.OperationMethod<
+  GetDomainObjectTypeRequest,
   GetDomainObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7812,9 +7776,8 @@ export const getDomainObjectType: (
 /**
  * Returns information about the specified event stream in a specific domain.
  */
-export const getEventStream: (
-  input: GetEventStreamRequest,
-) => effect.Effect<
+export const getEventStream: API.OperationMethod<
+  GetEventStreamRequest,
   GetEventStreamResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7837,9 +7800,8 @@ export const getEventStream: (
 /**
  * Get a specific Event Trigger from the domain.
  */
-export const getEventTrigger: (
-  input: GetEventTriggerRequest,
-) => effect.Effect<
+export const getEventTrigger: API.OperationMethod<
+  GetEventTriggerRequest,
   GetEventTriggerResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7865,9 +7827,8 @@ export const getEventTrigger: (
  * Identity Resolution Jobs are set up using the Amazon Connect admin console. For more information, see Use
  * Identity Resolution to consolidate similar profiles.
  */
-export const getIdentityResolutionJob: (
-  input: GetIdentityResolutionJobRequest,
-) => effect.Effect<
+export const getIdentityResolutionJob: API.OperationMethod<
+  GetIdentityResolutionJobRequest,
   GetIdentityResolutionJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7890,9 +7851,8 @@ export const getIdentityResolutionJob: (
 /**
  * Returns an integration for a domain.
  */
-export const getIntegration: (
-  input: GetIntegrationRequest,
-) => effect.Effect<
+export const getIntegration: API.OperationMethod<
+  GetIntegrationRequest,
   GetIntegrationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7952,9 +7912,8 @@ export const getIntegration: (
  * **johndoe@anycompany.com**, or different phone number
  * formats such as **555-010-0000** and **+1-555-010-0000**—can be detected as belonging to the same customer **John Doe** and merged into a unified profile.
  */
-export const getMatches: (
-  input: GetMatchesRequest,
-) => effect.Effect<
+export const getMatches: API.OperationMethod<
+  GetMatchesRequest,
   GetMatchesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -7983,9 +7942,8 @@ export const getMatches: (
  *
  * For attributes that don't contain numeric values.
  */
-export const getObjectTypeAttributeStatistics: (
-  input: GetObjectTypeAttributeStatisticsRequest,
-) => effect.Effect<
+export const getObjectTypeAttributeStatistics: API.OperationMethod<
+  GetObjectTypeAttributeStatisticsRequest,
   GetObjectTypeAttributeStatisticsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8008,9 +7966,8 @@ export const getObjectTypeAttributeStatistics: (
 /**
  * Returns a history record for a specific profile, for a specific domain.
  */
-export const getProfileHistoryRecord: (
-  input: GetProfileHistoryRecordRequest,
-) => effect.Effect<
+export const getProfileHistoryRecord: API.OperationMethod<
+  GetProfileHistoryRecordRequest,
   GetProfileHistoryRecordResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8033,9 +7990,8 @@ export const getProfileHistoryRecord: (
 /**
  * Returns the object types for a specific domain.
  */
-export const getProfileObjectType: (
-  input: GetProfileObjectTypeRequest,
-) => effect.Effect<
+export const getProfileObjectType: API.OperationMethod<
+  GetProfileObjectTypeRequest,
   GetProfileObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8063,9 +8019,8 @@ export const getProfileObjectType: (
  * with an ObjectTypeName that matches one of the TemplateIds, it uses the mappings from the
  * template.
  */
-export const getProfileObjectTypeTemplate: (
-  input: GetProfileObjectTypeTemplateRequest,
-) => effect.Effect<
+export const getProfileObjectTypeTemplate: API.OperationMethod<
+  GetProfileObjectTypeTemplateRequest,
   GetProfileObjectTypeTemplateResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8088,9 +8043,8 @@ export const getProfileObjectTypeTemplate: (
 /**
  * Fetches the recommendations for a profile in the input Customer Profiles domain. Fetches all the profile recommendations
  */
-export const getProfileRecommendations: (
-  input: GetProfileRecommendationsRequest,
-) => effect.Effect<
+export const getProfileRecommendations: API.OperationMethod<
+  GetProfileRecommendationsRequest,
   GetProfileRecommendationsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8113,9 +8067,8 @@ export const getProfileRecommendations: (
 /**
  * Retrieves a recommender.
  */
-export const getRecommender: (
-  input: GetRecommenderRequest,
-) => effect.Effect<
+export const getRecommender: API.OperationMethod<
+  GetRecommenderRequest,
   GetRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8138,9 +8091,8 @@ export const getRecommender: (
 /**
  * Gets a segment definition from the domain.
  */
-export const getSegmentDefinition: (
-  input: GetSegmentDefinitionRequest,
-) => effect.Effect<
+export const getSegmentDefinition: API.OperationMethod<
+  GetSegmentDefinitionRequest,
   GetSegmentDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8163,9 +8115,8 @@ export const getSegmentDefinition: (
 /**
  * Gets the result of a segment estimate query.
  */
-export const getSegmentEstimate: (
-  input: GetSegmentEstimateRequest,
-) => effect.Effect<
+export const getSegmentEstimate: API.OperationMethod<
+  GetSegmentEstimateRequest,
   GetSegmentEstimateResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8188,9 +8139,8 @@ export const getSegmentEstimate: (
 /**
  * Determines if the given profiles are within a segment.
  */
-export const getSegmentMembership: (
-  input: GetSegmentMembershipRequest,
-) => effect.Effect<
+export const getSegmentMembership: API.OperationMethod<
+  GetSegmentMembershipRequest,
   GetSegmentMembershipResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8213,9 +8163,8 @@ export const getSegmentMembership: (
 /**
  * Retrieve the latest status of a segment snapshot.
  */
-export const getSegmentSnapshot: (
-  input: GetSegmentSnapshotRequest,
-) => effect.Effect<
+export const getSegmentSnapshot: API.OperationMethod<
+  GetSegmentSnapshotRequest,
   GetSegmentSnapshotResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8241,19 +8190,17 @@ export const getSegmentSnapshot: (
  * matching that you want for finding similar profiles using either
  * `RULE_BASED_MATCHING` or `ML_BASED_MATCHING`.
  */
-export const getSimilarProfiles: {
-  (
-    input: GetSimilarProfilesRequest,
-  ): effect.Effect<
-    GetSimilarProfilesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getSimilarProfiles: API.OperationMethod<
+  GetSimilarProfilesRequest,
+  GetSimilarProfilesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetSimilarProfilesRequest,
   ) => stream.Stream<
@@ -8298,9 +8245,8 @@ export const getSimilarProfiles: {
 /**
  * This API retrieves the details of a specific upload job.
  */
-export const getUploadJob: (
-  input: GetUploadJobRequest,
-) => effect.Effect<
+export const getUploadJob: API.OperationMethod<
+  GetUploadJobRequest,
   GetUploadJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8324,9 +8270,8 @@ export const getUploadJob: (
  * This API retrieves the pre-signed URL and client token for uploading the file associated
  * with the upload job.
  */
-export const getUploadJobPath: (
-  input: GetUploadJobPathRequest,
-) => effect.Effect<
+export const getUploadJobPath: API.OperationMethod<
+  GetUploadJobPathRequest,
   GetUploadJobPathResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8349,9 +8294,8 @@ export const getUploadJobPath: (
 /**
  * Get details of specified workflow.
  */
-export const getWorkflow: (
-  input: GetWorkflowRequest,
-) => effect.Effect<
+export const getWorkflow: API.OperationMethod<
+  GetWorkflowRequest,
   GetWorkflowResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8374,9 +8318,8 @@ export const getWorkflow: (
 /**
  * Get granular list of steps in workflow.
  */
-export const getWorkflowSteps: (
-  input: GetWorkflowStepsRequest,
-) => effect.Effect<
+export const getWorkflowSteps: API.OperationMethod<
+  GetWorkflowStepsRequest,
   GetWorkflowStepsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8399,9 +8342,8 @@ export const getWorkflowSteps: (
 /**
  * Lists all of the integrations associated to a specific URI in the AWS account.
  */
-export const listAccountIntegrations: (
-  input: ListAccountIntegrationsRequest,
-) => effect.Effect<
+export const listAccountIntegrations: API.OperationMethod<
+  ListAccountIntegrationsRequest,
   ListAccountIntegrationsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8424,9 +8366,8 @@ export const listAccountIntegrations: (
 /**
  * Lists calculated attribute definitions for Customer Profiles
  */
-export const listCalculatedAttributeDefinitions: (
-  input: ListCalculatedAttributeDefinitionsRequest,
-) => effect.Effect<
+export const listCalculatedAttributeDefinitions: API.OperationMethod<
+  ListCalculatedAttributeDefinitionsRequest,
   ListCalculatedAttributeDefinitionsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8449,9 +8390,8 @@ export const listCalculatedAttributeDefinitions: (
 /**
  * Retrieve a list of calculated attributes for a customer profile.
  */
-export const listCalculatedAttributesForProfile: (
-  input: ListCalculatedAttributesForProfileRequest,
-) => effect.Effect<
+export const listCalculatedAttributesForProfile: API.OperationMethod<
+  ListCalculatedAttributesForProfileRequest,
   ListCalculatedAttributesForProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8475,19 +8415,17 @@ export const listCalculatedAttributesForProfile: (
  * Lists the existing layouts that can be used to view data for a specific domain. This API
  * can only be invoked from the Amazon Connect admin website.
  */
-export const listDomainLayouts: {
-  (
-    input: ListDomainLayoutsRequest,
-  ): effect.Effect<
-    ListDomainLayoutsResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomainLayouts: API.OperationMethod<
+  ListDomainLayoutsRequest,
+  ListDomainLayoutsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainLayoutsRequest,
   ) => stream.Stream<
@@ -8532,19 +8470,17 @@ export const listDomainLayouts: {
 /**
  * List all DomainObjectType(s) in a Customer Profiles domain.
  */
-export const listDomainObjectTypes: {
-  (
-    input: ListDomainObjectTypesRequest,
-  ): effect.Effect<
-    ListDomainObjectTypesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDomainObjectTypes: API.OperationMethod<
+  ListDomainObjectTypesRequest,
+  ListDomainObjectTypesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDomainObjectTypesRequest,
   ) => stream.Stream<
@@ -8589,9 +8525,8 @@ export const listDomainObjectTypes: {
 /**
  * Returns a list of all the domains for an AWS account that have been created.
  */
-export const listDomains: (
-  input: ListDomainsRequest,
-) => effect.Effect<
+export const listDomains: API.OperationMethod<
+  ListDomainsRequest,
   ListDomainsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8614,19 +8549,17 @@ export const listDomains: (
 /**
  * Returns a list of all the event streams in a specific domain.
  */
-export const listEventStreams: {
-  (
-    input: ListEventStreamsRequest,
-  ): effect.Effect<
-    ListEventStreamsResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventStreams: API.OperationMethod<
+  ListEventStreamsRequest,
+  ListEventStreamsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventStreamsRequest,
   ) => stream.Stream<
@@ -8671,19 +8604,17 @@ export const listEventStreams: {
 /**
  * List all Event Triggers under a domain.
  */
-export const listEventTriggers: {
-  (
-    input: ListEventTriggersRequest,
-  ): effect.Effect<
-    ListEventTriggersResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEventTriggers: API.OperationMethod<
+  ListEventTriggersRequest,
+  ListEventTriggersResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEventTriggersRequest,
   ) => stream.Stream<
@@ -8729,9 +8660,8 @@ export const listEventTriggers: {
  * Lists all of the Identity Resolution Jobs in your domain. The response sorts the list by
  * `JobStartTime`.
  */
-export const listIdentityResolutionJobs: (
-  input: ListIdentityResolutionJobsRequest,
-) => effect.Effect<
+export const listIdentityResolutionJobs: API.OperationMethod<
+  ListIdentityResolutionJobsRequest,
   ListIdentityResolutionJobsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8754,9 +8684,8 @@ export const listIdentityResolutionJobs: (
 /**
  * Lists all of the integrations in your domain.
  */
-export const listIntegrations: (
-  input: ListIntegrationsRequest,
-) => effect.Effect<
+export const listIntegrations: API.OperationMethod<
+  ListIntegrationsRequest,
   ListIntegrationsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8779,19 +8708,17 @@ export const listIntegrations: (
 /**
  * Fetch the possible attribute values given the attribute name.
  */
-export const listObjectTypeAttributes: {
-  (
-    input: ListObjectTypeAttributesRequest,
-  ): effect.Effect<
-    ListObjectTypeAttributesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listObjectTypeAttributes: API.OperationMethod<
+  ListObjectTypeAttributesRequest,
+  ListObjectTypeAttributesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListObjectTypeAttributesRequest,
   ) => stream.Stream<
@@ -8836,9 +8763,8 @@ export const listObjectTypeAttributes: {
 /**
  * The ListObjectTypeAttributeValues API provides access to the most recent distinct values for any specified attribute, making it valuable for real-time data validation and consistency checks within your object types. This API works across domain, supporting both custom and standard object types. The API accepts the object type name, attribute name, and domain name as input parameters and returns values up to the storage limit of approximately 350KB.
  */
-export const listObjectTypeAttributeValues: (
-  input: ListObjectTypeAttributeValuesRequest,
-) => effect.Effect<
+export const listObjectTypeAttributeValues: API.OperationMethod<
+  ListObjectTypeAttributeValuesRequest,
   ListObjectTypeAttributeValuesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8861,9 +8787,8 @@ export const listObjectTypeAttributeValues: (
 /**
  * Fetch the possible attribute values given the attribute name.
  */
-export const listProfileAttributeValues: (
-  input: ProfileAttributeValuesRequest,
-) => effect.Effect<
+export const listProfileAttributeValues: API.OperationMethod<
+  ProfileAttributeValuesRequest,
   ProfileAttributeValuesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8886,9 +8811,8 @@ export const listProfileAttributeValues: (
 /**
  * Returns a list of history records for a specific profile, for a specific domain.
  */
-export const listProfileHistoryRecords: (
-  input: ListProfileHistoryRecordsRequest,
-) => effect.Effect<
+export const listProfileHistoryRecords: API.OperationMethod<
+  ListProfileHistoryRecordsRequest,
   ListProfileHistoryRecordsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8911,9 +8835,8 @@ export const listProfileHistoryRecords: (
 /**
  * Returns a list of objects associated with a profile of a given ProfileObjectType.
  */
-export const listProfileObjects: (
-  input: ListProfileObjectsRequest,
-) => effect.Effect<
+export const listProfileObjects: API.OperationMethod<
+  ListProfileObjectsRequest,
   ListProfileObjectsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8936,9 +8859,8 @@ export const listProfileObjects: (
 /**
  * Lists all of the templates available within the service.
  */
-export const listProfileObjectTypes: (
-  input: ListProfileObjectTypesRequest,
-) => effect.Effect<
+export const listProfileObjectTypes: API.OperationMethod<
+  ListProfileObjectTypesRequest,
   ListProfileObjectTypesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8961,9 +8883,8 @@ export const listProfileObjectTypes: (
 /**
  * Lists all of the template information for object types.
  */
-export const listProfileObjectTypeTemplates: (
-  input: ListProfileObjectTypeTemplatesRequest,
-) => effect.Effect<
+export const listProfileObjectTypeTemplates: API.OperationMethod<
+  ListProfileObjectTypeTemplatesRequest,
   ListProfileObjectTypeTemplatesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -8986,18 +8907,16 @@ export const listProfileObjectTypeTemplates: (
 /**
  * Returns a list of available recommender recipes that can be used to create recommenders.
  */
-export const listRecommenderRecipes: {
-  (
-    input: ListRecommenderRecipesRequest,
-  ): effect.Effect<
-    ListRecommenderRecipesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommenderRecipes: API.OperationMethod<
+  ListRecommenderRecipesRequest,
+  ListRecommenderRecipesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommenderRecipesRequest,
   ) => stream.Stream<
@@ -9039,19 +8958,17 @@ export const listRecommenderRecipes: {
 /**
  * Returns a list of recommenders in the specified domain.
  */
-export const listRecommenders: {
-  (
-    input: ListRecommendersRequest,
-  ): effect.Effect<
-    ListRecommendersResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRecommenders: API.OperationMethod<
+  ListRecommendersRequest,
+  ListRecommendersResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRecommendersRequest,
   ) => stream.Stream<
@@ -9096,19 +9013,17 @@ export const listRecommenders: {
 /**
  * Returns a set of `MatchIds` that belong to the given domain.
  */
-export const listRuleBasedMatches: {
-  (
-    input: ListRuleBasedMatchesRequest,
-  ): effect.Effect<
-    ListRuleBasedMatchesResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRuleBasedMatches: API.OperationMethod<
+  ListRuleBasedMatchesRequest,
+  ListRuleBasedMatchesResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRuleBasedMatchesRequest,
   ) => stream.Stream<
@@ -9153,19 +9068,17 @@ export const listRuleBasedMatches: {
 /**
  * Lists all segment definitions under a domain.
  */
-export const listSegmentDefinitions: {
-  (
-    input: ListSegmentDefinitionsRequest,
-  ): effect.Effect<
-    ListSegmentDefinitionsResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSegmentDefinitions: API.OperationMethod<
+  ListSegmentDefinitionsRequest,
+  ListSegmentDefinitionsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSegmentDefinitionsRequest,
   ) => stream.Stream<
@@ -9211,9 +9124,8 @@ export const listSegmentDefinitions: {
  * Displays the tags associated with an Amazon Connect Customer Profiles resource. In Connect
  * Customer Profiles, domains, profile object types, and integrations can be tagged.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -9232,19 +9144,17 @@ export const listTagsForResource: (
 /**
  * This API retrieves a list of upload jobs for the specified domain.
  */
-export const listUploadJobs: {
-  (
-    input: ListUploadJobsRequest,
-  ): effect.Effect<
-    ListUploadJobsResponse,
-    | AccessDeniedException
-    | BadRequestException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUploadJobs: API.OperationMethod<
+  ListUploadJobsRequest,
+  ListUploadJobsResponse,
+  | AccessDeniedException
+  | BadRequestException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUploadJobsRequest,
   ) => stream.Stream<
@@ -9289,9 +9199,8 @@ export const listUploadJobs: {
 /**
  * Query to list all workflows.
  */
-export const listWorkflows: (
-  input: ListWorkflowsRequest,
-) => effect.Effect<
+export const listWorkflows: API.OperationMethod<
+  ListWorkflowsRequest,
   ListWorkflowsResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9342,9 +9251,8 @@ export const listWorkflows: (
  * returns potentially matching profiles, or use it with the results of another matching
  * system. After profiles have been merged, they cannot be separated (unmerged).
  */
-export const mergeProfiles: (
-  input: MergeProfilesRequest,
-) => effect.Effect<
+export const mergeProfiles: API.OperationMethod<
+  MergeProfilesRequest,
   MergeProfilesResponse,
   | BadRequestException
   | InternalServerException
@@ -9365,9 +9273,8 @@ export const mergeProfiles: (
 /**
  * Create/Update a DomainObjectType in a Customer Profiles domain. To create a new DomainObjectType, Data Store needs to be enabled on the Domain.
  */
-export const putDomainObjectType: (
-  input: PutDomainObjectTypeRequest,
-) => effect.Effect<
+export const putDomainObjectType: API.OperationMethod<
+  PutDomainObjectTypeRequest,
   PutDomainObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9397,9 +9304,8 @@ export const putDomainObjectType: (
  * /
  * UntagResource.
  */
-export const putIntegration: (
-  input: PutIntegrationRequest,
-) => effect.Effect<
+export const putIntegration: API.OperationMethod<
+  PutIntegrationRequest,
   PutIntegrationResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9434,9 +9340,8 @@ export const putIntegration: (
  * PutProfileObject needs an ObjectType, which can be created using
  * PutProfileObjectType.
  */
-export const putProfileObject: (
-  input: PutProfileObjectRequest,
-) => effect.Effect<
+export const putProfileObject: API.OperationMethod<
+  PutProfileObjectRequest,
   PutProfileObjectResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9462,9 +9367,8 @@ export const putProfileObject: (
  * To add or remove tags on an existing ObjectType, see
  * TagResource/UntagResource.
  */
-export const putProfileObjectType: (
-  input: PutProfileObjectTypeRequest,
-) => effect.Effect<
+export const putProfileObjectType: API.OperationMethod<
+  PutProfileObjectTypeRequest,
   PutProfileObjectTypeResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9493,9 +9397,8 @@ export const putProfileObjectType: (
  * This operation supports searching for profiles with a minimum of 1 key-value(s) pair and
  * up to 5 key-value(s) pairs using either `AND` or `OR` logic.
  */
-export const searchProfiles: (
-  input: SearchProfilesRequest,
-) => effect.Effect<
+export const searchProfiles: API.OperationMethod<
+  SearchProfilesRequest,
   SearchProfilesResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9518,9 +9421,8 @@ export const searchProfiles: (
 /**
  * Starts a recommender that was previously stopped. Starting a recommender resumes its ability to generate recommendations.
  */
-export const startRecommender: (
-  input: StartRecommenderRequest,
-) => effect.Effect<
+export const startRecommender: API.OperationMethod<
+  StartRecommenderRequest,
   StartRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9543,9 +9445,8 @@ export const startRecommender: (
 /**
  * This API starts the processing of an upload job to ingest profile data.
  */
-export const startUploadJob: (
-  input: StartUploadJobRequest,
-) => effect.Effect<
+export const startUploadJob: API.OperationMethod<
+  StartUploadJobRequest,
   StartUploadJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9568,9 +9469,8 @@ export const startUploadJob: (
 /**
  * Stops a recommender, suspending its ability to generate recommendations. The recommender can be restarted later using StartRecommender.
  */
-export const stopRecommender: (
-  input: StopRecommenderRequest,
-) => effect.Effect<
+export const stopRecommender: API.OperationMethod<
+  StopRecommenderRequest,
   StopRecommenderResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9593,9 +9493,8 @@ export const stopRecommender: (
 /**
  * This API stops the processing of an upload job.
  */
-export const stopUploadJob: (
-  input: StopUploadJobRequest,
-) => effect.Effect<
+export const stopUploadJob: API.OperationMethod<
+  StopUploadJobRequest,
   StopUploadJobResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9632,9 +9531,8 @@ export const stopUploadJob: (
  *
  * You can associate as many as 50 tags with a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -9654,9 +9552,8 @@ export const tagResource: (
  * Removes one or more tags from the specified Amazon Connect Customer Profiles resource. In Connect
  * Customer Profiles, domains, profile object types, and integrations can be tagged.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | InternalServerException
@@ -9677,9 +9574,8 @@ export const untagResource: (
  * that increasing the date range of a calculated attribute will not trigger inclusion of
  * historical data greater than the current date range.
  */
-export const updateCalculatedAttributeDefinition: (
-  input: UpdateCalculatedAttributeDefinitionRequest,
-) => effect.Effect<
+export const updateCalculatedAttributeDefinition: API.OperationMethod<
+  UpdateCalculatedAttributeDefinitionRequest,
   UpdateCalculatedAttributeDefinitionResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9714,9 +9610,8 @@ export const updateCalculatedAttributeDefinition: (
  *
  * To add or remove tags on an existing Domain, see TagResource/UntagResource.
  */
-export const updateDomain: (
-  input: UpdateDomainRequest,
-) => effect.Effect<
+export const updateDomain: API.OperationMethod<
+  UpdateDomainRequest,
   UpdateDomainResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9740,9 +9635,8 @@ export const updateDomain: (
  * Updates the layout used to view data for a specific domain. This API can only be invoked
  * from the Amazon Connect admin website.
  */
-export const updateDomainLayout: (
-  input: UpdateDomainLayoutRequest,
-) => effect.Effect<
+export const updateDomainLayout: API.OperationMethod<
+  UpdateDomainLayoutRequest,
   UpdateDomainLayoutResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9765,9 +9659,8 @@ export const updateDomainLayout: (
 /**
  * Update the properties of an Event Trigger.
  */
-export const updateEventTrigger: (
-  input: UpdateEventTriggerRequest,
-) => effect.Effect<
+export const updateEventTrigger: API.OperationMethod<
+  UpdateEventTriggerRequest,
   UpdateEventTriggerResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9795,9 +9688,8 @@ export const updateEventTrigger: (
  * existing value will be removed. Not specifying a string value means that any value already
  * there will be kept.
  */
-export const updateProfile: (
-  input: UpdateProfileRequest,
-) => effect.Effect<
+export const updateProfile: API.OperationMethod<
+  UpdateProfileRequest,
   UpdateProfileResponse,
   | AccessDeniedException
   | BadRequestException
@@ -9820,9 +9712,8 @@ export const updateProfile: (
 /**
  * Updates the properties of an existing recommender, allowing you to modify its configuration and description.
  */
-export const updateRecommender: (
-  input: UpdateRecommenderRequest,
-) => effect.Effect<
+export const updateRecommender: API.OperationMethod<
+  UpdateRecommenderRequest,
   UpdateRecommenderResponse,
   | AccessDeniedException
   | BadRequestException

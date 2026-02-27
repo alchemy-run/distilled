@@ -3494,9 +3494,8 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  *
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
-export const createKey: (
-  input: CreateKeyRequest,
-) => effect.Effect<
+export const createKey: API.OperationMethod<
+  CreateKeyRequest,
   CreateKeyResponse,
   | AccessDeniedException
   | ConflictException
@@ -3523,9 +3522,8 @@ export const createKey: (
  *
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
-export const describeKey: (
-  input: DescribeKeyRequest,
-) => effect.Effect<
+export const describeKey: API.OperationMethod<
+  DescribeKeyRequest,
   DescribeKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3548,9 +3546,8 @@ export const describeKey: (
 /**
  * Updates the specified properties of a given API key resource.
  */
-export const updateKey: (
-  input: UpdateKeyRequest,
-) => effect.Effect<
+export const updateKey: API.OperationMethod<
+  UpdateKeyRequest,
   UpdateKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3575,9 +3572,8 @@ export const updateKey: (
  *
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
-export const deleteKey: (
-  input: DeleteKeyRequest,
-) => effect.Effect<
+export const deleteKey: API.OperationMethod<
+  DeleteKeyRequest,
   DeleteKeyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3602,18 +3598,16 @@ export const deleteKey: (
  *
  * For more information, see Use API keys to authenticate in the *Amazon Location Service Developer Guide*.
  */
-export const listKeys: {
-  (
-    input: ListKeysRequest,
-  ): effect.Effect<
-    ListKeysResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listKeys: API.OperationMethod<
+  ListKeysRequest,
+  ListKeysResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListKeysRequest,
   ) => stream.Stream<
@@ -3655,9 +3649,8 @@ export const listKeys: {
 /**
  * Returns a list of tags that are applied to the specified Amazon Location resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3686,9 +3679,8 @@ export const listTagsForResource: (
  *
  * You can associate up to 50 tags with a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3711,9 +3703,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified Amazon Location resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3736,9 +3727,8 @@ export const untagResource: (
 /**
  * Creates a geofence collection, which manages and stores geofences.
  */
-export const createGeofenceCollection: (
-  input: CreateGeofenceCollectionRequest,
-) => effect.Effect<
+export const createGeofenceCollection: API.OperationMethod<
+  CreateGeofenceCollectionRequest,
   CreateGeofenceCollectionResponse,
   | AccessDeniedException
   | ConflictException
@@ -3763,9 +3753,8 @@ export const createGeofenceCollection: (
 /**
  * Retrieves the geofence collection details.
  */
-export const describeGeofenceCollection: (
-  input: DescribeGeofenceCollectionRequest,
-) => effect.Effect<
+export const describeGeofenceCollection: API.OperationMethod<
+  DescribeGeofenceCollectionRequest,
   DescribeGeofenceCollectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3788,9 +3777,8 @@ export const describeGeofenceCollection: (
 /**
  * Updates the specified properties of a given geofence collection.
  */
-export const updateGeofenceCollection: (
-  input: UpdateGeofenceCollectionRequest,
-) => effect.Effect<
+export const updateGeofenceCollection: API.OperationMethod<
+  UpdateGeofenceCollectionRequest,
   UpdateGeofenceCollectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3815,9 +3803,8 @@ export const updateGeofenceCollection: (
  *
  * This operation deletes the resource permanently. If the geofence collection is the target of a tracker resource, the devices will no longer be monitored.
  */
-export const deleteGeofenceCollection: (
-  input: DeleteGeofenceCollectionRequest,
-) => effect.Effect<
+export const deleteGeofenceCollection: API.OperationMethod<
+  DeleteGeofenceCollectionRequest,
   DeleteGeofenceCollectionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3840,18 +3827,16 @@ export const deleteGeofenceCollection: (
 /**
  * Lists geofence collections in your Amazon Web Services account.
  */
-export const listGeofenceCollections: {
-  (
-    input: ListGeofenceCollectionsRequest,
-  ): effect.Effect<
-    ListGeofenceCollectionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGeofenceCollections: API.OperationMethod<
+  ListGeofenceCollectionsRequest,
+  ListGeofenceCollectionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGeofenceCollectionsRequest,
   ) => stream.Stream<
@@ -3895,9 +3880,8 @@ export const listGeofenceCollections: {
  *
  * This operation deletes the resource permanently.
  */
-export const batchDeleteGeofence: (
-  input: BatchDeleteGeofenceRequest,
-) => effect.Effect<
+export const batchDeleteGeofence: API.OperationMethod<
+  BatchDeleteGeofenceRequest,
   BatchDeleteGeofenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3932,9 +3916,8 @@ export const batchDeleteGeofence: (
  *
  * The `DeviceID` is used as a string to represent the device. You do not need to have a `Tracker` associated with the `DeviceID`.
  */
-export const batchEvaluateGeofences: (
-  input: BatchEvaluateGeofencesRequest,
-) => effect.Effect<
+export const batchEvaluateGeofences: API.OperationMethod<
+  BatchEvaluateGeofencesRequest,
   BatchEvaluateGeofencesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3957,9 +3940,8 @@ export const batchEvaluateGeofences: (
 /**
  * A batch request for storing geofence geometries into a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
  */
-export const batchPutGeofence: (
-  input: BatchPutGeofenceRequest,
-) => effect.Effect<
+export const batchPutGeofence: API.OperationMethod<
+  BatchPutGeofenceRequest,
   BatchPutGeofenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3990,19 +3972,17 @@ export const batchPutGeofence: (
  *
  * Heading direction is not considered in the current version. The API takes a conservative approach and includes events that can occur for any heading.
  */
-export const forecastGeofenceEvents: {
-  (
-    input: ForecastGeofenceEventsRequest,
-  ): effect.Effect<
-    ForecastGeofenceEventsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const forecastGeofenceEvents: API.OperationMethod<
+  ForecastGeofenceEventsRequest,
+  ForecastGeofenceEventsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ForecastGeofenceEventsRequest,
   ) => stream.Stream<
@@ -4049,9 +4029,8 @@ export const forecastGeofenceEvents: {
  *
  * The returned geometry will always match the geometry format used when the geofence was created.
  */
-export const getGeofence: (
-  input: GetGeofenceRequest,
-) => effect.Effect<
+export const getGeofence: API.OperationMethod<
+  GetGeofenceRequest,
   GetGeofenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4074,19 +4053,17 @@ export const getGeofence: (
 /**
  * Lists geofences stored in a given geofence collection.
  */
-export const listGeofences: {
-  (
-    input: ListGeofencesRequest,
-  ): effect.Effect<
-    ListGeofencesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listGeofences: API.OperationMethod<
+  ListGeofencesRequest,
+  ListGeofencesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListGeofencesRequest,
   ) => stream.Stream<
@@ -4131,9 +4108,8 @@ export const listGeofences: {
 /**
  * Stores a geofence geometry in a given geofence collection, or updates the geometry of an existing geofence if a geofence ID is included in the request.
  */
-export const putGeofence: (
-  input: PutGeofenceRequest,
-) => effect.Effect<
+export const putGeofence: API.OperationMethod<
+  PutGeofenceRequest,
   PutGeofenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -4172,9 +4148,8 @@ export const putGeofence: (
  *
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
-export const createMap: (
-  input: CreateMapRequest,
-) => effect.Effect<
+export const createMap: API.OperationMethod<
+  CreateMapRequest,
   CreateMapResponse,
   | AccessDeniedException
   | ConflictException
@@ -4211,9 +4186,8 @@ export const createMap: (
  *
  * Retrieves the map resource details.
  */
-export const describeMap: (
-  input: DescribeMapRequest,
-) => effect.Effect<
+export const describeMap: API.OperationMethod<
+  DescribeMapRequest,
   DescribeMapResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4248,9 +4222,8 @@ export const describeMap: (
  *
  * Updates the specified properties of a given map resource.
  */
-export const updateMap: (
-  input: UpdateMapRequest,
-) => effect.Effect<
+export const updateMap: API.OperationMethod<
+  UpdateMapRequest,
   UpdateMapResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4287,9 +4260,8 @@ export const updateMap: (
  *
  * This operation deletes the resource permanently. If the map is being used in an application, the map may not render.
  */
-export const deleteMap: (
-  input: DeleteMapRequest,
-) => effect.Effect<
+export const deleteMap: API.OperationMethod<
+  DeleteMapRequest,
   DeleteMapResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4324,18 +4296,16 @@ export const deleteMap: (
  *
  * Lists map resources in your Amazon Web Services account.
  */
-export const listMaps: {
-  (
-    input: ListMapsRequest,
-  ): effect.Effect<
-    ListMapsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMaps: API.OperationMethod<
+  ListMapsRequest,
+  ListMapsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMapsRequest,
   ) => stream.Stream<
@@ -4389,9 +4359,8 @@ export const listMaps: {
  *
  * Retrieves glyphs used to display labels on a map.
  */
-export const getMapGlyphs: (
-  input: GetMapGlyphsRequest,
-) => effect.Effect<
+export const getMapGlyphs: API.OperationMethod<
+  GetMapGlyphsRequest,
   GetMapGlyphsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4426,9 +4395,8 @@ export const getMapGlyphs: (
  *
  * Retrieves the sprite sheet corresponding to a map resource. The sprite sheet is a PNG image paired with a JSON document describing the offsets of individual icons that will be displayed on a rendered map.
  */
-export const getMapSprites: (
-  input: GetMapSpritesRequest,
-) => effect.Effect<
+export const getMapSprites: API.OperationMethod<
+  GetMapSpritesRequest,
   GetMapSpritesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4465,9 +4433,8 @@ export const getMapSprites: (
  *
  * The style descriptor contains speciﬁcations on how features render on a map. For example, what data to display, what order to display the data in, and the style for the data. Style descriptors follow the Mapbox Style Specification.
  */
-export const getMapStyleDescriptor: (
-  input: GetMapStyleDescriptorRequest,
-) => effect.Effect<
+export const getMapStyleDescriptor: API.OperationMethod<
+  GetMapStyleDescriptorRequest,
   GetMapStyleDescriptorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4504,9 +4471,8 @@ export const getMapStyleDescriptor: (
  *
  * The origin (0, 0) is the top left of the map. Increasing the zoom level by 1 doubles both the X and Y dimensions, so a tile containing data for the entire world at (0/0/0) will be split into 4 tiles at zoom 1 (1/0/0, 1/0/1, 1/1/0, 1/1/1).
  */
-export const getMapTile: (
-  input: GetMapTileRequest,
-) => effect.Effect<
+export const getMapTile: API.OperationMethod<
+  GetMapTileRequest,
   GetMapTileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4543,9 +4509,8 @@ export const getMapTile: (
  *
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
-export const createPlaceIndex: (
-  input: CreatePlaceIndexRequest,
-) => effect.Effect<
+export const createPlaceIndex: API.OperationMethod<
+  CreatePlaceIndexRequest,
   CreatePlaceIndexResponse,
   | AccessDeniedException
   | ConflictException
@@ -4582,9 +4547,8 @@ export const createPlaceIndex: (
  *
  * Retrieves the place index resource details.
  */
-export const describePlaceIndex: (
-  input: DescribePlaceIndexRequest,
-) => effect.Effect<
+export const describePlaceIndex: API.OperationMethod<
+  DescribePlaceIndexRequest,
   DescribePlaceIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4619,9 +4583,8 @@ export const describePlaceIndex: (
  *
  * Updates the specified properties of a given place index resource.
  */
-export const updatePlaceIndex: (
-  input: UpdatePlaceIndexRequest,
-) => effect.Effect<
+export const updatePlaceIndex: API.OperationMethod<
+  UpdatePlaceIndexRequest,
   UpdatePlaceIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4658,9 +4621,8 @@ export const updatePlaceIndex: (
  *
  * This operation deletes the resource permanently.
  */
-export const deletePlaceIndex: (
-  input: DeletePlaceIndexRequest,
-) => effect.Effect<
+export const deletePlaceIndex: API.OperationMethod<
+  DeletePlaceIndexRequest,
   DeletePlaceIndexResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4695,18 +4657,16 @@ export const deletePlaceIndex: (
  *
  * Lists place index resources in your Amazon Web Services account.
  */
-export const listPlaceIndexes: {
-  (
-    input: ListPlaceIndexesRequest,
-  ): effect.Effect<
-    ListPlaceIndexesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPlaceIndexes: API.OperationMethod<
+  ListPlaceIndexesRequest,
+  ListPlaceIndexesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPlaceIndexesRequest,
   ) => stream.Stream<
@@ -4770,9 +4730,8 @@ export const listPlaceIndexes: {
  *
  * If your Place index resource is configured with Grab as your geolocation provider and Storage as Intended use, the GetPlace operation is unavailable. For more information, see AWS service terms.
  */
-export const getPlace: (
-  input: GetPlaceRequest,
-) => effect.Effect<
+export const getPlace: API.OperationMethod<
+  GetPlaceRequest,
   GetPlaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4805,9 +4764,8 @@ export const getPlace: (
  *
  * Reverse geocodes a given coordinate and returns a legible address. Allows you to search for Places or points of interest near a given position.
  */
-export const searchPlaceIndexForPosition: (
-  input: SearchPlaceIndexForPositionRequest,
-) => effect.Effect<
+export const searchPlaceIndexForPosition: API.OperationMethod<
+  SearchPlaceIndexForPositionRequest,
   SearchPlaceIndexForPositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4844,9 +4802,8 @@ export const searchPlaceIndexForPosition: (
  *
  * You can search for suggested place names near a specified position by using `BiasPosition`, or filter results within a bounding box by using `FilterBBox`. These parameters are mutually exclusive; using both `BiasPosition` and `FilterBBox` in the same command returns an error.
  */
-export const searchPlaceIndexForSuggestions: (
-  input: SearchPlaceIndexForSuggestionsRequest,
-) => effect.Effect<
+export const searchPlaceIndexForSuggestions: API.OperationMethod<
+  SearchPlaceIndexForSuggestionsRequest,
   SearchPlaceIndexForSuggestionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4885,9 +4842,8 @@ export const searchPlaceIndexForSuggestions: (
  *
  * Search results are returned in order of highest to lowest relevance.
  */
-export const searchPlaceIndexForText: (
-  input: SearchPlaceIndexForTextRequest,
-) => effect.Effect<
+export const searchPlaceIndexForText: API.OperationMethod<
+  SearchPlaceIndexForTextRequest,
   SearchPlaceIndexForTextResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4926,9 +4882,8 @@ export const searchPlaceIndexForText: (
  *
  * If your application is tracking or routing assets you use in your business, such as delivery vehicles or employees, you must not use Esri as your geolocation provider. See section 82 of the Amazon Web Services service terms for more details.
  */
-export const createRouteCalculator: (
-  input: CreateRouteCalculatorRequest,
-) => effect.Effect<
+export const createRouteCalculator: API.OperationMethod<
+  CreateRouteCalculatorRequest,
   CreateRouteCalculatorResponse,
   | AccessDeniedException
   | ConflictException
@@ -4965,9 +4920,8 @@ export const createRouteCalculator: (
  *
  * Retrieves the route calculator resource details.
  */
-export const describeRouteCalculator: (
-  input: DescribeRouteCalculatorRequest,
-) => effect.Effect<
+export const describeRouteCalculator: API.OperationMethod<
+  DescribeRouteCalculatorRequest,
   DescribeRouteCalculatorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5002,9 +4956,8 @@ export const describeRouteCalculator: (
  *
  * Updates the specified properties for a given route calculator resource.
  */
-export const updateRouteCalculator: (
-  input: UpdateRouteCalculatorRequest,
-) => effect.Effect<
+export const updateRouteCalculator: API.OperationMethod<
+  UpdateRouteCalculatorRequest,
   UpdateRouteCalculatorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5041,9 +4994,8 @@ export const updateRouteCalculator: (
  *
  * This operation deletes the resource permanently.
  */
-export const deleteRouteCalculator: (
-  input: DeleteRouteCalculatorRequest,
-) => effect.Effect<
+export const deleteRouteCalculator: API.OperationMethod<
+  DeleteRouteCalculatorRequest,
   DeleteRouteCalculatorResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5078,18 +5030,16 @@ export const deleteRouteCalculator: (
  *
  * Lists route calculator resources in your Amazon Web Services account.
  */
-export const listRouteCalculators: {
-  (
-    input: ListRouteCalculatorsRequest,
-  ): effect.Effect<
-    ListRouteCalculatorsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRouteCalculators: API.OperationMethod<
+  ListRouteCalculatorsRequest,
+  ListRouteCalculatorsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRouteCalculatorsRequest,
   ) => stream.Stream<
@@ -5153,9 +5103,8 @@ export const listRouteCalculators: {
  *
  * If you specify `walking` for the travel mode and your data provider is Esri, the start and destination must be within 40km.
  */
-export const calculateRoute: (
-  input: CalculateRouteRequest,
-) => effect.Effect<
+export const calculateRoute: API.OperationMethod<
+  CalculateRouteRequest,
   CalculateRouteResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5204,9 +5153,8 @@ export const calculateRoute: (
  *
  * - Specifying a travel mode using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in `CarModeOptions` if traveling by `Car`, or `TruckModeOptions` if traveling by `Truck`.
  */
-export const calculateRouteMatrix: (
-  input: CalculateRouteMatrixRequest,
-) => effect.Effect<
+export const calculateRouteMatrix: API.OperationMethod<
+  CalculateRouteMatrixRequest,
   CalculateRouteMatrixResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5229,9 +5177,8 @@ export const calculateRouteMatrix: (
 /**
  * Creates a tracker resource in your Amazon Web Services account, which lets you retrieve current and historical location of devices.
  */
-export const createTracker: (
-  input: CreateTrackerRequest,
-) => effect.Effect<
+export const createTracker: API.OperationMethod<
+  CreateTrackerRequest,
   CreateTrackerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5256,9 +5203,8 @@ export const createTracker: (
 /**
  * Retrieves the tracker resource details.
  */
-export const describeTracker: (
-  input: DescribeTrackerRequest,
-) => effect.Effect<
+export const describeTracker: API.OperationMethod<
+  DescribeTrackerRequest,
   DescribeTrackerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5281,9 +5227,8 @@ export const describeTracker: (
 /**
  * Updates the specified properties of a given tracker resource.
  */
-export const updateTracker: (
-  input: UpdateTrackerRequest,
-) => effect.Effect<
+export const updateTracker: API.OperationMethod<
+  UpdateTrackerRequest,
   UpdateTrackerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5308,9 +5253,8 @@ export const updateTracker: (
  *
  * This operation deletes the resource permanently. If the tracker resource is in use, you may encounter an error. Make sure that the target resource isn't a dependency for your applications.
  */
-export const deleteTracker: (
-  input: DeleteTrackerRequest,
-) => effect.Effect<
+export const deleteTracker: API.OperationMethod<
+  DeleteTrackerRequest,
   DeleteTrackerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5333,18 +5277,16 @@ export const deleteTracker: (
 /**
  * Lists tracker resources in your Amazon Web Services account.
  */
-export const listTrackers: {
-  (
-    input: ListTrackersRequest,
-  ): effect.Effect<
-    ListTrackersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrackers: API.OperationMethod<
+  ListTrackersRequest,
+  ListTrackersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrackersRequest,
   ) => stream.Stream<
@@ -5390,9 +5332,8 @@ export const listTrackers: {
  *
  * Currently not supported — Cross-account configurations, such as creating associations between a tracker resource in one account and a geofence collection in another account.
  */
-export const associateTrackerConsumer: (
-  input: AssociateTrackerConsumerRequest,
-) => effect.Effect<
+export const associateTrackerConsumer: API.OperationMethod<
+  AssociateTrackerConsumerRequest,
   AssociateTrackerConsumerResponse,
   | AccessDeniedException
   | ConflictException
@@ -5419,9 +5360,8 @@ export const associateTrackerConsumer: (
 /**
  * Deletes the position history of one or more devices from a tracker resource.
  */
-export const batchDeleteDevicePositionHistory: (
-  input: BatchDeleteDevicePositionHistoryRequest,
-) => effect.Effect<
+export const batchDeleteDevicePositionHistory: API.OperationMethod<
+  BatchDeleteDevicePositionHistoryRequest,
   BatchDeleteDevicePositionHistoryResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5444,9 +5384,8 @@ export const batchDeleteDevicePositionHistory: (
 /**
  * Lists the latest device positions for requested devices.
  */
-export const batchGetDevicePosition: (
-  input: BatchGetDevicePositionRequest,
-) => effect.Effect<
+export const batchGetDevicePosition: API.OperationMethod<
+  BatchGetDevicePositionRequest,
   BatchGetDevicePositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5475,9 +5414,8 @@ export const batchGetDevicePosition: (
  *
  * When `PositionFiltering` is set to `AccuracyBased` filtering, location data is stored and evaluated against linked geofence collections only if the device has moved more than the measured accuracy. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is neither stored or evaluated if the device has moved less than 15 m. If `PositionFiltering` is set to `AccuracyBased` filtering, Amazon Location uses the default value `{ "Horizontal": 0}` when accuracy is not provided on a `DevicePositionUpdate`.
  */
-export const batchUpdateDevicePosition: (
-  input: BatchUpdateDevicePositionRequest,
-) => effect.Effect<
+export const batchUpdateDevicePosition: API.OperationMethod<
+  BatchUpdateDevicePositionRequest,
   BatchUpdateDevicePositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5502,9 +5440,8 @@ export const batchUpdateDevicePosition: (
  *
  * Once you unlink a tracker resource from a geofence collection, the tracker positions will no longer be automatically evaluated against geofences.
  */
-export const disassociateTrackerConsumer: (
-  input: DisassociateTrackerConsumerRequest,
-) => effect.Effect<
+export const disassociateTrackerConsumer: API.OperationMethod<
+  DisassociateTrackerConsumerRequest,
   DisassociateTrackerConsumerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5529,9 +5466,8 @@ export const disassociateTrackerConsumer: (
  *
  * Device positions are deleted after 30 days.
  */
-export const getDevicePosition: (
-  input: GetDevicePositionRequest,
-) => effect.Effect<
+export const getDevicePosition: API.OperationMethod<
+  GetDevicePositionRequest,
   GetDevicePositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -5556,19 +5492,17 @@ export const getDevicePosition: (
  *
  * Device positions are deleted after 30 days.
  */
-export const getDevicePositionHistory: {
-  (
-    input: GetDevicePositionHistoryRequest,
-  ): effect.Effect<
-    GetDevicePositionHistoryResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getDevicePositionHistory: API.OperationMethod<
+  GetDevicePositionHistoryRequest,
+  GetDevicePositionHistoryResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetDevicePositionHistoryRequest,
   ) => stream.Stream<
@@ -5613,18 +5547,16 @@ export const getDevicePositionHistory: {
 /**
  * A batch request to retrieve all device positions.
  */
-export const listDevicePositions: {
-  (
-    input: ListDevicePositionsRequest,
-  ): effect.Effect<
-    ListDevicePositionsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDevicePositions: API.OperationMethod<
+  ListDevicePositionsRequest,
+  ListDevicePositionsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDevicePositionsRequest,
   ) => stream.Stream<
@@ -5666,19 +5598,17 @@ export const listDevicePositions: {
 /**
  * Lists geofence collections currently associated to the given tracker resource.
  */
-export const listTrackerConsumers: {
-  (
-    input: ListTrackerConsumersRequest,
-  ): effect.Effect<
-    ListTrackerConsumersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTrackerConsumers: API.OperationMethod<
+  ListTrackerConsumersRequest,
+  ListTrackerConsumersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTrackerConsumersRequest,
   ) => stream.Stream<
@@ -5725,9 +5655,8 @@ export const listTrackerConsumers: {
  *
  * The Location Integrity SDK provides enhanced features related to device verification, and it is available for use by request. To get access to the SDK, contact Sales Support.
  */
-export const verifyDevicePosition: (
-  input: VerifyDevicePositionRequest,
-) => effect.Effect<
+export const verifyDevicePosition: API.OperationMethod<
+  VerifyDevicePositionRequest,
   VerifyDevicePositionResponse,
   | AccessDeniedException
   | InternalServerException

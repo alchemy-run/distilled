@@ -4578,9 +4578,8 @@ export class InvalidStateException extends S.TaggedErrorClass<InvalidStateExcept
  * about associating access policies, see Associating and disassociating
  * access policies to and from access entries in the *Amazon EKS User Guide*.
  */
-export const associateAccessPolicy: (
-  input: AssociateAccessPolicyRequest,
-) => effect.Effect<
+export const associateAccessPolicy: API.OperationMethod<
+  AssociateAccessPolicyRequest,
   AssociateAccessPolicyResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -4605,9 +4604,8 @@ export const associateAccessPolicy: (
  * encryption enabled. This allows you to implement a defense-in-depth security strategy
  * without migrating applications to new Amazon EKS clusters.
  */
-export const associateEncryptionConfig: (
-  input: AssociateEncryptionConfigRequest,
-) => effect.Effect<
+export const associateEncryptionConfig: API.OperationMethod<
+  AssociateEncryptionConfigRequest,
   AssociateEncryptionConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -4642,9 +4640,8 @@ export const associateEncryptionConfig: (
  * objects. For more information see Using RBAC
  * Authorization in the Kubernetes documentation.
  */
-export const associateIdentityProviderConfig: (
-  input: AssociateIdentityProviderConfigRequest,
-) => effect.Effect<
+export const associateIdentityProviderConfig: API.OperationMethod<
+  AssociateIdentityProviderConfigRequest,
   AssociateIdentityProviderConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -4685,9 +4682,8 @@ export const associateIdentityProviderConfig: (
  * For more information about access entries, see Access entries in the
  * *Amazon EKS User Guide*.
  */
-export const createAccessEntry: (
-  input: CreateAccessEntryRequest,
-) => effect.Effect<
+export const createAccessEntry: API.OperationMethod<
+  CreateAccessEntryRequest,
   CreateAccessEntryResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -4716,9 +4712,8 @@ export const createAccessEntry: (
  * operational software for Amazon EKS clusters. For more information, see Amazon EKS
  * add-ons in the *Amazon EKS User Guide*.
  */
-export const createAddon: (
-  input: CreateAddonRequest,
-) => effect.Effect<
+export const createAddon: API.OperationMethod<
+  CreateAddonRequest,
   CreateAddonResponse,
   | ClientException
   | InvalidParameterException
@@ -4749,9 +4744,8 @@ export const createAddon: (
  *
  * For more information, see EKS Capabilities in the *Amazon EKS User Guide*.
  */
-export const createCapability: (
-  input: CreateCapabilityRequest,
-) => effect.Effect<
+export const createCapability: API.OperationMethod<
+  CreateCapabilityRequest,
   CreateCapabilityResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -4821,9 +4815,8 @@ export const createCapability: (
  * access your cluster and Launching Amazon EKS
  * nodes in the *Amazon EKS User Guide*.
  */
-export const createCluster: (
-  input: CreateClusterRequest,
-) => effect.Effect<
+export const createCluster: API.OperationMethod<
+  CreateClusterRequest,
   CreateClusterResponse,
   | ClientException
   | InvalidParameterException
@@ -4853,9 +4846,8 @@ export const createCluster: (
  * validate support are provisioned in Amazon Web Services License Manager and the caller account is
  * granted access to EKS Anywhere Curated Packages.
  */
-export const createEksAnywhereSubscription: (
-  input: CreateEksAnywhereSubscriptionRequest,
-) => effect.Effect<
+export const createEksAnywhereSubscription: API.OperationMethod<
+  CreateEksAnywhereSubscriptionRequest,
   CreateEksAnywhereSubscriptionResponse,
   | ClientException
   | InvalidParameterException
@@ -4907,9 +4899,8 @@ export const createEksAnywhereSubscription: (
  *
  * For more information, see Fargate profile in the *Amazon EKS User Guide*.
  */
-export const createFargateProfile: (
-  input: CreateFargateProfileRequest,
-) => effect.Effect<
+export const createFargateProfile: API.OperationMethod<
+  CreateFargateProfileRequest,
   CreateFargateProfileResponse,
   | ClientException
   | InvalidParameterException
@@ -4953,9 +4944,8 @@ export const createFargateProfile: (
  * Windows AMI types are only supported for commercial Amazon Web Services Regions that support
  * Windows on Amazon EKS.
  */
-export const createNodegroup: (
-  input: CreateNodegroupRequest,
-) => effect.Effect<
+export const createNodegroup: API.OperationMethod<
+  CreateNodegroupRequest,
   CreateNodegroupResponse,
   | ClientException
   | InvalidParameterException
@@ -5009,9 +4999,8 @@ export const createNodegroup: (
  * provides your Pod with temporary credentials that have the permissions defined in the
  * target role, allowing secure access to resources in another Amazon Web Services account.
  */
-export const createPodIdentityAssociation: (
-  input: CreatePodIdentityAssociationRequest,
-) => effect.Effect<
+export const createPodIdentityAssociation: API.OperationMethod<
+  CreatePodIdentityAssociationRequest,
   CreatePodIdentityAssociationResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -5040,9 +5029,8 @@ export const createPodIdentityAssociation: (
  * cluster to function improperly. If you delete an access entry in error, you can recreate
  * it.
  */
-export const deleteAccessEntry: (
-  input: DeleteAccessEntryRequest,
-) => effect.Effect<
+export const deleteAccessEntry: API.OperationMethod<
+  DeleteAccessEntryRequest,
   DeleteAccessEntryResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -5060,9 +5048,8 @@ export const deleteAccessEntry: (
  * When you remove an add-on, it's deleted from the cluster. You can always manually
  * start an add-on on the cluster using the Kubernetes API.
  */
-export const deleteAddon: (
-  input: DeleteAddonRequest,
-) => effect.Effect<
+export const deleteAddon: API.OperationMethod<
+  DeleteAddonRequest,
   DeleteAddonResponse,
   | ClientException
   | InvalidParameterException
@@ -5087,9 +5074,8 @@ export const deleteAddon: (
  *
  * Before deleting a capability, you should delete all Kubernetes resources that were created by the capability. After the capability is deleted, these resources become difficult to manage because the controller that managed them is no longer available. To delete resources before removing the capability, use `kubectl delete` or remove them through your GitOps workflow.
  */
-export const deleteCapability: (
-  input: DeleteCapabilityRequest,
-) => effect.Effect<
+export const deleteCapability: API.OperationMethod<
+  DeleteCapabilityRequest,
   DeleteCapabilityResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -5122,9 +5108,8 @@ export const deleteCapability: (
  * must delete them first. For more information, see `DeleteNodgroup` and
  * `DeleteFargateProfile`.
  */
-export const deleteCluster: (
-  input: DeleteClusterRequest,
-) => effect.Effect<
+export const deleteCluster: API.OperationMethod<
+  DeleteClusterRequest,
   DeleteClusterResponse,
   | ClientException
   | InvalidRequestException
@@ -5152,9 +5137,8 @@ export const deleteCluster: (
  * only be cancelled within 7 days of creation and are cancelled by creating a ticket in
  * the Amazon Web Services Support Center.
  */
-export const deleteEksAnywhereSubscription: (
-  input: DeleteEksAnywhereSubscriptionRequest,
-) => effect.Effect<
+export const deleteEksAnywhereSubscription: API.OperationMethod<
+  DeleteEksAnywhereSubscriptionRequest,
   DeleteEksAnywhereSubscriptionResponse,
   | ClientException
   | InvalidRequestException
@@ -5185,9 +5169,8 @@ export const deleteEksAnywhereSubscription: (
  * a time. You must wait for a Fargate profile to finish deleting before you can delete
  * any other profiles in that cluster.
  */
-export const deleteFargateProfile: (
-  input: DeleteFargateProfileRequest,
-) => effect.Effect<
+export const deleteFargateProfile: API.OperationMethod<
+  DeleteFargateProfileRequest,
   DeleteFargateProfileResponse,
   | ClientException
   | InvalidParameterException
@@ -5208,9 +5191,8 @@ export const deleteFargateProfile: (
 /**
  * Deletes a managed node group.
  */
-export const deleteNodegroup: (
-  input: DeleteNodegroupRequest,
-) => effect.Effect<
+export const deleteNodegroup: API.OperationMethod<
+  DeleteNodegroupRequest,
   DeleteNodegroupResponse,
   | ClientException
   | InvalidParameterException
@@ -5237,9 +5219,8 @@ export const deleteNodegroup: (
  *
  * The temporary Amazon Web Services credentials from the previous IAM role session might still be valid until the session expiry. If you need to immediately revoke the temporary session credentials, then go to the role in the IAM console.
  */
-export const deletePodIdentityAssociation: (
-  input: DeletePodIdentityAssociationRequest,
-) => effect.Effect<
+export const deletePodIdentityAssociation: API.OperationMethod<
+  DeletePodIdentityAssociationRequest,
   DeletePodIdentityAssociationResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -5263,9 +5244,8 @@ export const deletePodIdentityAssociation: (
  * A connected cluster is a Kubernetes cluster that you've connected to your control plane
  * using the Amazon EKS Connector.
  */
-export const deregisterCluster: (
-  input: DeregisterClusterRequest,
-) => effect.Effect<
+export const deregisterCluster: API.OperationMethod<
+  DeregisterClusterRequest,
   DeregisterClusterResponse,
   | AccessDeniedException
   | ClientException
@@ -5290,9 +5270,8 @@ export const deregisterCluster: (
 /**
  * Describes an access entry.
  */
-export const describeAccessEntry: (
-  input: DescribeAccessEntryRequest,
-) => effect.Effect<
+export const describeAccessEntry: API.OperationMethod<
+  DescribeAccessEntryRequest,
   DescribeAccessEntryResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -5307,9 +5286,8 @@ export const describeAccessEntry: (
 /**
  * Describes an Amazon EKS add-on.
  */
-export const describeAddon: (
-  input: DescribeAddonRequest,
-) => effect.Effect<
+export const describeAddon: API.OperationMethod<
+  DescribeAddonRequest,
   DescribeAddonResponse,
   | ClientException
   | InvalidParameterException
@@ -5332,9 +5310,8 @@ export const describeAddon: (
 /**
  * Returns configuration options.
  */
-export const describeAddonConfiguration: (
-  input: DescribeAddonConfigurationRequest,
-) => effect.Effect<
+export const describeAddonConfiguration: API.OperationMethod<
+  DescribeAddonConfigurationRequest,
   DescribeAddonConfigurationResponse,
   | InvalidParameterException
   | ResourceNotFoundException
@@ -5357,17 +5334,15 @@ export const describeAddonConfiguration: (
  * `owner`, `publisher`, and the `type` of the add-on
  * are returned.
  */
-export const describeAddonVersions: {
-  (
-    input: DescribeAddonVersionsRequest,
-  ): effect.Effect<
-    DescribeAddonVersionsResponse,
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAddonVersions: API.OperationMethod<
+  DescribeAddonVersionsRequest,
+  DescribeAddonVersionsResponse,
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAddonVersionsRequest,
   ) => stream.Stream<
@@ -5406,9 +5381,8 @@ export const describeAddonVersions: {
 /**
  * Returns detailed information about a specific managed capability in your Amazon EKS cluster, including its current status, configuration, health information, and any issues that may be affecting its operation.
  */
-export const describeCapability: (
-  input: DescribeCapabilityRequest,
-) => effect.Effect<
+export const describeCapability: API.OperationMethod<
+  DescribeCapabilityRequest,
   DescribeCapabilityResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -5437,9 +5411,8 @@ export const describeCapability: (
  * The API server endpoint and certificate authority data aren't available until the
  * cluster reaches the `ACTIVE` state.
  */
-export const describeCluster: (
-  input: DescribeClusterRequest,
-) => effect.Effect<
+export const describeCluster: API.OperationMethod<
+  DescribeClusterRequest,
   DescribeClusterResponse,
   | ClientException
   | ResourceNotFoundException
@@ -5460,17 +5433,15 @@ export const describeCluster: (
 /**
  * Lists available Kubernetes versions for Amazon EKS clusters.
  */
-export const describeClusterVersions: {
-  (
-    input: DescribeClusterVersionsRequest,
-  ): effect.Effect<
-    DescribeClusterVersionsResponse,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeClusterVersions: API.OperationMethod<
+  DescribeClusterVersionsRequest,
+  DescribeClusterVersionsResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeClusterVersionsRequest,
   ) => stream.Stream<
@@ -5505,9 +5476,8 @@ export const describeClusterVersions: {
 /**
  * Returns descriptive information about a subscription.
  */
-export const describeEksAnywhereSubscription: (
-  input: DescribeEksAnywhereSubscriptionRequest,
-) => effect.Effect<
+export const describeEksAnywhereSubscription: API.OperationMethod<
+  DescribeEksAnywhereSubscriptionRequest,
   DescribeEksAnywhereSubscriptionResponse,
   | ClientException
   | ResourceNotFoundException
@@ -5528,9 +5498,8 @@ export const describeEksAnywhereSubscription: (
 /**
  * Describes an Fargate profile.
  */
-export const describeFargateProfile: (
-  input: DescribeFargateProfileRequest,
-) => effect.Effect<
+export const describeFargateProfile: API.OperationMethod<
+  DescribeFargateProfileRequest,
   DescribeFargateProfileResponse,
   | ClientException
   | InvalidParameterException
@@ -5551,9 +5520,8 @@ export const describeFargateProfile: (
 /**
  * Describes an identity provider configuration.
  */
-export const describeIdentityProviderConfig: (
-  input: DescribeIdentityProviderConfigRequest,
-) => effect.Effect<
+export const describeIdentityProviderConfig: API.OperationMethod<
+  DescribeIdentityProviderConfigRequest,
   DescribeIdentityProviderConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -5576,9 +5544,8 @@ export const describeIdentityProviderConfig: (
 /**
  * Returns details about an insight that you specify using its ID.
  */
-export const describeInsight: (
-  input: DescribeInsightRequest,
-) => effect.Effect<
+export const describeInsight: API.OperationMethod<
+  DescribeInsightRequest,
   DescribeInsightResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -5599,9 +5566,8 @@ export const describeInsight: (
 /**
  * Returns the status of the latest on-demand cluster insights refresh operation.
  */
-export const describeInsightsRefresh: (
-  input: DescribeInsightsRefreshRequest,
-) => effect.Effect<
+export const describeInsightsRefresh: API.OperationMethod<
+  DescribeInsightsRefreshRequest,
   DescribeInsightsRefreshResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -5622,9 +5588,8 @@ export const describeInsightsRefresh: (
 /**
  * Describes a managed node group.
  */
-export const describeNodegroup: (
-  input: DescribeNodegroupRequest,
-) => effect.Effect<
+export const describeNodegroup: API.OperationMethod<
+  DescribeNodegroupRequest,
   DescribeNodegroupResponse,
   | ClientException
   | InvalidParameterException
@@ -5652,9 +5617,8 @@ export const describeNodegroup: (
  * list the IDs for associations with `ListPodIdentityAssociations` and filter the
  * list by namespace or service account.
  */
-export const describePodIdentityAssociation: (
-  input: DescribePodIdentityAssociationRequest,
-) => effect.Effect<
+export const describePodIdentityAssociation: API.OperationMethod<
+  DescribePodIdentityAssociationRequest,
   DescribePodIdentityAssociationResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -5679,9 +5643,8 @@ export const describePodIdentityAssociation: (
  * an update fails, the status is `Failed`, and an error detail explains the
  * reason for the failure.
  */
-export const describeUpdate: (
-  input: DescribeUpdateRequest,
-) => effect.Effect<
+export const describeUpdate: API.OperationMethod<
+  DescribeUpdateRequest,
   DescribeUpdateResponse,
   | ClientException
   | InvalidParameterException
@@ -5702,9 +5665,8 @@ export const describeUpdate: (
 /**
  * Disassociates an access policy from an access entry.
  */
-export const disassociateAccessPolicy: (
-  input: DisassociateAccessPolicyRequest,
-) => effect.Effect<
+export const disassociateAccessPolicy: API.OperationMethod<
+  DisassociateAccessPolicyRequest,
   DisassociateAccessPolicyResponse,
   | InvalidRequestException
   | ResourceNotFoundException
@@ -5723,9 +5685,8 @@ export const disassociateAccessPolicy: (
  * provider can no longer access the cluster. However, you can still access the cluster
  * with IAM principals.
  */
-export const disassociateIdentityProviderConfig: (
-  input: DisassociateIdentityProviderConfigRequest,
-) => effect.Effect<
+export const disassociateIdentityProviderConfig: API.OperationMethod<
+  DisassociateIdentityProviderConfigRequest,
   DisassociateIdentityProviderConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -5752,18 +5713,16 @@ export const disassociateIdentityProviderConfig: (
 /**
  * Lists the access entries for your cluster.
  */
-export const listAccessEntries: {
-  (
-    input: ListAccessEntriesRequest,
-  ): effect.Effect<
-    ListAccessEntriesResponse,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessEntries: API.OperationMethod<
+  ListAccessEntriesRequest,
+  ListAccessEntriesResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessEntriesRequest,
   ) => stream.Stream<
@@ -5805,14 +5764,12 @@ export const listAccessEntries: {
 /**
  * Lists the available access policies.
  */
-export const listAccessPolicies: {
-  (
-    input: ListAccessPoliciesRequest,
-  ): effect.Effect<
-    ListAccessPoliciesResponse,
-    ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessPolicies: API.OperationMethod<
+  ListAccessPoliciesRequest,
+  ListAccessPoliciesResponse,
+  ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessPoliciesRequest,
   ) => stream.Stream<
@@ -5841,19 +5798,17 @@ export const listAccessPolicies: {
 /**
  * Lists the installed add-ons.
  */
-export const listAddons: {
-  (
-    input: ListAddonsRequest,
-  ): effect.Effect<
-    ListAddonsResponse,
-    | ClientException
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAddons: API.OperationMethod<
+  ListAddonsRequest,
+  ListAddonsResponse,
+  | ClientException
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAddonsRequest,
   ) => stream.Stream<
@@ -5898,17 +5853,15 @@ export const listAddons: {
 /**
  * Lists the access policies associated with an access entry.
  */
-export const listAssociatedAccessPolicies: {
-  (
-    input: ListAssociatedAccessPoliciesRequest,
-  ): effect.Effect<
-    ListAssociatedAccessPoliciesResponse,
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAssociatedAccessPolicies: API.OperationMethod<
+  ListAssociatedAccessPoliciesRequest,
+  ListAssociatedAccessPoliciesResponse,
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAssociatedAccessPoliciesRequest,
   ) => stream.Stream<
@@ -5943,14 +5896,12 @@ export const listAssociatedAccessPolicies: {
 /**
  * Lists all managed capabilities in your Amazon EKS cluster. You can use this operation to get an overview of all capabilities and their current status.
  */
-export const listCapabilities: {
-  (
-    input: ListCapabilitiesRequest,
-  ): effect.Effect<
-    ListCapabilitiesResponse,
-    InvalidParameterException | ServerException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCapabilities: API.OperationMethod<
+  ListCapabilitiesRequest,
+  ListCapabilitiesResponse,
+  InvalidParameterException | ServerException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCapabilitiesRequest,
   ) => stream.Stream<
@@ -5979,18 +5930,16 @@ export const listCapabilities: {
 /**
  * Lists the Amazon EKS clusters in your Amazon Web Services account in the specified Amazon Web Services Region.
  */
-export const listClusters: {
-  (
-    input: ListClustersRequest,
-  ): effect.Effect<
-    ListClustersResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listClusters: API.OperationMethod<
+  ListClustersRequest,
+  ListClustersResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListClustersRequest,
   ) => stream.Stream<
@@ -6032,18 +5981,16 @@ export const listClusters: {
 /**
  * Displays the full description of the subscription.
  */
-export const listEksAnywhereSubscriptions: {
-  (
-    input: ListEksAnywhereSubscriptionsRequest,
-  ): effect.Effect<
-    ListEksAnywhereSubscriptionsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEksAnywhereSubscriptions: API.OperationMethod<
+  ListEksAnywhereSubscriptionsRequest,
+  ListEksAnywhereSubscriptionsResponse,
+  | ClientException
+  | InvalidParameterException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEksAnywhereSubscriptionsRequest,
   ) => stream.Stream<
@@ -6086,18 +6033,16 @@ export const listEksAnywhereSubscriptions: {
  * Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services
  * account in the specified Amazon Web Services Region.
  */
-export const listFargateProfiles: {
-  (
-    input: ListFargateProfilesRequest,
-  ): effect.Effect<
-    ListFargateProfilesResponse,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFargateProfiles: API.OperationMethod<
+  ListFargateProfilesRequest,
+  ListFargateProfilesResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFargateProfilesRequest,
   ) => stream.Stream<
@@ -6139,19 +6084,17 @@ export const listFargateProfiles: {
 /**
  * Lists the identity provider configurations for your cluster.
  */
-export const listIdentityProviderConfigs: {
-  (
-    input: ListIdentityProviderConfigsRequest,
-  ): effect.Effect<
-    ListIdentityProviderConfigsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listIdentityProviderConfigs: API.OperationMethod<
+  ListIdentityProviderConfigsRequest,
+  ListIdentityProviderConfigsResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListIdentityProviderConfigsRequest,
   ) => stream.Stream<
@@ -6207,18 +6150,16 @@ export const listIdentityProviderConfigs: {
  * Hybrid Nodes setup that could impair functionality of your cluster or
  * workloads. These are called configuration insights.
  */
-export const listInsights: {
-  (
-    input: ListInsightsRequest,
-  ): effect.Effect<
-    ListInsightsResponse,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInsights: API.OperationMethod<
+  ListInsightsRequest,
+  ListInsightsResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInsightsRequest,
   ) => stream.Stream<
@@ -6261,19 +6202,17 @@ export const listInsights: {
  * Lists the managed node groups associated with the specified cluster in your Amazon Web Services
  * account in the specified Amazon Web Services Region. Self-managed node groups aren't listed.
  */
-export const listNodegroups: {
-  (
-    input: ListNodegroupsRequest,
-  ): effect.Effect<
-    ListNodegroupsResponse,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | ServiceUnavailableException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNodegroups: API.OperationMethod<
+  ListNodegroupsRequest,
+  ListNodegroupsResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | ServiceUnavailableException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNodegroupsRequest,
   ) => stream.Stream<
@@ -6319,18 +6258,16 @@ export const listNodegroups: {
  * List the EKS Pod Identity associations in a cluster. You can filter the list by the namespace that the
  * association is in or the service account that the association uses.
  */
-export const listPodIdentityAssociations: {
-  (
-    input: ListPodIdentityAssociationsRequest,
-  ): effect.Effect<
-    ListPodIdentityAssociationsResponse,
-    | InvalidParameterException
-    | InvalidRequestException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPodIdentityAssociations: API.OperationMethod<
+  ListPodIdentityAssociationsRequest,
+  ListPodIdentityAssociationsResponse,
+  | InvalidParameterException
+  | InvalidRequestException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPodIdentityAssociationsRequest,
   ) => stream.Stream<
@@ -6372,9 +6309,8 @@ export const listPodIdentityAssociations: {
 /**
  * List the tags for an Amazon EKS resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   BadRequestException | NotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6387,18 +6323,16 @@ export const listTagsForResource: (
  * Lists the updates associated with an Amazon EKS resource in your Amazon Web Services account, in the
  * specified Amazon Web Services Region.
  */
-export const listUpdates: {
-  (
-    input: ListUpdatesRequest,
-  ): effect.Effect<
-    ListUpdatesResponse,
-    | ClientException
-    | InvalidParameterException
-    | ResourceNotFoundException
-    | ServerException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listUpdates: API.OperationMethod<
+  ListUpdatesRequest,
+  ListUpdatesResponse,
+  | ClientException
+  | InvalidParameterException
+  | ResourceNotFoundException
+  | ServerException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListUpdatesRequest,
   ) => stream.Stream<
@@ -6457,9 +6391,8 @@ export const listUpdates: {
  * cluster will no longer be visible and must be deregistered using
  * `DeregisterCluster`.
  */
-export const registerCluster: (
-  input: RegisterClusterRequest,
-) => effect.Effect<
+export const registerCluster: API.OperationMethod<
+  RegisterClusterRequest,
   RegisterClusterResponse,
   | AccessDeniedException
   | ClientException
@@ -6488,9 +6421,8 @@ export const registerCluster: (
 /**
  * Initiates an on-demand refresh operation for cluster insights, getting the latest analysis outside of the standard refresh schedule.
  */
-export const startInsightsRefresh: (
-  input: StartInsightsRefreshRequest,
-) => effect.Effect<
+export const startInsightsRefresh: API.OperationMethod<
+  StartInsightsRefreshRequest,
   StartInsightsRefreshResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -6517,9 +6449,8 @@ export const startInsightsRefresh: (
  * cluster with this operation, that tag doesn't automatically propagate to the subnets and
  * nodes associated with the cluster.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   BadRequestException | NotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6531,9 +6462,8 @@ export const tagResource: (
 /**
  * Deletes specified tags from an Amazon EKS resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   BadRequestException | NotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -6545,9 +6475,8 @@ export const untagResource: (
 /**
  * Updates an access entry.
  */
-export const updateAccessEntry: (
-  input: UpdateAccessEntryRequest,
-) => effect.Effect<
+export const updateAccessEntry: API.OperationMethod<
+  UpdateAccessEntryRequest,
   UpdateAccessEntryResponse,
   | InvalidParameterException
   | InvalidRequestException
@@ -6568,9 +6497,8 @@ export const updateAccessEntry: (
 /**
  * Updates an Amazon EKS add-on.
  */
-export const updateAddon: (
-  input: UpdateAddonRequest,
-) => effect.Effect<
+export const updateAddon: API.OperationMethod<
+  UpdateAddonRequest,
   UpdateAddonResponse,
   | ClientException
   | InvalidParameterException
@@ -6597,9 +6525,8 @@ export const updateAddon: (
  *
  * When you update a capability, Amazon EKS applies the changes and may restart capability components as needed. The capability remains available during the update process, but some operations may be temporarily unavailable.
  */
-export const updateCapability: (
-  input: UpdateCapabilityRequest,
-) => effect.Effect<
+export const updateCapability: API.OperationMethod<
+  UpdateCapabilityRequest,
   UpdateCapabilityResponse,
   | AccessDeniedException
   | InvalidParameterException
@@ -6668,9 +6595,8 @@ export const updateCapability: (
  * eventually consistent). When the update is complete (either `Failed` or
  * `Successful`), the cluster status moves to `Active`.
  */
-export const updateClusterConfig: (
-  input: UpdateClusterConfigRequest,
-) => effect.Effect<
+export const updateClusterConfig: API.OperationMethod<
+  UpdateClusterConfigRequest,
   UpdateClusterConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -6710,9 +6636,8 @@ export const updateClusterConfig: (
  * versions must match the cluster's Kubernetes version in order to update the cluster to a new
  * Kubernetes version.
  */
-export const updateClusterVersion: (
-  input: UpdateClusterVersionRequest,
-) => effect.Effect<
+export const updateClusterVersion: API.OperationMethod<
+  UpdateClusterVersionRequest,
   UpdateClusterVersionResponse,
   | ClientException
   | InvalidParameterException
@@ -6742,9 +6667,8 @@ export const updateClusterVersion: (
  * Update an EKS Anywhere Subscription. Only auto renewal and tags can be updated after
  * subscription creation.
  */
-export const updateEksAnywhereSubscription: (
-  input: UpdateEksAnywhereSubscriptionRequest,
-) => effect.Effect<
+export const updateEksAnywhereSubscription: API.OperationMethod<
+  UpdateEksAnywhereSubscriptionRequest,
   UpdateEksAnywhereSubscriptionResponse,
   | ClientException
   | InvalidParameterException
@@ -6772,9 +6696,8 @@ export const updateEksAnywhereSubscription: (
  * API operation. You can update the Kubernetes labels
  * and taints for a node group and the scaling and version update configuration.
  */
-export const updateNodegroupConfig: (
-  input: UpdateNodegroupConfigRequest,
-) => effect.Effect<
+export const updateNodegroupConfig: API.OperationMethod<
+  UpdateNodegroupConfigRequest,
   UpdateNodegroupConfigResponse,
   | ClientException
   | InvalidParameterException
@@ -6825,9 +6748,8 @@ export const updateNodegroupConfig: (
  * if Amazon EKS is unable to drain the nodes as a result of a `Pod` disruption
  * budget issue.
  */
-export const updateNodegroupVersion: (
-  input: UpdateNodegroupVersionRequest,
-) => effect.Effect<
+export const updateNodegroupVersion: API.OperationMethod<
+  UpdateNodegroupVersionRequest,
   UpdateNodegroupVersionResponse,
   | ClientException
   | InvalidParameterException
@@ -6870,9 +6792,8 @@ export const updateNodegroupVersion: (
  * provides your Pod with temporary credentials that have the permissions defined in the
  * target role, allowing secure access to resources in another Amazon Web Services account.
  */
-export const updatePodIdentityAssociation: (
-  input: UpdatePodIdentityAssociationRequest,
-) => effect.Effect<
+export const updatePodIdentityAssociation: API.OperationMethod<
+  UpdatePodIdentityAssociationRequest,
   UpdatePodIdentityAssociationResponse,
   | InvalidParameterException
   | InvalidRequestException

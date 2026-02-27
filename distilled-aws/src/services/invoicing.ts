@@ -1233,9 +1233,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * This gets the invoice profile associated with a set of accounts. The accounts must be linked accounts under the requester management account organization.
  */
-export const batchGetInvoiceProfile: (
-  input: BatchGetInvoiceProfileRequest,
-) => effect.Effect<
+export const batchGetInvoiceProfile: API.OperationMethod<
+  BatchGetInvoiceProfileRequest,
   BatchGetInvoiceProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1258,9 +1257,8 @@ export const batchGetInvoiceProfile: (
 /**
  * This creates a new invoice unit with the provided definition.
  */
-export const createInvoiceUnit: (
-  input: CreateInvoiceUnitRequest,
-) => effect.Effect<
+export const createInvoiceUnit: API.OperationMethod<
+  CreateInvoiceUnitRequest,
   CreateInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1281,9 +1279,8 @@ export const createInvoiceUnit: (
 /**
  * Creates a procurement portal preference configuration for e-invoice delivery and purchase order retrieval. This preference defines how invoices are delivered to a procurement portal and how purchase orders are retrieved.
  */
-export const createProcurementPortalPreference: (
-  input: CreateProcurementPortalPreferenceRequest,
-) => effect.Effect<
+export const createProcurementPortalPreference: API.OperationMethod<
+  CreateProcurementPortalPreferenceRequest,
   CreateProcurementPortalPreferenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1308,9 +1305,8 @@ export const createProcurementPortalPreference: (
 /**
  * This deletes an invoice unit with the provided invoice unit ARN.
  */
-export const deleteInvoiceUnit: (
-  input: DeleteInvoiceUnitRequest,
-) => effect.Effect<
+export const deleteInvoiceUnit: API.OperationMethod<
+  DeleteInvoiceUnitRequest,
   DeleteInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1333,9 +1329,8 @@ export const deleteInvoiceUnit: (
 /**
  * Deletes an existing procurement portal preference. This action cannot be undone. Active e-invoice delivery and PO retrieval configurations will be terminated.
  */
-export const deleteProcurementPortalPreference: (
-  input: DeleteProcurementPortalPreferenceRequest,
-) => effect.Effect<
+export const deleteProcurementPortalPreference: API.OperationMethod<
+  DeleteProcurementPortalPreferenceRequest,
   DeleteProcurementPortalPreferenceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1360,9 +1355,8 @@ export const deleteProcurementPortalPreference: (
 /**
  * Returns a URL to download the invoice document and supplemental documents associated with an invoice. The URLs are pre-signed and have expiration time. For special cases like Brazil, where Amazon Web Services generated invoice identifiers and government provided identifiers do not match, use the Amazon Web Services generated invoice identifier when making API requests. To grant IAM permission to use this operation, the caller needs the `invoicing:GetInvoicePDF` policy action.
  */
-export const getInvoicePDF: (
-  input: GetInvoicePDFRequest,
-) => effect.Effect<
+export const getInvoicePDF: API.OperationMethod<
+  GetInvoicePDFRequest,
   GetInvoicePDFResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1385,9 +1379,8 @@ export const getInvoicePDF: (
 /**
  * This retrieves the invoice unit definition.
  */
-export const getInvoiceUnit: (
-  input: GetInvoiceUnitRequest,
-) => effect.Effect<
+export const getInvoiceUnit: API.OperationMethod<
+  GetInvoiceUnitRequest,
   GetInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1410,9 +1403,8 @@ export const getInvoiceUnit: (
 /**
  * Retrieves the details of a specific procurement portal preference configuration.
  */
-export const getProcurementPortalPreference: (
-  input: GetProcurementPortalPreferenceRequest,
-) => effect.Effect<
+export const getProcurementPortalPreference: API.OperationMethod<
+  GetProcurementPortalPreferenceRequest,
   GetProcurementPortalPreferenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1439,19 +1431,17 @@ export const getProcurementPortalPreference: (
 /**
  * Retrieves your invoice details programmatically, without line item details.
  */
-export const listInvoiceSummaries: {
-  (
-    input: ListInvoiceSummariesRequest,
-  ): effect.Effect<
-    ListInvoiceSummariesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvoiceSummaries: API.OperationMethod<
+  ListInvoiceSummariesRequest,
+  ListInvoiceSummariesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvoiceSummariesRequest,
   ) => stream.Stream<
@@ -1496,18 +1486,16 @@ export const listInvoiceSummaries: {
 /**
  * This fetches a list of all invoice unit definitions for a given account, as of the provided `AsOf` date.
  */
-export const listInvoiceUnits: {
-  (
-    input: ListInvoiceUnitsRequest,
-  ): effect.Effect<
-    ListInvoiceUnitsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listInvoiceUnits: API.OperationMethod<
+  ListInvoiceUnitsRequest,
+  ListInvoiceUnitsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListInvoiceUnitsRequest,
   ) => stream.Stream<
@@ -1549,20 +1537,18 @@ export const listInvoiceUnits: {
 /**
  * Retrieves a list of procurement portal preferences associated with the Amazon Web Services account.
  */
-export const listProcurementPortalPreferences: {
-  (
-    input: ListProcurementPortalPreferencesRequest,
-  ): effect.Effect<
-    ListProcurementPortalPreferencesResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ServiceQuotaExceededException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listProcurementPortalPreferences: API.OperationMethod<
+  ListProcurementPortalPreferencesRequest,
+  ListProcurementPortalPreferencesResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ServiceQuotaExceededException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListProcurementPortalPreferencesRequest,
   ) => stream.Stream<
@@ -1610,9 +1596,8 @@ export const listProcurementPortalPreferences: {
 /**
  * Lists the tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1635,9 +1620,8 @@ export const listTagsForResource: (
 /**
  * Updates an existing procurement portal preference configuration. This operation can modify settings for e-invoice delivery and purchase order retrieval.
  */
-export const putProcurementPortalPreference: (
-  input: PutProcurementPortalPreferenceRequest,
-) => effect.Effect<
+export const putProcurementPortalPreference: API.OperationMethod<
+  PutProcurementPortalPreferenceRequest,
   PutProcurementPortalPreferenceResponse,
   | AccessDeniedException
   | ConflictException
@@ -1664,9 +1648,8 @@ export const putProcurementPortalPreference: (
 /**
  * Adds a tag to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1691,9 +1674,8 @@ export const tagResource: (
 /**
  * Removes a tag from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1716,9 +1698,8 @@ export const untagResource: (
 /**
  * You can update the invoice unit configuration at any time, and Amazon Web Services will use the latest configuration at the end of the month.
  */
-export const updateInvoiceUnit: (
-  input: UpdateInvoiceUnitRequest,
-) => effect.Effect<
+export const updateInvoiceUnit: API.OperationMethod<
+  UpdateInvoiceUnitRequest,
   UpdateInvoiceUnitResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1741,9 +1722,8 @@ export const updateInvoiceUnit: (
 /**
  * Updates the status of a procurement portal preference, including the activation state of e-invoice delivery and purchase order retrieval features.
  */
-export const updateProcurementPortalPreferenceStatus: (
-  input: UpdateProcurementPortalPreferenceStatusRequest,
-) => effect.Effect<
+export const updateProcurementPortalPreferenceStatus: API.OperationMethod<
+  UpdateProcurementPortalPreferenceStatusRequest,
   UpdateProcurementPortalPreferenceStatusResponse,
   | AccessDeniedException
   | ConflictException

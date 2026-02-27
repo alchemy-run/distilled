@@ -1194,9 +1194,8 @@ export class ThrottlingException extends S.TaggedErrorClass<ThrottlingException>
 /**
  * Adds cross-account permissions to a signing profile.
  */
-export const addProfilePermission: (
-  input: AddProfilePermissionRequest,
-) => effect.Effect<
+export const addProfilePermission: API.OperationMethod<
+  AddProfilePermissionRequest,
   AddProfilePermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1225,9 +1224,8 @@ export const addProfilePermission: (
  * A canceled profile is still viewable with the `ListSigningProfiles`
  * operation, but it cannot perform new signing jobs. See Data Retention for more information on scheduled deletion of a canceled signing profile.
  */
-export const cancelSigningProfile: (
-  input: CancelSigningProfileRequest,
-) => effect.Effect<
+export const cancelSigningProfile: API.OperationMethod<
+  CancelSigningProfileRequest,
   CancelSigningProfileResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1250,9 +1248,8 @@ export const cancelSigningProfile: (
  * `jobId` value that is returned by the StartSigningJob
  * operation.
  */
-export const describeSigningJob: (
-  input: DescribeSigningJobRequest,
-) => effect.Effect<
+export const describeSigningJob: API.OperationMethod<
+  DescribeSigningJobRequest,
   DescribeSigningJobResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1274,9 +1271,8 @@ export const describeSigningJob: (
  * Retrieves the revocation status of one or more of the signing profile, signing job,
  * and signing certificate.
  */
-export const getRevocationStatus: (
-  input: GetRevocationStatusRequest,
-) => effect.Effect<
+export const getRevocationStatus: API.OperationMethod<
+  GetRevocationStatusRequest,
   GetRevocationStatusResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1297,9 +1293,8 @@ export const getRevocationStatus: (
 /**
  * Returns information on a specific signing platform.
  */
-export const getSigningPlatform: (
-  input: GetSigningPlatformRequest,
-) => effect.Effect<
+export const getSigningPlatform: API.OperationMethod<
+  GetSigningPlatformRequest,
   GetSigningPlatformResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1320,9 +1315,8 @@ export const getSigningPlatform: (
 /**
  * Returns information on a specific signing profile.
  */
-export const getSigningProfile: (
-  input: GetSigningProfileRequest,
-) => effect.Effect<
+export const getSigningProfile: API.OperationMethod<
+  GetSigningProfileRequest,
   GetSigningProfileResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1343,9 +1337,8 @@ export const getSigningProfile: (
 /**
  * Lists the cross-account permissions associated with a signing profile.
  */
-export const listProfilePermissions: (
-  input: ListProfilePermissionsRequest,
-) => effect.Effect<
+export const listProfilePermissions: API.OperationMethod<
+  ListProfilePermissionsRequest,
   ListProfilePermissionsResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1374,18 +1367,16 @@ export const listProfilePermissions: (
  * parameter and with new values that Signer returns in the `nextToken`
  * parameter until all of your signing jobs have been returned.
  */
-export const listSigningJobs: {
-  (
-    input: ListSigningJobsRequest,
-  ): effect.Effect<
-    ListSigningJobsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSigningJobs: API.OperationMethod<
+  ListSigningJobsRequest,
+  ListSigningJobsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSigningJobsRequest,
   ) => stream.Stream<
@@ -1432,18 +1423,16 @@ export const listSigningJobs: {
  * `nextToken` parameter until all of your signing jobs have been
  * returned.
  */
-export const listSigningPlatforms: {
-  (
-    input: ListSigningPlatformsRequest,
-  ): effect.Effect<
-    ListSigningPlatformsResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | TooManyRequestsException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSigningPlatforms: API.OperationMethod<
+  ListSigningPlatformsRequest,
+  ListSigningPlatformsResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSigningPlatformsRequest,
   ) => stream.Stream<
@@ -1491,17 +1480,15 @@ export const listSigningPlatforms: {
  * new values that Signer returns in the `nextToken` parameter until all of
  * your signing jobs have been returned.
  */
-export const listSigningProfiles: {
-  (
-    input: ListSigningProfilesRequest,
-  ): effect.Effect<
-    ListSigningProfilesResponse,
-    | AccessDeniedException
-    | InternalServiceErrorException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSigningProfiles: API.OperationMethod<
+  ListSigningProfilesRequest,
+  ListSigningProfilesResponse,
+  | AccessDeniedException
+  | InternalServiceErrorException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSigningProfilesRequest,
   ) => stream.Stream<
@@ -1539,9 +1526,8 @@ export const listSigningProfiles: {
 /**
  * Returns a list of the tags associated with a signing profile resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -1563,9 +1549,8 @@ export const listTagsForResource: (
  * Creates a signing profile. A signing profile is a code-signing template that can be used to
  * carry out a pre-defined signing job.
  */
-export const putSigningProfile: (
-  input: PutSigningProfileRequest,
-) => effect.Effect<
+export const putSigningProfile: API.OperationMethod<
+  PutSigningProfileRequest,
   PutSigningProfileResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1588,9 +1573,8 @@ export const putSigningProfile: (
 /**
  * Removes cross-account permissions from a signing profile.
  */
-export const removeProfilePermission: (
-  input: RemoveProfilePermissionRequest,
-) => effect.Effect<
+export const removeProfilePermission: API.OperationMethod<
+  RemoveProfilePermissionRequest,
   RemoveProfilePermissionResponse,
   | AccessDeniedException
   | ConflictException
@@ -1616,9 +1600,8 @@ export const removeProfilePermission: (
  * Changes the state of a signing job to `REVOKED`. This indicates that the signature is no
  * longer valid.
  */
-export const revokeSignature: (
-  input: RevokeSignatureRequest,
-) => effect.Effect<
+export const revokeSignature: API.OperationMethod<
+  RevokeSignatureRequest,
   RevokeSignatureResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1645,9 +1628,8 @@ export const revokeSignature: (
  * operation, but it cannot perform new signing jobs. See Data Retention
  * for more information on scheduled deletion of a revoked signing profile.
  */
-export const revokeSigningProfile: (
-  input: RevokeSigningProfileRequest,
-) => effect.Effect<
+export const revokeSigningProfile: API.OperationMethod<
+  RevokeSigningProfileRequest,
   RevokeSigningProfileResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1670,9 +1652,8 @@ export const revokeSigningProfile: (
 /**
  * Signs a binary payload and returns a signature envelope.
  */
-export const signPayload: (
-  input: SignPayloadRequest,
-) => effect.Effect<
+export const signPayload: API.OperationMethod<
+  SignPayloadRequest,
   SignPayloadResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1716,9 +1697,8 @@ export const signPayload: (
  *
  * For a Java example that shows how to use this action, see StartSigningJob.
  */
-export const startSigningJob: (
-  input: StartSigningJobRequest,
-) => effect.Effect<
+export const startSigningJob: API.OperationMethod<
+  StartSigningJobRequest,
   StartSigningJobResponse,
   | AccessDeniedException
   | InternalServiceErrorException
@@ -1746,9 +1726,8 @@ export const startSigningJob: (
  * value. To specify the signing profile, use its Amazon Resource Name (ARN). To specify
  * the tag, use a key-value pair.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | InternalServiceErrorException
@@ -1770,9 +1749,8 @@ export const tagResource: (
  * Removes one or more tags from a signing profile. To remove the tags, specify a list of
  * tag keys.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | InternalServiceErrorException

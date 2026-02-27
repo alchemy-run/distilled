@@ -3074,9 +3074,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Retroactively applies the archive rule to existing findings that meet the archive rule criteria.
  */
-export const applyArchiveRule: (
-  input: ApplyArchiveRuleRequest,
-) => effect.Effect<
+export const applyArchiveRule: API.OperationMethod<
+  ApplyArchiveRuleRequest,
   ApplyArchiveRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3099,9 +3098,8 @@ export const applyArchiveRule: (
 /**
  * Cancels the requested policy generation.
  */
-export const cancelPolicyGeneration: (
-  input: CancelPolicyGenerationRequest,
-) => effect.Effect<
+export const cancelPolicyGeneration: API.OperationMethod<
+  CancelPolicyGenerationRequest,
   CancelPolicyGenerationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3122,9 +3120,8 @@ export const cancelPolicyGeneration: (
 /**
  * Checks whether the specified access isn't allowed by a policy.
  */
-export const checkAccessNotGranted: (
-  input: CheckAccessNotGrantedRequest,
-) => effect.Effect<
+export const checkAccessNotGranted: API.OperationMethod<
+  CheckAccessNotGrantedRequest,
   CheckAccessNotGrantedResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3151,9 +3148,8 @@ export const checkAccessNotGranted: (
  *
  * You can find examples for reference policies and learn how to set up and run a custom policy check for new access in the IAM Access Analyzer custom policy checks samples repository on GitHub. The reference policies in this repository are meant to be passed to the `existingPolicyDocument` request parameter.
  */
-export const checkNoNewAccess: (
-  input: CheckNoNewAccessRequest,
-) => effect.Effect<
+export const checkNoNewAccess: API.OperationMethod<
+  CheckNoNewAccessRequest,
   CheckNoNewAccessResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3178,9 +3174,8 @@ export const checkNoNewAccess: (
 /**
  * Checks whether a resource policy can grant public access to the specified resource type.
  */
-export const checkNoPublicAccess: (
-  input: CheckNoPublicAccessRequest,
-) => effect.Effect<
+export const checkNoPublicAccess: API.OperationMethod<
+  CheckNoPublicAccessRequest,
   CheckNoPublicAccessResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3205,9 +3200,8 @@ export const checkNoPublicAccess: (
 /**
  * Creates an access preview that allows you to preview IAM Access Analyzer findings for your resource before deploying resource permissions.
  */
-export const createAccessPreview: (
-  input: CreateAccessPreviewRequest,
-) => effect.Effect<
+export const createAccessPreview: API.OperationMethod<
+  CreateAccessPreviewRequest,
   CreateAccessPreviewResponse,
   | AccessDeniedException
   | ConflictException
@@ -3234,9 +3228,8 @@ export const createAccessPreview: (
 /**
  * Creates a recommendation for an unused permissions finding.
  */
-export const generateFindingRecommendation: (
-  input: GenerateFindingRecommendationRequest,
-) => effect.Effect<
+export const generateFindingRecommendation: API.OperationMethod<
+  GenerateFindingRecommendationRequest,
   GenerateFindingRecommendationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3257,9 +3250,8 @@ export const generateFindingRecommendation: (
 /**
  * Retrieves information about an access preview for the specified analyzer.
  */
-export const getAccessPreview: (
-  input: GetAccessPreviewRequest,
-) => effect.Effect<
+export const getAccessPreview: API.OperationMethod<
+  GetAccessPreviewRequest,
   GetAccessPreviewResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3284,9 +3276,8 @@ export const getAccessPreview: (
  *
  * This action is supported only for external access analyzers.
  */
-export const getAnalyzedResource: (
-  input: GetAnalyzedResourceRequest,
-) => effect.Effect<
+export const getAnalyzedResource: API.OperationMethod<
+  GetAnalyzedResourceRequest,
   GetAnalyzedResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3311,9 +3302,8 @@ export const getAnalyzedResource: (
  *
  * GetFinding is supported only for external access analyzers. You must use GetFindingV2 for internal and unused access analyzers.
  */
-export const getFinding: (
-  input: GetFindingRequest,
-) => effect.Effect<
+export const getFinding: API.OperationMethod<
+  GetFindingRequest,
   GetFindingResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3336,19 +3326,17 @@ export const getFinding: (
 /**
  * Retrieves information about a finding recommendation for the specified analyzer.
  */
-export const getFindingRecommendation: {
-  (
-    input: GetFindingRecommendationRequest,
-  ): effect.Effect<
-    GetFindingRecommendationResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFindingRecommendation: API.OperationMethod<
+  GetFindingRecommendationRequest,
+  GetFindingRecommendationResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFindingRecommendationRequest,
   ) => stream.Stream<
@@ -3393,9 +3381,8 @@ export const getFindingRecommendation: {
 /**
  * Retrieves a list of aggregated finding statistics for an external access or unused access analyzer.
  */
-export const getFindingsStatistics: (
-  input: GetFindingsStatisticsRequest,
-) => effect.Effect<
+export const getFindingsStatistics: API.OperationMethod<
+  GetFindingsStatisticsRequest,
   GetFindingsStatisticsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3418,19 +3405,17 @@ export const getFindingsStatistics: (
 /**
  * Retrieves information about the specified finding. GetFinding and GetFindingV2 both use `access-analyzer:GetFinding` in the `Action` element of an IAM policy statement. You must have permission to perform the `access-analyzer:GetFinding` action.
  */
-export const getFindingV2: {
-  (
-    input: GetFindingV2Request,
-  ): effect.Effect<
-    GetFindingV2Response,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getFindingV2: API.OperationMethod<
+  GetFindingV2Request,
+  GetFindingV2Response,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetFindingV2Request,
   ) => stream.Stream<
@@ -3475,9 +3460,8 @@ export const getFindingV2: {
 /**
  * Retrieves the policy that was generated using `StartPolicyGeneration`.
  */
-export const getGeneratedPolicy: (
-  input: GetGeneratedPolicyRequest,
-) => effect.Effect<
+export const getGeneratedPolicy: API.OperationMethod<
+  GetGeneratedPolicyRequest,
   GetGeneratedPolicyResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3498,20 +3482,18 @@ export const getGeneratedPolicy: (
 /**
  * Retrieves a list of access preview findings generated by the specified access preview.
  */
-export const listAccessPreviewFindings: {
-  (
-    input: ListAccessPreviewFindingsRequest,
-  ): effect.Effect<
-    ListAccessPreviewFindingsResponse,
-    | AccessDeniedException
-    | ConflictException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessPreviewFindings: API.OperationMethod<
+  ListAccessPreviewFindingsRequest,
+  ListAccessPreviewFindingsResponse,
+  | AccessDeniedException
+  | ConflictException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessPreviewFindingsRequest,
   ) => stream.Stream<
@@ -3559,19 +3541,17 @@ export const listAccessPreviewFindings: {
 /**
  * Retrieves a list of access previews for the specified analyzer.
  */
-export const listAccessPreviews: {
-  (
-    input: ListAccessPreviewsRequest,
-  ): effect.Effect<
-    ListAccessPreviewsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccessPreviews: API.OperationMethod<
+  ListAccessPreviewsRequest,
+  ListAccessPreviewsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccessPreviewsRequest,
   ) => stream.Stream<
@@ -3616,19 +3596,17 @@ export const listAccessPreviews: {
 /**
  * Retrieves a list of resources of the specified type that have been analyzed by the specified analyzer.
  */
-export const listAnalyzedResources: {
-  (
-    input: ListAnalyzedResourcesRequest,
-  ): effect.Effect<
-    ListAnalyzedResourcesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnalyzedResources: API.OperationMethod<
+  ListAnalyzedResourcesRequest,
+  ListAnalyzedResourcesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnalyzedResourcesRequest,
   ) => stream.Stream<
@@ -3677,19 +3655,17 @@ export const listAnalyzedResources: {
  *
  * ListFindings is supported only for external access analyzers. You must use ListFindingsV2 for internal and unused access analyzers.
  */
-export const listFindings: {
-  (
-    input: ListFindingsRequest,
-  ): effect.Effect<
-    ListFindingsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindings: API.OperationMethod<
+  ListFindingsRequest,
+  ListFindingsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingsRequest,
   ) => stream.Stream<
@@ -3736,19 +3712,17 @@ export const listFindings: {
  *
  * To learn about filter keys that you can use to retrieve a list of findings, see IAM Access Analyzer filter keys in the **IAM User Guide**.
  */
-export const listFindingsV2: {
-  (
-    input: ListFindingsV2Request,
-  ): effect.Effect<
-    ListFindingsV2Response,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFindingsV2: API.OperationMethod<
+  ListFindingsV2Request,
+  ListFindingsV2Response,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFindingsV2Request,
   ) => stream.Stream<
@@ -3793,18 +3767,16 @@ export const listFindingsV2: {
 /**
  * Lists all of the policy generations requested in the last seven days.
  */
-export const listPolicyGenerations: {
-  (
-    input: ListPolicyGenerationsRequest,
-  ): effect.Effect<
-    ListPolicyGenerationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicyGenerations: API.OperationMethod<
+  ListPolicyGenerationsRequest,
+  ListPolicyGenerationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPolicyGenerationsRequest,
   ) => stream.Stream<
@@ -3846,9 +3818,8 @@ export const listPolicyGenerations: {
 /**
  * Retrieves a list of tags applied to the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3871,9 +3842,8 @@ export const listTagsForResource: (
 /**
  * Starts the policy generation request.
  */
-export const startPolicyGeneration: (
-  input: StartPolicyGenerationRequest,
-) => effect.Effect<
+export const startPolicyGeneration: API.OperationMethod<
+  StartPolicyGenerationRequest,
   StartPolicyGenerationResponse,
   | AccessDeniedException
   | ConflictException
@@ -3900,9 +3870,8 @@ export const startPolicyGeneration: (
  *
  * This action is supported only for external access analyzers.
  */
-export const startResourceScan: (
-  input: StartResourceScanRequest,
-) => effect.Effect<
+export const startResourceScan: API.OperationMethod<
+  StartResourceScanRequest,
   StartResourceScanResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3925,9 +3894,8 @@ export const startResourceScan: (
 /**
  * Adds a tag to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3950,9 +3918,8 @@ export const tagResource: (
 /**
  * Removes a tag from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -3975,9 +3942,8 @@ export const untagResource: (
 /**
  * Updates the status for the specified findings.
  */
-export const updateFindings: (
-  input: UpdateFindingsRequest,
-) => effect.Effect<
+export const updateFindings: API.OperationMethod<
+  UpdateFindingsRequest,
   UpdateFindingsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4000,18 +3966,16 @@ export const updateFindings: (
 /**
  * Requests the validation of a policy and returns a list of findings. The findings help you identify issues and provide actionable recommendations to resolve the issue and enable you to author functional policies that meet security best practices.
  */
-export const validatePolicy: {
-  (
-    input: ValidatePolicyRequest,
-  ): effect.Effect<
-    ValidatePolicyResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const validatePolicy: API.OperationMethod<
+  ValidatePolicyRequest,
+  ValidatePolicyResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ValidatePolicyRequest,
   ) => stream.Stream<
@@ -4053,9 +4017,8 @@ export const validatePolicy: {
 /**
  * Creates an analyzer for your account.
  */
-export const createAnalyzer: (
-  input: CreateAnalyzerRequest,
-) => effect.Effect<
+export const createAnalyzer: API.OperationMethod<
+  CreateAnalyzerRequest,
   CreateAnalyzerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4080,9 +4043,8 @@ export const createAnalyzer: (
 /**
  * Retrieves information about the specified analyzer.
  */
-export const getAnalyzer: (
-  input: GetAnalyzerRequest,
-) => effect.Effect<
+export const getAnalyzer: API.OperationMethod<
+  GetAnalyzerRequest,
   GetAnalyzerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4107,9 +4069,8 @@ export const getAnalyzer: (
  *
  * This action is not supported for external access analyzers.
  */
-export const updateAnalyzer: (
-  input: UpdateAnalyzerRequest,
-) => effect.Effect<
+export const updateAnalyzer: API.OperationMethod<
+  UpdateAnalyzerRequest,
   UpdateAnalyzerResponse,
   | AccessDeniedException
   | ConflictException
@@ -4134,9 +4095,8 @@ export const updateAnalyzer: (
 /**
  * Deletes the specified analyzer. When you delete an analyzer, IAM Access Analyzer is disabled for the account or organization in the current or specific Region. All findings that were generated by the analyzer are deleted. You cannot undo this action.
  */
-export const deleteAnalyzer: (
-  input: DeleteAnalyzerRequest,
-) => effect.Effect<
+export const deleteAnalyzer: API.OperationMethod<
+  DeleteAnalyzerRequest,
   DeleteAnalyzerResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4159,18 +4119,16 @@ export const deleteAnalyzer: (
 /**
  * Retrieves a list of analyzers.
  */
-export const listAnalyzers: {
-  (
-    input: ListAnalyzersRequest,
-  ): effect.Effect<
-    ListAnalyzersResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAnalyzers: API.OperationMethod<
+  ListAnalyzersRequest,
+  ListAnalyzersResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAnalyzersRequest,
   ) => stream.Stream<
@@ -4214,9 +4172,8 @@ export const listAnalyzers: {
  *
  * To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the **IAM User Guide**.
  */
-export const createArchiveRule: (
-  input: CreateArchiveRuleRequest,
-) => effect.Effect<
+export const createArchiveRule: API.OperationMethod<
+  CreateArchiveRuleRequest,
   CreateArchiveRuleResponse,
   | AccessDeniedException
   | ConflictException
@@ -4245,9 +4202,8 @@ export const createArchiveRule: (
  *
  * To learn about filter keys that you can use to create an archive rule, see IAM Access Analyzer filter keys in the **IAM User Guide**.
  */
-export const getArchiveRule: (
-  input: GetArchiveRuleRequest,
-) => effect.Effect<
+export const getArchiveRule: API.OperationMethod<
+  GetArchiveRuleRequest,
   GetArchiveRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4270,9 +4226,8 @@ export const getArchiveRule: (
 /**
  * Updates the criteria and values for the specified archive rule.
  */
-export const updateArchiveRule: (
-  input: UpdateArchiveRuleRequest,
-) => effect.Effect<
+export const updateArchiveRule: API.OperationMethod<
+  UpdateArchiveRuleRequest,
   UpdateArchiveRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4295,9 +4250,8 @@ export const updateArchiveRule: (
 /**
  * Deletes the specified archive rule.
  */
-export const deleteArchiveRule: (
-  input: DeleteArchiveRuleRequest,
-) => effect.Effect<
+export const deleteArchiveRule: API.OperationMethod<
+  DeleteArchiveRuleRequest,
   DeleteArchiveRuleResponse,
   | AccessDeniedException
   | InternalServerException
@@ -4320,18 +4274,16 @@ export const deleteArchiveRule: (
 /**
  * Retrieves a list of archive rules created for the specified analyzer.
  */
-export const listArchiveRules: {
-  (
-    input: ListArchiveRulesRequest,
-  ): effect.Effect<
-    ListArchiveRulesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listArchiveRules: API.OperationMethod<
+  ListArchiveRulesRequest,
+  ListArchiveRulesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListArchiveRulesRequest,
   ) => stream.Stream<

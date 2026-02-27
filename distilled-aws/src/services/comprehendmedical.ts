@@ -1420,9 +1420,8 @@ export class ValidationException extends S.TaggedErrorClass<ValidationException>
  * Gets the properties associated with a medical entities detection job. Use this operation
  * to get the status of a detection job.
  */
-export const describeEntitiesDetectionV2Job: (
-  input: DescribeEntitiesDetectionV2JobRequest,
-) => effect.Effect<
+export const describeEntitiesDetectionV2Job: API.OperationMethod<
+  DescribeEntitiesDetectionV2JobRequest,
   DescribeEntitiesDetectionV2JobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1444,9 +1443,8 @@ export const describeEntitiesDetectionV2Job: (
  * Gets the properties associated with an InferICD10CM job. Use this operation to get the
  * status of an inference job.
  */
-export const describeICD10CMInferenceJob: (
-  input: DescribeICD10CMInferenceJobRequest,
-) => effect.Effect<
+export const describeICD10CMInferenceJob: API.OperationMethod<
+  DescribeICD10CMInferenceJobRequest,
   DescribeICD10CMInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1468,9 +1466,8 @@ export const describeICD10CMInferenceJob: (
  * Gets the properties associated with a protected health information (PHI) detection job.
  * Use this operation to get the status of a detection job.
  */
-export const describePHIDetectionJob: (
-  input: DescribePHIDetectionJobRequest,
-) => effect.Effect<
+export const describePHIDetectionJob: API.OperationMethod<
+  DescribePHIDetectionJobRequest,
   DescribePHIDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1492,9 +1489,8 @@ export const describePHIDetectionJob: (
  * Gets the properties associated with an InferRxNorm job. Use this operation to get the
  * status of an inference job.
  */
-export const describeRxNormInferenceJob: (
-  input: DescribeRxNormInferenceJobRequest,
-) => effect.Effect<
+export const describeRxNormInferenceJob: API.OperationMethod<
+  DescribeRxNormInferenceJobRequest,
   DescribeRxNormInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1515,9 +1511,8 @@ export const describeRxNormInferenceJob: (
 /**
  * Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
  */
-export const describeSNOMEDCTInferenceJob: (
-  input: DescribeSNOMEDCTInferenceJobRequest,
-) => effect.Effect<
+export const describeSNOMEDCTInferenceJob: API.OperationMethod<
+  DescribeSNOMEDCTInferenceJobRequest,
   DescribeSNOMEDCTInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1542,9 +1537,8 @@ export const describeSNOMEDCTInferenceJob: (
  * information about them such as entity category, location, and confidence score on that
  * information.
  */
-export const detectEntities: (
-  input: DetectEntitiesRequest,
-) => effect.Effect<
+export const detectEntities: API.OperationMethod<
+  DetectEntitiesRequest,
   DetectEntitiesResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1580,9 +1574,8 @@ export const detectEntities: (
  * The `DetectEntitiesV2` operation returns the `Acuity` and
  * `Direction` entities as attributes instead of types.
  */
-export const detectEntitiesV2: (
-  input: DetectEntitiesV2Request,
-) => effect.Effect<
+export const detectEntitiesV2: API.OperationMethod<
+  DetectEntitiesV2Request,
   DetectEntitiesV2Response,
   | InternalServerException
   | InvalidEncodingException
@@ -1609,9 +1602,8 @@ export const detectEntitiesV2: (
  * the entity category, location, and confidence score for each entity. Amazon Comprehend Medical
  * only detects entities in English language texts.
  */
-export const detectPHI: (
-  input: DetectPHIRequest,
-) => effect.Effect<
+export const detectPHI: API.OperationMethod<
+  DetectPHIRequest,
   DetectPHIResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1639,9 +1631,8 @@ export const detectPHI: (
  * Centers for Disease Control. Amazon Comprehend Medical only detects medical entities in
  * English language texts.
  */
-export const inferICD10CM: (
-  input: InferICD10CMRequest,
-) => effect.Effect<
+export const inferICD10CM: API.OperationMethod<
+  InferICD10CMRequest,
   InferICD10CMResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1668,9 +1659,8 @@ export const inferICD10CM: (
  * normalized concept identifiers in the RxNorm database from the National Library of Medicine.
  * Amazon Comprehend Medical only detects medical entities in English language texts.
  */
-export const inferRxNorm: (
-  input: InferRxNormRequest,
-) => effect.Effect<
+export const inferRxNorm: API.OperationMethod<
+  InferRxNormRequest,
   InferRxNormResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1695,9 +1685,8 @@ export const inferRxNorm: (
 /**
  * InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
  */
-export const inferSNOMEDCT: (
-  input: InferSNOMEDCTRequest,
-) => effect.Effect<
+export const inferSNOMEDCT: API.OperationMethod<
+  InferSNOMEDCTRequest,
   InferSNOMEDCTResponse,
   | InternalServerException
   | InvalidEncodingException
@@ -1722,9 +1711,8 @@ export const inferSNOMEDCT: (
 /**
  * Gets a list of medical entity detection jobs that you have submitted.
  */
-export const listEntitiesDetectionV2Jobs: (
-  input: ListEntitiesDetectionV2JobsRequest,
-) => effect.Effect<
+export const listEntitiesDetectionV2Jobs: API.OperationMethod<
+  ListEntitiesDetectionV2JobsRequest,
   ListEntitiesDetectionV2JobsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1745,9 +1733,8 @@ export const listEntitiesDetectionV2Jobs: (
 /**
  * Gets a list of InferICD10CM jobs that you have submitted.
  */
-export const listICD10CMInferenceJobs: (
-  input: ListICD10CMInferenceJobsRequest,
-) => effect.Effect<
+export const listICD10CMInferenceJobs: API.OperationMethod<
+  ListICD10CMInferenceJobsRequest,
   ListICD10CMInferenceJobsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1769,9 +1756,8 @@ export const listICD10CMInferenceJobs: (
  * Gets a list of protected health information (PHI) detection jobs you have
  * submitted.
  */
-export const listPHIDetectionJobs: (
-  input: ListPHIDetectionJobsRequest,
-) => effect.Effect<
+export const listPHIDetectionJobs: API.OperationMethod<
+  ListPHIDetectionJobsRequest,
   ListPHIDetectionJobsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1792,9 +1778,8 @@ export const listPHIDetectionJobs: (
 /**
  * Gets a list of InferRxNorm jobs that you have submitted.
  */
-export const listRxNormInferenceJobs: (
-  input: ListRxNormInferenceJobsRequest,
-) => effect.Effect<
+export const listRxNormInferenceJobs: API.OperationMethod<
+  ListRxNormInferenceJobsRequest,
   ListRxNormInferenceJobsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1815,9 +1800,8 @@ export const listRxNormInferenceJobs: (
 /**
  * Gets a list of InferSNOMEDCT jobs a user has submitted.
  */
-export const listSNOMEDCTInferenceJobs: (
-  input: ListSNOMEDCTInferenceJobsRequest,
-) => effect.Effect<
+export const listSNOMEDCTInferenceJobs: API.OperationMethod<
+  ListSNOMEDCTInferenceJobsRequest,
   ListSNOMEDCTInferenceJobsResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1839,9 +1823,8 @@ export const listSNOMEDCTInferenceJobs: (
  * Starts an asynchronous medical entity detection job for a collection of documents. Use the
  * `DescribeEntitiesDetectionV2Job` operation to track the status of a job.
  */
-export const startEntitiesDetectionV2Job: (
-  input: StartEntitiesDetectionV2JobRequest,
-) => effect.Effect<
+export const startEntitiesDetectionV2Job: API.OperationMethod<
+  StartEntitiesDetectionV2JobRequest,
   StartEntitiesDetectionV2JobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1864,9 +1847,8 @@ export const startEntitiesDetectionV2Job: (
  * ontology. Use the `DescribeICD10CMInferenceJob` operation to track the status of a
  * job.
  */
-export const startICD10CMInferenceJob: (
-  input: StartICD10CMInferenceJobRequest,
-) => effect.Effect<
+export const startICD10CMInferenceJob: API.OperationMethod<
+  StartICD10CMInferenceJobRequest,
   StartICD10CMInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1888,9 +1870,8 @@ export const startICD10CMInferenceJob: (
  * Starts an asynchronous job to detect protected health information (PHI). Use the
  * `DescribePHIDetectionJob` operation to track the status of a job.
  */
-export const startPHIDetectionJob: (
-  input: StartPHIDetectionJobRequest,
-) => effect.Effect<
+export const startPHIDetectionJob: API.OperationMethod<
+  StartPHIDetectionJobRequest,
   StartPHIDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1913,9 +1894,8 @@ export const startPHIDetectionJob: (
  * ontology. Use the `DescribeRxNormInferenceJob` operation to track the status of a
  * job.
  */
-export const startRxNormInferenceJob: (
-  input: StartRxNormInferenceJobRequest,
-) => effect.Effect<
+export const startRxNormInferenceJob: API.OperationMethod<
+  StartRxNormInferenceJobRequest,
   StartRxNormInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1936,9 +1916,8 @@ export const startRxNormInferenceJob: (
 /**
  * Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
  */
-export const startSNOMEDCTInferenceJob: (
-  input: StartSNOMEDCTInferenceJobRequest,
-) => effect.Effect<
+export const startSNOMEDCTInferenceJob: API.OperationMethod<
+  StartSNOMEDCTInferenceJobRequest,
   StartSNOMEDCTInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1959,9 +1938,8 @@ export const startSNOMEDCTInferenceJob: (
 /**
  * Stops a medical entities detection job in progress.
  */
-export const stopEntitiesDetectionV2Job: (
-  input: StopEntitiesDetectionV2JobRequest,
-) => effect.Effect<
+export const stopEntitiesDetectionV2Job: API.OperationMethod<
+  StopEntitiesDetectionV2JobRequest,
   StopEntitiesDetectionV2JobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -1980,9 +1958,8 @@ export const stopEntitiesDetectionV2Job: (
 /**
  * Stops an InferICD10CM inference job in progress.
  */
-export const stopICD10CMInferenceJob: (
-  input: StopICD10CMInferenceJobRequest,
-) => effect.Effect<
+export const stopICD10CMInferenceJob: API.OperationMethod<
+  StopICD10CMInferenceJobRequest,
   StopICD10CMInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -2001,9 +1978,8 @@ export const stopICD10CMInferenceJob: (
 /**
  * Stops a protected health information (PHI) detection job in progress.
  */
-export const stopPHIDetectionJob: (
-  input: StopPHIDetectionJobRequest,
-) => effect.Effect<
+export const stopPHIDetectionJob: API.OperationMethod<
+  StopPHIDetectionJobRequest,
   StopPHIDetectionJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -2022,9 +1998,8 @@ export const stopPHIDetectionJob: (
 /**
  * Stops an InferRxNorm inference job in progress.
  */
-export const stopRxNormInferenceJob: (
-  input: StopRxNormInferenceJobRequest,
-) => effect.Effect<
+export const stopRxNormInferenceJob: API.OperationMethod<
+  StopRxNormInferenceJobRequest,
   StopRxNormInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException
@@ -2043,9 +2018,8 @@ export const stopRxNormInferenceJob: (
 /**
  * Stops an InferSNOMEDCT inference job in progress.
  */
-export const stopSNOMEDCTInferenceJob: (
-  input: StopSNOMEDCTInferenceJobRequest,
-) => effect.Effect<
+export const stopSNOMEDCTInferenceJob: API.OperationMethod<
+  StopSNOMEDCTInferenceJobRequest,
   StopSNOMEDCTInferenceJobResponse,
   | InternalServerException
   | InvalidRequestException

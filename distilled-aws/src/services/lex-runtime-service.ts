@@ -738,9 +738,8 @@ export class UnsupportedMediaTypeException extends S.TaggedErrorClass<Unsupporte
 /**
  * Removes session information for a specified bot, alias, and user ID.
  */
-export const deleteSession: (
-  input: DeleteSessionRequest,
-) => effect.Effect<
+export const deleteSession: API.OperationMethod<
+  DeleteSessionRequest,
   DeleteSessionResponse,
   | BadRequestException
   | ConflictException
@@ -764,9 +763,8 @@ export const deleteSession: (
  * Returns session information for a specified bot, alias, and user
  * ID.
  */
-export const getSession: (
-  input: GetSessionRequest,
-) => effect.Effect<
+export const getSession: API.OperationMethod<
+  GetSessionRequest,
   GetSessionResponse,
   | BadRequestException
   | InternalFailureException
@@ -845,9 +843,8 @@ export const getSession: (
  * `sessionAttributes`. For more information, see Managing
  * Conversation Context.
  */
-export const postContent: (
-  input: PostContentRequest,
-) => effect.Effect<
+export const postContent: API.OperationMethod<
+  PostContentRequest,
   PostContentResponse,
   | BadGatewayException
   | BadRequestException
@@ -937,9 +934,8 @@ export const postContent: (
  * `sessionAttributes`. For more information, see Managing
  * Conversation Context.
  */
-export const postText: (
-  input: PostTextRequest,
-) => effect.Effect<
+export const postText: API.OperationMethod<
+  PostTextRequest,
   PostTextResponse,
   | BadGatewayException
   | BadRequestException
@@ -973,9 +969,8 @@ export const postText: (
  * For more information, see Managing
  * Sessions.
  */
-export const putSession: (
-  input: PutSessionRequest,
-) => effect.Effect<
+export const putSession: API.OperationMethod<
+  PutSessionRequest,
   PutSessionResponse,
   | BadGatewayException
   | BadRequestException

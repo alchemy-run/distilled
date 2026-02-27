@@ -3099,9 +3099,8 @@ export class ResponsibilityTransferAlreadyInStatusException extends S.TaggedErro
  *
  * For more information, see Responding to invitations and Enabling all features in the *Organizations User Guide*.
  */
-export const acceptHandshake: (
-  input: AcceptHandshakeRequest,
-) => effect.Effect<
+export const acceptHandshake: API.OperationMethod<
+  AcceptHandshakeRequest,
   AcceptHandshakeResponse,
   | AccessDeniedException
   | AccessDeniedForDependencyException
@@ -3170,9 +3169,8 @@ export const acceptHandshake: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const attachPolicy: (
-  input: AttachPolicyRequest,
-) => effect.Effect<
+export const attachPolicy: API.OperationMethod<
+  AttachPolicyRequest,
   AttachPolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3217,9 +3215,8 @@ export const attachPolicy: (
  * You can view canceled handshakes in API responses for 30 days before they are
  * deleted.
  */
-export const cancelHandshake: (
-  input: CancelHandshakeRequest,
-) => effect.Effect<
+export const cancelHandshake: API.OperationMethod<
+  CancelHandshakeRequest,
   CancelHandshakeResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3288,9 +3285,8 @@ export const cancelHandshake: (
  * Closing an Amazon Web Services GovCloud (US) account in the
  * Amazon Web Services GovCloud User Guide.
  */
-export const closeAccount: (
-  input: CloseAccountRequest,
-) => effect.Effect<
+export const closeAccount: API.OperationMethod<
+  CloseAccountRequest,
   CloseAccountResponse,
   | AccessDeniedException
   | AccountAlreadyClosedException
@@ -3389,9 +3385,8 @@ export const closeAccount: (
  * Granting access to
  * your billing information and tools.
  */
-export const createAccount: (
-  input: CreateAccountRequest,
-) => effect.Effect<
+export const createAccount: API.OperationMethod<
+  CreateAccountRequest,
   CreateAccountResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3529,9 +3524,8 @@ export const createAccount: (
  * Granting
  * access to your billing information and tools.
  */
-export const createGovCloudAccount: (
-  input: CreateGovCloudAccountRequest,
-) => effect.Effect<
+export const createGovCloudAccount: API.OperationMethod<
+  CreateGovCloudAccountRequest,
   CreateGovCloudAccountResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3574,9 +3568,8 @@ export const createGovCloudAccount: (
  * parameter to `CONSOLIDATED_BILLING`, no policy types are enabled by default
  * and you can't use organization policies.
  */
-export const createOrganization: (
-  input: CreateOrganizationRequest,
-) => effect.Effect<
+export const createOrganization: API.OperationMethod<
+  CreateOrganizationRequest,
   CreateOrganizationResponse,
   | AccessDeniedException
   | AccessDeniedForDependencyException
@@ -3617,9 +3610,8 @@ export const createOrganization: (
  *
  * You can only call this operation from the management account.
  */
-export const createOrganizationalUnit: (
-  input: CreateOrganizationalUnitRequest,
-) => effect.Effect<
+export const createOrganizationalUnit: API.OperationMethod<
+  CreateOrganizationalUnitRequest,
   CreateOrganizationalUnitResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3659,9 +3651,8 @@ export const createOrganizationalUnit: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const createPolicy: (
-  input: CreatePolicyRequest,
-) => effect.Effect<
+export const createPolicy: API.OperationMethod<
+  CreatePolicyRequest,
   CreatePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3702,9 +3693,8 @@ export const createPolicy: (
  * You can view canceled handshakes in API responses for 30 days before they are
  * deleted.
  */
-export const declineHandshake: (
-  input: DeclineHandshakeRequest,
-) => effect.Effect<
+export const declineHandshake: API.OperationMethod<
+  DeclineHandshakeRequest,
   DeclineHandshakeResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -3734,9 +3724,8 @@ export const declineHandshake: (
  * Deletes the organization. You can delete an organization only by using credentials
  * from the management account. The organization must be empty of member accounts.
  */
-export const deleteOrganization: (
-  input: DeleteOrganizationRequest,
-) => effect.Effect<
+export const deleteOrganization: API.OperationMethod<
+  DeleteOrganizationRequest,
   DeleteOrganizationResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3768,9 +3757,8 @@ export const deleteOrganization: (
  *
  * You can only call this operation from the management account.
  */
-export const deleteOrganizationalUnit: (
-  input: DeleteOrganizationalUnitRequest,
-) => effect.Effect<
+export const deleteOrganizationalUnit: API.OperationMethod<
+  DeleteOrganizationalUnitRequest,
   DeleteOrganizationalUnitResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3803,9 +3791,8 @@ export const deleteOrganizationalUnit: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const deletePolicy: (
-  input: DeletePolicyRequest,
-) => effect.Effect<
+export const deletePolicy: API.OperationMethod<
+  DeletePolicyRequest,
   DeletePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3838,9 +3825,8 @@ export const deletePolicy: (
  *
  * You can only call this operation from the management account.
  */
-export const deleteResourcePolicy: (
-  input: DeleteResourcePolicyRequest,
-) => effect.Effect<
+export const deleteResourcePolicy: API.OperationMethod<
+  DeleteResourcePolicyRequest,
   DeleteResourcePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3882,9 +3868,8 @@ export const deleteResourcePolicy: (
  *
  * You can only call this operation from the management account.
  */
-export const deregisterDelegatedAdministrator: (
-  input: DeregisterDelegatedAdministratorRequest,
-) => effect.Effect<
+export const deregisterDelegatedAdministrator: API.OperationMethod<
+  DeregisterDelegatedAdministratorRequest,
   DeregisterDelegatedAdministratorResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -3919,9 +3904,8 @@ export const deregisterDelegatedAdministrator: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describeAccount: (
-  input: DescribeAccountRequest,
-) => effect.Effect<
+export const describeAccount: API.OperationMethod<
+  DescribeAccountRequest,
   DescribeAccountResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -3948,9 +3932,8 @@ export const describeAccount: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describeCreateAccountStatus: (
-  input: DescribeCreateAccountStatusRequest,
-) => effect.Effect<
+export const describeCreateAccountStatus: API.OperationMethod<
+  DescribeCreateAccountStatusRequest,
   DescribeCreateAccountStatusResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -3989,9 +3972,8 @@ export const describeCreateAccountStatus: (
  *
  * You can call this operation from any account in a organization.
  */
-export const describeEffectivePolicy: (
-  input: DescribeEffectivePolicyRequest,
-) => effect.Effect<
+export const describeEffectivePolicy: API.OperationMethod<
+  DescribeEffectivePolicyRequest,
   DescribeEffectivePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4028,9 +4010,8 @@ export const describeEffectivePolicy: (
  *
  * You can call this operation from any account in a organization.
  */
-export const describeHandshake: (
-  input: DescribeHandshakeRequest,
-) => effect.Effect<
+export const describeHandshake: API.OperationMethod<
+  DescribeHandshakeRequest,
   DescribeHandshakeResponse,
   | AccessDeniedException
   | ConcurrentModificationException
@@ -4062,9 +4043,8 @@ export const describeHandshake: (
  * it separately at the root level with DisablePolicyType. Use ListRoots to see the status of policy types for a specified
  * root.
  */
-export const describeOrganization: (
-  input: DescribeOrganizationRequest,
-) => effect.Effect<
+export const describeOrganization: API.OperationMethod<
+  DescribeOrganizationRequest,
   DescribeOrganizationResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4089,9 +4069,8 @@ export const describeOrganization: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describeOrganizationalUnit: (
-  input: DescribeOrganizationalUnitRequest,
-) => effect.Effect<
+export const describeOrganizationalUnit: API.OperationMethod<
+  DescribeOrganizationalUnitRequest,
   DescribeOrganizationalUnitResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4118,9 +4097,8 @@ export const describeOrganizationalUnit: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describePolicy: (
-  input: DescribePolicyRequest,
-) => effect.Effect<
+export const describePolicy: API.OperationMethod<
+  DescribePolicyRequest,
   DescribePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4149,9 +4127,8 @@ export const describePolicy: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const describeResourcePolicy: (
-  input: DescribeResourcePolicyRequest,
-) => effect.Effect<
+export const describeResourcePolicy: API.OperationMethod<
+  DescribeResourcePolicyRequest,
   DescribeResourcePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4180,9 +4157,8 @@ export const describeResourcePolicy: (
  * between two management accounts where one account designates the other with specified
  * responsibilities for their organization.
  */
-export const describeResponsibilityTransfer: (
-  input: DescribeResponsibilityTransferRequest,
-) => effect.Effect<
+export const describeResponsibilityTransfer: API.OperationMethod<
+  DescribeResponsibilityTransferRequest,
   DescribeResponsibilityTransferResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4224,9 +4200,8 @@ export const describeResponsibilityTransfer: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const detachPolicy: (
-  input: DetachPolicyRequest,
-) => effect.Effect<
+export const detachPolicy: API.OperationMethod<
+  DetachPolicyRequest,
   DetachPolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4317,9 +4292,8 @@ export const detachPolicy: (
  *
  * You can only call this operation from the management account.
  */
-export const disableAWSServiceAccess: (
-  input: DisableAWSServiceAccessRequest,
-) => effect.Effect<
+export const disableAWSServiceAccess: API.OperationMethod<
+  DisableAWSServiceAccessRequest,
   DisableAWSServiceAccessResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4361,9 +4335,8 @@ export const disableAWSServiceAccess: (
  *
  * To view the status of available policy types in the organization, use ListRoots.
  */
-export const disablePolicyType: (
-  input: DisablePolicyTypeRequest,
-) => effect.Effect<
+export const disablePolicyType: API.OperationMethod<
+  DisablePolicyTypeRequest,
   DisablePolicyTypeResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4425,9 +4398,8 @@ export const disablePolicyType: (
  *
  * You can only call this operation from the management account.
  */
-export const enableAllFeatures: (
-  input: EnableAllFeaturesRequest,
-) => effect.Effect<
+export const enableAllFeatures: API.OperationMethod<
+  EnableAllFeaturesRequest,
   EnableAllFeaturesResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4474,9 +4446,8 @@ export const enableAllFeatures: (
  *
  * You can only call this operation from the management account.
  */
-export const enableAWSServiceAccess: (
-  input: EnableAWSServiceAccessRequest,
-) => effect.Effect<
+export const enableAWSServiceAccess: API.OperationMethod<
+  EnableAWSServiceAccessRequest,
   EnableAWSServiceAccessResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4518,9 +4489,8 @@ export const enableAWSServiceAccess: (
  * organization. To view the status of available policy types in the organization, use
  * ListRoots.
  */
-export const enablePolicyType: (
-  input: EnablePolicyTypeRequest,
-) => effect.Effect<
+export const enablePolicyType: API.OperationMethod<
+  EnablePolicyTypeRequest,
   EnablePolicyTypeResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4571,9 +4541,8 @@ export const enablePolicyType: (
  *
  * You can only call this operation from the management account.
  */
-export const inviteAccountToOrganization: (
-  input: InviteAccountToOrganizationRequest,
-) => effect.Effect<
+export const inviteAccountToOrganization: API.OperationMethod<
+  InviteAccountToOrganizationRequest,
   InviteAccountToOrganizationResponse,
   | AccessDeniedException
   | AccountOwnerNotVerifiedException
@@ -4612,9 +4581,8 @@ export const inviteAccountToOrganization: (
  *
  * You can only call this operation from the management account.
  */
-export const inviteOrganizationToTransferResponsibility: (
-  input: InviteOrganizationToTransferResponsibilityRequest,
-) => effect.Effect<
+export const inviteOrganizationToTransferResponsibility: API.OperationMethod<
+  InviteOrganizationToTransferResponsibilityRequest,
   InviteOrganizationToTransferResponsibilityResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -4695,9 +4663,8 @@ export const inviteOrganizationToTransferResponsibility: (
  * `LeaveOrganization` across multiple accounts, you can only do
  * this up to 5 accounts per second in a single organization.
  */
-export const leaveOrganization: (
-  input: LeaveOrganizationRequest,
-) => effect.Effect<
+export const leaveOrganization: API.OperationMethod<
+  LeaveOrganizationRequest,
   LeaveOrganizationResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -4735,19 +4702,17 @@ export const leaveOrganization: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listAccounts: {
-  (
-    input: ListAccountsRequest,
-  ): effect.Effect<
-    ListAccountsResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccounts: API.OperationMethod<
+  ListAccountsRequest,
+  ListAccountsResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountsRequest,
   ) => stream.Stream<
@@ -4801,20 +4766,18 @@ export const listAccounts: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listAccountsForParent: {
-  (
-    input: ListAccountsForParentRequest,
-  ): effect.Effect<
-    ListAccountsForParentResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | ParentNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountsForParent: API.OperationMethod<
+  ListAccountsForParentRequest,
+  ListAccountsForParentResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ParentNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountsForParentRequest,
   ) => stream.Stream<
@@ -4866,22 +4829,20 @@ export const listAccountsForParent: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listAccountsWithInvalidEffectivePolicy: {
-  (
-    input: ListAccountsWithInvalidEffectivePolicyRequest,
-  ): effect.Effect<
-    ListAccountsWithInvalidEffectivePolicyResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | ConstraintViolationException
-    | EffectivePolicyNotFoundException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | UnsupportedAPIEndpointException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAccountsWithInvalidEffectivePolicy: API.OperationMethod<
+  ListAccountsWithInvalidEffectivePolicyRequest,
+  ListAccountsWithInvalidEffectivePolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | EffectivePolicyNotFoundException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAccountsWithInvalidEffectivePolicyRequest,
   ) => stream.Stream<
@@ -4943,21 +4904,19 @@ export const listAccountsWithInvalidEffectivePolicy: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listAWSServiceAccessForOrganization: {
-  (
-    input: ListAWSServiceAccessForOrganizationRequest,
-  ): effect.Effect<
-    ListAWSServiceAccessForOrganizationResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | ConstraintViolationException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | UnsupportedAPIEndpointException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAWSServiceAccessForOrganization: API.OperationMethod<
+  ListAWSServiceAccessForOrganizationRequest,
+  ListAWSServiceAccessForOrganizationResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAWSServiceAccessForOrganizationRequest,
   ) => stream.Stream<
@@ -5015,20 +4974,18 @@ export const listAWSServiceAccessForOrganization: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listChildren: {
-  (
-    input: ListChildrenRequest,
-  ): effect.Effect<
-    ListChildrenResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | ParentNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChildren: API.OperationMethod<
+  ListChildrenRequest,
+  ListChildrenResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ParentNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChildrenRequest,
   ) => stream.Stream<
@@ -5082,20 +5039,18 @@ export const listChildren: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listCreateAccountStatus: {
-  (
-    input: ListCreateAccountStatusRequest,
-  ): effect.Effect<
-    ListCreateAccountStatusResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | UnsupportedAPIEndpointException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCreateAccountStatus: API.OperationMethod<
+  ListCreateAccountStatusRequest,
+  ListCreateAccountStatusResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCreateAccountStatusRequest,
   ) => stream.Stream<
@@ -5145,21 +5100,19 @@ export const listCreateAccountStatus: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listDelegatedAdministrators: {
-  (
-    input: ListDelegatedAdministratorsRequest,
-  ): effect.Effect<
-    ListDelegatedAdministratorsResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | ConstraintViolationException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | UnsupportedAPIEndpointException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDelegatedAdministrators: API.OperationMethod<
+  ListDelegatedAdministratorsRequest,
+  ListDelegatedAdministratorsResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDelegatedAdministratorsRequest,
   ) => stream.Stream<
@@ -5213,23 +5166,21 @@ export const listDelegatedAdministrators: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listDelegatedServicesForAccount: {
-  (
-    input: ListDelegatedServicesForAccountRequest,
-  ): effect.Effect<
-    ListDelegatedServicesForAccountResponse,
-    | AccessDeniedException
-    | AccountNotFoundException
-    | AccountNotRegisteredException
-    | AWSOrganizationsNotInUseException
-    | ConstraintViolationException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | UnsupportedAPIEndpointException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDelegatedServicesForAccount: API.OperationMethod<
+  ListDelegatedServicesForAccountRequest,
+  ListDelegatedServicesForAccountResponse,
+  | AccessDeniedException
+  | AccountNotFoundException
+  | AccountNotRegisteredException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDelegatedServicesForAccountRequest,
   ) => stream.Stream<
@@ -5289,23 +5240,21 @@ export const listDelegatedServicesForAccount: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listEffectivePolicyValidationErrors: {
-  (
-    input: ListEffectivePolicyValidationErrorsRequest,
-  ): effect.Effect<
-    ListEffectivePolicyValidationErrorsResponse,
-    | AccessDeniedException
-    | AccountNotFoundException
-    | AWSOrganizationsNotInUseException
-    | ConstraintViolationException
-    | EffectivePolicyNotFoundException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | UnsupportedAPIEndpointException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listEffectivePolicyValidationErrors: API.OperationMethod<
+  ListEffectivePolicyValidationErrorsRequest,
+  ListEffectivePolicyValidationErrorsResponse,
+  | AccessDeniedException
+  | AccountNotFoundException
+  | AWSOrganizationsNotInUseException
+  | ConstraintViolationException
+  | EffectivePolicyNotFoundException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListEffectivePolicyValidationErrorsRequest,
   ) => stream.Stream<
@@ -5372,19 +5321,17 @@ export const listEffectivePolicyValidationErrors: {
  * These operations can occasionally return an empty set of results even when more results are available.
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
-export const listHandshakesForAccount: {
-  (
-    input: ListHandshakesForAccountRequest,
-  ): effect.Effect<
-    ListHandshakesForAccountResponse,
-    | AccessDeniedException
-    | ConcurrentModificationException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHandshakesForAccount: API.OperationMethod<
+  ListHandshakesForAccountRequest,
+  ListHandshakesForAccountResponse,
+  | AccessDeniedException
+  | ConcurrentModificationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHandshakesForAccountRequest,
   ) => stream.Stream<
@@ -5438,20 +5385,18 @@ export const listHandshakesForAccount: {
  * These operations can occasionally return an empty set of results even when more results are available.
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
-export const listHandshakesForOrganization: {
-  (
-    input: ListHandshakesForOrganizationRequest,
-  ): effect.Effect<
-    ListHandshakesForOrganizationResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | ConcurrentModificationException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listHandshakesForOrganization: API.OperationMethod<
+  ListHandshakesForOrganizationRequest,
+  ListHandshakesForOrganizationResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ConcurrentModificationException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListHandshakesForOrganizationRequest,
   ) => stream.Stream<
@@ -5503,9 +5448,8 @@ export const listHandshakesForOrganization: {
  * These operations can occasionally return an empty set of results even when more results are available.
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
-export const listInboundResponsibilityTransfers: (
-  input: ListInboundResponsibilityTransfersRequest,
-) => effect.Effect<
+export const listInboundResponsibilityTransfers: API.OperationMethod<
+  ListInboundResponsibilityTransfersRequest,
   ListInboundResponsibilityTransfersResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5540,20 +5484,18 @@ export const listInboundResponsibilityTransfers: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listOrganizationalUnitsForParent: {
-  (
-    input: ListOrganizationalUnitsForParentRequest,
-  ): effect.Effect<
-    ListOrganizationalUnitsForParentResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | ParentNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listOrganizationalUnitsForParent: API.OperationMethod<
+  ListOrganizationalUnitsForParentRequest,
+  ListOrganizationalUnitsForParentResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ParentNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListOrganizationalUnitsForParentRequest,
   ) => stream.Stream<
@@ -5606,9 +5548,8 @@ export const listOrganizationalUnitsForParent: {
  * These operations can occasionally return an empty set of results even when more results are available.
  * Continue making requests until `NextToken` returns null. A null `NextToken` value indicates that you have retrieved all available results.
  */
-export const listOutboundResponsibilityTransfers: (
-  input: ListOutboundResponsibilityTransfersRequest,
-) => effect.Effect<
+export const listOutboundResponsibilityTransfers: API.OperationMethod<
+  ListOutboundResponsibilityTransfersRequest,
   ListOutboundResponsibilityTransfersResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -5645,20 +5586,18 @@ export const listOutboundResponsibilityTransfers: (
  *
  * In the current release, a child can have only a single parent.
  */
-export const listParents: {
-  (
-    input: ListParentsRequest,
-  ): effect.Effect<
-    ListParentsResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | ChildNotFoundException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listParents: API.OperationMethod<
+  ListParentsRequest,
+  ListParentsResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | ChildNotFoundException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListParentsRequest,
   ) => stream.Stream<
@@ -5711,20 +5650,18 @@ export const listParents: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listPolicies: {
-  (
-    input: ListPoliciesRequest,
-  ): effect.Effect<
-    ListPoliciesResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | UnsupportedAPIEndpointException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPolicies: API.OperationMethod<
+  ListPoliciesRequest,
+  ListPoliciesResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPoliciesRequest,
   ) => stream.Stream<
@@ -5779,21 +5716,19 @@ export const listPolicies: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listPoliciesForTarget: {
-  (
-    input: ListPoliciesForTargetRequest,
-  ): effect.Effect<
-    ListPoliciesForTargetResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | ServiceException
-    | TargetNotFoundException
-    | TooManyRequestsException
-    | UnsupportedAPIEndpointException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPoliciesForTarget: API.OperationMethod<
+  ListPoliciesForTargetRequest,
+  ListPoliciesForTargetResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ServiceException
+  | TargetNotFoundException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPoliciesForTargetRequest,
   ) => stream.Stream<
@@ -5855,19 +5790,17 @@ export const listPoliciesForTarget: {
  * enabled and disabled in a root. To see the availability of a policy type in an
  * organization, use DescribeOrganization.
  */
-export const listRoots: {
-  (
-    input: ListRootsRequest,
-  ): effect.Effect<
-    ListRootsResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | ServiceException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listRoots: API.OperationMethod<
+  ListRootsRequest,
+  ListRootsResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ServiceException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListRootsRequest,
   ) => stream.Stream<
@@ -5923,20 +5856,18 @@ export const listRoots: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listTagsForResource: {
-  (
-    input: ListTagsForResourceRequest,
-  ): effect.Effect<
-    ListTagsForResourceResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | ServiceException
-    | TargetNotFoundException
-    | TooManyRequestsException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
+  ListTagsForResourceResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | ServiceException
+  | TargetNotFoundException
+  | TooManyRequestsException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTagsForResourceRequest,
   ) => stream.Stream<
@@ -5990,21 +5921,19 @@ export const listTagsForResource: {
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const listTargetsForPolicy: {
-  (
-    input: ListTargetsForPolicyRequest,
-  ): effect.Effect<
-    ListTargetsForPolicyResponse,
-    | AccessDeniedException
-    | AWSOrganizationsNotInUseException
-    | InvalidInputException
-    | PolicyNotFoundException
-    | ServiceException
-    | TooManyRequestsException
-    | UnsupportedAPIEndpointException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listTargetsForPolicy: API.OperationMethod<
+  ListTargetsForPolicyRequest,
+  ListTargetsForPolicyResponse,
+  | AccessDeniedException
+  | AWSOrganizationsNotInUseException
+  | InvalidInputException
+  | PolicyNotFoundException
+  | ServiceException
+  | TooManyRequestsException
+  | UnsupportedAPIEndpointException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListTargetsForPolicyRequest,
   ) => stream.Stream<
@@ -6057,9 +5986,8 @@ export const listTargetsForPolicy: {
  *
  * You can only call this operation from the management account.
  */
-export const moveAccount: (
-  input: MoveAccountRequest,
-) => effect.Effect<
+export const moveAccount: API.OperationMethod<
+  MoveAccountRequest,
   MoveAccountResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -6094,9 +6022,8 @@ export const moveAccount: (
  *
  * You can only call this operation from the management account..
  */
-export const putResourcePolicy: (
-  input: PutResourcePolicyRequest,
-) => effect.Effect<
+export const putResourcePolicy: API.OperationMethod<
+  PutResourcePolicyRequest,
   PutResourcePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -6134,9 +6061,8 @@ export const putResourcePolicy: (
  *
  * You can only call this operation from the management account.
  */
-export const registerDelegatedAdministrator: (
-  input: RegisterDelegatedAdministratorRequest,
-) => effect.Effect<
+export const registerDelegatedAdministrator: API.OperationMethod<
+  RegisterDelegatedAdministratorRequest,
   RegisterDelegatedAdministratorResponse,
   | AccessDeniedException
   | AccountAlreadyRegisteredException
@@ -6194,9 +6120,8 @@ export const registerDelegatedAdministrator: (
  * the account object in the organization are deleted. Amazon Web Services accounts outside
  * of an organization do not support tags.
  */
-export const removeAccountFromOrganization: (
-  input: RemoveAccountFromOrganizationRequest,
-) => effect.Effect<
+export const removeAccountFromOrganization: API.OperationMethod<
+  RemoveAccountFromOrganizationRequest,
   RemoveAccountFromOrganizationResponse,
   | AccessDeniedException
   | AccountNotFoundException
@@ -6239,9 +6164,8 @@ export const removeAccountFromOrganization: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -6272,9 +6196,8 @@ export const tagResource: (
  * management accounts where one account designates the other with specified
  * responsibilities for their organization.
  */
-export const terminateResponsibilityTransfer: (
-  input: TerminateResponsibilityTransferRequest,
-) => effect.Effect<
+export const terminateResponsibilityTransfer: API.OperationMethod<
+  TerminateResponsibilityTransferRequest,
   TerminateResponsibilityTransferResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -6321,9 +6244,8 @@ export const terminateResponsibilityTransfer: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -6356,9 +6278,8 @@ export const untagResource: (
  *
  * You can only call this operation from the management account.
  */
-export const updateOrganizationalUnit: (
-  input: UpdateOrganizationalUnitRequest,
-) => effect.Effect<
+export const updateOrganizationalUnit: API.OperationMethod<
+  UpdateOrganizationalUnitRequest,
   UpdateOrganizationalUnitResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -6391,9 +6312,8 @@ export const updateOrganizationalUnit: (
  *
  * You can only call this operation from the management account or a member account that is a delegated administrator.
  */
-export const updatePolicy: (
-  input: UpdatePolicyRequest,
-) => effect.Effect<
+export const updatePolicy: API.OperationMethod<
+  UpdatePolicyRequest,
   UpdatePolicyResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException
@@ -6434,9 +6354,8 @@ export const updatePolicy: (
  *
  * You can update the name assigned to a transfer.
  */
-export const updateResponsibilityTransfer: (
-  input: UpdateResponsibilityTransferRequest,
-) => effect.Effect<
+export const updateResponsibilityTransfer: API.OperationMethod<
+  UpdateResponsibilityTransferRequest,
   UpdateResponsibilityTransferResponse,
   | AccessDeniedException
   | AWSOrganizationsNotInUseException

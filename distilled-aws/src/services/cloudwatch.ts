@@ -2829,9 +2829,8 @@ export class InvalidFormatFault extends S.TaggedErrorClass<InvalidFormatFault>()
  *
  * To delete a mute rule, you need the `cloudwatch:DeleteAlarmMuteRule` permission on the alarm mute rule resource.
  */
-export const deleteAlarmMuteRule: (
-  input: DeleteAlarmMuteRuleInput,
-) => effect.Effect<
+export const deleteAlarmMuteRule: API.OperationMethod<
+  DeleteAlarmMuteRuleInput,
   DeleteAlarmMuteRuleResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2864,9 +2863,8 @@ export const deleteAlarmMuteRule: (
  * Additionally, the evaluation of composite alarms stops if CloudWatch
  * detects a cycle in the evaluation path.
  */
-export const deleteAlarms: (
-  input: DeleteAlarmsInput,
-) => effect.Effect<
+export const deleteAlarms: API.OperationMethod<
+  DeleteAlarmsInput,
   DeleteAlarmsResponse,
   ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2880,9 +2878,8 @@ export const deleteAlarms: (
  * about how to delete an anomaly detection model, see Deleting an anomaly detection model in the CloudWatch User
  * Guide.
  */
-export const deleteAnomalyDetector: (
-  input: DeleteAnomalyDetectorInput,
-) => effect.Effect<
+export const deleteAnomalyDetector: API.OperationMethod<
+  DeleteAnomalyDetectorInput,
   DeleteAnomalyDetectorOutput,
   | InternalServiceFault
   | InvalidParameterCombinationException
@@ -2906,9 +2903,8 @@ export const deleteAnomalyDetector: (
  * Deletes all dashboards that you specify. You can specify up to 100 dashboards to
  * delete. If there is an error during this call, no dashboards are deleted.
  */
-export const deleteDashboards: (
-  input: DeleteDashboardsInput,
-) => effect.Effect<
+export const deleteDashboards: API.OperationMethod<
+  DeleteDashboardsInput,
   DeleteDashboardsOutput,
   | ConflictException
   | DashboardNotFoundError
@@ -2932,9 +2928,8 @@ export const deleteDashboards: (
  * If you create a rule, delete it, and then re-create it with the same name, historical
  * data from the first time the rule was created might not be available.
  */
-export const deleteInsightRules: (
-  input: DeleteInsightRulesInput,
-) => effect.Effect<
+export const deleteInsightRules: API.OperationMethod<
+  DeleteInsightRulesInput,
   DeleteInsightRulesOutput,
   | InvalidParameterValueException
   | MissingRequiredParameterException
@@ -2948,9 +2943,8 @@ export const deleteInsightRules: (
 /**
  * Permanently deletes the metric stream that you specify.
  */
-export const deleteMetricStream: (
-  input: DeleteMetricStreamInput,
-) => effect.Effect<
+export const deleteMetricStream: API.OperationMethod<
+  DeleteMetricStreamInput,
   DeleteMetricStreamOutput,
   | InternalServiceFault
   | InvalidParameterValueException
@@ -2969,9 +2963,8 @@ export const deleteMetricStream: (
 /**
  * Returns the information of the current alarm contributors that are in `ALARM` state. This operation returns details about the individual time series that contribute to the alarm's state.
  */
-export const describeAlarmContributors: (
-  input: DescribeAlarmContributorsInput,
-) => effect.Effect<
+export const describeAlarmContributors: API.OperationMethod<
+  DescribeAlarmContributorsInput,
   DescribeAlarmContributorsOutput,
   InvalidNextToken | ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2992,14 +2985,12 @@ export const describeAlarmContributors: (
  * scoped to `*`. You can't return information about composite alarms if your
  * `cloudwatch:DescribeAlarmHistory` permission has a narrower scope.
  */
-export const describeAlarmHistory: {
-  (
-    input: DescribeAlarmHistoryInput,
-  ): effect.Effect<
-    DescribeAlarmHistoryOutput,
-    InvalidNextToken | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAlarmHistory: API.OperationMethod<
+  DescribeAlarmHistoryInput,
+  DescribeAlarmHistoryOutput,
+  InvalidNextToken | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAlarmHistoryInput,
   ) => stream.Stream<
@@ -3034,14 +3025,12 @@ export const describeAlarmHistory: {
  * `*`. You can't return information about composite alarms if your
  * `cloudwatch:DescribeAlarms` permission has a narrower scope.
  */
-export const describeAlarms: {
-  (
-    input: DescribeAlarmsInput,
-  ): effect.Effect<
-    DescribeAlarmsOutput,
-    InvalidNextToken | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAlarms: API.OperationMethod<
+  DescribeAlarmsInput,
+  DescribeAlarmsOutput,
+  InvalidNextToken | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAlarmsInput,
   ) => stream.Stream<
@@ -3074,9 +3063,8 @@ export const describeAlarms: {
  * metric. It does not return alarms based on math expressions that use the specified
  * metric, or composite alarms that use the specified metric.
  */
-export const describeAlarmsForMetric: (
-  input: DescribeAlarmsForMetricInput,
-) => effect.Effect<
+export const describeAlarmsForMetric: API.OperationMethod<
+  DescribeAlarmsForMetricInput,
   DescribeAlarmsForMetricOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3093,18 +3081,16 @@ export const describeAlarmsForMetric: (
  * `METRIC_MATH` to the `AnomalyDetectorTypes` array. This will
  * return all metric math anomaly detectors in your account.
  */
-export const describeAnomalyDetectors: {
-  (
-    input: DescribeAnomalyDetectorsInput,
-  ): effect.Effect<
-    DescribeAnomalyDetectorsOutput,
-    | InternalServiceFault
-    | InvalidNextToken
-    | InvalidParameterCombinationException
-    | InvalidParameterValueException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeAnomalyDetectors: API.OperationMethod<
+  DescribeAnomalyDetectorsInput,
+  DescribeAnomalyDetectorsOutput,
+  | InternalServiceFault
+  | InvalidNextToken
+  | InvalidParameterCombinationException
+  | InvalidParameterValueException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeAnomalyDetectorsInput,
   ) => stream.Stream<
@@ -3149,14 +3135,12 @@ export const describeAnomalyDetectors: {
  * For more information about Contributor Insights, see Using Contributor
  * Insights to Analyze High-Cardinality Data.
  */
-export const describeInsightRules: {
-  (
-    input: DescribeInsightRulesInput,
-  ): effect.Effect<
-    DescribeInsightRulesOutput,
-    InvalidNextToken | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeInsightRules: API.OperationMethod<
+  DescribeInsightRulesInput,
+  DescribeInsightRulesOutput,
+  InvalidNextToken | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeInsightRulesInput,
   ) => stream.Stream<
@@ -3185,9 +3169,8 @@ export const describeInsightRules: {
  * Disables the actions for the specified alarms. When an alarm's actions are
  * disabled, the alarm actions do not execute when the alarm state changes.
  */
-export const disableAlarmActions: (
-  input: DisableAlarmActionsInput,
-) => effect.Effect<
+export const disableAlarmActions: API.OperationMethod<
+  DisableAlarmActionsInput,
   DisableAlarmActionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3200,9 +3183,8 @@ export const disableAlarmActions: (
  * Disables the specified Contributor Insights rules. When rules are disabled, they do
  * not analyze log groups and do not incur costs.
  */
-export const disableInsightRules: (
-  input: DisableInsightRulesInput,
-) => effect.Effect<
+export const disableInsightRules: API.OperationMethod<
+  DisableInsightRulesInput,
   DisableInsightRulesOutput,
   | InvalidParameterValueException
   | MissingRequiredParameterException
@@ -3216,9 +3198,8 @@ export const disableInsightRules: (
 /**
  * Enables the actions for the specified alarms.
  */
-export const enableAlarmActions: (
-  input: EnableAlarmActionsInput,
-) => effect.Effect<
+export const enableAlarmActions: API.OperationMethod<
+  EnableAlarmActionsInput,
   EnableAlarmActionsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3231,9 +3212,8 @@ export const enableAlarmActions: (
  * Enables the specified Contributor Insights rules. When rules are enabled, they
  * immediately begin analyzing log data.
  */
-export const enableInsightRules: (
-  input: EnableInsightRulesInput,
-) => effect.Effect<
+export const enableInsightRules: API.OperationMethod<
+  EnableInsightRulesInput,
   EnableInsightRulesOutput,
   | InvalidParameterValueException
   | LimitExceededException
@@ -3266,9 +3246,8 @@ export const enableInsightRules: (
  *
  * To retrieve details for a mute rule, you need the `cloudwatch:GetAlarmMuteRule` permission on the alarm mute rule resource.
  */
-export const getAlarmMuteRule: (
-  input: GetAlarmMuteRuleInput,
-) => effect.Effect<
+export const getAlarmMuteRule: API.OperationMethod<
+  GetAlarmMuteRuleInput,
   GetAlarmMuteRuleOutput,
   ResourceNotFoundException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3284,9 +3263,8 @@ export const getAlarmMuteRule: (
  * returned within `DashboardBody` as the template for the new dashboard when
  * you call `PutDashboard` to create the copy.
  */
-export const getDashboard: (
-  input: GetDashboardInput,
-) => effect.Effect<
+export const getDashboard: API.OperationMethod<
+  GetDashboardInput,
   GetDashboardOutput,
   | DashboardNotFoundError
   | InternalServiceFault
@@ -3336,9 +3314,8 @@ export const getDashboard: (
  * - `Average` -- the average value from all contributors during the
  * time period represented by that data point.
  */
-export const getInsightRuleReport: (
-  input: GetInsightRuleReportInput,
-) => effect.Effect<
+export const getInsightRuleReport: API.OperationMethod<
+  GetInsightRuleReportInput,
   GetInsightRuleReportOutput,
   | InvalidParameterValueException
   | MissingRequiredParameterException
@@ -3420,14 +3397,12 @@ export const getInsightRuleReport: (
  * (TS[]), and can be used as input for a metric math expression that expects an array of
  * time series.
  */
-export const getMetricData: {
-  (
-    input: GetMetricDataInput,
-  ): effect.Effect<
-    GetMetricDataOutput,
-    InvalidNextToken | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getMetricData: API.OperationMethod<
+  GetMetricDataInput,
+  GetMetricDataOutput,
+  InvalidNextToken | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetMetricDataInput,
   ) => stream.Stream<
@@ -3509,9 +3484,8 @@ export const getMetricData: {
  * Metrics and Dimensions Reference in the Amazon CloudWatch User
  * Guide.
  */
-export const getMetricStatistics: (
-  input: GetMetricStatisticsInput,
-) => effect.Effect<
+export const getMetricStatistics: API.OperationMethod<
+  GetMetricStatisticsInput,
   GetMetricStatisticsOutput,
   | InternalServiceFault
   | InvalidParameterCombinationException
@@ -3532,9 +3506,8 @@ export const getMetricStatistics: (
 /**
  * Returns information about the metric stream that you specify.
  */
-export const getMetricStream: (
-  input: GetMetricStreamInput,
-) => effect.Effect<
+export const getMetricStream: API.OperationMethod<
+  GetMetricStreamInput,
   GetMetricStreamOutput,
   | InternalServiceFault
   | InvalidParameterCombinationException
@@ -3571,9 +3544,8 @@ export const getMetricStream: (
  *
  * - Up to 100 KB uncompressed payload.
  */
-export const getMetricWidgetImage: (
-  input: GetMetricWidgetImageInput,
-) => effect.Effect<
+export const getMetricWidgetImage: API.OperationMethod<
+  GetMetricWidgetImageInput,
   GetMetricWidgetImageOutput,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3593,14 +3565,12 @@ export const getMetricWidgetImage: (
  *
  * To list mute rules, you need the `cloudwatch:ListAlarmMuteRules` permission.
  */
-export const listAlarmMuteRules: {
-  (
-    input: ListAlarmMuteRulesInput,
-  ): effect.Effect<
-    ListAlarmMuteRulesOutput,
-    InvalidNextToken | ResourceNotFoundException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listAlarmMuteRules: API.OperationMethod<
+  ListAlarmMuteRulesInput,
+  ListAlarmMuteRulesOutput,
+  InvalidNextToken | ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListAlarmMuteRulesInput,
   ) => stream.Stream<
@@ -3636,14 +3606,12 @@ export const listAlarmMuteRules: {
  * the value you received for `NextToken` in the first call, to receive the next
  * 1000 results.
  */
-export const listDashboards: {
-  (
-    input: ListDashboardsInput,
-  ): effect.Effect<
-    ListDashboardsOutput,
-    InternalServiceFault | InvalidParameterValueException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDashboards: API.OperationMethod<
+  ListDashboardsInput,
+  ListDashboardsOutput,
+  InternalServiceFault | InvalidParameterValueException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDashboardsInput,
   ) => stream.Stream<
@@ -3672,17 +3640,15 @@ export const listDashboards: {
  * Returns a list that contains the number of managed Contributor Insights rules in your
  * account.
  */
-export const listManagedInsightRules: {
-  (
-    input: ListManagedInsightRulesInput,
-  ): effect.Effect<
-    ListManagedInsightRulesOutput,
-    | InvalidNextToken
-    | InvalidParameterValueException
-    | MissingRequiredParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listManagedInsightRules: API.OperationMethod<
+  ListManagedInsightRulesInput,
+  ListManagedInsightRulesOutput,
+  | InvalidNextToken
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListManagedInsightRulesInput,
   ) => stream.Stream<
@@ -3733,14 +3699,12 @@ export const listManagedInsightRules: {
  * `ListMetrics` doesn't return information about metrics if those metrics
  * haven't reported data in the past two weeks. To retrieve those metrics, use GetMetricData or GetMetricStatistics.
  */
-export const listMetrics: {
-  (
-    input: ListMetricsInput,
-  ): effect.Effect<
-    ListMetricsOutput,
-    InternalServiceFault | InvalidParameterValueException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMetrics: API.OperationMethod<
+  ListMetricsInput,
+  ListMetricsOutput,
+  InternalServiceFault | InvalidParameterValueException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMetricsInput,
   ) => stream.Stream<
@@ -3764,18 +3728,16 @@ export const listMetrics: {
 /**
  * Returns a list of metric streams in this account.
  */
-export const listMetricStreams: {
-  (
-    input: ListMetricStreamsInput,
-  ): effect.Effect<
-    ListMetricStreamsOutput,
-    | InternalServiceFault
-    | InvalidNextToken
-    | InvalidParameterValueException
-    | MissingRequiredParameterException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMetricStreams: API.OperationMethod<
+  ListMetricStreamsInput,
+  ListMetricStreamsOutput,
+  | InternalServiceFault
+  | InvalidNextToken
+  | InvalidParameterValueException
+  | MissingRequiredParameterException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMetricStreamsInput,
   ) => stream.Stream<
@@ -3817,9 +3779,8 @@ export const listMetricStreams: {
  * Displays the tags associated with a CloudWatch resource. Currently, alarms and
  * Contributor Insights rules support tagging.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceInput,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceInput,
   ListTagsForResourceOutput,
   | InternalServiceFault
   | InvalidParameterValueException
@@ -3852,9 +3813,8 @@ export const listTagsForResource: (
  *
  * You can also use IAM policy conditions to allow targeting alarms based on resource tags. For example, you can restrict users to create/update mute rules to only target alarms that have a specific tag key-value pair, such as `Team=TeamA`.
  */
-export const putAlarmMuteRule: (
-  input: PutAlarmMuteRuleInput,
-) => effect.Effect<
+export const putAlarmMuteRule: API.OperationMethod<
+  PutAlarmMuteRuleInput,
   PutAlarmMuteRuleResponse,
   LimitExceededFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3874,9 +3834,8 @@ export const putAlarmMuteRule: (
  *
  * For more information, see CloudWatch Anomaly Detection.
  */
-export const putAnomalyDetector: (
-  input: PutAnomalyDetectorInput,
-) => effect.Effect<
+export const putAnomalyDetector: API.OperationMethod<
+  PutAnomalyDetectorInput,
   PutAnomalyDetectorOutput,
   | InternalServiceFault
   | InvalidParameterCombinationException
@@ -3954,9 +3913,8 @@ export const putAnomalyDetector: (
  * `iam:CreateServiceLinkedRole` to create a composite alarm that has
  * Systems Manager OpsItem actions.
  */
-export const putCompositeAlarm: (
-  input: PutCompositeAlarmInput,
-) => effect.Effect<
+export const putCompositeAlarm: API.OperationMethod<
+  PutCompositeAlarmInput,
   PutCompositeAlarmResponse,
   LimitExceededFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -3986,9 +3944,8 @@ export const putCompositeAlarm: (
  * point console users to the location of the `DashboardBody` script or the
  * CloudFormation template used to create the dashboard.
  */
-export const putDashboard: (
-  input: PutDashboardInput,
-) => effect.Effect<
+export const putDashboard: API.OperationMethod<
+  PutDashboardInput,
   PutDashboardOutput,
   | ConflictException
   | DashboardInvalidInputError
@@ -4009,9 +3966,8 @@ export const putDashboard: (
  * If you create a rule, delete it, and then re-create it with the same name, historical
  * data from the first time the rule was created might not be available.
  */
-export const putInsightRule: (
-  input: PutInsightRuleInput,
-) => effect.Effect<
+export const putInsightRule: API.OperationMethod<
+  PutInsightRuleInput,
   PutInsightRuleOutput,
   | InvalidParameterValueException
   | LimitExceededException
@@ -4037,9 +3993,8 @@ export const putInsightRule: (
  * disabled, a subsequent call to this API will re-enable it. Use
  * `ListManagedInsightRules` to describe all available rules.
  */
-export const putManagedInsightRules: (
-  input: PutManagedInsightRulesInput,
-) => effect.Effect<
+export const putManagedInsightRules: API.OperationMethod<
+  PutManagedInsightRulesInput,
   PutManagedInsightRulesOutput,
   | InvalidParameterValueException
   | MissingRequiredParameterException
@@ -4100,9 +4055,8 @@ export const putManagedInsightRules: (
  * CloudWatch to assume the sharing role in the sharing account. If it
  * does not, you must create it following the directions in **Set up a monitoring account** in Cross-account cross-Region CloudWatch console.
  */
-export const putMetricAlarm: (
-  input: PutMetricAlarmInput,
-) => effect.Effect<
+export const putMetricAlarm: API.OperationMethod<
+  PutMetricAlarmInput,
   PutMetricAlarmResponse,
   LimitExceededFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4166,9 +4120,8 @@ export const putMetricAlarm: (
  * - The `Min` and `Max` are equal, and `Sum`
  * is equal to `Min` multiplied by `SampleCount`.
  */
-export const putMetricData: (
-  input: PutMetricDataInput,
-) => effect.Effect<
+export const putMetricData: API.OperationMethod<
+  PutMetricDataInput,
   PutMetricDataResponse,
   | InternalServiceFault
   | InvalidParameterCombinationException
@@ -4223,9 +4176,8 @@ export const putMetricData: (
  * stream in a monitoring account, you can choose whether to include metrics from source
  * accounts in the stream. For more information, see CloudWatch cross-account observability.
  */
-export const putMetricStream: (
-  input: PutMetricStreamInput,
-) => effect.Effect<
+export const putMetricStream: API.OperationMethod<
+  PutMetricStreamInput,
   PutMetricStreamOutput,
   | ConcurrentModificationException
   | InternalServiceFault
@@ -4266,9 +4218,8 @@ export const putMetricStream: (
  * policies, you must include information in the `StateReasonData` parameter to
  * enable the policy to take the correct action.
  */
-export const setAlarmState: (
-  input: SetAlarmStateInput,
-) => effect.Effect<
+export const setAlarmState: API.OperationMethod<
+  SetAlarmStateInput,
   SetAlarmStateResponse,
   InvalidFormatFault | ResourceNotFound | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -4280,9 +4231,8 @@ export const setAlarmState: (
 /**
  * Starts the streaming of metrics for one or more of your metric streams.
  */
-export const startMetricStreams: (
-  input: StartMetricStreamsInput,
-) => effect.Effect<
+export const startMetricStreams: API.OperationMethod<
+  StartMetricStreamsInput,
   StartMetricStreamsOutput,
   | InternalServiceFault
   | InvalidParameterValueException
@@ -4301,9 +4251,8 @@ export const startMetricStreams: (
 /**
  * Stops the streaming of metrics for one or more of your metric streams.
  */
-export const stopMetricStreams: (
-  input: StopMetricStreamsInput,
-) => effect.Effect<
+export const stopMetricStreams: API.OperationMethod<
+  StopMetricStreamsInput,
   StopMetricStreamsOutput,
   | InternalServiceFault
   | InvalidParameterValueException
@@ -4339,9 +4288,8 @@ export const stopMetricStreams: (
  *
  * You can associate as many as 50 tags with a CloudWatch resource.
  */
-export const tagResource: (
-  input: TagResourceInput,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceInput,
   TagResourceOutput,
   | ConcurrentModificationException
   | ConflictException
@@ -4364,9 +4312,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceInput,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceInput,
   UntagResourceOutput,
   | ConcurrentModificationException
   | ConflictException

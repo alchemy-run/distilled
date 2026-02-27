@@ -1046,9 +1046,8 @@ export class InvalidCampaignStateException extends S.TaggedErrorClass<InvalidCam
 /**
  * Creates a campaign for the specified Amazon Connect account. This API is idempotent.
  */
-export const createCampaign: (
-  input: CreateCampaignRequest,
-) => effect.Effect<
+export const createCampaign: API.OperationMethod<
+  CreateCampaignRequest,
   CreateCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -1075,9 +1074,8 @@ export const createCampaign: (
 /**
  * Deletes a campaign from the specified Amazon Connect account.
  */
-export const deleteCampaign: (
-  input: DeleteCampaignRequest,
-) => effect.Effect<
+export const deleteCampaign: API.OperationMethod<
+  DeleteCampaignRequest,
   DeleteCampaignResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1098,9 +1096,8 @@ export const deleteCampaign: (
 /**
  * Deletes a connect instance config from the specified AWS account.
  */
-export const deleteConnectInstanceConfig: (
-  input: DeleteConnectInstanceConfigRequest,
-) => effect.Effect<
+export const deleteConnectInstanceConfig: API.OperationMethod<
+  DeleteConnectInstanceConfigRequest,
   DeleteConnectInstanceConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1125,9 +1122,8 @@ export const deleteConnectInstanceConfig: (
 /**
  * Delete the Connect Campaigns onboarding job for the specified Amazon Connect instance.
  */
-export const deleteInstanceOnboardingJob: (
-  input: DeleteInstanceOnboardingJobRequest,
-) => effect.Effect<
+export const deleteInstanceOnboardingJob: API.OperationMethod<
+  DeleteInstanceOnboardingJobRequest,
   DeleteInstanceOnboardingJobResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1150,9 +1146,8 @@ export const deleteInstanceOnboardingJob: (
 /**
  * Describes the specific campaign.
  */
-export const describeCampaign: (
-  input: DescribeCampaignRequest,
-) => effect.Effect<
+export const describeCampaign: API.OperationMethod<
+  DescribeCampaignRequest,
   DescribeCampaignResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1173,9 +1168,8 @@ export const describeCampaign: (
 /**
  * Get state of a campaign for the specified Amazon Connect account.
  */
-export const getCampaignState: (
-  input: GetCampaignStateRequest,
-) => effect.Effect<
+export const getCampaignState: API.OperationMethod<
+  GetCampaignStateRequest,
   GetCampaignStateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1198,9 +1192,8 @@ export const getCampaignState: (
 /**
  * Get state of campaigns for the specified Amazon Connect account.
  */
-export const getCampaignStateBatch: (
-  input: GetCampaignStateBatchRequest,
-) => effect.Effect<
+export const getCampaignStateBatch: API.OperationMethod<
+  GetCampaignStateBatchRequest,
   GetCampaignStateBatchResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1221,9 +1214,8 @@ export const getCampaignStateBatch: (
 /**
  * Get the specific Connect instance config.
  */
-export const getConnectInstanceConfig: (
-  input: GetConnectInstanceConfigRequest,
-) => effect.Effect<
+export const getConnectInstanceConfig: API.OperationMethod<
+  GetConnectInstanceConfigRequest,
   GetConnectInstanceConfigResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1244,9 +1236,8 @@ export const getConnectInstanceConfig: (
 /**
  * Get the specific instance onboarding job status.
  */
-export const getInstanceOnboardingJobStatus: (
-  input: GetInstanceOnboardingJobStatusRequest,
-) => effect.Effect<
+export const getInstanceOnboardingJobStatus: API.OperationMethod<
+  GetInstanceOnboardingJobStatusRequest,
   GetInstanceOnboardingJobStatusResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1267,17 +1258,15 @@ export const getInstanceOnboardingJobStatus: (
 /**
  * Provides summary information about the campaigns under the specified Amazon Connect account.
  */
-export const listCampaigns: {
-  (
-    input: ListCampaignsRequest,
-  ): effect.Effect<
-    ListCampaignsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCampaigns: API.OperationMethod<
+  ListCampaignsRequest,
+  ListCampaignsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCampaignsRequest,
   ) => stream.Stream<
@@ -1312,9 +1301,8 @@ export const listCampaigns: {
 /**
  * List tags for a resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1337,9 +1325,8 @@ export const listTagsForResource: (
 /**
  * Pauses a campaign for the specified Amazon Connect account.
  */
-export const pauseCampaign: (
-  input: PauseCampaignRequest,
-) => effect.Effect<
+export const pauseCampaign: API.OperationMethod<
+  PauseCampaignRequest,
   PauseCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -1366,9 +1353,8 @@ export const pauseCampaign: (
 /**
  * Creates dials requests for the specified campaign Amazon Connect account. This API is idempotent.
  */
-export const putDialRequestBatch: (
-  input: PutDialRequestBatchRequest,
-) => effect.Effect<
+export const putDialRequestBatch: API.OperationMethod<
+  PutDialRequestBatchRequest,
   PutDialRequestBatchResponse,
   | AccessDeniedException
   | ConflictException
@@ -1395,9 +1381,8 @@ export const putDialRequestBatch: (
 /**
  * Stops a campaign for the specified Amazon Connect account.
  */
-export const resumeCampaign: (
-  input: ResumeCampaignRequest,
-) => effect.Effect<
+export const resumeCampaign: API.OperationMethod<
+  ResumeCampaignRequest,
   ResumeCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -1424,9 +1409,8 @@ export const resumeCampaign: (
 /**
  * Starts a campaign for the specified Amazon Connect account.
  */
-export const startCampaign: (
-  input: StartCampaignRequest,
-) => effect.Effect<
+export const startCampaign: API.OperationMethod<
+  StartCampaignRequest,
   StartCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -1453,9 +1437,8 @@ export const startCampaign: (
 /**
  * Onboard the specific Amazon Connect instance to Connect Campaigns.
  */
-export const startInstanceOnboardingJob: (
-  input: StartInstanceOnboardingJobRequest,
-) => effect.Effect<
+export const startInstanceOnboardingJob: API.OperationMethod<
+  StartInstanceOnboardingJobRequest,
   StartInstanceOnboardingJobResponse,
   | AccessDeniedException
   | ConflictException
@@ -1480,9 +1463,8 @@ export const startInstanceOnboardingJob: (
 /**
  * Stops a campaign for the specified Amazon Connect account.
  */
-export const stopCampaign: (
-  input: StopCampaignRequest,
-) => effect.Effect<
+export const stopCampaign: API.OperationMethod<
+  StopCampaignRequest,
   StopCampaignResponse,
   | AccessDeniedException
   | ConflictException
@@ -1509,9 +1491,8 @@ export const stopCampaign: (
 /**
  * Tag a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1534,9 +1515,8 @@ export const tagResource: (
 /**
  * Untag a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1559,9 +1539,8 @@ export const untagResource: (
 /**
  * Updates the dialer config of a campaign. This API is idempotent.
  */
-export const updateCampaignDialerConfig: (
-  input: UpdateCampaignDialerConfigRequest,
-) => effect.Effect<
+export const updateCampaignDialerConfig: API.OperationMethod<
+  UpdateCampaignDialerConfigRequest,
   UpdateCampaignDialerConfigResponse,
   | AccessDeniedException
   | ConflictException
@@ -1584,9 +1563,8 @@ export const updateCampaignDialerConfig: (
 /**
  * Updates the name of a campaign. This API is idempotent.
  */
-export const updateCampaignName: (
-  input: UpdateCampaignNameRequest,
-) => effect.Effect<
+export const updateCampaignName: API.OperationMethod<
+  UpdateCampaignNameRequest,
   UpdateCampaignNameResponse,
   | AccessDeniedException
   | ConflictException
@@ -1609,9 +1587,8 @@ export const updateCampaignName: (
 /**
  * Updates the outbound call config of a campaign. This API is idempotent.
  */
-export const updateCampaignOutboundCallConfig: (
-  input: UpdateCampaignOutboundCallConfigRequest,
-) => effect.Effect<
+export const updateCampaignOutboundCallConfig: API.OperationMethod<
+  UpdateCampaignOutboundCallConfigRequest,
   UpdateCampaignOutboundCallConfigResponse,
   | AccessDeniedException
   | ConflictException

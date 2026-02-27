@@ -2567,9 +2567,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
  *
  * Amplify uses this action to exchange an access code for a token.
  */
-export const exchangeCodeForToken: (
-  input: ExchangeCodeForTokenRequest,
-) => effect.Effect<
+export const exchangeCodeForToken: API.OperationMethod<
+  ExchangeCodeForTokenRequest,
   ExchangeCodeForTokenResponse,
   InvalidParameterException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2581,9 +2580,8 @@ export const exchangeCodeForToken: (
 /**
  * Returns existing metadata for an Amplify app.
  */
-export const getMetadata: (
-  input: GetMetadataRequest,
-) => effect.Effect<
+export const getMetadata: API.OperationMethod<
+  GetMetadataRequest,
   GetMetadataResponse,
   InvalidParameterException | UnauthorizedException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2595,9 +2593,8 @@ export const getMetadata: (
 /**
  * Returns a list of tags for a specified Amazon Resource Name (ARN).
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2620,9 +2617,8 @@ export const listTagsForResource: (
 /**
  * Stores the metadata information about a feature on a form.
  */
-export const putMetadataFlag: (
-  input: PutMetadataFlagRequest,
-) => effect.Effect<
+export const putMetadataFlag: API.OperationMethod<
+  PutMetadataFlagRequest,
   PutMetadataFlagResponse,
   InvalidParameterException | UnauthorizedException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2636,9 +2632,8 @@ export const putMetadataFlag: (
  *
  * Amplify uses this action to refresh a previously issued access token that might have expired.
  */
-export const refreshToken: (
-  input: RefreshTokenRequest,
-) => effect.Effect<
+export const refreshToken: API.OperationMethod<
+  RefreshTokenRequest,
   RefreshTokenResponse,
   InvalidParameterException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2650,9 +2645,8 @@ export const refreshToken: (
 /**
  * Tags the resource with a tag key and value.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2675,9 +2669,8 @@ export const tagResource: (
 /**
  * Untags a resource with a specified Amazon Resource Name (ARN).
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2700,9 +2693,8 @@ export const untagResource: (
 /**
  * Starts a code generation job for a specified Amplify app and backend environment.
  */
-export const startCodegenJob: (
-  input: StartCodegenJobRequest,
-) => effect.Effect<
+export const startCodegenJob: API.OperationMethod<
+  StartCodegenJobRequest,
   StartCodegenJobResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2721,9 +2713,8 @@ export const startCodegenJob: (
 /**
  * Returns an existing code generation job.
  */
-export const getCodegenJob: (
-  input: GetCodegenJobRequest,
-) => effect.Effect<
+export const getCodegenJob: API.OperationMethod<
+  GetCodegenJobRequest,
   GetCodegenJobResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2744,17 +2735,15 @@ export const getCodegenJob: (
 /**
  * Retrieves a list of code generation jobs for a specified Amplify app and backend environment.
  */
-export const listCodegenJobs: {
-  (
-    input: ListCodegenJobsRequest,
-  ): effect.Effect<
-    ListCodegenJobsResponse,
-    | InternalServerException
-    | InvalidParameterException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCodegenJobs: API.OperationMethod<
+  ListCodegenJobsRequest,
+  ListCodegenJobsResponse,
+  | InternalServerException
+  | InvalidParameterException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCodegenJobsRequest,
   ) => stream.Stream<
@@ -2793,9 +2782,8 @@ export const listCodegenJobs: {
 /**
  * Creates a new component for an Amplify app.
  */
-export const createComponent: (
-  input: CreateComponentRequest,
-) => effect.Effect<
+export const createComponent: API.OperationMethod<
+  CreateComponentRequest,
   CreateComponentResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2816,9 +2804,8 @@ export const createComponent: (
 /**
  * Returns an existing component for an Amplify app.
  */
-export const getComponent: (
-  input: GetComponentRequest,
-) => effect.Effect<
+export const getComponent: API.OperationMethod<
+  GetComponentRequest,
   GetComponentResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2837,9 +2824,8 @@ export const getComponent: (
 /**
  * Updates an existing component.
  */
-export const updateComponent: (
-  input: UpdateComponentRequest,
-) => effect.Effect<
+export const updateComponent: API.OperationMethod<
+  UpdateComponentRequest,
   UpdateComponentResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2858,9 +2844,8 @@ export const updateComponent: (
 /**
  * Deletes a component from an Amplify app.
  */
-export const deleteComponent: (
-  input: DeleteComponentRequest,
-) => effect.Effect<
+export const deleteComponent: API.OperationMethod<
+  DeleteComponentRequest,
   DeleteComponentResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2880,14 +2865,12 @@ export const deleteComponent: (
  * Retrieves a list of components for a specified Amplify app and backend
  * environment.
  */
-export const listComponents: {
-  (
-    input: ListComponentsRequest,
-  ): effect.Effect<
-    ListComponentsResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listComponents: API.OperationMethod<
+  ListComponentsRequest,
+  ListComponentsResponse,
+  InternalServerException | InvalidParameterException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListComponentsRequest,
   ) => stream.Stream<
@@ -2916,14 +2899,12 @@ export const listComponents: {
 /**
  * Exports component configurations to code that is ready to integrate into an Amplify app.
  */
-export const exportComponents: {
-  (
-    input: ExportComponentsRequest,
-  ): effect.Effect<
-    ExportComponentsResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const exportComponents: API.OperationMethod<
+  ExportComponentsRequest,
+  ExportComponentsResponse,
+  InternalServerException | InvalidParameterException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ExportComponentsRequest,
   ) => stream.Stream<
@@ -2951,9 +2932,8 @@ export const exportComponents: {
 /**
  * Creates a new form for an Amplify app.
  */
-export const createForm: (
-  input: CreateFormRequest,
-) => effect.Effect<
+export const createForm: API.OperationMethod<
+  CreateFormRequest,
   CreateFormResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2974,9 +2954,8 @@ export const createForm: (
 /**
  * Returns an existing form for an Amplify app.
  */
-export const getForm: (
-  input: GetFormRequest,
-) => effect.Effect<
+export const getForm: API.OperationMethod<
+  GetFormRequest,
   GetFormResponse,
   | InternalServerException
   | InvalidParameterException
@@ -2995,9 +2974,8 @@ export const getForm: (
 /**
  * Updates an existing form.
  */
-export const updateForm: (
-  input: UpdateFormRequest,
-) => effect.Effect<
+export const updateForm: API.OperationMethod<
+  UpdateFormRequest,
   UpdateFormResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3016,9 +2994,8 @@ export const updateForm: (
 /**
  * Deletes a form from an Amplify app.
  */
-export const deleteForm: (
-  input: DeleteFormRequest,
-) => effect.Effect<
+export const deleteForm: API.OperationMethod<
+  DeleteFormRequest,
   DeleteFormResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3037,14 +3014,12 @@ export const deleteForm: (
 /**
  * Retrieves a list of forms for a specified Amplify app and backend environment.
  */
-export const listForms: {
-  (
-    input: ListFormsRequest,
-  ): effect.Effect<
-    ListFormsResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listForms: API.OperationMethod<
+  ListFormsRequest,
+  ListFormsResponse,
+  InternalServerException | InvalidParameterException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFormsRequest,
   ) => stream.Stream<
@@ -3073,14 +3048,12 @@ export const listForms: {
 /**
  * Exports form configurations to code that is ready to integrate into an Amplify app.
  */
-export const exportForms: {
-  (
-    input: ExportFormsRequest,
-  ): effect.Effect<
-    ExportFormsResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const exportForms: API.OperationMethod<
+  ExportFormsRequest,
+  ExportFormsResponse,
+  InternalServerException | InvalidParameterException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ExportFormsRequest,
   ) => stream.Stream<
@@ -3108,9 +3081,8 @@ export const exportForms: {
 /**
  * Creates a theme to apply to the components in an Amplify app.
  */
-export const createTheme: (
-  input: CreateThemeRequest,
-) => effect.Effect<
+export const createTheme: API.OperationMethod<
+  CreateThemeRequest,
   CreateThemeResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3131,9 +3103,8 @@ export const createTheme: (
 /**
  * Returns an existing theme for an Amplify app.
  */
-export const getTheme: (
-  input: GetThemeRequest,
-) => effect.Effect<
+export const getTheme: API.OperationMethod<
+  GetThemeRequest,
   GetThemeResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3152,9 +3123,8 @@ export const getTheme: (
 /**
  * Updates an existing theme.
  */
-export const updateTheme: (
-  input: UpdateThemeRequest,
-) => effect.Effect<
+export const updateTheme: API.OperationMethod<
+  UpdateThemeRequest,
   UpdateThemeResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3173,9 +3143,8 @@ export const updateTheme: (
 /**
  * Deletes a theme from an Amplify app.
  */
-export const deleteTheme: (
-  input: DeleteThemeRequest,
-) => effect.Effect<
+export const deleteTheme: API.OperationMethod<
+  DeleteThemeRequest,
   DeleteThemeResponse,
   | InternalServerException
   | InvalidParameterException
@@ -3195,14 +3164,12 @@ export const deleteTheme: (
  * Retrieves a list of themes for a specified Amplify app and backend
  * environment.
  */
-export const listThemes: {
-  (
-    input: ListThemesRequest,
-  ): effect.Effect<
-    ListThemesResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listThemes: API.OperationMethod<
+  ListThemesRequest,
+  ListThemesResponse,
+  InternalServerException | InvalidParameterException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListThemesRequest,
   ) => stream.Stream<
@@ -3231,14 +3198,12 @@ export const listThemes: {
 /**
  * Exports theme configurations to code that is ready to integrate into an Amplify app.
  */
-export const exportThemes: {
-  (
-    input: ExportThemesRequest,
-  ): effect.Effect<
-    ExportThemesResponse,
-    InternalServerException | InvalidParameterException | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const exportThemes: API.OperationMethod<
+  ExportThemesRequest,
+  ExportThemesResponse,
+  InternalServerException | InvalidParameterException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ExportThemesRequest,
   ) => stream.Stream<

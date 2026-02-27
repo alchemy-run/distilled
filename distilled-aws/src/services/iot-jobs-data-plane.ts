@@ -457,9 +457,8 @@ export class InvalidStateTransitionException extends S.TaggedErrorClass<InvalidS
  *
  * Requires permission to access the DescribeJobExecution action.
  */
-export const describeJobExecution: (
-  input: DescribeJobExecutionRequest,
-) => effect.Effect<
+export const describeJobExecution: API.OperationMethod<
+  DescribeJobExecutionRequest,
   DescribeJobExecutionResponse,
   | CertificateValidationException
   | InvalidRequestException
@@ -486,9 +485,8 @@ export const describeJobExecution: (
  *
  * Requires permission to access the GetPendingJobExecutions action.
  */
-export const getPendingJobExecutions: (
-  input: GetPendingJobExecutionsRequest,
-) => effect.Effect<
+export const getPendingJobExecutions: API.OperationMethod<
+  GetPendingJobExecutionsRequest,
   GetPendingJobExecutionsResponse,
   | CertificateValidationException
   | InvalidRequestException
@@ -512,9 +510,8 @@ export const getPendingJobExecutions: (
  * Using the command created with the `CreateCommand` API, start a command
  * execution on a specific device.
  */
-export const startCommandExecution: (
-  input: StartCommandExecutionRequest,
-) => effect.Effect<
+export const startCommandExecution: API.OperationMethod<
+  StartCommandExecutionRequest,
   StartCommandExecutionResponse,
   | ConflictException
   | InternalServerException
@@ -542,9 +539,8 @@ export const startCommandExecution: (
  *
  * Requires permission to access the StartNextPendingJobExecution action.
  */
-export const startNextPendingJobExecution: (
-  input: StartNextPendingJobExecutionRequest,
-) => effect.Effect<
+export const startNextPendingJobExecution: API.OperationMethod<
+  StartNextPendingJobExecutionRequest,
   StartNextPendingJobExecutionResponse,
   | CertificateValidationException
   | InvalidRequestException
@@ -569,9 +565,8 @@ export const startNextPendingJobExecution: (
  *
  * Requires permission to access the UpdateJobExecution action.
  */
-export const updateJobExecution: (
-  input: UpdateJobExecutionRequest,
-) => effect.Effect<
+export const updateJobExecution: API.OperationMethod<
+  UpdateJobExecutionRequest,
   UpdateJobExecutionResponse,
   | CertificateValidationException
   | InvalidRequestException

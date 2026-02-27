@@ -6203,9 +6203,8 @@ export class TooManyTagsException extends S.TaggedErrorClass<TooManyTagsExceptio
 /**
  * Associates a partner account with your AWS account.
  */
-export const associateAwsAccountWithPartnerAccount: (
-  input: AssociateAwsAccountWithPartnerAccountRequest,
-) => effect.Effect<
+export const associateAwsAccountWithPartnerAccount: API.OperationMethod<
+  AssociateAwsAccountWithPartnerAccountRequest,
   AssociateAwsAccountWithPartnerAccountResponse,
   | AccessDeniedException
   | ConflictException
@@ -6230,9 +6229,8 @@ export const associateAwsAccountWithPartnerAccount: (
 /**
  * Associate a multicast group with a FUOTA task.
  */
-export const associateMulticastGroupWithFuotaTask: (
-  input: AssociateMulticastGroupWithFuotaTaskRequest,
-) => effect.Effect<
+export const associateMulticastGroupWithFuotaTask: API.OperationMethod<
+  AssociateMulticastGroupWithFuotaTaskRequest,
   AssociateMulticastGroupWithFuotaTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -6257,9 +6255,8 @@ export const associateMulticastGroupWithFuotaTask: (
 /**
  * Associate a wireless device with a FUOTA task.
  */
-export const associateWirelessDeviceWithFuotaTask: (
-  input: AssociateWirelessDeviceWithFuotaTaskRequest,
-) => effect.Effect<
+export const associateWirelessDeviceWithFuotaTask: API.OperationMethod<
+  AssociateWirelessDeviceWithFuotaTaskRequest,
   AssociateWirelessDeviceWithFuotaTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -6284,9 +6281,8 @@ export const associateWirelessDeviceWithFuotaTask: (
 /**
  * Associates a wireless device with a multicast group.
  */
-export const associateWirelessDeviceWithMulticastGroup: (
-  input: AssociateWirelessDeviceWithMulticastGroupRequest,
-) => effect.Effect<
+export const associateWirelessDeviceWithMulticastGroup: API.OperationMethod<
+  AssociateWirelessDeviceWithMulticastGroupRequest,
   AssociateWirelessDeviceWithMulticastGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -6311,9 +6307,8 @@ export const associateWirelessDeviceWithMulticastGroup: (
 /**
  * Associates a wireless device with a thing.
  */
-export const associateWirelessDeviceWithThing: (
-  input: AssociateWirelessDeviceWithThingRequest,
-) => effect.Effect<
+export const associateWirelessDeviceWithThing: API.OperationMethod<
+  AssociateWirelessDeviceWithThingRequest,
   AssociateWirelessDeviceWithThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6338,9 +6333,8 @@ export const associateWirelessDeviceWithThing: (
 /**
  * Associates a wireless gateway with a certificate.
  */
-export const associateWirelessGatewayWithCertificate: (
-  input: AssociateWirelessGatewayWithCertificateRequest,
-) => effect.Effect<
+export const associateWirelessGatewayWithCertificate: API.OperationMethod<
+  AssociateWirelessGatewayWithCertificateRequest,
   AssociateWirelessGatewayWithCertificateResponse,
   | AccessDeniedException
   | ConflictException
@@ -6365,9 +6359,8 @@ export const associateWirelessGatewayWithCertificate: (
 /**
  * Associates a wireless gateway with a thing.
  */
-export const associateWirelessGatewayWithThing: (
-  input: AssociateWirelessGatewayWithThingRequest,
-) => effect.Effect<
+export const associateWirelessGatewayWithThing: API.OperationMethod<
+  AssociateWirelessGatewayWithThingRequest,
   AssociateWirelessGatewayWithThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -6392,9 +6385,8 @@ export const associateWirelessGatewayWithThing: (
 /**
  * Cancels an existing multicast group session.
  */
-export const cancelMulticastGroupSession: (
-  input: CancelMulticastGroupSessionRequest,
-) => effect.Effect<
+export const cancelMulticastGroupSession: API.OperationMethod<
+  CancelMulticastGroupSessionRequest,
   CancelMulticastGroupSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6419,9 +6411,8 @@ export const cancelMulticastGroupSession: (
 /**
  * Creates a new destination that maps a device message to an AWS IoT rule.
  */
-export const createDestination: (
-  input: CreateDestinationRequest,
-) => effect.Effect<
+export const createDestination: API.OperationMethod<
+  CreateDestinationRequest,
   CreateDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6446,9 +6437,8 @@ export const createDestination: (
 /**
  * Creates a new device profile.
  */
-export const createDeviceProfile: (
-  input: CreateDeviceProfileRequest,
-) => effect.Effect<
+export const createDeviceProfile: API.OperationMethod<
+  CreateDeviceProfileRequest,
   CreateDeviceProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -6471,9 +6461,8 @@ export const createDeviceProfile: (
 /**
  * Creates a FUOTA task.
  */
-export const createFuotaTask: (
-  input: CreateFuotaTaskRequest,
-) => effect.Effect<
+export const createFuotaTask: API.OperationMethod<
+  CreateFuotaTaskRequest,
   CreateFuotaTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -6498,9 +6487,8 @@ export const createFuotaTask: (
 /**
  * Creates a multicast group.
  */
-export const createMulticastGroup: (
-  input: CreateMulticastGroupRequest,
-) => effect.Effect<
+export const createMulticastGroup: API.OperationMethod<
+  CreateMulticastGroupRequest,
   CreateMulticastGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -6525,9 +6513,8 @@ export const createMulticastGroup: (
 /**
  * Creates a new network analyzer configuration.
  */
-export const createNetworkAnalyzerConfiguration: (
-  input: CreateNetworkAnalyzerConfigurationRequest,
-) => effect.Effect<
+export const createNetworkAnalyzerConfiguration: API.OperationMethod<
+  CreateNetworkAnalyzerConfigurationRequest,
   CreateNetworkAnalyzerConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6552,9 +6539,8 @@ export const createNetworkAnalyzerConfiguration: (
 /**
  * Creates a new service profile.
  */
-export const createServiceProfile: (
-  input: CreateServiceProfileRequest,
-) => effect.Effect<
+export const createServiceProfile: API.OperationMethod<
+  CreateServiceProfileRequest,
   CreateServiceProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -6577,9 +6563,8 @@ export const createServiceProfile: (
 /**
  * Provisions a wireless device.
  */
-export const createWirelessDevice: (
-  input: CreateWirelessDeviceRequest,
-) => effect.Effect<
+export const createWirelessDevice: API.OperationMethod<
+  CreateWirelessDeviceRequest,
   CreateWirelessDeviceResponse,
   | AccessDeniedException
   | ConflictException
@@ -6615,9 +6600,8 @@ export const createWirelessDevice: (
  * To avoid this error, make sure that you use unique identifiers and parameters for
  * each request within the specified time period.
  */
-export const createWirelessGateway: (
-  input: CreateWirelessGatewayRequest,
-) => effect.Effect<
+export const createWirelessGateway: API.OperationMethod<
+  CreateWirelessGatewayRequest,
   CreateWirelessGatewayResponse,
   | AccessDeniedException
   | ConflictException
@@ -6640,9 +6624,8 @@ export const createWirelessGateway: (
 /**
  * Creates a task for a wireless gateway.
  */
-export const createWirelessGatewayTask: (
-  input: CreateWirelessGatewayTaskRequest,
-) => effect.Effect<
+export const createWirelessGatewayTask: API.OperationMethod<
+  CreateWirelessGatewayTaskRequest,
   CreateWirelessGatewayTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -6667,9 +6650,8 @@ export const createWirelessGatewayTask: (
 /**
  * Creates a gateway task definition.
  */
-export const createWirelessGatewayTaskDefinition: (
-  input: CreateWirelessGatewayTaskDefinitionRequest,
-) => effect.Effect<
+export const createWirelessGatewayTaskDefinition: API.OperationMethod<
+  CreateWirelessGatewayTaskDefinitionRequest,
   CreateWirelessGatewayTaskDefinitionResponse,
   | AccessDeniedException
   | ConflictException
@@ -6694,9 +6676,8 @@ export const createWirelessGatewayTaskDefinition: (
 /**
  * Deletes a destination.
  */
-export const deleteDestination: (
-  input: DeleteDestinationRequest,
-) => effect.Effect<
+export const deleteDestination: API.OperationMethod<
+  DeleteDestinationRequest,
   DeleteDestinationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6721,9 +6702,8 @@ export const deleteDestination: (
 /**
  * Deletes a device profile.
  */
-export const deleteDeviceProfile: (
-  input: DeleteDeviceProfileRequest,
-) => effect.Effect<
+export const deleteDeviceProfile: API.OperationMethod<
+  DeleteDeviceProfileRequest,
   DeleteDeviceProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -6748,9 +6728,8 @@ export const deleteDeviceProfile: (
 /**
  * Deletes a FUOTA task.
  */
-export const deleteFuotaTask: (
-  input: DeleteFuotaTaskRequest,
-) => effect.Effect<
+export const deleteFuotaTask: API.OperationMethod<
+  DeleteFuotaTaskRequest,
   DeleteFuotaTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6773,9 +6752,8 @@ export const deleteFuotaTask: (
 /**
  * Deletes a multicast group if it is not in use by a FUOTA task.
  */
-export const deleteMulticastGroup: (
-  input: DeleteMulticastGroupRequest,
-) => effect.Effect<
+export const deleteMulticastGroup: API.OperationMethod<
+  DeleteMulticastGroupRequest,
   DeleteMulticastGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -6800,9 +6778,8 @@ export const deleteMulticastGroup: (
 /**
  * Deletes a network analyzer configuration.
  */
-export const deleteNetworkAnalyzerConfiguration: (
-  input: DeleteNetworkAnalyzerConfigurationRequest,
-) => effect.Effect<
+export const deleteNetworkAnalyzerConfiguration: API.OperationMethod<
+  DeleteNetworkAnalyzerConfigurationRequest,
   DeleteNetworkAnalyzerConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -6827,9 +6804,8 @@ export const deleteNetworkAnalyzerConfiguration: (
 /**
  * Remove queued messages from the downlink queue.
  */
-export const deleteQueuedMessages: (
-  input: DeleteQueuedMessagesRequest,
-) => effect.Effect<
+export const deleteQueuedMessages: API.OperationMethod<
+  DeleteQueuedMessagesRequest,
   DeleteQueuedMessagesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6852,9 +6828,8 @@ export const deleteQueuedMessages: (
 /**
  * Deletes a service profile.
  */
-export const deleteServiceProfile: (
-  input: DeleteServiceProfileRequest,
-) => effect.Effect<
+export const deleteServiceProfile: API.OperationMethod<
+  DeleteServiceProfileRequest,
   DeleteServiceProfileResponse,
   | AccessDeniedException
   | ConflictException
@@ -6879,9 +6854,8 @@ export const deleteServiceProfile: (
 /**
  * Deletes a wireless device.
  */
-export const deleteWirelessDevice: (
-  input: DeleteWirelessDeviceRequest,
-) => effect.Effect<
+export const deleteWirelessDevice: API.OperationMethod<
+  DeleteWirelessDeviceRequest,
   DeleteWirelessDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6904,9 +6878,8 @@ export const deleteWirelessDevice: (
 /**
  * Delete an import task.
  */
-export const deleteWirelessDeviceImportTask: (
-  input: DeleteWirelessDeviceImportTaskRequest,
-) => effect.Effect<
+export const deleteWirelessDeviceImportTask: API.OperationMethod<
+  DeleteWirelessDeviceImportTaskRequest,
   DeleteWirelessDeviceImportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -6942,9 +6915,8 @@ export const deleteWirelessDeviceImportTask: (
  * To avoid this error, make sure that you use unique identifiers and parameters for
  * each request within the specified time period.
  */
-export const deleteWirelessGateway: (
-  input: DeleteWirelessGatewayRequest,
-) => effect.Effect<
+export const deleteWirelessGateway: API.OperationMethod<
+  DeleteWirelessGatewayRequest,
   DeleteWirelessGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6967,9 +6939,8 @@ export const deleteWirelessGateway: (
 /**
  * Deletes a wireless gateway task.
  */
-export const deleteWirelessGatewayTask: (
-  input: DeleteWirelessGatewayTaskRequest,
-) => effect.Effect<
+export const deleteWirelessGatewayTask: API.OperationMethod<
+  DeleteWirelessGatewayTaskRequest,
   DeleteWirelessGatewayTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -6993,9 +6964,8 @@ export const deleteWirelessGatewayTask: (
  * Deletes a wireless gateway task definition. Deleting this task definition does not
  * affect tasks that are currently in progress.
  */
-export const deleteWirelessGatewayTaskDefinition: (
-  input: DeleteWirelessGatewayTaskDefinitionRequest,
-) => effect.Effect<
+export const deleteWirelessGatewayTaskDefinition: API.OperationMethod<
+  DeleteWirelessGatewayTaskDefinitionRequest,
   DeleteWirelessGatewayTaskDefinitionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7018,9 +6988,8 @@ export const deleteWirelessGatewayTaskDefinition: (
 /**
  * Deregister a wireless device from AWS IoT Wireless.
  */
-export const deregisterWirelessDevice: (
-  input: DeregisterWirelessDeviceRequest,
-) => effect.Effect<
+export const deregisterWirelessDevice: API.OperationMethod<
+  DeregisterWirelessDeviceRequest,
   DeregisterWirelessDeviceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -7043,9 +7012,8 @@ export const deregisterWirelessDevice: (
  * `PartnerAccountId` and `PartnerType` are `null`,
  * disassociates your AWS account from all partner accounts.
  */
-export const disassociateAwsAccountFromPartnerAccount: (
-  input: DisassociateAwsAccountFromPartnerAccountRequest,
-) => effect.Effect<
+export const disassociateAwsAccountFromPartnerAccount: API.OperationMethod<
+  DisassociateAwsAccountFromPartnerAccountRequest,
   DisassociateAwsAccountFromPartnerAccountResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -7066,9 +7034,8 @@ export const disassociateAwsAccountFromPartnerAccount: (
 /**
  * Disassociates a multicast group from a FUOTA task.
  */
-export const disassociateMulticastGroupFromFuotaTask: (
-  input: DisassociateMulticastGroupFromFuotaTaskRequest,
-) => effect.Effect<
+export const disassociateMulticastGroupFromFuotaTask: API.OperationMethod<
+  DisassociateMulticastGroupFromFuotaTaskRequest,
   DisassociateMulticastGroupFromFuotaTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -7091,9 +7058,8 @@ export const disassociateMulticastGroupFromFuotaTask: (
 /**
  * Disassociates a wireless device from a FUOTA task.
  */
-export const disassociateWirelessDeviceFromFuotaTask: (
-  input: DisassociateWirelessDeviceFromFuotaTaskRequest,
-) => effect.Effect<
+export const disassociateWirelessDeviceFromFuotaTask: API.OperationMethod<
+  DisassociateWirelessDeviceFromFuotaTaskRequest,
   DisassociateWirelessDeviceFromFuotaTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -7118,9 +7084,8 @@ export const disassociateWirelessDeviceFromFuotaTask: (
 /**
  * Disassociates a wireless device from a multicast group.
  */
-export const disassociateWirelessDeviceFromMulticastGroup: (
-  input: DisassociateWirelessDeviceFromMulticastGroupRequest,
-) => effect.Effect<
+export const disassociateWirelessDeviceFromMulticastGroup: API.OperationMethod<
+  DisassociateWirelessDeviceFromMulticastGroupRequest,
   DisassociateWirelessDeviceFromMulticastGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7143,9 +7108,8 @@ export const disassociateWirelessDeviceFromMulticastGroup: (
 /**
  * Disassociates a wireless device from its currently associated thing.
  */
-export const disassociateWirelessDeviceFromThing: (
-  input: DisassociateWirelessDeviceFromThingRequest,
-) => effect.Effect<
+export const disassociateWirelessDeviceFromThing: API.OperationMethod<
+  DisassociateWirelessDeviceFromThingRequest,
   DisassociateWirelessDeviceFromThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -7170,9 +7134,8 @@ export const disassociateWirelessDeviceFromThing: (
 /**
  * Disassociates a wireless gateway from its currently associated certificate.
  */
-export const disassociateWirelessGatewayFromCertificate: (
-  input: DisassociateWirelessGatewayFromCertificateRequest,
-) => effect.Effect<
+export const disassociateWirelessGatewayFromCertificate: API.OperationMethod<
+  DisassociateWirelessGatewayFromCertificateRequest,
   DisassociateWirelessGatewayFromCertificateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7195,9 +7158,8 @@ export const disassociateWirelessGatewayFromCertificate: (
 /**
  * Disassociates a wireless gateway from its currently associated thing.
  */
-export const disassociateWirelessGatewayFromThing: (
-  input: DisassociateWirelessGatewayFromThingRequest,
-) => effect.Effect<
+export const disassociateWirelessGatewayFromThing: API.OperationMethod<
+  DisassociateWirelessGatewayFromThingRequest,
   DisassociateWirelessGatewayFromThingResponse,
   | AccessDeniedException
   | ConflictException
@@ -7222,9 +7184,8 @@ export const disassociateWirelessGatewayFromThing: (
 /**
  * Gets information about a destination.
  */
-export const getDestination: (
-  input: GetDestinationRequest,
-) => effect.Effect<
+export const getDestination: API.OperationMethod<
+  GetDestinationRequest,
   GetDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7247,9 +7208,8 @@ export const getDestination: (
 /**
  * Gets information about a device profile.
  */
-export const getDeviceProfile: (
-  input: GetDeviceProfileRequest,
-) => effect.Effect<
+export const getDeviceProfile: API.OperationMethod<
+  GetDeviceProfileRequest,
   GetDeviceProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7272,9 +7232,8 @@ export const getDeviceProfile: (
 /**
  * Get the event configuration based on resource types.
  */
-export const getEventConfigurationByResourceTypes: (
-  input: GetEventConfigurationByResourceTypesRequest,
-) => effect.Effect<
+export const getEventConfigurationByResourceTypes: API.OperationMethod<
+  GetEventConfigurationByResourceTypesRequest,
   GetEventConfigurationByResourceTypesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7289,9 +7248,8 @@ export const getEventConfigurationByResourceTypes: (
 /**
  * Gets information about a FUOTA task.
  */
-export const getFuotaTask: (
-  input: GetFuotaTaskRequest,
-) => effect.Effect<
+export const getFuotaTask: API.OperationMethod<
+  GetFuotaTaskRequest,
   GetFuotaTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7316,9 +7274,8 @@ export const getFuotaTask: (
  * resource type, log levels can be returned for wireless device, wireless gateway, or
  * FUOTA task log options.
  */
-export const getLogLevelsByResourceTypes: (
-  input: GetLogLevelsByResourceTypesRequest,
-) => effect.Effect<
+export const getLogLevelsByResourceTypes: API.OperationMethod<
+  GetLogLevelsByResourceTypesRequest,
   GetLogLevelsByResourceTypesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7341,9 +7298,8 @@ export const getLogLevelsByResourceTypes: (
 /**
  * Get the metric configuration status for this AWS account.
  */
-export const getMetricConfiguration: (
-  input: GetMetricConfigurationRequest,
-) => effect.Effect<
+export const getMetricConfiguration: API.OperationMethod<
+  GetMetricConfigurationRequest,
   GetMetricConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -7368,9 +7324,8 @@ export const getMetricConfiguration: (
 /**
  * Get the summary metrics for this AWS account.
  */
-export const getMetrics: (
-  input: GetMetricsRequest,
-) => effect.Effect<
+export const getMetrics: API.OperationMethod<
+  GetMetricsRequest,
   GetMetricsResponse,
   | AccessDeniedException
   | ConflictException
@@ -7395,9 +7350,8 @@ export const getMetrics: (
 /**
  * Gets information about a multicast group.
  */
-export const getMulticastGroup: (
-  input: GetMulticastGroupRequest,
-) => effect.Effect<
+export const getMulticastGroup: API.OperationMethod<
+  GetMulticastGroupRequest,
   GetMulticastGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7420,9 +7374,8 @@ export const getMulticastGroup: (
 /**
  * Gets information about a multicast group session.
  */
-export const getMulticastGroupSession: (
-  input: GetMulticastGroupSessionRequest,
-) => effect.Effect<
+export const getMulticastGroupSession: API.OperationMethod<
+  GetMulticastGroupSessionRequest,
   GetMulticastGroupSessionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7445,9 +7398,8 @@ export const getMulticastGroupSession: (
 /**
  * Get network analyzer configuration.
  */
-export const getNetworkAnalyzerConfiguration: (
-  input: GetNetworkAnalyzerConfigurationRequest,
-) => effect.Effect<
+export const getNetworkAnalyzerConfiguration: API.OperationMethod<
+  GetNetworkAnalyzerConfigurationRequest,
   GetNetworkAnalyzerConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7471,9 +7423,8 @@ export const getNetworkAnalyzerConfiguration: (
  * Gets information about a partner account. If `PartnerAccountId` and
  * `PartnerType` are `null`, returns all partner accounts.
  */
-export const getPartnerAccount: (
-  input: GetPartnerAccountRequest,
-) => effect.Effect<
+export const getPartnerAccount: API.OperationMethod<
+  GetPartnerAccountRequest,
   GetPartnerAccountResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -7497,9 +7448,8 @@ export const getPartnerAccount: (
  * This action is no longer supported. Calls to retrieve the position information
  * should use the GetResourcePosition API operation instead.
  */
-export const getPosition: (
-  input: GetPositionRequest,
-) => effect.Effect<
+export const getPosition: API.OperationMethod<
+  GetPositionRequest,
   GetPositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7525,9 +7475,8 @@ export const getPosition: (
  * This action is no longer supported. Calls to retrieve the position configuration
  * should use the GetResourcePosition API operation instead.
  */
-export const getPositionConfiguration: (
-  input: GetPositionConfigurationRequest,
-) => effect.Effect<
+export const getPositionConfiguration: API.OperationMethod<
+  GetPositionConfigurationRequest,
   GetPositionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7552,9 +7501,8 @@ export const getPositionConfiguration: (
  * measurement data is resolved using solvers that are provided by third-party
  * vendors.
  */
-export const getPositionEstimate: (
-  input: GetPositionEstimateRequest,
-) => effect.Effect<
+export const getPositionEstimate: API.OperationMethod<
+  GetPositionEstimateRequest,
   GetPositionEstimateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7577,9 +7525,8 @@ export const getPositionEstimate: (
 /**
  * Get the event configuration for a particular resource identifier.
  */
-export const getResourceEventConfiguration: (
-  input: GetResourceEventConfigurationRequest,
-) => effect.Effect<
+export const getResourceEventConfiguration: API.OperationMethod<
+  GetResourceEventConfigurationRequest,
   GetResourceEventConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7603,9 +7550,8 @@ export const getResourceEventConfiguration: (
  * Fetches the log-level override, if any, for a given resource ID and resource
  * type..
  */
-export const getResourceLogLevel: (
-  input: GetResourceLogLevelRequest,
-) => effect.Effect<
+export const getResourceLogLevel: API.OperationMethod<
+  GetResourceLogLevelRequest,
   GetResourceLogLevelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7630,9 +7576,8 @@ export const getResourceLogLevel: (
  * resource. The position information uses the World Geodetic System
  * (WGS84).
  */
-export const getResourcePosition: (
-  input: GetResourcePositionRequest,
-) => effect.Effect<
+export const getResourcePosition: API.OperationMethod<
+  GetResourcePositionRequest,
   GetResourcePositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7656,9 +7601,8 @@ export const getResourcePosition: (
  * Gets the account-specific endpoint for Configuration and Update Server (CUPS) protocol
  * or LoRaWAN Network Server (LNS) connections.
  */
-export const getServiceEndpoint: (
-  input: GetServiceEndpointRequest,
-) => effect.Effect<
+export const getServiceEndpoint: API.OperationMethod<
+  GetServiceEndpointRequest,
   GetServiceEndpointResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7679,9 +7623,8 @@ export const getServiceEndpoint: (
 /**
  * Gets information about a service profile.
  */
-export const getServiceProfile: (
-  input: GetServiceProfileRequest,
-) => effect.Effect<
+export const getServiceProfile: API.OperationMethod<
+  GetServiceProfileRequest,
   GetServiceProfileResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7704,9 +7647,8 @@ export const getServiceProfile: (
 /**
  * Gets information about a wireless device.
  */
-export const getWirelessDevice: (
-  input: GetWirelessDeviceRequest,
-) => effect.Effect<
+export const getWirelessDevice: API.OperationMethod<
+  GetWirelessDeviceRequest,
   GetWirelessDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7730,9 +7672,8 @@ export const getWirelessDevice: (
  * Get information about an import task and count of device onboarding summary
  * information for the import task.
  */
-export const getWirelessDeviceImportTask: (
-  input: GetWirelessDeviceImportTaskRequest,
-) => effect.Effect<
+export const getWirelessDeviceImportTask: API.OperationMethod<
+  GetWirelessDeviceImportTaskRequest,
   GetWirelessDeviceImportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -7757,9 +7698,8 @@ export const getWirelessDeviceImportTask: (
 /**
  * Gets operating information about a wireless device.
  */
-export const getWirelessDeviceStatistics: (
-  input: GetWirelessDeviceStatisticsRequest,
-) => effect.Effect<
+export const getWirelessDeviceStatistics: API.OperationMethod<
+  GetWirelessDeviceStatisticsRequest,
   GetWirelessDeviceStatisticsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7782,9 +7722,8 @@ export const getWirelessDeviceStatistics: (
 /**
  * Gets information about a wireless gateway.
  */
-export const getWirelessGateway: (
-  input: GetWirelessGatewayRequest,
-) => effect.Effect<
+export const getWirelessGateway: API.OperationMethod<
+  GetWirelessGatewayRequest,
   GetWirelessGatewayResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7808,9 +7747,8 @@ export const getWirelessGateway: (
  * Gets the ID of the certificate that is currently associated with a wireless
  * gateway.
  */
-export const getWirelessGatewayCertificate: (
-  input: GetWirelessGatewayCertificateRequest,
-) => effect.Effect<
+export const getWirelessGatewayCertificate: API.OperationMethod<
+  GetWirelessGatewayCertificateRequest,
   GetWirelessGatewayCertificateResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7833,9 +7771,8 @@ export const getWirelessGatewayCertificate: (
 /**
  * Gets the firmware version and other information about a wireless gateway.
  */
-export const getWirelessGatewayFirmwareInformation: (
-  input: GetWirelessGatewayFirmwareInformationRequest,
-) => effect.Effect<
+export const getWirelessGatewayFirmwareInformation: API.OperationMethod<
+  GetWirelessGatewayFirmwareInformationRequest,
   GetWirelessGatewayFirmwareInformationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7858,9 +7795,8 @@ export const getWirelessGatewayFirmwareInformation: (
 /**
  * Gets operating information about a wireless gateway.
  */
-export const getWirelessGatewayStatistics: (
-  input: GetWirelessGatewayStatisticsRequest,
-) => effect.Effect<
+export const getWirelessGatewayStatistics: API.OperationMethod<
+  GetWirelessGatewayStatisticsRequest,
   GetWirelessGatewayStatisticsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7883,9 +7819,8 @@ export const getWirelessGatewayStatistics: (
 /**
  * Gets information about a wireless gateway task.
  */
-export const getWirelessGatewayTask: (
-  input: GetWirelessGatewayTaskRequest,
-) => effect.Effect<
+export const getWirelessGatewayTask: API.OperationMethod<
+  GetWirelessGatewayTaskRequest,
   GetWirelessGatewayTaskResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7908,9 +7843,8 @@ export const getWirelessGatewayTask: (
 /**
  * Gets information about a wireless gateway task definition.
  */
-export const getWirelessGatewayTaskDefinition: (
-  input: GetWirelessGatewayTaskDefinitionRequest,
-) => effect.Effect<
+export const getWirelessGatewayTaskDefinition: API.OperationMethod<
+  GetWirelessGatewayTaskDefinitionRequest,
   GetWirelessGatewayTaskDefinitionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -7933,18 +7867,16 @@ export const getWirelessGatewayTaskDefinition: (
 /**
  * Lists the destinations registered to your AWS account.
  */
-export const listDestinations: {
-  (
-    input: ListDestinationsRequest,
-  ): effect.Effect<
-    ListDestinationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDestinations: API.OperationMethod<
+  ListDestinationsRequest,
+  ListDestinationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDestinationsRequest,
   ) => stream.Stream<
@@ -7985,18 +7917,16 @@ export const listDestinations: {
 /**
  * Lists the device profiles registered to your AWS account.
  */
-export const listDeviceProfiles: {
-  (
-    input: ListDeviceProfilesRequest,
-  ): effect.Effect<
-    ListDeviceProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listDeviceProfiles: API.OperationMethod<
+  ListDeviceProfilesRequest,
+  ListDeviceProfilesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListDeviceProfilesRequest,
   ) => stream.Stream<
@@ -8037,9 +7967,8 @@ export const listDeviceProfiles: {
 /**
  * List the Sidewalk devices in an import task and their onboarding status.
  */
-export const listDevicesForWirelessDeviceImportTask: (
-  input: ListDevicesForWirelessDeviceImportTaskRequest,
-) => effect.Effect<
+export const listDevicesForWirelessDeviceImportTask: API.OperationMethod<
+  ListDevicesForWirelessDeviceImportTaskRequest,
   ListDevicesForWirelessDeviceImportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -8064,9 +7993,8 @@ export const listDevicesForWirelessDeviceImportTask: (
 /**
  * List event configurations where at least one event topic has been enabled.
  */
-export const listEventConfigurations: (
-  input: ListEventConfigurationsRequest,
-) => effect.Effect<
+export const listEventConfigurations: API.OperationMethod<
+  ListEventConfigurationsRequest,
   ListEventConfigurationsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8087,18 +8015,16 @@ export const listEventConfigurations: (
 /**
  * Lists the FUOTA tasks registered to your AWS account.
  */
-export const listFuotaTasks: {
-  (
-    input: ListFuotaTasksRequest,
-  ): effect.Effect<
-    ListFuotaTasksResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listFuotaTasks: API.OperationMethod<
+  ListFuotaTasksRequest,
+  ListFuotaTasksResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListFuotaTasksRequest,
   ) => stream.Stream<
@@ -8139,18 +8065,16 @@ export const listFuotaTasks: {
 /**
  * Lists the multicast groups registered to your AWS account.
  */
-export const listMulticastGroups: {
-  (
-    input: ListMulticastGroupsRequest,
-  ): effect.Effect<
-    ListMulticastGroupsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMulticastGroups: API.OperationMethod<
+  ListMulticastGroupsRequest,
+  ListMulticastGroupsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMulticastGroupsRequest,
   ) => stream.Stream<
@@ -8191,19 +8115,17 @@ export const listMulticastGroups: {
 /**
  * List all multicast groups associated with a FUOTA task.
  */
-export const listMulticastGroupsByFuotaTask: {
-  (
-    input: ListMulticastGroupsByFuotaTaskRequest,
-  ): effect.Effect<
-    ListMulticastGroupsByFuotaTaskResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listMulticastGroupsByFuotaTask: API.OperationMethod<
+  ListMulticastGroupsByFuotaTaskRequest,
+  ListMulticastGroupsByFuotaTaskResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListMulticastGroupsByFuotaTaskRequest,
   ) => stream.Stream<
@@ -8247,18 +8169,16 @@ export const listMulticastGroupsByFuotaTask: {
 /**
  * Lists the network analyzer configurations.
  */
-export const listNetworkAnalyzerConfigurations: {
-  (
-    input: ListNetworkAnalyzerConfigurationsRequest,
-  ): effect.Effect<
-    ListNetworkAnalyzerConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listNetworkAnalyzerConfigurations: API.OperationMethod<
+  ListNetworkAnalyzerConfigurationsRequest,
+  ListNetworkAnalyzerConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListNetworkAnalyzerConfigurationsRequest,
   ) => stream.Stream<
@@ -8299,9 +8219,8 @@ export const listNetworkAnalyzerConfigurations: {
 /**
  * Lists the partner accounts associated with your AWS account.
  */
-export const listPartnerAccounts: (
-  input: ListPartnerAccountsRequest,
-) => effect.Effect<
+export const listPartnerAccounts: API.OperationMethod<
+  ListPartnerAccountsRequest,
   ListPartnerAccountsResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -8325,18 +8244,16 @@ export const listPartnerAccounts: (
  * This action is no longer supported. Calls to retrieve position information should
  * use the GetResourcePosition API operation instead.
  */
-export const listPositionConfigurations: {
-  (
-    input: ListPositionConfigurationsRequest,
-  ): effect.Effect<
-    ListPositionConfigurationsResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPositionConfigurations: API.OperationMethod<
+  ListPositionConfigurationsRequest,
+  ListPositionConfigurationsResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPositionConfigurationsRequest,
   ) => stream.Stream<
@@ -8377,19 +8294,17 @@ export const listPositionConfigurations: {
 /**
  * List queued messages in the downlink queue.
  */
-export const listQueuedMessages: {
-  (
-    input: ListQueuedMessagesRequest,
-  ): effect.Effect<
-    ListQueuedMessagesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listQueuedMessages: API.OperationMethod<
+  ListQueuedMessagesRequest,
+  ListQueuedMessagesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListQueuedMessagesRequest,
   ) => stream.Stream<
@@ -8433,18 +8348,16 @@ export const listQueuedMessages: {
 /**
  * Lists the service profiles registered to your AWS account.
  */
-export const listServiceProfiles: {
-  (
-    input: ListServiceProfilesRequest,
-  ): effect.Effect<
-    ListServiceProfilesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listServiceProfiles: API.OperationMethod<
+  ListServiceProfilesRequest,
+  ListServiceProfilesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListServiceProfilesRequest,
   ) => stream.Stream<
@@ -8485,9 +8398,8 @@ export const listServiceProfiles: {
 /**
  * Lists the tags (metadata) you have assigned to the resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | ConflictException
   | InternalServerException
@@ -8511,9 +8423,8 @@ export const listTagsForResource: (
  * List of import tasks and summary information of onboarding status of devices in each
  * import task.
  */
-export const listWirelessDeviceImportTasks: (
-  input: ListWirelessDeviceImportTasksRequest,
-) => effect.Effect<
+export const listWirelessDeviceImportTasks: API.OperationMethod<
+  ListWirelessDeviceImportTasksRequest,
   ListWirelessDeviceImportTasksResponse,
   | AccessDeniedException
   | ConflictException
@@ -8538,18 +8449,16 @@ export const listWirelessDeviceImportTasks: (
 /**
  * Lists the wireless devices registered to your AWS account.
  */
-export const listWirelessDevices: {
-  (
-    input: ListWirelessDevicesRequest,
-  ): effect.Effect<
-    ListWirelessDevicesResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWirelessDevices: API.OperationMethod<
+  ListWirelessDevicesRequest,
+  ListWirelessDevicesResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWirelessDevicesRequest,
   ) => stream.Stream<
@@ -8590,18 +8499,16 @@ export const listWirelessDevices: {
 /**
  * Lists the wireless gateways registered to your AWS account.
  */
-export const listWirelessGateways: {
-  (
-    input: ListWirelessGatewaysRequest,
-  ): effect.Effect<
-    ListWirelessGatewaysResponse,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWirelessGateways: API.OperationMethod<
+  ListWirelessGatewaysRequest,
+  ListWirelessGatewaysResponse,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWirelessGatewaysRequest,
   ) => stream.Stream<
@@ -8642,9 +8549,8 @@ export const listWirelessGateways: {
 /**
  * List the wireless gateway tasks definitions registered to your AWS account.
  */
-export const listWirelessGatewayTaskDefinitions: (
-  input: ListWirelessGatewayTaskDefinitionsRequest,
-) => effect.Effect<
+export const listWirelessGatewayTaskDefinitions: API.OperationMethod<
+  ListWirelessGatewayTaskDefinitionsRequest,
   ListWirelessGatewayTaskDefinitionsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8668,9 +8574,8 @@ export const listWirelessGatewayTaskDefinitions: (
  * This action is no longer supported. Calls to update the position configuration
  * should use the UpdateResourcePosition API operation instead.
  */
-export const putPositionConfiguration: (
-  input: PutPositionConfigurationRequest,
-) => effect.Effect<
+export const putPositionConfiguration: API.OperationMethod<
+  PutPositionConfigurationRequest,
   PutPositionConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8694,9 +8599,8 @@ export const putPositionConfiguration: (
  * Sets the log-level override for a resource ID and resource type. A limit of 200 log
  * level override can be set per account.
  */
-export const putResourceLogLevel: (
-  input: PutResourceLogLevelRequest,
-) => effect.Effect<
+export const putResourceLogLevel: API.OperationMethod<
+  PutResourceLogLevelRequest,
   PutResourceLogLevelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8720,9 +8624,8 @@ export const putResourceLogLevel: (
  * Removes the log-level overrides for all resources; wireless devices, wireless
  * gateways, and FUOTA tasks.
  */
-export const resetAllResourceLogLevels: (
-  input: ResetAllResourceLogLevelsRequest,
-) => effect.Effect<
+export const resetAllResourceLogLevels: API.OperationMethod<
+  ResetAllResourceLogLevelsRequest,
   ResetAllResourceLogLevelsResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8746,9 +8649,8 @@ export const resetAllResourceLogLevels: (
  * Removes the log-level override, if any, for a specific resource ID and resource type.
  * It can be used for a wireless device, a wireless gateway, or a FUOTA task.
  */
-export const resetResourceLogLevel: (
-  input: ResetResourceLogLevelRequest,
-) => effect.Effect<
+export const resetResourceLogLevel: API.OperationMethod<
+  ResetResourceLogLevelRequest,
   ResetResourceLogLevelResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8771,9 +8673,8 @@ export const resetResourceLogLevel: (
 /**
  * Sends the specified data to a multicast group.
  */
-export const sendDataToMulticastGroup: (
-  input: SendDataToMulticastGroupRequest,
-) => effect.Effect<
+export const sendDataToMulticastGroup: API.OperationMethod<
+  SendDataToMulticastGroupRequest,
   SendDataToMulticastGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -8798,9 +8699,8 @@ export const sendDataToMulticastGroup: (
 /**
  * Sends a decrypted application data frame to a device.
  */
-export const sendDataToWirelessDevice: (
-  input: SendDataToWirelessDeviceRequest,
-) => effect.Effect<
+export const sendDataToWirelessDevice: API.OperationMethod<
+  SendDataToWirelessDeviceRequest,
   SendDataToWirelessDeviceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -8822,9 +8722,8 @@ export const sendDataToWirelessDevice: (
  * Starts a bulk association of all qualifying wireless devices with a multicast
  * group.
  */
-export const startBulkAssociateWirelessDeviceWithMulticastGroup: (
-  input: StartBulkAssociateWirelessDeviceWithMulticastGroupRequest,
-) => effect.Effect<
+export const startBulkAssociateWirelessDeviceWithMulticastGroup: API.OperationMethod<
+  StartBulkAssociateWirelessDeviceWithMulticastGroupRequest,
   StartBulkAssociateWirelessDeviceWithMulticastGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8848,9 +8747,8 @@ export const startBulkAssociateWirelessDeviceWithMulticastGroup: (
  * Starts a bulk disassociatin of all qualifying wireless devices from a multicast
  * group.
  */
-export const startBulkDisassociateWirelessDeviceFromMulticastGroup: (
-  input: StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest,
-) => effect.Effect<
+export const startBulkDisassociateWirelessDeviceFromMulticastGroup: API.OperationMethod<
+  StartBulkDisassociateWirelessDeviceFromMulticastGroupRequest,
   StartBulkDisassociateWirelessDeviceFromMulticastGroupResponse,
   | AccessDeniedException
   | InternalServerException
@@ -8873,9 +8771,8 @@ export const startBulkDisassociateWirelessDeviceFromMulticastGroup: (
 /**
  * Starts a FUOTA task.
  */
-export const startFuotaTask: (
-  input: StartFuotaTaskRequest,
-) => effect.Effect<
+export const startFuotaTask: API.OperationMethod<
+  StartFuotaTaskRequest,
   StartFuotaTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -8900,9 +8797,8 @@ export const startFuotaTask: (
 /**
  * Starts a multicast group session.
  */
-export const startMulticastGroupSession: (
-  input: StartMulticastGroupSessionRequest,
-) => effect.Effect<
+export const startMulticastGroupSession: API.OperationMethod<
+  StartMulticastGroupSessionRequest,
   StartMulticastGroupSessionResponse,
   | AccessDeniedException
   | ConflictException
@@ -8927,9 +8823,8 @@ export const startMulticastGroupSession: (
 /**
  * Start import task for a single wireless device.
  */
-export const startSingleWirelessDeviceImportTask: (
-  input: StartSingleWirelessDeviceImportTaskRequest,
-) => effect.Effect<
+export const startSingleWirelessDeviceImportTask: API.OperationMethod<
+  StartSingleWirelessDeviceImportTaskRequest,
   StartSingleWirelessDeviceImportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -8955,9 +8850,8 @@ export const startSingleWirelessDeviceImportTask: (
  * Start import task for provisioning Sidewalk devices in bulk using an S3 CSV
  * file.
  */
-export const startWirelessDeviceImportTask: (
-  input: StartWirelessDeviceImportTaskRequest,
-) => effect.Effect<
+export const startWirelessDeviceImportTask: API.OperationMethod<
+  StartWirelessDeviceImportTaskRequest,
   StartWirelessDeviceImportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -8982,9 +8876,8 @@ export const startWirelessDeviceImportTask: (
 /**
  * Adds a tag to a resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConflictException
   | InternalServerException
@@ -9010,9 +8903,8 @@ export const tagResource: (
  * Simulates a provisioned device by sending an uplink data payload of
  * `Hello`.
  */
-export const testWirelessDevice: (
-  input: TestWirelessDeviceRequest,
-) => effect.Effect<
+export const testWirelessDevice: API.OperationMethod<
+  TestWirelessDeviceRequest,
   TestWirelessDeviceResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -9033,9 +8925,8 @@ export const testWirelessDevice: (
 /**
  * Removes one or more tags from a resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConflictException
   | InternalServerException
@@ -9058,9 +8949,8 @@ export const untagResource: (
 /**
  * Updates properties of a destination.
  */
-export const updateDestination: (
-  input: UpdateDestinationRequest,
-) => effect.Effect<
+export const updateDestination: API.OperationMethod<
+  UpdateDestinationRequest,
   UpdateDestinationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9083,9 +8973,8 @@ export const updateDestination: (
 /**
  * Update the event configuration based on resource types.
  */
-export const updateEventConfigurationByResourceTypes: (
-  input: UpdateEventConfigurationByResourceTypesRequest,
-) => effect.Effect<
+export const updateEventConfigurationByResourceTypes: API.OperationMethod<
+  UpdateEventConfigurationByResourceTypesRequest,
   UpdateEventConfigurationByResourceTypesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9106,9 +8995,8 @@ export const updateEventConfigurationByResourceTypes: (
 /**
  * Updates properties of a FUOTA task.
  */
-export const updateFuotaTask: (
-  input: UpdateFuotaTaskRequest,
-) => effect.Effect<
+export const updateFuotaTask: API.OperationMethod<
+  UpdateFuotaTaskRequest,
   UpdateFuotaTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -9135,9 +9023,8 @@ export const updateFuotaTask: (
  * device, wireless gateway, or FUOTA task log options, and is used to control the log
  * messages that'll be displayed in CloudWatch.
  */
-export const updateLogLevelsByResourceTypes: (
-  input: UpdateLogLevelsByResourceTypesRequest,
-) => effect.Effect<
+export const updateLogLevelsByResourceTypes: API.OperationMethod<
+  UpdateLogLevelsByResourceTypesRequest,
   UpdateLogLevelsByResourceTypesResponse,
   | AccessDeniedException
   | ConflictException
@@ -9162,9 +9049,8 @@ export const updateLogLevelsByResourceTypes: (
 /**
  * Update the summary metric configuration.
  */
-export const updateMetricConfiguration: (
-  input: UpdateMetricConfigurationRequest,
-) => effect.Effect<
+export const updateMetricConfiguration: API.OperationMethod<
+  UpdateMetricConfigurationRequest,
   UpdateMetricConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -9189,9 +9075,8 @@ export const updateMetricConfiguration: (
 /**
  * Updates properties of a multicast group session.
  */
-export const updateMulticastGroup: (
-  input: UpdateMulticastGroupRequest,
-) => effect.Effect<
+export const updateMulticastGroup: API.OperationMethod<
+  UpdateMulticastGroupRequest,
   UpdateMulticastGroupResponse,
   | AccessDeniedException
   | ConflictException
@@ -9216,9 +9101,8 @@ export const updateMulticastGroup: (
 /**
  * Update network analyzer configuration.
  */
-export const updateNetworkAnalyzerConfiguration: (
-  input: UpdateNetworkAnalyzerConfigurationRequest,
-) => effect.Effect<
+export const updateNetworkAnalyzerConfiguration: API.OperationMethod<
+  UpdateNetworkAnalyzerConfigurationRequest,
   UpdateNetworkAnalyzerConfigurationResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9241,9 +9125,8 @@ export const updateNetworkAnalyzerConfiguration: (
 /**
  * Updates properties of a partner account.
  */
-export const updatePartnerAccount: (
-  input: UpdatePartnerAccountRequest,
-) => effect.Effect<
+export const updatePartnerAccount: API.OperationMethod<
+  UpdatePartnerAccountRequest,
   UpdatePartnerAccountResponse,
   | InternalServerException
   | ResourceNotFoundException
@@ -9267,9 +9150,8 @@ export const updatePartnerAccount: (
  * This action is no longer supported. Calls to update the position information
  * should use the UpdateResourcePosition API operation instead.
  */
-export const updatePosition: (
-  input: UpdatePositionRequest,
-) => effect.Effect<
+export const updatePosition: API.OperationMethod<
+  UpdatePositionRequest,
   UpdatePositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9292,9 +9174,8 @@ export const updatePosition: (
 /**
  * Update the event configuration for a particular resource identifier.
  */
-export const updateResourceEventConfiguration: (
-  input: UpdateResourceEventConfigurationRequest,
-) => effect.Effect<
+export const updateResourceEventConfiguration: API.OperationMethod<
+  UpdateResourceEventConfigurationRequest,
   UpdateResourceEventConfigurationResponse,
   | AccessDeniedException
   | ConflictException
@@ -9321,9 +9202,8 @@ export const updateResourceEventConfiguration: (
  * resource. The position coordinates are based on the World Geodetic System
  * (WGS84).
  */
-export const updateResourcePosition: (
-  input: UpdateResourcePositionRequest,
-) => effect.Effect<
+export const updateResourcePosition: API.OperationMethod<
+  UpdateResourcePositionRequest,
   UpdateResourcePositionResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9346,9 +9226,8 @@ export const updateResourcePosition: (
 /**
  * Updates properties of a wireless device.
  */
-export const updateWirelessDevice: (
-  input: UpdateWirelessDeviceRequest,
-) => effect.Effect<
+export const updateWirelessDevice: API.OperationMethod<
+  UpdateWirelessDeviceRequest,
   UpdateWirelessDeviceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -9371,9 +9250,8 @@ export const updateWirelessDevice: (
 /**
  * Update an import task to add more devices to the task.
  */
-export const updateWirelessDeviceImportTask: (
-  input: UpdateWirelessDeviceImportTaskRequest,
-) => effect.Effect<
+export const updateWirelessDeviceImportTask: API.OperationMethod<
+  UpdateWirelessDeviceImportTaskRequest,
   UpdateWirelessDeviceImportTaskResponse,
   | AccessDeniedException
   | ConflictException
@@ -9398,9 +9276,8 @@ export const updateWirelessDeviceImportTask: (
 /**
  * Updates properties of a wireless gateway.
  */
-export const updateWirelessGateway: (
-  input: UpdateWirelessGatewayRequest,
-) => effect.Effect<
+export const updateWirelessGateway: API.OperationMethod<
+  UpdateWirelessGatewayRequest,
   UpdateWirelessGatewayResponse,
   | AccessDeniedException
   | InternalServerException

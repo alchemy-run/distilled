@@ -11688,9 +11688,8 @@ export class InvalidExportSourceStateFault extends S.TaggedErrorClass<InvalidExp
 /**
  * Associates an Identity and Access Management (IAM) role with a DB cluster.
  */
-export const addRoleToDBCluster: (
-  input: AddRoleToDBClusterMessage,
-) => effect.Effect<
+export const addRoleToDBCluster: API.OperationMethod<
+  AddRoleToDBClusterMessage,
   AddRoleToDBClusterResponse,
   | DBClusterNotFoundFault
   | DBClusterRoleAlreadyExistsFault
@@ -11715,9 +11714,8 @@ export const addRoleToDBCluster: (
  *
  * This command doesn't apply to RDS Custom.
  */
-export const addRoleToDBInstance: (
-  input: AddRoleToDBInstanceMessage,
-) => effect.Effect<
+export const addRoleToDBInstance: API.OperationMethod<
+  AddRoleToDBInstanceMessage,
   AddRoleToDBInstanceResponse,
   | DBInstanceNotFoundFault
   | DBInstanceRoleAlreadyExistsFault
@@ -11738,9 +11736,8 @@ export const addRoleToDBInstance: (
 /**
  * Adds a source identifier to an existing RDS event notification subscription.
  */
-export const addSourceIdentifierToSubscription: (
-  input: AddSourceIdentifierToSubscriptionMessage,
-) => effect.Effect<
+export const addSourceIdentifierToSubscription: API.OperationMethod<
+  AddSourceIdentifierToSubscriptionMessage,
   AddSourceIdentifierToSubscriptionResult,
   SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11754,9 +11751,8 @@ export const addSourceIdentifierToSubscription: (
  *
  * For an overview on tagging your relational database resources, see Tagging Amazon RDS Resources or Tagging Amazon Aurora and Amazon RDS Resources.
  */
-export const addTagsToResource: (
-  input: AddTagsToResourceMessage,
-) => effect.Effect<
+export const addTagsToResource: API.OperationMethod<
+  AddTagsToResourceMessage,
   AddTagsToResourceResponse,
   | BlueGreenDeploymentNotFoundFault
   | DBClusterNotFoundFault
@@ -11797,9 +11793,8 @@ export const addTagsToResource: (
 /**
  * Applies a pending maintenance action to a resource (for example, to a DB instance).
  */
-export const applyPendingMaintenanceAction: (
-  input: ApplyPendingMaintenanceActionMessage,
-) => effect.Effect<
+export const applyPendingMaintenanceAction: API.OperationMethod<
+  ApplyPendingMaintenanceActionMessage,
   ApplyPendingMaintenanceActionResult,
   | InvalidDBClusterStateFault
   | InvalidDBInstanceStateFault
@@ -11824,9 +11819,8 @@ export const applyPendingMaintenanceAction: (
  *
  * EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the *Amazon EC2 User Guide*, the blog EC2-Classic Networking is Retiring – Here’s How to Prepare, and Moving a DB instance not in a VPC into a VPC in the *Amazon RDS User Guide*.
  */
-export const authorizeDBSecurityGroupIngress: (
-  input: AuthorizeDBSecurityGroupIngressMessage,
-) => effect.Effect<
+export const authorizeDBSecurityGroupIngress: API.OperationMethod<
+  AuthorizeDBSecurityGroupIngressMessage,
   AuthorizeDBSecurityGroupIngressResult,
   | AuthorizationAlreadyExistsFault
   | AuthorizationQuotaExceededFault
@@ -11851,9 +11845,8 @@ export const authorizeDBSecurityGroupIngress: (
  *
  * This action applies only to Aurora MySQL DB clusters.
  */
-export const backtrackDBCluster: (
-  input: BacktrackDBClusterMessage,
-) => effect.Effect<
+export const backtrackDBCluster: API.OperationMethod<
+  BacktrackDBClusterMessage,
   DBClusterBacktrack,
   DBClusterNotFoundFault | InvalidDBClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11865,9 +11858,8 @@ export const backtrackDBCluster: (
 /**
  * Cancels an export task in progress that is exporting a snapshot or cluster to Amazon S3. Any data that has already been written to the S3 bucket isn't removed.
  */
-export const cancelExportTask: (
-  input: CancelExportTaskMessage,
-) => effect.Effect<
+export const cancelExportTask: API.OperationMethod<
+  CancelExportTaskMessage,
   ExportTask,
   ExportTaskNotFoundFault | InvalidExportTaskStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -11881,9 +11873,8 @@ export const cancelExportTask: (
  *
  * You can't copy a default DB cluster parameter group. Instead, create a new custom DB cluster parameter group, which copies the default parameters and values for the specified DB cluster parameter group family.
  */
-export const copyDBClusterParameterGroup: (
-  input: CopyDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const copyDBClusterParameterGroup: API.OperationMethod<
+  CopyDBClusterParameterGroupMessage,
   CopyDBClusterParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupNotFoundFault
@@ -11920,9 +11911,8 @@ export const copyDBClusterParameterGroup: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const copyDBClusterSnapshot: (
-  input: CopyDBClusterSnapshotMessage,
-) => effect.Effect<
+export const copyDBClusterSnapshot: API.OperationMethod<
+  CopyDBClusterSnapshotMessage,
   CopyDBClusterSnapshotResult,
   | DBClusterSnapshotAlreadyExistsFault
   | DBClusterSnapshotNotFoundFault
@@ -11949,9 +11939,8 @@ export const copyDBClusterSnapshot: (
  *
  * You can't copy a default DB parameter group. Instead, create a new custom DB parameter group, which copies the default parameters and values for the specified DB parameter group family.
  */
-export const copyDBParameterGroup: (
-  input: CopyDBParameterGroupMessage,
-) => effect.Effect<
+export const copyDBParameterGroup: API.OperationMethod<
+  CopyDBParameterGroupMessage,
   CopyDBParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupNotFoundFault
@@ -11976,9 +11965,8 @@ export const copyDBParameterGroup: (
  *
  * For more information about copying snapshots, see Copying a DB Snapshot in the *Amazon RDS User Guide*.
  */
-export const copyDBSnapshot: (
-  input: CopyDBSnapshotMessage,
-) => effect.Effect<
+export const copyDBSnapshot: API.OperationMethod<
+  CopyDBSnapshotMessage,
   CopyDBSnapshotResult,
   | CustomAvailabilityZoneNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -12003,9 +11991,8 @@ export const copyDBSnapshot: (
 /**
  * Copies the specified option group.
  */
-export const copyOptionGroup: (
-  input: CopyOptionGroupMessage,
-) => effect.Effect<
+export const copyOptionGroup: API.OperationMethod<
+  CopyOptionGroupMessage,
   CopyOptionGroupResult,
   | OptionGroupAlreadyExistsFault
   | OptionGroupNotFoundFault
@@ -12030,9 +12017,8 @@ export const copyOptionGroup: (
  *
  * For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon RDS User Guide* and Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon Aurora User Guide*.
  */
-export const createBlueGreenDeployment: (
-  input: CreateBlueGreenDeploymentRequest,
-) => effect.Effect<
+export const createBlueGreenDeployment: API.OperationMethod<
+  CreateBlueGreenDeploymentRequest,
   CreateBlueGreenDeploymentResponse,
   | BlueGreenDeploymentAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -12069,9 +12055,8 @@ export const createBlueGreenDeployment: (
 /**
  * Creates a custom DB engine version (CEV).
  */
-export const createCustomDBEngineVersion: (
-  input: CreateCustomDBEngineVersionMessage,
-) => effect.Effect<
+export const createCustomDBEngineVersion: API.OperationMethod<
+  CreateCustomDBEngineVersionMessage,
   DBEngineVersion,
   | CreateCustomDBEngineVersionFault
   | CustomDBEngineVersionAlreadyExistsFault
@@ -12104,9 +12089,8 @@ export const createCustomDBEngineVersion: (
  *
  * You can also use the `ReplicationSourceIdentifier` parameter to create a Multi-AZ DB cluster read replica with an RDS for MySQL or PostgreSQL DB instance as the source. For more information about Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const createDBCluster: (
-  input: CreateDBClusterMessage,
-) => effect.Effect<
+export const createDBCluster: API.OperationMethod<
+  CreateDBClusterMessage,
   CreateDBClusterResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -12169,9 +12153,8 @@ export const createDBCluster: (
  *
  * This action applies only to Aurora DB clusters.
  */
-export const createDBClusterEndpoint: (
-  input: CreateDBClusterEndpointMessage,
-) => effect.Effect<
+export const createDBClusterEndpoint: API.OperationMethod<
+  CreateDBClusterEndpointMessage,
   DBClusterEndpoint,
   | DBClusterEndpointAlreadyExistsFault
   | DBClusterEndpointQuotaExceededFault
@@ -12210,9 +12193,8 @@ export const createDBClusterEndpoint: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const createDBClusterParameterGroup: (
-  input: CreateDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const createDBClusterParameterGroup: API.OperationMethod<
+  CreateDBClusterParameterGroupMessage,
   CreateDBClusterParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupQuotaExceededFault
@@ -12233,9 +12215,8 @@ export const createDBClusterParameterGroup: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const createDBClusterSnapshot: (
-  input: CreateDBClusterSnapshotMessage,
-) => effect.Effect<
+export const createDBClusterSnapshot: API.OperationMethod<
+  CreateDBClusterSnapshotMessage,
   CreateDBClusterSnapshotResult,
   | DBClusterNotFoundFault
   | DBClusterSnapshotAlreadyExistsFault
@@ -12264,9 +12245,8 @@ export const createDBClusterSnapshot: (
  *
  * For more information about creating a DB instance in an Aurora DB cluster, see Creating an Amazon Aurora DB cluster in the *Amazon Aurora User Guide*.
  */
-export const createDBInstance: (
-  input: CreateDBInstanceMessage,
-) => effect.Effect<
+export const createDBInstance: API.OperationMethod<
+  CreateDBInstanceMessage,
   CreateDBInstanceResult,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -12331,9 +12311,8 @@ export const createDBInstance: (
  *
  * Your source DB instance or cluster must have backup retention enabled.
  */
-export const createDBInstanceReadReplica: (
-  input: CreateDBInstanceReadReplicaMessage,
-) => effect.Effect<
+export const createDBInstanceReadReplica: API.OperationMethod<
+  CreateDBInstanceReadReplicaMessage,
   CreateDBInstanceReadReplicaResult,
   | CertificateNotFoundFault
   | DBClusterNotFoundFault
@@ -12400,9 +12379,8 @@ export const createDBInstanceReadReplica: (
  *
  * This command doesn't apply to RDS Custom.
  */
-export const createDBParameterGroup: (
-  input: CreateDBParameterGroupMessage,
-) => effect.Effect<
+export const createDBParameterGroup: API.OperationMethod<
+  CreateDBParameterGroupMessage,
   CreateDBParameterGroupResult,
   | DBParameterGroupAlreadyExistsFault
   | DBParameterGroupQuotaExceededFault
@@ -12419,9 +12397,8 @@ export const createDBParameterGroup: (
 /**
  * Creates a new DB proxy.
  */
-export const createDBProxy: (
-  input: CreateDBProxyRequest,
-) => effect.Effect<
+export const createDBProxy: API.OperationMethod<
+  CreateDBProxyRequest,
   CreateDBProxyResponse,
   | DBProxyAlreadyExistsFault
   | DBProxyQuotaExceededFault
@@ -12436,9 +12413,8 @@ export const createDBProxy: (
 /**
  * Creates a `DBProxyEndpoint`. Only applies to proxies that are associated with Aurora DB clusters. You can use DB proxy endpoints to specify read/write or read-only access to the DB cluster. You can also use DB proxy endpoints to access a DB proxy through a different VPC than the proxy's default VPC.
  */
-export const createDBProxyEndpoint: (
-  input: CreateDBProxyEndpointRequest,
-) => effect.Effect<
+export const createDBProxyEndpoint: API.OperationMethod<
+  CreateDBProxyEndpointRequest,
   CreateDBProxyEndpointResponse,
   | DBProxyEndpointAlreadyExistsFault
   | DBProxyEndpointQuotaExceededFault
@@ -12465,9 +12441,8 @@ export const createDBProxyEndpoint: (
  *
  * EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the *Amazon EC2 User Guide*, the blog EC2-Classic Networking is Retiring – Here’s How to Prepare, and Moving a DB instance not in a VPC into a VPC in the *Amazon RDS User Guide*.
  */
-export const createDBSecurityGroup: (
-  input: CreateDBSecurityGroupMessage,
-) => effect.Effect<
+export const createDBSecurityGroup: API.OperationMethod<
+  CreateDBSecurityGroupMessage,
   CreateDBSecurityGroupResult,
   | DBSecurityGroupAlreadyExistsFault
   | DBSecurityGroupNotSupportedFault
@@ -12488,9 +12463,8 @@ export const createDBSecurityGroup: (
  *
  * Valid for: Aurora DB clusters only
  */
-export const createDBShardGroup: (
-  input: CreateDBShardGroupMessage,
-) => effect.Effect<
+export const createDBShardGroup: API.OperationMethod<
+  CreateDBShardGroupMessage,
   DBShardGroup,
   | DBClusterNotFoundFault
   | DBShardGroupAlreadyExistsFault
@@ -12517,9 +12491,8 @@ export const createDBShardGroup: (
 /**
  * Creates a snapshot of a DB instance. The source DB instance must be in the `available` or `storage-optimization` state.
  */
-export const createDBSnapshot: (
-  input: CreateDBSnapshotMessage,
-) => effect.Effect<
+export const createDBSnapshot: API.OperationMethod<
+  CreateDBSnapshotMessage,
   CreateDBSnapshotResult,
   | DBInstanceNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -12540,9 +12513,8 @@ export const createDBSnapshot: (
 /**
  * Creates a new DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region.
  */
-export const createDBSubnetGroup: (
-  input: CreateDBSubnetGroupMessage,
-) => effect.Effect<
+export const createDBSubnetGroup: API.OperationMethod<
+  CreateDBSubnetGroupMessage,
   CreateDBSubnetGroupResult,
   | DBSubnetGroupAlreadyExistsFault
   | DBSubnetGroupDoesNotCoverEnoughAZs
@@ -12573,9 +12545,8 @@ export const createDBSubnetGroup: (
  *
  * For more information about subscribing to an event for Aurora DB engines, see Subscribing to Amazon RDS event notification in the *Amazon Aurora User Guide*.
  */
-export const createEventSubscription: (
-  input: CreateEventSubscriptionMessage,
-) => effect.Effect<
+export const createEventSubscription: API.OperationMethod<
+  CreateEventSubscriptionMessage,
   CreateEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | SNSInvalidTopicFault
@@ -12606,9 +12577,8 @@ export const createEventSubscription: (
  *
  * This operation applies only to Aurora DB clusters.
  */
-export const createGlobalCluster: (
-  input: CreateGlobalClusterMessage,
-) => effect.Effect<
+export const createGlobalCluster: API.OperationMethod<
+  CreateGlobalClusterMessage,
   CreateGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterAlreadyExistsFault
@@ -12633,9 +12603,8 @@ export const createGlobalCluster: (
 /**
  * Creates a zero-ETL integration with Amazon Redshift.
  */
-export const createIntegration: (
-  input: CreateIntegrationMessage,
-) => effect.Effect<
+export const createIntegration: API.OperationMethod<
+  CreateIntegrationMessage,
   Integration,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -12662,9 +12631,8 @@ export const createIntegration: (
  *
  * This command doesn't apply to RDS Custom.
  */
-export const createOptionGroup: (
-  input: CreateOptionGroupMessage,
-) => effect.Effect<
+export const createOptionGroup: API.OperationMethod<
+  CreateOptionGroupMessage,
   CreateOptionGroupResult,
   OptionGroupAlreadyExistsFault | OptionGroupQuotaExceededFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12676,9 +12644,8 @@ export const createOptionGroup: (
 /**
  * Creates a tenant database in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle container database (CDB) instances are supported.
  */
-export const createTenantDatabase: (
-  input: CreateTenantDatabaseMessage,
-) => effect.Effect<
+export const createTenantDatabase: API.OperationMethod<
+  CreateTenantDatabaseMessage,
   CreateTenantDatabaseResult,
   | DBInstanceNotFoundFault
   | InvalidDBInstanceStateFault
@@ -12703,9 +12670,8 @@ export const createTenantDatabase: (
  *
  * For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon RDS User Guide* and Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon Aurora User Guide*.
  */
-export const deleteBlueGreenDeployment: (
-  input: DeleteBlueGreenDeploymentRequest,
-) => effect.Effect<
+export const deleteBlueGreenDeployment: API.OperationMethod<
+  DeleteBlueGreenDeploymentRequest,
   DeleteBlueGreenDeploymentResponse,
   | BlueGreenDeploymentNotFoundFault
   | InvalidBlueGreenDeploymentStateFault
@@ -12732,9 +12698,8 @@ export const deleteBlueGreenDeployment: (
  *
  * For more information, see Deleting a CEV in the *Amazon RDS User Guide*.
  */
-export const deleteCustomDBEngineVersion: (
-  input: DeleteCustomDBEngineVersionMessage,
-) => effect.Effect<
+export const deleteCustomDBEngineVersion: API.OperationMethod<
+  DeleteCustomDBEngineVersionMessage,
   DBEngineVersion,
   | CustomDBEngineVersionNotFoundFault
   | InvalidCustomDBEngineVersionStateFault
@@ -12757,9 +12722,8 @@ export const deleteCustomDBEngineVersion: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const deleteDBCluster: (
-  input: DeleteDBClusterMessage,
-) => effect.Effect<
+export const deleteDBCluster: API.OperationMethod<
+  DeleteDBClusterMessage,
   DeleteDBClusterResult,
   | DBClusterAutomatedBackupQuotaExceededFault
   | DBClusterNotFoundFault
@@ -12788,9 +12752,8 @@ export const deleteDBCluster: (
 /**
  * Deletes automated backups using the `DbClusterResourceId` value of the source DB cluster or the Amazon Resource Name (ARN) of the automated backups.
  */
-export const deleteDBClusterAutomatedBackup: (
-  input: DeleteDBClusterAutomatedBackupMessage,
-) => effect.Effect<
+export const deleteDBClusterAutomatedBackup: API.OperationMethod<
+  DeleteDBClusterAutomatedBackupMessage,
   DeleteDBClusterAutomatedBackupResult,
   | DBClusterAutomatedBackupNotFoundFault
   | InvalidDBClusterAutomatedBackupStateFault
@@ -12809,9 +12772,8 @@ export const deleteDBClusterAutomatedBackup: (
  *
  * This action only applies to Aurora DB clusters.
  */
-export const deleteDBClusterEndpoint: (
-  input: DeleteDBClusterEndpointMessage,
-) => effect.Effect<
+export const deleteDBClusterEndpoint: API.OperationMethod<
+  DeleteDBClusterEndpointMessage,
   DBClusterEndpoint,
   | DBClusterEndpointNotFoundFault
   | InvalidDBClusterEndpointStateFault
@@ -12834,9 +12796,8 @@ export const deleteDBClusterEndpoint: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const deleteDBClusterParameterGroup: (
-  input: DeleteDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const deleteDBClusterParameterGroup: API.OperationMethod<
+  DeleteDBClusterParameterGroupMessage,
   DeleteDBClusterParameterGroupResponse,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -12856,9 +12817,8 @@ export const deleteDBClusterParameterGroup: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const deleteDBClusterSnapshot: (
-  input: DeleteDBClusterSnapshotMessage,
-) => effect.Effect<
+export const deleteDBClusterSnapshot: API.OperationMethod<
+  DeleteDBClusterSnapshotMessage,
   DeleteDBClusterSnapshotResult,
   | DBClusterSnapshotNotFoundFault
   | InvalidDBClusterSnapshotStateFault
@@ -12886,9 +12846,8 @@ export const deleteDBClusterSnapshot: (
  *
  * For RDS Custom DB instances, deleting the DB instance permanently deletes the EC2 instance and the associated EBS volumes. Make sure that you don't terminate or delete these resources before you delete the DB instance. Otherwise, deleting the DB instance and creation of the final snapshot might fail.
  */
-export const deleteDBInstance: (
-  input: DeleteDBInstanceMessage,
-) => effect.Effect<
+export const deleteDBInstance: API.OperationMethod<
+  DeleteDBInstanceMessage,
   DeleteDBInstanceResult,
   | DBInstanceAutomatedBackupQuotaExceededFault
   | DBInstanceNotFoundFault
@@ -12915,9 +12874,8 @@ export const deleteDBInstance: (
 /**
  * Deletes automated backups using the `DbiResourceId` value of the source DB instance or the Amazon Resource Name (ARN) of the automated backups.
  */
-export const deleteDBInstanceAutomatedBackup: (
-  input: DeleteDBInstanceAutomatedBackupMessage,
-) => effect.Effect<
+export const deleteDBInstanceAutomatedBackup: API.OperationMethod<
+  DeleteDBInstanceAutomatedBackupMessage,
   DeleteDBInstanceAutomatedBackupResult,
   | DBInstanceAutomatedBackupNotFoundFault
   | InvalidDBInstanceAutomatedBackupStateFault
@@ -12934,9 +12892,8 @@ export const deleteDBInstanceAutomatedBackup: (
 /**
  * Deletes a specified DB parameter group. The DB parameter group to be deleted can't be associated with any DB instances.
  */
-export const deleteDBParameterGroup: (
-  input: DeleteDBParameterGroupMessage,
-) => effect.Effect<
+export const deleteDBParameterGroup: API.OperationMethod<
+  DeleteDBParameterGroupMessage,
   DeleteDBParameterGroupResponse,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -12950,9 +12907,8 @@ export const deleteDBParameterGroup: (
 /**
  * Deletes an existing DB proxy.
  */
-export const deleteDBProxy: (
-  input: DeleteDBProxyRequest,
-) => effect.Effect<
+export const deleteDBProxy: API.OperationMethod<
+  DeleteDBProxyRequest,
   DeleteDBProxyResponse,
   DBProxyNotFoundFault | InvalidDBProxyStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -12964,9 +12920,8 @@ export const deleteDBProxy: (
 /**
  * Deletes a `DBProxyEndpoint`. Doing so removes the ability to access the DB proxy using the endpoint that you defined. The endpoint that you delete might have provided capabilities such as read/write or read-only operations, or using a different VPC than the DB proxy's default VPC.
  */
-export const deleteDBProxyEndpoint: (
-  input: DeleteDBProxyEndpointRequest,
-) => effect.Effect<
+export const deleteDBProxyEndpoint: API.OperationMethod<
+  DeleteDBProxyEndpointRequest,
   DeleteDBProxyEndpointResponse,
   | DBProxyEndpointNotFoundFault
   | InvalidDBProxyEndpointStateFault
@@ -12984,9 +12939,8 @@ export const deleteDBProxyEndpoint: (
  *
  * EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the *Amazon EC2 User Guide*, the blog EC2-Classic Networking is Retiring – Here’s How to Prepare, and Moving a DB instance not in a VPC into a VPC in the *Amazon RDS User Guide*.
  */
-export const deleteDBSecurityGroup: (
-  input: DeleteDBSecurityGroupMessage,
-) => effect.Effect<
+export const deleteDBSecurityGroup: API.OperationMethod<
+  DeleteDBSecurityGroupMessage,
   DeleteDBSecurityGroupResponse,
   | DBSecurityGroupNotFoundFault
   | InvalidDBSecurityGroupStateFault
@@ -13000,9 +12954,8 @@ export const deleteDBSecurityGroup: (
 /**
  * Deletes an Aurora Limitless Database DB shard group.
  */
-export const deleteDBShardGroup: (
-  input: DeleteDBShardGroupMessage,
-) => effect.Effect<
+export const deleteDBShardGroup: API.OperationMethod<
+  DeleteDBShardGroupMessage,
   DBShardGroup,
   | DBShardGroupNotFoundFault
   | InvalidDBClusterStateFault
@@ -13023,9 +12976,8 @@ export const deleteDBShardGroup: (
  *
  * The DB snapshot must be in the `available` state to be deleted.
  */
-export const deleteDBSnapshot: (
-  input: DeleteDBSnapshotMessage,
-) => effect.Effect<
+export const deleteDBSnapshot: API.OperationMethod<
+  DeleteDBSnapshotMessage,
   DeleteDBSnapshotResult,
   DBSnapshotNotFoundFault | InvalidDBSnapshotStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13039,9 +12991,8 @@ export const deleteDBSnapshot: (
  *
  * The specified database subnet group must not be associated with any DB instances.
  */
-export const deleteDBSubnetGroup: (
-  input: DeleteDBSubnetGroupMessage,
-) => effect.Effect<
+export const deleteDBSubnetGroup: API.OperationMethod<
+  DeleteDBSubnetGroupMessage,
   DeleteDBSubnetGroupResponse,
   | DBSubnetGroupNotFoundFault
   | InvalidDBSubnetGroupStateFault
@@ -13060,9 +13011,8 @@ export const deleteDBSubnetGroup: (
 /**
  * Deletes an RDS event notification subscription.
  */
-export const deleteEventSubscription: (
-  input: DeleteEventSubscriptionMessage,
-) => effect.Effect<
+export const deleteEventSubscription: API.OperationMethod<
+  DeleteEventSubscriptionMessage,
   DeleteEventSubscriptionResult,
   InvalidEventSubscriptionStateFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13076,9 +13026,8 @@ export const deleteEventSubscription: (
  *
  * This action only applies to Aurora DB clusters.
  */
-export const deleteGlobalCluster: (
-  input: DeleteGlobalClusterMessage,
-) => effect.Effect<
+export const deleteGlobalCluster: API.OperationMethod<
+  DeleteGlobalClusterMessage,
   DeleteGlobalClusterResult,
   GlobalClusterNotFoundFault | InvalidGlobalClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13090,9 +13039,8 @@ export const deleteGlobalCluster: (
 /**
  * Deletes a zero-ETL integration with Amazon Redshift.
  */
-export const deleteIntegration: (
-  input: DeleteIntegrationMessage,
-) => effect.Effect<
+export const deleteIntegration: API.OperationMethod<
+  DeleteIntegrationMessage,
   Integration,
   | IntegrationConflictOperationFault
   | IntegrationNotFoundFault
@@ -13111,9 +13059,8 @@ export const deleteIntegration: (
 /**
  * Deletes an existing option group.
  */
-export const deleteOptionGroup: (
-  input: DeleteOptionGroupMessage,
-) => effect.Effect<
+export const deleteOptionGroup: API.OperationMethod<
+  DeleteOptionGroupMessage,
   DeleteOptionGroupResponse,
   InvalidOptionGroupStateFault | OptionGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13127,9 +13074,8 @@ export const deleteOptionGroup: (
  *
  * You can't delete a tenant database when it is the only tenant in the DB instance.
  */
-export const deleteTenantDatabase: (
-  input: DeleteTenantDatabaseMessage,
-) => effect.Effect<
+export const deleteTenantDatabase: API.OperationMethod<
+  DeleteTenantDatabaseMessage,
   DeleteTenantDatabaseResult,
   | DBInstanceNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -13150,9 +13096,8 @@ export const deleteTenantDatabase: (
 /**
  * Remove the association between one or more `DBProxyTarget` data structures and a `DBProxyTargetGroup`.
  */
-export const deregisterDBProxyTargets: (
-  input: DeregisterDBProxyTargetsRequest,
-) => effect.Effect<
+export const deregisterDBProxyTargets: API.OperationMethod<
+  DeregisterDBProxyTargetsRequest,
   DeregisterDBProxyTargetsResponse,
   | DBProxyNotFoundFault
   | DBProxyTargetGroupNotFoundFault
@@ -13175,9 +13120,8 @@ export const deregisterDBProxyTargets: (
  *
  * This command doesn't take any parameters.
  */
-export const describeAccountAttributes: (
-  input: DescribeAccountAttributesMessage,
-) => effect.Effect<
+export const describeAccountAttributes: API.OperationMethod<
+  DescribeAccountAttributesMessage,
   AccountAttributesMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13191,14 +13135,12 @@ export const describeAccountAttributes: (
  *
  * For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon RDS User Guide* and Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon Aurora User Guide*.
  */
-export const describeBlueGreenDeployments: {
-  (
-    input: DescribeBlueGreenDeploymentsRequest,
-  ): effect.Effect<
-    DescribeBlueGreenDeploymentsResponse,
-    BlueGreenDeploymentNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeBlueGreenDeployments: API.OperationMethod<
+  DescribeBlueGreenDeploymentsRequest,
+  DescribeBlueGreenDeploymentsResponse,
+  BlueGreenDeploymentNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeBlueGreenDeploymentsRequest,
   ) => stream.Stream<
@@ -13229,14 +13171,12 @@ export const describeBlueGreenDeployments: {
  *
  * For more information, see Using SSL/TLS to encrypt a connection to a DB instance in the *Amazon RDS User Guide* and Using SSL/TLS to encrypt a connection to a DB cluster in the *Amazon Aurora User Guide*.
  */
-export const describeCertificates: {
-  (
-    input: DescribeCertificatesMessage,
-  ): effect.Effect<
-    CertificateMessage,
-    CertificateNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeCertificates: API.OperationMethod<
+  DescribeCertificatesMessage,
+  CertificateMessage,
+  CertificateNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeCertificatesMessage,
   ) => stream.Stream<
@@ -13267,14 +13207,12 @@ export const describeCertificates: {
  *
  * All parameters are optional.
  */
-export const describeDBClusterAutomatedBackups: {
-  (
-    input: DescribeDBClusterAutomatedBackupsMessage,
-  ): effect.Effect<
-    DBClusterAutomatedBackupMessage,
-    DBClusterAutomatedBackupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterAutomatedBackups: API.OperationMethod<
+  DescribeDBClusterAutomatedBackupsMessage,
+  DBClusterAutomatedBackupMessage,
+  DBClusterAutomatedBackupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterAutomatedBackupsMessage,
   ) => stream.Stream<
@@ -13307,14 +13245,12 @@ export const describeDBClusterAutomatedBackups: {
  *
  * This action only applies to Aurora MySQL DB clusters.
  */
-export const describeDBClusterBacktracks: {
-  (
-    input: DescribeDBClusterBacktracksMessage,
-  ): effect.Effect<
-    DBClusterBacktrackMessage,
-    DBClusterBacktrackNotFoundFault | DBClusterNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterBacktracks: API.OperationMethod<
+  DescribeDBClusterBacktracksMessage,
+  DBClusterBacktrackMessage,
+  DBClusterBacktrackNotFoundFault | DBClusterNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterBacktracksMessage,
   ) => stream.Stream<
@@ -13345,14 +13281,12 @@ export const describeDBClusterBacktracks: {
  *
  * This action only applies to Aurora DB clusters.
  */
-export const describeDBClusterEndpoints: {
-  (
-    input: DescribeDBClusterEndpointsMessage,
-  ): effect.Effect<
-    DBClusterEndpointMessage,
-    DBClusterNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterEndpoints: API.OperationMethod<
+  DescribeDBClusterEndpointsMessage,
+  DBClusterEndpointMessage,
+  DBClusterNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterEndpointsMessage,
   ) => stream.Stream<
@@ -13385,14 +13319,12 @@ export const describeDBClusterEndpoints: {
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const describeDBClusterParameterGroups: {
-  (
-    input: DescribeDBClusterParameterGroupsMessage,
-  ): effect.Effect<
-    DBClusterParameterGroupsMessage,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterParameterGroups: API.OperationMethod<
+  DescribeDBClusterParameterGroupsMessage,
+  DBClusterParameterGroupsMessage,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterParameterGroupsMessage,
   ) => stream.Stream<
@@ -13425,14 +13357,12 @@ export const describeDBClusterParameterGroups: {
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const describeDBClusterParameters: {
-  (
-    input: DescribeDBClusterParametersMessage,
-  ): effect.Effect<
-    DBClusterParameterGroupDetails,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterParameters: API.OperationMethod<
+  DescribeDBClusterParametersMessage,
+  DBClusterParameterGroupDetails,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterParametersMessage,
   ) => stream.Stream<
@@ -13467,14 +13397,12 @@ export const describeDBClusterParameters: {
  *
  * This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
  */
-export const describeDBClusters: {
-  (
-    input: DescribeDBClustersMessage,
-  ): effect.Effect<
-    DBClusterMessage,
-    DBClusterNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusters: API.OperationMethod<
+  DescribeDBClustersMessage,
+  DBClusterMessage,
+  DBClusterNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClustersMessage,
   ) => stream.Stream<
@@ -13507,9 +13435,8 @@ export const describeDBClusters: {
  *
  * To add or remove access for an Amazon Web Services account to copy or restore a manual DB cluster snapshot, or to make the manual DB cluster snapshot public or private, use the `ModifyDBClusterSnapshotAttribute` API action.
  */
-export const describeDBClusterSnapshotAttributes: (
-  input: DescribeDBClusterSnapshotAttributesMessage,
-) => effect.Effect<
+export const describeDBClusterSnapshotAttributes: API.OperationMethod<
+  DescribeDBClusterSnapshotAttributesMessage,
   DescribeDBClusterSnapshotAttributesResult,
   DBClusterSnapshotNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -13525,14 +13452,12 @@ export const describeDBClusterSnapshotAttributes: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const describeDBClusterSnapshots: {
-  (
-    input: DescribeDBClusterSnapshotsMessage,
-  ): effect.Effect<
-    DBClusterSnapshotMessage,
-    DBClusterSnapshotNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBClusterSnapshots: API.OperationMethod<
+  DescribeDBClusterSnapshotsMessage,
+  DBClusterSnapshotMessage,
+  DBClusterSnapshotNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBClusterSnapshotsMessage,
   ) => stream.Stream<
@@ -13561,14 +13486,12 @@ export const describeDBClusterSnapshots: {
 /**
  * Describes the properties of specific versions of DB engines.
  */
-export const describeDBEngineVersions: {
-  (
-    input: DescribeDBEngineVersionsMessage,
-  ): effect.Effect<
-    DBEngineVersionMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBEngineVersions: API.OperationMethod<
+  DescribeDBEngineVersionsMessage,
+  DBEngineVersionMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBEngineVersionsMessage,
   ) => stream.Stream<
@@ -13599,14 +13522,12 @@ export const describeDBEngineVersions: {
  *
  * All parameters are optional.
  */
-export const describeDBInstanceAutomatedBackups: {
-  (
-    input: DescribeDBInstanceAutomatedBackupsMessage,
-  ): effect.Effect<
-    DBInstanceAutomatedBackupMessage,
-    DBInstanceAutomatedBackupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBInstanceAutomatedBackups: API.OperationMethod<
+  DescribeDBInstanceAutomatedBackupsMessage,
+  DBInstanceAutomatedBackupMessage,
+  DBInstanceAutomatedBackupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBInstanceAutomatedBackupsMessage,
   ) => stream.Stream<
@@ -13637,14 +13558,12 @@ export const describeDBInstanceAutomatedBackups: {
  *
  * This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
  */
-export const describeDBInstances: {
-  (
-    input: DescribeDBInstancesMessage,
-  ): effect.Effect<
-    DBInstanceMessage,
-    DBInstanceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBInstances: API.OperationMethod<
+  DescribeDBInstancesMessage,
+  DBInstanceMessage,
+  DBInstanceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBInstancesMessage,
   ) => stream.Stream<
@@ -13675,14 +13594,12 @@ export const describeDBInstances: {
  *
  * This command doesn't apply to RDS Custom.
  */
-export const describeDBLogFiles: {
-  (
-    input: DescribeDBLogFilesMessage,
-  ): effect.Effect<
-    DescribeDBLogFilesResponse,
-    DBInstanceNotFoundFault | DBInstanceNotReadyFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBLogFiles: API.OperationMethod<
+  DescribeDBLogFilesMessage,
+  DescribeDBLogFilesResponse,
+  DBInstanceNotFoundFault | DBInstanceNotReadyFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBLogFilesMessage,
   ) => stream.Stream<
@@ -13711,14 +13628,12 @@ export const describeDBLogFiles: {
 /**
  * Describes the properties of specific major versions of DB engines.
  */
-export const describeDBMajorEngineVersions: {
-  (
-    input: DescribeDBMajorEngineVersionsRequest,
-  ): effect.Effect<
-    DescribeDBMajorEngineVersionsResponse,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBMajorEngineVersions: API.OperationMethod<
+  DescribeDBMajorEngineVersionsRequest,
+  DescribeDBMajorEngineVersionsResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBMajorEngineVersionsRequest,
   ) => stream.Stream<
@@ -13747,14 +13662,12 @@ export const describeDBMajorEngineVersions: {
 /**
  * Returns a list of `DBParameterGroup` descriptions. If a `DBParameterGroupName` is specified, the list will contain only the description of the specified DB parameter group.
  */
-export const describeDBParameterGroups: {
-  (
-    input: DescribeDBParameterGroupsMessage,
-  ): effect.Effect<
-    DBParameterGroupsMessage,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBParameterGroups: API.OperationMethod<
+  DescribeDBParameterGroupsMessage,
+  DBParameterGroupsMessage,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBParameterGroupsMessage,
   ) => stream.Stream<
@@ -13783,14 +13696,12 @@ export const describeDBParameterGroups: {
 /**
  * Returns the detailed parameter list for a particular DB parameter group.
  */
-export const describeDBParameters: {
-  (
-    input: DescribeDBParametersMessage,
-  ): effect.Effect<
-    DBParameterGroupDetails,
-    DBParameterGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBParameters: API.OperationMethod<
+  DescribeDBParametersMessage,
+  DBParameterGroupDetails,
+  DBParameterGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBParametersMessage,
   ) => stream.Stream<
@@ -13819,14 +13730,12 @@ export const describeDBParameters: {
 /**
  * Returns information about DB proxies.
  */
-export const describeDBProxies: {
-  (
-    input: DescribeDBProxiesRequest,
-  ): effect.Effect<
-    DescribeDBProxiesResponse,
-    DBProxyNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBProxies: API.OperationMethod<
+  DescribeDBProxiesRequest,
+  DescribeDBProxiesResponse,
+  DBProxyNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBProxiesRequest,
   ) => stream.Stream<
@@ -13855,14 +13764,12 @@ export const describeDBProxies: {
 /**
  * Returns information about DB proxy endpoints.
  */
-export const describeDBProxyEndpoints: {
-  (
-    input: DescribeDBProxyEndpointsRequest,
-  ): effect.Effect<
-    DescribeDBProxyEndpointsResponse,
-    DBProxyEndpointNotFoundFault | DBProxyNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBProxyEndpoints: API.OperationMethod<
+  DescribeDBProxyEndpointsRequest,
+  DescribeDBProxyEndpointsResponse,
+  DBProxyEndpointNotFoundFault | DBProxyNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBProxyEndpointsRequest,
   ) => stream.Stream<
@@ -13891,17 +13798,15 @@ export const describeDBProxyEndpoints: {
 /**
  * Returns information about DB proxy target groups, represented by `DBProxyTargetGroup` data structures.
  */
-export const describeDBProxyTargetGroups: {
-  (
-    input: DescribeDBProxyTargetGroupsRequest,
-  ): effect.Effect<
-    DescribeDBProxyTargetGroupsResponse,
-    | DBProxyNotFoundFault
-    | DBProxyTargetGroupNotFoundFault
-    | InvalidDBProxyStateFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBProxyTargetGroups: API.OperationMethod<
+  DescribeDBProxyTargetGroupsRequest,
+  DescribeDBProxyTargetGroupsResponse,
+  | DBProxyNotFoundFault
+  | DBProxyTargetGroupNotFoundFault
+  | InvalidDBProxyStateFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBProxyTargetGroupsRequest,
   ) => stream.Stream<
@@ -13940,18 +13845,16 @@ export const describeDBProxyTargetGroups: {
 /**
  * Returns information about `DBProxyTarget` objects. This API supports pagination.
  */
-export const describeDBProxyTargets: {
-  (
-    input: DescribeDBProxyTargetsRequest,
-  ): effect.Effect<
-    DescribeDBProxyTargetsResponse,
-    | DBProxyNotFoundFault
-    | DBProxyTargetGroupNotFoundFault
-    | DBProxyTargetNotFoundFault
-    | InvalidDBProxyStateFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBProxyTargets: API.OperationMethod<
+  DescribeDBProxyTargetsRequest,
+  DescribeDBProxyTargetsResponse,
+  | DBProxyNotFoundFault
+  | DBProxyTargetGroupNotFoundFault
+  | DBProxyTargetNotFoundFault
+  | InvalidDBProxyStateFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBProxyTargetsRequest,
   ) => stream.Stream<
@@ -13993,14 +13896,12 @@ export const describeDBProxyTargets: {
 /**
  * Describes the recommendations to resolve the issues for your DB instances, DB clusters, and DB parameter groups.
  */
-export const describeDBRecommendations: {
-  (
-    input: DescribeDBRecommendationsMessage,
-  ): effect.Effect<
-    DBRecommendationsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBRecommendations: API.OperationMethod<
+  DescribeDBRecommendationsMessage,
+  DBRecommendationsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBRecommendationsMessage,
   ) => stream.Stream<
@@ -14031,14 +13932,12 @@ export const describeDBRecommendations: {
  *
  * EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the *Amazon EC2 User Guide*, the blog EC2-Classic Networking is Retiring – Here’s How to Prepare, and Moving a DB instance not in a VPC into a VPC in the *Amazon RDS User Guide*.
  */
-export const describeDBSecurityGroups: {
-  (
-    input: DescribeDBSecurityGroupsMessage,
-  ): effect.Effect<
-    DBSecurityGroupMessage,
-    DBSecurityGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBSecurityGroups: API.OperationMethod<
+  DescribeDBSecurityGroupsMessage,
+  DBSecurityGroupMessage,
+  DBSecurityGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBSecurityGroupsMessage,
   ) => stream.Stream<
@@ -14067,9 +13966,8 @@ export const describeDBSecurityGroups: {
 /**
  * Describes existing Aurora Limitless Database DB shard groups.
  */
-export const describeDBShardGroups: (
-  input: DescribeDBShardGroupsMessage,
-) => effect.Effect<
+export const describeDBShardGroups: API.OperationMethod<
+  DescribeDBShardGroupsMessage,
   DescribeDBShardGroupsResponse,
   DBClusterNotFoundFault | DBShardGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14085,9 +13983,8 @@ export const describeDBShardGroups: (
  *
  * To add or remove access for an Amazon Web Services account to copy or restore a manual DB snapshot, or to make the manual DB snapshot public or private, use the `ModifyDBSnapshotAttribute` API action.
  */
-export const describeDBSnapshotAttributes: (
-  input: DescribeDBSnapshotAttributesMessage,
-) => effect.Effect<
+export const describeDBSnapshotAttributes: API.OperationMethod<
+  DescribeDBSnapshotAttributesMessage,
   DescribeDBSnapshotAttributesResult,
   DBSnapshotNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14099,14 +13996,12 @@ export const describeDBSnapshotAttributes: (
 /**
  * Returns information about DB snapshots. This API action supports pagination.
  */
-export const describeDBSnapshots: {
-  (
-    input: DescribeDBSnapshotsMessage,
-  ): effect.Effect<
-    DBSnapshotMessage,
-    DBSnapshotNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBSnapshots: API.OperationMethod<
+  DescribeDBSnapshotsMessage,
+  DBSnapshotMessage,
+  DBSnapshotNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBSnapshotsMessage,
   ) => stream.Stream<
@@ -14137,14 +14032,12 @@ export const describeDBSnapshots: {
  *
  * You can use this command to inspect the tenant databases within a snapshot before restoring it. You can't directly interact with the tenant databases in a DB snapshot. If you restore a snapshot that was taken from DB instance using the multi-tenant configuration, you restore all its tenant databases.
  */
-export const describeDBSnapshotTenantDatabases: {
-  (
-    input: DescribeDBSnapshotTenantDatabasesMessage,
-  ): effect.Effect<
-    DBSnapshotTenantDatabasesMessage,
-    DBSnapshotNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBSnapshotTenantDatabases: API.OperationMethod<
+  DescribeDBSnapshotTenantDatabasesMessage,
+  DBSnapshotTenantDatabasesMessage,
+  DBSnapshotNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBSnapshotTenantDatabasesMessage,
   ) => stream.Stream<
@@ -14175,14 +14068,12 @@ export const describeDBSnapshotTenantDatabases: {
  *
  * For an overview of CIDR ranges, go to the Wikipedia Tutorial.
  */
-export const describeDBSubnetGroups: {
-  (
-    input: DescribeDBSubnetGroupsMessage,
-  ): effect.Effect<
-    DBSubnetGroupMessage,
-    DBSubnetGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeDBSubnetGroups: API.OperationMethod<
+  DescribeDBSubnetGroupsMessage,
+  DBSubnetGroupMessage,
+  DBSubnetGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeDBSubnetGroupsMessage,
   ) => stream.Stream<
@@ -14213,14 +14104,12 @@ export const describeDBSubnetGroups: {
  *
  * For more information on Amazon Aurora, see What is Amazon Aurora? in the *Amazon Aurora User Guide*.
  */
-export const describeEngineDefaultClusterParameters: {
-  (
-    input: DescribeEngineDefaultClusterParametersMessage,
-  ): effect.Effect<
-    DescribeEngineDefaultClusterParametersResult,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEngineDefaultClusterParameters: API.OperationMethod<
+  DescribeEngineDefaultClusterParametersMessage,
+  DescribeEngineDefaultClusterParametersResult,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEngineDefaultClusterParametersMessage,
   ) => stream.Stream<
@@ -14249,14 +14138,12 @@ export const describeEngineDefaultClusterParameters: {
 /**
  * Returns the default engine and system parameter information for the specified database engine.
  */
-export const describeEngineDefaultParameters: {
-  (
-    input: DescribeEngineDefaultParametersMessage,
-  ): effect.Effect<
-    DescribeEngineDefaultParametersResult,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEngineDefaultParameters: API.OperationMethod<
+  DescribeEngineDefaultParametersMessage,
+  DescribeEngineDefaultParametersResult,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEngineDefaultParametersMessage,
   ) => stream.Stream<
@@ -14285,9 +14172,8 @@ export const describeEngineDefaultParameters: {
 /**
  * Displays a list of categories for all event source types, or, if specified, for a specified source type. You can also see this list in the "Amazon RDS event categories and event messages" section of the *Amazon RDS User Guide* or the *Amazon Aurora User Guide* .
  */
-export const describeEventCategories: (
-  input: DescribeEventCategoriesMessage,
-) => effect.Effect<
+export const describeEventCategories: API.OperationMethod<
+  DescribeEventCategoriesMessage,
   EventCategoriesMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14303,14 +14189,12 @@ export const describeEventCategories: (
  *
  * By default, RDS returns events that were generated in the past hour.
  */
-export const describeEvents: {
-  (
-    input: DescribeEventsMessage,
-  ): effect.Effect<
-    EventsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEvents: API.OperationMethod<
+  DescribeEventsMessage,
+  EventsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventsMessage,
   ) => stream.Stream<
@@ -14341,14 +14225,12 @@ export const describeEvents: {
  *
  * If you specify a `SubscriptionName`, lists the description for that subscription.
  */
-export const describeEventSubscriptions: {
-  (
-    input: DescribeEventSubscriptionsMessage,
-  ): effect.Effect<
-    EventSubscriptionsMessage,
-    SubscriptionNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeEventSubscriptions: API.OperationMethod<
+  DescribeEventSubscriptionsMessage,
+  EventSubscriptionsMessage,
+  SubscriptionNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeEventSubscriptionsMessage,
   ) => stream.Stream<
@@ -14377,14 +14259,12 @@ export const describeEventSubscriptions: {
 /**
  * Returns information about a snapshot or cluster export to Amazon S3. This API operation supports pagination.
  */
-export const describeExportTasks: {
-  (
-    input: DescribeExportTasksMessage,
-  ): effect.Effect<
-    ExportTasksMessage,
-    ExportTaskNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeExportTasks: API.OperationMethod<
+  DescribeExportTasksMessage,
+  ExportTasksMessage,
+  ExportTaskNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeExportTasksMessage,
   ) => stream.Stream<
@@ -14417,14 +14297,12 @@ export const describeExportTasks: {
  *
  * This action only applies to Aurora DB clusters.
  */
-export const describeGlobalClusters: {
-  (
-    input: DescribeGlobalClustersMessage,
-  ): effect.Effect<
-    GlobalClustersMessage,
-    GlobalClusterNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeGlobalClusters: API.OperationMethod<
+  DescribeGlobalClustersMessage,
+  GlobalClustersMessage,
+  GlobalClusterNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeGlobalClustersMessage,
   ) => stream.Stream<
@@ -14453,14 +14331,12 @@ export const describeGlobalClusters: {
 /**
  * Describe one or more zero-ETL integrations with Amazon Redshift.
  */
-export const describeIntegrations: {
-  (
-    input: DescribeIntegrationsMessage,
-  ): effect.Effect<
-    DescribeIntegrationsResponse,
-    IntegrationNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeIntegrations: API.OperationMethod<
+  DescribeIntegrationsMessage,
+  DescribeIntegrationsResponse,
+  IntegrationNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeIntegrationsMessage,
   ) => stream.Stream<
@@ -14489,14 +14365,12 @@ export const describeIntegrations: {
 /**
  * Describes all available options for the specified engine.
  */
-export const describeOptionGroupOptions: {
-  (
-    input: DescribeOptionGroupOptionsMessage,
-  ): effect.Effect<
-    OptionGroupOptionsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOptionGroupOptions: API.OperationMethod<
+  DescribeOptionGroupOptionsMessage,
+  OptionGroupOptionsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOptionGroupOptionsMessage,
   ) => stream.Stream<
@@ -14525,14 +14399,12 @@ export const describeOptionGroupOptions: {
 /**
  * Describes the available option groups.
  */
-export const describeOptionGroups: {
-  (
-    input: DescribeOptionGroupsMessage,
-  ): effect.Effect<
-    OptionGroups,
-    OptionGroupNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOptionGroups: API.OperationMethod<
+  DescribeOptionGroupsMessage,
+  OptionGroups,
+  OptionGroupNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOptionGroupsMessage,
   ) => stream.Stream<
@@ -14561,14 +14433,12 @@ export const describeOptionGroups: {
 /**
  * Describes the orderable DB instance options for a specified DB engine.
  */
-export const describeOrderableDBInstanceOptions: {
-  (
-    input: DescribeOrderableDBInstanceOptionsMessage,
-  ): effect.Effect<
-    OrderableDBInstanceOptionsMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeOrderableDBInstanceOptions: API.OperationMethod<
+  DescribeOrderableDBInstanceOptionsMessage,
+  OrderableDBInstanceOptionsMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeOrderableDBInstanceOptionsMessage,
   ) => stream.Stream<
@@ -14599,14 +14469,12 @@ export const describeOrderableDBInstanceOptions: {
  *
  * This API follows an eventual consistency model. This means that the result of the `DescribePendingMaintenanceActions` command might not be immediately visible to all subsequent RDS commands. Keep this in mind when you use `DescribePendingMaintenanceActions` immediately after using a previous API command such as `ApplyPendingMaintenanceActions`.
  */
-export const describePendingMaintenanceActions: {
-  (
-    input: DescribePendingMaintenanceActionsMessage,
-  ): effect.Effect<
-    PendingMaintenanceActionsMessage,
-    ResourceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describePendingMaintenanceActions: API.OperationMethod<
+  DescribePendingMaintenanceActionsMessage,
+  PendingMaintenanceActionsMessage,
+  ResourceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribePendingMaintenanceActionsMessage,
   ) => stream.Stream<
@@ -14635,14 +14503,12 @@ export const describePendingMaintenanceActions: {
 /**
  * Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
  */
-export const describeReservedDBInstances: {
-  (
-    input: DescribeReservedDBInstancesMessage,
-  ): effect.Effect<
-    ReservedDBInstanceMessage,
-    ReservedDBInstanceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReservedDBInstances: API.OperationMethod<
+  DescribeReservedDBInstancesMessage,
+  ReservedDBInstanceMessage,
+  ReservedDBInstanceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedDBInstancesMessage,
   ) => stream.Stream<
@@ -14671,14 +14537,12 @@ export const describeReservedDBInstances: {
 /**
  * Lists available reserved DB instance offerings.
  */
-export const describeReservedDBInstancesOfferings: {
-  (
-    input: DescribeReservedDBInstancesOfferingsMessage,
-  ): effect.Effect<
-    ReservedDBInstancesOfferingMessage,
-    ReservedDBInstancesOfferingNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeReservedDBInstancesOfferings: API.OperationMethod<
+  DescribeReservedDBInstancesOfferingsMessage,
+  ReservedDBInstancesOfferingMessage,
+  ReservedDBInstancesOfferingNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeReservedDBInstancesOfferingsMessage,
   ) => stream.Stream<
@@ -14711,14 +14575,12 @@ export const describeReservedDBInstancesOfferings: {
  *
  * To return information about the Regions that are enabled for your account, or all Regions, use the EC2 operation `DescribeRegions`. For more information, see DescribeRegions in the *Amazon EC2 API Reference*.
  */
-export const describeSourceRegions: {
-  (
-    input: DescribeSourceRegionsMessage,
-  ): effect.Effect<
-    SourceRegionMessage,
-    CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeSourceRegions: API.OperationMethod<
+  DescribeSourceRegionsMessage,
+  SourceRegionMessage,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeSourceRegionsMessage,
   ) => stream.Stream<
@@ -14747,14 +14609,12 @@ export const describeSourceRegions: {
 /**
  * Describes the tenant databases in a DB instance that uses the multi-tenant configuration. Only RDS for Oracle CDB instances are supported.
  */
-export const describeTenantDatabases: {
-  (
-    input: DescribeTenantDatabasesMessage,
-  ): effect.Effect<
-    TenantDatabasesMessage,
-    DBInstanceNotFoundFault | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeTenantDatabases: API.OperationMethod<
+  DescribeTenantDatabasesMessage,
+  TenantDatabasesMessage,
+  DBInstanceNotFoundFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeTenantDatabasesMessage,
   ) => stream.Stream<
@@ -14785,9 +14645,8 @@ export const describeTenantDatabases: {
  *
  * This command doesn't apply to RDS Custom.
  */
-export const describeValidDBInstanceModifications: (
-  input: DescribeValidDBInstanceModificationsMessage,
-) => effect.Effect<
+export const describeValidDBInstanceModifications: API.OperationMethod<
+  DescribeValidDBInstanceModificationsMessage,
   DescribeValidDBInstanceModificationsResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14803,9 +14662,8 @@ export const describeValidDBInstanceModifications: (
  *
  * This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To disable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the `EnableHttpEndpoint` parameter of the `ModifyDBCluster` operation.
  */
-export const disableHttpEndpoint: (
-  input: DisableHttpEndpointRequest,
-) => effect.Effect<
+export const disableHttpEndpoint: API.OperationMethod<
+  DisableHttpEndpointRequest,
   DisableHttpEndpointResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14821,17 +14679,15 @@ export const disableHttpEndpoint: (
  *
  * This operation uses resources on database instances. Because of this, we recommend publishing database logs to CloudWatch and then using the GetLogEvents operation. For more information, see GetLogEvents in the *Amazon CloudWatch Logs API Reference*.
  */
-export const downloadDBLogFilePortion: {
-  (
-    input: DownloadDBLogFilePortionMessage,
-  ): effect.Effect<
-    DownloadDBLogFilePortionDetails,
-    | DBInstanceNotFoundFault
-    | DBInstanceNotReadyFault
-    | DBLogFileNotFoundFault
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const downloadDBLogFilePortion: API.OperationMethod<
+  DownloadDBLogFilePortionMessage,
+  DownloadDBLogFilePortionDetails,
+  | DBInstanceNotFoundFault
+  | DBInstanceNotReadyFault
+  | DBLogFileNotFoundFault
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DownloadDBLogFilePortionMessage,
   ) => stream.Stream<
@@ -14875,9 +14731,8 @@ export const downloadDBLogFilePortion: {
  *
  * This operation applies only to Aurora Serverless v2 and provisioned DB clusters. To enable the HTTP endpoint for Aurora Serverless v1 DB clusters, use the `EnableHttpEndpoint` parameter of the `ModifyDBCluster` operation.
  */
-export const enableHttpEndpoint: (
-  input: EnableHttpEndpointRequest,
-) => effect.Effect<
+export const enableHttpEndpoint: API.OperationMethod<
+  EnableHttpEndpointRequest,
   EnableHttpEndpointResponse,
   InvalidResourceStateFault | ResourceNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -14901,9 +14756,8 @@ export const enableHttpEndpoint: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const failoverDBCluster: (
-  input: FailoverDBClusterMessage,
-) => effect.Effect<
+export const failoverDBCluster: API.OperationMethod<
+  FailoverDBClusterMessage,
   FailoverDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -14942,9 +14796,8 @@ export const failoverDBCluster: (
  *
  * For more information about switching over an Amazon Aurora global database, see Performing switchovers for Aurora global databases in the *Amazon Aurora User Guide*.
  */
-export const failoverGlobalCluster: (
-  input: FailoverGlobalClusterMessage,
-) => effect.Effect<
+export const failoverGlobalCluster: API.OperationMethod<
+  FailoverGlobalClusterMessage,
   FailoverGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -14967,9 +14820,8 @@ export const failoverGlobalCluster: (
  *
  * For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources in the *Amazon RDS User Guide* or Tagging Amazon Aurora and Amazon RDS Resources in the *Amazon Aurora User Guide*.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceMessage,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceMessage,
   TagListMessage,
   | BlueGreenDeploymentNotFoundFault
   | DBClusterNotFoundFault
@@ -15006,9 +14858,8 @@ export const listTagsForResource: (
  *
  * This operation is supported for RDS for Oracle and Microsoft SQL Server.
  */
-export const modifyActivityStream: (
-  input: ModifyActivityStreamRequest,
-) => effect.Effect<
+export const modifyActivityStream: API.OperationMethod<
+  ModifyActivityStreamRequest,
   ModifyActivityStreamResponse,
   | DBInstanceNotFoundFault
   | InvalidDBInstanceStateFault
@@ -15039,9 +14890,8 @@ export const modifyActivityStream: (
  *
  * For more information about rotating your SSL/TLS certificate for Aurora DB engines, see Rotating Your SSL/TLS Certificate in the *Amazon Aurora User Guide*.
  */
-export const modifyCertificates: (
-  input: ModifyCertificatesMessage,
-) => effect.Effect<
+export const modifyCertificates: API.OperationMethod<
+  ModifyCertificatesMessage,
   ModifyCertificatesResult,
   CertificateNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -15063,9 +14913,8 @@ export const modifyCertificates: (
  *
  * This operation only applies to Aurora Serverless v1 DB clusters.
  */
-export const modifyCurrentDBClusterCapacity: (
-  input: ModifyCurrentDBClusterCapacityMessage,
-) => effect.Effect<
+export const modifyCurrentDBClusterCapacity: API.OperationMethod<
+  ModifyCurrentDBClusterCapacityMessage,
   DBClusterCapacityInfo,
   | DBClusterNotFoundFault
   | InvalidDBClusterCapacityFault
@@ -15088,9 +14937,8 @@ export const modifyCurrentDBClusterCapacity: (
  *
  * For more information, see Modifying CEV status in the *Amazon RDS User Guide*.
  */
-export const modifyCustomDBEngineVersion: (
-  input: ModifyCustomDBEngineVersionMessage,
-) => effect.Effect<
+export const modifyCustomDBEngineVersion: API.OperationMethod<
+  ModifyCustomDBEngineVersionMessage,
   DBEngineVersion,
   | CustomDBEngineVersionNotFoundFault
   | InvalidCustomDBEngineVersionStateFault
@@ -15111,9 +14959,8 @@ export const modifyCustomDBEngineVersion: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide*.
  */
-export const modifyDBCluster: (
-  input: ModifyDBClusterMessage,
-) => effect.Effect<
+export const modifyDBCluster: API.OperationMethod<
+  ModifyDBClusterMessage,
   ModifyDBClusterResult,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -15170,9 +15017,8 @@ export const modifyDBCluster: (
  *
  * This operation only applies to Aurora DB clusters.
  */
-export const modifyDBClusterEndpoint: (
-  input: ModifyDBClusterEndpointMessage,
-) => effect.Effect<
+export const modifyDBClusterEndpoint: API.OperationMethod<
+  ModifyDBClusterEndpointMessage,
   DBClusterEndpoint,
   | DBClusterEndpointNotFoundFault
   | DBInstanceNotFoundFault
@@ -15201,9 +15047,8 @@ export const modifyDBClusterEndpoint: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
  */
-export const modifyDBClusterParameterGroup: (
-  input: ModifyDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const modifyDBClusterParameterGroup: API.OperationMethod<
+  ModifyDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -15225,9 +15070,8 @@ export const modifyDBClusterParameterGroup: (
  *
  * To view which Amazon Web Services accounts have access to copy or restore a manual DB cluster snapshot, or whether a manual DB cluster snapshot is public or private, use the DescribeDBClusterSnapshotAttributes API operation. The accounts are returned as values for the `restore` attribute.
  */
-export const modifyDBClusterSnapshotAttribute: (
-  input: ModifyDBClusterSnapshotAttributeMessage,
-) => effect.Effect<
+export const modifyDBClusterSnapshotAttribute: API.OperationMethod<
+  ModifyDBClusterSnapshotAttributeMessage,
   ModifyDBClusterSnapshotAttributeResult,
   | DBClusterSnapshotNotFoundFault
   | InvalidDBClusterSnapshotStateFault
@@ -15246,9 +15090,8 @@ export const modifyDBClusterSnapshotAttribute: (
 /**
  * Modifies settings for a DB instance. You can change one or more database configuration parameters by specifying these parameters and the new values in the request. To learn what modifications you can make to your DB instance, call `DescribeValidDBInstanceModifications` before you call `ModifyDBInstance`.
  */
-export const modifyDBInstance: (
-  input: ModifyDBInstanceMessage,
-) => effect.Effect<
+export const modifyDBInstance: API.OperationMethod<
+  ModifyDBInstanceMessage,
   ModifyDBInstanceResult,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -15307,9 +15150,8 @@ export const modifyDBInstance: (
  *
  * After you modify a DB parameter group, you should wait at least 5 minutes before creating your first DB instance that uses that DB parameter group as the default parameter group. This allows Amazon RDS to fully complete the modify operation before the parameter group is used as the default for a new DB instance. This is especially important for parameters that are critical when creating the default database for a DB instance, such as the character set for the default database defined by the `character_set_database` parameter. You can use the *Parameter Groups* option of the Amazon RDS console or the *DescribeDBParameters* command to verify that your DB parameter group has been created or modified.
  */
-export const modifyDBParameterGroup: (
-  input: ModifyDBParameterGroupMessage,
-) => effect.Effect<
+export const modifyDBParameterGroup: API.OperationMethod<
+  ModifyDBParameterGroupMessage,
   DBParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -15323,9 +15165,8 @@ export const modifyDBParameterGroup: (
 /**
  * Changes the settings for an existing DB proxy.
  */
-export const modifyDBProxy: (
-  input: ModifyDBProxyRequest,
-) => effect.Effect<
+export const modifyDBProxy: API.OperationMethod<
+  ModifyDBProxyRequest,
   ModifyDBProxyResponse,
   | DBProxyAlreadyExistsFault
   | DBProxyNotFoundFault
@@ -15344,9 +15185,8 @@ export const modifyDBProxy: (
 /**
  * Changes the settings for an existing DB proxy endpoint.
  */
-export const modifyDBProxyEndpoint: (
-  input: ModifyDBProxyEndpointRequest,
-) => effect.Effect<
+export const modifyDBProxyEndpoint: API.OperationMethod<
+  ModifyDBProxyEndpointRequest,
   ModifyDBProxyEndpointResponse,
   | DBProxyEndpointAlreadyExistsFault
   | DBProxyEndpointNotFoundFault
@@ -15367,9 +15207,8 @@ export const modifyDBProxyEndpoint: (
 /**
  * Modifies the properties of a `DBProxyTargetGroup`.
  */
-export const modifyDBProxyTargetGroup: (
-  input: ModifyDBProxyTargetGroupRequest,
-) => effect.Effect<
+export const modifyDBProxyTargetGroup: API.OperationMethod<
+  ModifyDBProxyTargetGroupRequest,
   ModifyDBProxyTargetGroupResponse,
   | DBProxyNotFoundFault
   | DBProxyTargetGroupNotFoundFault
@@ -15388,9 +15227,8 @@ export const modifyDBProxyTargetGroup: (
 /**
  * Updates the recommendation status and recommended action status for the specified recommendation.
  */
-export const modifyDBRecommendation: (
-  input: ModifyDBRecommendationMessage,
-) => effect.Effect<
+export const modifyDBRecommendation: API.OperationMethod<
+  ModifyDBRecommendationMessage,
   DBRecommendationMessage,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -15402,9 +15240,8 @@ export const modifyDBRecommendation: (
 /**
  * Modifies the settings of an Aurora Limitless Database DB shard group. You can change one or more settings by specifying these parameters and the new values in the request.
  */
-export const modifyDBShardGroup: (
-  input: ModifyDBShardGroupMessage,
-) => effect.Effect<
+export const modifyDBShardGroup: API.OperationMethod<
+  ModifyDBShardGroupMessage,
   DBShardGroup,
   | DBShardGroupAlreadyExistsFault
   | DBShardGroupNotFoundFault
@@ -15425,9 +15262,8 @@ export const modifyDBShardGroup: (
  *
  * Amazon RDS supports upgrading DB snapshots for MariaDB, MySQL, PostgreSQL, and Oracle. This operation doesn't apply to RDS Custom or RDS for Db2.
  */
-export const modifyDBSnapshot: (
-  input: ModifyDBSnapshotMessage,
-) => effect.Effect<
+export const modifyDBSnapshot: API.OperationMethod<
+  ModifyDBSnapshotMessage,
   ModifyDBSnapshotResult,
   | DBSnapshotNotFoundFault
   | InvalidDBSnapshotStateFault
@@ -15454,9 +15290,8 @@ export const modifyDBSnapshot: (
  *
  * To view which Amazon Web Services accounts have access to copy or restore a manual DB snapshot, or whether a manual DB snapshot public or private, use the DescribeDBSnapshotAttributes API operation. The accounts are returned as values for the `restore` attribute.
  */
-export const modifyDBSnapshotAttribute: (
-  input: ModifyDBSnapshotAttributeMessage,
-) => effect.Effect<
+export const modifyDBSnapshotAttribute: API.OperationMethod<
+  ModifyDBSnapshotAttributeMessage,
   ModifyDBSnapshotAttributeResult,
   | DBSnapshotNotFoundFault
   | InvalidDBSnapshotStateFault
@@ -15475,9 +15310,8 @@ export const modifyDBSnapshotAttribute: (
 /**
  * Modifies an existing DB subnet group. DB subnet groups must contain at least one subnet in at least two AZs in the Amazon Web Services Region.
  */
-export const modifyDBSubnetGroup: (
-  input: ModifyDBSubnetGroupMessage,
-) => effect.Effect<
+export const modifyDBSubnetGroup: API.OperationMethod<
+  ModifyDBSubnetGroupMessage,
   ModifyDBSubnetGroupResult,
   | DBSubnetGroupDoesNotCoverEnoughAZs
   | DBSubnetGroupNotFoundFault
@@ -15504,9 +15338,8 @@ export const modifyDBSubnetGroup: (
  *
  * You can see a list of the event categories for a given source type (`SourceType`) in Events in the *Amazon RDS User Guide* or by using the `DescribeEventCategories` operation.
  */
-export const modifyEventSubscription: (
-  input: ModifyEventSubscriptionMessage,
-) => effect.Effect<
+export const modifyEventSubscription: API.OperationMethod<
+  ModifyEventSubscriptionMessage,
   ModifyEventSubscriptionResult,
   | EventSubscriptionQuotaExceededFault
   | SNSInvalidTopicFault
@@ -15533,9 +15366,8 @@ export const modifyEventSubscription: (
  *
  * This operation only applies to Aurora global database clusters.
  */
-export const modifyGlobalCluster: (
-  input: ModifyGlobalClusterMessage,
-) => effect.Effect<
+export const modifyGlobalCluster: API.OperationMethod<
+  ModifyGlobalClusterMessage,
   ModifyGlobalClusterResult,
   | GlobalClusterAlreadyExistsFault
   | GlobalClusterNotFoundFault
@@ -15558,9 +15390,8 @@ export const modifyGlobalCluster: (
 /**
  * Modifies a zero-ETL integration with Amazon Redshift.
  */
-export const modifyIntegration: (
-  input: ModifyIntegrationMessage,
-) => effect.Effect<
+export const modifyIntegration: API.OperationMethod<
+  ModifyIntegrationMessage,
   Integration,
   | IntegrationConflictOperationFault
   | IntegrationNotFoundFault
@@ -15579,9 +15410,8 @@ export const modifyIntegration: (
 /**
  * Modifies an existing option group.
  */
-export const modifyOptionGroup: (
-  input: ModifyOptionGroupMessage,
-) => effect.Effect<
+export const modifyOptionGroup: API.OperationMethod<
+  ModifyOptionGroupMessage,
   ModifyOptionGroupResult,
   InvalidOptionGroupStateFault | OptionGroupNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -15593,9 +15423,8 @@ export const modifyOptionGroup: (
 /**
  * Modifies an existing tenant database in a DB instance. You can change the tenant database name or the master user password. This operation is supported only for RDS for Oracle CDB instances using the multi-tenant configuration.
  */
-export const modifyTenantDatabase: (
-  input: ModifyTenantDatabaseMessage,
-) => effect.Effect<
+export const modifyTenantDatabase: API.OperationMethod<
+  ModifyTenantDatabaseMessage,
   ModifyTenantDatabaseResult,
   | DBInstanceNotFoundFault
   | InvalidDBInstanceStateFault
@@ -15622,9 +15451,8 @@ export const modifyTenantDatabase: (
  *
  * - This command doesn't apply to Aurora MySQL, Aurora PostgreSQL, or RDS Custom.
  */
-export const promoteReadReplica: (
-  input: PromoteReadReplicaMessage,
-) => effect.Effect<
+export const promoteReadReplica: API.OperationMethod<
+  PromoteReadReplicaMessage,
   PromoteReadReplicaResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -15636,9 +15464,8 @@ export const promoteReadReplica: (
 /**
  * Promotes a read replica DB cluster to a standalone DB cluster.
  */
-export const promoteReadReplicaDBCluster: (
-  input: PromoteReadReplicaDBClusterMessage,
-) => effect.Effect<
+export const promoteReadReplicaDBCluster: API.OperationMethod<
+  PromoteReadReplicaDBClusterMessage,
   PromoteReadReplicaDBClusterResult,
   DBClusterNotFoundFault | InvalidDBClusterStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -15650,9 +15477,8 @@ export const promoteReadReplicaDBCluster: (
 /**
  * Purchases a reserved DB instance offering.
  */
-export const purchaseReservedDBInstancesOffering: (
-  input: PurchaseReservedDBInstancesOfferingMessage,
-) => effect.Effect<
+export const purchaseReservedDBInstancesOffering: API.OperationMethod<
+  PurchaseReservedDBInstancesOfferingMessage,
   PurchaseReservedDBInstancesOfferingResult,
   | ReservedDBInstanceAlreadyExistsFault
   | ReservedDBInstanceQuotaExceededFault
@@ -15677,9 +15503,8 @@ export const purchaseReservedDBInstancesOffering: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
  */
-export const rebootDBCluster: (
-  input: RebootDBClusterMessage,
-) => effect.Effect<
+export const rebootDBCluster: API.OperationMethod<
+  RebootDBClusterMessage,
   RebootDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -15706,9 +15531,8 @@ export const rebootDBCluster: (
  *
  * If your DB instance is part of a Multi-AZ DB cluster, you can reboot the DB cluster with the `RebootDBCluster` operation.
  */
-export const rebootDBInstance: (
-  input: RebootDBInstanceMessage,
-) => effect.Effect<
+export const rebootDBInstance: API.OperationMethod<
+  RebootDBInstanceMessage,
   RebootDBInstanceResult,
   | DBInstanceNotFoundFault
   | InvalidDBInstanceStateFault
@@ -15729,9 +15553,8 @@ export const rebootDBInstance: (
  *
  * This operation applies only to Aurora Limitless Database DBb shard groups.
  */
-export const rebootDBShardGroup: (
-  input: RebootDBShardGroupMessage,
-) => effect.Effect<
+export const rebootDBShardGroup: API.OperationMethod<
+  RebootDBShardGroupMessage,
   DBShardGroup,
   DBShardGroupNotFoundFault | InvalidDBShardGroupStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -15743,9 +15566,8 @@ export const rebootDBShardGroup: (
 /**
  * Associate one or more `DBProxyTarget` data structures with a `DBProxyTargetGroup`.
  */
-export const registerDBProxyTargets: (
-  input: RegisterDBProxyTargetsRequest,
-) => effect.Effect<
+export const registerDBProxyTargets: API.OperationMethod<
+  RegisterDBProxyTargetsRequest,
   RegisterDBProxyTargetsResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -15778,9 +15600,8 @@ export const registerDBProxyTargets: (
  *
  * This operation only applies to Aurora DB clusters.
  */
-export const removeFromGlobalCluster: (
-  input: RemoveFromGlobalClusterMessage,
-) => effect.Effect<
+export const removeFromGlobalCluster: API.OperationMethod<
+  RemoveFromGlobalClusterMessage,
   RemoveFromGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -15805,9 +15626,8 @@ export const removeFromGlobalCluster: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
  */
-export const removeRoleFromDBCluster: (
-  input: RemoveRoleFromDBClusterMessage,
-) => effect.Effect<
+export const removeRoleFromDBCluster: API.OperationMethod<
+  RemoveRoleFromDBClusterMessage,
   RemoveRoleFromDBClusterResponse,
   | DBClusterNotFoundFault
   | DBClusterRoleNotFoundFault
@@ -15826,9 +15646,8 @@ export const removeRoleFromDBCluster: (
 /**
  * Disassociates an Amazon Web Services Identity and Access Management (IAM) role from a DB instance.
  */
-export const removeRoleFromDBInstance: (
-  input: RemoveRoleFromDBInstanceMessage,
-) => effect.Effect<
+export const removeRoleFromDBInstance: API.OperationMethod<
+  RemoveRoleFromDBInstanceMessage,
   RemoveRoleFromDBInstanceResponse,
   | DBInstanceNotFoundFault
   | DBInstanceRoleNotFoundFault
@@ -15847,9 +15666,8 @@ export const removeRoleFromDBInstance: (
 /**
  * Removes a source identifier from an existing RDS event notification subscription.
  */
-export const removeSourceIdentifierFromSubscription: (
-  input: RemoveSourceIdentifierFromSubscriptionMessage,
-) => effect.Effect<
+export const removeSourceIdentifierFromSubscription: API.OperationMethod<
+  RemoveSourceIdentifierFromSubscriptionMessage,
   RemoveSourceIdentifierFromSubscriptionResult,
   SourceNotFoundFault | SubscriptionNotFoundFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -15863,9 +15681,8 @@ export const removeSourceIdentifierFromSubscription: (
  *
  * For an overview on tagging an Amazon RDS resource, see Tagging Amazon RDS Resources in the *Amazon RDS User Guide* or Tagging Amazon Aurora and Amazon RDS Resources in the *Amazon Aurora User Guide*.
  */
-export const removeTagsFromResource: (
-  input: RemoveTagsFromResourceMessage,
-) => effect.Effect<
+export const removeTagsFromResource: API.OperationMethod<
+  RemoveTagsFromResourceMessage,
   RemoveTagsFromResourceResponse,
   | BlueGreenDeploymentNotFoundFault
   | DBClusterNotFoundFault
@@ -15912,9 +15729,8 @@ export const removeTagsFromResource: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
  */
-export const resetDBClusterParameterGroup: (
-  input: ResetDBClusterParameterGroupMessage,
-) => effect.Effect<
+export const resetDBClusterParameterGroup: API.OperationMethod<
+  ResetDBClusterParameterGroupMessage,
   DBClusterParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -15928,9 +15744,8 @@ export const resetDBClusterParameterGroup: (
 /**
  * Modifies the parameters of a DB parameter group to the engine/system default value. To reset specific parameters, provide a list of the following: `ParameterName` and `ApplyMethod`. To reset the entire DB parameter group, specify the `DBParameterGroup` name and `ResetAllParameters` parameters. When resetting the entire group, dynamic parameters are updated immediately and static parameters are set to `pending-reboot` to take effect on the next DB instance restart or `RebootDBInstance` request.
  */
-export const resetDBParameterGroup: (
-  input: ResetDBParameterGroupMessage,
-) => effect.Effect<
+export const resetDBParameterGroup: API.OperationMethod<
+  ResetDBParameterGroupMessage,
   DBParameterGroupNameMessage,
   | DBParameterGroupNotFoundFault
   | InvalidDBParameterGroupStateFault
@@ -15950,9 +15765,8 @@ export const resetDBParameterGroup: (
  *
  * This operation only applies to Aurora DB clusters. The source DB engine must be MySQL.
  */
-export const restoreDBClusterFromS3: (
-  input: RestoreDBClusterFromS3Message,
-) => effect.Effect<
+export const restoreDBClusterFromS3: API.OperationMethod<
+  RestoreDBClusterFromS3Message,
   RestoreDBClusterFromS3Result,
   | DBClusterAlreadyExistsFault
   | DBClusterNotFoundFault
@@ -16005,9 +15819,8 @@ export const restoreDBClusterFromS3: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
  */
-export const restoreDBClusterFromSnapshot: (
-  input: RestoreDBClusterFromSnapshotMessage,
-) => effect.Effect<
+export const restoreDBClusterFromSnapshot: API.OperationMethod<
+  RestoreDBClusterFromSnapshotMessage,
   RestoreDBClusterFromSnapshotResult,
   | DBClusterAlreadyExistsFault
   | DBClusterParameterGroupNotFoundFault
@@ -16072,9 +15885,8 @@ export const restoreDBClusterFromSnapshot: (
  *
  * For more information on Multi-AZ DB clusters, see Multi-AZ DB cluster deployments in the *Amazon RDS User Guide.*
  */
-export const restoreDBClusterToPointInTime: (
-  input: RestoreDBClusterToPointInTimeMessage,
-) => effect.Effect<
+export const restoreDBClusterToPointInTime: API.OperationMethod<
+  RestoreDBClusterToPointInTimeMessage,
   RestoreDBClusterToPointInTimeResult,
   | DBClusterAlreadyExistsFault
   | DBClusterAutomatedBackupNotFoundFault
@@ -16141,9 +15953,8 @@ export const restoreDBClusterToPointInTime: (
  *
  * This command doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use `RestoreDBClusterFromSnapshot`.
  */
-export const restoreDBInstanceFromDBSnapshot: (
-  input: RestoreDBInstanceFromDBSnapshotMessage,
-) => effect.Effect<
+export const restoreDBInstanceFromDBSnapshot: API.OperationMethod<
+  RestoreDBInstanceFromDBSnapshotMessage,
   RestoreDBInstanceFromDBSnapshotResult,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -16208,9 +16019,8 @@ export const restoreDBInstanceFromDBSnapshot: (
  *
  * This operation doesn't apply to RDS Custom.
  */
-export const restoreDBInstanceFromS3: (
-  input: RestoreDBInstanceFromS3Message,
-) => effect.Effect<
+export const restoreDBInstanceFromS3: API.OperationMethod<
+  RestoreDBInstanceFromS3Message,
   RestoreDBInstanceFromS3Result,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -16267,9 +16077,8 @@ export const restoreDBInstanceFromS3: (
  *
  * This operation doesn't apply to Aurora MySQL and Aurora PostgreSQL. For Aurora, use `RestoreDBClusterToPointInTime`.
  */
-export const restoreDBInstanceToPointInTime: (
-  input: RestoreDBInstanceToPointInTimeMessage,
-) => effect.Effect<
+export const restoreDBInstanceToPointInTime: API.OperationMethod<
+  RestoreDBInstanceToPointInTimeMessage,
   RestoreDBInstanceToPointInTimeResult,
   | AuthorizationNotFoundFault
   | BackupPolicyNotFoundFault
@@ -16336,9 +16145,8 @@ export const restoreDBInstanceToPointInTime: (
  *
  * EC2-Classic was retired on August 15, 2022. If you haven't migrated from EC2-Classic to a VPC, we recommend that you migrate as soon as possible. For more information, see Migrate from EC2-Classic to a VPC in the *Amazon EC2 User Guide*, the blog EC2-Classic Networking is Retiring – Here’s How to Prepare, and Moving a DB instance not in a VPC into a VPC in the *Amazon RDS User Guide*.
  */
-export const revokeDBSecurityGroupIngress: (
-  input: RevokeDBSecurityGroupIngressMessage,
-) => effect.Effect<
+export const revokeDBSecurityGroupIngress: API.OperationMethod<
+  RevokeDBSecurityGroupIngressMessage,
   RevokeDBSecurityGroupIngressResult,
   | AuthorizationNotFoundFault
   | DBSecurityGroupNotFoundFault
@@ -16357,9 +16165,8 @@ export const revokeDBSecurityGroupIngress: (
 /**
  * Starts a database activity stream to monitor activity on the database. For more information, see Monitoring Amazon Aurora with Database Activity Streams in the *Amazon Aurora User Guide* or Monitoring Amazon RDS with Database Activity Streams in the *Amazon RDS User Guide*.
  */
-export const startActivityStream: (
-  input: StartActivityStreamRequest,
-) => effect.Effect<
+export const startActivityStream: API.OperationMethod<
+  StartActivityStreamRequest,
   StartActivityStreamResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -16388,9 +16195,8 @@ export const startActivityStream: (
  *
  * This operation only applies to Aurora DB clusters.
  */
-export const startDBCluster: (
-  input: StartDBClusterMessage,
-) => effect.Effect<
+export const startDBCluster: API.OperationMethod<
+  StartDBClusterMessage,
   StartDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -16419,9 +16225,8 @@ export const startDBCluster: (
  *
  * This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora DB clusters, use `StartDBCluster` instead.
  */
-export const startDBInstance: (
-  input: StartDBInstanceMessage,
-) => effect.Effect<
+export const startDBInstance: API.OperationMethod<
+  StartDBInstanceMessage,
   StartDBInstanceResult,
   | AuthorizationNotFoundFault
   | DBClusterNotFoundFault
@@ -16462,9 +16267,8 @@ export const startDBInstance: (
  *
  * For more information, see Replicating Automated Backups to Another Amazon Web Services Region in the *Amazon RDS User Guide.*
  */
-export const startDBInstanceAutomatedBackupsReplication: (
-  input: StartDBInstanceAutomatedBackupsReplicationMessage,
-) => effect.Effect<
+export const startDBInstanceAutomatedBackupsReplication: API.OperationMethod<
+  StartDBInstanceAutomatedBackupsReplicationMessage,
   StartDBInstanceAutomatedBackupsReplicationResult,
   | DBInstanceAutomatedBackupQuotaExceededFault
   | DBInstanceNotFoundFault
@@ -16495,9 +16299,8 @@ export const startDBInstanceAutomatedBackupsReplication: (
  *
  * For more information on exporting DB cluster data, see Exporting DB cluster data to Amazon S3 in the *Amazon Aurora User Guide*.
  */
-export const startExportTask: (
-  input: StartExportTaskMessage,
-) => effect.Effect<
+export const startExportTask: API.OperationMethod<
+  StartExportTaskMessage,
   ExportTask,
   | DBClusterNotFoundFault
   | DBClusterSnapshotNotFoundFault
@@ -16532,9 +16335,8 @@ export const startExportTask: (
  *
  * For more information, see Monitoring Amazon Aurora with Database Activity Streams in the *Amazon Aurora User Guide* or Monitoring Amazon RDS with Database Activity Streams in the *Amazon RDS User Guide*.
  */
-export const stopActivityStream: (
-  input: StopActivityStreamRequest,
-) => effect.Effect<
+export const stopActivityStream: API.OperationMethod<
+  StopActivityStreamRequest,
   StopActivityStreamResponse,
   | DBClusterNotFoundFault
   | DBInstanceNotFoundFault
@@ -16561,9 +16363,8 @@ export const stopActivityStream: (
  *
  * This operation only applies to Aurora DB clusters.
  */
-export const stopDBCluster: (
-  input: StopDBClusterMessage,
-) => effect.Effect<
+export const stopDBCluster: API.OperationMethod<
+  StopDBClusterMessage,
   StopDBClusterResult,
   | DBClusterNotFoundFault
   | InvalidDBClusterStateFault
@@ -16588,9 +16389,8 @@ export const stopDBCluster: (
  *
  * This command doesn't apply to RDS Custom, Aurora MySQL, and Aurora PostgreSQL. For Aurora clusters, use `StopDBCluster` instead.
  */
-export const stopDBInstance: (
-  input: StopDBInstanceMessage,
-) => effect.Effect<
+export const stopDBInstance: API.OperationMethod<
+  StopDBInstanceMessage,
   StopDBInstanceResult,
   | DBInstanceNotFoundFault
   | DBSnapshotAlreadyExistsFault
@@ -16617,9 +16417,8 @@ export const stopDBInstance: (
  *
  * For more information, see Replicating Automated Backups to Another Amazon Web Services Region in the *Amazon RDS User Guide.*
  */
-export const stopDBInstanceAutomatedBackupsReplication: (
-  input: StopDBInstanceAutomatedBackupsReplicationMessage,
-) => effect.Effect<
+export const stopDBInstanceAutomatedBackupsReplication: API.OperationMethod<
+  StopDBInstanceAutomatedBackupsReplicationMessage,
   StopDBInstanceAutomatedBackupsReplicationResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -16635,9 +16434,8 @@ export const stopDBInstanceAutomatedBackupsReplication: (
  *
  * For more information, see Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon RDS User Guide* and Using Amazon RDS Blue/Green Deployments for database updates in the *Amazon Aurora User Guide*.
  */
-export const switchoverBlueGreenDeployment: (
-  input: SwitchoverBlueGreenDeploymentRequest,
-) => effect.Effect<
+export const switchoverBlueGreenDeployment: API.OperationMethod<
+  SwitchoverBlueGreenDeploymentRequest,
   SwitchoverBlueGreenDeploymentResponse,
   | BlueGreenDeploymentNotFoundFault
   | InvalidBlueGreenDeploymentStateFault
@@ -16658,9 +16456,8 @@ export const switchoverBlueGreenDeployment: (
  *
  * This operation is intended for controlled environments, for operations such as "regional rotation" or to fall back to the original primary after a global database failover.
  */
-export const switchoverGlobalCluster: (
-  input: SwitchoverGlobalClusterMessage,
-) => effect.Effect<
+export const switchoverGlobalCluster: API.OperationMethod<
+  SwitchoverGlobalClusterMessage,
   SwitchoverGlobalClusterResult,
   | DBClusterNotFoundFault
   | GlobalClusterNotFoundFault
@@ -16681,9 +16478,8 @@ export const switchoverGlobalCluster: (
 /**
  * Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database. Issue this command in the Region that hosts the current standby database.
  */
-export const switchoverReadReplica: (
-  input: SwitchoverReadReplicaMessage,
-) => effect.Effect<
+export const switchoverReadReplica: API.OperationMethod<
+  SwitchoverReadReplicaMessage,
   SwitchoverReadReplicaResult,
   DBInstanceNotFoundFault | InvalidDBInstanceStateFault | CommonErrors,
   Credentials | Region | HttpClient.HttpClient

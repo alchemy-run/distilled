@@ -361,20 +361,18 @@ export class ResourceNotFoundException extends S.TaggedErrorClass<ResourceNotFou
  * `volumeType`, `maxIopsVolume`, `operation`,
  * `locationType`, and `instanceCapacity10xlarge`.
  */
-export const describeServices: {
-  (
-    input: DescribeServicesRequest,
-  ): effect.Effect<
-    DescribeServicesResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const describeServices: API.OperationMethod<
+  DescribeServicesRequest,
+  DescribeServicesResponse,
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: DescribeServicesRequest,
   ) => stream.Stream<
@@ -425,20 +423,18 @@ export const describeServices: {
  * Offer File Definitions
  * in the Billing and Cost Management User Guide.
  */
-export const getAttributeValues: {
-  (
-    input: GetAttributeValuesRequest,
-  ): effect.Effect<
-    GetAttributeValuesResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getAttributeValues: API.OperationMethod<
+  GetAttributeValuesRequest,
+  GetAttributeValuesResponse,
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetAttributeValuesRequest,
   ) => stream.Stream<
@@ -490,9 +486,8 @@ export const getAttributeValues: {
  * on the `PriceListArn` and `FileFormat` that you retrieve from the
  * ListPriceLists response.
  */
-export const getPriceListFileUrl: (
-  input: GetPriceListFileUrlRequest,
-) => effect.Effect<
+export const getPriceListFileUrl: API.OperationMethod<
+  GetPriceListFileUrlRequest,
   GetPriceListFileUrlResponse,
   | AccessDeniedException
   | InternalErrorException
@@ -517,20 +512,18 @@ export const getPriceListFileUrl: (
 /**
  * Returns a list of all products that match the filter criteria.
  */
-export const getProducts: {
-  (
-    input: GetProductsRequest,
-  ): effect.Effect<
-    GetProductsResponse,
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const getProducts: API.OperationMethod<
+  GetProductsRequest,
+  GetProductsResponse,
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: GetProductsRequest,
   ) => stream.Stream<
@@ -586,22 +579,20 @@ export const getProducts: {
  * specific Amazon Web Services Region. You can use the `PriceListArn` from the
  * response to get your preferred Price List files through the GetPriceListFileUrl API.
  */
-export const listPriceLists: {
-  (
-    input: ListPriceListsRequest,
-  ): effect.Effect<
-    ListPriceListsResponse,
-    | AccessDeniedException
-    | ExpiredNextTokenException
-    | InternalErrorException
-    | InvalidNextTokenException
-    | InvalidParameterException
-    | NotFoundException
-    | ResourceNotFoundException
-    | ThrottlingException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listPriceLists: API.OperationMethod<
+  ListPriceListsRequest,
+  ListPriceListsResponse,
+  | AccessDeniedException
+  | ExpiredNextTokenException
+  | InternalErrorException
+  | InvalidNextTokenException
+  | InvalidParameterException
+  | NotFoundException
+  | ResourceNotFoundException
+  | ThrottlingException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListPriceListsRequest,
   ) => stream.Stream<

@@ -985,9 +985,8 @@ export class ServiceQuotaExceededException extends S.TaggedErrorClass<ServiceQuo
 /**
  * Add role to multiple users or groups in a private re:Post channel.
  */
-export const batchAddChannelRoleToAccessors: (
-  input: BatchAddChannelRoleToAccessorsInput,
-) => effect.Effect<
+export const batchAddChannelRoleToAccessors: API.OperationMethod<
+  BatchAddChannelRoleToAccessorsInput,
   BatchAddChannelRoleToAccessorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1010,9 +1009,8 @@ export const batchAddChannelRoleToAccessors: (
 /**
  * Add a role to multiple users or groups in a private re:Post.
  */
-export const batchAddRole: (
-  input: BatchAddRoleInput,
-) => effect.Effect<
+export const batchAddRole: API.OperationMethod<
+  BatchAddRoleInput,
   BatchAddRoleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1035,9 +1033,8 @@ export const batchAddRole: (
 /**
  * Remove a role from multiple users or groups in a private re:Post channel.
  */
-export const batchRemoveChannelRoleFromAccessors: (
-  input: BatchRemoveChannelRoleFromAccessorsInput,
-) => effect.Effect<
+export const batchRemoveChannelRoleFromAccessors: API.OperationMethod<
+  BatchRemoveChannelRoleFromAccessorsInput,
   BatchRemoveChannelRoleFromAccessorsOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1060,9 +1057,8 @@ export const batchRemoveChannelRoleFromAccessors: (
 /**
  * Remove a role from multiple users or groups in a private re:Post.
  */
-export const batchRemoveRole: (
-  input: BatchRemoveRoleInput,
-) => effect.Effect<
+export const batchRemoveRole: API.OperationMethod<
+  BatchRemoveRoleInput,
   BatchRemoveRoleOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1085,9 +1081,8 @@ export const batchRemoveRole: (
 /**
  * Creates a channel in an AWS re:Post Private private re:Post.
  */
-export const createChannel: (
-  input: CreateChannelInput,
-) => effect.Effect<
+export const createChannel: API.OperationMethod<
+  CreateChannelInput,
   CreateChannelOutput,
   | AccessDeniedException
   | ConflictException
@@ -1114,9 +1109,8 @@ export const createChannel: (
 /**
  * Creates an AWS re:Post Private private re:Post.
  */
-export const createSpace: (
-  input: CreateSpaceInput,
-) => effect.Effect<
+export const createSpace: API.OperationMethod<
+  CreateSpaceInput,
   CreateSpaceOutput,
   | AccessDeniedException
   | ConflictException
@@ -1143,9 +1137,8 @@ export const createSpace: (
 /**
  * Deletes an AWS re:Post Private private re:Post.
  */
-export const deleteSpace: (
-  input: DeleteSpaceInput,
-) => effect.Effect<
+export const deleteSpace: API.OperationMethod<
+  DeleteSpaceInput,
   DeleteSpaceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1168,9 +1161,8 @@ export const deleteSpace: (
 /**
  * Removes the user or group from the list of administrators of the private re:Post.
  */
-export const deregisterAdmin: (
-  input: DeregisterAdminInput,
-) => effect.Effect<
+export const deregisterAdmin: API.OperationMethod<
+  DeregisterAdminInput,
   DeregisterAdminResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1193,9 +1185,8 @@ export const deregisterAdmin: (
 /**
  * Displays information about a channel in a private re:Post.
  */
-export const getChannel: (
-  input: GetChannelInput,
-) => effect.Effect<
+export const getChannel: API.OperationMethod<
+  GetChannelInput,
   GetChannelOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1218,9 +1209,8 @@ export const getChannel: (
 /**
  * Displays information about the AWS re:Post Private private re:Post.
  */
-export const getSpace: (
-  input: GetSpaceInput,
-) => effect.Effect<
+export const getSpace: API.OperationMethod<
+  GetSpaceInput,
   GetSpaceOutput,
   | AccessDeniedException
   | InternalServerException
@@ -1243,18 +1233,16 @@ export const getSpace: (
 /**
  * Returns the list of channel within a private re:Post with some information about each channel.
  */
-export const listChannels: {
-  (
-    input: ListChannelsInput,
-  ): effect.Effect<
-    ListChannelsOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listChannels: API.OperationMethod<
+  ListChannelsInput,
+  ListChannelsOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListChannelsInput,
   ) => stream.Stream<
@@ -1296,18 +1284,16 @@ export const listChannels: {
 /**
  * Returns a list of AWS re:Post Private private re:Posts in the account with some information about each private re:Post.
  */
-export const listSpaces: {
-  (
-    input: ListSpacesInput,
-  ): effect.Effect<
-    ListSpacesOutput,
-    | AccessDeniedException
-    | InternalServerException
-    | ThrottlingException
-    | ValidationException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listSpaces: API.OperationMethod<
+  ListSpacesInput,
+  ListSpacesOutput,
+  | AccessDeniedException
+  | InternalServerException
+  | ThrottlingException
+  | ValidationException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListSpacesInput,
   ) => stream.Stream<
@@ -1349,9 +1335,8 @@ export const listSpaces: {
 /**
  * Returns the tags that are associated with the AWS re:Post Private resource specified by the resourceArn. The only resource that can be tagged is a private re:Post.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1374,9 +1359,8 @@ export const listTagsForResource: (
 /**
  * Adds a user or group to the list of administrators of the private re:Post.
  */
-export const registerAdmin: (
-  input: RegisterAdminInput,
-) => effect.Effect<
+export const registerAdmin: API.OperationMethod<
+  RegisterAdminInput,
   RegisterAdminResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1399,9 +1383,8 @@ export const registerAdmin: (
 /**
  * Sends an invitation email to selected users and groups.
  */
-export const sendInvites: (
-  input: SendInvitesInput,
-) => effect.Effect<
+export const sendInvites: API.OperationMethod<
+  SendInvitesInput,
   SendInvitesResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1424,9 +1407,8 @@ export const sendInvites: (
 /**
  * Associates tags with an AWS re:Post Private resource. Currently, the only resource that can be tagged is the private re:Post. If you specify a new tag key for the resource, the tag is appended to the list of tags that are associated with the resource. If you specify a tag key that’s already associated with the resource, the new tag value that you specify replaces the previous value for that tag.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1449,9 +1431,8 @@ export const tagResource: (
 /**
  * Removes the association of the tag with the AWS re:Post Private resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | AccessDeniedException
   | InternalServerException
@@ -1474,9 +1455,8 @@ export const untagResource: (
 /**
  * Modifies an existing channel.
  */
-export const updateChannel: (
-  input: UpdateChannelInput,
-) => effect.Effect<
+export const updateChannel: API.OperationMethod<
+  UpdateChannelInput,
   UpdateChannelOutput,
   | AccessDeniedException
   | ConflictException
@@ -1501,9 +1481,8 @@ export const updateChannel: (
 /**
  * Modifies an existing AWS re:Post Private private re:Post.
  */
-export const updateSpace: (
-  input: UpdateSpaceInput,
-) => effect.Effect<
+export const updateSpace: API.OperationMethod<
+  UpdateSpaceInput,
   UpdateSpaceResponse,
   | AccessDeniedException
   | ConflictException

@@ -1574,9 +1574,8 @@ export class UnauthorizedException extends S.TaggedErrorClass<UnauthorizedExcept
 /**
  * Creates a connector using the specified properties.
  */
-export const createConnector: (
-  input: CreateConnectorRequest,
-) => effect.Effect<
+export const createConnector: API.OperationMethod<
+  CreateConnectorRequest,
   CreateConnectorResponse,
   | BadRequestException
   | ConflictException
@@ -1605,9 +1604,8 @@ export const createConnector: (
 /**
  * Creates a custom plugin using the specified properties.
  */
-export const createCustomPlugin: (
-  input: CreateCustomPluginRequest,
-) => effect.Effect<
+export const createCustomPlugin: API.OperationMethod<
+  CreateCustomPluginRequest,
   CreateCustomPluginResponse,
   | BadRequestException
   | ConflictException
@@ -1636,9 +1634,8 @@ export const createCustomPlugin: (
 /**
  * Creates a worker configuration using the specified properties.
  */
-export const createWorkerConfiguration: (
-  input: CreateWorkerConfigurationRequest,
-) => effect.Effect<
+export const createWorkerConfiguration: API.OperationMethod<
+  CreateWorkerConfigurationRequest,
   CreateWorkerConfigurationResponse,
   | BadRequestException
   | ConflictException
@@ -1667,9 +1664,8 @@ export const createWorkerConfiguration: (
 /**
  * Deletes the specified connector.
  */
-export const deleteConnector: (
-  input: DeleteConnectorRequest,
-) => effect.Effect<
+export const deleteConnector: API.OperationMethod<
+  DeleteConnectorRequest,
   DeleteConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -1696,9 +1692,8 @@ export const deleteConnector: (
 /**
  * Deletes a custom plugin.
  */
-export const deleteCustomPlugin: (
-  input: DeleteCustomPluginRequest,
-) => effect.Effect<
+export const deleteCustomPlugin: API.OperationMethod<
+  DeleteCustomPluginRequest,
   DeleteCustomPluginResponse,
   | BadRequestException
   | ForbiddenException
@@ -1725,9 +1720,8 @@ export const deleteCustomPlugin: (
 /**
  * Deletes the specified worker configuration.
  */
-export const deleteWorkerConfiguration: (
-  input: DeleteWorkerConfigurationRequest,
-) => effect.Effect<
+export const deleteWorkerConfiguration: API.OperationMethod<
+  DeleteWorkerConfigurationRequest,
   DeleteWorkerConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -1754,9 +1748,8 @@ export const deleteWorkerConfiguration: (
 /**
  * Returns summary information about the connector.
  */
-export const describeConnector: (
-  input: DescribeConnectorRequest,
-) => effect.Effect<
+export const describeConnector: API.OperationMethod<
+  DescribeConnectorRequest,
   DescribeConnectorResponse,
   | BadRequestException
   | ForbiddenException
@@ -1783,9 +1776,8 @@ export const describeConnector: (
 /**
  * Returns information about the specified connector's operations.
  */
-export const describeConnectorOperation: (
-  input: DescribeConnectorOperationRequest,
-) => effect.Effect<
+export const describeConnectorOperation: API.OperationMethod<
+  DescribeConnectorOperationRequest,
   DescribeConnectorOperationResponse,
   | BadRequestException
   | ForbiddenException
@@ -1812,9 +1804,8 @@ export const describeConnectorOperation: (
 /**
  * A summary description of the custom plugin.
  */
-export const describeCustomPlugin: (
-  input: DescribeCustomPluginRequest,
-) => effect.Effect<
+export const describeCustomPlugin: API.OperationMethod<
+  DescribeCustomPluginRequest,
   DescribeCustomPluginResponse,
   | BadRequestException
   | ForbiddenException
@@ -1841,9 +1832,8 @@ export const describeCustomPlugin: (
 /**
  * Returns information about a worker configuration.
  */
-export const describeWorkerConfiguration: (
-  input: DescribeWorkerConfigurationRequest,
-) => effect.Effect<
+export const describeWorkerConfiguration: API.OperationMethod<
+  DescribeWorkerConfigurationRequest,
   DescribeWorkerConfigurationResponse,
   | BadRequestException
   | ForbiddenException
@@ -1870,21 +1860,19 @@ export const describeWorkerConfiguration: (
 /**
  * Lists information about a connector's operation(s).
  */
-export const listConnectorOperations: {
-  (
-    input: ListConnectorOperationsRequest,
-  ): effect.Effect<
-    ListConnectorOperationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectorOperations: API.OperationMethod<
+  ListConnectorOperationsRequest,
+  ListConnectorOperationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectorOperationsRequest,
   ) => stream.Stream<
@@ -1935,21 +1923,19 @@ export const listConnectorOperations: {
 /**
  * Returns a list of all the connectors in this account and Region. The list is limited to connectors whose name starts with the specified prefix. The response also includes a description of each of the listed connectors.
  */
-export const listConnectors: {
-  (
-    input: ListConnectorsRequest,
-  ): effect.Effect<
-    ListConnectorsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listConnectors: API.OperationMethod<
+  ListConnectorsRequest,
+  ListConnectorsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListConnectorsRequest,
   ) => stream.Stream<
@@ -2000,21 +1986,19 @@ export const listConnectors: {
 /**
  * Returns a list of all of the custom plugins in this account and Region.
  */
-export const listCustomPlugins: {
-  (
-    input: ListCustomPluginsRequest,
-  ): effect.Effect<
-    ListCustomPluginsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listCustomPlugins: API.OperationMethod<
+  ListCustomPluginsRequest,
+  ListCustomPluginsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListCustomPluginsRequest,
   ) => stream.Stream<
@@ -2065,9 +2049,8 @@ export const listCustomPlugins: {
 /**
  * Lists all the tags attached to the specified resource.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2094,21 +2077,19 @@ export const listTagsForResource: (
 /**
  * Returns a list of all of the worker configurations in this account and Region.
  */
-export const listWorkerConfigurations: {
-  (
-    input: ListWorkerConfigurationsRequest,
-  ): effect.Effect<
-    ListWorkerConfigurationsResponse,
-    | BadRequestException
-    | ForbiddenException
-    | InternalServerErrorException
-    | NotFoundException
-    | ServiceUnavailableException
-    | TooManyRequestsException
-    | UnauthorizedException
-    | CommonErrors,
-    Credentials | Region | HttpClient.HttpClient
-  >;
+export const listWorkerConfigurations: API.OperationMethod<
+  ListWorkerConfigurationsRequest,
+  ListWorkerConfigurationsResponse,
+  | BadRequestException
+  | ForbiddenException
+  | InternalServerErrorException
+  | NotFoundException
+  | ServiceUnavailableException
+  | TooManyRequestsException
+  | UnauthorizedException
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> & {
   pages: (
     input: ListWorkerConfigurationsRequest,
   ) => stream.Stream<
@@ -2159,9 +2140,8 @@ export const listWorkerConfigurations: {
 /**
  * Attaches tags to the specified resource.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | BadRequestException
   | ConflictException
@@ -2190,9 +2170,8 @@ export const tagResource: (
 /**
  * Removes tags from the specified resource.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | BadRequestException
   | ForbiddenException
@@ -2219,9 +2198,8 @@ export const untagResource: (
 /**
  * Updates the specified connector. For request body, specify only one parameter: either `capacity` or `connectorConfiguration`.
  */
-export const updateConnector: (
-  input: UpdateConnectorRequest,
-) => effect.Effect<
+export const updateConnector: API.OperationMethod<
+  UpdateConnectorRequest,
   UpdateConnectorResponse,
   | BadRequestException
   | ForbiddenException

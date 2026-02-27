@@ -1544,9 +1544,8 @@ export class InvalidApplicationConfigurationException extends S.TaggedErrorClass
  * applications, see Working with Amazon
  * CloudWatch Logs.
  */
-export const addApplicationCloudWatchLoggingOption: (
-  input: AddApplicationCloudWatchLoggingOptionRequest,
-) => effect.Effect<
+export const addApplicationCloudWatchLoggingOption: API.OperationMethod<
+  AddApplicationCloudWatchLoggingOptionRequest,
   AddApplicationCloudWatchLoggingOptionResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1584,9 +1583,8 @@ export const addApplicationCloudWatchLoggingOption: (
  * This operation requires permissions to perform the
  * `kinesisanalytics:AddApplicationInput` action.
  */
-export const addApplicationInput: (
-  input: AddApplicationInputRequest,
-) => effect.Effect<
+export const addApplicationInput: API.OperationMethod<
+  AddApplicationInputRequest,
   AddApplicationInputResponse,
   | CodeValidationException
   | ConcurrentModificationException
@@ -1615,9 +1613,8 @@ export const addApplicationInput: (
  * before the application's SQL code executes. Currently, the only input processor available is
  * AWS Lambda.
  */
-export const addApplicationInputProcessingConfiguration: (
-  input: AddApplicationInputProcessingConfigurationRequest,
-) => effect.Effect<
+export const addApplicationInputProcessingConfiguration: API.OperationMethod<
+  AddApplicationInputProcessingConfigurationRequest,
   AddApplicationInputProcessingConfigurationResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1663,9 +1660,8 @@ export const addApplicationInputProcessingConfiguration: (
  *
  * This operation requires permissions to perform the `kinesisanalytics:AddApplicationOutput` action.
  */
-export const addApplicationOutput: (
-  input: AddApplicationOutputRequest,
-) => effect.Effect<
+export const addApplicationOutput: API.OperationMethod<
+  AddApplicationOutputRequest,
   AddApplicationOutputResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1699,9 +1695,8 @@ export const addApplicationOutput: (
  *
  * This operation requires permissions to perform the `kinesisanalytics:AddApplicationOutput` action.
  */
-export const addApplicationReferenceDataSource: (
-  input: AddApplicationReferenceDataSourceRequest,
-) => effect.Effect<
+export const addApplicationReferenceDataSource: API.OperationMethod<
+  AddApplicationReferenceDataSourceRequest,
   AddApplicationReferenceDataSourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1746,9 +1741,8 @@ export const addApplicationReferenceDataSource: (
  * For introductory exercises to create an Amazon Kinesis Analytics application, see
  * Getting Started.
  */
-export const createApplication: (
-  input: CreateApplicationRequest,
-) => effect.Effect<
+export const createApplication: API.OperationMethod<
+  CreateApplicationRequest,
   CreateApplicationResponse,
   | CodeValidationException
   | ConcurrentModificationException
@@ -1777,9 +1771,8 @@ export const createApplication: (
  *
  * This operation requires permissions to perform the `kinesisanalytics:DeleteApplication` action.
  */
-export const deleteApplication: (
-  input: DeleteApplicationRequest,
-) => effect.Effect<
+export const deleteApplication: API.OperationMethod<
+  DeleteApplicationRequest,
   DeleteApplicationResponse,
   | ConcurrentModificationException
   | ResourceInUseException
@@ -1804,9 +1797,8 @@ export const deleteApplication: (
  * using CloudWatch log streams with Amazon Kinesis Analytics applications, see
  * Working with Amazon CloudWatch Logs.
  */
-export const deleteApplicationCloudWatchLoggingOption: (
-  input: DeleteApplicationCloudWatchLoggingOptionRequest,
-) => effect.Effect<
+export const deleteApplicationCloudWatchLoggingOption: API.OperationMethod<
+  DeleteApplicationCloudWatchLoggingOptionRequest,
   DeleteApplicationCloudWatchLoggingOptionResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1831,9 +1823,8 @@ export const deleteApplicationCloudWatchLoggingOption: (
  *
  * Deletes an InputProcessingConfiguration from an input.
  */
-export const deleteApplicationInputProcessingConfiguration: (
-  input: DeleteApplicationInputProcessingConfigurationRequest,
-) => effect.Effect<
+export const deleteApplicationInputProcessingConfiguration: API.OperationMethod<
+  DeleteApplicationInputProcessingConfigurationRequest,
   DeleteApplicationInputProcessingConfigurationResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1861,9 +1852,8 @@ export const deleteApplicationInputProcessingConfiguration: (
  * This operation requires permissions to perform the
  * `kinesisanalytics:DeleteApplicationOutput` action.
  */
-export const deleteApplicationOutput: (
-  input: DeleteApplicationOutputRequest,
-) => effect.Effect<
+export const deleteApplicationOutput: API.OperationMethod<
+  DeleteApplicationOutputRequest,
   DeleteApplicationOutputResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1894,9 +1884,8 @@ export const deleteApplicationOutput: (
  * This operation requires permissions to perform the `kinesisanalytics.DeleteApplicationReferenceDataSource`
  * action.
  */
-export const deleteApplicationReferenceDataSource: (
-  input: DeleteApplicationReferenceDataSourceRequest,
-) => effect.Effect<
+export const deleteApplicationReferenceDataSource: API.OperationMethod<
+  DeleteApplicationReferenceDataSourceRequest,
   DeleteApplicationReferenceDataSourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -1928,9 +1917,8 @@ export const deleteApplicationReferenceDataSource: (
  * action. You can use `DescribeApplication` to get the current application versionId, which you need to call other
  * operations such as `Update`.
  */
-export const describeApplication: (
-  input: DescribeApplicationRequest,
-) => effect.Effect<
+export const describeApplication: API.OperationMethod<
+  DescribeApplicationRequest,
   DescribeApplicationResponse,
   ResourceNotFoundException | UnsupportedOperationException | CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -1953,9 +1941,8 @@ export const describeApplication: (
  * This operation requires permissions to perform the
  * `kinesisanalytics:DiscoverInputSchema` action.
  */
-export const discoverInputSchema: (
-  input: DiscoverInputSchemaRequest,
-) => effect.Effect<
+export const discoverInputSchema: API.OperationMethod<
+  DiscoverInputSchemaRequest,
   DiscoverInputSchemaResponse,
   | InvalidArgumentException
   | ResourceProvisionedThroughputExceededException
@@ -1992,9 +1979,8 @@ export const discoverInputSchema: (
  * This operation requires permissions to perform the
  * `kinesisanalytics:ListApplications` action.
  */
-export const listApplications: (
-  input: ListApplicationsRequest,
-) => effect.Effect<
+export const listApplications: API.OperationMethod<
+  ListApplicationsRequest,
   ListApplicationsResponse,
   CommonErrors,
   Credentials | Region | HttpClient.HttpClient
@@ -2006,9 +1992,8 @@ export const listApplications: (
 /**
  * Retrieves the list of key-value tags assigned to the application. For more information, see Using Tagging.
  */
-export const listTagsForResource: (
-  input: ListTagsForResourceRequest,
-) => effect.Effect<
+export const listTagsForResource: API.OperationMethod<
+  ListTagsForResourceRequest,
   ListTagsForResourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -2040,9 +2025,8 @@ export const listTagsForResource: (
  * This operation requires permissions to perform the
  * `kinesisanalytics:StartApplication` action.
  */
-export const startApplication: (
-  input: StartApplicationRequest,
-) => effect.Effect<
+export const startApplication: API.OperationMethod<
+  StartApplicationRequest,
   StartApplicationResponse,
   | InvalidApplicationConfigurationException
   | InvalidArgumentException
@@ -2075,9 +2059,8 @@ export const startApplication: (
  * This operation requires permissions to perform the
  * `kinesisanalytics:StopApplication` action.
  */
-export const stopApplication: (
-  input: StopApplicationRequest,
-) => effect.Effect<
+export const stopApplication: API.OperationMethod<
+  StopApplicationRequest,
   StopApplicationResponse,
   | ResourceInUseException
   | ResourceNotFoundException
@@ -2097,9 +2080,8 @@ export const stopApplication: (
  * Adds one or more key-value tags to a Kinesis Analytics application. Note that the maximum number of application tags includes system tags. The maximum number of user-defined application tags is 50.
  * For more information, see Using Tagging.
  */
-export const tagResource: (
-  input: TagResourceRequest,
-) => effect.Effect<
+export const tagResource: API.OperationMethod<
+  TagResourceRequest,
   TagResourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -2122,9 +2104,8 @@ export const tagResource: (
 /**
  * Removes one or more tags from a Kinesis Analytics application. For more information, see Using Tagging.
  */
-export const untagResource: (
-  input: UntagResourceRequest,
-) => effect.Effect<
+export const untagResource: API.OperationMethod<
+  UntagResourceRequest,
   UntagResourceResponse,
   | ConcurrentModificationException
   | InvalidArgumentException
@@ -2157,9 +2138,8 @@ export const untagResource: (
  * This operation requires permission for the
  * `kinesisanalytics:UpdateApplication` action.
  */
-export const updateApplication: (
-  input: UpdateApplicationRequest,
-) => effect.Effect<
+export const updateApplication: API.OperationMethod<
+  UpdateApplicationRequest,
   UpdateApplicationResponse,
   | CodeValidationException
   | ConcurrentModificationException
