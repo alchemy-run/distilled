@@ -15,6 +15,7 @@ import {
   createRole,
   deleteRole,
   deleteRolePolicy,
+  getRole,
   listRolePolicies,
   putRolePolicy,
 } from "../../src/services/iam.ts";
@@ -102,11 +103,15 @@ const createFirehoseRole = (roleName: string, bucketArn: string) =>
     // Clean up any leftover from previous runs
     yield* cleanupRole(roleName);
 
-    // Create the role
+    // Create the role, handling the case where cleanup failed to delete it
     const roleResult = yield* createRole({
       RoleName: roleName,
       AssumeRolePolicyDocument: firehoseTrustPolicy,
-    });
+    }).pipe(
+      Effect.catchTag("EntityAlreadyExistsException", () =>
+        getRole({ RoleName: roleName }),
+      ),
+    );
 
     const roleArn = roleResult.Role!.Arn!;
 
