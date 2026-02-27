@@ -134,12 +134,15 @@ interface MatchedError {
  */
 function matchesExpression(
   matcher: T.ErrorMatcherAnnotation,
-  code: number,
+  code: number | undefined,
   status: number,
   message: string,
 ): boolean {
-  // Code must match
-  if (matcher.code !== code) return false;
+  // Must have at least code or status to match
+  if (matcher.code === undefined && matcher.status === undefined) return false;
+
+  // Code must match if specified in matcher
+  if (matcher.code !== undefined && matcher.code !== code) return false;
 
   // Status must match if specified
   if (matcher.status !== undefined && matcher.status !== status) return false;
@@ -162,9 +165,10 @@ function matchesExpression(
  * Higher score = more specific match.
  */
 function matcherSpecificity(matcher: T.ErrorMatcherAnnotation): number {
-  let score = 1; // Base score for code match
-  if (matcher.status !== undefined) score += 1;
-  if (matcher.message !== undefined) score += 1;
+  let score = 0;
+  if (matcher.code !== undefined) score += 1; // Score for code match
+  if (matcher.status !== undefined) score += 1; // Score for status match
+  if (matcher.message !== undefined) score += 1; // Score for message match
   return score;
 }
 
@@ -179,7 +183,7 @@ function matcherSpecificity(matcher: T.ErrorMatcherAnnotation): number {
  */
 function findMatchingError(
   errorSchemas: Map<string, Schema.Top>,
-  code: number,
+  code: number | undefined,
   status: number,
   message: string,
 ): MatchedError | undefined {
@@ -214,8 +218,8 @@ function findMatchingError(
     const codes: number[] =
       expectedCodes ?? (expectedCode !== undefined ? [expectedCode] : []);
 
-    // Must match at least one code
-    if (codes.length === 0 || !codes.includes(code)) continue;
+    // Must match at least one code (legacy matchers require a code)
+    if (codes.length === 0 || code === undefined || !codes.includes(code)) continue;
 
     let score = 1; // Base score for code match
 
@@ -402,6 +406,35 @@ export const parseResponse = <S extends Schema.Top>(
         );
         return result;
       }
+      // Try to match error by status alone for non-JSON error responses
+      const statusMatched = findMatchingError(
+        errorSchemas,
+        undefined,
+        response.status,
+        "",
+      );
+      if (statusMatched) {
+        const errorData = {
+          _tag: statusMatched.tag,
+          code: 0,
+          message: `HTTP ${response.status}`,
+        };
+        const decodeResult = yield* Schema.decodeUnknownEffect(
+          statusMatched.schema,
+        )(errorData).pipe(
+          Effect.mapError(
+            () =>
+              new CloudflareHttpError({
+                status: response.status,
+                statusText: response.statusText,
+                body: bodyText,
+              }),
+          ),
+        );
+        return yield* Effect.fail(
+          decodeResult as unknown as CloudflareHttpError,
+        );
+      }
       return yield* Effect.fail(
         new CloudflareHttpError({
           status: response.status,
@@ -439,7 +472,41 @@ export const parseResponse = <S extends Schema.Top>(
         );
         return result;
       }
-      // Non-2xx raw JSON — treat as HTTP error
+      // Non-2xx raw JSON — try to match error by status
+      const rawJsonMatched = findMatchingError(
+        errorSchemas,
+        undefined,
+        response.status,
+        typeof json === "object" && json !== null && "message" in json
+          ? String((json as Record<string, unknown>).message)
+          : "",
+      );
+      if (rawJsonMatched) {
+        const errorData = {
+          _tag: rawJsonMatched.tag,
+          code: 0,
+          message:
+            typeof json === "object" && json !== null && "message" in json
+              ? String((json as Record<string, unknown>).message)
+              : `HTTP ${response.status}`,
+        };
+        const decodeResult = yield* Schema.decodeUnknownEffect(
+          rawJsonMatched.schema,
+        )(errorData).pipe(
+          Effect.mapError(
+            () =>
+              new CloudflareHttpError({
+                status: response.status,
+                statusText: response.statusText,
+                body: bodyText,
+              }),
+          ),
+        );
+        return yield* Effect.fail(
+          decodeResult as unknown as CloudflareHttpError,
+        );
+      }
+      // No match — fall back to generic HTTP error
       return yield* Effect.fail(
         new CloudflareHttpError({
           status: response.status,

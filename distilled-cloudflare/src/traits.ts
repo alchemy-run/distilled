@@ -382,7 +382,7 @@ export const httpErrorMatchersSymbol = Symbol.for(
  * Matches the ErrorMatcher type from expr.ts for use in annotations.
  */
 export interface ErrorMatcherAnnotation {
-  code: number;
+  code?: number;
   status?: number;
   message?: { includes?: string; matches?: string };
 }
