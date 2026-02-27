@@ -106,6 +106,7 @@ const rules = T.EndpointResolver((p, _) => {
 });
 
 //# Newtypes
+export type Name = string;
 export type AlarmName = string;
 export type ErrorMessage = string;
 export type Namespace = string;
@@ -165,6 +166,11 @@ export type InsightRuleSchema = string;
 export type InsightRuleDefinition = string;
 export type InsightRuleIsManaged = boolean;
 export type InsightRuleOnTransformedLogs = boolean;
+export type Arn = string;
+export type Expression = string;
+export type Duration = string;
+export type Timezone = string;
+export type MuteType = string;
 export type DashboardArn = string;
 export type DashboardBody = string;
 export type InsightRuleUnboundInteger = number;
@@ -205,6 +211,30 @@ export type EntityAttributesMapValueString = string;
 export type StrictEntityValidation = boolean;
 
 //# Schemas
+export interface DeleteAlarmMuteRuleInput {
+  AlarmMuteRuleName?: string;
+}
+export const DeleteAlarmMuteRuleInput = S.suspend(() =>
+  S.Struct({ AlarmMuteRuleName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "DeleteAlarmMuteRuleInput",
+}) as any as S.Schema<DeleteAlarmMuteRuleInput>;
+export interface DeleteAlarmMuteRuleResponse {}
+export const DeleteAlarmMuteRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "DeleteAlarmMuteRuleResponse",
+}) as any as S.Schema<DeleteAlarmMuteRuleResponse>;
 export type AlarmNames = string[];
 export const AlarmNames = S.Array(S.String);
 export interface DeleteAlarmsInput {
@@ -1208,6 +1238,88 @@ export const EnableInsightRulesOutput = S.suspend(() =>
 ).annotate({
   identifier: "EnableInsightRulesOutput",
 }) as any as S.Schema<EnableInsightRulesOutput>;
+export interface GetAlarmMuteRuleInput {
+  AlarmMuteRuleName?: string;
+}
+export const GetAlarmMuteRuleInput = S.suspend(() =>
+  S.Struct({ AlarmMuteRuleName: S.optional(S.String) }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetAlarmMuteRuleInput",
+}) as any as S.Schema<GetAlarmMuteRuleInput>;
+export interface Schedule {
+  Expression?: string;
+  Duration?: string;
+  Timezone?: string;
+}
+export const Schedule = S.suspend(() =>
+  S.Struct({
+    Expression: S.optional(S.String),
+    Duration: S.optional(S.String),
+    Timezone: S.optional(S.String),
+  }),
+).annotate({ identifier: "Schedule" }) as any as S.Schema<Schedule>;
+export interface Rule {
+  Schedule?: Schedule;
+}
+export const Rule = S.suspend(() =>
+  S.Struct({ Schedule: S.optional(Schedule) }),
+).annotate({ identifier: "Rule" }) as any as S.Schema<Rule>;
+export type MuteTargetAlarmNameList = string[];
+export const MuteTargetAlarmNameList = S.Array(S.String);
+export interface MuteTargets {
+  AlarmNames?: string[];
+}
+export const MuteTargets = S.suspend(() =>
+  S.Struct({ AlarmNames: S.optional(MuteTargetAlarmNameList) }),
+).annotate({ identifier: "MuteTargets" }) as any as S.Schema<MuteTargets>;
+export type AlarmMuteRuleStatus =
+  | "SCHEDULED"
+  | "ACTIVE"
+  | "EXPIRED"
+  | (string & {});
+export const AlarmMuteRuleStatus = S.String;
+export interface GetAlarmMuteRuleOutput {
+  Name?: string;
+  AlarmMuteRuleArn?: string;
+  Description?: string;
+  Rule?: Rule & {
+    Schedule: Schedule & { Expression: Expression; Duration: Duration };
+  };
+  MuteTargets?: MuteTargets & { AlarmNames: MuteTargetAlarmNameList };
+  StartDate?: Date;
+  ExpireDate?: Date;
+  Status?: AlarmMuteRuleStatus;
+  LastUpdatedTimestamp?: Date;
+  MuteType?: string;
+}
+export const GetAlarmMuteRuleOutput = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    AlarmMuteRuleArn: S.optional(S.String),
+    Description: S.optional(S.String),
+    Rule: S.optional(Rule),
+    MuteTargets: S.optional(MuteTargets),
+    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpireDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(AlarmMuteRuleStatus),
+    LastUpdatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+    MuteType: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "GetAlarmMuteRuleOutput",
+}) as any as S.Schema<GetAlarmMuteRuleOutput>;
 export interface GetDashboardInput {
   DashboardName?: string;
 }
@@ -1684,6 +1796,68 @@ export const GetMetricWidgetImageOutput = S.suspend(() =>
 ).annotate({
   identifier: "GetMetricWidgetImageOutput",
 }) as any as S.Schema<GetMetricWidgetImageOutput>;
+export type AlarmMuteRuleStatuses = AlarmMuteRuleStatus[];
+export const AlarmMuteRuleStatuses = S.Array(AlarmMuteRuleStatus);
+export interface ListAlarmMuteRulesInput {
+  AlarmName?: string;
+  Statuses?: AlarmMuteRuleStatus[];
+  MaxRecords?: number;
+  NextToken?: string;
+}
+export const ListAlarmMuteRulesInput = S.suspend(() =>
+  S.Struct({
+    AlarmName: S.optional(S.String),
+    Statuses: S.optional(AlarmMuteRuleStatuses),
+    MaxRecords: S.optional(S.Number),
+    NextToken: S.optional(S.String),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "ListAlarmMuteRulesInput",
+}) as any as S.Schema<ListAlarmMuteRulesInput>;
+export interface AlarmMuteRuleSummary {
+  AlarmMuteRuleArn?: string;
+  ExpireDate?: Date;
+  Status?: AlarmMuteRuleStatus;
+  MuteType?: string;
+  LastUpdatedTimestamp?: Date;
+}
+export const AlarmMuteRuleSummary = S.suspend(() =>
+  S.Struct({
+    AlarmMuteRuleArn: S.optional(S.String),
+    ExpireDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    Status: S.optional(AlarmMuteRuleStatus),
+    MuteType: S.optional(S.String),
+    LastUpdatedTimestamp: S.optional(
+      S.Date.pipe(T.TimestampFormat("epoch-seconds")),
+    ),
+  }),
+).annotate({
+  identifier: "AlarmMuteRuleSummary",
+}) as any as S.Schema<AlarmMuteRuleSummary>;
+export type AlarmMuteRuleSummaries = AlarmMuteRuleSummary[];
+export const AlarmMuteRuleSummaries = S.Array(AlarmMuteRuleSummary);
+export interface ListAlarmMuteRulesOutput {
+  AlarmMuteRuleSummaries?: AlarmMuteRuleSummary[];
+  NextToken?: string;
+}
+export const ListAlarmMuteRulesOutput = S.suspend(() =>
+  S.Struct({
+    AlarmMuteRuleSummaries: S.optional(AlarmMuteRuleSummaries),
+    NextToken: S.optional(S.String),
+  }).pipe(ns),
+).annotate({
+  identifier: "ListAlarmMuteRulesOutput",
+}) as any as S.Schema<ListAlarmMuteRulesOutput>;
 export interface ListDashboardsInput {
   DashboardNamePrefix?: string;
   NextToken?: string;
@@ -1958,6 +2132,44 @@ export const ListTagsForResourceOutput = S.suspend(() =>
 ).annotate({
   identifier: "ListTagsForResourceOutput",
 }) as any as S.Schema<ListTagsForResourceOutput>;
+export interface PutAlarmMuteRuleInput {
+  Name?: string;
+  Description?: string;
+  Rule?: Rule;
+  MuteTargets?: MuteTargets;
+  Tags?: Tag[];
+  StartDate?: Date;
+  ExpireDate?: Date;
+}
+export const PutAlarmMuteRuleInput = S.suspend(() =>
+  S.Struct({
+    Name: S.optional(S.String),
+    Description: S.optional(S.String),
+    Rule: S.optional(Rule),
+    MuteTargets: S.optional(MuteTargets),
+    Tags: S.optional(TagList),
+    StartDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+    ExpireDate: S.optional(S.Date.pipe(T.TimestampFormat("epoch-seconds"))),
+  }).pipe(
+    T.all(
+      ns,
+      T.Http({ method: "POST", uri: "/" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "PutAlarmMuteRuleInput",
+}) as any as S.Schema<PutAlarmMuteRuleInput>;
+export interface PutAlarmMuteRuleResponse {}
+export const PutAlarmMuteRuleResponse = S.suspend(() =>
+  S.Struct({}).pipe(ns),
+).annotate({
+  identifier: "PutAlarmMuteRuleResponse",
+}) as any as S.Schema<PutAlarmMuteRuleResponse>;
 export interface PutAnomalyDetectorInput {
   Namespace?: string;
   MetricName?: string;
@@ -2607,6 +2819,28 @@ export class InvalidFormatFault extends S.TaggedErrorClass<InvalidFormatFault>()
 
 //# Operations
 /**
+ * Deletes a specific alarm mute rule.
+ *
+ * When you delete a mute rule, any alarms that are currently being muted by that rule are immediately unmuted. If those alarms are in an ALARM state, their configured actions will trigger.
+ *
+ * This operation is idempotent. If you delete a mute rule that does not exist, the operation succeeds without returning an error.
+ *
+ * **Permissions**
+ *
+ * To delete a mute rule, you need the `cloudwatch:DeleteAlarmMuteRule` permission on the alarm mute rule resource.
+ */
+export const deleteAlarmMuteRule: (
+  input: DeleteAlarmMuteRuleInput,
+) => effect.Effect<
+  DeleteAlarmMuteRuleResponse,
+  CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: DeleteAlarmMuteRuleInput,
+  output: DeleteAlarmMuteRuleResponse,
+  errors: [],
+}));
+/**
  * Deletes the specified alarms. You can delete up to 100 alarms in one operation.
  * However, this total can include no more than one composite alarm. For example, you could
  * delete 99 metric alarms and one composite alarms with one operation, but you can't
@@ -3016,6 +3250,34 @@ export const enableInsightRules: (
   ],
 }));
 /**
+ * Retrieves details for a specific alarm mute rule.
+ *
+ * This operation returns complete information about the mute rule, including its configuration, status, targeted alarms, and metadata.
+ *
+ * The returned status indicates the current state of the mute rule:
+ *
+ * - **SCHEDULED**: The mute rule is configured and will become active in the future
+ *
+ * - **ACTIVE**: The mute rule is currently muting alarm actions
+ *
+ * - **EXPIRED**: The mute rule has passed its expiration date and will no longer become active
+ *
+ * **Permissions**
+ *
+ * To retrieve details for a mute rule, you need the `cloudwatch:GetAlarmMuteRule` permission on the alarm mute rule resource.
+ */
+export const getAlarmMuteRule: (
+  input: GetAlarmMuteRuleInput,
+) => effect.Effect<
+  GetAlarmMuteRuleOutput,
+  ResourceNotFoundException | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetAlarmMuteRuleInput,
+  output: GetAlarmMuteRuleOutput,
+  errors: [ResourceNotFoundException],
+}));
+/**
  * Displays the details of the dashboard that you specify.
  *
  * To copy an existing dashboard, use `GetDashboard`, and then use the data
@@ -3321,6 +3583,50 @@ export const getMetricWidgetImage: (
   errors: [],
 }));
 /**
+ * Lists alarm mute rules in your Amazon Web Services account and region.
+ *
+ * You can filter the results by alarm name to find all mute rules targeting a specific alarm, or by status to find rules that are scheduled, active, or expired.
+ *
+ * This operation supports pagination for accounts with many mute rules. Use the `MaxRecords` and `NextToken` parameters to retrieve results in multiple calls.
+ *
+ * **Permissions**
+ *
+ * To list mute rules, you need the `cloudwatch:ListAlarmMuteRules` permission.
+ */
+export const listAlarmMuteRules: {
+  (
+    input: ListAlarmMuteRulesInput,
+  ): effect.Effect<
+    ListAlarmMuteRulesOutput,
+    InvalidNextToken | ResourceNotFoundException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  pages: (
+    input: ListAlarmMuteRulesInput,
+  ) => stream.Stream<
+    ListAlarmMuteRulesOutput,
+    InvalidNextToken | ResourceNotFoundException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+  items: (
+    input: ListAlarmMuteRulesInput,
+  ) => stream.Stream<
+    AlarmMuteRuleSummary,
+    InvalidNextToken | ResourceNotFoundException | CommonErrors,
+    Credentials | Region | HttpClient.HttpClient
+  >;
+} = /*@__PURE__*/ /*#__PURE__*/ API.makePaginated(() => ({
+  input: ListAlarmMuteRulesInput,
+  output: ListAlarmMuteRulesOutput,
+  errors: [InvalidNextToken, ResourceNotFoundException],
+  pagination: {
+    inputToken: "NextToken",
+    outputToken: "NextToken",
+    items: "AlarmMuteRuleSummaries",
+    pageSize: "MaxRecords",
+  } as const,
+}));
+/**
  * Returns a list of the dashboards for your account. If you include
  * `DashboardNamePrefix`, only those dashboards with names starting with the
  * prefix are listed. Otherwise, all dashboards in your account are listed.
@@ -3528,6 +3834,34 @@ export const listTagsForResource: (
     InvalidParameterValueException,
     ResourceNotFoundException,
   ],
+}));
+/**
+ * Creates or updates an alarm mute rule.
+ *
+ * Alarm mute rules automatically mute alarm actions during predefined time windows. When a mute rule is active, targeted alarms continue to evaluate metrics and transition between states, but their configured actions (such as Amazon SNS notifications or Auto Scaling actions) are muted.
+ *
+ * You can create mute rules with recurring schedules using `cron` expressions or one-time mute windows using `at` expressions. Each mute rule can target up to 100 specific alarms by name.
+ *
+ * If you specify a rule name that already exists, this operation updates the existing rule with the new configuration.
+ *
+ * **Permissions**
+ *
+ * To create or update a mute rule, you must have the `cloudwatch:PutAlarmMuteRule` permission on two types of resources: the alarm mute rule resource itself, and each alarm that the rule targets.
+ *
+ * For example, If you want to allow a user to create mute rules that target only specific alarms named "WebServerCPUAlarm" and "DatabaseConnectionAlarm", you would create an IAM policy with one statement granting `cloudwatch:PutAlarmMuteRule` on the alarm mute rule resource (`arn:aws:cloudwatch:[REGION]:123456789012:alarm-mute:*`), and another statement granting `cloudwatch:PutAlarmMuteRule` on the targeted alarm resources (`arn:aws:cloudwatch:[REGION]:123456789012:alarm:WebServerCPUAlarm` and `arn:aws:cloudwatch:[REGION]:123456789012:alarm:DatabaseConnectionAlarm`).
+ *
+ * You can also use IAM policy conditions to allow targeting alarms based on resource tags. For example, you can restrict users to create/update mute rules to only target alarms that have a specific tag key-value pair, such as `Team=TeamA`.
+ */
+export const putAlarmMuteRule: (
+  input: PutAlarmMuteRuleInput,
+) => effect.Effect<
+  PutAlarmMuteRuleResponse,
+  LimitExceededFault | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: PutAlarmMuteRuleInput,
+  output: PutAlarmMuteRuleResponse,
+  errors: [LimitExceededFault],
 }));
 /**
  * Creates an anomaly detection model for a CloudWatch metric. You can use the model to

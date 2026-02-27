@@ -285,12 +285,12 @@ const withDeliveryStream = <A, E, R>(
   testFn: (ctx: DeliveryStreamContext) => Effect.Effect<A, E, R>,
 ) =>
   Effect.gen(function* () {
+    const identity = yield* getCallerIdentity({});
+    const accountId = identity.Account ?? "unknown";
     const streamName = `distilled-firehose-${testName}`;
-    const bucketName = `distilled-firehose-${testName}`;
+    const bucketName = `distilled-firehose-${accountId}-${testName}`;
     const roleName = `distilled-firehose-${testName}-role`;
 
-    // Verify we have valid credentials before proceeding
-    yield* getCallerIdentity({});
     const bucketArn = `arn:aws:s3:::${bucketName}`;
 
     // 1. Clean up any leftover resources from previous runs

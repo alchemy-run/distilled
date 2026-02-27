@@ -1560,8 +1560,8 @@ export interface DescribeDomainAutoTunesRequest {
 export const DescribeDomainAutoTunesRequest = S.suspend(() =>
   S.Struct({
     DomainName: S.String.pipe(T.HttpLabel("DomainName")),
-    MaxResults: S.optional(S.Number),
-    NextToken: S.optional(S.String),
+    MaxResults: S.optional(S.Number).pipe(T.HttpQuery("maxResults")),
+    NextToken: S.optional(S.String).pipe(T.HttpQuery("nextToken")),
   }).pipe(
     T.all(
       ns,

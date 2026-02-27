@@ -11598,6 +11598,7 @@ export type InputColumnDataType =
   | "BIT"
   | "BOOLEAN"
   | "JSON"
+  | "SEMISTRUCT"
   | (string & {});
 export const InputColumnDataType = S.String;
 export type ColumnDataSubType = "FLOAT" | "FIXED" | (string & {});

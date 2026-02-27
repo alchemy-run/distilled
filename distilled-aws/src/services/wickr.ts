@@ -1365,6 +1365,39 @@ export const GetOidcInfoResponse = S.suspend(() =>
 ).annotate({
   identifier: "GetOidcInfoResponse",
 }) as any as S.Schema<GetOidcInfoResponse>;
+export interface GetOpentdfConfigRequest {
+  networkId: string;
+}
+export const GetOpentdfConfigRequest = S.suspend(() =>
+  S.Struct({ networkId: S.String.pipe(T.HttpLabel("networkId")) }).pipe(
+    T.all(
+      T.Http({ method: "GET", uri: "/networks/{networkId}/tdf" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "GetOpentdfConfigRequest",
+}) as any as S.Schema<GetOpentdfConfigRequest>;
+export interface GetOpentdfConfigResponse {
+  clientId: string;
+  domain: string;
+  clientSecret: string | redacted.Redacted<string>;
+  provider: string;
+}
+export const GetOpentdfConfigResponse = S.suspend(() =>
+  S.Struct({
+    clientId: S.String,
+    domain: S.String,
+    clientSecret: SensitiveString,
+    provider: S.String,
+  }),
+).annotate({
+  identifier: "GetOpentdfConfigResponse",
+}) as any as S.Schema<GetOpentdfConfigResponse>;
 export interface GetSecurityGroupRequest {
   networkId: string;
   groupId: string;
@@ -2064,6 +2097,51 @@ export const RegisterOidcConfigTestResponse = S.suspend(() =>
 ).annotate({
   identifier: "RegisterOidcConfigTestResponse",
 }) as any as S.Schema<RegisterOidcConfigTestResponse>;
+export interface RegisterOpentdfConfigRequest {
+  networkId: string;
+  clientId: string;
+  clientSecret: string | redacted.Redacted<string>;
+  domain: string;
+  provider: string;
+  dryRun?: boolean;
+}
+export const RegisterOpentdfConfigRequest = S.suspend(() =>
+  S.Struct({
+    networkId: S.String.pipe(T.HttpLabel("networkId")),
+    clientId: S.String,
+    clientSecret: SensitiveString,
+    domain: S.String,
+    provider: S.String,
+    dryRun: S.optional(S.Boolean).pipe(T.HttpQuery("dryRun")),
+  }).pipe(
+    T.all(
+      T.Http({ method: "POST", uri: "/networks/{networkId}/tdf" }),
+      svc,
+      auth,
+      proto,
+      ver,
+      rules,
+    ),
+  ),
+).annotate({
+  identifier: "RegisterOpentdfConfigRequest",
+}) as any as S.Schema<RegisterOpentdfConfigRequest>;
+export interface RegisterOpentdfConfigResponse {
+  clientId: string;
+  domain: string;
+  clientSecret: string | redacted.Redacted<string>;
+  provider: string;
+}
+export const RegisterOpentdfConfigResponse = S.suspend(() =>
+  S.Struct({
+    clientId: S.String,
+    domain: S.String,
+    clientSecret: SensitiveString,
+    provider: S.String,
+  }),
+).annotate({
+  identifier: "RegisterOpentdfConfigResponse",
+}) as any as S.Schema<RegisterOpentdfConfigResponse>;
 export interface UpdateBotRequest {
   networkId: string;
   botId: string;
@@ -2223,12 +2301,14 @@ export interface NetworkSettings {
   enableClientMetrics?: boolean;
   readReceiptConfig?: ReadReceiptConfig;
   dataRetention?: boolean;
+  enableTrustedDataFormat?: boolean;
 }
 export const NetworkSettings = S.suspend(() =>
   S.Struct({
     enableClientMetrics: S.optional(S.Boolean),
     readReceiptConfig: S.optional(ReadReceiptConfig),
     dataRetention: S.optional(S.Boolean),
+    enableTrustedDataFormat: S.optional(S.Boolean),
   }),
 ).annotate({
   identifier: "NetworkSettings",
@@ -2403,7 +2483,7 @@ export class UnauthorizedError extends S.TaggedErrorClass<UnauthorizedError>()(
 ).pipe(C.withAuthError) {}
 export class ValidationError extends S.TaggedErrorClass<ValidationError>()(
   "ValidationError",
-  { reasons: S.optional(ErrorDetailList) },
+  { reasons: S.optional(ErrorDetailList), message: S.optional(S.String) },
 ).pipe(C.withBadRequestError) {}
 
 //# Operations
@@ -3037,6 +3117,35 @@ export const getOidcInfo: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: GetOidcInfoRequest,
   output: GetOidcInfoResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Retrieves the OpenTDF integration configuration for a Wickr network.
+ */
+export const getOpentdfConfig: (
+  input: GetOpentdfConfigRequest,
+) => effect.Effect<
+  GetOpentdfConfigResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: GetOpentdfConfigRequest,
+  output: GetOpentdfConfigResponse,
   errors: [
     BadRequestError,
     ForbiddenError,
@@ -3698,6 +3807,35 @@ export const registerOidcConfigTest: (
 > = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
   input: RegisterOidcConfigTestRequest,
   output: RegisterOidcConfigTestResponse,
+  errors: [
+    BadRequestError,
+    ForbiddenError,
+    InternalServerError,
+    RateLimitError,
+    ResourceNotFoundError,
+    UnauthorizedError,
+    ValidationError,
+  ],
+}));
+/**
+ * Registers and saves OpenTDF configuration for a Wickr network, enabling attribute-based access control for Wickr through an OpenTDF provider.
+ */
+export const registerOpentdfConfig: (
+  input: RegisterOpentdfConfigRequest,
+) => effect.Effect<
+  RegisterOpentdfConfigResponse,
+  | BadRequestError
+  | ForbiddenError
+  | InternalServerError
+  | RateLimitError
+  | ResourceNotFoundError
+  | UnauthorizedError
+  | ValidationError
+  | CommonErrors,
+  Credentials | Region | HttpClient.HttpClient
+> = /*@__PURE__*/ /*#__PURE__*/ API.make(() => ({
+  input: RegisterOpentdfConfigRequest,
+  output: RegisterOpentdfConfigResponse,
   errors: [
     BadRequestError,
     ForbiddenError,

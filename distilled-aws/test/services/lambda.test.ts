@@ -676,34 +676,43 @@ test(
 
 test(
   "listFunctions.pages() streams full response pages",
-  Effect.gen(function* () {
-    // Stream all pages of functions
-    const pages = yield* listFunctions.pages({}).pipe(Stream.runCollect);
+  withFunction({ FunctionName: "lambda-test-pages" }, (func) =>
+    Effect.gen(function* () {
+      const pages = yield* listFunctions.pages({}).pipe(Stream.runCollect);
 
-    const pagesArray = Array.from(pages);
-    expect(pagesArray.length).toBeGreaterThanOrEqual(1);
+      const pagesArray = Array.from(pages);
+      expect(pagesArray.length).toBeGreaterThanOrEqual(1);
 
-    // Each page should have Functions property (may be empty)
-    for (const page of pagesArray) {
-      expect(page.Functions).toBeDefined();
-    }
-  }),
+      for (const page of pagesArray) {
+        expect(page.Functions).toBeDefined();
+      }
+
+      const allFunctions = pagesArray.flatMap((p) => p.Functions ?? []);
+      const found = allFunctions.find(
+        (f) => f.FunctionName === func.FunctionName,
+      );
+      expect(found).toBeDefined();
+    }),
+  ),
 );
 
 test(
   "listFunctions.items() streams individual functions",
-  Effect.gen(function* () {
-    // Stream all functions using .items()
-    const functions = yield* listFunctions.items({}).pipe(Stream.runCollect);
+  withFunction({ FunctionName: "lambda-test-items" }, (func) =>
+    Effect.gen(function* () {
+      const functions = yield* listFunctions.items({}).pipe(Stream.runCollect);
 
-    const functionsArray = Array.from(functions);
+      const functionsArray = Array.from(functions);
+      expect(functionsArray.length).toBeGreaterThanOrEqual(1);
 
-    // Should have at least the test function we created in beforeAll
-    expect(functionsArray.length).toBeGreaterThanOrEqual(1);
+      for (const fn of functionsArray) {
+        expect(fn.FunctionName).toBeDefined();
+      }
 
-    // Each item should be a FunctionConfiguration with FunctionName
-    for (const fn of functionsArray) {
-      expect(fn.FunctionName).toBeDefined();
-    }
-  }),
+      const found = functionsArray.find(
+        (f) => f.FunctionName === func.FunctionName,
+      );
+      expect(found).toBeDefined();
+    }),
+  ),
 );

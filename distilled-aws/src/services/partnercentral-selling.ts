@@ -2586,6 +2586,7 @@ export type OpportunitySortName =
   | "Identifier"
   | "CustomerCompanyName"
   | "CreatedDate"
+  | "TargetCloseDate"
   | (string & {});
 export const OpportunitySortName = S.String;
 export interface OpportunitySort {
@@ -2637,6 +2638,18 @@ export const CreatedDateFilter = S.suspend(() =>
 ).annotate({
   identifier: "CreatedDateFilter",
 }) as any as S.Schema<CreatedDateFilter>;
+export interface TargetCloseDateFilter {
+  AfterTargetCloseDate?: string;
+  BeforeTargetCloseDate?: string;
+}
+export const TargetCloseDateFilter = S.suspend(() =>
+  S.Struct({
+    AfterTargetCloseDate: S.optional(S.String),
+    BeforeTargetCloseDate: S.optional(S.String),
+  }),
+).annotate({
+  identifier: "TargetCloseDateFilter",
+}) as any as S.Schema<TargetCloseDateFilter>;
 export interface ListOpportunitiesRequest {
   Catalog: string;
   MaxResults?: number;
@@ -2648,6 +2661,7 @@ export interface ListOpportunitiesRequest {
   LifeCycleReviewStatus?: ReviewStatus[];
   CustomerCompanyName?: string[];
   CreatedDate?: CreatedDateFilter;
+  TargetCloseDate?: TargetCloseDateFilter;
 }
 export const ListOpportunitiesRequest = S.suspend(() =>
   S.Struct({
@@ -2661,6 +2675,7 @@ export const ListOpportunitiesRequest = S.suspend(() =>
     LifeCycleReviewStatus: S.optional(FilterLifeCycleReviewStatus),
     CustomerCompanyName: S.optional(StringList),
     CreatedDate: S.optional(CreatedDateFilter),
+    TargetCloseDate: S.optional(TargetCloseDateFilter),
   }).pipe(
     T.all(
       T.Http({ method: "POST", uri: "/ListOpportunities" }),

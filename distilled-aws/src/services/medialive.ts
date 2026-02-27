@@ -5881,6 +5881,7 @@ export const VideoDescriptionRespondToAfd = S.String;
 export type VideoDescriptionScalingBehavior =
   | "DEFAULT"
   | "STRETCH_TO_OUTPUT"
+  | "SMART_CROP"
   | (string & {});
 export const VideoDescriptionScalingBehavior = S.String;
 export interface VideoDescription {
@@ -6824,6 +6825,16 @@ export const LinkedChannelSettings = S.suspend(() =>
 ).annotate({
   identifier: "LinkedChannelSettings",
 }) as any as S.Schema<LinkedChannelSettings>;
+export interface InferenceSettings {
+  FeedArn?: string;
+}
+export const InferenceSettings = S.suspend(() =>
+  S.Struct({ FeedArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ FeedArn: "feedArn" }),
+  ),
+).annotate({
+  identifier: "InferenceSettings",
+}) as any as S.Schema<InferenceSettings>;
 export interface CreateChannelRequest {
   CdiInputSpecification?: CdiInputSpecification;
   ChannelClass?: ChannelClass;
@@ -6844,6 +6855,7 @@ export interface CreateChannelRequest {
   DryRun?: boolean;
   LinkedChannelSettings?: LinkedChannelSettings;
   ChannelSecurityGroups?: string[];
+  InferenceSettings?: InferenceSettings;
 }
 export const CreateChannelRequest = S.suspend(() =>
   S.Struct({
@@ -6866,6 +6878,7 @@ export const CreateChannelRequest = S.suspend(() =>
     DryRun: S.optional(S.Boolean),
     LinkedChannelSettings: S.optional(LinkedChannelSettings),
     ChannelSecurityGroups: S.optional(__listOf__string),
+    InferenceSettings: S.optional(InferenceSettings),
   })
     .pipe(
       S.encodeKeys({
@@ -6888,6 +6901,7 @@ export const CreateChannelRequest = S.suspend(() =>
         DryRun: "dryRun",
         LinkedChannelSettings: "linkedChannelSettings",
         ChannelSecurityGroups: "channelSecurityGroups",
+        InferenceSettings: "inferenceSettings",
       }),
     )
     .pipe(
@@ -7088,6 +7102,16 @@ export const DescribeLinkedChannelSettings = S.suspend(() =>
 ).annotate({
   identifier: "DescribeLinkedChannelSettings",
 }) as any as S.Schema<DescribeLinkedChannelSettings>;
+export interface DescribeInferenceSettings {
+  FeedArn?: string;
+}
+export const DescribeInferenceSettings = S.suspend(() =>
+  S.Struct({ FeedArn: S.optional(S.String) }).pipe(
+    S.encodeKeys({ FeedArn: "feedArn" }),
+  ),
+).annotate({
+  identifier: "DescribeInferenceSettings",
+}) as any as S.Schema<DescribeInferenceSettings>;
 export interface Channel {
   Arn?: string;
   CdiInputSpecification?: CdiInputSpecification;
@@ -7111,6 +7135,7 @@ export interface Channel {
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
   ChannelSecurityGroups?: string[];
+  InferenceSettings?: DescribeInferenceSettings;
 }
 export const Channel = S.suspend(() =>
   S.Struct({
@@ -7136,6 +7161,7 @@ export const Channel = S.suspend(() =>
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
     ChannelSecurityGroups: S.optional(__listOf__string),
+    InferenceSettings: S.optional(DescribeInferenceSettings),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -7160,6 +7186,7 @@ export const Channel = S.suspend(() =>
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
       ChannelSecurityGroups: "channelSecurityGroups",
+      InferenceSettings: "inferenceSettings",
     }),
   ),
 ).annotate({ identifier: "Channel" }) as any as S.Schema<Channel>;
@@ -10442,6 +10469,7 @@ export interface DeleteChannelResponse {
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
   ChannelSecurityGroups?: string[];
+  InferenceSettings?: DescribeInferenceSettings;
 }
 export const DeleteChannelResponse = S.suspend(() =>
   S.Struct({
@@ -10467,6 +10495,7 @@ export const DeleteChannelResponse = S.suspend(() =>
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
     ChannelSecurityGroups: S.optional(__listOf__string),
+    InferenceSettings: S.optional(DescribeInferenceSettings),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -10491,6 +10520,7 @@ export const DeleteChannelResponse = S.suspend(() =>
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
       ChannelSecurityGroups: "channelSecurityGroups",
+      InferenceSettings: "inferenceSettings",
     }),
   ),
 ).annotate({
@@ -11617,6 +11647,7 @@ export interface DescribeChannelResponse {
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
   ChannelSecurityGroups?: string[];
+  InferenceSettings?: DescribeInferenceSettings;
 }
 export const DescribeChannelResponse = S.suspend(() =>
   S.Struct({
@@ -11642,6 +11673,7 @@ export const DescribeChannelResponse = S.suspend(() =>
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
     ChannelSecurityGroups: S.optional(__listOf__string),
+    InferenceSettings: S.optional(DescribeInferenceSettings),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -11666,6 +11698,7 @@ export const DescribeChannelResponse = S.suspend(() =>
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
       ChannelSecurityGroups: "channelSecurityGroups",
+      InferenceSettings: "inferenceSettings",
     }),
   ),
 ).annotate({
@@ -13442,6 +13475,7 @@ export interface ChannelSummary {
   UsedChannelEngineVersions?: ChannelEngineVersionResponse[];
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
   ChannelSecurityGroups?: string[];
+  InferenceSettings?: DescribeInferenceSettings;
 }
 export const ChannelSummary = S.suspend(() =>
   S.Struct({
@@ -13466,6 +13500,7 @@ export const ChannelSummary = S.suspend(() =>
     UsedChannelEngineVersions: S.optional(__listOfChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
     ChannelSecurityGroups: S.optional(__listOf__string),
+    InferenceSettings: S.optional(DescribeInferenceSettings),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -13489,6 +13524,7 @@ export const ChannelSummary = S.suspend(() =>
       UsedChannelEngineVersions: "usedChannelEngineVersions",
       LinkedChannelSettings: "linkedChannelSettings",
       ChannelSecurityGroups: "channelSecurityGroups",
+      InferenceSettings: "inferenceSettings",
     }),
   ),
 ).annotate({ identifier: "ChannelSummary" }) as any as S.Schema<ChannelSummary>;
@@ -15611,6 +15647,7 @@ export interface RestartChannelPipelinesResponse {
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
   ChannelSecurityGroups?: string[];
+  InferenceSettings?: DescribeInferenceSettings;
 }
 export const RestartChannelPipelinesResponse = S.suspend(() =>
   S.Struct({
@@ -15637,6 +15674,7 @@ export const RestartChannelPipelinesResponse = S.suspend(() =>
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
     ChannelSecurityGroups: S.optional(__listOf__string),
+    InferenceSettings: S.optional(DescribeInferenceSettings),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -15662,6 +15700,7 @@ export const RestartChannelPipelinesResponse = S.suspend(() =>
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
       ChannelSecurityGroups: "channelSecurityGroups",
+      InferenceSettings: "inferenceSettings",
     }),
   ),
 ).annotate({
@@ -15966,6 +16005,7 @@ export interface StartChannelResponse {
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
   ChannelSecurityGroups?: string[];
+  InferenceSettings?: DescribeInferenceSettings;
 }
 export const StartChannelResponse = S.suspend(() =>
   S.Struct({
@@ -15991,6 +16031,7 @@ export const StartChannelResponse = S.suspend(() =>
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
     ChannelSecurityGroups: S.optional(__listOf__string),
+    InferenceSettings: S.optional(DescribeInferenceSettings),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -16015,6 +16056,7 @@ export const StartChannelResponse = S.suspend(() =>
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
       ChannelSecurityGroups: "channelSecurityGroups",
+      InferenceSettings: "inferenceSettings",
     }),
   ),
 ).annotate({
@@ -16830,6 +16872,7 @@ export interface StopChannelResponse {
   ChannelEngineVersion?: ChannelEngineVersionResponse;
   LinkedChannelSettings?: DescribeLinkedChannelSettings;
   ChannelSecurityGroups?: string[];
+  InferenceSettings?: DescribeInferenceSettings;
 }
 export const StopChannelResponse = S.suspend(() =>
   S.Struct({
@@ -16855,6 +16898,7 @@ export const StopChannelResponse = S.suspend(() =>
     ChannelEngineVersion: S.optional(ChannelEngineVersionResponse),
     LinkedChannelSettings: S.optional(DescribeLinkedChannelSettings),
     ChannelSecurityGroups: S.optional(__listOf__string),
+    InferenceSettings: S.optional(DescribeInferenceSettings),
   }).pipe(
     S.encodeKeys({
       Arn: "arn",
@@ -16879,6 +16923,7 @@ export const StopChannelResponse = S.suspend(() =>
       ChannelEngineVersion: "channelEngineVersion",
       LinkedChannelSettings: "linkedChannelSettings",
       ChannelSecurityGroups: "channelSecurityGroups",
+      InferenceSettings: "inferenceSettings",
     }),
   ),
 ).annotate({
@@ -17076,6 +17121,7 @@ export interface UpdateChannelRequest {
   AnywhereSettings?: AnywhereSettings;
   LinkedChannelSettings?: LinkedChannelSettings;
   ChannelSecurityGroups?: string[];
+  InferenceSettings?: InferenceSettings;
 }
 export const UpdateChannelRequest = S.suspend(() =>
   S.Struct({
@@ -17094,6 +17140,7 @@ export const UpdateChannelRequest = S.suspend(() =>
     AnywhereSettings: S.optional(AnywhereSettings),
     LinkedChannelSettings: S.optional(LinkedChannelSettings),
     ChannelSecurityGroups: S.optional(__listOf__string),
+    InferenceSettings: S.optional(InferenceSettings),
   })
     .pipe(
       S.encodeKeys({
@@ -17111,6 +17158,7 @@ export const UpdateChannelRequest = S.suspend(() =>
         AnywhereSettings: "anywhereSettings",
         LinkedChannelSettings: "linkedChannelSettings",
         ChannelSecurityGroups: "channelSecurityGroups",
+        InferenceSettings: "inferenceSettings",
       }),
     )
     .pipe(

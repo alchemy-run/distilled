@@ -143,6 +143,7 @@ export * as ElasticLoadBalancingV2 from "./elastic-load-balancing-v2.ts";
 export * as ElasticLoadBalancing from "./elastic-load-balancing.ts";
 export * as Elasticache from "./elasticache.ts";
 export * as ElasticsearchService from "./elasticsearch-service.ts";
+export * as Elementalinference from "./elementalinference.ts";
 export * as EmrContainers from "./emr-containers.ts";
 export * as EmrServerless from "./emr-serverless.ts";
 export * as Emr from "./emr.ts";
